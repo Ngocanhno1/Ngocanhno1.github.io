@@ -1,0 +1,411 @@
+{
+ "_ghi_chu": "Tranh AI cho game Hội Làng Ca Dao: máy chủ GitHub vẽ sẵn, lưu vào anh/<mã>.webp",
+ "q1-1": {
+  "ai": "Cute 3D Pixar style boy walking happily to school gate, sunny morning",
+  "seed": 11
+ },
+ "q1-2": {
+  "ai": "Cute 3D Pixar style boy arriving home waving hands to parents at cozy house door",
+  "seed": 12
+ },
+ "q2-1": {
+  "ai": "Cute 3D child politely bowing and giving a cup of tea to grandparents",
+  "seed": 21
+ },
+ "q2-2": {
+  "ai": "Cute 3D older sister sharing toys and candies with younger brother happily",
+  "seed": 22
+ },
+ "q3-1": {
+  "ai": "Cute 3D kids sitting neatly at dining table eating rice politely",
+  "seed": 31
+ },
+ "q3-2": {
+  "ai": "Cute 3D hands wrapping and opening a colorful gift box with ribbon",
+  "seed": 32
+ },
+ "q4-1": {
+  "ai": "Cute 3D mother calling her little boy gently in living room",
+  "seed": 41
+ },
+ "q4-2": {
+  "ai": "Cute 3D little boy folding arms politely saying yes with a bright smile",
+  "seed": 42
+ },
+ "q5-1": {
+  "ai": "Cute 3D cartoon ants carrying food grains on a green leaf",
+  "seed": 51
+ },
+ "q5-2": {
+  "ai": "Cute 3D ant hill full of golden grains and happy ants",
+  "seed": 52
+ },
+ "q6-1": {
+  "ai": "Cute 3D cartoon golden toad sitting on a lotus leaf croaking",
+  "seed": 61
+ },
+ "q6-2": {
+  "ai": "Cute 3D fluffy rain clouds and magical sky with gentle rain drops",
+  "seed": 62
+ },
+ "q7-1": {
+  "ai": "Cute 3D honey bee holding a jar of golden honey",
+  "seed": 71
+ },
+ "q7-2": {
+  "ai": "Vibrant 3D blooming colorful garden flowers in sunlight",
+  "seed": 72
+ },
+ "q8-1": {
+  "ai": "Cute 3D colorful koi fish swimming happily",
+  "seed": 81
+ },
+ "q8-2": {
+  "ai": "Crystal clear blue water pond with bubbles and aquatic plants 3D",
+  "seed": 82
+ },
+ "q9-1": {
+  "ai": "Cute 3D bluebird singing musical notes on a tree branch",
+  "seed": 91
+ },
+ "q9-2": {
+  "ai": "Bright blue sky with soft white clouds and warm sunshine 3D",
+  "seed": 92
+ },
+ "q10-1": {
+  "ai": "Cute 3D girl in pink dress tripping slightly on grass",
+  "seed": 101
+ },
+ "q10-2": {
+  "ai": "Cute 3D little boy in blue shirt helping his sister stand up with love",
+  "seed": 102
+ },
+ "q11-1": {
+  "ai": "Happy loving Vietnamese family hugging each other warmly 3D illustration",
+  "seed": 111
+ },
+ "q11-2": {
+  "ai": "Glowing warm red heart surrounded by gentle hands 3D",
+  "seed": 112
+ },
+ "q12-1": {
+  "ai": "Cute 3D child brushing sparkling white teeth with toothbrush",
+  "seed": 121
+ },
+ "q12-2": {
+  "ai": "Cute 3D child with neat combed hair smiling in mirror",
+  "seed": 122
+ },
+ "q13-1": {
+  "ai": "Traditional Vietnamese family meal with warm rice pot on table 3D",
+  "seed": 131
+ },
+ "q13-2": {
+  "ai": "Cute 3D children sitting politely and neatly on chairs",
+  "seed": 132
+ },
+ "q14-1": {
+  "ai": "Bright hot summer sun shining over a green village road 3D",
+  "seed": 141
+ },
+ "q14-2": {
+  "ai": "Cute 3D Vietnamese child wearing a traditional conical hat and cap",
+  "seed": 142
+ },
+ "q15-1": {
+  "ai": "Gentle rain falling on a colorful street 3D illustration",
+  "seed": 151
+ },
+ "q15-2": {
+  "ai": "Cute 3D kids holding a colorful rainbow umbrella in the rain",
+  "seed": 152
+ },
+ "q16-1": {
+  "ai": "Cute 3D rooster crowing on a wooden fence at dawn",
+  "seed": 161
+ },
+ "q16-2": {
+  "ai": "Golden sunrise over green mountains in the East 3D",
+  "seed": 162
+ },
+ "q17-1": {
+  "ai": "Cute 3D Vietnamese children playing traditional dragon snake game in line",
+  "seed": 171
+ },
+ "q17-2": {
+  "ai": "Magical swaying tree under fluffy white clouds 3D",
+  "seed": 172
+ },
+ "q18-1": {
+  "ai": "Cute 3D child washing hands with soap bubbles under water tap",
+  "seed": 181
+ },
+ "q18-2": {
+  "ai": "Delicious bowl of white rice and tasty food 3D",
+  "seed": 182
+ },
+ "q19-1": {
+  "ai": "Kind Vietnamese female teacher wearing Ao Dai teaching kids in classroom 3D",
+  "seed": 191
+ },
+ "q19-2": {
+  "ai": "Loving mother hugging her child warmly 3D illustration",
+  "seed": 192
+ },
+ "q20-1": {
+  "ai": "Fresh green banana leaf wrapping around a smaller torn leaf 3D",
+  "seed": 201
+ },
+ "q20-2": {
+  "ai": "Cute 3D kids sharing books and school supplies with a friend",
+  "seed": 202
+ },
+ "q21-1": {
+  "ai": "Cute 3D horses in a stable caring for a tired little horse",
+  "seed": 211
+ },
+ "q21-2": {
+  "ai": "Bundle of fresh green grass in a wooden manger 3D",
+  "seed": 212
+ },
+ "q22-1": {
+  "ai": "Clean airy bright living room with green plants 3D",
+  "seed": 221
+ },
+ "q22-2": {
+  "ai": "Sparkling clean ceramic bowls with fragrant white rice 3D",
+  "seed": 222
+ },
+ "q23-1": {
+  "ai": "Happy smiling children playing in a sunny schoolyard 3D",
+  "seed": 231
+ },
+ "q23-2": {
+  "ai": "Fresh green leaf bud sprouting on a tree branch in spring 3D",
+  "seed": 232
+ },
+ "q24-1": {
+  "ai": "Cute 3D green turtle walking slowly on a forest path",
+  "seed": 241
+ },
+ "q24-2": {
+  "ai": "Cute 3D white rabbit running fast across a meadow",
+  "seed": 242
+ },
+ "q25-1": {
+  "ai": "Kind Vietnamese grandmother with white hair smiling warmly 3D",
+  "seed": 251
+ },
+ "q25-2": {
+  "ai": "Little grandchild hugging grandmother with floating pink hearts 3D",
+  "seed": 252
+ },
+ "q26-1": {
+  "ai": "Majestic high green mountain peak under golden clouds 3D",
+  "seed": 261
+ },
+ "q26-2": {
+  "ai": "Pure crystal clear mountain spring waterfall flowing endlessly 3D",
+  "seed": 262
+ },
+ "q27-1": {
+  "ai": "Old woman patiently grinding an iron bar on a stone by the river 3D",
+  "seed": 271
+ },
+ "q27-2": {
+  "ai": "Shining silver sewing needle with golden thread 3D",
+  "seed": 272
+ },
+ "q28-1": {
+  "ai": "Cute 3D child drinking pure cool water from a bamboo cup",
+  "seed": 281
+ },
+ "q28-2": {
+  "ai": "Beautiful natural waterfall source in deep green forest 3D",
+  "seed": 282
+ },
+ "q29-1": {
+  "ai": "Basket full of ripe red apples and sweet tropical fruits 3D",
+  "seed": 291
+ },
+ "q29-2": {
+  "ai": "Kind farmer watering and caring for a young fruit tree 3D",
+  "seed": 292
+ },
+ "q30-1": {
+  "ai": "Single small lonely tree standing in the wind 3D",
+  "seed": 301
+ },
+ "q30-2": {
+  "ai": "Lush forest of many trees standing together on a high mountain 3D",
+  "seed": 302
+ },
+ "q31-1": {
+  "ai": "Wise teacher guiding students with a glowing book of knowledge 3D",
+  "seed": 311
+ },
+ "q31-2": {
+  "ai": "Successful happy student holding a graduation trophy 3D",
+  "seed": 312
+ },
+ "q32-1": {
+  "ai": "Classroom with teacher writing math on chalkboard 3D",
+  "seed": 321
+ },
+ "q32-2": {
+  "ai": "Group of cute kids studying and reading books together happily 3D",
+  "seed": 322
+ },
+ "q33-1": {
+  "ai": "Two cute kids traveling with backpacks exploring beautiful world landmarks 3D",
+  "seed": 331
+ },
+ "q33-2": {
+  "ai": "Glowing treasure chest of books and wisdom stars 3D",
+  "seed": 332
+ },
+ "q34-1": {
+  "ai": "Two children talking politely with musical notes and flowers 3D",
+  "seed": 341
+ },
+ "q34-2": {
+  "ai": "Happy smiling friends shaking hands with warm hearts 3D",
+  "seed": 342
+ },
+ "q35-1": {
+  "ai": "Peaceful Vietnamese pond with large green lotus leaves 3D",
+  "seed": 351
+ },
+ "q35-2": {
+  "ai": "Blooming pink and white lotus flowers with golden stamens 3D",
+  "seed": 352
+ },
+ "q36-1": {
+  "ai": "Steaming bowl of white pearls rice on wooden table 3D",
+  "seed": 361
+ },
+ "q36-2": {
+  "ai": "Vietnamese farmers working hard in golden rice paddy field 3D",
+  "seed": 362
+ },
+ "q37-1": {
+  "ai": "Cute friendly water buffalo standing by a bamboo village 3D",
+  "seed": 371
+ },
+ "q37-2": {
+  "ai": "Green rice field with farmer and buffalo plowing in morning mist 3D",
+  "seed": 372
+ },
+ "q38-1": {
+  "ai": "Older sister and younger brother holding hands happily 3D",
+  "seed": 381
+ },
+ "q38-2": {
+  "ai": "Helping hands reaching out together in warm light 3D",
+  "seed": 382
+ },
+ "q39-1": {
+  "ai": "Black ink pot and brush on an old wooden desk 3D",
+  "seed": 391
+ },
+ "q39-2": {
+  "ai": "Glowing warm study lamp illuminating open books 3D",
+  "seed": 392
+ },
+ "q40-1": {
+  "ai": "Red dragonfly flying low near water surface of a pond 3D",
+  "seed": 401
+ },
+ "q40-2": {
+  "ai": "Dark rain clouds starting to drop rain over green meadow 3D",
+  "seed": 402
+ },
+ "q41-1": {
+  "ai": "Bright early summer sunrise at 5 AM with singing birds 3D",
+  "seed": 411
+ },
+ "q41-2": {
+  "ai": "Cozy winter evening sunset with early stars and crescent moon 3D",
+  "seed": 412
+ },
+ "q42-1": {
+  "ai": "Solid strong natural oak wood trunk with beautiful grain 3D",
+  "seed": 421
+ },
+ "q42-2": {
+  "ai": "Colorful paint cans and shiny brush strokes 3D",
+  "seed": 422
+ },
+ "q43-1": {
+  "ai": "Simple humble meal on a very clean wooden table 3D",
+  "seed": 431
+ },
+ "q43-2": {
+  "ai": "Clean folded clothes smelling of fresh white jasmine flowers 3D",
+  "seed": 432
+ },
+ "q44-1": {
+  "ai": "Long winding road across mountains and valleys 3D",
+  "seed": 441
+ },
+ "q44-2": {
+  "ai": "Strong majestic white horse galloping bravely to the finish line 3D",
+  "seed": 442
+ },
+ "q45-1": {
+  "ai": "Ancient Vietnamese Hung Kings Temple on Nghia Linh mountain with red flags 3D",
+  "seed": 451
+ },
+ "q45-2": {
+  "ai": "Traditional Banh Chung and Banh Giay offerings on festival day 3D",
+  "seed": 452
+ },
+ "q46-1": {
+  "ai": "Vast blooming pink lotus field in Dong Thap Muoi Vietnam 3D",
+  "seed": 461
+ },
+ "q46-2": {
+  "ai": "Ho Chi Minh Mausoleum in Ba Dinh Square Hanoi with red flag and blue sky 3D",
+  "seed": 462
+ },
+ "q47-1": {
+  "ai": "Iconic Turtle Tower Thap Rua in Hoan Kiem Lake Hanoi with red The Huc bridge 3D",
+  "seed": 471
+ },
+ "q47-2": {
+  "ai": "Golden turtle rising from water with a magical glowing sword 3D",
+  "seed": 472
+ },
+ "q48-1": {
+  "ai": "Green gourd and golden pumpkin growing together on the same wooden trellis 3D",
+  "seed": 481
+ },
+ "q48-2": {
+  "ai": "Vietnamese children from different regions holding hands in solidarity 3D",
+  "seed": 482
+ },
+ "q49-1": {
+  "ai": "Cute girl reading a science book about plants at desk 3D",
+  "seed": 491
+ },
+ "q49-2": {
+  "ai": "Cute girl planting and watering a real lemon tree on a sunny terrace 3D",
+  "seed": 492
+ },
+ "q50-1": {
+  "ai": "Peaceful Vietnamese countryside river with lush green bamboo groves 3D",
+  "seed": 501
+ },
+ "q50-2": {
+  "ai": "Legendary hero Thanh Giong riding iron horse holding golden bamboo 3D",
+  "seed": 502
+ },
+ "p-lucie": {
+  "ai": "Cute little Vietnamese girl wearing pastel pink ao dai dress with a big pink hair bow, cheerful smile, portrait",
+  "seed": 777
+ },
+ "p-lucas": {
+  "ai": "Cute little Vietnamese boy wearing blue traditional ao the robe and dark blue khan dong turban, cheerful smile, portrait",
+  "seed": 888
+ }
+}

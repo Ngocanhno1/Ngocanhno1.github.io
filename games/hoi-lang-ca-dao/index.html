@@ -392,7 +392,9 @@ function pump(){ while (IQ.active < IQ.max && IQ.list.length) { const it = IQ.li
 const picCache = new Map();
 function getImg(key, prompt, seed, caption, k, prio){
   if (picCache.has(key)) return picCache.get(key);
-  const p = enqueue(() => loadImg(pollUrl(prompt, seed), 30000), prio)
+  // 1) tranh đã được máy chủ GitHub vẽ sẵn (hiện ngay)  2) vẽ trực tiếp bằng Pollinations  3) ảnh dự phòng
+  const p = loadImg("anh/" + key + ".webp", 8000)
+    .catch(() => enqueue(() => loadImg(pollUrl(prompt, seed), 30000), prio))
     .catch(() => enqueue(() => loadImg(pollUrl(prompt, seed + 5000), 22000), prio))
     .catch(() => loadImg("https://loremflickr.com/512/512/" + keywords(prompt) + "?lock=" + seed, 12000))
     .catch(() => loadImg("https://picsum.photos/seed/cadao" + seed + "/512/512", 10000))
