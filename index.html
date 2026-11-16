@@ -94,6 +94,8 @@ const CUPS = {
     return { n, icons: CUP_ICONS.slice(0, n).reverse(), note: n + " cúp · ⭐" + stars }; },
   rungchuong: c => { const o = readJSON("rcv_thanhTich_" + c) || {}, n = o.thang || 0;
     return { n, icons: Array(Math.min(n, 12)).fill("🔔"), note: n + " lần rung chuông" + (o.xaNhat && !n ? " · tới câu " + o.xaNhat + "/10" : "") }; },
+  daokhobau: c => { const o = (readJSON("daoKhoBauToanHoc_v1") || {})[c] || {}, n = o.wins || 0;
+    return { n, icons: Array(Math.min(n, 12)).fill("💎"), note: n + " lần tìm ra kho báu" + (o.island ? " · đang ở Đảo " + (o.island + 1) + "/5" : "") }; },
   duoihinh: c => { const o = readJSON("dhbc_" + c) || {}, g = (o.giai || []).length, n = Math.floor(g / 10);
     return { n, icons: Array(Math.min(n, 12)).fill("🖼️"), note: g + "/50 câu · ⭐" + (o.stars || 0) }; }
 };
@@ -107,7 +109,14 @@ function cupsHTML(key) {
   }).join("") + `</div>`;
 }
 const GAMES = [
-  { href: "games/duoi-hinh-bat-chu/", name: "Đuổi hình bắt chữ 3D", isNew: true, cups: "duoihinh",
+  { href: "games/dao-kho-bau-toan-hoc/", name: "Đảo Kho Báu Toán Học 3D", isNew: true, cups: "daokhobau",
+    desc: "Vượt 5 hòn đảo: xếp số qua cầu đá, nhảy bậc đá phép tính, bắn đại bác mở cổng kho báu của Cướp biển Max!",
+    tags: ["Lucie lớp 3", "Lucas lớp 1", "Toán", "5 đảo"], bg: "linear-gradient(180deg,#5ec8f2 0,#bfeaff 55%,#16b3c9 55%,#0e8fa6 100%)",
+    art: `<span class="big" style="font-size:54px;left:8%;top:34px">🏝️</span><span class="big" style="font-size:44px;right:8%;top:24px">🏴‍☠️</span>
+          <span class="big" style="font-size:60px;left:42%;top:40px">💎</span>
+          <img class="face pink" src="${F.lucie}" style="left:16%;top:84px" alt="Lucie"><img class="face blue" src="${F.lucas}" style="right:16%;top:84px" alt="Lucas">
+          <span class="em" style="font-size:34px;left:44%;top:140px">⛵</span>` },
+  { href: "games/duoi-hinh-bat-chu/", name: "Đuổi hình bắt chữ 3D", cups: "duoihinh",
     desc: "Nhìn hình đoán chữ trên sân khấu 3D: 50 câu cho Lucas, 50 câu thành ngữ, cổ tích cho Lucie, hoặc hai chị em thi đổi lượt!",
     tags: ["Lucie", "Lucas", "Tiếng Việt", "100 câu"], bg: "radial-gradient(circle at 50% 40%,#ffe9f6 0,#b388ff 45%,#4a2a9a 100%)",
     art: `<span class="big" style="font-size:56px;left:28%;top:40px">🍯</span><span class="em" style="font-size:40px;left:46%;top:52px;color:#ff4f9a;font-weight:800">+</span>
