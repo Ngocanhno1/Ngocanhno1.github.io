@@ -94,6 +94,8 @@ const CUPS = {
     return { n, icons: CUP_ICONS.slice(0, n).reverse(), note: n + " cúp · ⭐" + stars }; },
   rungchuong: c => { const o = readJSON("rcv_thanhTich_" + c) || {}, n = o.thang || 0;
     return { n, icons: Array(Math.min(n, 12)).fill("🔔"), note: n + " lần rung chuông" + (o.xaNhat && !n ? " · tới câu " + o.xaNhat + "/10" : "") }; },
+  cadao: c => { const o = readJSON("cadao_" + c) || {}, n = o.cup || 0;
+    return { n, icons: Array(Math.min(n, 12)).fill("🏮"), note: n + " cúp 3 sao" + (o.best ? " · nhiều nhất đúng " + o.best + "/25 câu" : "") }; },
   daokhobau: c => { const o = (readJSON("daoKhoBauToanHoc_v1") || {})[c] || {}, n = o.wins || 0;
     return { n, icons: Array(Math.min(n, 12)).fill("💎"), note: n + " lần tìm ra kho báu" + (o.island ? " · đang ở Đảo " + (o.island + 1) + "/5" : "") }; },
   duoihinh: c => { const o = readJSON("dhbc_" + c) || {}, g = (o.giai || []).length, n = Math.floor(g / 10);
@@ -109,7 +111,14 @@ function cupsHTML(key) {
   }).join("") + `</div>`;
 }
 const GAMES = [
-  { href: "games/dao-kho-bau-toan-hoc/", name: "Đảo Kho Báu Toán Học 3D", isNew: true, cups: "daokhobau",
+  { href: "games/hoi-lang-ca-dao/", name: "Hội Làng Đoán Ca Dao 3D", isNew: true, cups: "cadao",
+    desc: "Xem 2 bức tranh phép thuật, đoán từ còn thiếu trong câu ca dao, tục ngữ. Đúng thì trống hội vang, pháo giấy bay!",
+    tags: ["Lucie lớp 3", "Lucas lớp 1", "Tiếng Việt", "50 câu"], bg: "radial-gradient(circle at 50% 35%,#ffd166 0,#e63946 45%,#3a0ca3 100%)",
+    art: `<span class="big" style="font-size:52px;left:8%;top:22px">🏮</span><span class="big" style="font-size:52px;right:8%;top:22px">🏮</span>
+          <span class="big" style="font-size:70px;left:41%;top:30px">🥁</span>
+          <img class="face pink" src="${F.lucie}" style="left:18%;top:84px" alt="Lucie"><img class="face blue" src="${F.lucas}" style="right:18%;top:84px" alt="Lucas">
+          <span class="em" style="font-size:30px;left:46%;top:140px">🎆</span>` },
+  { href: "games/dao-kho-bau-toan-hoc/", name: "Đảo Kho Báu Toán Học 3D", cups: "daokhobau",
     desc: "Vượt 5 hòn đảo: xếp số qua cầu đá, nhảy bậc đá phép tính, bắn đại bác mở cổng kho báu của Cướp biển Max!",
     tags: ["Lucie lớp 3", "Lucas lớp 1", "Toán", "5 đảo"], bg: "linear-gradient(180deg,#5ec8f2 0,#bfeaff 55%,#16b3c9 55%,#0e8fa6 100%)",
     art: `<span class="big" style="font-size:54px;left:8%;top:34px">🏝️</span><span class="big" style="font-size:44px;right:8%;top:24px">🏴‍☠️</span>
