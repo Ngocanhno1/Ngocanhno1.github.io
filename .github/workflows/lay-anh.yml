@@ -1,0 +1,29 @@
+name: Tự lấy ảnh thật cho game
+
+on:
+  push:
+    paths:
+      - "games/*/anh-nguon.json"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  lay-anh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pillow
+      - name: Tải ảnh cho mọi game có danh sách ảnh
+        run: python tools/lay_anh.py $(dirname $(ls games/*/anh-nguon.json))
+      - name: Lưu ảnh vào trang
+        run: |
+          git config user.name "Nguyễn Hoàng Ngọc Anh"
+          git config user.email "ngocanhbtg88@users.noreply.github.com"
+          git add games/*/anh
+          git diff --cached --quiet || git commit -m "Tự động tải ảnh thật cho game"
+          git push
