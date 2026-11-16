@@ -53,15 +53,19 @@ def lam_game(thu_muc):
     ra = os.path.join(thu_muc, "anh")
     os.makedirs(ra, exist_ok=True)
     ghi_cong, loi, xong = {}, {}, []
+    ai_hong_lien = 0                          # số tranh AI hỏng liên tiếp: máy vẽ đang lỗi thì dừng sớm
     for ma, src in nguon.items():
         if ma.startswith("_"):
             continue
         dich = os.path.join(ra, ma + ".webp")
         if "ai" in src and os.path.exists(dich):   # tranh AI đã vẽ rồi: giữ nguyên, khỏi vẽ lại
             continue
+        if "ai" in src and ai_hong_lien >= 6:
+            loi[ma] = "bỏ qua: máy vẽ tranh AI đang lỗi"
+            continue
         try:
             url, ten = tim_anh(src)
-            im = Image.open(io.BytesIO(get(url, tries=6 if "ai" in src else 4))).convert("RGB")
+            im = Image.open(io.BytesIO(get(url, tries=3 if "ai" in src else 4))).convert("RGB")
             w, h = im.size
             s = min(w, h)                     # cắt vuông ở giữa cho vừa khung
             im = im.crop(((w - s) // 2, (h - s) // 2, (w + s) // 2, (h + s) // 2)).resize((360, 360), Image.LANCZOS)
@@ -71,8 +75,14 @@ def lam_game(thu_muc):
             else:
                 ghi_cong[ma] = {"file": ten, "trang": "https://commons.wikimedia.org/wiki/File:" + urllib.parse.quote(ten.replace(" ", "_"))}
             xong.append((ma, src, im))
+            if "ai" in src:
+                ai_hong_lien = 0
+                print("  vẽ xong", ma, flush=True)
         except Exception as e:
             loi[ma] = f"{src}: {e}"
+            if "ai" in src:
+                ai_hong_lien += 1
+                print("  hỏng", ma, e, flush=True)
         time.sleep(6 if "ai" in src else 0.3)   # máy vẽ tranh miễn phí giới hạn tốc độ: vẽ từ từ
     json.dump({"anh": ghi_cong, "loi": loi}, open(os.path.join(ra, "nguon-anh.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     # bảng kiểm tra: mọi ảnh thu nhỏ kèm nhãn để Claude duyệt nhanh
