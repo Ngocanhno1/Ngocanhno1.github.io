@@ -93,7 +93,9 @@ const CUPS = {
     const stars = Object.values(p.stars || {}).reduce((a, b) => a + b, 0);
     return { n, icons: CUP_ICONS.slice(0, n).reverse(), note: n + " cúp · ⭐" + stars }; },
   rungchuong: c => { const o = readJSON("rcv_thanhTich_" + c) || {}, n = o.thang || 0;
-    return { n, icons: Array(Math.min(n, 12)).fill("🔔"), note: n + " lần rung chuông" + (o.xaNhat && !n ? " · tới câu " + o.xaNhat + "/10" : "") }; }
+    return { n, icons: Array(Math.min(n, 12)).fill("🔔"), note: n + " lần rung chuông" + (o.xaNhat && !n ? " · tới câu " + o.xaNhat + "/10" : "") }; },
+  duoihinh: c => { const o = readJSON("dhbc_" + c) || {}, g = (o.giai || []).length, n = Math.floor(g / 10);
+    return { n, icons: Array(Math.min(n, 12)).fill("🖼️"), note: g + "/50 câu · ⭐" + (o.stars || 0) }; }
 };
 function cupsHTML(key) {
   if (!CUPS[key]) return "";
@@ -105,7 +107,14 @@ function cupsHTML(key) {
   }).join("") + `</div>`;
 }
 const GAMES = [
-  { href: "games/rung-chuong-vang/", name: "Rung Chuông Vàng", isNew: true, cups: "rungchuong",
+  { href: "games/duoi-hinh-bat-chu/", name: "Đuổi hình bắt chữ 3D", isNew: true, cups: "duoihinh",
+    desc: "Nhìn hình đoán chữ trên sân khấu 3D: 50 câu cho Lucas, 50 câu thành ngữ, cổ tích cho Lucie, hoặc hai chị em thi đổi lượt!",
+    tags: ["Lucie", "Lucas", "Tiếng Việt", "100 câu"], bg: "radial-gradient(circle at 50% 40%,#ffe9f6 0,#b388ff 45%,#4a2a9a 100%)",
+    art: `<span class="big" style="font-size:56px;left:28%;top:40px">🍯</span><span class="em" style="font-size:40px;left:46%;top:52px;color:#ff4f9a;font-weight:800">+</span>
+          <span class="big" style="font-size:56px;right:28%;top:40px">🐝</span>
+          <img class="face pink" src="${F.lucie}" style="left:5%;top:84px" alt="Lucie"><img class="face blue" src="${F.lucas}" style="right:5%;top:84px" alt="Lucas">
+          <span class="em" style="font-size:30px;left:40%;top:140px">🖼️</span><span class="em" style="font-size:30px;right:22%;top:8px">⭐</span>` },
+  { href: "games/rung-chuong-vang/", name: "Rung Chuông Vàng", cups: "rungchuong",
     desc: "Gameshow kiến thức: thi tài cùng 99 bạn, ai trả lời đúng tới cuối sẽ rung chuông vàng!",
     tags: ["Lucie", "Lucas", "Đố vui"], bg: "radial-gradient(circle at 50% 110%,#ffcf3f 0,#b0479a 38%,#3b1f8c 75%)",
     art: `<span class="ray" style="left:8%;transform:rotate(-22deg)"></span><span class="ray" style="right:8%;transform:rotate(22deg)"></span>

@@ -68,7 +68,7 @@
 <script>
 const KIDS = { lucie: { name: "Lucie", lop: "Lớp 3", img: "../img/lucie.webp" }, lucas: { name: "Lucas", lop: "Lớp 1", img: "../img/lucas.webp" } };
 const SUBJ = { "Toán": "#0ea5e9", "Tiếng Việt": "#f43f5e", "Tiếng Anh": "#8b5cf6", "TN&XH": "#10b981" };
-const GAME_NAME = { phieuluu: "Phiêu lưu", rungchuong: "Rung Chuông Vàng" };
+const GAME_NAME = { phieuluu: "Phiêu lưu", rungchuong: "Rung Chuông Vàng", duoihinh: "Đuổi hình bắt chữ" };
 const CUP_ICONS = ["🦄","🐉","🚀","🌟","💎","👑","🎯","🌸","🐼","🦋","🍭","🌈","🌻","🐬","🦉","🦁","🐝","✏️","🌍","🔍","🎹","🦸","🏰","🪁","🛸","☀️","🌙","🌳","🧰","🔢","📝","🔤","🔥","❄️","🏡","🏅"];
 const readJSON = k => { try { return JSON.parse(localStorage.getItem(k) || "null"); } catch (e) { return null; } };
 const dayKey = t => { const d = new Date(t); return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate(); };
