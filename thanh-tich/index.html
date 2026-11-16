@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Bảng thành tích Lucie & Lucas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --ink: #2b2140; --muted: #6b6288; --card: #fff; --ok: #2f9e44; --bad: #f03e3e; --line: #ece6f7;
+          --pink: #ff6fae; --blue: #3fa9f5; --gold: #f59f00; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Baloo 2", "Segoe UI", system-ui, sans-serif; color: var(--ink);
+         background: linear-gradient(170deg, #fff6d6 0%, #ffe9f3 50%, #e3f4ff 100%) fixed;
+         padding: 20px max(16px, env(safe-area-inset-right, 0px)) 40px max(16px, env(safe-area-inset-left, 0px)); }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+  .top { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .back { text-decoration: none; font-weight: 800; font-size: 19px; color: #fff; background: #7c5cff; padding: 6px 18px;
+          border-radius: 999px; box-shadow: 0 4px 0 #5536d6; }
+  .back:focus-visible { outline: 4px solid #ffb703; }
+  h1 { margin: 0; font-size: clamp(28px, 4.4vw, 46px); line-height: 1.1; flex: 1; text-wrap: balance; }
+  .when { color: var(--muted); font-size: 17px; }
+  .kids { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 520px), 1fr)); gap: 22px; margin-top: 18px; }
+  .kid { background: var(--card); border-radius: 26px; padding: 18px 20px 20px; box-shadow: 0 8px 0 rgba(43,33,64,.08), 0 14px 30px rgba(43,33,64,.1);
+         border-top: 10px solid var(--pink); min-width: 0; }
+  .kid.lucas { border-top-color: var(--blue); }
+  .who { display: flex; align-items: center; gap: 14px; }
+  .who img { width: 74px; height: 74px; border-radius: 50%; object-fit: cover; border: 5px solid var(--pink); }
+  .lucas .who img { border-color: var(--blue); }
+  .who h2 { margin: 0; font-size: 32px; line-height: 1; }
+  .who small { color: var(--muted); font-size: 16px; }
+  .today { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
+  .stat { background: #f8f5ff; border-radius: 18px; padding: 10px 8px; text-align: center; }
+  .stat b { display: block; font-size: 30px; line-height: 1.1; }
+  .stat span { font-size: 15px; color: var(--muted); }
+  h3 { margin: 18px 0 8px; font-size: 20px; }
+  .chart { width: 100%; height: auto; display: block; }
+  .subj { display: grid; gap: 8px; }
+  .srow { display: grid; grid-template-columns: 104px 1fr 128px; align-items: center; gap: 10px; font-size: 17px; }
+  .bar { height: 18px; border-radius: 999px; background: #f1ecf9; overflow: hidden; }
+  .bar i { display: block; height: 100%; border-radius: 999px; }
+  .srow em { font-style: normal; text-align: right; color: var(--muted); font-size: 15px; white-space: nowrap; }
+  .wrong { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+  .wrong li { background: #fff4f4; border-radius: 14px; padding: 6px 12px; font-size: 16px; line-height: 1.35; display: flex; gap: 10px; }
+  .wrong li .tag { flex: none; font-size: 13px; font-weight: 800; color: #fff; border-radius: 999px; padding: 1px 9px; align-self: start; margin-top: 2px; }
+  .wrong li .x { margin-left: auto; flex: none; color: var(--bad); font-weight: 800; }
+  .cupsBox { display: grid; gap: 8px; }
+  .cg { background: #fff8e6; border: 2px dashed #ffd27a; border-radius: 16px; padding: 8px 12px; font-size: 17px; }
+  .cg .ic { font-size: 22px; letter-spacing: 1px; word-break: break-all; }
+  .tip { margin-top: 14px; background: #eefbf1; border-radius: 16px; padding: 10px 14px; font-size: 17px; line-height: 1.4; }
+  .empty { color: var(--muted); font-size: 16px; }
+  .note { margin-top: 22px; text-align: center; color: var(--muted); font-size: 15px; }
+  @media (max-width: 480px) { .srow { grid-template-columns: 84px 1fr 104px; font-size: 15px; } .stat b { font-size: 24px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a class="back" href="../">⬅ Trang chủ</a>
+    <h1>🏆 Bảng thành tích</h1>
+    <span class="when" id="when"></span>
+  </div>
+  <div class="kids" id="kids"></div>
+  <p class="note">Số liệu lấy từ các trò chơi đã chơi trên chính thiết bị này (TV, điện thoại hoặc máy tính).</p>
+</div>
+<script>
+const KIDS = { lucie: { name: "Lucie", lop: "Lớp 3", img: "../img/lucie.webp" }, lucas: { name: "Lucas", lop: "Lớp 1", img: "../img/lucas.webp" } };
+const SUBJ = { "Toán": "#0ea5e9", "Tiếng Việt": "#f43f5e", "Tiếng Anh": "#8b5cf6", "TN&XH": "#10b981" };
+const GAME_NAME = { phieuluu: "Phiêu lưu", rungchuong: "Rung Chuông Vàng" };
+const CUP_ICONS = ["🦄","🐉","🚀","🌟","💎","👑","🎯","🌸","🐼","🦋","🍭","🌈","🌻","🐬","🦉","🦁","🐝","✏️","🌍","🔍","🎹","🦸","🏰","🪁","🛸","☀️","🌙","🌳","🧰","🔢","📝","🔤","🔥","❄️","🏡","🏅"];
+const readJSON = k => { try { return JSON.parse(localStorage.getItem(k) || "null"); } catch (e) { return null; } };
+const dayKey = t => { const d = new Date(t); return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate(); };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const LOG = (readJSON("giaDinh_nhatKy") || []).filter(e => e && e.c && e.t);
+const now = new Date();
+document.getElementById("when").textContent = "Hôm nay: " + now.toLocaleDateString("vi-VN", { weekday: "long", day: "numeric", month: "numeric" });
+
+function minutes(evts) {                     // ước tính thời gian chơi: cộng khoảng cách giữa các câu (tối đa 2 phút/câu)
+  const ts = evts.map(e => e.t).sort((a, b) => a - b); let s = ts.length ? 20 : 0;
+  for (let i = 1; i < ts.length; i++) s += Math.min(120, (ts[i] - ts[i - 1]) / 1000);
+  return Math.round(s / 60);
+}
+function chart7(evts, color) {               // 7 ngày gần nhất: cột xanh = đúng, đỏ = sai
+  const days = []; for (let i = 6; i >= 0; i--) { const d = new Date(now); d.setDate(d.getDate() - i); days.push(d); }
+  const data = days.map(d => { const k = dayKey(d), e = evts.filter(x => dayKey(x.t) === k); return { d, ok: e.filter(x => x.ok).length, bad: e.filter(x => !x.ok).length }; });
+  const mx = Math.max(5, ...data.map(x => x.ok + x.bad)), W = 520, H = 170, bw = 46, gap = (W - 7 * bw) / 8;
+  let svg = `<svg class="chart" viewBox="0 -26 ${W} ${H + 66}" role="img" aria-label="Số câu 7 ngày gần nhất">`;
+  data.forEach((x, i) => {
+    const X = gap + i * (bw + gap), hOk = x.ok / mx * H, hBad = x.bad / mx * H;
+    svg += `<rect x="${X}" y="${H - hOk}" width="${bw}" height="${hOk}" rx="8" fill="#40c057"/>`;
+    svg += `<rect x="${X}" y="${H - hOk - hBad}" width="${bw}" height="${hBad}" rx="8" fill="#ff8787"/>`;
+    if (x.ok + x.bad) svg += `<text x="${X + bw / 2}" y="${H - hOk - hBad - 6}" text-anchor="middle" font-size="16" font-weight="800" fill="#2b2140">${x.ok + x.bad}</text>`;
+    const lab = i === 6 ? "Nay" : ["CN", "T2", "T3", "T4", "T5", "T6", "T7"][x.d.getDay()];
+    svg += `<text x="${X + bw / 2}" y="${H + 26}" text-anchor="middle" font-size="17" fill="#6b6288" font-weight="${i === 6 ? 800 : 500}">${lab}</text>`;
+  });
+  return svg + `<line x1="0" x2="${W}" y1="${H}" y2="${H}" stroke="#e5def3" stroke-width="2"/></svg>`;
+}
+function render() {
+  const box = document.getElementById("kids"); box.innerHTML = "";
+  Object.entries(KIDS).forEach(([c, K]) => {
+    const all = LOG.filter(e => e.c === c), today = all.filter(e => dayKey(e.t) === dayKey(now));
+    const month = all.filter(e => now - e.t < 30 * 864e5);
+    const pct = a => a.length ? Math.round(a.filter(e => e.ok).length / a.length * 100) + "%" : "—";
+    const subjects = Object.keys(SUBJ).map(s => { const e = month.filter(x => x.s === s); return { s, n: e.length, p: e.length ? e.filter(x => x.ok).length / e.length : 0 }; }).filter(x => x.n);
+    // câu hay sai: gom theo câu hỏi, lấy những câu sai nhiều nhất 30 ngày
+    const wrongMap = {}; month.filter(e => !e.ok).forEach(e => { const k = e.q; (wrongMap[k] = wrongMap[k] || { q: e.q, s: e.s, n: 0 }).n++; });
+    const wrongs = Object.values(wrongMap).sort((a, b) => b.n - a.n).slice(0, 6);
+    const pl = readJSON("lucieLucas_v3_" + c) || {}, rc = readJSON("rcv_thanhTich_" + c) || {};
+    const stars = Object.values(pl.stars || {}).reduce((a, b) => a + b, 0), nCup = pl.trophies || 0;
+    const hist = readJSON("lucieLucas_hist_" + c) || {}, histN = Object.values(hist).reduce((a, h) => a + (h.seen || 0), 0);
+    const weak = subjects.length ? subjects.slice().sort((a, b) => a.p - b.p)[0] : null;
+    let tip = "";
+    if (!all.length) tip = `Chưa có dữ liệu trên thiết bị này. Khi ${K.name} chơi xong vài câu, bảng sẽ tự cập nhật.`;
+    else if (weak && weak.p < 0.7) tip = `💡 ${K.name} đang cần luyện thêm <b>${weak.s}</b> (đúng ${Math.round(weak.p * 100)}% trong 30 ngày). Bố mẹ có thể cùng con xem lại các câu sai bên trên.`;
+    else tip = `🌟 ${K.name} đang làm rất tốt! Hãy khen con và giữ thói quen chơi mỗi ngày nhé.`;
+    const el = document.createElement("section"); el.className = "kid " + c;
+    el.innerHTML = `
+      <div class="who"><img src="${K.img}" alt="${K.name}"><div><h2>${K.name}</h2><small>${K.lop} · tổng ${all.length + (all.length ? 0 : histN)} câu đã làm</small></div></div>
+      <div class="today">
+        <div class="stat"><b>${today.length}</b><span>câu hôm nay</span></div>
+        <div class="stat"><b style="color:var(--ok)">${pct(today)}</b><span>trả lời đúng</span></div>
+        <div class="stat"><b>${minutes(today)}′</b><span>phút chơi</span></div>
+      </div>
+      <h3>📅 7 ngày gần đây <small style="font-weight:500;color:var(--muted)">(xanh: đúng · đỏ: sai)</small></h3>
+      ${chart7(all)}
+      <h3>📚 Theo môn (30 ngày)</h3>
+      <div class="subj">${subjects.length ? subjects.map(x => `<div class="srow"><span>${x.s}</span><div class="bar"><i style="width:${Math.max(4, x.p * 100)}%;background:${SUBJ[x.s]}"></i></div><em>${Math.round(x.p * 100)}% · ${x.n} câu</em></div>`).join("") : `<p class="empty">Chưa có dữ liệu.</p>`}</div>
+      <h3>🔁 Câu con hay trả lời sai</h3>
+      ${wrongs.length ? `<ul class="wrong">${wrongs.map(w => `<li><span class="tag" style="background:${SUBJ[w.s] || "#868e96"}">${esc(w.s || "")}</span><span>${esc(w.q)}</span><span class="x">✗${w.n}</span></li>`).join("")}</ul>` : `<p class="empty">Chưa có câu sai nào. Giỏi quá! 🎉</p>`}
+      <h3>🏆 Tủ cúp</h3>
+      <div class="cupsBox">
+        <div class="cg"><b>Lucie &amp; Lucas phiêu lưu:</b> ${nCup} cúp · ⭐ ${stars} sao · đã mở Level ${Math.min(pl.unlocked || 1, 30)}/30<div class="ic">${CUP_ICONS.slice(0, nCup).join("") || "<span class='empty'>Chưa có cúp</span>"}</div></div>
+        <div class="cg"><b>Rung Chuông Vàng:</b> ${rc.thang || 0} lần rung chuông · chơi ${rc.luot || 0} lượt${rc.xaNhat ? " · xa nhất câu " + rc.xaNhat + "/10" : ""}<div class="ic">${"🔔".repeat(Math.min(rc.thang || 0, 30)) || "<span class='empty'>Chưa rung chuông lần nào</span>"}</div></div>
+      </div>
+      <div class="tip">${tip}</div>`;
+    box.appendChild(el);
+  });
+}
+render();
+document.addEventListener("visibilitychange", () => { if (!document.hidden) location.reload(); });
+</script>
+</body>
+</html>

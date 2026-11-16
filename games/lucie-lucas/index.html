@@ -3789,7 +3789,9 @@ function playerClass(mode) { G.anim = mode; }
 /* ---------- Lịch sử từng câu: câu con làm sai lần trước được đánh dấu "Ôn lại" ---------- */
 function qKey(q) { return q.level + "|" + q.question; }
 function loadHist(char) { try { return JSON.parse(localStorage.getItem("lucieLucas_hist_" + char)) || {}; } catch (e) { return {}; } }
+function ghiNhatKy(game, child, subject, question, ok) { try { const k = 'giaDinh_nhatKy', a = JSON.parse(localStorage.getItem(k) || '[]'); a.push({ t: Date.now(), g: game, c: child, s: subject, q: String(question).slice(0, 140), ok: !!ok }); if (a.length > 6000) a.splice(0, a.length - 6000); localStorage.setItem(k, JSON.stringify(a)); } catch (e) {} }
 function recordQ(q, ok) {
+  ghiNhatKy('phieuluu', state.char, q.subject, q.question, ok);
   const h = loadHist(state.char), k = qKey(q), r = h[k] || { seen: 0, wrong: 0 };
   r.seen++; if (!ok) r.wrong++; r.lastOk = ok; h[k] = r;
   try { localStorage.setItem("lucieLucas_hist_" + state.char, JSON.stringify(h)); } catch (e) {}

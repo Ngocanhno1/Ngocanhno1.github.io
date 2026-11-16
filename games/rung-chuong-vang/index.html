@@ -2289,6 +2289,7 @@ async function chotDapAn(luaChon) {
   congBoKetQua(luaChon);
 }
 
+function ghiNhatKy(game, child, subject, question, ok) { try { const k = 'giaDinh_nhatKy', a = JSON.parse(localStorage.getItem(k) || '[]'); a.push({ t: Date.now(), g: game, c: child, s: subject, q: String(question).slice(0, 140), ok: !!ok }); if (a.length > 6000) a.splice(0, a.length - 6000); localStorage.setItem(k, JSON.stringify(a)); } catch (e) {} }
 async function congBoKetQua(luaChon) {
   const phien = TRO_CHOI.phien;
   TRO_CHOI.giaiDoan = 'congBo';
@@ -2297,6 +2298,7 @@ async function congBoKetQua(luaChon) {
   const q = TRO_CHOI.cauHoi[chiSo];
   const chuDung = CHU_CAI[q.dung];
   const chinhDung = luaChon === q.dung;
+  ghiNhatKy('rungchuong', TRO_CHOI.chinh, q.mon, q.cau, chinhDung);
   const chinh = DAC_BIET[TRO_CHOI.chinh];
 
   // Thí sinh AI: chọn ngẫu nhiên những bạn trả lời sai theo tỷ lệ loại tăng dần
@@ -2482,7 +2484,9 @@ function rungMotTiengChuong(phien) {
   chopSang('#ffe066', 0.35);
 }
 
+function ghiThanhTich(ten, thang, soCau) { try { const k = 'rcv_thanhTich_' + ten, o = JSON.parse(localStorage.getItem(k) || '{}'); o.luot = (o.luot || 0) + 1; if (thang) o.thang = (o.thang || 0) + 1; o.xaNhat = Math.max(o.xaNhat || 0, soCau); o.lanCuoi = Date.now(); localStorage.setItem(k, JSON.stringify(o)); } catch (e) {} }
 async function chienThang() {
+  ghiThanhTich(TRO_CHOI.chinh, true, CAU_HINH.soCau);
   const phien = TRO_CHOI.phien;
   TRO_CHOI.giaiDoan = 'chienThang';
   anDi('hud'); anDi('bangThongKe');
@@ -2528,6 +2532,7 @@ async function chienThang() {
 }
 
 function hienManThua() {
+  ghiThanhTich(TRO_CHOI.chinh, false, TRO_CHOI.chiSo);
   TRO_CHOI.giaiDoan = 'ketThuc';
   anDi('hud');
   const tt = THONG_TIN[TRO_CHOI.chinh];
