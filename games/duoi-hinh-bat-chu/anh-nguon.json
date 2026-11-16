@@ -229,7 +229,7 @@
   "t": "Snowman"
  },
  "1f9b7": {
-  "t": "Tooth"
+  "t": "Human tooth"
  },
  "1faa5": {
   "t": "Toothbrush"
@@ -237,17 +237,11 @@
  "1f3e0": {
   "t": "House"
  },
- "1f9e5": {
-  "t": "Raincoat"
- },
  "1f56f": {
   "t": "Candle"
  },
  "26bd": {
   "t": "Ball (association football)"
- },
- "1f6bf": {
-  "t": "Shower"
  },
  "2708": {
   "t": "Airliner"
@@ -316,7 +310,7 @@
   "t": "Ant"
  },
  "1f528": {
-  "t": "Hammer"
+  "t": "Claw hammer"
  },
  "1faa1": {
   "t": "Sewing needle"
@@ -348,9 +342,6 @@
  "1f9ed": {
   "t": "Compass"
  },
- "1f321": {
-  "t": "Medical thermometer"
- },
  "1f3dc": {
   "t": "Dune"
  },
@@ -364,7 +355,7 @@
   "t": "Bookcase"
  },
  "1f3c5": {
-  "t": "Gold medal"
+  "t": "Olympic medal"
  },
  "1f54a": {
   "t": "Rock dove"
@@ -390,9 +381,6 @@
  "1f385": {
   "t": "Santa Claus"
  },
- "1f9da-200d-2640": {
-  "t": "Fairy"
- },
  "1f442": {
   "t": "Ear"
  },
@@ -400,7 +388,7 @@
   "t": "Hand"
  },
  "1f440": {
-  "t": "Eye"
+  "t": "Human eye"
  },
  "1f32c": {
   "t": "Wind"
@@ -416,8 +404,5 @@
  },
  "26aa": {
   "t": "Bánh giầy"
- },
- "1f3b5": {
-  "t": "Musical note"
  }
 }
