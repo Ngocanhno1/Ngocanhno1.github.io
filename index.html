@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Góc Trò Chơi Lucie & Lucas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --ink: #2b2140; --sky1: #8fd3ff; --sky2: #ffe3f1; --card: #ffffff; --focus: #ffb703; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; }
+  body {
+    font-family: "Baloo 2", "Segoe UI", system-ui, sans-serif; color: var(--ink);
+    background: linear-gradient(170deg, var(--sky1) 0%, #c9ecff 40%, var(--sky2) 100%) fixed;
+    padding: 28px max(18px, env(safe-area-inset-right, 0px)) 40px max(18px, env(safe-area-inset-left, 0px));
+    overflow-x: hidden;
+  }
+  .cloud { position: fixed; font-size: 90px; opacity: .55; pointer-events: none; animation: drift 40s linear infinite; }
+  .cloud.c2 { top: 60%; font-size: 70px; animation-duration: 55s; animation-delay: -20s; }
+  .cloud.c1 { top: 8%; }
+  @keyframes drift { from { left: -140px; } to { left: 105%; } }
+  header { text-align: center; position: relative; z-index: 1; }
+  .kids { font-size: 58px; line-height: 1; animation: bob 2.4s ease-in-out infinite; }
+  @keyframes bob { 50% { transform: translateY(-8px); } }
+  h1 { margin: 6px 0 0; font-size: clamp(34px, 5.5vw, 64px); font-weight: 800; line-height: 1.1; text-wrap: balance;
+       color: #fff; text-shadow: 0 4px 0 #6c4bd6, 0 8px 18px rgba(80, 40, 160, .35); letter-spacing: .5px; }
+  .sub { margin: 8px 0 0; font-size: clamp(18px, 2.4vw, 26px); font-weight: 600; color: #4a3f6b; }
+  .grid { position: relative; z-index: 1; max-width: 1280px; margin: 34px auto 0;
+          display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); gap: 26px; }
+  a.game { display: flex; flex-direction: column; text-decoration: none; color: inherit; background: var(--card);
+           border-radius: 28px; overflow: hidden; box-shadow: 0 10px 0 rgba(43, 33, 64, .14), 0 18px 34px rgba(43, 33, 64, .16);
+           transition: transform .18s, box-shadow .18s; outline: none; border: 5px solid transparent; }
+  a.game:hover, a.game:focus-visible { transform: translateY(-6px) scale(1.02); border-color: var(--focus);
+           box-shadow: 0 14px 0 rgba(43, 33, 64, .14), 0 24px 40px rgba(43, 33, 64, .22); }
+  .art { height: 190px; display: grid; place-items: center; font-size: 96px; position: relative; }
+  .art .badge { position: absolute; top: 14px; left: 14px; background: #fff; border-radius: 999px; padding: 2px 14px;
+                font-size: 17px; font-weight: 800; color: #e8590c; box-shadow: 0 3px 0 rgba(0,0,0,.12); }
+  .body { padding: 16px 22px 22px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+  .body h2 { margin: 0; font-size: 30px; line-height: 1.15; font-weight: 800; }
+  .body p { margin: 0; font-size: 19px; line-height: 1.35; color: #5b5274; flex: 1; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .tags span { font-size: 15px; font-weight: 700; padding: 1px 12px; border-radius: 999px; background: #f1ecff; color: #5f3dc4; }
+  .play { margin-top: 12px; align-self: flex-start; font-size: 22px; font-weight: 800; color: #fff; padding: 6px 26px;
+          border-radius: 999px; background: linear-gradient(#ff8a3d, #f0590c); box-shadow: 0 5px 0 #b8400a; }
+  footer { position: relative; z-index: 1; text-align: center; margin-top: 40px; font-size: 16px; color: #6b6288; }
+  @media (prefers-reduced-motion: reduce) { .cloud, .kids { animation: none; } }
+</style>
+</head>
+<body>
+<div class="cloud c1" aria-hidden="true">☁️</div>
+<div class="cloud c2" aria-hidden="true">☁️</div>
+<header>
+  <div class="kids" aria-hidden="true">👧🎮👦</div>
+  <h1>Góc Trò Chơi Lucie &amp; Lucas</h1>
+  <p class="sub">Chọn một trò chơi để vừa chơi vừa học nhé!</p>
+</header>
+
+<main class="grid" id="grid"></main>
+<footer>Bố mẹ làm tặng Lucie &amp; Lucas 💛</footer>
+
+<script>
+/* DANH SÁCH TRÒ CHƠI — thêm game mới: thêm một dòng vào đây (game mới nhất để trên cùng) */
+const GAMES = [
+  { href: "games/rung-chuong-vang/", emoji: "🔔", name: "Rung Chuông Vàng",
+    desc: "Gameshow kiến thức: thi tài cùng 99 bạn, ai trả lời đúng tới cuối sẽ rung chuông vàng!",
+    tags: ["Lucie", "Lucas", "Đố vui"], bg: "linear-gradient(135deg,#3b1f8c,#7a3fd6 55%,#ffcf3f)", isNew: true },
+  { href: "games/lucie-lucas/", emoji: "👸🏎️", name: "Lucie & Lucas phiêu lưu",
+    desc: "Chạy qua rừng, biển, núi tuyết, sa mạc, vũ trụ. Trả lời đúng để vượt cửa ải, đừng để bố mẹ bắt được!",
+    tags: ["Toán", "Tiếng Việt", "Tiếng Anh", "30 level"], bg: "linear-gradient(135deg,#ff8fc7,#ffd166 50%,#5ec8ff)" }
+];
+const grid = document.getElementById("grid");
+GAMES.forEach((g, i) => {
+  const a = document.createElement("a");
+  a.className = "game"; a.href = g.href; a.tabIndex = 0;
+  a.innerHTML = `<div class="art" style="background:${g.bg}">${g.isNew ? '<span class="badge">MỚI</span>' : ""}<span aria-hidden="true">${g.emoji}</span></div>
+    <div class="body"><h2>${g.name}</h2><p>${g.desc}</p>
+    <div class="tags">${g.tags.map(t => `<span>${t}</span>`).join("")}</div>
+    <span class="play">Chơi ngay ▶</span></div>`;
+  grid.appendChild(a);
+  if (i === 0) setTimeout(() => a.focus({ preventScroll: true }), 300);   // điều khiển TV: ô đầu tiên được chọn sẵn
+});
+// Phím mũi tên trên điều khiển TV để chuyển giữa các trò chơi
+document.addEventListener("keydown", e => {
+  const items = [...document.querySelectorAll("a.game")], i = items.indexOf(document.activeElement);
+  if (!["ArrowRight", "ArrowLeft", "ArrowDown", "ArrowUp"].includes(e.key)) return;
+  e.preventDefault();
+  const step = (e.key === "ArrowRight" || e.key === "ArrowDown") ? 1 : -1;
+  items[(Math.max(0, i) + step + items.length) % items.length].focus();
+});
+</script>
+</body>
+</html>
