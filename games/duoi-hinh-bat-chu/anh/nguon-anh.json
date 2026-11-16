@@ -305,8 +305,8 @@
    "trang": "https://commons.wikimedia.org/wiki/File:Snowman_in_Indiana_2014.jpg"
   },
   "1f9b7": {
-   "file": "Close_up_-_chimpanzee_teeth.png",
-   "trang": "https://commons.wikimedia.org/wiki/File:Close_up_-_chimpanzee_teeth.png"
+   "file": "06-10-06smile.jpg",
+   "trang": "https://commons.wikimedia.org/wiki/File:06-10-06smile.jpg"
   },
   "1faa5": {
    "file": "Toothbrush_20050716_004.jpg",
@@ -316,10 +316,6 @@
    "file": "Katsura_Imperial_Villa_in_Spring.jpg",
    "trang": "https://commons.wikimedia.org/wiki/File:Katsura_Imperial_Villa_in_Spring.jpg"
   },
-  "1f9e5": {
-   "file": "David_Julian_Kirchner_(cropped).jpg",
-   "trang": "https://commons.wikimedia.org/wiki/File:David_Julian_Kirchner_%28cropped%29.jpg"
-  },
   "1f56f": {
    "file": "LA2_Skultuna_kontorsljusstake.jpg",
    "trang": "https://commons.wikimedia.org/wiki/File:LA2_Skultuna_kontorsljusstake.jpg"
@@ -327,10 +323,6 @@
   "26bd": {
    "file": "Adidas_Trionda_ball.jpg",
    "trang": "https://commons.wikimedia.org/wiki/File:Adidas_Trionda_ball.jpg"
-  },
-  "1f6bf": {
-   "file": "IMG_Duschender.jpg",
-   "trang": "https://commons.wikimedia.org/wiki/File:IMG_Duschender.jpg"
   },
   "2708": {
    "file": "United_A320_N405UA_at_BOS_(33787222465).jpg",
@@ -421,8 +413,8 @@
    "trang": "https://commons.wikimedia.org/wiki/File:Red_Ant_-_March_2025.jpg"
   },
   "1f528": {
-   "file": "IKEA_hammer_(cropped).jpg",
-   "trang": "https://commons.wikimedia.org/wiki/File:IKEA_hammer_%28cropped%29.jpg"
+   "file": "Melencolia_I_(Durero)_hammer_crop.jpg",
+   "trang": "https://commons.wikimedia.org/wiki/File:Melencolia_I_%28Durero%29_hammer_crop.jpg"
   },
   "1faa1": {
    "file": "A_depiction_of_needle.JPG",
@@ -481,8 +473,8 @@
    "trang": "https://commons.wikimedia.org/wiki/File:Interior_of_Biblioth%C3%A8que_Mazarine_003.JPG"
   },
   "1f3c5": {
-   "file": "1964_Winter_Olympics_medals.JPG",
-   "trang": "https://commons.wikimedia.org/wiki/File:1964_Winter_Olympics_medals.JPG"
+   "file": "1896_Olympic_medal.jpg",
+   "trang": "https://commons.wikimedia.org/wiki/File:1896_Olympic_medal.jpg"
   },
   "1f54a": {
    "file": "Columba_livia_(Rock_Dove,_wild),_Duncansby_Head,_Caithness,_Scotland_1.jpg",
@@ -516,10 +508,6 @@
    "file": "Merry_Old_Santa_Claus_by_Thomas_Nast.jpg",
    "trang": "https://commons.wikimedia.org/wiki/File:Merry_Old_Santa_Claus_by_Thomas_Nast.jpg"
   },
-  "1f9da-200d-2640": {
-   "file": "Falero_Luis_Ricardo_Lily_Fairy_1888.jpg",
-   "trang": "https://commons.wikimedia.org/wiki/File:Falero_Luis_Ricardo_Lily_Fairy_1888.jpg"
-  },
   "1f442": {
    "file": "Human_right_ear_(cropped).jpg",
    "trang": "https://commons.wikimedia.org/wiki/File:Human_right_ear_%28cropped%29.jpg"
@@ -529,8 +517,8 @@
    "trang": "https://commons.wikimedia.org/wiki/File:Hand%2C_fingers_-_back.jpg"
   },
   "1f440": {
-   "file": "Krilleyekils.jpg",
-   "trang": "https://commons.wikimedia.org/wiki/File:Krilleyekils.jpg"
+   "file": "Human_eye_with_blood_vessels.jpg",
+   "trang": "https://commons.wikimedia.org/wiki/File:Human_eye_with_blood_vessels.jpg"
   },
   "1f32c": {
    "file": "Cherry_tree_moving_in_the_wind_1.gif",
@@ -553,8 +541,5 @@
    "trang": "https://commons.wikimedia.org/wiki/File:B%C3%A1nh_gi%E1%BA%A7y_gi%C3%B2_2.jpg"
   }
  },
- "loi": {
-  "1f321": "{'t': 'Medical thermometer'}: bài không có ảnh đại diện",
-  "1f3b5": "{'t': 'Musical note'}: bài không có ảnh đại diện"
- }
+ "loi": {}
 }
