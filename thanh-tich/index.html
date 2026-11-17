@@ -56,6 +56,7 @@
 </style>
 <link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#7c4dff"><link rel="apple-touch-icon" href="/img/icon-192.png"><script>if("serviceWorker" in navigator)addEventListener("load",function(){navigator.serviceWorker.register("/sw.js").catch(function(){})});</script>
 <script src="../games/anh-chung/thong-tin.js"></script>
+<script src="../games/anh-chung/vi-sao.js"></script>
 </head>
 <body>
 <div class="wrap">
@@ -75,6 +76,7 @@ const CUP_ICONS = ["🦄","🐉","🚀","🌟","💎","👑","🎯","🌸","🐼
 const readJSON = k => { try { return JSON.parse(localStorage.getItem(k) || "null"); } catch (e) { return null; } };
 const dayKey = t => { const d = new Date(t); return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate(); };
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const VI = window.ViSao ? ViSao.dongBo() : null;
 const LOG = (readJSON("giaDinh_nhatKy") || []).filter(e => e && e.c && e.t);
 const now = new Date();
 document.getElementById("when").textContent = "Hôm nay: " + now.toLocaleDateString("vi-VN", { weekday: "long", day: "numeric", month: "numeric" });
@@ -133,6 +135,7 @@ function render() {
       ${wrongs.length ? `<ul class="wrong">${wrongs.map(w => `<li><span class="tag" style="background:${SUBJ[w.s] || "#868e96"}">${esc(w.s || "")}</span><span>${esc(w.q)}</span><span class="x">✗${w.n}</span></li>`).join("")}</ul>` : `<p class="empty">Chưa có câu sai nào. Giỏi quá! 🎉</p>`}
       <h3>🏆 Tủ cúp</h3>
       <div class="cupsBox">
+        ${VI ? (() => { const q = ViSao.mucTieu(VI, c), dd = VI.don.filter(d => d.c === c), du = ViSao.soDu(VI, c); return `<div class="cg" style="background:#fff3bf"><b>⭐ Ví sao (Cửa hàng đổi quà):</b> ${du} sao · đã đổi ${dd.filter(d => d.tt === "duyet").length} quà${dd.some(d => d.tt === "cho") ? ` · <b style="color:#e8590c">${dd.filter(d => d.tt === "cho").length} yêu cầu chờ bố mẹ duyệt</b>` : ""}${q ? ` · mục tiêu: ${q.icon} ${esc(q.ten)} (${Math.max(0, du)}/${q.gia})` : ""} · <a href="../games/cua-hang/bo-me/">Duyệt quà ›</a></div>`; })() : ""}
         <div class="cg"><b>Lucie &amp; Lucas phiêu lưu:</b> ${nCup} cúp · ⭐ ${stars} sao · đã mở Level ${Math.min(pl.unlocked || 1, 30)}/30<div class="ic">${CUP_ICONS.slice(0, nCup).join("") || "<span class='empty'>Chưa có cúp</span>"}</div></div>
         <div class="cg"><b>Rung Chuông Vàng:</b> ${rc.thang || 0} lần rung chuông · chơi ${rc.luot || 0} lượt${rc.xaNhat ? " · xa nhất câu " + rc.xaNhat + "/10" : ""}<div class="ic">${"🔔".repeat(Math.min(rc.thang || 0, 30)) || "<span class='empty'>Chưa rung chuông lần nào</span>"}</div></div>
       </div>

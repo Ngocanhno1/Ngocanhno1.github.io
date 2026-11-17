@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Bố mẹ duyệt đổi quà – Lucie & Lucas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#7c4dff"><link rel="apple-touch-icon" href="/img/icon-192.png"><script>if("serviceWorker" in navigator)addEventListener("load",function(){navigator.serviceWorker.register("/sw.js").catch(function(){})});</script>
+<script src="../../anh-chung/vi-sao.js"></script>
+<style>
+  :root { --ink: #2b2140; --muted: #6b6288; --line: #ece6f7; --pink: #ff6fae; --blue: #3fa9f5; --ok: #2f9e44; --bad: #e03131; --focus: #ffb703; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Baloo 2", "Segoe UI", system-ui, sans-serif; color: var(--ink); background: linear-gradient(170deg, #f3f0ff 0%, #e7f5ff 100%) fixed;
+         padding: 18px max(14px, env(safe-area-inset-right, 0px)) 40px max(14px, env(safe-area-inset-left, 0px)); }
+  .wrap { max-width: 1100px; margin: 0 auto; }
+  button, input, select { font: inherit; color: inherit; }
+  button { cursor: pointer; border: 0; }
+  :focus-visible { outline: 4px solid var(--focus); outline-offset: 2px; }
+  .top { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .pill { font-weight: 800; font-size: 18px; color: #fff; padding: 6px 18px; border-radius: 999px; background: #7c5cff; box-shadow: 0 4px 0 #5536d6; text-decoration: none; }
+  .pill.gray { background: #868e96; box-shadow: 0 4px 0 #495057; }
+  h1 { margin: 0; flex: 1; font-size: clamp(26px, 3.6vw, 40px); line-height: 1.1; }
+  .card { background: #fff; border-radius: 22px; padding: 16px 20px; margin-top: 16px; box-shadow: 0 6px 0 rgba(43,33,64,.06), 0 10px 24px rgba(43,33,64,.08); }
+  .card h2 { margin: 0 0 10px; font-size: 24px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .card h2 small { font-size: 15px; font-weight: 500; color: var(--muted); }
+  .muted { color: var(--muted); font-size: 16px; }
+  .b { font-weight: 800; font-size: 17px; padding: 6px 14px; border-radius: 14px; color: #fff; background: #7c5cff; box-shadow: 0 4px 0 #5536d6; white-space: nowrap; }
+  .b.ok { background: #40c057; box-shadow: 0 4px 0 #2b8a3e; } .b.no { background: #fa5252; box-shadow: 0 4px 0 #c92a2a; }
+  .b.soft { background: #f1ecff; color: #5f3dc4; box-shadow: 0 4px 0 #d0c4f7; }
+  .b:active { transform: translateY(3px); box-shadow: none; }
+  input[type=text], input[type=number], select { border: 2px solid var(--line); border-radius: 12px; padding: 5px 10px; font-size: 17px; background: #fff; min-width: 0; }
+  input:focus, select:focus { border-color: #7c5cff; outline: none; }
+  /* yêu cầu chờ duyệt */
+  .req { display: grid; grid-template-columns: auto auto 1fr auto; align-items: center; gap: 12px; padding: 10px 0; border-top: 2px dashed var(--line); }
+  .req:first-of-type { border-top: 0; }
+  .face { width: 54px; height: 54px; border-radius: 50%; object-fit: cover; border: 4px solid var(--pink); }
+  .face.lucas { border-color: var(--blue); }
+  .gi { font-size: 44px; line-height: 1; }
+  .req .nm b { font-size: 20px; display: block; line-height: 1.2; }
+  .req .acts { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+  .req input { width: 100%; margin-top: 4px; }
+  /* ví */
+  .kids { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .kid { border: 3px solid var(--line); border-radius: 18px; padding: 12px 14px; }
+  .kid .hd { display: flex; align-items: center; gap: 10px; }
+  .kid .hd b { font-size: 24px; } .kid .bal { margin-left: auto; font-size: 30px; font-weight: 800; color: #e67700; }
+  .kid .sum { font-size: 15px; color: var(--muted); margin: 4px 0 8px; }
+  .kid .adj { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .kid .adj input[type=text] { flex: 1 1 150px; }
+  .kid .log { margin: 8px 0 0; padding: 0; list-style: none; font-size: 15px; color: var(--muted); }
+  /* danh sách quà */
+  .gift { display: grid; grid-template-columns: 54px 92px 1fr 110px 130px auto; gap: 8px; align-items: center; padding: 6px 0; border-top: 1px solid var(--line); }
+  .gift .gi { font-size: 40px; text-align: center; }
+  .gift .price { display: flex; align-items: center; gap: 4px; } .gift .price input { width: 100%; }
+  .set { display: grid; grid-template-columns: 1fr auto; gap: 10px 16px; align-items: center; font-size: 18px; max-width: 640px; }
+  .set input { width: 100px; }
+  .hist { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; font-size: 16px; }
+  .hist li { display: flex; gap: 10px; align-items: center; }
+  .hist .st { margin-left: auto; font-weight: 800; font-size: 14px; border-radius: 999px; padding: 0 10px; }
+  .st.duyet { background: #d3f9d8; color: #2b8a3e; } .st.tuchoi { background: #f1f3f5; color: #6b6288; }
+  /* màn khoá */
+  .lock { max-width: 440px; margin: 6vh auto 0; text-align: center; }
+  .lock h2 { justify-content: center; }
+  .dots { display: flex; gap: 14px; justify-content: center; margin: 10px 0 16px; }
+  .dots i { width: 26px; height: 26px; border-radius: 50%; border: 4px solid #7c5cff; }
+  .dots i.f { background: #7c5cff; }
+  .pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .pad button { font-size: 30px; font-weight: 800; padding: 10px 0; border-radius: 18px; background: #f1ecff; color: #3b2a8a; box-shadow: 0 5px 0 #d0c4f7; }
+  .pad button:active { transform: translateY(3px); box-shadow: none; }
+  .err { color: var(--bad); font-weight: 800; min-height: 1.5em; font-size: 18px; }
+  .shake { animation: lac .4s; } @keyframes lac { 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
+  @media (max-width: 760px) {
+    .kids { grid-template-columns: 1fr; }
+    .req { grid-template-columns: auto auto 1fr; } .req .acts { grid-column: 1 / -1; justify-content: stretch; } .req .acts .b { flex: 1; }
+    .gift { grid-template-columns: 44px 76px 1fr; } .gift .gi { font-size: 32px; } .gift .nameI { grid-column: 3; }
+    .gift .price { grid-column: 1 / 3; } .gift select.cho { grid-column: 3; } .gift .del { grid-column: 1 / -1; justify-self: end; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a class="pill" href="../">⬅ Cửa hàng của con</a>
+    <h1>🔒 Góc bố mẹ: duyệt đổi quà</h1>
+    <button class="pill gray" id="khoaLai" style="display:none">Khoá lại</button>
+  </div>
+  <div id="app"></div>
+</div>
+<script>
+const BE = { lucie: { ten: "Lucie", img: "../../../img/lucie.webp" }, lucas: { ten: "Lucas", img: "../../../img/lucas.webp" } };
+const ICONS = ["🎡", "📚", "🍦", "📺", "🍕", "🏊", "🎬", "🧸", "🎮", "🍰", "🛝", "🎁", "🚲", "🎨", "🍭", "⚽", "🍿", "🎈", "🍓", "🐶", "🎹", "🏰", "🌙", "🍪"];
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const ngay = t => new Date(t).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "numeric", month: "numeric" });
+let S = ViSao.dongBo();
+const save = () => ViSao.luu(S);
+
+/* ---------- mã số bố mẹ ---------- */
+let nhap = "", buoc = S.cauHinh.pin ? "mo" : "dat1", tam = "";
+function veKhoa(loi) {
+  const tieuDe = { mo: "Nhập mã số của bố mẹ", dat1: "Đặt mã số 4 chữ số cho bố mẹ", dat2: "Nhập lại mã số để xác nhận" }[buoc];
+  $("#app").innerHTML = `<div class="card lock" id="lock"><h2>🔐 ${tieuDe}</h2>
+    <p class="muted">${buoc === "mo" ? "Trang này để bố mẹ duyệt quà, các con nhờ bố mẹ nhé!" : "Mã này giữ bí mật với các con. Máy này sẽ nhớ mã."}</p>
+    <div class="dots">${[0, 1, 2, 3].map(i => `<i class="${i < nhap.length ? "f" : ""}"></i>`).join("")}</div>
+    <div class="err">${loi || ""}</div>
+    <div class="pad">${[1, 2, 3, 4, 5, 6, 7, 8, 9, "⌫", 0, "✔"].map(k => `<button data-k="${k}">${k}</button>`).join("")}</div>
+    ${buoc === "mo" ? `<p class="muted" style="margin-top:14px"><button class="b soft" id="quen">Quên mã số?</button></p>` : ""}</div>`;
+  document.querySelectorAll("[data-k]").forEach(b => b.onclick = () => phim(String(b.dataset.k)));
+  const q = $("#quen"); if (q) q.onclick = quenMa;
+  if (loi) $("#lock").classList.add("shake");
+  setTimeout(() => { const f = document.querySelector('[data-k="5"]'); f && f.focus({ preventScroll: true }); }, 50);
+}
+function phim(k) {
+  if (k === "⌫") nhap = nhap.slice(0, -1);
+  else if (k === "✔") { if (nhap.length === 4) return xong(); }
+  else if (nhap.length < 4) nhap += k;
+  if (nhap.length === 4 && k !== "⌫") return xong();
+  veKhoa();
+}
+function xong() {
+  if (buoc === "mo") { if (nhap === S.cauHinh.pin) { nhap = ""; return moKhoa(); } nhap = ""; return veKhoa("Mã chưa đúng, bố mẹ thử lại nhé"); }
+  if (buoc === "dat1") { tam = nhap; nhap = ""; buoc = "dat2"; return veKhoa(); }
+  if (buoc === "dat2") { if (nhap === tam) { S = ViSao.doc(); S.cauHinh.pin = nhap; save(); nhap = ""; return moKhoa(); }
+    nhap = ""; buoc = "dat1"; return veKhoa("Hai lần nhập không khớp, đặt lại nhé"); }
+}
+function quenMa() {
+  const a = 23 + Math.floor(Math.random() * 60), b = 17 + Math.floor(Math.random() * 30);
+  const tl = prompt(`Để đặt lại mã, bố mẹ tính giúp: ${a} × ${b} = ?`);
+  if (tl !== null && +tl === a * b) { S = ViSao.doc(); S.cauHinh.pin = null; save(); buoc = "dat1"; nhap = ""; veKhoa(); }
+  else if (tl !== null) veKhoa("Chưa đúng phép tính");
+}
+document.addEventListener("keydown", e => { if (!$("#lock")) return;
+  if (/^[0-9]$/.test(e.key)) { e.preventDefault(); phim(e.key); } else if (e.key === "Backspace") { e.preventDefault(); phim("⌫"); } });
+function moKhoa() { sessionStorage.setItem("cuaHang_mo", "1"); $("#khoaLai").style.display = ""; ve(); }
+$("#khoaLai").onclick = () => { sessionStorage.removeItem("cuaHang_mo"); $("#khoaLai").style.display = "none"; buoc = "mo"; veKhoa(); };
+
+/* ---------- trang quản lý ---------- */
+function ve() {
+  S = ViSao.doc();
+  const cho = S.don.filter(d => d.tt === "cho").sort((a, b) => a.t - b.t);
+  const daXong = S.don.filter(d => d.tt !== "cho").sort((a, b) => (b.td || b.t) - (a.td || a.t)).slice(0, 25);
+  $("#app").innerHTML = `
+  <div class="card"><h2>📨 Con xin đổi quà <small>${cho.length ? cho.length + " yêu cầu đang chờ" : ""}</small></h2>
+    ${cho.length ? cho.map(d => `<div class="req"><img class="face ${d.c}" src="${BE[d.c].img}" alt="${BE[d.c].ten}"><span class="gi">${d.icon}</span>
+      <div class="nm"><b>${BE[d.c].ten}: ${esc(d.ten)}</b><span class="muted">⭐ ${d.gia} sao · gửi lúc ${ngay(d.t)}</span>
+      <input type="text" data-nhan="${d.id}" placeholder="Lời nhắn cho con (không bắt buộc), vd: Chủ nhật này đi nhé!"></div>
+      <div class="acts"><button class="b ok" data-duyet="${d.id}">✅ Đồng ý</button><button class="b no" data-tuchoi="${d.id}">↩️ Từ chối, trả sao</button></div></div>`).join("")
+      : `<p class="muted">Chưa có yêu cầu nào. Khi con bấm “Đổi quà”, yêu cầu sẽ hiện ở đây.</p>`}
+  </div>
+
+  <div class="card"><h2>⭐ Ví sao của các con</h2><div class="kids">${ViSao.KIDS.map(c => {
+    const v = S.vi[c], tieu = S.don.filter(d => d.c === c && d.tt !== "tuchoi").reduce((a, d) => a + d.gia, 0);
+    const dc = S.dieuChinh.filter(d => d.c === c), cong = dc.reduce((a, d) => a + d.n, 0);
+    return `<div class="kid"><div class="hd"><img class="face ${c}" src="${BE[c].img}" alt=""><b>${BE[c].ten}</b><span class="bal">⭐ ${ViSao.soDu(S, c)}</span></div>
+      <div class="sum">Kiếm từ trò chơi: ${v.kiem} · Bố mẹ thưởng/bớt: ${cong >= 0 ? "+" : ""}${cong} · Đã đổi quà: ${tieu}</div>
+      <div class="adj"><input type="text" id="lyDo_${c}" placeholder="Lý do, vd: con ngoan, giúp mẹ">
+        ${[5, 10].map(n => `<button class="b soft" data-cong="${c}" data-n="${n}">+${n}</button>`).join("")}
+        <button class="b soft" data-cong="${c}" data-n="-5">−5</button></div>
+      <ul class="log">${dc.slice(-4).reverse().map(d => `<li>${d.n > 0 ? "+" : ""}${d.n} ⭐ · ${esc(d.lyDo || "bố mẹ điều chỉnh")} · ${ngay(d.t)}</li>`).join("")}</ul></div>`;
+  }).join("")}</div></div>
+
+  <div class="card"><h2>🎁 Danh sách quà <small>Sửa trực tiếp, máy tự lưu</small></h2>
+    ${S.qua.map(q => `<div class="gift" data-id="${q.id}"><span class="gi">${q.icon}</span>
+      <select data-f="icon" aria-label="Hình">${ICONS.concat(ICONS.includes(q.icon) ? [] : [q.icon]).map(i => `<option ${i === q.icon ? "selected" : ""}>${i}</option>`).join("")}</select>
+      <input class="nameI" type="text" data-f="ten" value="${esc(q.ten)}" aria-label="Tên quà">
+      <span class="price">⭐<input type="number" min="1" max="9999" data-f="gia" value="${q.gia}" aria-label="Số sao"></span>
+      <select class="cho" data-f="cho" aria-label="Dành cho"><option value="ca" ${q.cho === "ca" ? "selected" : ""}>Cả hai con</option><option value="lucie" ${q.cho === "lucie" ? "selected" : ""}>Chỉ Lucie</option><option value="lucas" ${q.cho === "lucas" ? "selected" : ""}>Chỉ Lucas</option></select>
+      <button class="b no del" data-xoa="${q.id}" title="Xoá">🗑 Xoá</button></div>`).join("")}
+    <p style="margin:12px 0 0"><button class="b" id="them">＋ Thêm quà mới</button></p>
+  </div>
+
+  <div class="card"><h2>⚙️ Cách tính sao</h2><div class="set">
+    <span>Bao nhiêu câu trả lời đúng thì được 1 sao?</span><input type="number" min="1" max="50" id="cauMoiSao" value="${S.cauHinh.cauMoiSao}">
+    <span>Mỗi cúp giành được trong game được mấy sao?</span><input type="number" min="0" max="100" id="saoMoiCup" value="${S.cauHinh.saoMoiCup}">
+    <span>Đổi mã số bố mẹ</span><button class="b soft" id="doiMa">Đổi mã</button></div>
+    <p class="muted">Áp dụng cho sao kiếm từ bây giờ, sao con đã có giữ nguyên. Sao được tính từ mọi trò chơi trên chính máy này (TV, điện thoại hoặc máy tính).</p></div>
+
+  <div class="card"><h2>📜 Quà đã duyệt</h2>
+    ${daXong.length ? `<ul class="hist">${daXong.map(d => `<li><img class="face ${d.c}" src="${BE[d.c].img}" alt="" style="width:34px;height:34px;border-width:3px"><span class="gi" style="font-size:26px">${d.icon}</span>
+      <span>${BE[d.c].ten}: ${esc(d.ten)} · ⭐ ${d.gia}${d.loiNhan ? " · “" + esc(d.loiNhan) + "”" : ""}</span><span class="st ${d.tt}">${d.tt === "duyet" ? "Đã đồng ý" : "Đã trả sao"} ${ngay(d.td || d.t)}</span></li>`).join("")}</ul>`
+      : `<p class="muted">Chưa có.</p>`}</div>`;
+  gan();
+}
+function quyetDinh(id, tt) {
+  S = ViSao.doc(); const d = S.don.find(x => x.id === id); if (!d || d.tt !== "cho") return ve();
+  const nhan = document.querySelector(`[data-nhan="${id}"]`);
+  d.tt = tt; d.td = Date.now(); d.daBao = false; if (nhan && nhan.value.trim()) d.loiNhan = nhan.value.trim().slice(0, 120);
+  save(); ve();
+}
+function gan() {
+  document.querySelectorAll("[data-duyet]").forEach(b => b.onclick = () => quyetDinh(b.dataset.duyet, "duyet"));
+  document.querySelectorAll("[data-tuchoi]").forEach(b => b.onclick = () => quyetDinh(b.dataset.tuchoi, "tuchoi"));
+  document.querySelectorAll("[data-cong]").forEach(b => b.onclick = () => {
+    const c = b.dataset.cong, n = +b.dataset.n, ly = $("#lyDo_" + c).value.trim();
+    S = ViSao.doc(); S.dieuChinh.push({ c, n, lyDo: ly.slice(0, 80), t: Date.now() }); if (S.dieuChinh.length > 300) S.dieuChinh.shift(); save(); ve(); });
+  document.querySelectorAll(".gift [data-f]").forEach(el => el.onchange = () => {
+    S = ViSao.doc(); const q = S.qua.find(x => x.id === el.closest(".gift").dataset.id); if (!q) return;
+    const f = el.dataset.f; let v = el.value;
+    if (f === "gia") v = Math.max(1, Math.min(9999, Math.round(+v) || 1));
+    if (f === "ten") v = v.trim().slice(0, 60) || "Quà";
+    q[f] = v; save(); if (f === "icon") ve(); });
+  document.querySelectorAll("[data-xoa]").forEach(b => b.onclick = () => {
+    if (!confirm("Xoá món quà này khỏi cửa hàng?")) return;
+    S = ViSao.doc(); S.qua = S.qua.filter(q => q.id !== b.dataset.xoa); save(); ve(); });
+  $("#them").onclick = () => { S = ViSao.doc(); S.qua.push({ id: "q" + Date.now(), icon: "🎁", ten: "Quà mới", gia: 30, cho: "ca" }); save(); ve();
+    const ins = document.querySelectorAll(".gift .nameI"); const last = ins[ins.length - 1]; last.focus(); last.select(); };
+  ["cauMoiSao", "saoMoiCup"].forEach(k => $("#" + k).onchange = e => { S = ViSao.doc(); S.cauHinh[k] = Math.max(k === "cauMoiSao" ? 1 : 0, Math.round(+e.target.value) || 0); save(); });
+  $("#doiMa").onclick = () => { buoc = "dat1"; nhap = ""; veKhoa(); };
+}
+document.addEventListener("visibilitychange", () => { if (!document.hidden && !$("#lock") && !document.activeElement.matches("input")) { S = ViSao.dongBo(); ve(); } });
+
+if (S.cauHinh.pin && sessionStorage.getItem("cuaHang_mo") === "1") moKhoa(); else veKhoa();
+</script>
+<script src="../../anh-chung/anh-that.js" defer></script>
+</body>
+</html>
