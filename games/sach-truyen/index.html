@@ -107,7 +107,7 @@
 
 <section id="gia" class="man hien">
   <div class="dau"><img class="lucie" id="fLucie" alt="Lucie"><h1>Sách truyện nói<br>Lucie &amp; Lucas</h1><img class="lucas" id="fLucas" alt="Lucas"></div>
-  <div class="phu">Mỗi tuần một truyện mới — chọn truyện, bố mẹ tắt đèn, cùng nghe nhé!</div>
+  <div class="phu">Hai ngày có một truyện mới — chọn truyện, bố mẹ tắt đèn, cùng nghe nhé!</div>
   <div id="ke"><div class="trong">Đang mở tủ sách...</div></div>
 </section>
 
@@ -185,7 +185,7 @@ async function moGia() {
   $("ke").innerHTML = "";
   DS.forEach((t, i) => {
     const b = document.createElement("button"); b.className = "the";
-    b.innerHTML = `${i === 0 ? '<span class="moi">TUẦN NÀY</span>' : ""}${dd[t.ma] ? '<span class="da">Đã nghe</span>' : ((readJSON("sachtruyen_dangdoc") || {})[t.ma] ? '<span class="da" style="background:#f59f00">Đang đọc dở · trang ' + (readJSON("sachtruyen_dangdoc") || {})[t.ma] + '</span>' : "")}
+    b.innerHTML = `${i === 0 ? '<span class="moi">TRUYỆN MỚI</span>' : ""}${dd[t.ma] ? '<span class="da">Đã nghe</span>' : ((readJSON("sachtruyen_dangdoc") || {})[t.ma] ? '<span class="da" style="background:#f59f00">Đang đọc dở · trang ' + (readJSON("sachtruyen_dangdoc") || {})[t.ma] + '</span>' : "")}
       <img class="bia" alt=""><div class="ten"></div><div class="tuan">Truyện số ${t.so} · ${t.trang} trang · ${t.ngay.split("-").reverse().join("/")}</div>`;
     b.querySelector(".ten").textContent = t.tieu_de;
     const im = b.querySelector(".bia"); let k = 0;
