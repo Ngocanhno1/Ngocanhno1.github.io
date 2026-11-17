@@ -1,0 +1,40 @@
+name: Xưởng Gemini (tự gọi Gemini Argon, không cần Chrome)
+
+on:
+  push:
+    paths:
+      - "xuong/viec/*.json"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: xuong-gemini
+  cancel-in-progress: false
+
+jobs:
+  lam-viec:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm i --no-save puppeteer
+      - name: Giao việc cho Gemini, chạy thử, tự sửa lỗi, ghi sổ token
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python tools/xuong_gemini.py
+      - name: Lưu kết quả
+        run: |
+          git config user.name "Nguyễn Hoàng Ngọc Anh"
+          git config user.email "ngocanhbtg88@users.noreply.github.com"
+          git add -A games xuong
+          git diff --cached --quiet || git commit -m "Xưởng Gemini: kết quả việc mới"
+          git pull --rebase -q origin main
+          git push
