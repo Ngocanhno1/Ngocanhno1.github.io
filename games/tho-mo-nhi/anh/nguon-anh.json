@@ -17,22 +17,83 @@
    "trang": "https://commons.wikimedia.org/wiki/File:B%C3%A9ryl_var._%C3%A9meraude_sur_gangue_%28Muzo_Mine_Boyaca_-_Colombie%29_2.jpg"
   },
   "diamond": {
-   "file": "Rough_Diamond.jpg",
-   "trang": "https://commons.wikimedia.org/wiki/File:Rough_Diamond.jpg"
+   "file": "Brillanten.jpg",
+   "trang": "https://commons.wikimedia.org/wiki/File:Brillanten.jpg"
   },
-  "ruong-vang": {
+  "ruong-go": {
    "file": "Tranh AI Pollinations",
    "trang": "https://pollinations.ai"
   },
-  "kho-bau": {
+  "ruong-sat": {
+   "file": "Tranh AI Pollinations",
+   "trang": "https://pollinations.ai"
+  },
+  "ruong-kc": {
+   "file": "Tranh AI Pollinations",
+   "trang": "https://pollinations.ai"
+  },
+  "cua": {
+   "file": "Tranh AI Pollinations",
+   "trang": "https://pollinations.ai"
+  },
+  "silver": {
+   "file": "Silver_crystal.jpg",
+   "trang": "https://commons.wikimedia.org/wiki/File:Silver_crystal.jpg"
+  },
+  "cup-0": {
+   "file": "Tranh AI Pollinations",
+   "trang": "https://pollinations.ai"
+  },
+  "cup-1": {
+   "file": "Tranh AI Pollinations",
+   "trang": "https://pollinations.ai"
+  },
+  "cup-2": {
+   "file": "Tranh AI Pollinations",
+   "trang": "https://pollinations.ai"
+  },
+  "cup-3": {
+   "file": "Tranh AI Pollinations",
+   "trang": "https://pollinations.ai"
+  },
+  "cuoc-0": {
+   "file": "Tranh AI Pollinations",
+   "trang": "https://pollinations.ai"
+  },
+  "cuoc-2": {
+   "file": "Tranh AI Pollinations",
+   "trang": "https://pollinations.ai"
+  },
+  "cuoc-3": {
+   "file": "Tranh AI Pollinations",
+   "trang": "https://pollinations.ai"
+  },
+  "cuoc-4": {
+   "file": "Tranh AI Pollinations",
+   "trang": "https://pollinations.ai"
+  },
+  "skin-thomo": {
+   "file": "Tranh AI Pollinations",
+   "trang": "https://pollinations.ai"
+  },
+  "skin-oto": {
+   "file": "Tranh AI Pollinations",
+   "trang": "https://pollinations.ai"
+  },
+  "skin-sieunhan": {
+   "file": "Tranh AI Pollinations",
+   "trang": "https://pollinations.ai"
+  },
+  "skin-ninja": {
+   "file": "Tranh AI Pollinations",
+   "trang": "https://pollinations.ai"
+  },
+  "skin-robot": {
    "file": "Tranh AI Pollinations",
    "trang": "https://pollinations.ai"
   }
  },
  "loi": {
-  "ruong-go": "{'ai': 'cute voxel cube style open wooden treasure chest overflowing with shiny gold coins, cave background', 'seed': 7}: HTTP Error 402: Payment Required",
-  "ruong-sat": "{'ai': 'cute voxel cube style open iron treasure chest with silver ingots and gems, stone cave', 'seed': 7}: HTTP Error 402: Payment Required",
-  "ruong-kc": "{'ai': 'cute voxel cube style open treasure chest full of sparkling blue diamonds, glowing cave', 'seed': 7}: HTTP Error 402: Payment Required",
-  "cua": "{'ai': 'magic glowing stone trapdoor with golden keyhole in underground voxel cave', 'seed': 7}: HTTP Error 402: Payment Required"
+  "cuoc-1": "{'ai': 'voxel cube style stone pickaxe, simple background', 'seed': 7}: HTTP Error 402: Payment Required"
  }
 }
