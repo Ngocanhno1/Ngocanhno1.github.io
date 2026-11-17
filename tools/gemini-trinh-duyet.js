@@ -23,10 +23,11 @@ window.__veTruyen = async function (ma) {
   const STYLE = "Children's picture-book illustration, soft watercolor, warm gentle colors, landscape 3:2 aspect ratio. Absolutely NO people, NO faces, NO children, NO text, NO letters, NO signature.";
   const jobs = [[`${ma}-bia`, `${STYLE} Book cover illustration: ${t.bia}.`]].concat(t.trang.map((p, i) => [`${ma}-${i + 1}`,
     `Next illustration for the same picture book. Keep exactly the same watercolor style and color palette, landscape 3:2. No people, no faces, no text. Scene: ${p.anh}.`]));
-  const blobs = () => [...new Set([...document.querySelectorAll('img')].filter(i => i.naturalWidth > 300 && i.src.startsWith('blob:')).map(i => i.src))];
+  const blobs = () => [...new Set([...document.querySelectorAll('img')].filter(i => i.src.startsWith('blob:')).map(i => i.src))];   // tab chạy nền: ảnh chưa giải mã nên không lọc theo kích thước
   const dang = () => [...document.querySelectorAll('button')].some(b => /\bStop\b/.test(b.innerText));
   async function webp(src) {
     const im = new Image(); im.src = src; await im.decode();
+    if (im.naturalWidth < 300) throw new Error('anh nho');
     const c = document.createElement('canvas'); c.width = 960; c.height = 640; const g = c.getContext('2d');
     const s = Math.max(960 / im.naturalWidth, 640 / im.naturalHeight), w = im.naturalWidth * s, h = im.naturalHeight * s;
     g.drawImage(im, (960 - w) / 2, (640 - h) / 2, w, h); return c.toDataURL('image/webp', 0.8).split(',')[1];
@@ -47,7 +48,8 @@ window.__veTruyen = async function (ma) {
       for (let i = 0; i < 120 && dang(); i++) await sl(2000);    // chờ vẽ xong
       for (let i = 0; i < 10 && !blobs().some(s => !truoc.has(s)); i++) await sl(1000);
       const moi = blobs().filter(s => !truoc.has(s));
-      if (moi.length) { sessionStorage.setItem('anh:' + ten, await webp(moi[moi.length - 1])); window.__tt.xong.push(ten); ok = true; }
+      let b64 = null; for (const s of moi.reverse()) { try { b64 = await webp(s); break; } catch (e) {} }
+      if (b64) { sessionStorage.setItem('anh:' + ten, b64); window.__tt.xong.push(ten); ok = true; }
       else window.__tt.loi.push(ten + ':lan' + lan);
     }
   }
