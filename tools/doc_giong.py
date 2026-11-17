@@ -110,9 +110,27 @@ def cau_trong_json(f):
     return ra
 
 
+def gan_giong(game):
+    """Game nào có đọc mà thiếu giong-noi.js (vd bị bản cập nhật ghi đè) thì tự gắn lại."""
+    sua = []
+    for f in game:
+        s = open(f, encoding="utf-8").read()
+        if "giong-noi.js" in s or "</head>" not in s:
+            continue
+        s = s.replace("</head>", '<script src="../anh-chung/giong-noi.js"></script>\n</head>', 1)
+        open(f, "w", encoding="utf-8").write(s)
+        sua.append(f)
+        print("  gắn lại giọng VieNeu cho", f, flush=True)
+    return sua
+
+
 def main():
     os.makedirs(RA, exist_ok=True)
     game = [f for f in sorted(glob.glob("games/*/index.html")) if "speechSynthesis" in open(f, encoding="utf-8").read()]
+    sua = gan_giong(game)
+    if sua and os.environ.get("GITHUB_ACTIONS"):
+        subprocess.run(["git", "add"] + sua)
+        luu("Tự gắn lại giọng VieNeu cho game bị thiếu")
     uu_tien = ["hoi-lang-ca-dao", "rung-chuong-vang", "tho-mo-nhi", "dao-kho-bau-toan-hoc", "duoi-hinh-bat-chu"]
     game.sort(key=lambda f: next((i for i, g in enumerate(uu_tien) if g in f), 99))
     can = {}
