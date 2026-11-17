@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<script src="/games/anh-chung/dong-bo.js"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="author" content="Nguyễn Hoàng Ngọc Anh">
+<meta name="keywords" content="Ban Tuyên giáo Trung ương">
+<title>Đua Xe Tia Chớp Lucie & Lucas</title>
+<link rel="manifest" href="/manifest.webmanifest">
+<script>if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#0b1630;font-family:'Baloo 2',system-ui,sans-serif;color:#fff;-webkit-tap-highlight-color:transparent;user-select:none}
+#cv,#cv2{position:fixed;inset:0;width:100vw;height:100vh;display:block}
+button{font-family:inherit;cursor:pointer;outline:none}
+.hide{display:none!important}
+.btn{border:0;border-radius:18px;padding:.45em 1.1em;font-weight:800;font-size:clamp(18px,2.2vw,30px);color:#fff;background:linear-gradient(#ff7a3d,#e8410f);box-shadow:0 6px 0 #9c2a06,0 10px 22px rgba(0,0,0,.35);transition:transform .08s}
+.btn.xanh{background:linear-gradient(#4fc3ff,#1673d6);box-shadow:0 6px 0 #0d4691,0 10px 22px rgba(0,0,0,.35)}
+.btn:focus-visible,.btn.foc{outline:5px solid #ffe066;outline-offset:4px;transform:scale(1.05)}
+.btn:active{transform:translateY(3px)}
+
+/* Màn bắt đầu */
+#start{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5vh;padding:2vh 2.5vw;
+  background:radial-gradient(circle at 50% 120%,rgba(255,170,40,.55),transparent 55%),linear-gradient(160deg,#10204a 0,#2b1a6b 55%,#561b6b 100%)}
+#start:before{content:"";position:absolute;inset:auto 0 0 0;height:26vh;background:repeating-linear-gradient(90deg,#222 0 8vw,#fff 8vw 16vw);opacity:.08}
+#start h1{font-size:clamp(34px,6vw,96px);line-height:.95;text-align:center;color:#ffe14d;text-shadow:0 5px 0 #c2410c,0 10px 0 rgba(0,0,0,.35);font-style:italic;letter-spacing:1px}
+#start h1 small{display:block;font-size:.42em;color:#fff;text-shadow:0 3px 0 #1d4ed8;font-style:normal}
+#start .sub{font-size:clamp(15px,1.8vw,25px);text-align:center;max-width:1100px;text-shadow:0 2px 0 #000;opacity:.95}
+.chars{display:flex;gap:2.5vw;flex-wrap:wrap;justify-content:center}
+.char{width:clamp(175px,20vw,285px);border-radius:26px;padding:1.6vh 1vw;display:flex;flex-direction:column;align-items:center;gap:.5vh;font-size:clamp(20px,2.4vw,34px);color:#fff;border:5px solid rgba(255,255,255,.85)}
+.char img{width:66%;aspect-ratio:1;object-fit:cover;border-radius:50%;border:6px solid #fff;background:#ddd;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.char.lucas{background:linear-gradient(#5cc2ff,#1b5fd1);box-shadow:0 8px 0 #0f3b88}
+.char.lucie{background:linear-gradient(#ff8fc7,#d6337f);box-shadow:0 8px 0 #93174f}
+.char.both{background:linear-gradient(135deg,#ff8fc7 0%,#9333ea 50%,#5cc2ff 100%);box-shadow:0 8px 0 #4c1d95}
+.char .pairImg{display:flex;align-items:center;justify-content:center;width:86%;aspect-ratio:2/1}
+.char .pairImg img{width:52%;aspect-ratio:1;margin:0 -6%}
+.char small{font-size:.55em;opacity:.95;line-height:1.1;text-align:center}
+.char .best{font-size:.5em;background:rgba(0,0,0,.25);border-radius:12px;padding:0 .6em}
+.char:focus-visible,.char.foc{outline:6px solid #ffe066;outline-offset:5px;transform:scale(1.05)}
+.mau{display:flex;gap:1.2vw;align-items:center;font-size:clamp(16px,1.8vw,24px)}
+.mau button{width:clamp(38px,3.6vw,54px);height:clamp(38px,3.6vw,54px);border-radius:50%;border:4px solid #fff;box-shadow:0 4px 0 rgba(0,0,0,.35)}
+.mau button.on{outline:5px solid #ffe066;outline-offset:3px;transform:scale(1.12)}
+.keys{font-size:clamp(13px,1.4vw,20px);opacity:.9;text-align:center}
+#homeBtn{position:fixed;right:14px;top:12px;z-index:60;font-size:clamp(14px,1.5vw,20px);padding:.3em .9em;border-radius:14px}
+
+/* HUD 1 người */
+#hud{position:fixed;inset:0 0 auto 0;z-index:10;display:flex;align-items:flex-start;justify-content:space-between;gap:1vw;padding:1.2vh 1.2vw;pointer-events:none}
+.hbox{background:rgba(10,18,45,.72);border:3px solid rgba(255,255,255,.55);border-radius:18px;padding:.4vh 1vw;display:flex;align-items:center;gap:.8vw;font-weight:800;font-size:clamp(16px,2vw,30px)}
+.hbox img{width:clamp(40px,4.4vw,64px);height:clamp(40px,4.4vw,64px);border-radius:50%;object-fit:cover;border:3px solid #fff}
+#rankBox{flex-direction:column;gap:0;line-height:1;padding:.6vh 1.4vw;text-align:center}
+#rank{font-size:clamp(34px,5vw,78px);color:#ffe14d;text-shadow:0 4px 0 #b45309}
+#rank sup{font-size:.4em;color:#fff}
+#chang{font-size:clamp(13px,1.4vw,20px);opacity:.95}
+#track{position:fixed;left:50%;top:1.4vh;transform:translateX(-50%);width:min(44vw,640px);height:clamp(46px,5vw,70px);z-index:22;pointer-events:none}
+#track .line{position:absolute;left:0;right:0;top:50%;height:10px;margin-top:-5px;border-radius:6px;background:repeating-linear-gradient(90deg,#fff 0 12px,#333 12px 24px);opacity:.75}
+#track .seg{position:absolute;top:calc(50% - 9px);width:3px;height:18px;background:#ffe14d}
+#track .dot{position:absolute;top:50%;width:clamp(30px,3.2vw,46px);height:clamp(30px,3.2vw,46px);margin:calc(clamp(30px,3.2vw,46px)/-2) 0 0 calc(clamp(30px,3.2vw,46px)/-2);border-radius:50%;border:3px solid #fff;object-fit:cover;background:#fff;transition:left .15s linear}
+#track .dot.me{border-color:#ffe14d;z-index:3;width:clamp(38px,4vw,56px);height:clamp(38px,4vw,56px);margin:calc(clamp(38px,4vw,56px)/-2) 0 0 calc(clamp(38px,4vw,56px)/-2);box-shadow:0 0 0 3px #f97316}
+#speedo{position:fixed;left:1.2vw;bottom:1.6vh;transition:opacity .3s,transform .2s,border-color .2s;z-index:10;width:clamp(110px,11vw,170px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#1e293b 0 58%,#0f172a 59%);border:5px solid #fff;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;box-shadow:0 8px 20px rgba(0,0,0,.4)}
+#speedo b{font-size:clamp(28px,3.4vw,52px);line-height:1}
+#speedo span{font-size:clamp(12px,1.2vw,18px);opacity:.8}
+#speedo.hot{border-color:#ff3b30;box-shadow:0 0 28px #ff3b30,0 0 60px #38bdf8;transform:scale(1.1)}
+#speedo.hot b{color:#ff453a;text-shadow:0 0 12px #ff9f0a}
+#nitroBar{position:absolute;left:12%;right:12%;bottom:14%;height:8px;border-radius:5px;background:#334155;overflow:hidden}
+#nitroBar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#22d3ee,#a78bfa)}
+#streak{position:fixed;left:50%;top:calc(2vh + clamp(46px,5vw,70px));transform:translateX(-50%);z-index:10;font-weight:800;font-size:clamp(16px,1.8vw,26px);color:#ffe14d;text-shadow:0 2px 0 #000;pointer-events:none}
+
+/* Câu hỏi 1 người */
+#qbox{position:fixed;left:50%;bottom:1.5vh;transform:translateX(-50%);z-index:20;width:min(94vw,1250px);background:rgba(255,255,255,.96);color:#1e1b4b;border-radius:28px;border:6px solid #ffe14d;box-shadow:0 14px 40px rgba(0,0,0,.45);padding:1vh 1.4vw 1.2vh;display:flex;flex-direction:column;gap:.8vh}
+#qtop{display:flex;align-items:center;gap:1vw}
+#qtag{background:#1d4ed8;color:#fff;border-radius:12px;padding:0 .7em;font-weight:800;font-size:clamp(14px,1.5vw,22px);white-space:nowrap}
+#qtext{flex:1;font-weight:800;font-size:clamp(20px,2.6vw,40px);line-height:1.1}
+#qread{font-size:clamp(16px,1.7vw,24px);padding:.25em .7em;border-radius:14px;flex:none}
+#qans{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2vw}
+.ans{border:0;border-radius:20px;padding:.8vh .6vw;font-weight:800;font-size:clamp(20px,2.7vw,42px);color:#fff;display:flex;align-items:center;justify-content:center;gap:.5em;line-height:1.1;min-height:clamp(52px,8vh,96px)}
+.ans .k{flex:none;width:1.4em;height:1.4em;border-radius:50%;background:rgba(255,255,255,.3);font-size:.62em;display:flex;align-items:center;justify-content:center}
+.ans.l0{background:linear-gradient(#ff5b5b,#d61f1f);box-shadow:0 6px 0 #8f1010}
+.ans.l1{background:linear-gradient(#ffcf33,#e8a200);box-shadow:0 6px 0 #9c6b00;color:#3b2500}
+.ans.l2{background:linear-gradient(#3fd27a,#139a4b);box-shadow:0 6px 0 #0b6431}
+.ans.cho{outline:6px solid #1e1b4b;outline-offset:3px;transform:scale(1.04)}
+.ans.dung{outline:7px solid #22c55e;outline-offset:3px}
+.ans.sai{opacity:.45}
+#qhint{font-size:clamp(14px,1.5vw,22px);text-align:center;color:#475569;font-weight:700}
+#qexp{font-size:clamp(18px,2.2vw,32px);font-weight:800;text-align:center}
+#qexp.ok{color:#15803d}#qexp.no{color:#b91c1c}
+
+/* Thông báo giữa màn & hiệu ứng tốc độ */
+#big{position:fixed;left:50%;top:38%;transform:translate(-50%,-50%);z-index:25;font-weight:800;font-size:clamp(40px,8vw,140px);color:#ffe14d;text-shadow:0 6px 0 #c2410c,0 12px 24px rgba(0,0,0,.5);pointer-events:none;text-align:center;line-height:1;white-space:nowrap}
+#big.pop{animation:pop .7s ease-out}
+#big.turbo{color:#38bdf8;text-shadow:0 0 25px #fff,0 6px 0 #0369a1,0 12px 30px rgba(0,0,0,.7)}
+#big.super{color:#e879f9;text-shadow:0 0 30px #fff,0 6px 0 #7e22ce,0 12px 30px rgba(0,0,0,.7)}
+@keyframes pop{0%{transform:translate(-50%,-50%) scale(.2);opacity:0}60%{transform:translate(-50%,-50%) scale(1.22);opacity:1}100%{transform:translate(-50%,-50%) scale(1)}}
+#toast{position:fixed;left:50%;top:19vh;transform:translateX(-50%);z-index:26;background:rgba(15,23,42,.85);border:3px solid #ffe14d;border-radius:18px;padding:.3em 1em;font-weight:800;font-size:clamp(18px,2.2vw,32px);pointer-events:none;text-align:center;max-width:90vw}
+#overtake{position:fixed;left:50%;top:27vh;transform:translateX(-50%);z-index:26;background:linear-gradient(90deg,#f97316,#eab308);color:#fff;border:3px solid #fff;border-radius:16px;padding:.2em .9em;font-weight:800;font-size:clamp(16px,2vw,28px);pointer-events:none;box-shadow:0 6px 18px rgba(0,0,0,.4)}
+#flash{position:fixed;inset:0;z-index:9;pointer-events:none;opacity:0;transition:opacity .25s}
+#lines{position:fixed;inset:0;z-index:8;pointer-events:none;opacity:0;transition:opacity .25s;background:repeating-conic-gradient(from 0deg at 50% 45%,rgba(255,255,255,0) 0 3.5deg,rgba(255,255,255,.32) 3.5deg 4.6deg,rgba(56,189,248,.38) 4.6deg 5deg);-webkit-mask:radial-gradient(circle at 50% 45%,transparent 22%,#000 56%);mask:radial-gradient(circle at 50% 45%,transparent 22%,#000 56%);animation:spinLines .18s linear infinite}
+#vignette{position:fixed;inset:0;z-index:8;pointer-events:none;opacity:0;transition:opacity .25s;box-shadow:inset 0 0 90px 28px rgba(56,189,248,.85),inset 0 0 180px 60px rgba(37,99,235,.55)}
+#vignette.super{box-shadow:inset 0 0 100px 34px rgba(217,70,239,.9),inset 0 0 200px 70px rgba(126,34,206,.65)}
+@keyframes spinLines{from{transform:scale(1)}50%{transform:scale(1.06)}to{transform:scale(1)}}
+
+/* Nút cảm ứng */
+#pad{position:fixed;inset:auto 0 2vh 0;z-index:12;display:flex;justify-content:space-between;padding:0 2.5vw;pointer-events:none}
+.padSide{display:flex;gap:1.4vw;align-items:center}
+#pad button{pointer-events:auto;width:clamp(64px,8.5vw,112px);height:clamp(64px,8.5vw,112px);border-radius:50%;border:5px solid #fff;background:rgba(15,23,42,.55);color:#fff;font-size:clamp(26px,3.6vw,50px);font-weight:800}
+#pad button:active,#pad button.on{background:rgba(255,225,77,.8);color:#1e1b4b}
+#pad .sp{width:clamp(88px,10vw,145px);border-radius:36px}
+#pad .ga{background:rgba(22,163,74,.7);font-size:clamp(20px,2.6vw,36px)}
+
+/* Chế độ 2 chị em chia đôi màn hình */
+#splitUI{position:fixed;inset:0;z-index:15;display:grid;grid-template-columns:1fr 1fr;pointer-events:none}
+#splitDivider{position:fixed;left:50%;top:0;bottom:0;width:4px;margin-left:-2px;background:linear-gradient(#ffe14d,#fff,#ffe14d);z-index:16;pointer-events:none;box-shadow:0 0 12px rgba(0,0,0,.7)}
+.phalf{position:relative;width:100%;height:100%;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:1vh 1vw}
+.phalf .phud{display:flex;justify-content:space-between;align-items:flex-start;gap:.6vw}
+.phalf .pbox{background:rgba(10,18,45,.78);border:3px solid rgba(255,255,255,.65);border-radius:16px;padding:.3vh .8vw;display:flex;align-items:center;gap:.6vw;font-weight:800;font-size:clamp(14px,1.6vw,24px)}
+.phalf .pbox img{width:clamp(34px,3.6vw,52px);height:clamp(34px,3.6vw,52px);border-radius:50%;object-fit:cover;border:3px solid #fff}
+.phalf .prank{font-size:clamp(26px,3.6vw,54px);color:#ffe14d;text-shadow:0 3px 0 #b45309;line-height:1}
+.phalf .prank sup{font-size:.42em;color:#fff}
+.phalf .pkeys{font-size:clamp(11px,1.1vw,16px);background:rgba(15,23,42,.75);border-radius:10px;padding:.15em .6em;align-self:center;border:1px solid rgba(255,255,255,.35)}
+.phalf .pspeed{position:absolute;left:1vw;bottom:1.4vh;background:rgba(15,23,42,.82);border:3px solid #fff;border-radius:16px;padding:.2vh .8vw;font-weight:800;font-size:clamp(14px,1.6vw,24px);display:flex;align-items:center;gap:.6vw}
+.phalf .pspeed.hot{border-color:#ff3b30;color:#ff453a;box-shadow:0 0 20px #ff3b30}
+.phalf .pnitro{width:clamp(46px,5vw,76px);height:8px;border-radius:5px;background:#334155;overflow:hidden;display:inline-block}
+.phalf .pnitro i{display:block;height:100%;width:0;background:linear-gradient(90deg,#22d3ee,#a78bfa)}
+.phalf .pbig{position:absolute;left:50%;top:36%;transform:translate(-50%,-50%);font-weight:800;font-size:clamp(28px,4.8vw,84px);color:#38bdf8;text-shadow:0 0 18px #fff,0 5px 0 #0369a1;white-space:nowrap;pointer-events:none}
+.phalf .pover{position:absolute;left:50%;top:22%;transform:translateX(-50%);background:linear-gradient(90deg,#f97316,#eab308);color:#fff;border:2px solid #fff;border-radius:14px;padding:.15em .7em;font-weight:800;font-size:clamp(13px,1.5vw,22px);white-space:nowrap}
+.phalf .pstreak{position:absolute;right:1vw;bottom:1.4vh;font-weight:800;font-size:clamp(13px,1.4vw,20px);color:#ffe14d;text-shadow:0 2px 0 #000}
+.phalf .plines{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .2s;background:repeating-conic-gradient(from 0deg at 50% 45%,rgba(255,255,255,0) 0 4deg,rgba(255,255,255,.3) 4deg 5deg);-webkit-mask:radial-gradient(circle at 50% 45%,transparent 24%,#000 58%);mask:radial-gradient(circle at 50% 45%,transparent 24%,#000 58%);box-shadow:inset 0 0 60px 18px rgba(56,189,248,.85)}
+.phalf .pqbox{pointer-events:auto;width:96%;align-self:center;background:rgba(255,255,255,.96);color:#1e1b4b;border-radius:22px;border:5px solid #ffe14d;box-shadow:0 10px 28px rgba(0,0,0,.45);padding:.7vh .9vw .9vh;display:flex;flex-direction:column;gap:.5vh;margin-bottom:.4vh}
+.phalf .pqtop{display:flex;align-items:center;gap:.6vw}
+.phalf .pqtag{background:#1d4ed8;color:#fff;border-radius:10px;padding:0 .55em;font-weight:800;font-size:clamp(12px,1.2vw,18px);white-space:nowrap}
+.phalf .pqtext{flex:1;font-weight:800;font-size:clamp(16px,2vw,30px);line-height:1.12}
+.phalf.lucieHalf .pqtext{font-size:clamp(18px,2.2vw,34px)}
+.phalf .pqans{display:grid;grid-template-columns:repeat(3,1fr);gap:.7vw}
+.phalf .ans{font-size:clamp(16px,2vw,30px);min-height:clamp(42px,6.5vh,76px);padding:.5vh .4vw;border-radius:16px}
+.phalf .pqexp{font-size:clamp(13px,1.5vw,22px);font-weight:800;text-align:center}
+.phalf .pqexp.ok{color:#15803d}.phalf .pqexp.no{color:#b91c1c}
+.phalf .ppad{pointer-events:none;display:flex;justify-content:space-between;padding:0 .5vw .5vh}
+.phalf .ppad button{pointer-events:auto;width:clamp(46px,6vw,76px);height:clamp(46px,6vw,76px);border-radius:50%;border:3px solid #fff;background:rgba(15,23,42,.55);color:#fff;font-size:clamp(18px,2.2vw,30px);font-weight:800}
+
+/* Tạm dừng & kết thúc */
+.overlay{position:fixed;inset:0;z-index:40;background:rgba(8,12,35,.78);display:flex;align-items:center;justify-content:center;padding:3vh 3vw}
+.card{background:linear-gradient(#fff,#eef4ff);color:#1e1b4b;border-radius:30px;border:6px solid #ffe14d;padding:2.5vh 2.5vw;display:flex;flex-direction:column;align-items:center;gap:1.4vh;max-width:min(96vw,1200px);text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.card h2{font-size:clamp(28px,4.2vw,62px);line-height:1;color:#c2410c}
+.card p{font-size:clamp(16px,1.9vw,26px);font-weight:700}
+.row{display:flex;gap:1.4vw;flex-wrap:wrap;justify-content:center}
+#podium{display:flex;align-items:flex-end;justify-content:center;gap:1.2vw;margin-top:.6vh}
+.pod{display:flex;flex-direction:column;align-items:center;gap:.4vh;font-weight:800;font-size:clamp(13px,1.5vw,21px)}
+.pod img{width:clamp(52px,6.5vw,98px);height:clamp(52px,6.5vw,98px);border-radius:50%;object-fit:cover;border:5px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,.3);background:#fff}
+.pod .blk{width:clamp(68px,9vw,140px);border-radius:14px 14px 0 0;display:flex;align-items:flex-start;justify-content:center;color:#fff;font-size:clamp(26px,3.6vw,54px);padding-top:.4vh;text-shadow:0 3px 0 rgba(0,0,0,.3)}
+.pod.p1 .blk{height:clamp(105px,16vh,180px);background:linear-gradient(#ffd84d,#e0a100)}
+.pod.p2 .blk{height:clamp(78px,11.5vh,135px);background:linear-gradient(#d9e2ec,#94a3b8)}
+.pod.p3 .blk{height:clamp(58px,8.5vh,100px);background:linear-gradient(#f0b27a,#b45f2a)}
+.pod.p4 .blk{height:clamp(42px,6vh,70px);background:linear-gradient(#a5b4fc,#6366f1)}
+.pod.p5 .blk{height:clamp(32px,4.5vh,54px);background:linear-gradient(#cbd5e1,#64748b)}
+.pod.me img{border-color:#f97316;box-shadow:0 0 0 5px #ffe14d}
+.stats{display:flex;gap:1.2vw;flex-wrap:wrap;justify-content:center}
+.stat{background:#e0e7ff;border-radius:16px;padding:.5vh 1.1vw;font-weight:800;font-size:clamp(15px,1.8vw,26px)}
+.stat b{color:#c2410c}
+#confetti{position:fixed;inset:0;z-index:45;pointer-events:none}
+
+@media (max-aspect-ratio:4/5),(max-width:700px){
+  #splitUI{grid-template-columns:1fr;grid-template-rows:1fr 1fr}
+  #splitDivider{left:0;right:0;top:50%;bottom:auto;width:100%;height:4px;margin:0}
+  #track{top:auto;bottom:calc(2vh + 100px);width:80vw}
+  body.splitMode #track{top:50%;bottom:auto;transform:translate(-50%,-50%);width:86vw}
+  #hud{padding:6px}
+  .hbox{padding:2px 8px}
+  #qans{grid-template-columns:1fr;gap:8px}
+  .ans{min-height:52px}
+  #speedo{display:none}
+  #pad{bottom:calc(2vh)}
+}
+</style>
+<script src="../anh-chung/giong-noi.js"></script>
+</head>
+<body>
+<canvas id="cv"></canvas>
+<canvas id="cv2" class="hide"></canvas>
+<div id="lines"></div>
+<div id="vignette"></div>
+<div id="flash"></div>
+
+<div id="start">
+  <h1>Đua Xe Tia Chớp<small>cùng Lucie &amp; Lucas</small></h1>
+  <div class="sub">Lái xe đua qua 4 chặng: thành phố, đồng lúa, bờ biển, núi tuyết. Gặp <b>Cổng Thử Thách</b> bấm chọn đáp án đúng để bật <b>TURBO SIÊU TỐC</b> vượt lên về nhất!</div>
+  <div class="chars">
+    <button class="char lucas" data-c="lucas"><img data-face="lucas" alt="Lucas"><span data-hs="lucas.goi">Lucas</span><small>Lớp <span data-hs="lucas.lop">1</span> · Toán, Tiếng Việt, Tiếng Anh</small><span class="best" id="best_lucas"></span></button>
+    <button class="char lucie" data-c="lucie"><img data-face="lucie" alt="Lucie"><span data-hs="lucie.goi">Lucie</span><small>Lớp <span data-hs="lucie.lop">3</span> · Toán, Tiếng Việt, Tiếng Anh</small><span class="best" id="best_lucie"></span></button>
+    <button class="char both" data-c="both" id="btnBoth"><div class="pairImg"><img data-face="lucie" alt="Lucie"><img data-face="lucas" alt="Lucas"></div><span>👧👦 Hai chị em cùng đua</span><small>Chia đôi màn hình · Chị lớp 3 &amp; Em lớp 1 cùng thi tài!</small><span class="best">2 người trên 1 TV</span></button>
+  </div>
+  <div class="mau" id="mau">Màu xe:</div>
+  <div class="keys">⬅️ ➡️ đổi làn · ⬆️ giữ ga tăng tốc · phím 1 2 3 chốt ngay đáp án · Cách / OK: dùng nitro · P: tạm dừng</div>
+</div>
+<button class="btn xanh" id="homeBtn" onclick="location.href='../../'">🏠 Trang chủ</button>
+
+<div id="hud" class="hide">
+  <div class="hbox"><img id="hudFace" alt=""><span id="hudName"></span><span>⭐ <span id="score">0</span></span></div>
+  <div class="hbox" id="rankBox"><div id="rank">1<sup>/4</sup></div><div id="chang"></div></div>
+</div>
+<div id="track" class="hide"><div class="line"></div></div>
+<div id="streak" class="hide"></div>
+<div id="speedo" class="hide"><b id="kmh">0</b><span>km/giờ</span><div id="nitroBar"><i></i></div></div>
+<div id="big" class="hide"></div>
+<div id="toast" class="hide"></div>
+<div id="overtake" class="hide"></div>
+
+<div id="qbox" class="hide">
+  <div id="qtop"><span id="qtag"></span><div id="qtext"></div><button class="btn xanh" id="qread">🔊 Đọc</button></div>
+  <div id="qans"></div>
+  <div id="qhint">Bấm phím 1, 2, 3 hoặc chạm vào đáp án để CHỐT NGAY &amp; phóng TURBO! (⬅️ ➡️ đổi làn)</div>
+  <div id="qexp" class="hide"></div>
+</div>
+
+<div id="pad" class="hide">
+  <div class="padSide"><button id="padL">◀</button><button id="padR">▶</button></div>
+  <div class="padSide"><button id="padG" class="sp ga">⬆️ GA</button><button id="padN" class="sp">🔥</button></div>
+</div>
+
+<!-- Giao diện chế độ 2 chị em -->
+<div id="splitDivider" class="hide"></div>
+<div id="splitUI" class="hide">
+  <div class="phalf lucieHalf" id="half0">
+    <div class="plines" id="plines0"></div>
+    <div class="phud">
+      <div class="pbox"><img id="pface0" alt=""><span id="pname0">Lucie</span><span>⭐ <span id="pscore0">0</span></span></div>
+      <div class="pbox"><div class="prank" id="prank0">1<sup>/5</sup></div></div>
+    </div>
+    <div class="pkeys">Chị Lucie: A/D làn · 1/2/3 đáp án · W ga · Q nitro</div>
+    <div class="pbig hide" id="pbig0"></div>
+    <div class="pover hide" id="pover0"></div>
+    <div style="flex:1"></div>
+    <div class="pqbox hide" id="pqbox0">
+      <div class="pqtop"><span class="pqtag" id="pqtag0"></span><div class="pqtext" id="pqtext0"></div></div>
+      <div class="pqans" id="pqans0"></div>
+      <div class="pqexp hide" id="pqexp0"></div>
+    </div>
+    <div class="ppad hide" id="ppad0"><button data-p="0" data-a="L">◀</button><button data-p="0" data-a="G">GA</button><button data-p="0" data-a="N">🔥</button><button data-p="0" data-a="R">▶</button></div>
+    <div class="pspeed" id="pspeed0"><b id="pkmh0">0</b><small>km/h</small><span class="pnitro"><i id="pnitro0"></i></span></div>
+    <div class="pstreak" id="pstreak0"></div>
+  </div>
+  <div class="phalf lucasHalf" id="half1">
+    <div class="plines" id="plines1"></div>
+    <div class="phud">
+      <div class="pbox"><img id="pface1" alt=""><span id="pname1">Lucas</span><span>⭐ <span id="pscore1">0</span></span></div>
+      <div class="pbox"><div class="prank" id="prank1">1<sup>/5</sup></div></div>
+    </div>
+    <div class="pkeys">Em Lucas: ⬅️/➡️ làn · 7/8/9 (J/K/L) đáp án · ⬆️ ga · 0/Enter nitro</div>
+    <div class="pbig hide" id="pbig1"></div>
+    <div class="pover hide" id="pover1"></div>
+    <div style="flex:1"></div>
+    <div class="pqbox hide" id="pqbox1">
+      <div class="pqtop"><span class="pqtag" id="pqtag1"></span><div class="pqtext" id="pqtext1"></div></div>
+      <div class="pqans" id="pqans1"></div>
+      <div class="pqexp hide" id="pqexp1"></div>
+    </div>
+    <div class="ppad hide" id="ppad1"><button data-p="1" data-a="L">◀</button><button data-p="1" data-a="G">GA</button><button data-p="1" data-a="N">🔥</button><button data-p="1" data-a="R">▶</button></div>
+    <div class="pspeed" id="pspeed1"><b id="pkmh1">0</b><small>km/h</small><span class="pnitro"><i id="pnitro1"></i></span></div>
+    <div class="pstreak" id="pstreak1"></div>
+  </div>
+</div>
+
+<div id="pause" class="overlay hide"><div class="card">
+  <h2>Tạm dừng</h2>
+  <div class="row"><button class="btn xanh" id="pResume">▶ Chơi tiếp</button><button class="btn" id="pRestart">↻ Đua lại</button><button class="btn xanh" id="pHome">🏠 Chọn người chơi</button></div>
+</div></div>
+
+<div id="end" class="overlay hide"><div class="card">
+  <h2 id="endTitle">Về đích!</h2>
+  <div id="podium"></div>
+  <p id="endMsg"></p>
+  <div class="stats" id="endStats"></div>
+  <div class="row"><button class="btn" id="eAgain">🏁 Đua tiếp</button><button class="btn xanh" id="eHome">👥 Đổi người chơi</button><button class="btn xanh" onclick="location.href='../../'">🏠 Trang chủ</button></div>
+</div></div>
+<canvas id="confetti" class="hide"></canvas>
+
+<script src="../anh-chung/thong-tin.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="../anh-chung/mat-that.js"></script>
+<script>
+"use strict";
+/* ================= NỘI DUNG (Gemini 4 Argon soạn, Claude soát) ================= */
+/*KB*/
+const KB = {
+ "chao": "Chào mừng con đến với Đua Xe Tia Chớp Lucie và Lucas! Lái vào cổng có đáp án đúng để bật turbo vượt lên nhé!",
+ "chang": [
+  [
+   "Phố Thị Nhộn Nhịp",
+   "#ff8a3d",
+   "Đồng xu vàng"
+  ],
+  [
+   "Đồng Lúa Thẳng Cánh",
+   "#e0b400",
+   "Bình nitro"
+  ],
+  [
+   "Bờ Biển Nắng Vàng",
+   "#2bb3e8",
+   "Bình nitro"
+  ],
+  [
+   "Đỉnh Tuyết Trắng Xóa",
+   "#cfe8ff",
+   "Bình nitro"
+  ]
+ ],
+ "khen": [
+  "Tuyệt vời! Bơm kịch kim turbo vọt lên nào con ơi!",
+  "Quá chuẩn! Tay đua nhí của chúng ta thông minh quá!",
+  "Xuất sắc! Xe phóng nhanh như tia chớp vượt qua các bạn thú!",
+  "Đúng rồi! Cứ giữ vững tốc độ đỉnh cao này nhé con!",
+  "Giỏi lắm! Một pha bứt tốc ngoạn mục qua Cổng Thử Thách!"
+ ],
+ "dongvien": [
+  "Tiếc quá, nhầm chút xíu thôi, con nghe giải thích rồi tăng tốc nhé!",
+  "Không sao đâu, bình tĩnh nhấn ga đuổi theo Thỏ Trắng nào!",
+  "Chậm lại một nhịp để nhớ bài, cổng sau mình lấy lại phong độ!",
+  "Cố lên con ơi, Cáo Cam và Gấu Nâu vẫn ở ngay phía trước!",
+  "Sai một câu vẫn còn cơ hội, tập trung nhìn kỹ cổng tiếp theo nhé!"
+ ],
+ "chuc": "Chúc mừng tay đua xuất sắc đã cán đích và giành chiếc cúp vinh quang!"
+};
+/*END_KB*/
+/*DATA*/
+const DATA = {
+ lucie: [
+  ["Toán", 1, "Kết quả của phép nhân 7 x 8 là bao nhiêu?", "56", "54", "48", "64", "Bảng nhân 7: 7 nhân 8 bằng 56."],
+  ["Toán", 1, "Số liền sau của số 999 là số nào?", "1000", "998", "990", "1001", "Thêm 1 vào 999 ta được 1000."],
+  ["Toán", 1, "Một giờ có bao nhiêu phút?", "60 phút", "30 phút", "100 phút", "24 phút", "Một giờ đồng hồ có đúng 60 phút."],
+  ["Toán", 1, "Kết quả của phép chia 45 : 5 là mấy?", "9", "8", "7", "6", "Bảng chia 5: 45 chia 5 bằng 9."],
+  ["Toán", 1, "1 mét bằng bao nhiêu xăng-ti-mét?", "100 cm", "10 cm", "1000 cm", "50 cm", "1 mét đổi ra được 100 xăng-ti-mét."],
+  ["Toán", 2, "Chu vi hình vuông có cạnh 6 cm là bao nhiêu?", "24 cm", "36 cm", "12 cm", "18 cm", "Chu vi hình vuông bằng cạnh nhân 4."],
+  ["Toán", 2, "Một phần ba của 27 quả cam là mấy quả?", "9 quả", "6 quả", "8 quả", "3 quả", "Lấy 27 chia 3 được 9 quả cam."],
+  ["Toán", 2, "Chữ số La Mã VIII là số mấy?", "8", "7", "9", "6", "V là 5, thêm III là 3, bằng 8."],
+  ["Toán", 2, "Tìm x biết x + 120 = 350.", "230", "470", "220", "130", "Lấy 350 trừ 120 bằng 230."],
+  ["Toán", 2, "54 chia 6 rồi cộng với 11 bằng bao nhiêu?", "20", "19", "18", "21", "54 chia 6 bằng 9, cộng 11 bằng 20."],
+  ["Toán", 3, "Diện tích hình chữ nhật dài 8 cm, rộng 5 cm là bao nhiêu?", "40 cm²", "26 cm²", "13 cm²", "45 cm²", "Diện tích bằng dài nhân rộng: 8 nhân 5."],
+  ["Toán", 3, "Chia 38 cho 5 thì số dư là bao nhiêu?", "3", "2", "4", "1", "38 chia 5 được 7, dư 3."],
+  ["Toán", 3, "4 túi có 32 viên bi. 1 túi có mấy viên?", "8 viên", "7 viên", "9 viên", "6 viên", "Lấy 32 chia đều cho 4 túi được 8."],
+  ["Toán", 3, "Làm tròn số 264 đến hàng chục ta được số nào?", "260", "270", "300", "200", "Hàng đơn vị là 4 nên làm tròn xuống 260."],
+  ["Toán", 3, "Giá trị của biểu thức 100 - 20 x 3 là mấy?", "40", "240", "60", "80", "Nhân trước trừ sau: 100 trừ 60 bằng 40."],
+  ["Tiếng Việt", 1, "Từ nào chỉ hoạt động trong câu: Bé quét nhà giúp mẹ?", "quét nhà", "bé", "mẹ", "nhà", "Quét nhà là việc làm, hoạt động của bé."],
+  ["Tiếng Việt", 1, "Từ nào viết đúng chính tả?", "dòng sông", "ròng sông", "giòng sông", "dòng xông", "Dòng sông viết đúng với âm đầu d và s."],
+  ["Tiếng Việt", 1, "Từ nào trái nghĩa với từ chăm chỉ?", "lười biếng", "siêng năng", "cần cù", "chịu khó", "Trái nghĩa với chăm chỉ là lười biếng."],
+  ["Tiếng Việt", 1, "Cuối câu hỏi ta phải dùng dấu câu nào?", "dấu chấm hỏi", "dấu chấm", "dấu phẩy", "dấu chấm than", "Câu hỏi luôn kết thúc bằng dấu chấm hỏi."],
+  ["Tiếng Việt", 1, "Từ nào dưới đây là từ chỉ đặc điểm?", "xinh đẹp", "bàn học", "chạy nhảy", "cô giáo", "Xinh đẹp là từ miêu tả đặc điểm."],
+  ["Tiếng Việt", 2, "Từ nào cùng nghĩa với từ Tổ quốc?", "đất nước", "nhà cửa", "trường học", "bầu trời", "Tổ quốc và đất nước có cùng ý nghĩa."],
+  ["Tiếng Việt", 2, "Trong câu \"Chú mèo mượt như nhung\", từ nào dùng để so sánh?", "như", "chú mèo", "mượt", "nhung", "Từ như dùng để nối hai vế so sánh."],
+  ["Tiếng Việt", 2, "\"Ôi, bông hoa đẹp quá!\" thuộc kiểu câu gì?", "câu cảm", "câu hỏi", "câu kể", "câu khiến", "Câu bộc lộ cảm xúc là câu cảm."],
+  ["Tiếng Việt", 2, "Điền vào chỗ trống: \"... nắng hay ... mưa?\"", "trời", "chời", "trờ", "chờ", "Trời nắng, trời mưa viết với âm tr."],
+  ["Tiếng Việt", 2, "Từ nào chỉ người làm việc ở bệnh viện để khám bệnh?", "bác sĩ", "giáo viên", "kĩ sư", "nông dân", "Bác sĩ là người khám và chữa bệnh."],
+  ["Tiếng Việt", 3, "Thành ngữ nào nói về tinh thần giúp đỡ nhau?", "Lá lành đùm lá rách", "Chậm như sên", "Nhanh như chớp", "Khỏe như voi", "Lá lành đùm lá rách khuyên ta đùm bọc nhau."],
+  ["Tiếng Việt", 3, "Trong câu \"Đàn chim hót líu lo\", bộ phận nào trả lời câu hỏi Làm gì?", "hót líu lo", "đàn chim", "líu lo", "chim hót", "Hót líu lo nêu hoạt động của đàn chim."],
+  ["Tiếng Việt", 3, "Từ nào viết SAI chính tả?", "suất sắc", "xinh xắn", "sạch sẽ", "sẵn sàng", "Phải viết là xuất sắc mới đúng chính tả."],
+  ["Tiếng Việt", 3, "Dấu câu nào dùng để ngăn cách các từ cùng loại trong câu?", "dấu phẩy", "dấu chấm", "dấu hỏi", "dấu hai chấm", "Dấu phẩy ngăn cách các từ cùng loại."],
+  ["Tiếng Việt", 3, "Từ chạy trong câu \"Đồng hồ chạy rất đúng giờ\" chỉ điều gì?", "hoạt động của máy", "di chuyển bằng chân", "chạy trốn", "tập thể dục", "Chỉ sự hoạt động của máy móc trong đồng hồ."],
+  ["Tiếng Anh", 1, "Từ nào có nghĩa là \"tên\"?", "name", "age", "hello", "goodbye", "Name trong tiếng Anh có nghĩa là tên."],
+  ["Tiếng Anh", 1, "How old are you? - I am eight ... old.", "years", "year", "old", "fine", "Cấu trúc nói tuổi: số tuổi + years old."],
+  ["Tiếng Anh", 1, "Từ cục tẩy trong tiếng Anh là gì?", "eraser", "ruler", "pencil", "book", "Eraser nghĩa là cục tẩy."],
+  ["Tiếng Anh", 1, "What colour is it? - It is ... (màu xanh lá cây)", "green", "red", "blue", "yellow", "Green là màu xanh lá cây."],
+  ["Tiếng Anh", 1, "Từ nào có nghĩa là mẹ?", "mother", "father", "brother", "sister", "Mother là mẹ, father là bố."],
+  ["Tiếng Anh", 2, "Is this your school? - Yes, ... is.", "it", "he", "she", "they", "Câu hỏi dùng this thì trả lời dùng it."],
+  ["Tiếng Anh", 2, "May I ... in? - Yes, you can.", "come", "go", "sit", "stand", "May I come in nghĩa là xin phép vào lớp."],
+  ["Tiếng Anh", 2, "Phòng ngủ trong tiếng Anh gọi là gì?", "bedroom", "bathroom", "kitchen", "living room", "Bedroom là phòng ngủ."],
+  ["Tiếng Anh", 2, "How many ... do you have? - I have two dogs.", "dogs", "dog", "a dog", "the dog", "Sau How many phải dùng danh từ số nhiều."],
+  ["Tiếng Anh", 2, "What is she doing? - She is ... a book.", "reading", "read", "reads", "listening", "Sau is dùng động từ thêm ing: reading."],
+  ["Tiếng Anh", 3, "Where are the posters? - ... are on the wall.", "They", "It", "He", "She", "Posters là số nhiều nên dùng They."],
+  ["Tiếng Anh", 3, "Do you have any parrots? - No, I ...", "don't", "do", "isn't", "am not", "Câu hỏi Do you thì trả lời No, I don't."],
+  ["Tiếng Anh", 3, "What is your father's job? - He is a ... (tài xế)", "driver", "teacher", "doctor", "worker", "Driver có nghĩa là tài xế."],
+  ["Tiếng Anh", 3, "Would you like some milk? - ..., please.", "Yes", "No", "Thanks", "Not", "Đồng ý lời mời lịch sự: Yes, please."],
+  ["Tiếng Anh", 3, "Sắp xếp thành từ đúng: C - H - I - C - K - E - N", "chicken", "chekcin", "chiken", "chikcen", "Chicken nghĩa là con gà."]
+ ],
+ lucas: [
+  ["Toán", 1, "2 cộng 3 bằng mấy?", "5", "4", "6", "3", "2 thêm 3 bằng 5."],
+  ["Toán", 1, "5 trừ 2 bằng mấy?", "3", "2", "4", "1", "5 bớt 2 còn 3."],
+  ["Toán", 1, "Số nào lớn hơn: 7 hay 4?", "7", "4", "bằng nhau", "0", "Trên tia số, 7 đứng sau 4 nên lớn hơn."],
+  ["Toán", 1, "1 bàn tay có mấy ngón tay?", "5 ngón", "4 ngón", "6 ngón", "10 ngón", "Mỗi bàn tay có đúng 5 ngón tay."],
+  ["Toán", 1, "Số liền sau của số 5 là số mấy?", "6", "4", "7", "5", "Đếm thêm 1 sau số 5 là số 6."],
+  ["Toán", 1, "4 cộng 4 bằng mấy?", "8", "7", "9", "6", "4 cộng 4 bằng 8."],
+  ["Toán", 1, "9 trừ 0 bằng mấy?", "9", "0", "8", "10", "Số nào trừ đi 0 cũng bằng chính nó."],
+  ["Toán", 1, "Con chó có mấy cái chân?", "4 chân", "2 chân", "3 chân", "6 chân", "Con chó có 4 cái chân."],
+  ["Toán", 1, "Số nào bé nhất: 2, 8, 5?", "2", "8", "5", "0", "Trong ba số 2, 8, 5 thì 2 bé nhất."],
+  ["Toán", 1, "3 cộng 6 bằng mấy?", "9", "8", "10", "7", "3 thêm 6 bằng 9."],
+  ["Toán", 1, "10 trừ 5 bằng mấy?", "5", "4", "6", "3", "10 bớt 5 còn 5."],
+  ["Toán", 1, "Hình vuông có mấy cạnh bằng nhau?", "4 cạnh", "3 cạnh", "5 cạnh", "2 cạnh", "Hình vuông có 4 cạnh dài bằng nhau."],
+  ["Toán", 2, "10 cộng 5 bằng mấy?", "15", "14", "16", "50", "1 chục cộng 5 đơn vị là 15."],
+  ["Toán", 2, "18 trừ 8 bằng mấy?", "10", "8", "11", "9", "18 bớt 8 đơn vị còn 10."],
+  ["Toán", 2, "Số gồm 1 chục và 3 đơn vị là số mấy?", "13", "31", "10", "4", "1 chục và 3 đơn vị viết là 13."],
+  ["Toán", 2, "2 cộng 3 cộng 4 bằng mấy?", "9", "8", "10", "7", "2 cộng 3 bằng 5, cộng 4 bằng 9."],
+  ["Toán", 2, "10 trừ 3 trừ 2 bằng mấy?", "5", "6", "4", "7", "10 trừ 3 còn 7, trừ 2 còn 5."],
+  ["Toán", 2, "Hình tam giác có mấy đỉnh?", "3 đỉnh", "4 đỉnh", "2 đỉnh", "5 đỉnh", "Hình tam giác có 3 cạnh và 3 đỉnh."],
+  ["Toán", 2, "Kim dài chỉ 12, kim ngắn chỉ 3 là mấy giờ?", "3 giờ", "12 giờ", "6 giờ", "9 giờ", "Kim ngắn chỉ số 3 là 3 giờ đúng."],
+  ["Toán", 2, "Số liền trước của số 10 là số mấy?", "9", "11", "8", "10", "Trước số 10 là số 9."],
+  ["Toán", 2, "12 cộng 4 bằng mấy?", "16", "15", "17", "14", "2 cộng 4 bằng 6, thêm 1 chục là 16."],
+  ["Toán", 2, "19 trừ 3 bằng mấy?", "16", "15", "17", "12", "9 trừ 3 bằng 6, giữ nguyên 1 chục là 16."],
+  ["Toán", 2, "Bánh xe đạp có hình gì?", "hình tròn", "hình vuông", "tam giác", "chữ nhật", "Bánh xe có dạng hình tròn để lăn được."],
+  ["Toán", 2, "Số nào ở giữa số 7 và số 9?", "8", "6", "10", "5", "Đếm 7 rồi đến 8 rồi đến 9."],
+  ["Toán", 3, "Mấy cộng với 4 thì bằng 10?", "6", "5", "7", "4", "6 cộng 4 bằng 10."],
+  ["Toán", 3, "Có 8 quả táo, ăn 3 quả, còn mấy quả?", "5 quả", "4 quả", "6 quả", "11 quả", "8 trừ 3 còn 5 quả táo."],
+  ["Toán", 3, "Số lớn nhất có một chữ số là số mấy?", "9", "10", "8", "1", "Từ 0 đến 9 thì 9 là lớn nhất."],
+  ["Toán", 3, "Số bé nhất có hai chữ số là số mấy?", "10", "11", "99", "0", "Số đầu tiên có hai chữ số là 10."],
+  ["Toán", 3, "15 trừ 5 cộng 2 bằng mấy?", "12", "10", "13", "8", "15 trừ 5 bằng 10, cộng 2 bằng 12."],
+  ["Toán", 3, "11 cộng 6 trừ 7 bằng mấy?", "10", "11", "9", "12", "11 cộng 6 bằng 17, trừ 7 còn 10."],
+  ["Toán", 3, "Một tuần lễ có mấy ngày?", "7 ngày", "6 ngày", "5 ngày", "8 ngày", "Từ thứ hai đến chủ nhật có 7 ngày."],
+  ["Toán", 3, "1 chục quả trứng là mấy quả trứng?", "10 quả", "1 quả", "12 quả", "20 quả", "1 chục chính là 10."],
+  ["Toán", 3, "Lúc 6 giờ đúng, kim dài chỉ vào số mấy?", "số 12", "số 6", "số 3", "số 1", "Giờ đúng thì kim dài luôn chỉ số 12."],
+  ["Toán", 3, "Hộp sữa tươi thường có dạng khối gì?", "khối hộp chữ nhật", "khối cầu", "hình tròn", "tam giác", "Hộp sữa có dạng khối hộp chữ nhật."],
+  ["Toán", 3, "Số nào vừa lớn hơn 14 vừa bé hơn 16?", "15", "13", "17", "14", "Giữa 14 và 16 là số 15."],
+  ["Tiếng Việt", 1, "Ghép âm b và âm a được tiếng gì?", "ba", "bơ", "bo", "bi", "Âm b ghép với a đọc là ba."],
+  ["Tiếng Việt", 1, "Tiếng cá có dấu thanh gì?", "dấu sắc", "dấu huyền", "dấu hỏi", "dấu ngã", "Cờ a ca sắc cá."],
+  ["Tiếng Việt", 1, "Con gì kêu meo meo?", "con mèo", "con chó", "con gà", "con vịt", "Con mèo thường kêu meo meo."],
+  ["Tiếng Việt", 1, "Chữ cái đầu tiên trong bảng chữ cái là gì?", "a", "ă", "â", "b", "Bảng chữ cái bắt đầu bằng chữ a."],
+  ["Tiếng Việt", 1, "Tiếng mẹ có âm đầu là chữ gì?", "m", "n", "b", "l", "Mờ e me nặng mẹ, âm đầu là m."],
+  ["Tiếng Việt", 1, "Điền từ: Công cha như núi Thái ...", "Sơn", "Biển", "Cao", "Lớn", "Câu ca dao: Công cha như núi Thái Sơn."],
+  ["Tiếng Việt", 1, "Con gì gáy ò ó o mỗi sáng?", "gà trống", "gà mái", "con vịt", "con chim", "Gà trống gáy ò ó o báo thức."],
+  ["Tiếng Việt", 1, "Quả gì ăn có vị rất chua?", "quả chanh", "quả dưa", "quả chuối", "quả na", "Quả chanh có vị rất chua."],
+  ["Tiếng Việt", 1, "Ghép c với ô và dấu huyền được tiếng gì?", "cồ", "cố", "cổ", "cô", "Cờ ô cô huyền cồ."],
+  ["Tiếng Việt", 1, "Từ nào chỉ người sinh ra mình?", "bố mẹ", "bạn bè", "thầy cô", "hàng xóm", "Bố mẹ là người sinh ra và nuôi dưỡng con."],
+  ["Tiếng Việt", 1, "Đi học bé đeo cặp sách ở đâu?", "trên vai", "trên đầu", "dưới chân", "ở bụng", "Cặp sách dùng để đeo trên hai vai."],
+  ["Tiếng Việt", 1, "Tiếng nhà có vần gì?", "vần a", "vần o", "vần ê", "vần u", "Nhờ a nha huyền nhà, có vần a."],
+  ["Tiếng Việt", 2, "Điền c hay k vào trước chữ iến?", "k", "c", "q", "g", "Trước i, e, ê phải viết bằng chữ k."],
+  ["Tiếng Việt", 2, "Điền g hay gh vào trước chữ ế?", "gh", "g", "ng", "ngh", "Trước e, ê, i phải dùng chữ gh."],
+  ["Tiếng Việt", 2, "Tiếng trường có vần gì?", "ương", "ươn", "uông", "uôn", "Trờ ương trương huyền trường."],
+  ["Tiếng Việt", 2, "Từ nào viết đúng chính tả?", "con kiến", "con ciến", "kon kiến", "con quiến", "Chữ k đứng trước vần iên: con kiến."],
+  ["Tiếng Việt", 2, "Từ nào chỉ đồ dùng học tập của bé?", "bút chì", "cái nồi", "cái chổi", "cái gối", "Bút chì dùng để viết và vẽ ở lớp."],
+  ["Tiếng Việt", 2, "Mùa nào trời rất lạnh, phải mặc áo ấm?", "mùa đông", "mùa hè", "mùa xuân", "mùa thu", "Mùa đông gió rét, trời rất lạnh."],
+  ["Tiếng Việt", 2, "Con gì có cái vòi dài?", "con voi", "con hổ", "con khỉ", "con thỏ", "Con voi có chiếc vòi dài."],
+  ["Tiếng Việt", 2, "Đèn giao thông màu gì thì xe phải dừng lại?", "màu đỏ", "màu xanh", "màu vàng", "màu tím", "Đèn đỏ báo hiệu các xe dừng lại."],
+  ["Tiếng Việt", 2, "Điền vào chỗ trống: Bé ... răng mỗi sáng.", "đánh", "rửa", "gội", "quét", "Buổi sáng thức dậy bé đánh răng sạch sẽ."],
+  ["Tiếng Việt", 2, "Tiếng bông có vần gì?", "ông", "ong", "ung", "ưng", "Bờ ông bông, có vần ông."],
+  ["Tiếng Việt", 2, "Viết ng hay ngh trước chữ ệ?", "ngh", "ng", "g", "gh", "Trước e, ê, i phải viết là ngh, như củ nghệ."],
+  ["Tiếng Việt", 2, "Quả gì ruột đỏ, có nhiều hạt đen?", "dưa hấu", "quả cam", "quả nhãn", "quả vải", "Dưa hấu ruột đỏ, vỏ xanh, hạt đen."],
+  ["Tiếng Việt", 3, "Từ nào viết đúng chính tả?", "nghe nhạc", "nge nhạc", "ghe nhạc", "nghe nhạt", "Trước chữ e phải viết là ngh: nghe nhạc."],
+  ["Tiếng Việt", 3, "Điền vần: Chim én bay l...", "ượn", "ươn", "ương", "uôn", "Chim én bay lượn trên bầu trời."],
+  ["Tiếng Việt", 3, "Tiếng nào có vần anh?", "bánh", "bắn", "bàn", "bông", "Bờ anh banh sắc bánh."],
+  ["Tiếng Việt", 3, "Tiếng nào có vần êu?", "kêu", "keo", "kia", "cau", "Cờ êu kêu."],
+  ["Tiếng Việt", 3, "Từ nào chỉ hoạt động của học sinh ở trường?", "đọc bài", "nấu cơm", "lái xe", "cày ruộng", "Ở trường học sinh đọc bài và viết bài."],
+  ["Tiếng Việt", 3, "Điền từ: Học thầy không tày học ...", "bạn", "mẹ", "cha", "em", "Tục ngữ: Học thầy không tày học bạn."],
+  ["Tiếng Việt", 3, "Từ nào viết SAI chính tả?", "cái cính", "cái kẹo", "cái kéo", "cái kim", "Phải viết là cái kính với chữ k."],
+  ["Tiếng Việt", 3, "Tiếng hoàng có vần gì?", "oang", "ang", "oan", "ong", "Hờ oang hoang huyền hoàng."],
+  ["Tiếng Việt", 3, "Con vật nào sống dưới nước?", "con tôm", "con gà", "con mèo", "con chim", "Con tôm bơi và sống ở dưới nước."],
+  ["Tiếng Việt", 3, "Ngày Tết miền Bắc thường có hoa gì màu hồng?", "hoa đào", "hoa mai", "hoa sen", "hoa cúc", "Hoa đào nở màu hồng vào dịp Tết."],
+  ["Tiếng Việt", 3, "Điền từ: Ăn quả nhớ kẻ trồng ...", "cây", "hoa", "lúa", "rau", "Tục ngữ: Ăn quả nhớ kẻ trồng cây."],
+  ["Tiếng Anh", 1, "Màu đỏ tiếng Anh là gì?", "red", "blue", "green", "pink", "Red là màu đỏ."],
+  ["Tiếng Anh", 1, "Con mèo tiếng Anh là gì?", "cat", "dog", "pig", "bird", "Cat nghĩa là con mèo."],
+  ["Tiếng Anh", 1, "Số 1 tiếng Anh đọc là gì?", "one", "two", "three", "four", "One là số 1."],
+  ["Tiếng Anh", 1, "Khi gặp bạn, con chào như thế nào?", "Hello", "Bye", "No", "Yes", "Hello dùng để chào khi gặp nhau."],
+  ["Tiếng Anh", 2, "Con chó tiếng Anh là gì?", "dog", "cat", "duck", "cow", "Dog nghĩa là con chó."],
+  ["Tiếng Anh", 2, "Số 2 tiếng Anh là gì?", "two", "one", "three", "five", "Two là số 2."],
+  ["Tiếng Anh", 2, "Màu xanh da trời tiếng Anh là gì?", "blue", "red", "yellow", "black", "Blue là màu xanh da trời."],
+  ["Tiếng Anh", 2, "Quả táo tiếng Anh là gì?", "apple", "banana", "orange", "mango", "Apple là quả táo."],
+  ["Tiếng Anh", 3, "Số 5 tiếng Anh là gì?", "five", "four", "six", "ten", "Five là số 5."],
+  ["Tiếng Anh", 3, "Màu vàng tiếng Anh là gì?", "yellow", "green", "white", "brown", "Yellow là màu vàng."]
+ ]
+};
+/*END_DATA*/
+
+/* ================= TIỆN ÍCH ================= */
+const $ = id => document.getElementById(id);
+const rnd = (a, b) => a + Math.random() * (b - a);
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const LS = { get(k, d) { try { const v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} } };
+const ANH = "../anh-chung/anh/";
+const faceUrl = c => window.MatThat ? MatThat.url(c) : "../../img/" + c + ".webp";
+const tenBe = c => (window.HS && HS[c] && HS[c].goi) || (c === "lucie" ? "Lucie" : "Lucas");
+
+/* ================= GIỌNG ĐỌC (xếp hàng từng câu) ================= */
+const Voice = {
+  q: [], busy: false, on: true, tok: 0,
+  stop() { this.q = []; this.busy = false; this.tok++; try { speechSynthesis.cancel(); } catch (e) {} },
+  say(text, en, now) {
+    if (!text) return;
+    if (now) this.stop();
+    this.q.push({ text, en }); if (!this.busy) this.next();
+  },
+  next() {
+    const it = this.q.shift(); if (!it) { this.busy = false; return; }
+    this.busy = true; const tk = this.tok;
+    let done = false; const fin = () => { if (done || tk !== this.tok) return; done = true; setTimeout(() => this.next(), 120); };
+    try {
+      const u = new SpeechSynthesisUtterance(it.text);
+      u.lang = it.en ? "en-US" : "vi-VN"; u.rate = it.en ? 0.8 : 0.95; u.pitch = 1.05;
+      if (it.en) { const v = speechSynthesis.getVoices().find(x => /^en/i.test(x.lang)); if (v) u.voice = v; }
+      else { const v = speechSynthesis.getVoices().find(x => /^vi/i.test(x.lang)); if (v) u.voice = v; }
+      u.onend = u.onerror = fin; u.addEventListener("end", fin);
+      speechSynthesis.speak(u);
+      setTimeout(fin, 1500 + it.text.length * 140);
+    } catch (e) { fin(); }
+  }
+};
+const isEnText = s => /^[\x00-\x7F]*$/.test(s) && /[a-z]/i.test(s);
+
+/* ================= ÂM THANH (Web Audio) ================= */
+const SFX = {
+  ctx: null, eng: null, engG: null, master: null,
+  init() {
+    if (this.ctx) return;
+    try {
+      this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+      this.master = this.ctx.createGain(); this.master.gain.value = 0.55; this.master.connect(this.ctx.destination);
+      const o = this.ctx.createOscillator(), o2 = this.ctx.createOscillator(), lp = this.ctx.createBiquadFilter(), g = this.ctx.createGain();
+      o.type = "sawtooth"; o2.type = "square"; o.frequency.value = 60; o2.frequency.value = 30; lp.type = "lowpass"; lp.frequency.value = 420; g.gain.value = 0;
+      o.connect(lp); o2.connect(lp); lp.connect(g); g.connect(this.master); o.start(); o2.start();
+      this.eng = [o, o2]; this.engG = g; this.lp = lp;
+    } catch (e) { this.ctx = null; }
+  },
+  engine(speed, on, gas) {
+    if (!this.ctx) return; const t = this.ctx.currentTime;
+    const f = 48 + speed * (gas ? 2.55 : 2.15);
+    this.eng[0].frequency.setTargetAtTime(f, t, 0.08); this.eng[1].frequency.setTargetAtTime(f / 2, t, 0.08);
+    this.lp.frequency.setTargetAtTime(320 + speed * (gas ? 18 : 13), t, 0.08);
+    this.engG.gain.setTargetAtTime(on ? (gas ? 0.065 : 0.045) : 0, t, 0.15);
+  },
+  tone(f, d, type, vol, slide) {
+    if (!this.ctx) return; const t = this.ctx.currentTime, o = this.ctx.createOscillator(), g = this.ctx.createGain();
+    o.type = type || "sine"; o.frequency.setValueAtTime(f, t); if (slide) o.frequency.exponentialRampToValueAtTime(slide, t + d);
+    g.gain.setValueAtTime(vol || 0.2, t); g.gain.exponentialRampToValueAtTime(0.0001, t + d);
+    o.connect(g); g.connect(this.master); o.start(t); o.stop(t + d + 0.02);
+  },
+  noise(d, vol, f0, f1) {
+    if (!this.ctx) return; const t = this.ctx.currentTime, n = Math.floor(this.ctx.sampleRate * d), b = this.ctx.createBuffer(1, n, this.ctx.sampleRate), a = b.getChannelData(0);
+    for (let i = 0; i < n; i++) a[i] = Math.random() * 2 - 1;
+    const s = this.ctx.createBufferSource(), bp = this.ctx.createBiquadFilter(), g = this.ctx.createGain();
+    s.buffer = b; bp.type = "bandpass"; bp.frequency.setValueAtTime(f0, t); bp.frequency.exponentialRampToValueAtTime(f1, t + d); bp.Q.value = 0.8;
+    g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0001, t + d);
+    s.connect(bp); bp.connect(g); g.connect(this.master); s.start(t);
+  },
+  coin() { this.tone(988, 0.08, "square", 0.08); setTimeout(() => this.tone(1319, 0.18, "square", 0.08), 70); },
+  turbo(superT) {
+    // tiếng nổ "bùm" phá âm thanh + động cơ gầm + tiếng vút (whoosh)
+    this.tone(110, 0.45, "sine", 0.38, 28);
+    this.noise(0.32, 0.45, 220, 45);
+    this.noise(1.35, 0.38, 350, superT ? 4200 : 3200);
+    this.tone(160, 0.95, "sawtooth", 0.14, superT ? 1180 : 920);
+    if (superT) setTimeout(() => this.tone(520, 0.5, "triangle", 0.18, 1560), 120);
+  },
+  whoosh() { this.noise(0.38, 0.25, 300, 2200); this.tone(280, 0.28, "sine", 0.1, 680); },
+  shatter() { this.noise(0.35, 0.32, 1800, 600); [1046, 1318, 1568, 2093].forEach((f, i) => setTimeout(() => this.tone(f, 0.16, "triangle", 0.14), i * 45)); },
+  hit() { this.noise(0.35, 0.4, 900, 120); this.tone(120, 0.3, "square", 0.12, 50); },
+  ok() { [523, 659, 784, 1047].forEach((f, i) => setTimeout(() => this.tone(f, 0.18, "triangle", 0.18), i * 70)); },
+  no() { this.tone(300, 0.25, "sawtooth", 0.12, 150); setTimeout(() => this.tone(200, 0.35, "sawtooth", 0.12, 100), 200); },
+  beep(hi) { this.tone(hi ? 1046 : 523, hi ? 0.5 : 0.22, "square", 0.14); },
+  fanfare() { [523, 659, 784, 1047, 784, 1047].forEach((f, i) => setTimeout(() => this.tone(f, i === 5 ? 0.6 : 0.16, "triangle", 0.2), i * 140)); }
+};
+
+/* ================= CẤU HÌNH ĐƯỜNG ĐUA ================= */
+const LANES = [-3.2, 0, 3.2];
+const CHANG_LEN = 1000;
+const N_CHANG = 4;
+const RACE_LEN = CHANG_LEN * N_CHANG;
+const GATES_PER = 5;
+const BASE_SPEED = 32;
+const Q_AHEAD = 135;
+const MAUXE = [["#e11d48", "Đỏ"], ["#2563eb", "Xanh"], ["#facc15", "Vàng"], ["#f97316", "Cam"], ["#9333ea", "Tím"], ["#10b981", "Lục"]];
+const RIVALS = [
+  { id: "tho", ten: "Thỏ Trắng", anh: "e-1f430", mau: "#f472b6", tai: "tho", da: 0xffffff },
+  { id: "cao", ten: "Cáo Cam", anh: "e-1f98a", mau: "#f59e0b", tai: "cao", da: 0xf97316 },
+  { id: "gau", ten: "Gấu Nâu", anh: "e-1f43b", mau: "#22c55e", tai: "gau", da: 0x8b5a2b }
+];
+const STAGES = [
+  { sky: [0x6ec6ff, 0xd8f1ff], fog: 0xbfe6ff, ground: 0x6b7280, side: 0x9ca3af, road: "#3a3f4b" },
+  { sky: [0x7fd0ff, 0xf3ffd9], fog: 0xe3f7c9, ground: 0x6cc24a, side: 0x8fd16a, road: "#4a4a4a" },
+  { sky: [0x39b6f2, 0xfff2c9], fog: 0xd6f3ff, ground: 0xf1d79a, side: 0xf6e3b4, road: "#4b4f57" },
+  { sky: [0x9cc8ef, 0xf2f7ff], fog: 0xeaf3ff, ground: 0xf4f8ff, side: 0xe2ecf7, road: "#525a66" }
+];
+
+/* ================= TRẠNG THÁI GAME 1 NGƯỜI & 2 NGƯỜI ================= */
+const G = {
+  child: "lucas", carColor: 0, state: "menu", mode: 1,
+  d: 0, x: 0, lane: 1, speed: 0, boost: 0, boostMax: 0, superTurbo: false, gas: false, slow: 0, nitro: 0, nitroOn: 0, score: 0, ts: 1, tsTarget: 1,
+  rivals: [], objs: [], gates: [], qs: [], gi: 0, right: 0, asked: 0, streak: 0, bestStreak: 0, coins: 0, hits: 0,
+  stage: 0, t0: 0, shake: 0, fovKick: 0, finished: false, finishOrder: [], mon: {}
+};
+window.__dx = G;
+
+const G2 = {
+  state: "menu", cd: 0, cdShown: 0, t0: 0,
+  players: [], rivals: [], objs: [], finishOrder: []
+};
+window.__dx2 = G2;
+
+function cupKey(c) { return "duaXe_" + c; }
+function bestText(c) {
+  const o = LS.get(cupKey(c), {});
+  return o.luot ? "🏆 " + (o.vang || 0) + " · 🥈 " + (o.bac || 0) + " · 🥉 " + (o.dong || 0) : "Chưa đua lần nào";
+}
+
+/* ---------- chọn câu hỏi ---------- */
+function buildQuestions(c) {
+  const all = (DATA[c] || []).map((r, i) => ({ i, mon: r[0], muc: +r[1] || 1, q: r[2], dung: r[3], sai: [r[4], r[5], r[6]].filter(Boolean), gt: r[7] || "" }));
+  const seenKey = "duaXe_daHoi_" + c; let seen = LS.get(seenKey, []);
+  if (all.length - seen.length < N_CHANG * GATES_PER) seen = [];
+  const fresh = all.filter(q => !seen.includes(q.i)), old = all.filter(q => seen.includes(q.i));
+  const want = [[1, 1, 1, 2, 1], [1, 2, 1, 2, 2], [2, 2, 3, 2, 3], [3, 2, 3, 3, 3]];
+  const out = [], used = new Set();
+  const mons = shuffle(["Toán", "Tiếng Việt", "Tiếng Anh"]);
+  let mi = 0;
+  want.forEach(row => row.forEach(lv => {
+    const mon = c === "lucas" && Math.random() < 0.55 ? (Math.random() < 0.5 ? "Toán" : "Tiếng Việt") : mons[mi++ % 3];
+    const tryPools = [
+      fresh.filter(q => q.muc === lv && q.mon === mon), fresh.filter(q => q.muc === lv), fresh.filter(q => Math.abs(q.muc - lv) <= 1),
+      fresh, old.filter(q => q.muc === lv), old, all];
+    for (const p of tryPools) { const cand = p.filter(q => !used.has(q.i)); if (cand.length) { const q = pick(cand); used.add(q.i); out.push(q); break; } }
+  }));
+  LS.set(seenKey, seen.concat(out.map(q => q.i)));
+  return out;
+}
+
+/* ---------- đặt vật phẩm trên đường ---------- */
+function buildGatesFor(qs) {
+  const gates = [];
+  for (let s = 0; s < N_CHANG; s++) for (let k = 0; k < GATES_PER; k++) {
+    const pos = s * CHANG_LEN + 190 + k * 165;
+    gates.push({ s: pos, q: qs[gates.length], opts: null, done: false, shown: false, res: null, locked: false, shattered: false });
+  }
+  return gates;
+}
+function buildObjsFor(gatesRef) {
+  const objs = [];
+  const nearGate = p => gatesRef.some(g => p > g.s - Q_AHEAD - 25 && p < g.s + 25);
+  for (let p = 90; p < RACE_LEN - 40; p += 18) {
+    if (nearGate(p)) continue;
+    const r = Math.random();
+    if (r < 0.36) { const ln = Math.floor(Math.random() * 3); for (let k = 0; k < 4; k++) objs.push({ t: "coin", s: p + k * 4, lane: ln }); p += 12; }
+    else if (r < 0.5 && p > 150) objs.push({ t: "cone", s: p, lane: Math.floor(Math.random() * 3) });
+    else if (r < 0.56) objs.push({ t: "nitro", s: p, lane: Math.floor(Math.random() * 3) });
+  }
+  gatesRef.forEach(g => { for (let k = 0; k < 5; k++) objs.push({ t: "coin", s: g.s + 14 + k * 4, lane: 1 }); });
+  objs.sort((a, b) => a.s - b.s);
+  return objs;
+}
+function layout() {
+  G.gates = buildGatesFor(G.qs);
+  G.objs = buildObjsFor(G.gates);
+}
+
+/* ================= KẾT XUẤT 3D (Three.js) ================= */
+let R3 = null;
+function hasWebGL() { try { const c = document.createElement("canvas"); return !!(window.THREE && (c.getContext("webgl") || c.getContext("experimental-webgl"))); } catch (e) { return false; } }
+
+function canvasTex(w, h, draw) { const c = document.createElement("canvas"); c.width = w; c.height = h; draw(c.getContext("2d"), w, h); const t = new THREE.CanvasTexture(c); t.anisotropy = 4; return t; }
+function roundRect(x, X, Y, w, h, r) { x.beginPath(); x.moveTo(X + r, Y); x.arcTo(X + w, Y, X + w, Y + h, r); x.arcTo(X + w, Y + h, X, Y + h, r); x.arcTo(X, Y + h, X, Y, r); x.arcTo(X, Y, X + w, Y, r); x.closePath(); }
+
+function makeCar(color, driver, rival, childOverride) {
+  const T = THREE, g = new T.Group();
+  const paint = new T.MeshLambertMaterial({ color }), dark = new T.MeshLambertMaterial({ color: 0x1f2937 }), chrome = new T.MeshLambertMaterial({ color: 0xe5e7eb }), glass = new T.MeshLambertMaterial({ color: 0x93c5fd, transparent: true, opacity: 0.7 });
+  const body = new T.Mesh(new T.BoxGeometry(1.9, 0.5, 3.8), paint); body.position.y = 0.55; g.add(body);
+  const nose = new T.Mesh(new T.BoxGeometry(1.7, 0.32, 1.1), paint); nose.position.set(0, 0.5, -2.3); g.add(nose);
+  const side1 = new T.Mesh(new T.BoxGeometry(0.25, 0.42, 2.2), paint); side1.position.set(-1.05, 0.55, 0.1); g.add(side1);
+  const side2 = side1.clone(); side2.position.x = 1.05; g.add(side2);
+  const stripe = new T.Mesh(new T.BoxGeometry(0.45, 0.52, 4.9), new T.MeshLambertMaterial({ color: 0xffffff })); stripe.position.set(0, 0.56, -0.5); g.add(stripe);
+  const ws = new T.Mesh(new T.BoxGeometry(1.5, 0.45, 0.08), glass); ws.position.set(0, 1.0, -0.55); ws.rotation.x = -0.5; g.add(ws);
+  const seat = new T.Mesh(new T.BoxGeometry(1.0, 0.7, 0.3), dark); seat.position.set(0, 1.0, 0.75); g.add(seat);
+  const sp1 = new T.Mesh(new T.BoxGeometry(2.1, 0.12, 0.5), dark); sp1.position.set(0, 1.25, 1.75); g.add(sp1);
+  [-0.7, 0.7].forEach(x => { const p = new T.Mesh(new T.BoxGeometry(0.12, 0.5, 0.2), dark); p.position.set(x, 1.0, 1.75); g.add(p); });
+  const wheels = [];
+  [[-1.0, -1.25], [1.0, -1.25], [-1.0, 1.25], [1.0, 1.25]].forEach(([x, z]) => {
+    const w = new T.Mesh(new T.CylinderGeometry(0.42, 0.42, 0.38, 16), dark); w.rotation.z = Math.PI / 2; w.position.set(x * 1.02, 0.42, z); g.add(w); wheels.push(w);
+    const hub = new T.Mesh(new T.CylinderGeometry(0.2, 0.2, 0.4, 10), chrome); hub.rotation.z = Math.PI / 2; hub.position.copy(w.position); g.add(hub);
+  });
+  // ống xả + lửa dài + vệt sáng 2 bên đuôi xe trên mặt đường
+  const flames = [], trails = [];
+  [-0.5, 0.5].forEach(x => {
+    const ex = new T.Mesh(new T.CylinderGeometry(0.12, 0.12, 0.35, 8), chrome); ex.rotation.x = Math.PI / 2; ex.position.set(x, 0.45, 2.0); g.add(ex);
+    const fl = new T.Mesh(new T.ConeGeometry(0.26, 2.4, 10), new T.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.9 })); fl.rotation.x = Math.PI / 2; fl.position.set(x, 0.45, 3.2); fl.visible = false; g.add(fl); flames.push(fl);
+    const core = new T.Mesh(new T.ConeGeometry(0.14, 1.6, 8), new T.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.95 })); core.rotation.x = Math.PI / 2; core.position.set(x, 0.45, 2.8); core.visible = false; g.add(core); flames.push(core);
+  });
+  [-0.95, 0.95].forEach(x => {
+    const tr = new T.Mesh(new T.PlaneGeometry(0.28, 7.5), new T.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.78, side: T.DoubleSide }));
+    tr.rotation.x = -Math.PI / 2; tr.position.set(x, 0.05, 5.2); tr.visible = false; g.add(tr); trails.push(tr);
+  });
+  // người lái
+  const head = new T.Group(); head.position.set(0, 1.55, 0.45); g.add(head);
+  const neck = new T.Mesh(new T.BoxGeometry(0.75, 0.5, 0.5), new T.MeshLambertMaterial({ color: driver === "player" ? 0xffffff : rival.da })); neck.position.set(0, 1.2, 0.45); g.add(neck);
+  if (driver === "player") {
+    const cId = childOverride || G.child;
+    const helmet = new T.Mesh(new T.SphereGeometry(0.5, 20, 16), paint); head.add(helmet);
+    const visorBack = new T.Mesh(new T.SphereGeometry(0.505, 20, 16, 0, Math.PI * 2, 0, Math.PI * 0.35), new T.MeshLambertMaterial({ color: 0xffffff })); head.add(visorBack);
+    if (window.MatThat) { const f = MatThat.dan(head, cId, { r: 0.4, y: -0.02, z: 0.47 }); const b = MatThat.dan(head, cId, { r: 0.4, y: -0.02, z: -0.47 }); if (b) b.rotation.y = Math.PI; void f; }
+  } else {
+    const skin = new T.MeshLambertMaterial({ color: rival.da });
+    const hd = new T.Mesh(new T.SphereGeometry(0.5, 18, 14), skin); head.add(hd);
+    if (rival.tai === "tho") [-0.18, 0.18].forEach(x => { const e = new T.Mesh(new T.CylinderGeometry(0.09, 0.12, 0.9, 8), skin); e.position.set(x, 0.75, 0); e.rotation.z = x * 0.6; head.add(e); const ei = new T.Mesh(new T.CylinderGeometry(0.05, 0.07, 0.7, 6), new T.MeshLambertMaterial({ color: 0xf9a8d4 })); ei.position.set(x, 0.75, -0.06); ei.rotation.z = x * 0.6; head.add(ei); });
+    if (rival.tai === "cao") [-0.28, 0.28].forEach(x => { const e = new T.Mesh(new T.ConeGeometry(0.17, 0.45, 4), skin); e.position.set(x, 0.5, 0); head.add(e); });
+    if (rival.tai === "gau") [-0.33, 0.33].forEach(x => { const e = new T.Mesh(new T.SphereGeometry(0.17, 10, 8), skin); e.position.set(x, 0.42, 0); head.add(e); });
+    const tx = new T.TextureLoader().load(ANH + rival.anh + ".webp");
+    [0.47, -0.47].forEach(z => { const m = new T.Mesh(new T.CircleGeometry(0.4, 32), new T.MeshBasicMaterial({ map: tx })); m.position.z = z; if (z < 0) m.rotation.y = Math.PI; head.add(m); });
+  }
+  const shadow = new T.Mesh(new T.PlaneGeometry(2.4, 4.6), new T.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.28 })); shadow.rotation.x = -Math.PI / 2; shadow.position.y = 0.02; g.add(shadow);
+  g.userData = { wheels, flames, trails, body: g };
+  return g;
+}
+
+function makeGateMesh(text, lane, color) {
+  const T = THREE, g = new T.Group();
+  const col = new T.MeshLambertMaterial({ color });
+  [-1.45, 1.45].forEach(x => { const p = new T.Mesh(new T.BoxGeometry(0.3, 3.4, 0.3), col); p.position.set(x, 1.7, 0); g.add(p); });
+  const tex = canvasTex(512, 200, (x, w, h) => {
+    x.fillStyle = color; roundRect(x, 0, 0, w, h, 34); x.fill();
+    x.fillStyle = "rgba(255,255,255,.95)"; roundRect(x, 14, 14, w - 28, h - 28, 26); x.fill();
+    x.fillStyle = "#1e1b4b"; let fs = 104; x.font = "800 " + fs + "px 'Baloo 2',sans-serif";
+    while (x.measureText(text).width > w - 60 && fs > 30) { fs -= 4; x.font = "800 " + fs + "px 'Baloo 2',sans-serif"; }
+    x.textAlign = "center"; x.textBaseline = "middle"; x.fillText(text, w / 2, h / 2 + 6);
+  });
+  const board = new T.Mesh(new T.PlaneGeometry(3.1, 1.21), new T.MeshBasicMaterial({ map: tex, transparent: true }));
+  board.position.set(0, 3.7, 0); g.add(board);
+  const back = new T.Mesh(new T.PlaneGeometry(3.1, 1.21), col); back.position.set(0, 3.7, -0.02); back.rotation.y = Math.PI; g.add(back);
+  const num = canvasTex(128, 128, (x) => { x.fillStyle = color; x.beginPath(); x.arc(64, 64, 60, 0, 7); x.fill(); x.fillStyle = "#fff"; x.font = "800 84px sans-serif"; x.textAlign = "center"; x.textBaseline = "middle"; x.fillText(String(lane + 1), 64, 70); });
+  const nb = new T.Mesh(new T.CircleGeometry(0.42, 24), new T.MeshBasicMaterial({ map: num })); nb.position.set(0, 4.65, 0.01); g.add(nb);
+  const strip = new T.Mesh(new T.PlaneGeometry(2.8, 1.2), new T.MeshBasicMaterial({ color, transparent: true, opacity: 0.55 })); strip.rotation.x = -Math.PI / 2; strip.position.set(0, 0.03, 0); g.add(strip);
+  g.position.x = LANES[lane];
+  return g;
+}
+
+function initThree() {
+  const T = THREE, cv = $("cv");
+  const renderer = new T.WebGLRenderer({ canvas: cv, antialias: true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.6));
+  const scene = new T.Scene();
+  const cam = new T.PerspectiveCamera(62, 1, 0.1, 600);
+  const cam2 = new T.PerspectiveCamera(62, 1, 0.1, 600);
+  scene.fog = new T.Fog(0xbfe6ff, 60, 260);
+  scene.add(new T.HemisphereLight(0xffffff, 0x667788, 0.85));
+  const sun = new T.DirectionalLight(0xffffff, 0.75); sun.position.set(-20, 40, 10); scene.add(sun);
+
+  const skyTex = canvasTex(4, 256, (x, w, h) => { const gr = x.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, "#6ec6ff"); gr.addColorStop(1, "#d8f1ff"); x.fillStyle = gr; x.fillRect(0, 0, w, h); });
+  const sky = new T.Mesh(new T.SphereGeometry(400, 24, 12), new T.MeshBasicMaterial({ map: skyTex, side: T.BackSide, fog: false })); scene.add(sky);
+  const ground = new T.Mesh(new T.PlaneGeometry(800, 800), new T.MeshLambertMaterial({ color: 0x6b7280 })); ground.rotation.x = -Math.PI / 2; ground.position.y = -0.02; scene.add(ground);
+  const roadTex = canvasTex(256, 256, () => {});
+  const drawRoad = col => { const c = roadTex.image, x = c.getContext("2d"); x.fillStyle = col; x.fillRect(0, 0, 256, 256);
+    for (let i = 0; i < 400; i++) { x.fillStyle = "rgba(255,255,255," + Math.random() * 0.05 + ")"; x.fillRect(Math.random() * 256, Math.random() * 256, 2, 2); }
+    x.fillStyle = "#fff"; [256 * 0.333, 256 * 0.667].forEach(px => x.fillRect(px - 3, 0, 6, 128));
+    x.fillStyle = "#ffd400"; x.fillRect(6, 0, 7, 256); x.fillRect(243, 0, 7, 256);
+    roadTex.needsUpdate = true; };
+  drawRoad("#3a3f4b");
+  roadTex.wrapS = roadTex.wrapT = T.RepeatWrapping; roadTex.repeat.set(1, 30);
+  const road = new T.Mesh(new T.PlaneGeometry(10.4, 300), new T.MeshLambertMaterial({ map: roadTex })); road.rotation.x = -Math.PI / 2; road.position.set(0, 0.01, -130); scene.add(road);
+  const curbTex = canvasTex(16, 64, (x) => { x.fillStyle = "#ef4444"; x.fillRect(0, 0, 16, 32); x.fillStyle = "#fff"; x.fillRect(0, 32, 16, 32); });
+  curbTex.wrapS = curbTex.wrapT = T.RepeatWrapping; curbTex.repeat.set(1, 75);
+  const curbs = [-5.6, 5.6].map(x => { const m = new T.Mesh(new T.PlaneGeometry(0.9, 300), new T.MeshLambertMaterial({ map: curbTex })); m.rotation.x = -Math.PI / 2; m.position.set(x, 0.015, -130); scene.add(m); return m; });
+  const sea = new T.Mesh(new T.PlaneGeometry(400, 800), new T.MeshLambertMaterial({ color: 0x1ea7e8, transparent: true, opacity: 0.95 })); sea.rotation.x = -Math.PI / 2; sea.position.set(230, 0.0, -100); sea.visible = false; scene.add(sea);
+  const mountains = new T.Group(); scene.add(mountains);
+  for (let i = 0; i < 9; i++) {
+    const m = new T.Mesh(new T.ConeGeometry(rnd(30, 55), rnd(45, 85), 6), new T.MeshLambertMaterial({ color: 0x8aa3c2 }));
+    m.position.set(-200 + i * 50, 15, -330 + rnd(-20, 20)); mountains.add(m);
+    const cap = new T.Mesh(new T.ConeGeometry(m.geometry.parameters.radius * 0.38, m.geometry.parameters.height * 0.38, 6), new T.MeshLambertMaterial({ color: 0xffffff }));
+    cap.position.set(m.position.x, m.position.y + m.geometry.parameters.height * 0.31, m.position.z); mountains.add(cap);
+  }
+
+  const M = (c) => new T.MeshLambertMaterial({ color: c });
+  const winTex = canvasTex(64, 128, (x) => { x.fillStyle = "#fff"; x.fillRect(0, 0, 64, 128); for (let r = 0; r < 8; r++) for (let c = 0; c < 4; c++) { x.fillStyle = Math.random() < 0.6 ? "#1e3a5f" : "#ffe08a"; x.fillRect(4 + c * 15, 4 + r * 15, 10, 10); } });
+  winTex.wrapS = winTex.wrapT = T.RepeatWrapping;
+  const builders = [
+    () => { const g = new T.Group(), h = rnd(8, 26), w = rnd(5, 9), cols = [0xf87171, 0x60a5fa, 0xfbbf24, 0xa78bfa, 0x34d399, 0xfb923c];
+      const tx = winTex.clone(); tx.needsUpdate = true; tx.repeat.set(1, h / 10);
+      const b = new T.Mesh(new T.BoxGeometry(w, h, w), new T.MeshLambertMaterial({ color: pick(cols), map: tx })); b.position.y = h / 2; g.add(b);
+      const roof = new T.Mesh(new T.BoxGeometry(w + 0.6, 0.6, w + 0.6), M(0x334155)); roof.position.y = h + 0.3; g.add(roof); return g; },
+    () => { const g = new T.Group();
+      if (Math.random() < 0.35) { const h = new T.Mesh(new T.BoxGeometry(4, 2.6, 3.4), M(0xfef3c7)); h.position.y = 1.3; g.add(h); const r = new T.Mesh(new T.ConeGeometry(3.3, 2, 4), M(0xb45309)); r.position.y = 3.6; r.rotation.y = Math.PI / 4; g.add(r); }
+      else { const t = new T.Mesh(new T.CylinderGeometry(0.25, 0.35, 3, 6), M(0x8b5a2b)); t.position.y = 1.5; g.add(t); const l = new T.Mesh(new T.SphereGeometry(rnd(1.6, 2.4), 10, 8), M(pick([0x22c55e, 0x16a34a, 0x4ade80]))); l.position.y = 3.8; g.add(l); }
+      for (let i = 0; i < 3; i++) { const p = new T.Mesh(new T.BoxGeometry(rnd(3, 5), 0.6, rnd(3, 5)), M(0xd9c34a)); p.position.set(rnd(-4, 4), 0.3, rnd(-4, 4)); g.add(p); }
+      return g; },
+    () => { const g = new T.Group(), h = rnd(5, 8);
+      for (let i = 0; i < 6; i++) { const s = new T.Mesh(new T.CylinderGeometry(0.22, 0.28, h / 6 + 0.05, 6), M(0xa16207)); s.position.set(i * 0.12, h / 12 + i * h / 6, 0); g.add(s); }
+      for (let i = 0; i < 6; i++) { const lf = new T.Mesh(new T.BoxGeometry(3.4, 0.12, 0.8), M(0x16a34a)); lf.position.set(0.7, h, 0); lf.rotation.y = i * Math.PI / 3; lf.rotation.z = -0.35; lf.geometry.translate(1.5, 0, 0); g.add(lf); }
+      if (Math.random() < 0.4) { const u = new T.Mesh(new T.ConeGeometry(2, 1, 12), M(pick([0xf43f5e, 0x3b82f6, 0xfacc15]))); u.position.set(rnd(-2, 2), 2.5, 2); g.add(u); }
+      return g; },
+    () => { const g = new T.Group(), n = 1 + Math.floor(Math.random() * 3);
+      for (let k = 0; k < n; k++) { const h = rnd(4, 8), x = rnd(-3, 3), z = rnd(-3, 3);
+        const tr = new T.Mesh(new T.CylinderGeometry(0.2, 0.25, 1.2, 6), M(0x6b4423)); tr.position.set(x, 0.6, z); g.add(tr);
+        for (let j = 0; j < 3; j++) { const c = new T.Mesh(new T.ConeGeometry(h * 0.33 * (1 - j * 0.22), h * 0.42, 8), M(j % 2 ? 0xffffff : 0x166534)); c.position.set(x, 1.2 + h * 0.18 + j * h * 0.22, z); g.add(c); } }
+      if (Math.random() < 0.3) { const sm = new T.Group(); [1, 0.7, 0.45].forEach((r, i) => { const b = new T.Mesh(new T.SphereGeometry(r, 12, 10), M(0xffffff)); b.position.y = r + (i ? [0, 1.6, 2.6][i] : 0); sm.add(b); }); const n2 = new T.Mesh(new T.ConeGeometry(0.1, 0.5, 6), M(0xf97316)); n2.rotation.x = Math.PI / 2; n2.position.set(0, 3.1, 0.45); sm.add(n2); sm.position.set(rnd(-2, 2), 0, 3); g.add(sm); }
+      return g; }
+  ];
+  const props = [];
+  for (let i = 0; i < 44; i++) props.push({ s: 0, side: i % 2 ? 1 : -1, mesh: null, st: -1 });
+
+  const coinGeo = new T.CylinderGeometry(0.55, 0.55, 0.14, 20), coinMat = new T.MeshLambertMaterial({ color: 0xffcc00, emissive: 0x664400 });
+  const coinTex = new T.TextureLoader().load("../anh-chung/xu-ciecas-nho.webp");
+  const coinFace = new T.MeshBasicMaterial({ map: coinTex, transparent: true });
+  const mk = {
+    coin: () => { const g = new T.Group(), c = new T.Mesh(coinGeo, coinMat); c.rotation.x = Math.PI / 2; g.add(c); [0.075, -0.075].forEach(z => { const f = new T.Mesh(new T.CircleGeometry(0.5, 20), coinFace); f.position.z = z; if (z < 0) f.rotation.y = Math.PI; g.add(f); }); g.position.y = 1; return g; },
+    cone: () => { const g = new T.Group(), c = new T.Mesh(new T.ConeGeometry(0.5, 1.2, 12), M(0xf97316)); c.position.y = 0.6; g.add(c); const b = new T.Mesh(new T.CylinderGeometry(0.33, 0.4, 0.2, 12), M(0xffffff)); b.position.y = 0.55; g.add(b); const base = new T.Mesh(new T.BoxGeometry(1.1, 0.1, 1.1), M(0xf97316)); base.position.y = 0.05; g.add(base); return g; },
+    nitro: () => { const g = new T.Group(), c = new T.Mesh(new T.CylinderGeometry(0.42, 0.42, 1.2, 14), new T.MeshLambertMaterial({ color: 0x22d3ee, emissive: 0x0e4a5a })); c.position.y = 1; g.add(c); const t = new T.Mesh(new T.CylinderGeometry(0.2, 0.2, 0.3, 10), M(0xe5e7eb)); t.position.y = 1.7; g.add(t); const s = new T.Mesh(new T.TorusGeometry(0.43, 0.06, 6, 18), M(0xa78bfa)); s.rotation.x = Math.PI / 2; s.position.y = 1; g.add(s); return g; }
+  };
+  const finTex = canvasTex(256, 64, (x) => { for (let i = 0; i < 16; i++) for (let j = 0; j < 4; j++) { x.fillStyle = (i + j) % 2 ? "#111" : "#fff"; x.fillRect(i * 16, j * 16, 16, 16); } });
+  function archMesh(label, color, checker) {
+    const g = new T.Group(), col = M(color);
+    [-6.3, 6.3].forEach(x => { const p = new T.Mesh(new T.BoxGeometry(0.6, 7, 0.6), col); p.position.set(x, 3.5, 0); g.add(p); });
+    const tx = canvasTex(1024, 128, (x, w, h) => { x.fillStyle = color === 0x111111 ? "#111" : "#" + color.toString(16).padStart(6, "0"); x.fillRect(0, 0, w, h); x.fillStyle = "#fff"; x.font = "800 86px 'Baloo 2',sans-serif"; x.textAlign = "center"; x.textBaseline = "middle"; x.fillText(label, w / 2, h / 2 + 6); });
+    const b = new T.Mesh(new T.BoxGeometry(13.2, 1.6, 0.4), [col, col, col, col, new T.MeshBasicMaterial({ map: tx }), new T.MeshBasicMaterial({ map: tx })]); b.position.y = 7; g.add(b);
+    if (checker) { const f = new T.Mesh(new T.PlaneGeometry(10.4, 1.6), new T.MeshLambertMaterial({ map: finTex })); f.rotation.x = -Math.PI / 2; f.position.y = 0.03; g.add(f); }
+    return g;
+  }
+  const arches = [];
+  for (let s = 1; s <= N_CHANG; s++) {
+    const last = s === N_CHANG, a = archMesh(last ? "VỀ ĐÍCH" : "CHẶNG " + (s + 1) + ": " + KB.chang[s][0].toUpperCase(), last ? 0x111111 : 0x7c3aed, last);
+    a.userData.s = s * CHANG_LEN; scene.add(a); arches.push(a);
+  }
+  const startArch = archMesh("XUẤT PHÁT", 0xe11d48, true); startArch.userData.s = 2; scene.add(startArch); arches.push(startArch);
+
+  const player = makeCar(MAUXE[G.carColor][0], "player"); scene.add(player);
+  const player2 = makeCar("#2563eb", "player", null, "lucas"); player2.visible = false; scene.add(player2);
+  const rivalMeshes = RIVALS.map(r => { const m = makeCar(r.mau, "rival", r); scene.add(m); return m; });
+
+  // hạt bụi/khói + mảnh vỡ cổng pháo hoa/ngôi sao
+  const parts = []; const pGeo = new T.BoxGeometry(0.32, 0.32, 0.12);
+  for (let i = 0; i < 90; i++) { const m = new T.Mesh(pGeo, new T.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0 })); m.visible = false; scene.add(m); parts.push({ m, life: 0, star: false }); }
+  function puff(x, y, z, color, n, spread, burst) {
+    const pal = [0xffe14d, 0xff5b5b, 0x3fd27a, 0x38bdf8, 0xe879f9, 0xffffff];
+    for (let i = 0; i < n; i++) {
+      const p = parts.find(q => q.life <= 0); if (!p) return;
+      p.life = 1; p.star = !!burst; p.m.visible = true;
+      p.m.material.color.setHex(burst ? pick(pal) : color);
+      p.m.position.set(x + rnd(-spread, spread), y + rnd(0, spread), z + rnd(-spread, spread));
+      p.v = burst ? [rnd(-10, 10), rnd(4, 14), rnd(-6, 10)] : [rnd(-3, 3), rnd(2, 6), rnd(2, 8)];
+    }
+  }
+
+  R3 = { renderer, scene, cam, cam2, sky, skyTex, ground, road, roadTex, drawRoad, curbs, curbTex, sea, mountains, props, builders, mk, objMeshes: new Map(), gateMeshes: new Map(), arches, player, player2, rivalMeshes, parts, puff, curStage: -1 };
+  resize3();
+}
+function resize3() { if (!R3) return; const w = innerWidth, h = innerHeight; R3.renderer.setSize(w, h, false); R3.cam.aspect = w / h; R3.cam.fov = w / h < 1 ? 78 : 62; R3.cam.updateProjectionMatrix(); }
+
+function setStage3(i) {
+  if (!R3 || R3.curStage === i) return; R3.curStage = i; const S = STAGES[i];
+  const c1 = "#" + S.sky[0].toString(16).padStart(6, "0"), c2 = "#" + S.sky[1].toString(16).padStart(6, "0");
+  const x = R3.skyTex.image.getContext("2d"), gr = x.createLinearGradient(0, 0, 0, 256); gr.addColorStop(0, c1); gr.addColorStop(0.5, c2); gr.addColorStop(1, c2); x.fillStyle = gr; x.fillRect(0, 0, 4, 256); R3.skyTex.needsUpdate = true;
+  R3.scene.fog.color.setHex(S.fog); R3.ground.material.color.setHex(S.ground); R3.drawRoad(S.road);
+  R3.sea.visible = i === 2; R3.mountains.visible = i === 3 || i === 1;
+  R3.mountains.children.forEach((m, k) => { if (m.geometry.type === "ConeGeometry" && k % 2 === 0) m.material.color.setHex(i === 3 ? 0x8aa3c2 : 0x5b8f4a); });
+}
+
+function updateCarMesh(pl, st, dt) {
+  pl.rotation.y = -(st.x - LANES[st.lane]) * 0.08;
+  pl.rotation.z = st.spin ? Math.sin(st.spin * 20) * 0.18 : (st.x - LANES[st.lane]) * 0.03;
+  if (st.spin) pl.rotation.y += st.spin * 11;
+  pl.userData.wheels.forEach(w => w.rotation.x -= st.speed * dt * 0.8);
+  const turbo = st.boost > 0 || st.nitroOn > 0;
+  const col = (st.superTurbo || st.nitroOn > 0) ? 0xd946ef : 0x38bdf8;
+  pl.userData.flames.forEach((f, idx) => {
+    f.visible = turbo || st.gas;
+    const sc = turbo ? (1.4 + Math.random() * 0.9) : 0.55;
+    f.scale.set(turbo ? 1.2 : 0.7, sc, turbo ? 1.2 : 0.7);
+    if (idx % 2 === 0) f.material.color.setHex(col);
+  });
+  pl.userData.trails.forEach(tr => {
+    tr.visible = turbo;
+    tr.material.color.setHex(col);
+    tr.material.opacity = 0.45 + Math.random() * 0.35;
+  });
+}
+
+function renderSceneForView(d, gates, objs, rivals, cam, dt, aspect) {
+  const r = R3;
+  const stNow = Math.min(N_CHANG - 1, Math.floor(d / CHANG_LEN)); setStage3(stNow);
+  r.roadTex.offset.y = (d / 10) % 1; r.curbTex.offset.y = (d / 4) % 1;
+  const baseS = Math.floor(d / 14) * 14;
+  r.props.forEach((p, i) => {
+    const want = baseS - 20 + Math.floor(i / 2) * 14;
+    if (p.s !== want || !p.mesh) {
+      const st = clamp(Math.floor(want / CHANG_LEN), 0, N_CHANG - 1);
+      if (!p.mesh || p.st !== st || Math.abs(p.s - want) > 14 * 22) {
+        if (p.mesh) r.scene.remove(p.mesh);
+        p.mesh = r.builders[st](); p.st = st; r.scene.add(p.mesh);
+        p.off = st === 2 && p.side > 0 ? rnd(13, 18) : rnd(10, 22);
+      }
+      p.s = want;
+    }
+    p.mesh.position.set(p.side * p.off, 0, -(p.s - d));
+  });
+  const vis = new Set();
+  for (const o of objs) {
+    if (o.s < d - 12) continue; if (o.s > d + 230) break;
+    if (o.got) continue;
+    let m = r.objMeshes.get(o); if (!m) { m = r.mk[o.t](); r.scene.add(m); r.objMeshes.set(o, m); }
+    m.position.x = LANES[o.lane]; m.position.z = -(o.s - d); m.visible = true; vis.add(o);
+    if (o.t === "coin") m.rotation.y += dt * 4; if (o.t === "nitro") m.rotation.y += dt * 2;
+    if (o.hitT) { m.rotation.z += dt * 12; m.position.y += dt * 6; m.position.x += o.hitDir * dt * 8; }
+  }
+  r.objMeshes.forEach((m, o) => { if (!vis.has(o)) { m.visible = false; } });
+  // ẩn tất cả cổng rồi chỉ bật cổng của góc nhìn đang vẽ
+  r.gateMeshes.forEach(ms => ms.forEach(m => m.visible = false));
+  gates.forEach(g => {
+    const near = !g.shattered && g.s > d - 15 && g.s < d + 240;
+    let ms = r.gateMeshes.get(g);
+    if (near && g.opts && !ms) { ms = g.opts.map((t, k) => makeGateMesh(t, k, ["#e11d48", "#e8a200", "#16a34a"][k])); ms.forEach(m => r.scene.add(m)); r.gateMeshes.set(g, ms); }
+    if (ms && near) {
+      ms.forEach((m, k) => { m.visible = true; m.position.z = -(g.s - d); if (g.res) { const ok = g.opts[k] === g.q.dung; m.scale.setScalar(ok ? 1 + 0.1 * Math.sin(performance.now() / 70) : 0.88); } });
+    }
+  });
+  r.arches.forEach(a => { a.position.z = -(a.userData.s - d); a.visible = a.userData.s > d - 20 && a.userData.s < d + 260; });
+  rivals.forEach((rv, i) => {
+    const m = r.rivalMeshes[i], z = -(rv.d - d);
+    m.visible = z < 30 && z > -320; m.position.set(rv.x, 0, z);
+    m.rotation.y = -(rv.x - LANES[rv.lane]) * 0.08;
+    m.userData.wheels.forEach(w => w.rotation.x -= rv.speed * dt * 0.8);
+    m.userData.flames.forEach(f => { f.visible = rv.boost > 0; });
+  });
+  cam.aspect = aspect;
+}
+
+function updateCamFor(cam, st, dt, aspect) {
+  const turbo = st.boost > 0 || st.nitroOn > 0;
+  const sh = (st.shake > 0 ? st.shake : 0) + (turbo ? 0.09 : 0);
+  const back = 6.8 + (turbo ? 2.1 : (st.gas ? 0.45 : 0));
+  const baseFov = aspect < 1 ? 76 : 62;
+  st.fovKick = Math.max(0, (st.fovKick || 0) - dt * 22);
+  const fov = baseFov + (turbo ? (st.superTurbo ? 20 : 15) : (st.gas ? 4 : 0)) + (st.fovKick || 0);
+  cam.position.x += (st.x * 0.7 - cam.position.x) * Math.min(1, dt * 6);
+  cam.position.y = 4.5 + rnd(-sh, sh);
+  cam.position.z += (back - cam.position.z) * Math.min(1, dt * 5);
+  cam.fov += (fov - cam.fov) * Math.min(1, dt * 7);
+  cam.aspect = aspect;
+  cam.updateProjectionMatrix();
+  cam.lookAt(st.x * 0.5 + rnd(-sh * 0.4, sh * 0.4), -1.0, -16);
+}
+
+function stepParticles3(dt) {
+  R3.parts.forEach(p => {
+    if (p
