@@ -32,6 +32,7 @@
     daokhobau: function (c) { return ((rd("daoKhoBauToanHoc_v1") || {})[c] || {}).wins || 0; },
     flyers: function (c) { return (rd("flyers_" + c) || {}).khien || 0; },
     thomo: function (c) { return Object.keys(rd("thomo_cup_" + c) || {}).length; },
+    duaxe: function (c) { return (rd("duaXe_" + c) || {}).vang || 0; },
     duoihinh: function (c) { return Math.floor(((rd("dhbc_" + c) || {}).giai || []).length / 10); }
   };
 
