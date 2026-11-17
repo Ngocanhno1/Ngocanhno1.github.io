@@ -9,7 +9,7 @@
   cv.setAttribute("aria-hidden", "true");
   cv.style.cssText = "position:fixed;inset:0;width:100vw;height:100vh;z-index:-1;pointer-events:none";
   var g = cv.getContext("2d");
-  var W = 0, H = 0, DPR = 1, P = [], still = false;
+  var W = 0, H = 0, DPR = 1, P = [], R = [], still = false;
   try { still = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
   var mouse = { x: -9999, y: -9999, t: 0 }, C = { x: 0, y: 0 }, T = { x: 0, y: 0 };
 
@@ -20,10 +20,11 @@
     P = [];
     var maxR = Math.hypot(W, H) * 0.62, gap = W < 700 ? 22 : 28, budget = Math.min(900, Math.round(W * H / 1500));
     var rings = Math.floor(maxR / gap), per = budget / rings;
+    R = []; for (var q = 0; q <= rings; q++) R.push({ x: C.x || W * 0.55, y: C.y || H * 0.42 });
     for (var k = 1; k <= rings; k++) {
       var r = k * gap, n = Math.max(6, Math.round(per * (0.35 + 1.3 * k / rings))), sp = (k % 2 ? 1 : -1) * (0.05 + 0.12 / Math.sqrt(k));
       for (var i = 0; i < n; i++) {
-        P.push({ r: r + (Math.random() - 0.5) * gap * 0.5, a: (i / n) * Math.PI * 2 + Math.random() * 0.3, sp: sp * (0.8 + Math.random() * 0.4),
+        P.push({ k: k, x: 0, y: 0, vx: 0, vy: 0, ph: Math.random() * 6.28, r: r + (Math.random() - 0.5) * gap * 0.5, a: (i / n) * Math.PI * 2 + Math.random() * 0.3, sp: sp * (0.8 + Math.random() * 0.4),
           len: 2 + Math.random() * 3.2, w: 1.3 + Math.random() * 1.3, ox: 0, oy: 0, dot: Math.random() < 0.18 });
       }
     }
@@ -41,26 +42,39 @@
     requestAnimationFrame(frame);
     if (document.hidden) return;
     var dt = Math.min(0.05, (ts - last) / 1000 || 0.016); last = ts;
-    var idle = ts - mouse.t > 4000;
+    var idle = !mouse.t || ts - mouse.t > 4000;
     if (idle) { T.x = W * (0.5 + 0.18 * Math.sin(ts / 5200)); T.y = H * (0.42 + 0.12 * Math.sin(ts / 3900)); }
     else { T.x = mouse.x; T.y = mouse.y; }
     C.x += (T.x - C.x) * Math.min(1, dt * 1.6); C.y += (T.y - C.y) * Math.min(1, dt * 1.6);
     g.clearRect(0, 0, W, H);
     g.lineCap = "round";
+    var t = ts / 1000;
+    R[0].x = C.x; R[0].y = C.y;
+    for (var q = 1; q < R.length; q++) {   // vòng ngoài đuổi theo vòng trong: chuyển động lan ra như gợn sóng
+      var lag = Math.min(1, dt * (9 - 6 * q / R.length));
+      R[q].x += (R[q - 1].x - R[q].x) * lag; R[q].y += (R[q - 1].y - R[q].y) * lag;
+    }
     for (var i = 0; i < P.length; i++) {
-      var p = P[i];
+      var p = P[i], c = R[Math.min(p.k, R.length - 1)];
       if (!still) p.a += p.sp * dt;
+      var breathe = 1 + 0.05 * Math.sin(t * 1.1 - p.r * 0.012) + 0.02 * Math.sin(t * 2.3 + p.ph);   // vòng thở phập phồng
       var ca = Math.cos(p.a), sa = Math.sin(p.a);
-      var x = C.x + ca * p.r, y = C.y + sa * p.r * 0.92;
-      var dx = x - mouse.x, dy = y - mouse.y, d2 = dx * dx + dy * dy;   // chuột đẩy hạt dạt ra
-      if (!idle && d2 < 14400) { var d = Math.sqrt(d2) || 1, f = (120 - d) / 120 * 26; p.ox += (dx / d * f - p.ox) * 0.2; p.oy += (dy / d * f - p.oy) * 0.2; }
-      else { p.ox *= 0.92; p.oy *= 0.92; }
-      x += p.ox; y += p.oy;
+      var tx = c.x + ca * p.r * breathe + Math.sin(t * 0.7 + p.ph + p.r * 0.01) * 4;
+      var ty = c.y + sa * p.r * 0.92 * breathe + Math.cos(t * 0.6 + p.ph) * 4;
+      var dx = tx - mouse.x, dy = ty - mouse.y, d2 = dx * dx + dy * dy;   // chuột đi qua: hạt dạt ra mềm mại
+      if (!idle && d2 < 19600) { var d = Math.sqrt(d2) || 1, f = Math.pow((140 - d) / 140, 2) * 46; tx += dx / d * f; ty += dy / d * f; }
+      if (!p.x) { p.x = tx; p.y = ty; }
+      p.vx += (tx - p.x) * 18 * dt; p.vy += (ty - p.y) * 18 * dt;   // lò xo + giảm chấn: có quán tính, uốn lượn tự nhiên
+      p.vx *= Math.pow(0.02, dt); p.vy *= Math.pow(0.02, dt);
+      p.x += p.vx * dt * 6; p.y += p.vy * dt * 6;
+      var x = p.x, y = p.y;
       if (x < -10 || y < -10 || x > W + 10 || y > H + 10) continue;
       g.strokeStyle = color(p.a, p.r, p.dot);
       g.lineWidth = p.dot ? 1.4 : p.w;
-      var L = p.dot ? 0.6 : p.len;
-      g.beginPath(); g.moveTo(x - sa * L, y + ca * L); g.lineTo(x + sa * L, y - ca * L); g.stroke();
+      var sp2 = p.vx * p.vx + p.vy * p.vy, ux = -sa, uy = ca;   // vạch nghiêng theo hướng đang trôi
+      if (sp2 > 4) { var s0 = Math.sqrt(sp2); ux = ux * 0.4 + p.vx / s0 * 0.6; uy = uy * 0.4 + p.vy / s0 * 0.6; var n0 = Math.hypot(ux, uy) || 1; ux /= n0; uy /= n0; }
+      var L = p.dot ? 0.6 : p.len * (1 + Math.min(1.2, Math.sqrt(sp2) / 30));
+      g.beginPath(); g.moveTo(x - ux * L, y - uy * L); g.lineTo(x + ux * L, y + uy * L); g.stroke();
     }
   }
   function mv(x, y) { mouse.x = x; mouse.y = y; mouse.t = performance.now(); }

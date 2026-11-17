@@ -12,7 +12,11 @@
 
   var css = document.createElement("style");
   css.textContent = ".anh-icon{display:inline-block;position:relative;width:1.18em;height:1.18em;vertical-align:-0.22em;line-height:1}" +
-    ".anh-icon img{width:100%;height:100%;object-fit:cover;border-radius:24%;display:block;box-shadow:0 1px 4px rgba(0,0,0,.28);background:#fff8}" +
+    ".anh-icon img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;border:.08em solid #fff;box-shadow:0 .06em .2em rgba(80,40,120,.35);background:#fff;box-sizing:border-box}" +
+    ".anh-icon.to img{border-width:.06em;animation:anhNhun 3.2s ease-in-out infinite}" +
+    ".anh-icon.to:hover img{animation:anhLac .6s ease-in-out}" +
+    "@keyframes anhNhun{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-6%) rotate(3deg)}}" +
+    "@keyframes anhLac{0%,100%{transform:rotate(0)}25%{transform:rotate(-10deg) scale(1.08)}75%{transform:rotate(10deg) scale(1.08)}}" +
     ".anh-icon .anh-goc{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}";
   document.head.appendChild(css);
 
@@ -42,7 +46,9 @@
     }
     if (!changed) return;
     if (last < s.length) frag.appendChild(document.createTextNode(s.slice(last)));
-    t.parentNode.replaceChild(frag, t);
+    var cha = t.parentNode;
+    cha.replaceChild(frag, t);
+    try { if (parseFloat(getComputedStyle(cha).fontSize) >= 34) cha.querySelectorAll(".anh-icon").forEach(function (e, i) { e.classList.add("to"); e.firstChild.style.animationDelay = (-(i * 0.7) % 3) + "s"; }); } catch (e) {}
   }
   function scan(root) {
     if (root.nodeType === 3) { swap(root); return; }

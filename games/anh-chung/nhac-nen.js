@@ -87,7 +87,7 @@
     splash.innerHTML = '<div style="font-size:clamp(26px,4.5vw,54px);font-weight:800;color:#ffe066;text-shadow:0 4px 0 #9a3412,0 8px 24px #000;line-height:1.1"></div>' +
       '<button style="width:clamp(110px,14vw,160px);height:clamp(110px,14vw,160px);border-radius:50%;border:6px solid #ffe066;background:linear-gradient(#ff7a59,#e11d48);box-shadow:0 0 0 10px rgba(255,224,102,.25),0 14px 30px rgba(0,0,0,.5);display:grid;place-items:center;cursor:pointer;animation:nhacNhip 1.1s ease-in-out infinite">' +
       '<svg viewBox="0 0 24 24" width="56%" height="56%" fill="#fff"><path d="M8 5v14l11-7z"/></svg></button>' +
-      '<div style="font-size:clamp(18px,2.4vw,28px);font-weight:700;text-shadow:0 2px 8px #000">Chạm để vào game và bật nhạc</div>' +
+      '<div style="font-size:clamp(18px,2.4vw,28px);font-weight:700;text-shadow:0 2px 8px #000">Chạm vào đây để bước vào thế giới diệu kỳ nhé!</div>' +
       '<style>@keyframes nhacNhip{50%{transform:scale(1.1)}}</style>';
     splash.firstChild.textContent = ten;
     splash.addEventListener("pointerdown", function () { play(); hideSplash(); });
