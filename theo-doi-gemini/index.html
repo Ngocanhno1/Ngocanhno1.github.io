@@ -185,6 +185,26 @@
       border-top: 3px solid var(--blue-light);
     }
 
+    .kpi-card.kpi-reread {
+      border-top: 4px solid #94a3b8;
+      opacity: 0.85;
+    }
+
+    .tag-caphien {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 1px 8px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: rgba(148, 163, 184, 0.2);
+      color: #94a3b8;
+    }
+
+    .compare-table td.muted {
+      color: #94a3b8;
+    }
+
     .kpi-label {
       font-size: 0.85rem;
       color: var(--text-muted);
@@ -772,25 +792,25 @@
 
     <!-- 4 Ô số lớn -->
     <section class="kpi-grid">
-      <div class="kpi-card kpi-claude">
-        <span class="kpi-label">Claude hôm nay</span>
-        <span class="kpi-value" id="kpiClaudeToday">0</span>
-        <span class="kpi-sub">Token quy đổi</span>
-      </div>
-      <div class="kpi-card kpi-claude">
-        <span class="kpi-label">Claude 7 ngày</span>
-        <span class="kpi-value" id="kpiClaude7d">0</span>
-        <span class="kpi-sub">Token quy đổi</span>
-      </div>
       <div class="kpi-card kpi-gemini">
-        <span class="kpi-label">Gemini hôm nay</span>
-        <span class="kpi-value" id="kpiGeminiToday">0</span>
-        <span class="kpi-sub">Tổng token</span>
-      </div>
-      <div class="kpi-card kpi-gemini">
-        <span class="kpi-label">Gemini 7 ngày</span>
+        <span class="kpi-label">Gemini viết (7 ngày)</span>
         <span class="kpi-value" id="kpiGemini7d">0</span>
-        <span class="kpi-sub">Tổng token</span>
+        <span class="kpi-sub" id="kpiGeminiToday">Hôm nay: 0</span>
+      </div>
+      <div class="kpi-card kpi-claude">
+        <span class="kpi-label">Claude xử lý mới (7 ngày)</span>
+        <span class="kpi-value" id="kpiClaude7d">0</span>
+        <span class="kpi-sub" id="kpiClaudeToday">Hôm nay: 0</span>
+      </div>
+      <div class="kpi-card kpi-claude">
+        <span class="kpi-label">So sánh ngang (7 ngày)</span>
+        <span class="kpi-value" id="kpiTiLe">–</span>
+        <span class="kpi-sub">Chỉ tính việc có cả hai bên</span>
+      </div>
+      <div class="kpi-card kpi-reread">
+        <span class="kpi-label">Claude đọc lại chat (7 ngày)</span>
+        <span class="kpi-value" id="kpiDocLai7d">0</span>
+        <span class="kpi-sub" id="kpiDocLaiToday">Phí của chat dài, không so với Gemini</span>
       </div>
     </section>
 
@@ -831,20 +851,24 @@
           <thead>
             <tr>
               <th>Việc</th>
-              <th class="num">Claude (quy đổi)</th>
-              <th class="num">Gemini (token)</th>
-              <th class="num">Gemini làm được bao nhiêu % tổng</th>
+              <th class="num">Gemini viết</th>
+              <th class="num">Claude xử lý mới</th>
+              <th class="num">So sánh ngang</th>
+              <th class="num">Claude đọc lại chat</th>
             </tr>
           </thead>
           <tbody id="compareTableBody">
             <tr>
-              <td colspan="4" class="empty-tasks">Đang tải dữ liệu...</td>
+              <td colspan="5" class="empty-tasks">Đang tải dữ liệu...</td>
             </tr>
           </tbody>
         </table>
       </div>
       <div class="table-note">
-        Token quy đổi của Claude = vào + ghi đệm x2 + đọc đệm x0,1 + ra x5 (cùng cách tính giá). Token Gemini là số AI Studio hiện ở đầu khung chat.
+        <strong>So sánh ngang</strong> = hai cột "Gemini viết" và "Claude xử lý mới", cùng đơn vị token thật, cùng một việc.<br>
+        Gemini viết: số AI Studio hiện ở đầu khung chat (đề + bài Gemini viết ra). Claude xử lý mới: token vào + ghi đệm + ra của riêng việc đó (lấy số đo lúc kết thúc trừ lúc bắt đầu).<br>
+        Claude đọc lại chat: mỗi lần Claude gọi công cụ phải đọc lại cả cuộc trò chuyện. Phần này rẻ (giá bằng 1/10) nhưng phình to khi chat dài, nên tách riêng, không đem so với Gemini. Muốn giảm thì mở chat mới cho mỗi việc lớn.<br>
+        Dòng có nhãn "cả phiên" là số ghi cho cả phiên làm việc, chưa tách theo việc, nên không so ngang được.
       </div>
     </section>
 
@@ -983,12 +1007,15 @@
       let claudeHomNay = 0;
       let claude7Ngay = 0;
       let tongClaudeTatCa = 0;
+      let docLaiHomNay = 0;
+      let docLai7Ngay = 0;
+      let tongDocLaiTatCa = 0;
 
       const mapViec = new Map();
       function layMucViec(tenViec, thoiGian) {
         const key = (tenViec || 'Không tên').trim() || 'Không tên';
         if (!mapViec.has(key)) {
-          mapViec.set(key, { viec: key, claude: 0, gemini: 0, lastT: 0 });
+          mapViec.set(key, { viec: key, claude: 0, docLai: 0, gemini: 0, caPhien: false, lastT: 0 });
         }
         const item = mapViec.get(key);
         if (thoiGian > item.lastT) item.lastT = thoiGian;
@@ -1007,6 +1034,11 @@
         const viec = raw.viec ? String(raw.viec).trim() : 'Phiên không tên';
         const luot = Number(raw.luot) || 0;
         const quyDoi = tinhQuyDoiClaude(raw);
+        const coChiTietSo = ['vao', 'ghiDem', 'docDem', 'ra'].some(k => raw[k] !== undefined);
+        // Xử lý mới = token thật Claude phải đọc/viết mới cho việc này; đọc lại = đọc lại cả cuộc trò chuyện (đọc đệm).
+        const moi = coChiTietSo ? (Number(raw.vao) || 0) + (Number(raw.ghiDem) || 0) + (Number(raw.ra) || 0) : quyDoi;
+        const docLai = coChiTietSo ? (Number(raw.docDem) || 0) : 0;
+        const caPhien = raw.caPhien === true || (moi > 0 && docLai > 0 && docLai / moi > 60 && !raw.batDau);
         const ct = (raw.chiTiet && typeof raw.chiTiet === 'object') ? raw.chiTiet : {};
 
         const chiTiet = {
@@ -1019,12 +1051,15 @@
         };
 
         if (t && khoaNgay(t) === khoaHomNay) {
-          claudeHomNay += quyDoi;
+          claudeHomNay += moi;
+          docLaiHomNay += docLai;
         }
         if (t && t >= bayNgayTruoc && t <= now + 60000) {
-          claude7Ngay += quyDoi;
+          claude7Ngay += moi;
+          docLai7Ngay += docLai;
         }
-        tongClaudeTatCa += quyDoi;
+        tongClaudeTatCa += moi;
+        tongDocLaiTatCa += docLai;
 
         const trongSo = quyDoi > 0 ? quyDoi : 1;
         tongTrongSoChiTiet += trongSo;
@@ -1032,9 +1067,11 @@
         tongChrome += chiTiet.chrome * trongSo;
 
         const mucViec = layMucViec(viec, t);
-        mucViec.claude += quyDoi;
+        mucViec.claude += moi;
+        mucViec.docLai += docLai;
+        if (caPhien) mucViec.caPhien = true;
 
-        danhSachClaude.push({ id, t, viec, luot, quyDoi, chiTiet });
+        danhSachClaude.push({ id, t, viec, luot, quyDoi, moi, docLai, caPhien, chiTiet });
       }
 
       danhSachClaude.sort((a, b) => b.t - a.t);
@@ -1167,11 +1204,20 @@
       });
 
       const danhSachSoSanh = Array.from(mapViec.values()).sort((a, b) => {
-        const tongB = b.claude + b.gemini;
-        const tongA = a.claude + a.gemini;
-        if (tongB !== tongA) return tongB - tongA;
+        // Việc có cả hai bên (so ngang được) lên đầu, mới nhất trước.
+        const caHaiA = (a.claude > 0 && a.gemini > 0 && !a.caPhien) ? 1 : 0;
+        const caHaiB = (b.claude > 0 && b.gemini > 0 && !b.caPhien) ? 1 : 0;
+        if (caHaiB !== caHaiA) return caHaiB - caHaiA;
         return b.lastT - a.lastT;
       });
+
+      // So sánh ngang chỉ cộng các việc có cả hai bên và đã tách theo việc, trong 7 ngày.
+      let ngangClaude = 0, ngangGemini = 0;
+      for (const v of danhSachSoSanh) {
+        if (v.caPhien || v.claude <= 0 || v.gemini <= 0 || v.lastT < bayNgayTruoc) continue;
+        ngangClaude += v.claude;
+        ngangGemini += v.gemini;
+      }
 
       const tbHuongDan = tongTrongSoChiTiet > 0 ? (tongHuongDan / tongTrongSoChiTiet) : 0;
       const tbChrome = tongTrongSoChiTiet > 0 ? (tongChrome / tongTrongSoChiTiet) : 0;
@@ -1181,8 +1227,13 @@
           claudeHomNay,
           claude7Ngay,
           geminiHomNay,
-          gemini7Ngay
+          gemini7Ngay,
+          docLaiHomNay,
+          docLai7Ngay,
+          ngangClaude,
+          ngangGemini
         },
+        tongDocLaiTatCa,
         tongClaudeTatCa,
         tongGeminiTatCa,
         tbHuongDan,
@@ -1193,15 +1244,34 @@
       };
     }
 
+    function moTaTiLe(claude, gemini) {
+      if (claude > 0 && gemini > 0) {
+        const r = claude / gemini;
+        if (r >= 1) return { text: `Claude gấp ${r.toLocaleString('vi-VN', { maximumFractionDigits: 1 })} lần`, cls: r > 2 ? 'pct-orange' : 'pct-yellow' };
+        return { text: `Claude bằng ${Math.round(r * 100)}%`, cls: 'pct-green' };
+      }
+      if (claude > 0) return { text: 'Chỉ Claude làm', cls: 'pct-muted' };
+      if (gemini > 0) return { text: 'Chỉ Gemini làm', cls: 'pct-muted' };
+      return { text: '–', cls: 'pct-muted' };
+    }
+
     function hienThiKPI(kpi) {
-      document.getElementById('kpiClaudeToday').textContent = dinhDangSoLon(kpi.claudeHomNay);
-      document.getElementById('kpiClaude7d').textContent = dinhDangSoLon(kpi.claude7Ngay);
-      document.getElementById('kpiGeminiToday').textContent = dinhDangSoLon(kpi.geminiHomNay);
       document.getElementById('kpiGemini7d').textContent = dinhDangSoLon(kpi.gemini7Ngay);
+      document.getElementById('kpiGeminiToday').textContent = 'Hôm nay: ' + dinhDangSoLon(kpi.geminiHomNay);
+      document.getElementById('kpiClaude7d').textContent = dinhDangSoLon(kpi.claude7Ngay);
+      document.getElementById('kpiClaudeToday').textContent = 'Hôm nay: ' + dinhDangSoLon(kpi.claudeHomNay);
+      document.getElementById('kpiDocLai7d').textContent = dinhDangSoLon(kpi.docLai7Ngay);
+      document.getElementById('kpiTiLe').textContent = (kpi.ngangClaude > 0 && kpi.ngangGemini > 0)
+        ? moTaTiLe(kpi.ngangClaude, kpi.ngangGemini).text
+        : 'Chưa có việc';
     }
 
     function hienThiGoiY(ketQua) {
       const goiY = [];
+
+      if (ketQua.kpi.docLai7Ngay > 20 * Math.max(1, ketQua.kpi.claude7Ngay)) {
+        goiY.push('Phần "đọc lại chat" lớn gấp hơn 20 lần phần xử lý mới: mở chat mới cho mỗi việc lớn');
+      }
 
       if (ketQua.tbHuongDan > 40) {
         goiY.push('Gộp nhiều việc nhỏ vào một lần nhắn để đỡ đọc lại hướng dẫn');
@@ -1268,11 +1338,11 @@
             <div class="session-top">
               <div class="session-left">
                 <span class="session-time">${dinhDangNgayGio(s.t)}</span>
-                <span class="session-viec">${thoatHTML(s.viec)}</span>
+                <span class="session-viec">${thoatHTML(s.viec)}${s.caPhien ? '<span class="tag-caphien">cả phiên</span>' : ''}</span>
               </div>
               <div class="session-right">
                 <span class="session-luot">${dinhDangSo(s.luot)} lượt</span>
-                <span class="session-tok">${dinhDangSoLon(s.quyDoi)} tok</span>
+                <span class="session-tok" title="Xử lý mới / đọc lại chat">${dinhDangSoLon(s.moi)} mới · ${dinhDangSoLon(s.docLai)} đọc lại</span>
               </div>
             </div>
             <div class="stacked-bar">${segments}</div>
@@ -1285,21 +1355,21 @@
     function hienThiBangSoSanh(danhSachSoSanh) {
       const tbody = document.getElementById('compareTableBody');
       if (danhSachSoSanh.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="4" class="empty-tasks">Chưa có dữ liệu công việc để so sánh.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" class="empty-tasks">Chưa có dữ liệu công việc để so sánh.</td></tr>`;
         return;
       }
 
       tbody.innerHTML = danhSachSoSanh.map(row => {
-        const tong = row.claude + row.gemini;
-        const pctGemini = tong > 0 ? Math.round((row.gemini / tong) * 100) : 0;
-        const mau = layMauPhanTram(pctGemini);
-
+        const tl = row.caPhien
+          ? { text: 'Chưa tách việc', cls: 'pct-muted' }
+          : moTaTiLe(row.claude, row.gemini);
         return `
           <tr>
-            <td><strong>${thoatHTML(row.viec)}</strong></td>
-            <td class="num">${dinhDangSo(row.claude)}</td>
-            <td class="num">${dinhDangSo(row.gemini)}</td>
-            <td class="num"><span class="pct-pill ${mau.textClass}">${pctGemini}%</span></td>
+            <td><strong>${thoatHTML(row.viec)}</strong>${row.caPhien ? '<span class="tag-caphien">cả phiên</span>' : ''}</td>
+            <td class="num">${row.gemini > 0 ? dinhDangSo(row.gemini) : '–'}</td>
+            <td class="num">${row.claude > 0 ? dinhDangSo(row.claude) : '–'}</td>
+            <td class="num"><span class="pct-pill ${tl.cls}">${tl.text}</span></td>
+            <td class="num muted">${row.docLai > 0 ? dinhDangSo(row.docLai) : '–'}</td>
           </tr>
         `;
       }).join('');
