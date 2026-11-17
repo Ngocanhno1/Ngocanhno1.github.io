@@ -358,6 +358,8 @@ const Voice = {
     if (!("speechSynthesis" in window)) { toast("Trình duyệt này chưa có giọng đọc"); return; }
     if (Sound.muted) { toast("Âm thanh đang tắt, bấm nút loa ở góc phải để bật"); return; }
     speechSynthesis.cancel();
+    if (!this.v) this.pick();
+    if (!this.v && !this.warned) { this.warned = true; toast("Máy này chưa cài giọng đọc tiếng Việt nên đọc có thể chưa chuẩn. Trên TV Android/điện thoại thường đã có sẵn."); }
     setTimeout(()=>{ const u=new SpeechSynthesisUtterance(text); u.lang="vi-VN"; if(!this.v) this.pick(); if(this.v) u.voice=this.v; u.rate=0.85; u.pitch=1.05; speechSynthesis.speak(u); }, 80);
   },
   stop(){ try { speechSynthesis.cancel(); } catch(e) {} }
