@@ -87,6 +87,29 @@ def luu(tin):
         time.sleep(10)
 
 
+def cau_trong_json(f):
+    """Lời truyện, câu hỏi... nằm trong file dữ liệu .json của game (vd sach-truyen/truyen/*.json)."""
+    try:
+        d = json.load(open(f, encoding="utf-8"))
+    except Exception:
+        return []
+    tho = []
+    def duyet(x):
+        if isinstance(x, str): tho.append(x)
+        elif isinstance(x, list): [duyet(y) for y in x]
+        elif isinstance(x, dict): [duyet(y) for y in x.values()]
+    duyet(d)
+    ra = []
+    for x in tho:
+        if not VN.search(x) or re.search(r"https?:|\.(js|css|png|webp|mp3)\b", x):
+            continue
+        for p in CAT.split(x):
+            k = chuan(p)
+            if 1 < len(k) <= 220 and VN.search(k):
+                ra.append(p.strip())
+    return ra
+
+
 def main():
     os.makedirs(RA, exist_ok=True)
     game = [f for f in sorted(glob.glob("games/*/index.html")) if "speechSynthesis" in open(f, encoding="utf-8").read()]
@@ -101,6 +124,12 @@ def main():
     for f in game:
         for p in cau_trong(f):
             can.setdefault(ma(chuan(p)), p)
+        thu_muc = os.path.dirname(f)   # file dữ liệu của game: truyện, câu hỏi để riêng
+        for j in sorted(glob.glob(thu_muc + "/**/*.json", recursive=True)):
+            if re.search(r"(anh-nguon|nguon-anh|danh-sach|manifest)\.json$", j) or "/anh/" in j or "/nhap/" in j:
+                continue
+            for p in cau_trong_json(j):
+                can.setdefault(ma(chuan(p)), p)
     co = {f[:-4] for f in os.listdir(RA) if f.endswith(".mp3")}
     thieu = [(k, v) for k, v in can.items() if k not in co]
     print(f"{len(game)} game, {len(can)} câu, đã có {len(co & set(can))}, cần đọc {len(thieu)}", flush=True)

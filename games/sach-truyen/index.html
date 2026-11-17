@@ -182,7 +182,7 @@ async function moGia() {
   $("ke").innerHTML = "";
   DS.forEach((t, i) => {
     const b = document.createElement("button"); b.className = "the";
-    b.innerHTML = `${i === 0 ? '<span class="moi">TUẦN NÀY</span>' : ""}${dd[t.ma] ? '<span class="da">Đã nghe</span>' : ""}
+    b.innerHTML = `${i === 0 ? '<span class="moi">TUẦN NÀY</span>' : ""}${dd[t.ma] ? '<span class="da">Đã nghe</span>' : ((readJSON("sachtruyen_dangdoc") || {})[t.ma] ? '<span class="da" style="background:#f59f00">Đang đọc dở · trang ' + (readJSON("sachtruyen_dangdoc") || {})[t.ma] + '</span>' : "")}
       <img class="bia" alt=""><div class="ten"></div><div class="tuan">Truyện số ${t.so} · ${t.trang} trang · ${t.ngay.split("-").reverse().join("/")}</div>`;
     b.querySelector(".ten").textContent = t.tieu_de;
     const im = b.querySelector(".bia"), m = NGUON[t.ma + "-bia"]; let k = 0;
@@ -200,7 +200,13 @@ function hien(id) { document.querySelectorAll(".man").forEach(m => m.classList.t
    Trang: 0 = bìa, 1..n = truyện, n+1 = bài học, n+2 = ai trả lời, n+3.. = 3 câu hỏi, cuối = chúc ngủ ngon */
 async function moTruyen(ma) {
   try { T = await fetch(`truyen/${ma}.json`, { cache: "no-cache" }).then(r => r.json()); } catch (e) { return; }
-  trang = 0; diem = 0; nguoi = null; hien("doc"); veTrang();
+  const dang = (readJSON("sachtruyen_dangdoc") || {})[ma];   // đọc dở lần trước: mở đúng trang đó
+  trang = dang && dang > 0 && dang <= N() ? dang : 0; diem = 0; nguoi = null; hien("doc"); veTrang();
+}
+function ghiDangDoc() {   // nhớ trang truyện đang đọc (chỉ phần truyện, không tính phần đố vui)
+  if (!T) return; const o = readJSON("sachtruyen_dangdoc") || {};
+  if (trang > 0 && trang <= N()) o[T.ma] = trang; else if (trang > N()) delete o[T.ma];
+  saveJSON("sachtruyen_dangdoc", o);
 }
 const KHEN = ["Con nghe lại truyện nhé, lần sau sẽ đúng nhiều hơn!", "Con được một ngôi sao!", "Con được hai ngôi sao, giỏi lắm!", "Con được ba ngôi sao, tuyệt vời quá!"];
 const N = () => T.trang.length;
@@ -213,7 +219,7 @@ function veCham() {
   for (let i = 0; i < tong(); i++) { const s = document.createElement("span"); if (i === trang) s.className = "on"; c.appendChild(s); }
 }
 function veTrang() {
-  imLang(); veCham();
+  imLang(); veCham(); ghiDangDoc();
   const n = N(), chu = $("chu"), tr = $("tranh");
   tr.classList.remove("trang-dem"); $("anh").style.display = "";
   $("nTruoc").disabled = trang === 0;

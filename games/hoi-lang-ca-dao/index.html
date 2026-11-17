@@ -179,6 +179,7 @@
       <div class="mode-tag"><span data-hs="truong">Trường TH&amp;THCS Chu Văn An</span></div>
     </button>
   </div>
+  <button class="mode" id="btnTiep" style="display:none;width:auto;flex-direction:row;padding:10px 26px;background:linear-gradient(160deg,#4ade80,#15803d)"><div class="mode-name" id="tiepTen">CHƠI TIẾP</div></button>
   <p class="hint">Bấm vào tranh để phóng to · Bấm "Đọc câu hỏi" để nghe giọng đọc · Bàn phím: 1 2 3 4 để chọn đáp án</p>
 </section>
 
@@ -695,7 +696,24 @@ function startGame(mode){
   if (mode !== "lucas") S.players.lucie = newPlayer();
   camMode = "game"; showScreen("scrGame"); showQuestion();
 }
-function goHome(){ Voice.stop(); $("#feedback").classList.remove("show"); S.active = null; camMode = "start"; showScreen("scrStart"); }
+function goHome(){ Voice.stop(); $("#feedback").classList.remove("show"); S.active = null; camMode = "start"; showScreen("scrStart"); hienChoiTiep(); }
+// Lưu ván đang chơi để thoát ra rồi vào lại vẫn chơi tiếp
+const KHOA_VAN = "hoiLang_dangChoi";
+const TEN_CHE_DO = { lucas:"Em Lucas", lucie:"Chị Lucie", both:"Hai chị em" };
+function luuVan(){ try { localStorage.setItem(KHOA_VAN, JSON.stringify({ mode:S.mode, ids:S.list.map(q => q.id), idx:S.idx, players:S.players })); } catch(e) {} }
+function docVan(){ try { const o = JSON.parse(localStorage.getItem(KHOA_VAN) || "null"); return o && o.ids && o.idx < o.ids.length ? o : null; } catch(e) { return null; } }
+function hienChoiTiep(){
+  const o = docVan(), b = $("#btnTiep"); if (!b) return;
+  if (!o) { b.style.display = "none"; return; }
+  $("#tiepTen").textContent = `CHƠI TIẾP · ${TEN_CHE_DO[o.mode] || ""} · câu ${o.idx + 1}/${o.ids.length}`;
+  b.style.display = "flex";
+}
+function choiTiep(){
+  const o = docVan(); if (!o) return;
+  Sound.init(); Sound.drumHit();
+  S.mode = o.mode; S.list = o.ids.map(id => QUESTIONS.find(q => q.id === id)).filter(Boolean); S.idx = Math.min(o.idx, S.list.length - 1); S.players = o.players;
+  camMode = "game"; showScreen("scrGame"); showQuestion();
+}
 function fullText(q){ return q.questionText.includes("[...]") ? q.questionText.replace("[...]", q.correctAnswer) : q.questionText + " Đó là " + q.correctAnswer + "."; }
 function renderQuestion(q, filled){
   const el = $("#qText"); el.innerHTML = "";
@@ -720,6 +738,7 @@ function showPics(q){
 }
 function showQuestion(){
   const q = S.list[S.idx]; S.q = q; S.answered = false; S.usedHelp = false;
+  luuVan();
   const who = q.level === 1 ? "lucas" : "lucie"; S.active = who;
   const P = S.players[who];
   const tb = $("#turnBadge"); tb.textContent = "Lượt của " + NAME[who]; tb.className = "turn t-" + who;
@@ -787,6 +806,7 @@ const starSVG = on => `<svg viewBox="0 0 24 24"><path d="M12 2l3 6.9 7.5.6-5.7 4
 const starsOf = P => { const r = P.total ? P.right / P.total : 0; return r >= 0.9 ? 3 : r >= 0.7 ? 2 : r >= 0.4 ? 1 : 0; };
 function endGame(){
   S.active = null; camMode = "game";
+  try { localStorage.removeItem(KHOA_VAN); } catch(e) {}
   const ws = Object.keys(S.players);
   $("#endBody").innerHTML = `<div class="res">` + ws.map(w => { const P = S.players[w], st = starsOf(P);
     return `<div class="resbox ${w}"><div class="nm">${NAME[w]}</div><div style="font-weight:700">${HS[w].ten} · Lớp ${HS[w].lop}</div><div class="pt">${P.score} điểm</div><div class="stars">${[0,1,2].map(i => starSVG(i < st)).join("")}</div><div>Đúng ${P.right}/${P.total} câu</div></div>`; }).join("") + `</div>` +
@@ -808,7 +828,9 @@ const ICON_ON = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l
 const ICON_OFF = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.6 3l2.7-2.7-1.4-1.4-2.7 2.7-2.7-2.7-1.4 1.4 2.7 2.7-2.7 2.7 1.4 1.4 2.7-2.7 2.7 2.7 1.4-1.4z"/></svg>';
 $("#btnMute").innerHTML = ICON_ON;
 $("#btnMute").onclick = () => { const m = Sound.toggle(); $("#btnMute").innerHTML = m ? ICON_OFF : ICON_ON; toast(m ? "Đã tắt âm thanh" : "Đã bật âm thanh"); };
-$$(".mode").forEach(b => b.onclick = () => startGame(b.dataset.mode));
+$$(".mode[data-mode]").forEach(b => b.onclick = () => startGame(b.dataset.mode));
+$("#btnTiep").onclick = choiTiep;
+hienChoiTiep();
 $("#btnHome").onclick = goHome;
 $("#btnRead").onclick = readQuestion;
 $("#btnHelp").onclick = useHelp;

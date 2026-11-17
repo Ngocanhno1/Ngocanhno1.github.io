@@ -24,18 +24,17 @@
     return ("0000000" + h.toString(16)).slice(-8);
   }
 
-  var hang = null, au = new Audio(), dangDoc = false;
-  au.preload = "auto";
-  function xong(job) { if (hang !== job) return; hang = null; dangDoc = false; try { job.u.dispatchEvent(new Event("end")); } catch (e) {} }
+  var hang = null, dangDoc = false, dangPhat = null;
+  function xong(job) { if (hang !== job) return; hang = null; dangDoc = false; dangPhat = null; try { job.u.dispatchEvent(new Event("end")); } catch (e) {} }
   function tiep(job) {
     if (hang !== job) return;
     if (!job.ds.length) return xong(job);
     var p = job.ds.shift();
-    if (p.file) {
-      au.src = BASE + p.file + ".mp3"; au.volume = job.u.volume == null ? 1 : job.u.volume;
-      au.onended = function () { tiep(job); };
-      au.onerror = function () { doiMay(job, p.text); };
-      var pr = au.play(); if (pr && pr.catch) pr.catch(function () { doiMay(job, p.text); });
+    if (p.au) {   // file đã được tải trước từ đầu lượt đọc -> câu sau nối liền câu trước, không ngắt quãng
+      dangPhat = p.au; p.au.volume = job.u.volume == null ? 1 : job.u.volume;
+      p.au.onended = function () { tiep(job); };
+      p.au.onerror = function () { doiMay(job, p.text); };
+      var pr = p.au.play(); if (pr && pr.catch) pr.catch(function () { doiMay(job, p.text); });
     } else doiMay(job, p.text);
   }
   function doiMay(job, text) {   // câu chưa có giọng VieNeu: đọc bằng giọng máy rồi đi tiếp
@@ -52,7 +51,8 @@
     text.split(CAT).forEach(function (p) {
       p = p.trim(); if (!p) return;
       var k = ma(chuan(p));
-      if (chuan(p) && CO[k]) { ds.push({ file: k }); coFile++; } else if (/[\p{L}\p{N}]/u.test(p)) ds.push({ text: p });
+      if (chuan(p) && CO[k]) { var au = new Audio(BASE + k + ".mp3"); au.preload = "auto"; ds.push({ au: au, text: p }); coFile++; }
+      else if (/[\p{L}\p{N}]/u.test(p)) ds.push({ text: p });
     });
     if (!coFile) return goc.speak(u);
     ss.cancel();
@@ -60,6 +60,6 @@
     try { u.dispatchEvent(new Event("start")); } catch (e) {}
     tiep(job);
   };
-  ss.cancel = function () { var j = hang; hang = null; dangDoc = false; try { au.pause(); } catch (e) {} goc.cancel(); if (j) try { j.u.dispatchEvent(new Event("end")); } catch (e) {} };
+  ss.cancel = function () { var j = hang; hang = null; dangDoc = false; try { if (dangPhat) dangPhat.pause(); } catch (e) {} dangPhat = null; goc.cancel(); if (j) try { j.u.dispatchEvent(new Event("end")); } catch (e) {} };
   try { Object.defineProperty(ss, "speaking", { configurable: true, get: function () { return dangDoc || Object.getPrototypeOf(ss).__lookupGetter__("speaking").call(ss); } }); } catch (e) {}
 })();
