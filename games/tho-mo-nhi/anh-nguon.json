@@ -13,7 +13,7 @@
   "t": "Emerald"
  },
  "diamond": {
-  "t": "Diamond"
+  "f": "Brillanten.jpg"
  },
  "ruong-go": {
   "ai": "cute voxel cube style open wooden treasure chest overflowing with shiny gold coins, cave background",
@@ -37,6 +37,65 @@
  },
  "kho-bau": {
   "ai": "giant pile of sparkling blue diamonds and gold treasure in a glowing voxel cave",
+  "seed": 7
+ },
+ "silver": {
+  "t": "Silver"
+ },
+ "cup-0": {
+  "ai": "shiny bronze trophy cup with a star on a pedestal, confetti",
+  "seed": 7
+ },
+ "cup-1": {
+  "ai": "shiny silver trophy cup with a star on a pedestal, confetti",
+  "seed": 7
+ },
+ "cup-2": {
+  "ai": "shiny golden trophy cup with a star on a pedestal, sparkles and confetti",
+  "seed": 7
+ },
+ "cup-3": {
+  "ai": "sparkling diamond crystal trophy cup glowing blue on a pedestal, sparkles",
+  "seed": 7
+ },
+ "cuoc-0": {
+  "ai": "voxel cube style wooden pickaxe, simple background",
+  "seed": 7
+ },
+ "cuoc-1": {
+  "ai": "voxel cube style stone pickaxe, simple background",
+  "seed": 7
+ },
+ "cuoc-2": {
+  "ai": "voxel cube style shiny iron pickaxe, simple background",
+  "seed": 7
+ },
+ "cuoc-3": {
+  "ai": "voxel cube style shiny golden pickaxe with sparkles, simple background",
+  "seed": 7
+ },
+ "cuoc-4": {
+  "ai": "voxel cube style glowing blue diamond pickaxe with sparkles, simple background",
+  "seed": 7
+ },
+ "skin-thomo": {
+  "ai": "cute voxel cube style kid miner with yellow helmet and headlamp",
+  "seed": 7
+ },
+ "skin-oto": {
+  "ai": "cute voxel cube style red toy race car with a drill on the front",
+  "seed": 7
+ },
+ "skin-sieunhan": {
+  "ai": "cute voxel cube style kid superhero in green suit with orange cape and yellow star emblem, original character",
+  "seed": 7
+ },
+ "skin-ninja": {
+  "ai": "cute voxel cube style kid ninja in black suit with red headband climbing a wall",
+  "seed": 7
+ },
+ "skin-robot": {
+  "ai": "cute voxel cube style friendly silver robot miner with antenna",
   "seed": 7
  }
 }
