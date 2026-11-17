@@ -63,7 +63,9 @@
        color: #fff; text-shadow: 0 4px 0 #6c4bd6, 0 8px 18px rgba(80, 40, 160, .35); letter-spacing: .5px; }
   .sub { margin: 8px 0 0; font-size: clamp(18px, 2.4vw, 26px); font-weight: 600; color: #4a3f6b; }
   .grid { position: relative; z-index: 1; max-width: 1280px; margin: 34px auto 0;
-          display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); gap: 26px; }
+          display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  @media (max-width: 1000px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
   a.game { display: flex; flex-direction: column; text-decoration: none; color: inherit; background: var(--card);
            border-radius: 28px; overflow: hidden; box-shadow: 0 10px 0 rgba(43, 33, 64, .14), 0 18px 34px rgba(43, 33, 64, .16);
            transition: transform .18s, box-shadow .18s; outline: none; border: 5px solid transparent; }
@@ -73,8 +75,8 @@
   .art .badge { position: absolute; top: 14px; left: 14px; background: #fff; border-radius: 999px; padding: 2px 14px;
                 font-size: 17px; font-weight: 800; color: #e8590c; box-shadow: 0 3px 0 rgba(0,0,0,.12); }
   .body { padding: 16px 22px 22px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
-  .body h2 { margin: 0; font-size: 30px; line-height: 1.15; font-weight: 800; }
-  .body p { margin: 0; font-size: 19px; line-height: 1.35; color: #5b5274; flex: 1; }
+  .body h2 { margin: 0; font-size: 26px; line-height: 1.15; font-weight: 800; }
+  .body p { margin: 0; font-size: 17px; line-height: 1.35; color: #5b5274; flex: 1; }
   .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
   .tags span { font-size: 15px; font-weight: 700; padding: 1px 12px; border-radius: 999px; background: #f1ecff; color: #5f3dc4; }
   .play { margin-top: 12px; align-self: flex-start; font-size: 22px; font-weight: 800; color: #fff; padding: 6px 26px;
@@ -148,12 +150,6 @@ function cupsHTML(key) {
   }).join("") + `</div>`;
 }
 const GAMES = [
-  { href: "games/cua-hang/", name: "Cửa hàng CIECAS", isNew: true, cups: "vi",
-    desc: "Đồng CIECAS kiếm được ở mọi trò chơi đổi lấy quà thật bố mẹ đặt: đi công viên, truyện mới, que kem… Chọn mục tiêu, tích đủ CIECAS rồi xin bố mẹ duyệt nhé!",
-    tags: ["Lucie", "Lucas", "Đổi quà", "Bố mẹ duyệt"], bg: "radial-gradient(circle at 50% 30%,#fff3bf 0,#ffd43b 40%,#ff8fc7 100%)",
-    art: `<img src="games/anh-chung/xu-ciecas.webp" alt="" style="position:absolute;width:150px;top:22px;z-index:1"><span class="big" style="font-size:40px;left:26%;top:40px">🎡</span><span class="big" style="font-size:44px;right:8%;top:22px">📚</span>
-          <img class="face pink" src="${F.lucie}" style="left:12%;top:90px;width:96px;height:96px" alt="Lucie"><img class="face blue" src="${F.lucas}" style="right:12%;top:90px;width:96px;height:96px" alt="Lucas">
-          <span class="em" style="font-size:38px;left:44%;top:150px">🎁</span>` },
   { href: "games/sach-truyen/", name: "Sách truyện nói", isNew: true, cups: "sachtruyen",
     desc: "Hai ngày có một truyện mới, Lucie và Lucas là nhân vật chính: tranh Gemini vẽ, giọng kể, bài học nhỏ và câu đố riêng cho từng bé. Nghe trước giờ đi ngủ nhé!",
     tags: ["Lucie", "Lucas", "Đọc truyện", "2 ngày 1 truyện"], bg: "url(games/sach-truyen/anh/tuan-01-bia.webp) center/cover, radial-gradient(circle at 75% 25%,#fff6c9 0 9%,transparent 10%),linear-gradient(#1d1a52,#3c2f86)",
@@ -211,7 +207,13 @@ const GAMES = [
     art: `<span class="big" style="font-size:120px;top:40px">🏆</span>
           <img class="face pink" src="${F.lucie}" style="left:8%;top:70px;width:96px;height:96px" alt="Lucie">
           <img class="face blue" src="${F.lucas}" style="right:8%;top:70px;width:96px;height:96px" alt="Lucas">
-          <span class="em" style="font-size:36px;left:24%;top:22px">⭐</span><span class="em" style="font-size:36px;right:24%;top:22px">📈</span>` }
+          <span class="em" style="font-size:36px;left:24%;top:22px">⭐</span><span class="em" style="font-size:36px;right:24%;top:22px">📈</span>` },
+  { href: "games/cua-hang/", name: "Cửa hàng CIECAS", isNew: true, cups: "vi",
+    desc: "Đồng CIECAS kiếm được ở mọi trò chơi đổi lấy quà thật bố mẹ đặt: đi công viên, truyện mới, que kem… Chọn mục tiêu, tích đủ CIECAS rồi xin bố mẹ duyệt nhé!",
+    tags: ["Lucie", "Lucas", "Đổi quà", "Bố mẹ duyệt"], bg: "radial-gradient(circle at 50% 30%,#fff3bf 0,#ffd43b 40%,#ff8fc7 100%)",
+    art: `<img src="games/anh-chung/xu-ciecas.webp" alt="" style="position:absolute;width:150px;top:22px;z-index:1"><span class="big" style="font-size:40px;left:26%;top:40px">🎡</span><span class="big" style="font-size:44px;right:8%;top:22px">📚</span>
+          <img class="face pink" src="${F.lucie}" style="left:12%;top:90px;width:96px;height:96px" alt="Lucie"><img class="face blue" src="${F.lucas}" style="right:12%;top:90px;width:96px;height:96px" alt="Lucas">
+          <span class="em" style="font-size:38px;left:44%;top:150px">🎁</span>` },
 ];
 const grid = document.getElementById("grid");
 GAMES.forEach((g, i) => {
@@ -229,8 +231,11 @@ document.addEventListener("keydown", e => {
   const items = [...document.querySelectorAll("a.game")], i = items.indexOf(document.activeElement);
   if (!["ArrowRight", "ArrowLeft", "ArrowDown", "ArrowUp"].includes(e.key)) return;
   e.preventDefault();
-  const step = (e.key === "ArrowRight" || e.key === "ArrowDown") ? 1 : -1;
-  items[(Math.max(0, i) + step + items.length) % items.length].focus();
+  const cot = getComputedStyle(grid).gridTemplateColumns.split(" ").length;   // số ô mỗi hàng
+  const step = { ArrowRight: 1, ArrowLeft: -1, ArrowDown: cot, ArrowUp: -cot }[e.key];
+  let j = Math.max(0, i) + step;
+  if (j < 0 || j >= items.length) j = (Math.max(0, i) + (step > 0 ? 1 : -1) + items.length) % items.length;
+  items[j].focus();
 });
 </script>
 <script src="games/anh-chung/anh-that.js" defer></script>
