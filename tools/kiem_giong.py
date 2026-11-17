@@ -49,8 +49,12 @@ def main():
         print("không tải được turbo, dùng medium:", e, flush=True)
         asr = WhisperModel("medium", device="cpu", compute_type="int8")
 
-    def nghe(f):
-        seg, _ = asr.transcribe(f, language="vi", beam_size=1, vad_filter=False, condition_on_previous_text=False)
+    import numpy as np
+
+    def nghe(f):   # tự giải mã bằng ffmpeg (thư viện av đi kèm vieneu không hợp với faster-whisper)
+        pcm = subprocess.run(["ffmpeg", "-loglevel", "error", "-i", f, "-f", "s16le", "-ac", "1", "-ar", "16000", "-"], capture_output=True).stdout
+        x = np.frombuffer(pcm, np.int16).astype(np.float32) / 32768.0
+        seg, _ = asr.transcribe(x, language="vi", beam_size=1, vad_filter=False, condition_on_previous_text=False)
         return " ".join(s.text for s in seg)
 
     tts = None
