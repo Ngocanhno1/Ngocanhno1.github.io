@@ -5,6 +5,7 @@
 (function () {
   if (window.__nhacNen) return; window.__nhacNen = true;
   var me = document.currentScript, d = (me && me.dataset) || {};
+  var NGOAI = d.ngoai === "1";   // game đã có nhạc riêng: chỉ hiện màn chào và gọi window.batDauNhac()
   var BPM = +d.bpm || 112, KIEU = d.kieu || "marimba", AM = +(d.am || 0.11);
   var NOTES = (d.not || "C5 D5 E5 G5 A5 G5 E5 D5 C5 E5 G5 A5 G5 E5 D5 C5").trim().split(/\s+/);
   var NAMES = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 };
@@ -54,6 +55,7 @@
     }
   }
   function play() {
+    if (NGOAI) { setTimeout(function () { try { window.batDauNhac && window.batDauNhac(); } catch (e) {} }, 60); return; }
     if (!on) return;
     if (!ctx) { var AC = window.AudioContext || window.webkitAudioContext; if (!AC) return; ctx = new AC(); out = ctx.createGain(); out.gain.value = AM; out.connect(ctx.destination); }
     if (ctx.state === "suspended") ctx.resume();
@@ -70,8 +72,35 @@
   }
   btn.onclick = function (e) { e.stopPropagation(); on = !on; try { localStorage.setItem("nhacNen", on ? "bat" : "tat"); } catch (x) {} draw(); on ? play() : stop(); };
   draw();
-  function mount() { document.body.appendChild(btn); }
+  function mount() { if (!NGOAI) document.body.appendChild(btn); }
   if (document.body) mount(); else document.addEventListener("DOMContentLoaded", mount);
-  ["pointerdown", "keydown"].forEach(function (ev) { document.addEventListener(ev, function first() { document.removeEventListener(ev, first, true); play(); }, true); });
+  ["pointerdown", "keydown", "touchstart"].forEach(function (ev) { document.addEventListener(ev, function first() { document.removeEventListener(ev, first, true); play(); hideSplash(); }, true); });
+
+  var splash = null;
+  function hideSplash() { if (splash) { splash.style.opacity = "0"; var s = splash; splash = null; setTimeout(function () { s.remove(); }, 400); } }
+  function showSplash() {
+    if (splash || !document.body || (!on && !NGOAI)) return;
+    var ten = d.ten || document.title.split(/[-|]/)[0].trim();
+    splash = document.createElement("div"); splash.setAttribute("data-giu-icon", "");
+    splash.style.cssText = "position:fixed;inset:0;z-index:100000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;" +
+      "background:radial-gradient(circle at 50% 40%,rgba(255,214,102,.35),rgba(20,8,50,.88) 70%);color:#fff;font-family:'Baloo 2',system-ui,sans-serif;text-align:center;cursor:pointer;transition:opacity .4s;padding:20px";
+    splash.innerHTML = '<div style="font-size:clamp(26px,4.5vw,54px);font-weight:800;color:#ffe066;text-shadow:0 4px 0 #9a3412,0 8px 24px #000;line-height:1.1"></div>' +
+      '<button style="width:clamp(110px,14vw,160px);height:clamp(110px,14vw,160px);border-radius:50%;border:6px solid #ffe066;background:linear-gradient(#ff7a59,#e11d48);box-shadow:0 0 0 10px rgba(255,224,102,.25),0 14px 30px rgba(0,0,0,.5);display:grid;place-items:center;cursor:pointer;animation:nhacNhip 1.1s ease-in-out infinite">' +
+      '<svg viewBox="0 0 24 24" width="56%" height="56%" fill="#fff"><path d="M8 5v14l11-7z"/></svg></button>' +
+      '<div style="font-size:clamp(18px,2.4vw,28px);font-weight:700;text-shadow:0 2px 8px #000">Chạm để vào game và bật nhạc</div>' +
+      '<style>@keyframes nhacNhip{50%{transform:scale(1.1)}}</style>';
+    splash.firstChild.textContent = ten;
+    splash.addEventListener("pointerdown", function () { play(); hideSplash(); });
+    splash.addEventListener("click", function () { play(); hideSplash(); });
+    document.body.appendChild(splash);
+    setTimeout(function () { var b = splash && splash.querySelector("button"); if (b) b.focus({ preventScroll: true }); }, 50);
+  }
+  function tryAutoplay() {
+    if (NGOAI) { showSplash(); return; }   // nhạc riêng của game cần một cú chạm thật
+    if (!on) return;
+    play();
+    setTimeout(function () { if (!ctx || ctx.state !== "running") showSplash(); }, 350);
+  }
+  if (d.chao !== "0") { if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", tryAutoplay); else tryAutoplay(); }
   document.addEventListener("visibilitychange", function () { if (document.hidden) { if (ctx) ctx.suspend(); } else if (on && timer && ctx) ctx.resume(); });
 })();
