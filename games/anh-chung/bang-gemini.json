@@ -1,0 +1,1017 @@
+{
+ "_ghi_chu": "Ảnh thay icon dùng chung cho mọi game (Gemini 4 Argon lập bảng 17/11/2026). t = ảnh thật Wikipedia, ai = tranh AI. Lưu ở anh/e-<mã>.webp",
+ "e-1f697": {
+  "t": "Car"
+ },
+ "e-1f41f": {
+  "t": "Fish"
+ },
+ "e-1f34e": {
+  "t": "Apple"
+ },
+ "e-1f388": {
+  "t": "Balloon"
+ },
+ "e-2b50": {
+  "ai": "cute 3d cartoon glowing yellow star with happy face",
+  "seed": 5000
+ },
+ "e-1f68c": {
+  "t": "Bus"
+ },
+ "e-1f338": {
+  "t": "Cherry blossom"
+ },
+ "e-1f9c1": {
+  "t": "Cupcake"
+ },
+ "e-1f680": {
+  "t": "Rocket"
+ },
+ "e-1f98b": {
+  "t": "Butterfly"
+ },
+ "e-1f41e": {
+  "t": "Coccinellidae"
+ },
+ "e-26bd": {
+  "t": "Ball (association football)"
+ },
+ "e-1f3c6": {
+  "ai": "cute 3d cartoon shiny golden trophy cup with stars",
+  "seed": 5001
+ },
+ "e-1f34c": {
+  "t": "Banana"
+ },
+ "e-1f48e": {
+  "t": "Diamond"
+ },
+ "e-1f36c": {
+  "t": "Candy"
+ },
+ "e-1f425": {
+  "t": "Chick"
+ },
+ "e-1f6df": {
+  "t": "Lifebuoy"
+ },
+ "e-1f514": {
+  "t": "Bell"
+ },
+ "e-26f5": {
+  "t": "Sailboat"
+ },
+ "e-1f389": {
+  "ai": "cute 3d cartoon colorful party popper with confetti",
+  "seed": 5002
+ },
+ "e-1f451": {
+  "t": "Crown"
+ },
+ "e-1f525": {
+  "ai": "cute 3d cartoon warm friendly campfire flame",
+  "seed": 5003
+ },
+ "e-2744": {
+  "t": "Snowflake"
+ },
+ "e-1fa99": {
+  "t": "Coin"
+ },
+ "e-1f308": {
+  "t": "Rainbow"
+ },
+ "e-2600": {
+  "ai": "cute 3d cartoon smiling bright yellow sun",
+  "seed": 5004
+ },
+ "e-1f319": {
+  "ai": "cute 3d cartoon sleeping crescent moon with nightcap",
+  "seed": 5005
+ },
+ "e-1f422": {
+  "t": "Turtle"
+ },
+ "e-1f3e0": {
+  "t": "House"
+ },
+ "e-1f4aa": {
+  "ai": "cute 3d cartoon Vietnamese boy flexing strong arm",
+  "seed": 5006
+ },
+ "e-2764": {
+  "ai": "cute 3d cartoon glossy red heart",
+  "seed": 5007
+ },
+ "e-1f989": {
+  "t": "Owl"
+ },
+ "e-1f41d": {
+  "t": "Honey bee"
+ },
+ "e-270f": {
+  "t": "Pencil"
+ },
+ "e-1f3f0": {
+  "t": "Castle"
+ },
+ "e-1fa81": {
+  "t": "Kite"
+ },
+ "e-1f333": {
+  "t": "Tree"
+ },
+ "e-2601": {
+  "t": "Cloud"
+ },
+ "e-1fa90": {
+  "t": "Saturn"
+ },
+ "e-1f3c5": {
+  "t": "Medal"
+ },
+ "e-1f3b5": {
+  "ai": "cute 3d cartoon colorful bouncy musical notes",
+  "seed": 5008
+ },
+ "e-1f409": {
+  "ai": "cute 3d cartoon friendly baby Vietnamese dragon",
+  "seed": 5009
+ },
+ "e-1f6f8": {
+  "ai": "cute 3d cartoon colorful toy flying saucer",
+  "seed": 5010
+ },
+ "e-2728": {
+  "ai": "cute 3d cartoon magical golden sparkles and stars",
+  "seed": 5011
+ },
+ "e-1f466": {
+  "ai": "cute 3d cartoon 6 year old Vietnamese boy smiling",
+  "seed": 5012
+ },
+ "e-1f467": {
+  "ai": "cute 3d cartoon 8 year old Vietnamese girl smiling",
+  "seed": 5013
+ },
+ "e-1faa8": {
+  "t": "Rock (geology)"
+ },
+ "e-1f91d": {
+  "ai": "cute 3d cartoon two kids shaking hands warmly",
+  "seed": 5014
+ },
+ "e-1f31f": {
+  "ai": "cute 3d cartoon super shining golden star",
+  "seed": 5015
+ },
+ "e-1f42c": {
+  "t": "Dolphin"
+ },
+ "e-1f981": {
+  "t": "Lion"
+ },
+ "e-1f50d": {
+  "t": "Magnifying glass"
+ },
+ "e-1f95b": {
+  "t": "Milk"
+ },
+ "e-1f438": {
+  "t": "Frog"
+ },
+ "e-1f349": {
+  "t": "Watermelon"
+ },
+ "e-1f41a": {
+  "t": "Seashell"
+ },
+ "e-1f30a": {
+  "t": "Ocean wave"
+ },
+ "e-26a1": {
+  "ai": "cute 3d cartoon yellow lightning bolt icon",
+  "seed": 5016
+ },
+ "e-1f984": {
+  "ai": "cute 3d cartoon adorable baby unicorn with rainbow mane",
+  "seed": 5017
+ },
+ "e-1f33b": {
+  "t": "Common sunflower"
+ },
+ "e-1f3ee": {
+  "t": "Paper lantern"
+ },
+ "e-1f3dd": {
+  "t": "Island"
+ },
+ "e-1f418": {
+  "t": "Elephant"
+ },
+ "e-1f404": {
+  "t": "Cattle"
+ },
+ "e-1f414": {
+  "t": "Chicken"
+ },
+ "e-1f434": {
+  "t": "Horse"
+ },
+ "e-1f986": {
+  "t": "Duck"
+ },
+ "e-1f980": {
+  "t": "Crab"
+ },
+ "e-2708": {
+  "t": "Airplane"
+ },
+ "e-1f469": {
+  "ai": "cute 3d cartoon kind Vietnamese mother smiling",
+  "seed": 5018
+ },
+ "e-1f468": {
+  "ai": "cute 3d cartoon kind Vietnamese father smiling",
+  "seed": 5019
+ },
+ "e-1f332": {
+  "t": "Pine"
+ },
+ "e-1f427": {
+  "t": "Penguin"
+ },
+ "e-1f334": {
+  "t": "Arecaceae"
+ },
+ "e-1f3c3": {
+  "ai": "cute 3d cartoon Vietnamese boy running happily",
+  "seed": 5020
+ },
+ "e-1f923": {
+  "ai": "cute 3d cartoon Vietnamese kid laughing out loud",
+  "seed": 5021
+ },
+ "e-23f0": {
+  "t": "Alarm clock"
+ },
+ "e-1f44b": {
+  "ai": "cute 3d cartoon child hand waving hello",
+  "seed": 5022
+ },
+ "e-1f321": {
+  "t": "Thermometer"
+ },
+ "e-1f965": {
+  "t": "Coconut"
+ },
+ "e-1f947": {
+  "ai": "cute 3d cartoon first place gold medal with ribbon",
+  "seed": 5023
+ },
+ "e-1f4d6": {
+  "t": "Book"
+ },
+ "e-1f30d": {
+  "t": "Earth"
+ },
+ "e-1f3b9": {
+  "t": "Piano"
+ },
+ "e-1f9b8": {
+  "ai": "cute 3d cartoon Vietnamese kid in superhero cape",
+  "seed": 5024
+ },
+ "e-1f9f0": {
+  "t": "Toolbox"
+ },
+ "e-1f4dd": {
+  "ai": "cute 3d cartoon notepad with colorful pencil",
+  "seed": 5025
+ },
+ "e-1f3e1": {
+  "t": "Cottage"
+ },
+ "e-1f3f4-200d-2620": {
+  "ai": "cute 3d cartoon playful toy pirate flag",
+  "seed": 5026
+ },
+ "e-1f3d4": {
+  "t": "Mountain"
+ },
+ "e-1f4da": {
+  "ai": "cute 3d cartoon stack of colorful storybooks",
+  "seed": 5027
+ },
+ "e-1f604": {
+  "ai": "cute 3d cartoon Vietnamese child with big happy smile",
+  "seed": 5028
+ },
+ "e-1f431": {
+  "t": "Cat"
+ },
+ "e-1f430": {
+  "t": "Rabbit"
+ },
+ "e-1f95a": {
+  "t": "Egg"
+ },
+ "e-1f436": {
+  "t": "Dog"
+ },
+ "e-1f42d": {
+  "t": "Mouse"
+ },
+ "e-1f347": {
+  "t": "Grape"
+ },
+ "e-1f34a": {
+  "t": "Mandarin orange"
+ },
+ "e-1f955": {
+  "t": "Carrot"
+ },
+ "e-1f6b2": {
+  "t": "Bicycle"
+ },
+ "e-1f412": {
+  "t": "Monkey"
+ },
+ "e-1f437": {
+  "t": "Pig"
+ },
+ "e-1f475": {
+  "ai": "cute 3d cartoon kind Vietnamese grandmother with gray bun",
+  "seed": 5029
+ },
+ "e-1f442": {
+  "t": "Ear"
+ },
+ "e-1f9b5": {
+  "t": "Human leg"
+ },
+ "e-270b": {
+  "t": "Hand"
+ },
+ "e-1f4d8": {
+  "ai": "cute 3d cartoon blue school textbook",
+  "seed": 5030
+ },
+ "e-1f344": {
+  "t": "Mushroom"
+ },
+ "e-1f419": {
+  "t": "Octopus"
+ },
+ "e-26c4": {
+  "t": "Snowman"
+ },
+ "e-1f9ca": {
+  "t": "Ice cube"
+ },
+ "e-1f3dc": {
+  "t": "Desert"
+ },
+ "e-1f335": {
+  "t": "Cactus"
+ },
+ "e-1f44f": {
+  "ai": "cute 3d cartoon child hands clapping happily",
+  "seed": 5031
+ },
+ "e-2693": {
+  "t": "Anchor"
+ },
+ "e-1f38b": {
+  "t": "Bamboo"
+ },
+ "e-1f5bc": {
+  "t": "Picture frame"
+ },
+ "e-1f941": {
+  "t": "Drum"
+ },
+ "e-1f386": {
+  "t": "Fireworks"
+ },
+ "e-1f36f": {
+  "t": "Honey"
+ },
+ "e-1f3ce": {
+  "t": "Formula One car"
+ },
+ "e-1f9f8": {
+  "t": "Teddy bear"
+ },
+ "e-1f3af": {
+  "t": "Darts"
+ },
+ "e-1f43c": {
+  "t": "Giant panda"
+ },
+ "e-1f4a1": {
+  "t": "Incandescent light bulb"
+ },
+ "e-1f5fa": {
+  "t": "Map"
+ },
+ "e-1f426": {
+  "t": "Bird"
+ },
+ "e-1f35e": {
+  "t": "Bread"
+ },
+ "e-1f682": {
+  "t": "Steam locomotive"
+ },
+ "e-1f96d": {
+  "t": "Mango"
+ },
+ "e-1f43b": {
+  "t": "Bear"
+ },
+ "e-1f42f": {
+  "t": "Tiger"
+ },
+ "e-1f33d": {
+  "t": "Maize"
+ },
+ "e-1f476": {
+  "ai": "cute 3d cartoon chubby Vietnamese baby smiling",
+  "seed": 5032
+ },
+ "e-1f40d": {
+  "t": "Snake"
+ },
+ "e-1f443": {
+  "t": "Human nose"
+ },
+ "e-1f444": {
+  "t": "Lip"
+ },
+ "e-1f9b7": {
+  "t": "Human tooth"
+ },
+ "e-1f570": {
+  "t": "Mantel clock"
+ },
+ "e-1f441": {
+  "t": "Human eye"
+ },
+ "e-1f9b6": {
+  "t": "Foot"
+ },
+ "e-1f353": {
+  "t": "Strawberry"
+ },
+ "e-1f392": {
+  "t": "Backpack"
+ },
+ "e-1f4d3": {
+  "t": "Notebook"
+ },
+ "e-1fa91": {
+  "t": "Chair"
+ },
+ "e-1f4a5": {
+  "ai": "cute 3d cartoon colorful comic boom star burst",
+  "seed": 5033
+ },
+ "e-1f478": {
+  "ai": "cute 3d cartoon Vietnamese girl in princess crown",
+  "seed": 5034
+ },
+ "e-1f994": {
+  "t": "Hedgehog"
+ },
+ "e-1f420": {
+  "t": "Clownfish"
+ },
+ "e-1f40b": {
+  "t": "Whale"
+ },
+ "e-1f98c": {
+  "t": "Deer"
+ },
+ "e-1f42a": {
+  "t": "Dromedary"
+ },
+ "e-1f3fa": {
+  "t": "Amphora"
+ },
+ "e-1f982": {
+  "t": "Scorpion"
+ },
+ "e-1f40a": {
+  "t": "Crocodile"
+ },
+ "e-1f985": {
+  "t": "Eagle"
+ },
+ "e-1f99a": {
+  "t": "Peafowl"
+ },
+ "e-1f4ab": {
+  "ai": "cute 3d cartoon swirling shooting star trail",
+  "seed": 5035
+ },
+ "e-2604": {
+  "t": "Comet"
+ },
+ "e-1f47e": {
+  "ai": "cute 3d cartoon friendly pixel arcade monster",
+  "seed": 5036
+ },
+ "e-1f3a8": {
+  "t": "Palette (painting)"
+ },
+ "e-1f631": {
+  "ai": "cute 3d cartoon Vietnamese kid with funny surprised face",
+  "seed": 5037
+ },
+ "e-1f3c1": {
+  "t": "Racing flags"
+ },
+ "e-1f606": {
+  "ai": "cute 3d cartoon Vietnamese girl giggling with closed eyes",
+  "seed": 5038
+ },
+ "e-1f61d": {
+  "ai": "cute 3d cartoon Vietnamese boy making silly playful face",
+  "seed": 5039
+ },
+ "e-1f60e": {
+  "ai": "cute 3d cartoon cool Vietnamese kid wearing sunglasses",
+  "seed": 5040
+ },
+ "e-1fa74": {
+  "t": "Flip-flops"
+ },
+ "e-1f61c": {
+  "ai": "cute 3d cartoon Vietnamese kid winking playfully",
+  "seed": 5041
+ },
+ "e-1f483": {
+  "ai": "cute 3d cartoon Vietnamese girl dancing happily",
+  "seed": 5042
+ },
+ "e-1f4e2": {
+  "t": "Megaphone"
+ },
+ "e-1f309": {
+  "t": "Golden Gate Bridge"
+ },
+ "e-1f30b": {
+  "t": "Volcano"
+ },
+ "e-1f948": {
+  "ai": "cute 3d cartoon second place silver medal with ribbon",
+  "seed": 5043
+ },
+ "e-1f413": {
+  "t": "Rooster"
+ },
+ "e-1f3eb": {
+  "t": "School"
+ },
+ "e-1f32c": {
+  "ai": "cute 3d cartoon friendly cloud blowing gentle wind",
+  "seed": 5044
+ },
+ "e-26f0": {
+  "t": "Hill"
+ },
+ "e-1f41c": {
+  "t": "Ant"
+ },
+ "e-1f40e": {
+  "t": "Horse"
+ },
+ "e-1f9e7": {
+  "t": "Red envelope"
+ },
+ "e-1f3ae": {
+  "t": "Gamepad"
+ },
+ "e-1f49b": {
+  "ai": "cute 3d cartoon glossy yellow heart",
+  "seed": 5045
+ },
+ "e-1f4c8": {
+  "ai": "cute 3d cartoon colorful rising growth chart",
+  "seed": 5046
+ },
+ "e-1f36d": {
+  "t": "Lollipop"
+ },
+ "e-1f4c5": {
+  "t": "Calendar"
+ },
+ "e-1f36a": {
+  "t": "Chocolate chip cookie"
+ },
+ "e-1f9c3": {
+  "t": "Juice box"
+ },
+ "e-1f35a": {
+  "t": "Cooked rice"
+ },
+ "e-1f366": {
+  "t": "Ice cream cone"
+ },
+ "e-1f410": {
+  "t": "Goat"
+ },
+ "e-1f40c": {
+  "t": "Snail"
+ },
+ "e-1f452": {
+  "t": "Sun hat"
+ },
+ "e-1f474": {
+  "ai": "cute 3d cartoon kind smiling Vietnamese grandfather",
+  "seed": 5047
+ },
+ "e-1f4d5": {
+  "ai": "cute 3d cartoon red hardcover book",
+  "seed": 5048
+ },
+ "e-1f992": {
+  "t": "Giraffe"
+ },
+ "e-1f58a": {
+  "t": "Ballpoint pen"
+ },
+ "e-1f4cf": {
+  "t": "Ruler"
+ },
+ "e-2702": {
+  "t": "Scissors"
+ },
+ "e-1f58d": {
+  "t": "Crayon"
+ },
+ "e-1f4a8": {
+  "ai": "cute 3d cartoon soft white speed wind puff",
+  "seed": 5049
+ },
+ "e-1fab5": {
+  "t": "Log"
+ },
+ "e-1f578": {
+  "t": "Spider web"
+ },
+ "e-1f987": {
+  "t": "Bat"
+ },
+ "e-1f417": {
+  "t": "Wild boar"
+ },
+ "e-1fae7": {
+  "t": "Soap bubble"
+ },
+ "e-1fab8": {
+  "t": "Coral"
+ },
+ "e-1f421": {
+  "t": "Tetraodontidae"
+ },
+ "e-1fabc": {
+  "t": "Jellyfish"
+ },
+ "e-1f991": {
+  "t": "Squid"
+ },
+ "e-1f988": {
+  "t": "Shark"
+ },
+ "e-1f43a": {
+  "t": "Wolf"
+ },
+ "e-1f9a3": {
+  "t": "Mammoth"
+ },
+ "e-1f43b-200d-2744": {
+  "t": "Polar bear"
+ },
+ "e-1f98e": {
+  "t": "Lizard"
+ },
+ "e-1f42b": {
+  "t": "Bactrian camel"
+ },
+ "e-1f99c": {
+  "t": "Parrot"
+ },
+ "e-1f6f0": {
+  "t": "Satellite"
+ },
+ "e-1f311": {
+  "t": "New moon"
+ },
+ "e-1f916": {
+  "ai": "cute 3d cartoon friendly small toy robot",
+  "seed": 5050
+ },
+ "e-1f47d": {
+  "ai": "cute 3d cartoon friendly little green space friend",
+  "seed": 5051
+ },
+ "e-1f624": {
+  "ai": "cute 3d cartoon Vietnamese kid with determined puffy cheeks",
+  "seed": 5052
+ },
+ "e-1f62c": {
+  "ai": "cute 3d cartoon Vietnamese kid with shy toothy grin",
+  "seed": 5053
+ },
+ "e-1f635": {
+  "ai": "cute 3d cartoon Vietnamese kid with funny dizzy eyes",
+  "seed": 5054
+ },
+ "e-1f970": {
+  "ai": "cute 3d cartoon Vietnamese girl smiling surrounded by hearts",
+  "seed": 5055
+ },
+ "e-1f495": {
+  "ai": "cute 3d cartoon two floating pink hearts",
+  "seed": 5056
+ },
+ "e-1f6a3": {
+  "ai": "cute 3d cartoon Vietnamese kid rowing small wooden boat",
+  "seed": 5057
+ },
+ "e-1f6a9": {
+  "ai": "cute 3d cartoon bright red triangular checkpoint flag",
+  "seed": 5058
+ },
+ "e-1f380": {
+  "t": "Ribbon"
+ },
+ "e-1f457": {
+  "t": "Dress"
+ },
+ "e-1f9e2": {
+  "t": "Baseball cap"
+ },
+ "e-1f4d7": {
+  "ai": "cute 3d cartoon green school notebook",
+  "seed": 5059
+ },
+ "e-1f455": {
+  "t": "T-shirt"
+ },
+ "e-1f465": {
+  "ai": "cute 3d cartoon two friendly kids side by side",
+  "seed": 5060
+ },
+ "e-1f57a": {
+  "ai": "cute 3d cartoon Vietnamese boy dancing joyfully",
+  "seed": 5061
+ },
+ "e-1f60d": {
+  "ai": "cute 3d cartoon Vietnamese kid with heart shaped eyes",
+  "seed": 5062
+ },
+ "e-1f914": {
+  "ai": "cute 3d cartoon Vietnamese kid thinking with finger on chin",
+  "seed": 5063
+ },
+ "e-270d": {
+  "ai": "cute 3d cartoon child hand writing with pencil",
+  "seed": 5064
+ },
+ "e-1f62e": {
+  "ai": "cute 3d cartoon Vietnamese kid with amazed O mouth",
+  "seed": 5065
+ },
+ "e-1f973": {
+  "ai": "cute 3d cartoon Vietnamese kid wearing colorful party hat",
+  "seed": 5066
+ },
+ "e-2696": {
+  "t": "Weighing scale"
+ },
+ "e-1f4e6": {
+  "t": "Cardboard box"
+ },
+ "e-1f976": {
+  "ai": "cute 3d cartoon Vietnamese kid bundled in winter scarf",
+  "seed": 5067
+ },
+ "e-1f975": {
+  "ai": "cute 3d cartoon Vietnamese kid fanning face in summer",
+  "seed": 5068
+ },
+ "e-1f90d": {
+  "ai": "cute 3d cartoon glossy pure white heart",
+  "seed": 5069
+ },
+ "e-1f44d": {
+  "ai": "cute 3d cartoon child hand giving thumbs up",
+  "seed": 5070
+ },
+ "e-1f494": {
+  "ai": "cute 3d cartoon pink heart with small bandaid",
+  "seed": 5071
+ },
+ "e-1f949": {
+  "ai": "cute 3d cartoon third place bronze medal with ribbon",
+  "seed": 5072
+ },
+ "e-1f496": {
+  "ai": "cute 3d cartoon sparkling pink heart",
+  "seed": 5073
+ },
+ "e-1f46b": {
+  "ai": "cute 3d cartoon Vietnamese sister Lucie and brother Lucas",
+  "seed": 5074
+ },
+ "e-1f327": {
+  "ai": "cute 3d cartoon happy blue cloud with gentle raindrops",
+  "seed": 5075
+ },
+ "e-1f993": {
+  "t": "Zebra"
+ },
+ "e-1f956": {
+  "t": "Baguette"
+ },
+ "e-1faa5": {
+  "t": "Toothbrush"
+ },
+ "e-1f407": {
+  "t": "Rabbit"
+ },
+ "e-1fab1": {
+  "t": "Earthworm"
+ },
+ "e-1f576": {
+  "t": "Sunglasses"
+ },
+ "e-2614": {
+  "t": "Umbrella"
+ },
+ "e-1f9e5": {
+  "t": "Coat"
+ },
+ "e-1f382": {
+  "t": "Birthday cake"
+ },
+ "e-1f56f": {
+  "t": "Candle"
+ },
+ "e-1f945": {
+  "t": "Goal (sport)"
+ },
+ "e-1f6bf": {
+  "t": "Shower"
+ },
+ "e-1f385": {
+  "ai": "cute 3d cartoon jolly Santa Claus waving",
+  "seed": 5076
+ },
+ "e-1f6a2": {
+  "t": "Ship"
+ },
+ "e-1fab7": {
+  "t": "Nelumbo nucifera"
+ },
+ "e-1f9f9": {
+  "t": "Broom"
+ },
+ "e-1f6a6": {
+  "t": "Traffic light"
+ },
+ "e-1f6d1": {
+  "t": "Stop sign"
+ },
+ "e-1f6a5": {
+  "t": "Traffic light"
+ },
+ "e-1f9e4": {
+  "t": "Glove"
+ },
+ "e-1f9e6": {
+  "t": "Sock"
+ },
+ "e-1f45f": {
+  "t": "Sneakers"
+ },
+ "e-1f41b": {
+  "t": "Caterpillar"
+ },
+ "e-1f315": {
+  "t": "Full moon"
+ },
+ "e-1f692": {
+  "t": "Fire engine"
+ },
+ "e-1f4a6": {
+  "ai": "cute 3d cartoon refreshing blue water splashes",
+  "seed": 5077
+ },
+ "e-1f691": {
+  "t": "Ambulance"
+ },
+ "e-1f3e5": {
+  "t": "Hospital"
+ },
+ "e-1f9da-200d-2640": {
+  "ai": "cute 3d cartoon adorable little fairy with glowing wings",
+  "seed": 5078
+ },
+ "e-1f4a7": {
+  "t": "Drop (liquid)"
+ },
+ "e-1f3de": {
+  "t": "National park"
+ },
+ "e-1f528": {
+  "t": "Hammer"
+ },
+ "e-1faa1": {
+  "t": "Sewing needle"
+ },
+ "e-1f573": {
+  "ai": "cute 3d cartoon small round burrow hole in grass",
+  "seed": 5079
+ },
+ "e-1f403": {
+  "t": "Water buffalo"
+ },
+ "e-1f3b8": {
+  "t": "Guitar"
+ },
+ "e-1f423": {
+  "ai": "cute 3d cartoon yellow baby chick hatching from eggshell",
+  "seed": 5080
+ },
+ "e-1f415": {
+  "t": "Dog"
+ },
+ "e-1f32b": {
+  "t": "Fog"
+ },
+ "e-1f5e1": {
+  "ai": "cute 3d cartoon colorful foam toy knight sword",
+  "seed": 5081
+ },
+ "e-1f4af": {
+  "ai": "cute 3d cartoon golden 100 points badge with stars",
+  "seed": 5082
+ },
+ "e-1f440": {
+  "ai": "cute 3d cartoon pair of big curious cartoon eyes",
+  "seed": 5083
+ },
+ "e-1f34d": {
+  "t": "Pineapple"
+ },
+ "e-1f37f": {
+  "t": "Popcorn"
+ },
+ "e-1f9ed": {
+  "t": "Compass"
+ },
+ "e-1f30f": {
+  "t": "Earth"
+ },
+ "e-1f997": {
+  "t": "Cricket (insect)"
+ },
+ "e-1f9a2": {
+  "t": "Swan"
+ },
+ "e-1f998": {
+  "t": "Kangaroo"
+ },
+ "e-1fac2": {
+  "ai": "cute 3d cartoon Lucie and Lucas hugging warmly",
+  "seed": 5084
+ },
+ "e-1f5e3": {
+  "ai": "cute 3d cartoon Vietnamese kid speaking with sound waves",
+  "seed": 5085
+ },
+ "e-1f469-200d-1f3eb": {
+  "ai": "cute 3d cartoon kind Vietnamese female teacher in ao dai",
+  "seed": 5086
+ },
+ "e-26f4": {
+  "t": "Ferry"
+ },
+ "e-1f54a": {
+  "t": "Columbidae"
+ },
+ "e-1f33f": {
+  "t": "Leaf"
+ },
+ "e-1f1fb-1f1f3": {
+  "t": "Flag of Vietnam"
+ },
+ "e-1f33c": {
+  "t": "Bellis perennis"
+ }
+}
