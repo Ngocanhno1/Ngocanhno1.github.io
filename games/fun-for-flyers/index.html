@@ -1,0 +1,2890 @@
+<!DOCTYPE html>
+<html lang="vi" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Nguyễn Hoàng Ngọc Anh">
+  <meta name="keywords" content="Ban Tuyên giáo Trung ương">
+  <title>Fun for Flyers — Lucie & Lucas học tiếng Anh</title>
+  <link rel="stylesheet" href="tailwind.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --tv-scale: 1;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at 15% 15%, #1e1b4b 0%, #0f172a 55%, #020617 100%);
+      color: #f8fafc;
+      overflow-x: hidden;
+      font-size: calc(1rem * var(--tv-scale));
+    }
+    body.tv-large-text {
+      --tv-scale: 1.15;
+    }
+    .tv-focusable:focus-visible,
+    .tv-focusable.tv-focused {
+      outline: 4px solid #fbbf24 !important;
+      outline-offset: 3px !important;
+      box-shadow: 0 0 25px rgba(251, 191, 36, 0.55) !important;
+      transform: translateY(-2px);
+    }
+    .glass-card {
+      background: rgba(30, 41, 59, 0.78);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+    }
+    .glass-header {
+      background: rgba(15, 23, 42, 0.9);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+    }
+    .shield-active {
+      color: #fbbf24;
+      filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.6));
+    }
+    .shield-inactive {
+      color: #334155;
+    }
+    .flip-card-inner {
+      transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.6);
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: rgba(99, 102, 241, 0.6);
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-amber-400 selection:text-slate-950">
+
+  <!-- TOP SMART TV HEADER -->
+  <header class="glass-header sticky top-0 z-40 px-4 lg:px-8 py-3">
+    <div class="max-w-[1600px] mx-auto flex flex-wrap items-center justify-between gap-3">
+      <!-- Brand Title -->
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-400 via-orange-500 to-rose-500 flex items-center justify-center shadow-lg shadow-amber-500/25">
+          <i class="fa-solid fa-paper-plane text-slate-950 text-xl"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-lg md:text-xl font-extrabold tracking-tight text-white">FUN FOR FLYERS 4e</h1>
+            <span class="px-2.5 py-0.5 text-xs font-bold uppercase rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">Smart TV Hub</span>
+          </div>
+          <p class="text-xs text-slate-400">Cambridge English YLE • 56 Units &amp; 4 Kỹ Năng Toàn Diện</p>
+        </div>
+      </div>
+
+      <!-- Main TV Navigation Tabs (Keys 1-5) -->
+      <nav class="flex flex-wrap items-center gap-1.5 bg-slate-900/90 p-1.5 rounded-2xl border border-slate-700/70" aria-label="Điều hướng chính">
+        <button id="nav-dashboard" onclick="switchTab('dashboard')" class="tv-focusable nav-btn px-3.5 py-2 rounded-xl text-sm font-bold transition-all flex items-center gap-2 bg-amber-400 text-slate-950 shadow-md">
+          <span class="px-1.5 py-0.5 text-[11px] rounded bg-slate-950/20 font-mono">1</span>
+          <i class="fa-solid fa-compass"></i>
+          <span>Lộ Trình 56 Units</span>
+        </button>
+        <button id="nav-vocab" onclick="switchTab('vocab')" class="tv-focusable nav-btn px-3.5 py-2 rounded-xl text-sm font-bold transition-all flex items-center gap-2 text-slate-300 hover:text-white hover:bg-slate-800">
+          <span class="px-1.5 py-0.5 text-[11px] rounded bg-slate-800 text-amber-300 font-mono">2</span>
+          <i class="fa-solid fa-layer-group"></i>
+          <span>Từ Vựng &amp; Game</span>
+        </button>
+        <button id="nav-reading_writing" onclick="switchTab('reading_writing')" class="tv-focusable nav-btn px-3.5 py-2 rounded-xl text-sm font-bold transition-all flex items-center gap-2 text-slate-300 hover:text-white hover:bg-slate-800">
+          <span class="px-1.5 py-0.5 text-[11px] rounded bg-slate-800 text-amber-300 font-mono">3</span>
+          <i class="fa-solid fa-pen-nib"></i>
+          <span>Reading &amp; Writing</span>
+        </button>
+        <button id="nav-speaking_listening" onclick="switchTab('speaking_listening')" class="tv-focusable nav-btn px-3.5 py-2 rounded-xl text-sm font-bold transition-all flex items-center gap-2 text-slate-300 hover:text-white hover:bg-slate-800">
+          <span class="px-1.5 py-0.5 text-[11px] rounded bg-slate-800 text-amber-300 font-mono">4</span>
+          <i class="fa-solid fa-microphone-lines"></i>
+          <span>Speaking &amp; Listening</span>
+        </button>
+        <button id="nav-resources" onclick="switchTab('resources')" class="tv-focusable nav-btn px-3.5 py-2 rounded-xl text-sm font-bold transition-all flex items-center gap-2 text-slate-300 hover:text-white hover:bg-slate-800">
+          <span class="px-1.5 py-0.5 text-[11px] rounded bg-slate-800 text-amber-300 font-mono">5</span>
+          <i class="fa-brands fa-google-drive"></i>
+          <span>Kho Học Liệu &amp; TV</span>
+        </button>
+      </nav>
+
+      <!-- Profile, Shields, Voice Speed & TV Controls -->
+      <div class="flex items-center gap-2">
+        <a href="../../" class="tv-focusable px-3 py-2 rounded-xl text-xs font-bold bg-slate-800/90 border border-slate-700 text-amber-300 hover:text-white" title="Về trang chọn trò chơi"><i class="fa-solid fa-house mr-1"></i>Trang chủ</a>
+        <!-- Learner Profile Selector -->
+        <div class="flex items-center bg-slate-800/90 rounded-xl p-1 border border-slate-700">
+          <button id="prof-lucie" onclick="setProfile('Lucie')" class="tv-focusable px-2.5 py-1 rounded-lg text-xs font-bold transition-all bg-pink-500 text-white">
+            <img src="../../img/lucie.webp" alt="" class="inline-block w-7 h-7 rounded-full object-cover mr-1 border-2 border-pink-300">Lucie
+          </button>
+          <button id="prof-lucas" onclick="setProfile('Lucas')" class="tv-focusable px-2.5 py-1 rounded-lg text-xs font-bold transition-all text-slate-300 hover:text-white">
+            <img src="../../img/lucas.webp" alt="" class="inline-block w-7 h-7 rounded-full object-cover mr-1 border-2 border-sky-300">Lucas
+          </button>
+          <button id="prof-family" onclick="setProfile('Gia đình')" class="tv-focusable px-2.5 py-1 rounded-lg text-xs font-bold transition-all text-slate-300 hover:text-white">
+            <i class="fa-solid fa-users mr-1"></i>Chung
+          </button>
+        </div>
+
+        <!-- Shields Counter -->
+        <div class="hidden xl:flex items-center gap-2 bg-slate-900/90 px-3 py-1.5 rounded-xl border border-amber-500/30">
+          <i class="fa-solid fa-shield-halved text-amber-400"></i>
+          <span id="header-shield-count" class="text-sm font-extrabold text-amber-300">5 / 15 Khiên</span>
+          <span class="text-slate-600">|</span>
+          <span id="header-xp-count" class="text-xs font-bold text-emerald-400">120 XP</span>
+        </div>
+
+        <!-- Speech Rate Toggle -->
+        <button id="btn-speech-rate" onclick="toggleSpeechRate()" class="tv-focusable px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-600 text-xs font-bold text-cyan-300 flex items-center gap-1.5" title="Tốc độ đọc tiếng Anh">
+          <i class="fa-solid fa-volume-high"></i>
+          <span id="speech-rate-label">Đọc: 0.85x</span>
+        </button>
+
+        <!-- Sound Effects Mute Toggle -->
+        <button id="btn-mute-sfx" onclick="toggleSfx()" class="tv-focusable px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-600 text-xs font-bold text-amber-300" title="Bật/tắt âm thanh hiệu ứng">
+          <i id="sfx-icon" class="fa-solid fa-bell"></i>
+        </button>
+
+        <!-- 4K TV Large Text Mode -->
+        <button id="btn-tv-scale" onclick="toggleTvScale()" class="tv-focusable px-3 py-2 rounded-xl bg-indigo-600/30 hover:bg-indigo-600/50 border border-indigo-400/40 text-xs font-bold text-indigo-200 flex items-center gap-1.5" title="Chế độ chữ lớn cho TV 4K">
+          <i class="fa-solid fa-tv"></i>
+          <span id="tv-scale-label">Chữ TV: Chuẩn</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="flex-1 max-w-[1600px] w-full mx-auto px-4 lg:px-8 py-6 space-y-6">
+
+    <!-- ==========================================
+         VIEW 1: DASHBOARD & 56 UNITS CURRICULUM
+         ========================================== -->
+    <section id="view-dashboard" class="space-y-6">
+      <!-- Hero Banner with Generated 16:9 Artwork -->
+      <div class="glass-card rounded-3xl overflow-hidden border border-indigo-500/30 shadow-2xl">
+        <div class="grid grid-cols-1 lg:grid-cols-12 items-center">
+          <div class="lg:col-span-7 p-6 lg:p-8 space-y-4">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/15 border border-amber-400/40 text-amber-300 text-xs font-bold">
+              <i class="fa-solid fa-star"></i>
+              <span>Giáo trình Cambridge English: Fun for Flyers (Fourth Edition)</span>
+            </div>
+            <h2 class="text-2xl lg:text-4xl font-black tracking-tight text-white leading-tight">
+              Chinh phục <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-orange-400 to-pink-400">15 Khiên Cambridge Flyers</span> ngay trên TV
+            </h2>
+            <p class="text-slate-300 text-sm lg:text-base leading-relaxed">
+              Hệ thống hóa toàn bộ <strong>56 Units bài học</strong>, <strong>98 buổi lộ trình</strong>, từ vựng kèm phát âm IPA, bài luyện <strong>Speaking 2 chiều</strong>, <strong>Reading &amp; Writing</strong> và <strong>Listening tô màu tương tác</strong> từ thư mục Google Drive của gia đình. Hỗ trợ điều khiển từ xa (Magic Remote / phím mũi tên &amp; phím số 1–5).
+            </p>
+
+            <!-- 15 Cambridge Shields Visual Bar -->
+            <div class="bg-slate-900/80 p-4 rounded-2xl border border-slate-700/80 space-y-2">
+              <div class="flex items-center justify-between text-xs font-bold">
+                <span class="text-slate-300">Tiến độ Khiên Cambridge của <span id="hero-profile-name" class="text-amber-300">Lucie</span>:</span>
+                <span id="hero-shield-summary" class="text-amber-400">5 / 15 Khiên (Chặng 1)</span>
+              </div>
+              <div id="shields-row" class="flex flex-wrap items-center gap-2 pt-1"></div>
+              <div class="flex flex-wrap items-center justify-between gap-2 text-xs text-slate-400 pt-1">
+                <span><i class="fa-solid fa-circle-check text-emerald-400 mr-1"></i>Đã hoàn thành: <strong id="completed-units-count" class="text-white">0</strong>/56 Units</span>
+                <span><i class="fa-solid fa-trophy text-amber-400 mr-1"></i>Điểm tích lũy: <strong id="hero-xp-val" class="text-emerald-300">120 XP</strong> (Mỗi 100 XP hoặc 4 Units = +1 Khiên)</span>
+              </div>
+            </div>
+
+            <!-- Quick Launch Buttons -->
+            <div class="flex flex-wrap items-center gap-3 pt-1">
+              <button onclick="switchTab('vocab')" class="tv-focusable px-5 py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 text-slate-950 font-extrabold text-sm shadow-lg shadow-amber-500/25 flex items-center gap-2">
+                <i class="fa-solid fa-volume-high"></i>
+                <span>Học Từ Vựng &amp; Nghe Phát Âm</span>
+              </button>
+              <button onclick="switchTab('reading_writing')" class="tv-focusable px-5 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm flex items-center gap-2">
+                <i class="fa-solid fa-book-open-reader"></i>
+                <span>Luyện Đề Reading &amp; Writing</span>
+              </button>
+              <button onclick="switchTab('speaking_listening')" class="tv-focusable px-5 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm flex items-center gap-2">
+                <i class="fa-solid fa-headset"></i>
+                <span>Speaking &amp; Listening Trên TV</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 h-full p-4 lg:p-6 flex items-center justify-center">
+            <div class="relative rounded-2xl overflow-hidden border-2 border-amber-400/40 shadow-2xl w-full">
+              <img src="anh/bia.webp" alt="Fun for Flyers TV Adventure" class="w-full h-64 lg:h-80 object-cover max-w-full" />
+              <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-slate-950 via-slate-950/75 to-transparent p-4 flex items-center justify-between">
+                <div>
+                  <p class="text-xs font-bold text-amber-300 uppercase">Chế độ Gia đình &amp; Smart TV</p>
+                  <p class="text-sm font-semibold text-white">Bấm vào bất kỳ từ/câu nào để TV phát âm chuẩn Cambridge</p>
+                </div>
+                <button onclick="speakText('Welcome to Cambridge Fun for Flyers Smart TV Learning Hub! Let us start learning together!')" class="tv-focusable w-11 h-11 rounded-xl bg-amber-400 text-slate-950 flex items-center justify-center shadow-lg" title="Nghe lời chào tiếng Anh">
+                  <i class="fa-solid fa-play text-lg"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3-STAGE ROADMAP FROM DETAILED SCHEDULE XLSX -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="glass-card rounded-2xl p-5 border-l-4 border-l-cyan-400 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="px-2.5 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 text-xs font-bold">Chặng 1 • Tháng 1–3 (Buổi 1–36)</span>
+            <span class="text-sm font-black text-amber-400"><i class="fa-solid fa-shield-halved mr-1"></i>5–7 Khiên</span>
+          </div>
+          <h3 class="text-base font-extrabold text-white">Units 1 – 18: Nền tảng Từ vựng &amp; Câu phức</h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Hiện tại đơn/tiếp diễn, quá khứ đơn, mệnh đề quan hệ <em>who/when</em>, so sánh nhất, giới từ vị trí, trạng từ tần suất. Nghe đạt ~40% (10–11/25 câu), Đọc viết ~30% (15–17/50 câu), Nói tìm 3–5 điểm khác biệt &amp; kể chuyện 4 tranh bằng 5–7 câu.
+          </p>
+          <button onclick="filterUnitsByStage(1)" class="tv-focusable text-xs font-bold text-cyan-300 hover:text-cyan-200 flex items-center gap-1 pt-1">
+            <span>Xem 18 Units Chặng 1</span> <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
+        <div class="glass-card rounded-2xl p-5 border-l-4 border-l-indigo-400 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="px-2.5 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 text-xs font-bold">Chặng 2 • Tháng 4–6 (Buổi 37–72)</span>
+            <span class="text-sm font-black text-amber-400"><i class="fa-solid fa-shield-halved mr-1"></i>9–11 Khiên</span>
+          </div>
+          <h3 class="text-base font-extrabold text-white">Units 19 – 34: Mở rộng Ngữ cảnh &amp; Phản xạ</h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Danh động từ (V-ing), tương lai gần <em>be going to</em>, quá khứ tiếp diễn, hiện tại hoàn thành, trạng từ <em>Adj+ly</em>, chủ đề Giao thông, Thời tiết, Bệnh viện. Nghe đạt ~70% (17/25 câu), Đọc viết ~65–70% (32–35/50 câu), Nói so sánh 7–9 cấu trúc.
+          </p>
+          <button onclick="filterUnitsByStage(2)" class="tv-focusable text-xs font-bold text-indigo-300 hover:text-indigo-200 flex items-center gap-1 pt-1">
+            <span>Xem 16 Units Chặng 2</span> <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+
+        <div class="glass-card rounded-2xl p-5 border-l-4 border-l-amber-400 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-300 text-xs font-bold">Chặng 3 • Tháng 7–10 (Buổi 73–108)</span>
+            <span class="text-sm font-black text-amber-400"><i class="fa-solid fa-shield-halved mr-1"></i>13–15 Khiên</span>
+          </div>
+          <h3 class="text-base font-extrabold text-white">Units 35 – 56 &amp; Flyers 5, 6, 7 Practice Tests</h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Cấu trúc <em>be made of</em>, Hiện tại hoàn thành (<em>ever, already, yet, just</em>), <em>will/might</em>, <em>too/enough</em>, <em>make/do</em>, chỉ đường. Nghe đạt ~95% (22–24/25 câu), Đọc viết ~95% (46–48/50 câu), kể chuyện 4 tranh 9–10 câu đơn &amp; ghép.
+          </p>
+          <button onclick="filterUnitsByStage(3)" class="tv-focusable text-xs font-bold text-amber-300 hover:text-amber-200 flex items-center gap-1 pt-1">
+            <span>Xem 22 Units Chặng 3</span> <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- 56 UNITS INTERACTIVE CURRICULUM EXPLORER -->
+      <div class="glass-card rounded-3xl p-6 space-y-5">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <h3 class="text-xl font-extrabold text-white flex items-center gap-2">
+              <i class="fa-solid fa-table-list text-amber-400"></i>
+              <span>Bảng Điều Khiển 56 Units — Fun for Flyers (Fourth Edition)</span>
+            </h3>
+            <p class="text-xs text-slate-400">Trích xuất nguyên bản từ file <a href="https://drive.google.com/file/d/15L6bKvprxT8xPEB83gO5nEzcwflJClqd/view?usp=drivesdk" target="_blank" rel="noopener noreferrer" class="text-amber-300 underline hover:text-amber-200">DETAILED SCHEDULE - FUN FOR FLYERS (1).xlsx</a>. Bấm vào từng Unit để học từ vựng, ngữ pháp &amp; nghe phát âm trên TV.</p>
+          </div>
+
+          <!-- Filter Controls -->
+          <div class="flex flex-wrap items-center gap-2">
+            <button id="stage-btn-all" onclick="filterUnitsByStage(0)" class="tv-focusable stage-filter-btn px-3.5 py-2 rounded-xl text-xs font-bold bg-amber-400 text-slate-950">Tất cả (56)</button>
+            <button id="stage-btn-1" onclick="filterUnitsByStage(1)" class="tv-focusable stage-filter-btn px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">Chặng 1 (U1–18)</button>
+            <button id="stage-btn-2" onclick="filterUnitsByStage(2)" class="tv-focusable stage-filter-btn px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">Chặng 2 (U19–34)</button>
+            <button id="stage-btn-3" onclick="filterUnitsByStage(3)" class="tv-focusable stage-filter-btn px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">Chặng 3 (U35–56)</button>
+
+            <div class="relative">
+              <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+              <input id="unit-search-input" type="text" oninput="handleUnitSearch(this.value)" placeholder="Tìm Unit, chủ đề, từ vựng..." class="tv-focusable pl-8 pr-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white placeholder-slate-500 focus:outline-none w-52" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Units Grid -->
+        <div id="units-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3.5 max-h-[560px] overflow-y-auto custom-scroll pr-1"></div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         VIEW 2: VOCABULARY FLASHCARDS & UNIT 5 GAMES
+         ========================================== -->
+    <section id="view-vocab" class="hidden space-y-6">
+      <!-- Top Banner & Topic Selector -->
+      <div class="glass-card rounded-3xl p-6 space-y-5">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div class="flex items-center gap-4">
+            <img src="anh/tu-vung.webp" alt="Animals and Vocabulary" class="w-24 h-18 rounded-2xl object-cover border border-amber-400/40 hidden sm:block max-w-full h-auto" style="width: 96px; height: 72px;" />
+            <div>
+              <h2 class="text-2xl font-black text-white">Flashcards Từ Vựng Có Phiên Âm IPA &amp; Phát Âm Chuẩn</h2>
+              <p class="text-xs text-slate-300">Trích xuất từ <a href="https://drive.google.com/file/d/1OFvVrutaD9L9iHzJGN2nhPXR2cpuwwP3/view?usp=drivesdk" target="_blank" rel="noopener noreferrer" class="text-amber-300 underline">FFF - UNIT 5 - ABOUT ANIMALS.pptx</a> và chuỗi bài giảng <a href="https://drive.google.com/drive/folders/1AZxKY4oxPTR1TN9DNkJleQKgR8N9uMEa" target="_blank" rel="noopener noreferrer" class="text-amber-300 underline">WRITING 1–14</a>. Bấm vào thẻ để nghe đọc &amp; xem câu ví dụ.</p>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2">
+            <button onclick="playAllCurrentVocab()" class="tv-focusable px-4 py-2.5 rounded-xl bg-amber-400 text-slate-950 font-extrabold text-xs flex items-center gap-2 shadow-md">
+              <i class="fa-solid fa-play"></i>
+              <span>Đọc mẫu cả bộ thẻ</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Category Filter Buttons -->
+        <div class="flex flex-wrap gap-2" id="vocab-category-tabs">
+          <button onclick="selectVocabCategory('animals')" id="vcat-animals" class="tv-focusable px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white">🐾 Unit 5: About Animals (21 từ)</button>
+          <button onclick="selectVocabCategory('space')" id="vcat-space" class="tv-focusable px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">🪐 Unit 12 &amp; Writing 13: Hệ Mặt Trời &amp; Vũ Trụ (12 từ)</button>
+          <button onclick="selectVocabCategory('health')" id="vcat-health" class="tv-focusable px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">🏥 Unit 33 &amp; Writing 5: Sức Khỏe &amp; Bệnh Viện (12 từ)</button>
+          <button onclick="selectVocabCategory('jobs_places')" id="vcat-jobs_places" class="tv-focusable px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">🏛️ Jobs, Places &amp; Materials (16 từ)</button>
+          <button onclick="selectVocabCategory('events_travel')" id="vcat-events_travel" class="tv-focusable px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700">⛺ Writing 1–3: Lễ Hội, Cắm Trại &amp; Âm Nhạc (15 từ)</button>
+        </div>
+
+        <!-- Giant TV Spotlight Card + Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
+          <!-- Spotlight TV Card -->
+          <div class="lg:col-span-5 bg-gradient-to-br from-indigo-950/90 via-slate-900 to-slate-950 rounded-3xl p-6 border-2 border-indigo-400/40 flex flex-col justify-between space-y-4 shadow-xl">
+            <div class="flex items-center justify-between">
+              <span id="spot-cat-badge" class="px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-bold">Unit 5 • Animals</span>
+              <span id="spot-index-label" class="text-xs font-mono text-slate-400">1 / 21</span>
+            </div>
+            <div class="text-center space-y-2 py-4">
+              <div id="spot-emoji" class="text-6xl mb-2">🦘</div>
+              <h3 id="spot-word" class="text-3xl lg:text-4xl font-black text-white tracking-wide">kangaroo</h3>
+              <p id="spot-ipa" class="text-lg font-mono text-amber-300">/ˌkæŋɡəˈruː/ • (n)</p>
+              <p id="spot-vi" class="text-xl font-bold text-emerald-300">chuột túi (Kangaroo)</p>
+            </div>
+            <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-700/80 space-y-1">
+              <p class="text-[11px] font-bold uppercase text-slate-400">Câu ví dụ &amp; Định nghĩa Flyers:</p>
+              <p id="spot-example" class="text-sm text-slate-200 italic">"A kangaroo is a large Australian animal that moves by jumping on its strong back legs."</p>
+            </div>
+            <div class="grid grid-cols-3 gap-2 pt-1">
+              <button onclick="prevSpotlightVocab()" class="tv-focusable py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-chevron-left"></i> <span>Trước</span>
+              </button>
+              <button onclick="speakCurrentSpotlight()" class="tv-focusable py-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-xs flex items-center justify-center gap-1.5 shadow-lg">
+                <i class="fa-solid fa-volume-high"></i> <span>Phát âm</span>
+              </button>
+              <button onclick="nextSpotlightVocab()" class="tv-focusable py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs flex items-center justify-center gap-1.5">
+                <span>Tiếp</span> <i class="fa-solid fa-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Vocab Cards Grid -->
+          <div id="vocab-cards-grid" class="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-3 max-h-[450px] overflow-y-auto custom-scroll pr-1"></div>
+        </div>
+      </div>
+
+      <!-- TWO INTERACTIVE GAMES FROM UNIT 5 PPTX -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Game 1: Bats or Dolphins? (Slide 14 of Unit 5 PPTX) -->
+        <div class="glass-card rounded-3xl p-6 space-y-4 border border-cyan-500/30">
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="text-xs font-bold uppercase text-cyan-300">Unit 5 • Task E (Slide 14)</span>
+              <h3 class="text-lg font-extrabold text-white">🦇 Bats or 🐬 Dolphins? — Đọc câu &amp; Chọn đúng con vật</h3>
+            </div>
+            <button onclick="resetBatsDolphinsGame()" class="tv-focusable px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-300">
+              <i class="fa-solid fa-rotate-right mr-1"></i>Làm lại
+            </button>
+          </div>
+          <p class="text-xs text-slate-300">Trong bài giảng <strong>FFF - UNIT 5 - ABOUT ANIMALS.pptx</strong>, mỗi câu dưới đây miêu tả Dơi (<strong>Bats = B</strong>) hoặc Cá heo (<strong>Dolphins = D</strong>). Hãy bấm chọn đáp án đúng!</p>
+          <div id="bats-dolphins-list" class="space-y-2.5 max-h-[380px] overflow-y-auto custom-scroll pr-1"></div>
+        </div>
+
+        <!-- Game 2: How Do Animals Move? (Slide 4-5 of Unit 5 PPTX) -->
+        <div class="glass-card rounded-3xl p-6 space-y-4 border border-emerald-500/30">
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="text-xs font-bold uppercase text-emerald-300">Unit 5 • Task A (Slide 4–5)</span>
+              <h3 class="text-lg font-extrabold text-white">🏃 How Do They Move? — Phân loại cách di chuyển</h3>
+            </div>
+            <button onclick="resetAnimalMoveGame()" class="tv-focusable px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-300">
+              <i class="fa-solid fa-rotate-right mr-1"></i>Đổi lượt
+            </button>
+          </div>
+          <p class="text-xs text-slate-300">Chọn động từ chỉ cách di chuyển chính xác (<strong>Run, Fly, Jump/Hop, Swim</strong>) cho từng loài vật trong bài học Unit 5:</p>
+          <div id="animal-move-container" class="space-y-3"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         VIEW 3: READING & WRITING STUDIO
+         ========================================== -->
+    <section id="view-reading_writing" class="hidden space-y-6">
+      <!-- Sub-navigation for Reading & Writing modes -->
+      <div class="glass-card rounded-2xl p-3 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex flex-wrap items-center gap-2">
+          <button id="rw-sub-part1" onclick="switchRwSub('part1')" class="tv-focusable px-4 py-2.5 rounded-xl text-xs font-extrabold bg-amber-400 text-slate-950">
+            1. Part 1: Look &amp; Write (Định nghĩa từ vựng)
+          </button>
+          <button id="rw-sub-stories" onclick="switchRwSub('stories')" class="tv-focusable px-4 py-2.5 rounded-xl text-xs font-extrabold bg-slate-800 text-slate-300 hover:bg-slate-700">
+            2. Story Gap-Fill (11 Truyện Writing 1–13)
+          </button>
+          <button id="rw-sub-grammar" onclick="switchRwSub('grammar')" class="tv-focusable px-4 py-2.5 rounded-xl text-xs font-extrabold bg-slate-800 text-slate-300 hover:bg-slate-700">
+            3. Sửa Lỗi Ngữ Pháp (Grammar Check)
+          </button>
+        </div>
+        <div class="text-xs text-slate-400 px-2">
+          <i class="fa-solid fa-lightbulb text-amber-400 mr-1"></i>
+          <strong>Flyers Tip:</strong> Chú ý mạo từ <em>a / an</em> và danh từ số nhiều <em>-s / -es</em> khi chọn từ ở Part 1!
+        </div>
+      </div>
+
+      <!-- RW SUB 1: PART 1 DEFINITIONS QUIZ -->
+      <div id="rw-panel-part1" class="glass-card rounded-3xl p-6 space-y-5">
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-700/80 pb-4">
+          <div>
+            <span class="text-xs font-bold uppercase text-amber-300">Trích xuất từ READING_WRITING_1.pptx – READING_WRITING_27.pptx</span>
+            <h2 class="text-2xl font-black text-white">Reading &amp; Writing Part 1: Look and Read — Choose the Correct Words</h2>
+          </div>
+          <div class="flex items-center gap-3">
+            <span id="part1-score-badge" class="px-3.5 py-1.5 rounded-xl bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-extrabold">Đúng: 0 / 20</span>
+            <button onclick="resetPart1Quiz()" class="tv-focusable px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-white">
+              <i class="fa-solid fa-rotate-right mr-1"></i>Làm lại từ đầu
+            </button>
+          </div>
+        </div>
+
+        <div id="part1-question-area" class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center"></div>
+      </div>
+
+      <!-- RW SUB 2: INTERACTIVE STORY GAP-FILL (11 STORIES FROM WRITING 1-13) -->
+      <div id="rw-panel-stories" class="hidden glass-card rounded-3xl p-6 space-y-5">
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-700/80 pb-4">
+          <div class="flex items-center gap-4">
+            <img src="anh/truyen.webp" alt="Space and Stories" class="rounded-2xl object-cover border border-indigo-400/40 hidden sm:block max-w-full h-auto" style="width: 96px; height: 72px;" />
+            <div>
+              <span class="text-xs font-bold uppercase text-indigo-300">Trích xuất nguyên bản từ FLYERS - WRITING 1.pptx đến 13.pptx</span>
+              <h2 class="text-2xl font-black text-white">Hoàn Thành Câu Chuyện &amp; Luyện Đọc Trên TV (11 Stories)</h2>
+              <p class="text-xs text-slate-400">Chọn bài đọc, điền từ còn thiếu vào chỗ trống và bấm nghe TV đọc mẫu toàn bộ câu chuyện.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Story Selector Pills -->
+        <div id="story-selector-bar" class="flex flex-wrap gap-2"></div>
+
+        <!-- Active Story Workspace -->
+        <div id="story-workspace" class="grid grid-cols-1 lg:grid-cols-12 gap-6"></div>
+      </div>
+
+      <!-- RW SUB 3: GRAMMAR ERROR CORRECTION -->
+      <div id="rw-panel-grammar" class="hidden glass-card rounded-3xl p-6 space-y-5">
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-700/80 pb-4">
+          <div>
+            <span class="text-xs font-bold uppercase text-pink-300">Trích xuất từ FLYERS - WRITING 3, 5, 8, 11, 13.pptx</span>
+            <h2 class="text-2xl font-black text-white">Check the Mistake &amp; Correct It — Thử Thách Sửa Lỗi Ngữ Pháp</h2>
+            <p class="text-xs text-slate-400">Tìm lỗi sai trong câu và chọn phương án sửa đúng theo chuẩn ngữ pháp Cambridge Flyers.</p>
+          </div>
+          <button onclick="resetGrammarQuiz()" class="tv-focusable px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-white">
+            <i class="fa-solid fa-rotate-right mr-1"></i>Làm lại
+          </button>
+        </div>
+
+        <div id="grammar-quiz-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         VIEW 4: SPEAKING & LISTENING TV STUDIO
+         ========================================== -->
+    <section id="view-speaking_listening" class="hidden space-y-6">
+      <!-- Sub-navigation -->
+      <div class="glass-card rounded-2xl p-3 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex flex-wrap items-center gap-2">
+          <button id="sl-sub-exchange" onclick="switchSlSub('exchange')" class="tv-focusable px-4 py-2.5 rounded-xl text-xs font-extrabold bg-amber-400 text-slate-950">
+            1. Speaking Part 2: Hỏi – Đáp 2 Chiều (Info Exchange)
+          </button>
+          <button id="sl-sub-story" onclick="switchSlSub('story')" class="tv-focusable px-4 py-2.5 rounded-xl text-xs font-extrabold bg-slate-800 text-slate-300 hover:bg-slate-700">
+            2. Speaking Part 3: Kể Chuyện Theo Tranh (9 Stories)
+          </button>
+          <button id="sl-sub-listening" onclick="switchSlSub('listening')" class="tv-focusable px-4 py-2.5 rounded-xl text-xs font-extrabold bg-slate-800 text-slate-300 hover:bg-slate-700">
+            3. Listening Part 2 &amp; Part 5: Nghe &amp; Tô Màu Trên TV
+          </button>
+        </div>
+        <span class="text-xs text-emerald-300 font-semibold"><i class="fa-solid fa-volume-high mr-1"></i>Tất cả câu hỏi và đáp án đều có nút phát âm mẫu!</span>
+      </div>
+
+      <!-- SL SUB 1: SPEAKING INFORMATION EXCHANGE -->
+      <div id="sl-panel-exchange" class="glass-card rounded-3xl p-6 space-y-5">
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-700/80 pb-4">
+          <div>
+            <span class="text-xs font-bold uppercase text-amber-300">Trích xuất từ FLYERS - SPEAKING 1.pptx – 21.pptx</span>
+            <h2 class="text-2xl font-black text-white">Speaking Part 2: Information Exchange &amp; Free Talk</h2>
+            <p class="text-xs text-slate-400">Bố mẹ và bé cùng nhìn lên màn hình TV để luyện đóng vai Giám khảo – Thí sinh hỏi và trả lời 5 câu hỏi lấy thông tin.</p>
+          </div>
+          <div id="speaking-exchange-tabs" class="flex flex-wrap gap-1.5"></div>
+        </div>
+
+        <div id="speaking-exchange-content" class="space-y-5"></div>
+      </div>
+
+      <!-- SL SUB 2: SPEAKING PICTURE STORY TELLER -->
+      <div id="sl-panel-story" class="hidden glass-card rounded-3xl p-6 space-y-5">
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-700/80 pb-4">
+          <div>
+            <span class="text-xs font-bold uppercase text-cyan-300">Trích xuất từ FLYERS - SPEAKING 1, 2, 3, 4, 6, 7, 8, 9, 11, 19.pptx</span>
+            <h2 class="text-2xl font-black text-white">Speaking Part 3: Tell the Story — Luyện Kể Chuyện Theo Câu Hỏi Gợi Ý</h2>
+            <p class="text-xs text-slate-400">Đọc bối cảnh mở đầu, trả lời từng câu hỏi gợi ý để ghép thành câu chuyện hoàn chỉnh (5–10 câu), sau đó bấm Xem &amp; Nghe Đáp Án Mẫu.</p>
+          </div>
+        </div>
+
+        <div id="speaking-story-tabs" class="flex flex-wrap gap-2"></div>
+        <div id="speaking-story-workspace" class="space-y-5"></div>
+      </div>
+
+      <!-- SL SUB 3: LISTENING PART 2 & PART 5 INTERACTIVE COLOURING STUDIO -->
+      <div id="sl-panel-listening" class="hidden glass-card rounded-3xl p-6 space-y-5">
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b border-slate-700/80 pb-4">
+          <div>
+            <span class="text-xs font-bold uppercase text-emerald-300">Trích xuất từ FLYERS - LISTENING 1, 4, 6, 9, 20.pptx</span>
+            <h2 class="text-2xl font-black text-white">Listening Part 5 &amp; Part 2: Listen, Colour and Write trên TV</h2>
+            <p class="text-xs text-slate-400">Bấm <strong>"Phát bài nghe (TTS)"</strong> để nghe hướng dẫn tiếng Anh, sau đó chọn màu sắc trên bảng màu và bấm vào đúng đồ vật trên màn hình để tô màu!</p>
+          </div>
+          <div id="listening-scene-tabs" class="flex flex-wrap gap-2"></div>
+        </div>
+
+        <div id="listening-studio-workspace" class="grid grid-cols-1 lg:grid-cols-12 gap-6"></div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         VIEW 5: GOOGLE DRIVE RESOURCES & TV SETUP GUIDE
+         ========================================== -->
+    <section id="view-resources" class="hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Direct Links to User's Google Drive Folder & Files -->
+        <div class="lg:col-span-7 glass-card rounded-3xl p-6 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-700/80 pb-3">
+            <div>
+              <span class="text-xs font-bold uppercase text-amber-300">Liên kết trực tiếp tới Google Drive của bạn</span>
+              <h2 class="text-xl font-black text-white">Kho Học Liệu Gốc: FUN FOR FLYERS</h2>
+            </div>
+            <a href="https://drive.google.com/drive/folders/1F1qkyE8eeWEPHIXPqHjEM20X4j-oinHK?usp=sharing" target="_blank" rel="noopener noreferrer" class="tv-focusable px-4 py-2 rounded-xl bg-amber-400 text-slate-950 font-extrabold text-xs flex items-center gap-2">
+              <i class="fa-brands fa-google-drive"></i>
+              <span>Mở Thư Mục Gốc</span>
+            </a>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="drive-links-grid">
+            <a href="https://drive.google.com/file/d/1x0yE69rPUC0qNKHAgrfOL9o05RdStN_d/view?usp=drivesdk" target="_blank" rel="noopener noreferrer" class="tv-focusable p-4 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700 flex items-start gap-3 transition-all">
+              <i class="fa-solid fa-file-pdf text-rose-400 text-2xl mt-1"></i>
+              <div>
+                <h4 class="text-sm font-bold text-white">Fun for Flyers SB 4e.pdf</h4>
+                <p class="text-xs text-slate-400">Sách Học Sinh (Student's Book Fourth Edition - 22.1 MB)</p>
+              </div>
+            </a>
+
+            <a href="https://drive.google.com/file/d/1PJPX60i1DiCH8CFpjNUquyj0DYrEyw_y/view?usp=drivesdk" target="_blank" rel="noopener noreferrer" class="tv-focusable p-4 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700 flex items-start gap-3 transition-all">
+              <i class="fa-solid fa-file-pdf text-orange-400 text-2xl mt-1"></i>
+              <div>
+                <h4 class="text-sm font-bold text-white">Fun for Flyers TB 4e.pdf</h4>
+                <p class="text-xs text-slate-400">Sách Giáo Viên &amp; Đáp Án (Teacher's Book 4e - 60.3 MB)</p>
+              </div>
+            </a>
+
+            <a href="https://drive.google.com/file/d/15L6bKvprxT8xPEB83gO5nEzcwflJClqd/view?usp=drivesdk" target="_blank" rel="noopener noreferrer" class="tv-focusable p-4 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700 flex items-start gap-3 transition-all">
+              <i class="fa-solid fa-file-excel text-emerald-400 text-2xl mt-1"></i>
+              <div>
+                <h4 class="text-sm font-bold text-white">DETAILED SCHEDULE - FUN FOR FLYERS.xlsx</h4>
+                <p class="text-xs text-slate-400">Lộ trình chi tiết 98 buổi, 56 Units &amp; tiêu chuẩn đầu ra 15 Khiên</p>
+              </div>
+            </a>
+
+            <a href="https://drive.google.com/drive/folders/1p9jvDiTfas_XAcU9bchhuR3az0dIkD0s" target="_blank" rel="noopener noreferrer" class="tv-focusable p-4 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700 flex items-start gap-3 transition-all">
+              <i class="fa-solid fa-headphones text-cyan-400 text-2xl mt-1"></i>
+              <div>
+                <h4 class="text-sm font-bold text-white">Fun for Flyers CD 4e (Audio MP3)</h4>
+                <p class="text-xs text-slate-400">Trọn bộ file nghe MP3 CD1 &amp; CD2 Cambridge University Press</p>
+              </div>
+            </a>
+
+            <a href="https://drive.google.com/drive/folders/16Lum9c5VqlqSd0tteavFhdXKqu_urf3O" target="_blank" rel="noopener noreferrer" class="tv-focusable p-4 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700 flex items-start gap-3 transition-all">
+              <i class="fa-solid fa-folder-open text-amber-400 text-2xl mt-1"></i>
+              <div>
+                <h4 class="text-sm font-bold text-white">BỘ Bài giảng Fun For Flyers (56 Units)</h4>
+                <p class="text-xs text-slate-400">Bao gồm thư mục 1. Fun For Flyers (Slide + Giáo án) &amp; 2. Homework</p>
+              </div>
+            </a>
+
+            <a href="https://drive.google.com/drive/folders/1fHM_ImzSJCSnpo5jfBPpwRW2W2CztjuC" target="_blank" rel="noopener noreferrer" class="tv-focusable p-4 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700 flex items-start gap-3 transition-all">
+              <i class="fa-solid fa-chalkboard-user text-indigo-400 text-2xl mt-1"></i>
+              <div>
+                <h4 class="text-sm font-bold text-white">Bài giảng PPT Luyện 4 Skills</h4>
+                <p class="text-xs text-slate-400">4 thư mục chuyên sâu: LISTENING, SPEAKING, READING, WRITING</p>
+              </div>
+            </a>
+
+            <a href="https://drive.google.com/drive/folders/13aA2wWtuiV3Yo7mq04-J8-_ICCH97pMB" target="_blank" rel="noopener noreferrer" class="tv-focusable p-4 rounded-2xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700 flex items-start gap-3 transition-all sm:col-span-2">
+              <i class="fa-solid fa-award text-purple-400 text-2xl mt-1"></i>
+              <div>
+                <h4 class="text-sm font-bold text-white">Bộ Test 4 Skills (KHO ĐỀ 1 &amp; KHO ĐỀ 2)</h4>
+                <p class="text-xs text-slate-400">Ngân hàng đề kiểm tra định kỳ và đề thi thử Flyers kèm đáp án (KEY)</p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Smart TV Guide & Remote Shortcuts -->
+        <div class="lg:col-span-5 glass-card rounded-3xl p-6 space-y-4 border border-indigo-500/30">
+          <span class="text-xs font-bold uppercase text-indigo-300">Hướng dẫn sử dụng trên TV (LG webOS / Smart TV)</span>
+          <h3 class="text-xl font-black text-white">Cách Mở &amp; Điều Khiển Trên Màn Hình TV</h3>
+
+          <div class="space-y-3 text-xs text-slate-300 leading-relaxed">
+            <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-700 space-y-1">
+              <p class="font-bold text-amber-300"><i class="fa-solid fa-wand-magic-sparkles mr-1.5"></i>1. Điều khiển bằng LG Magic Remote / Điều khiển TV:</p>
+              <p>• Dùng <strong>con trỏ chuột bay (Magic Remote)</strong> để bấm trực tiếp vào bất kỳ thẻ từ vựng, câu hỏi hoặc nút loa nào trên màn hình 86 inch.</p>
+              <p>• Hoặc dùng <strong>4 phím mũi tên (Lên/Xuống/Trái/Phải)</strong> để di chuyển khung viền vàng giữa các nút và nhấn <strong>OK / Enter</strong> để chọn.</p>
+            </div>
+
+            <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-700 space-y-1">
+              <p class="font-bold text-cyan-300"><i class="fa-solid fa-keyboard mr-1.5"></i>2. Phím tắt nhanh trên Remote / Bàn phím không dây:</p>
+              <ul class="space-y-1 pl-2">
+                <li>• Phím số <kbd class="px-1.5 py-0.5 bg-slate-800 rounded text-amber-300 font-mono">1</kbd> – <kbd class="px-1.5 py-0.5 bg-slate-800 rounded text-amber-300 font-mono">5</kbd>: Chuyển nhanh giữa 5 phân khu học tập.</li>
+                <li>• Phím <kbd class="px-1.5 py-0.5 bg-slate-800 rounded text-amber-300 font-mono">Space</kbd> (Cách): Phát âm lại từ vựng đang mở trên Flashcard.</li>
+                <li>• Nút <strong>"Chữ TV: Cỡ Lớn 4K"</strong> trên thanh công cụ: Phóng to toàn bộ cỡ chữ thêm 15% để nhìn rõ từ sofa cách 3–4m.</li>
+              </ul>
+            </div>
+
+            <div class="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-700 space-y-2">
+              <p class="font-bold text-emerald-300"><i class="fa-solid fa-cloud-arrow-up mr-1.5"></i>3. Cách đưa trang web lên trình duyệt Web của TV LG:</p>
+              <p>• <strong>Cách 1 (Nhanh nhất):</strong> Mở file HTML này trên máy tính/điện thoại rồi chiếu màn hình (AirPlay / Screen Share) lên TV LG, hoặc mở trực tiếp qua liên kết Gemini trên trình duyệt webOS.</p>
+              <p>• <strong>Cách 2 (Chạy mạng nội bộ LAN tại nhà):</strong> Lưu file <code class="text-amber-300">fun_for_flyers_tv.html</code> vào máy tính cùng mạng Wi-Fi Mesh, chạy lệnh <code class="text-cyan-300">python -m http.server 8080</code> rồi mở trình duyệt TV LG truy cập địa chỉ IP máy tính.</p>
+            </div>
+
+            <div class="flex items-center justify-between pt-2">
+              <button onclick="resetAllProgress()" class="tv-focusable px-4 py-2 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 font-bold text-xs">
+                <i class="fa-solid fa-trash-can mr-1"></i>Đặt lại tiến độ học tập
+              </button>
+              <button onclick="awardBonusShield()" class="tv-focusable px-4 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 font-bold text-xs">
+                <i class="fa-solid fa-medal mr-1"></i>Thưởng +1 Khiên khích lệ bé
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- UNIT DETAIL MODAL -->
+  <div id="unit-modal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="glass-card rounded-3xl max-w-2xl w-full p-6 lg:p-8 border-2 border-amber-400/50 shadow-2xl space-y-5">
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <span id="modal-unit-stage" class="px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 text-xs font-bold">Chặng 1 • Lesson 1</span>
+          <h3 id="modal-unit-title" class="text-2xl font-black text-white mt-2">Unit 1 - Hello again</h3>
+        </div>
+        <button onclick="closeUnitModal()" class="tv-focusable w-10 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3">
+        <div class="p-4 rounded-2xl bg-slate-900/90 border border-slate-700">
+          <p class="text-xs font-bold uppercase text-cyan-300 mb-1"><i class="fa-solid fa-wand-sparkles mr-1"></i>Chủ điểm Ngữ pháp &amp; Cấu trúc:</p>
+          <p id="modal-unit-grammar" class="text-sm text-slate-200 leading-relaxed"></p>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-slate-900/90 border border-slate-700 space-y-2">
+          <div class="flex items-center justify-between">
+            <p class="text-xs font-bold uppercase text-amber-300"><i class="fa-solid fa-spell-check mr-1"></i>Từ vựng trọng tâm (Bấm vào từng từ để nghe phát âm):</p>
+            <button onclick="speakModalWords()" class="tv-focusable px-3 py-1 rounded-lg bg-amber-400 text-slate-950 font-bold text-xs">
+              <i class="fa-solid fa-volume-high mr-1"></i>Đọc tất cả
+            </button>
+          </div>
+          <div id="modal-unit-words" class="flex flex-wrap gap-2 pt-1"></div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-2">
+          <div id="modal-unit-skills" class="flex flex-wrap gap-1.5"></div>
+          <div class="flex items-center gap-2">
+            <button id="modal-complete-btn" onclick="toggleCurrentUnitComplete()" class="tv-focusable px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs flex items-center gap-2">
+              <i class="fa-solid fa-check"></i>
+              <span>Đánh dấu Đã học xong (+25 XP)</span>
+            </button>
+            <button onclick="closeUnitModal()" class="tv-focusable px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs">Đóng</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="tv-toast" class="fixed bottom-5 right-5 z-50 hidden px-5 py-3.5 rounded-2xl bg-slate-900/95 border-2 border-amber-400 text-white shadow-2xl flex items-center gap-3">
+    <i id="tv-toast-icon" class="fa-solid fa-circle-check text-amber-400 text-xl"></i>
+    <span id="tv-toast-msg" class="text-sm font-bold">Đã cập nhật!</span>
+  </div>
+
+  <!-- APPLICATION SCRIPT -->
+  <script>
+    // =========================================================================
+    // 1. GROUNDED DATASETS FROM USER'S GOOGLE DRIVE (FUN FOR FLYERS)
+    // =========================================================================
+
+    const UNITS_DATA = [
+      { id: 1, stage: 1, lesson: 1, title: "Unit 1 - Hello again", grammar: "Present simple, present continuous", topics: "Colours, sports and leisure", words: ["backpack", "bicycle", "game", "screen", "skateboard", "skateboarding", "video games"], skills: ["Speaking", "Listening", "Reading"] },
+      { id: 2, stage: 1, lesson: 2, title: "Unit 2 - Wearing and carrying", grammar: "'When' clauses: Some people wear... when they are...", topics: "Clothes", words: ["coat", "jeans", "scarf", "socks", "sunglasses", "sweater", "trousers", "uniform"], skills: ["Reading", "Listening"] },
+      { id: 3, stage: 1, lesson: 3, title: "Unit 3 - Spots and stripes", grammar: "Relative clause: The person who ... is...", topics: "Clothes, colours", words: ["spot", "stripe", "flag", "beard"], skills: ["Reading", "Speaking", "Listening", "Writing"] },
+      { id: 4, stage: 1, lesson: 4, title: "Unit 4 - My friends and my pets", grammar: "Superlative adjectives: The + Adj-est / The most + Adj", topics: "Family and friends, animals", words: ["friend", "pet", "cleverest", "strongest", "loudest", "naughtiest"], skills: ["Speaking", "Listening", "Reading"] },
+      { id: 5, stage: 1, lesson: 5, title: "Unit 5 - About animals", grammar: "Prepositions: in, on, at, by, to, from; Comparatives & Superlatives", topics: "Animals", words: ["kangaroo", "bat", "dolphin", "octopus", "butterfly", "bee", "camel", "swan", "rhino", "dinosaur", "tortoise", "beetle"], skills: ["Reading", "Writing"] },
+      { id: 6, stage: 1, lesson: 6, title: "Unit 6 - My things", grammar: "Questions, conjunctions (and, because, so), past simple (V-ed/V2)", topics: "Animals, clothes, family and friends", words: ["silver", "light", "upstairs", "downstairs", "brushes", "comb"], skills: ["Listening", "Speaking"] },
+      { id: 7, stage: 1, lesson: 7, title: "Unit 7 - Moving and speaking", grammar: "Questions, past simple, '... is/are for V-ing' (Eyes are for seeing)", topics: "Body and face, the world around us", words: ["whistle", "whisper", "laugh", "shout", "hear", "smell"], skills: ["Reading", "Writing", "Speaking"] },
+      { id: 8, stage: 1, lesson: 8, title: "Unit 8 - School subjects", grammar: "Want to + V", topics: "School, places, subjects", words: ["Art", "Geography", "History", "Sport", "Language", "Maths", "Music", "Science", "Technology", "Literature", "Physics", "Chemistry", "artist", "painting"], skills: ["Reading", "Writing", "Listening", "Speaking"] },
+      { id: 9, stage: 1, lesson: 11, title: "Unit 9 - In my classroom", grammar: "To + V of purpose", topics: "School", words: ["glue", "scissors", "dictionary", "bin", "calendar", "competition"], skills: ["Reading", "Listening", "Speaking"] },
+      { id: 10, stage: 1, lesson: 12, title: "Unit 10 - Clothes, animals and school", grammar: "Present and past simple review", topics: "Clothes, animals, school", words: ["uniform", "backpack", "classroom", "dolphin", "butterfly"], skills: ["Reading", "Speaking"] },
+      { id: 11, stage: 1, lesson: 13, title: "Unit 11 - Visiting different places", grammar: "Questions, prepositions", topics: "The world around us, sports and leisure", words: ["rucksack", "torch", "umbrella", "blanket", "island", "waterfall"], skills: ["Listening", "Reading", "Speaking"] },
+      { id: 12, stage: 1, lesson: 14, title: "Unit 12 - A journey into space", grammar: "Prepositions of place (in, on, at), would like + V", topics: "Space & Solar System", words: ["astronaut", "stairs", "golf", "ground", "air", "planet", "environment", "Venus", "Mars", "Mercury", "Uranus", "Saturn", "Jupiter", "Neptune", "Earth"], skills: ["Reading", "Writing", "Listening", "Speaking"] },
+      { id: 13, stage: 1, lesson: 15, title: "Unit 13 - What horrible weather!", grammar: "How/What about + V-ing; could/shall + V for suggestions", topics: "Weather", words: ["sunny", "rainy", "cloudy", "windy", "foggy", "snowy", "stormy", "rainbow", "temperature", "thunder", "lightning", "wet", "dry"], skills: ["Listening", "Speaking"] },
+      { id: 14, stage: 1, lesson: 16, title: "Unit 14 - Are you hungry? Thirsty?", grammar: "Adverbs of frequency: always, usually, often, sometimes, hardly, never; How often...?", topics: "Food and drink", words: ["honey", "jam", "sugar", "salt", "butter", "yoghurt", "cookies", "snack", "flour", "burger", "chips", "pasta", "sandwich", "fries"], skills: ["Reading", "Listening"] },
+      { id: 15, stage: 1, lesson: 19, title: "Unit 15 - What's for dinner?", grammar: "Prepositions (in, on, at, before, after, during), comparatives & superlatives", topics: "Food and drink, animals, time", words: ["dinner", "meal", "sauce", "olives", "strawberry", "waiter"], skills: ["Reading", "Listening", "Speaking"] },
+      { id: 16, stage: 1, lesson: 20, title: "Unit 16 - Let's have a picnic!", grammar: "Shall / Let's + V for suggestions; such / so", topics: "Materials, home, food and drink", words: ["knife", "plate", "glass", "pepper", "bottle", "spoon", "fork", "chopstick", "picnic", "secretary"], skills: ["Reading", "Speaking"] },
+      { id: 17, stage: 1, lesson: 21, title: "Unit 17 - A day's work", grammar: "Like + to V / V-ing", topics: "Work, places, jobs", words: ["mechanic", "chef", "photographer", "journalist", "secretary", "actor", "actress"], skills: ["Reading", "Listening", "Speaking"] },
+      { id: 18, stage: 1, lesson: 22, title: "Unit 18 - Time and work", grammar: "Talk about time: at + time, until", topics: "Time, work", words: ["o'clock", "half past", "quarter", "office", "meeting", "until"], skills: ["Listening", "Reading"] },
+
+      { id: 19, stage: 2, lesson: 23, title: "Unit 19 - Answer my questions", grammar: "Wh-Questions in present simple, continuous, perfect, past simple", topics: "The world around us, time, family", words: ["How many", "How much", "How often", "What time", "Whose", "Which", "Where", "Why", "When"], skills: ["Reading", "Writing"] },
+      { id: 20, stage: 2, lesson: 24, title: "Unit 20 - Calling and sending", grammar: "Review present tenses", topics: "Time, numbers, the home", words: ["sound", "instrument", "call", "strange", "repeat", "advice", "website", "phone", "conversation", "address book", "calendar", "pay"], skills: ["Listening", "Reading", "Speaking"] },
+      { id: 21, stage: 2, lesson: 27, title: "Unit 21 - The time of the year", grammar: "Gerund (V-ing)", topics: "Weather, time, seasons", words: ["second", "minute", "hour", "week", "weekend", "month", "season", "century", "spring", "summer", "autumn", "winter"], skills: ["Reading", "Speaking"] },
+      { id: 22, stage: 2, lesson: 28, title: "Unit 22 - Important numbers", grammar: "Comparative and superlative adjectives review", topics: "Numbers, family and friends", words: ["fact", "adventure", "passenger", "thousand", "million", "kilometre"], skills: ["Reading", "Listening"] },
+      { id: 23, stage: 2, lesson: 29, title: "Unit 23 - World, weather, work", grammar: "Contractions: there's, I've, who's...", topics: "Weather, work", words: ["world", "weather", " clouds", "storm", "office", "repair"], skills: ["Reading", "Writing"] },
+      { id: 24, stage: 2, lesson: 30, title: "Unit 24 - Leaving and arriving", grammar: "Prepositions: by, on", topics: "Transport, places", words: ["station", "path", "railway", "wheel", "ticket", "journey", "travel", "airport", "helicopter", "plane", "balloon", "train", "taxi", "lorry"], skills: ["Listening", "Reading"] },
+      { id: 25, stage: 2, lesson: 31, title: "Unit 25 - What shall we do next?", grammar: "Be + going to for plans", topics: "Sports and leisure", words: ["naughty", "excited", "surprise", "frighten", "plastic", "ugly", "secret"], skills: ["Reading", "Listening"] },
+      { id: 26, stage: 2, lesson: 32, title: "Unit 26 - Where can we go on holiday?", grammar: "Have you ever...?; prepositions review", topics: "Sports and leisure", words: ["camping", "climbing", "sailing", "adventure", "torch", "tent", "island"], skills: ["Reading", "Listening", "Speaking"] },
+      { id: 27, stage: 2, lesson: 33, title: "Unit 27 - It's the holiday! Bye!", grammar: "Review Be + going to and prepositions", topics: "Transport, the world around us", words: ["holiday", "entrance", "suitcase", "hotel", "passport"], skills: ["Speaking", "Reading", "Listening", "Writing"] },
+      { id: 28, stage: 2, lesson: 34, title: "Unit 28 - I want to win!", grammar: "Past simple and past continuous: S + was/were + V-ing", topics: "Sports and leisure", words: ["competition", "forest", "race", "winner", "prize"], skills: ["Reading", "Listening"] },
+      { id: 29, stage: 2, lesson: 37, title: "Unit 29 - Doing sport! Having fun!", grammar: "Review tenses & sports structures", topics: "Sports and leisure, body and face", words: ["popular", "dangerous", "across", "goals", "team", "stadium"], skills: ["Listening", "Reading", "Speaking"] },
+      { id: 30, stage: 2, lesson: 38, title: "Unit 30 - Summer and winter sports", grammar: "To, because, so; relative clauses", topics: "Sports and leisure, transport", words: ["suitcase", "race", "magazine", "heavy", "skiing", "sledge"], skills: ["Writing", "Reading", "Speaking"] },
+      { id: 31, stage: 2, lesson: 39, title: "Unit 31 - Here and there", grammar: "Determiners: here, there", topics: "Home, weather, clothes", words: ["here", "there", "upstairs", "inside", "outside", "everywhere"], skills: ["Speaking", "Reading"] },
+      { id: 32, stage: 2, lesson: 40, title: "Unit 32 - Where?", grammar: "Places & prepositions review", topics: "Places, the home", words: ["university", "college", "station", "factory", "hotel", "library", "post office"], skills: ["Speaking", "Listening", "Reading"] },
+      { id: 33, stage: 2, lesson: 41, title: "Unit 33 - At the hospital", grammar: "Health & medical structures review", topics: "Health, body and face", words: ["doctor", "nurse", "ill", "sickness", "ache", "hospital", "dentist", "medicine", "chemist", "ambulance", "take care", "temperature"], skills: ["Reading", "Listening", "Speaking"] },
+      { id: 34, stage: 2, lesson: 42, title: "Unit 34 - John stays in hospital", grammar: "Adverbs of manner: Adj + -ly (slowly, carefully, quietly)", topics: "Health, sports and leisure, time", words: ["Christmas", "bored", "headteacher", "quietly", "carefully", "bandage"], skills: ["Reading", "Listening"] },
+
+      { id: 35, stage: 3, lesson: 45, title: "Unit 35 - What's it made of?", grammar: "Be made of / from / with", topics: "Materials, home, the world around us", words: ["metal", "wood", "wool", "gold", "glass", "card", "paper"], skills: ["Listening", "Speaking", "Reading"] },
+      { id: 36, stage: 3, lesson: 46, title: "Unit 36 - Silver, plastic, glass, gold", grammar: "Present perfect (S + have/has + VpII), Adjective + Noun", topics: "Materials, the home", words: ["silver", "plastic", "glass", "gold", "ring", "necklace", "crown"], skills: ["Reading", "Writing"] },
+      { id: 37, stage: 3, lesson: 47, title: "Unit 37 - Exciting days!", grammar: "Present simple and continuous", topics: "Work, clothes", words: ["policeman", "fireman", "fire fighter", "traffic", "engine", "fire station"], skills: ["Reading", "Writing", "Listening", "Speaking"] },
+      { id: 38, stage: 3, lesson: 48, title: "Unit 38 - Famous people", grammar: "Review would like + V, will + V", topics: "Work, sports and leisure", words: ["famous", "important", "repair", "concert", "singer", "queen"], skills: ["Reading", "Writing", "Listening"] },
+      { id: 39, stage: 3, lesson: 49, title: "Unit 39 - In villages and towns", grammar: "'When' clauses, compound nouns (computer mouse...)", topics: "Places, sports and leisure", words: ["flashlight", "snowboarding", "sledge", "village", "town", "bridge"], skills: ["Reading", "Listening"] },
+      { id: 40, stage: 3, lesson: 50, title: "Unit 40 - What a strange planet!", grammar: "Present perfect with 'ever' (S + have/has + ever + VpII)", topics: "Animals, body and face, the world around us", words: ["planet", "creature", "strange", "space", "pyramid", "camel"], skills: ["Reading", "Speaking"] },
+      { id: 41, stage: 3, lesson: 53, title: "Unit 41 - Meet the pirate actors", grammar: "Review tenses & storytelling", topics: "Family, the world around us, clothes", words: ["count", "ship", "costume", "pyramid", "treasure", "pocket"], skills: ["Reading", "Listening", "Speaking"] },
+      { id: 42, stage: 3, lesson: 54, title: "Unit 42 - Holiday news", grammar: "Present perfect with 'already' and 'yet'; will & be going to", topics: "Sports and leisure, places", words: ["desert", "pool", "quarter", "already", "yet", "postcard"], skills: ["Listening", "Speaking", "Reading", "Writing"] },
+      { id: 43, stage: 3, lesson: 55, title: "Unit 43 - Have you ever...?", grammar: "Have you ever...? Yes, I have / No, I haven't; Adding -er to make nouns", topics: "Time, sports and leisure", words: ["climber", "skater", "driver", "teacher", "painter", "player"], skills: ["Writing", "Speaking", "Listening", "Reading"] },
+      { id: 44, stage: 3, lesson: 56, title: "Unit 44 - What just happened?", grammar: "Present perfect with 'just'", topics: "Friends, leisure, home", words: ["just", "broken", "dropped", "arrived", "finished", "surprise"], skills: ["Reading", "Speaking", "Listening"] },
+      { id: 45, stage: 3, lesson: 57, title: "Unit 45 - Talking about the time", grammar: "Will & be going to; Ordinal numbers (1st – 31st)", topics: "Time, numbers", words: ["first", "second", "third", "fourth", "fifth", "twentieth", "thirty-first"], skills: ["Reading", "Listening"] },
+      { id: 46, stage: 3, lesson: 58, title: "Unit 46 - We're at home today", grammar: "Short answers and auxiliary verbs", topics: "Home, sports and leisure", words: ["a bit", "later", "fetch", "sofa", "cupboard", "curtain"], skills: ["Reading", "Listening"] },
+      { id: 47, stage: 3, lesson: 59, title: "Unit 47 - I will or perhaps I won't", grammar: "Sentences with 'because, but'; I want to be...; will, won't, may, might + V", topics: "Work, family and friends", words: ["perhaps", "boring", "exciting", "interesting", "astronaut", "engineer"], skills: ["Listening", "Speaking", "Reading", "Writing"] },
+      { id: 48, stage: 3, lesson: 60, title: "Unit 48 - Doing different things", grammar: "Gerund (V-ing); will, look like", topics: "Family and friends, work, sports and leisure", words: ["husband", "wife", "king", "queen", "aunt", "uncle", "cousin"], skills: ["Reading", "Writing", "Speaking", "Listening"] },
+      { id: 49, stage: 3, lesson: 63, title: "Unit 49 - Busy families", grammar: "Too & enough; make & do", topics: "Family and friends, home, weather", words: ["make a cake", "do homework", "too heavy", "warm enough", "tidy", "untidy"], skills: ["Reading", "Writing", "Speaking", "Listening"] },
+      { id: 50, stage: 3, lesson: 64, title: "Unit 50 - On TV", grammar: "Review tenses & media vocabulary", topics: "Work, places, media", words: ["improve", "million", "village", "town", "programme", "channel", "gate", "trainer"], skills: ["Listening", "Speaking", "Reading", "Writing"] },
+      { id: 51, stage: 3, lesson: 65, title: "Unit 51 - Here's my news", grammar: "Relative clauses, conjunctions", topics: "School, sports and leisure, time", words: ["news", "magazine", "newspaper", "interview", "club", "concert"], skills: ["Listening", "Speaking", "Reading", "Writing"] },
+      { id: 52, stage: 3, lesson: 66, title: "Unit 52 - What a lot of questions!", grammar: "Review Wh-questions", topics: "The world around us, sports and leisure", words: ["stage", "match", "difficult", "competition", "theatre", "audience"], skills: ["Listening", "Speaking", "Reading", "Writing"] },
+      { id: 53, stage: 3, lesson: 67, title: "Unit 53 - Finding your way", grammar: "Directions & prepositions review", topics: "Places and directions", words: ["across", "next to", "opposite", "on the corner", "near", "straight on"], skills: ["Listening", "Speaking", "Reading", "Writing"] },
+      { id: 54, stage: 3, lesson: 68, title: "Unit 54 - Let's have some fun!", grammar: "Suggestions: Would you like...? Why don't we...? Let's... What about...? Shall we...? We could...?; Imperatives", topics: "Sports and leisure, places", words: ["invitation", "festival", "fireworks", "amusement park", "join", "celebrate"], skills: ["Listening", "Speaking", "Reading", "Writing"] },
+      { id: 55, stage: 3, lesson: 71, title: "Unit 55 - If I feel bored", grammar: "Review 'when' and 'if' clauses", topics: "Family and friends, health & feelings", words: ["tired", "bored", "afraid", "lazy", "angry", "sad", "happy", "excited", "interested"], skills: ["Listening", "Speaking", "Reading", "Writing"] },
+      { id: 56, stage: 3, lesson: 72, title: "Unit 56 - Fun and games", grammar: "Full course review (Units 1–56 & Flyers Practice Tests 5, 6, 7)", topics: "Comprehensive Cambridge Flyers Review", words: ["shield", "champion", "flyers", "puzzle", "adventure", "congratulations"], skills: ["Listening", "Speaking", "Reading", "Writing"] }
+    ];
+
+    // Grounded Vocabulary Decks with exact IPA from Unit 5 PPTX & Writing 1-13 PPTX
+    const VOCAB_DECKS = {
+      animals: [
+        { word: "kangaroo", ipa: "/ˌkæŋɡəˈruː/ (n)", vi: "Chuột túi", emoji: "🦘", ex: "Kangaroos hop fast on their strong back legs." },
+        { word: "crocodile", ipa: "/ˈkrɑːkədaɪl/ (n)", vi: "Cá sấu", emoji: "🐊", ex: "A crocodile lives in rivers and has a long tail." },
+        { word: "bat", ipa: "/bæt/ (n)", vi: "Con dơi", emoji: "🦇", ex: "Bats sleep during the day and fly at night to find food." },
+        { word: "dolphin", ipa: "/ˈdɑːlfɪn/ (n)", vi: "Cá heo", emoji: "🐬", ex: "Dolphins are friendly and clever. They live in warm seas." },
+        { word: "goat", ipa: "/ɡəʊt/ (n)", vi: "Con dê", emoji: "🐐", ex: "The mountain goat can climb high rocks easily." },
+        { word: "penguin", ipa: "/ˈpeŋɡwɪn/ (n)", vi: "Chim cánh cụt", emoji: "🐧", ex: "Penguins are birds that cannot fly, but they swim very well." },
+        { word: "jellyfish", ipa: "/ˈdʒelifɪʃ/ (n)", vi: "Con sứa", emoji: "🪼", ex: "Be careful of jellyfish when you swim in the sea." },
+        { word: "zebra", ipa: "/ˈziːbrə/ (n)", vi: "Ngựa vằn", emoji: "🦓", ex: "A zebra is an African animal with black and white stripes." },
+        { word: "butterfly", ipa: "/ˈbʌtərflaɪ/ (n)", vi: "Con bướm", emoji: "🦋", ex: "This insect has beautiful colourful wings and flies near flowers." },
+        { word: "dinosaur", ipa: "/ˈdaɪnəsɔːr/ (n)", vi: "Khủng long", emoji: "🦕", ex: "Dinosaurs lived millions of years ago. We can see their skeletons in museums." },
+        { word: "camel", ipa: "/ˈkæml/ (n)", vi: "Lạc đà", emoji: "🐪", ex: "Camels live in hot dry deserts and carry people across the sand." },
+        { word: "octopus", ipa: "/ˈɑːktəpʊs/ (n)", vi: "Bạch tuộc", emoji: "🐙", ex: "An octopus lives in the sea and has eight long arms." },
+        { word: "swan", ipa: "/swɑːn/ (n)", vi: "Thiên nga", emoji: "🦢", ex: "A swan is a large white bird with a very long neck that swims on lakes." },
+        { word: "donkey", ipa: "/ˈdɑːŋki/ (n)", vi: "Con lừa", emoji: "🫏", ex: "The farmer's donkey helps carry heavy bags." },
+        { word: "beetle", ipa: "/ˈbiːtl/ (n)", vi: "Bọ cánh cứng", emoji: "🪲", ex: "A beetle is an insect. Some beetles have spots or stripes." },
+        { word: "polar bear", ipa: "/ˈpəʊlər ber/ (n)", vi: "Gấu Bắc Cực", emoji: "🐻‍❄️", ex: "A polar bear has thick white fur and lives on the ice." },
+        { word: "tortoise", ipa: "/ˈtɔːrtəs/ (n)", vi: "Con rùa cạn", emoji: "🐢", ex: "A tortoise walks very slowly and carries a hard shell on its back." },
+        { word: "insect", ipa: "/ˈɪnsekt/ (n)", vi: "Côn trùng", emoji: "🐝", ex: "Bees, ants, beetles and butterflies are all insects." },
+        { word: "lizard", ipa: "/ˈlɪzərd/ (n)", vi: "Thằn lằn", emoji: "🦎", ex: "A green lizard is lying in the sun on the warm rock." },
+        { word: "carnivore", ipa: "/ˈkɑːrnɪvɔːr/ (n)", vi: "Động vật ăn thịt", emoji: "🦁", ex: "Lions and crocodiles are carnivores because they eat meat." },
+        { word: "herbivore", ipa: "/ˈhɜːrbɪvɔːr/ (n)", vi: "Động vật ăn cỏ/thực vật", emoji: "🐘", ex: "Camels, goats and zebras are herbivores because they eat plants." }
+      ],
+      space: [
+        { word: "Mercury", ipa: "/ˈmɜː.kjə.ri/ (n)", vi: "Sao Thủy", emoji: "☿️", ex: "Mercury is the first planet from the Sun." },
+        { word: "Venus", ipa: "/ˈviː.nəs/ (n)", vi: "Sao Kim", emoji: "🌟", ex: "Venus is the second planet from the Sun and the hottest planet in our solar system." },
+        { word: "Earth", ipa: "/ɜːθ/ (n)", vi: "Trái Đất", emoji: "🌍", ex: "There is life and water on Earth." },
+        { word: "Mars", ipa: "/mɑːz/ (n)", vi: "Sao Hỏa (Hành tinh Đỏ)", emoji: "🔴", ex: "Mars is the fourth planet from the Sun. It has two moons: Deimos and Phobos." },
+        { word: "Jupiter", ipa: "/ˈdʒuː.pɪ.tər/ (n)", vi: "Sao Mộc", emoji: "🪐", ex: "Jupiter is the largest planet in our solar system." },
+        { word: "Saturn", ipa: "/ˈsæt.ən/ (n)", vi: "Sao Thổ", emoji: "🪐", ex: "Saturn is the sixth planet and has beautiful rings around it." },
+        { word: "Uranus", ipa: "/jʊəˈreɪ.nəs/ (n)", vi: "Sao Thiên Vương", emoji: "🔵", ex: "Uranus is an ice giant planet far from the Sun." },
+        { word: "Neptune", ipa: "/ˈnep.tuːn/ (n)", vi: "Sao Hải Vương", emoji: "🌊", ex: "Neptune is the eighth planet from the Sun." },
+        { word: "astronaut", ipa: "/ˈæs.trə.nɔːt/ (n)", vi: "Phi hành gia", emoji: "👨‍🚀", ex: "An astronaut travels into space in a rocket or space shuttle." },
+        { word: "space shuttle", ipa: "/speɪs ˈʃʌt.əl/ (n)", vi: "Tàu con thoi vũ trụ", emoji: "🚀", ex: "We saw a huge dinosaur skeleton and a space shuttle at the science museum." },
+        { word: "planet", ipa: "/ˈplæn.ɪt/ (n)", vi: "Hành tinh", emoji: "🌐", ex: "There are eight planets in our solar system." },
+        { word: "environment", ipa: "/ɪnˈvaɪ.rən.mənt/ (n)", vi: "Môi trường", emoji: "🌱", ex: "We must protect our planet's natural environment." }
+      ],
+      health: [
+        { word: "sore throat", ipa: "/sɔː θrəʊt/ (n)", vi: "Đau họng", emoji: "🧣", ex: "She drank warm honey lemon water because she had a sore throat." },
+        { word: "headache", ipa: "/ˈhɛdeɪk/ (n)", vi: "Đau đầu", emoji: "🤕", ex: "I had a terrible headache yesterday so I stayed in bed." },
+        { word: "stomachache", ipa: "/ˈstʌməkeɪk/ (n)", vi: "Đau bụng", emoji: "🤢", ex: "I had a bad stomachache so I couldn't eat anything." },
+        { word: "toothache", ipa: "/ˈtuːθeɪk/ (n)", vi: "Đau răng", emoji: "🦷", ex: "My brother had a bad toothache, so my mom took him to the dentist." },
+        { word: "runny nose", ipa: "/ˈrʌni nəʊz/ (n)", vi: "Sổ mũi", emoji: "🤧", ex: "He caught a cold and had a runny nose." },
+        { word: "fever", ipa: "/ˈfiːvə/ (n)", vi: "Cơn sốt", emoji: "🤒", ex: "Ella caught a cold and had a high fever." },
+        { word: "dentist", ipa: "/ˈdɛntɪst/ (n)", vi: "Nha sĩ", emoji: "🧑‍⚕️", ex: "A dentist looks after your teeth when you have a toothache." },
+        { word: "medicine", ipa: "/ˈmɛdsɪn/ (n)", vi: "Thuốc uống", emoji: "💊", ex: "The doctor gave Ella some medicine for her cold." },
+        { word: "temperature", ipa: "/ˈtɛmprɪʧə/ (n)", vi: "Nhiệt độ / Đo sốt", emoji: "🌡️", ex: "The nurse took my temperature at the hospital." },
+        { word: "ambulance", ipa: "/ˈæm.bjə.ləns/ (n)", vi: "Xe cứu thương", emoji: "🚑", ex: "An ambulance takes ill people quickly to the hospital." },
+        { word: "chemist's", ipa: "/ˈkem.ɪsts/ (n)", vi: "Hiệu thuốc", emoji: "🏪", ex: "You can buy medicine, soap and toothbrushes at a chemist's." },
+        { word: "hospital", ipa: "/ˈhɒs.pɪ.təl/ (n)", vi: "Bệnh viện", emoji: "🏥", ex: "Doctors and nurses work at the hospital to help sick people." }
+      ],
+      jobs_places: [
+        { word: "mechanic", ipa: "/məˈkæn.ɪk/ (n)", vi: "Thợ sửa xe máy/ô tô", emoji: "🔧", ex: "A mechanic repairs car engines in a garage." },
+        { word: "journalist", ipa: "/ˈdʒɜː.nə.lɪst/ (n)", vi: "Nhà báo", emoji: "📰", ex: "A journalist writes news stories for a newspaper or magazine." },
+        { word: "photographer", ipa: "/fəˈtɒɡ.rə.fər/ (n)", vi: "Nhiếp ảnh gia", emoji: "📷", ex: "The photographer took a wonderful picture of our team." },
+        { word: "secretary", ipa: "/ˈsek.rə.tri/ (n)", vi: "Thư ký văn phòng", emoji: "💻", ex: "A secretary works in an office, types letters and answers the telephone." },
+        { word: "fireman", ipa: "/ˈfaɪə.mæn/ (n)", vi: "Lính cứu hỏa", emoji: "🚒", ex: "A fireman wears a uniform and drives a big red fire engine." },
+        { word: "university", ipa: "/ˌjuː.nɪˈvɜː.sə.ti/ (n)", vi: "Trường đại học", emoji: "🎓", ex: "Older students study science, medicine or history at a university." },
+        { word: "factory", ipa: "/ˈfæk.tər.i/ (n)", vi: "Nhà máy", emoji: "🏭", ex: "People make cars, computers and toys inside a factory." },
+        { word: "post office", ipa: "/ˈpəʊst ˌɒf.ɪs/ (n)", vi: "Bưu điện", emoji: "📮", ex: "You go to the post office to buy stamps and send postcards." },
+        { word: "theatre", ipa: "/ˈθɪə.tər/ (n)", vi: "Nhà hát", emoji: "🎭", ex: "Actors and singers perform plays and musicals on the stage at a theatre." },
+        { word: "dictionary", ipa: "/ˈdɪk.ʃən.ər.i/ (n)", vi: "Từ điển", emoji: "📕", ex: "You use a dictionary to find the meaning and spelling of new words." },
+        { word: "torch", ipa: "/tɔːtʃ/ (n)", vi: "Đèn pin", emoji: "🔦", ex: "You carry a torch to help you see in the dark when camping." },
+        { word: "rucksack", ipa: "/ˈrʌk.sæk/ (n)", vi: "Ba lô leo núi/du lịch", emoji: "🎒", ex: "The girls carried their lunch in rucksacks when walking in the mountains." },
+        { word: "scissors", ipa: "/ˈsɪz.əz/ (n)", vi: "Cây kéo", emoji: "✂️", ex: "We use scissors made of metal and plastic to cut paper." },
+        { word: "silver", ipa: "/ˈsɪl.vər/ (n/adj)", vi: "Bạc (kim loại)", emoji: "🥈", ex: "This expensive ring is made of silver and gold." },
+        { word: "wool", ipa: "/wʊl/ (n)", vi: "Len (lông cừu)", emoji: "🧶", ex: "Warm winter sweaters, scarves and gloves are made of wool." },
+        { word: "wood", ipa: "/wʊd/ (n)", vi: "Gỗ", emoji: "🪵", ex: "Tables, chairs and cupboards are often made of wood from trees." }
+      ],
+      events_travel: [
+        { word: "family get-together", ipa: "/ˈfæmɪli ˈgɛttəˌgɛðə/ (n)", vi: "Buổi sum họp gia đình", emoji: "👨‍👩‍👧‍👦", ex: "We cooked delicious food for our family get-together on Sunday." },
+        { word: "wedding day", ipa: "/ˈwɛdɪŋ deɪ/ (n)", vi: "Ngày cưới", emoji: "💒", ex: "The bride wore a beautiful white dress on her wedding day." },
+        { word: "relative", ipa: "/ˈrɛlətɪv/ (n)", vi: "Họ hàng, người thân", emoji: "🤝", ex: "We usually visit our relatives and buy presents on holidays." },
+        { word: "barbeque", ipa: "/ˈbɑː.bɪ.kjuː/ (n)", vi: "Tiệc nướng ngoài trời", emoji: "🍖", ex: "We had a barbeque by the lake during our camping trip." },
+        { word: "cabin", ipa: "/ˈkæbɪn/ (n)", vi: "Nhà gỗ nhỏ trên núi", emoji: "🛖", ex: "Our family stayed in a warm wooden cabin in the mountains." },
+        { word: "cable car", ipa: "/ˈkeɪbl kɑː/ (n)", vi: "Cáp treo", emoji: "🚠", ex: "We took a cable car to the top of the snowy mountain." },
+        { word: "snowboarding", ipa: "/ˈsnəʊˌbɔːdɪŋ/ (n)", vi: "Trượt ván tuyết", emoji: "🏂", ex: "My brother loves skiing and snowboarding in winter." },
+        { word: "sightseeing", ipa: "/ˈsaɪtˌsiːɪŋ/ (n)", vi: "Ngắm cảnh du lịch", emoji: "🗽", ex: "We went sightseeing and took photos of the pyramids in Egypt." },
+        { word: "seafood", ipa: "/ˈsiːfuːd/ (n)", vi: "Hải sản", emoji: "🦞", ex: "We ate fresh seafood at a famous market by the coast." },
+        { word: "musical", ipa: "/ˈmjuːzɪkəl/ (n)", vi: "Buổi nhạc kịch", emoji: "🎶", ex: "The musical was exciting. They sang and danced beautifully." },
+        { word: "exhibition", ipa: "/ɛksɪˈbɪʃən/ (n)", vi: "Cuộc triển lãm", emoji: "🖼️", ex: "There was a wonderful art exhibition at our school." },
+        { word: "concert", ipa: "/ˈkɒnsət/ (n)", vi: "Buổi hòa nhạc", emoji: "🎻", ex: "The orchestra played classical music beautifully at the concert." },
+        { word: "perform", ipa: "/pəˈfɔːm/ (v)", vi: "Biểu diễn", emoji: "🎤", ex: "The students performed a funny school play on stage." },
+        { word: "sledge", ipa: "/sledʒ/ (n)", vi: "Xe trượt tuyết", emoji: "🛷", ex: "Sarah and her friend pulled the new sledge up the snowy hill." },
+        { word: "suitcase", ipa: "/ˈsuːt.keɪs/ (n)", vi: "Va-li hành lý", emoji: "🧳", ex: "We packed our clothes into our suitcases before going to the airport." }
+      ]
+    };
+
+    // Unit 5 Task E: Bats or Dolphins (Exact 7 pairs from Slide 14 of FFF - UNIT 5 - ABOUT ANIMALS.pptx)
+    const BATS_DOLPHINS_DATA = [
+      { id: "1a", text: "1a. A lot of people are afraid of this creature.", ans: "B" },
+      { id: "1b", text: "1b. This is a lot of people's favourite animal.", ans: "D" },
+      { id: "2a", text: "2a. People think they're friendly and clever.", ans: "D" },
+      { id: "2b", text: "2b. People think they're dangerous but they're wrong – they don't hurt people.", ans: "B" },
+      { id: "3a", text: "3a. They live in groups of up to 12 in warm seas in many parts of the world.", ans: "D" },
+      { id: "3b", text: "3b. They live in trees or caves and have very strong wings.", ans: "B" },
+      { id: "4a", text: "4a. They sleep during the day and fly at night to find their food.", ans: "B" },
+      { id: "4b", text: "4b. They can swim and sleep at the same time and some of them sleep with one eye open.", ans: "D" },
+      { id: "5a", text: "5a. They usually eat fish.", ans: "D" },
+      { id: "5b", text: "5b. Some of them eat fruit and others like insects.", ans: "B" },
+      { id: "6a", text: "6a. When you visit a zoo you can often see these animals in swimming pools.", ans: "D" },
+      { id: "6b", text: "6b. They have big ears and these help them fly at night.", ans: "B" },
+      { id: "7a", text: "7a. They swim very fast, jump and play with balls.", ans: "D" },
+      { id: "7b", text: "7b. A lot of people think these animals can't see but they're wrong – they can!", ans: "B" }
+    ];
+
+    // Unit 5 Task A: How do animals move? (Slide 4-5)
+    const ANIMAL_MOVE_ITEMS = [
+      { animal: "kangaroo", emoji: "🦘", move: "hop / jump", options: ["hop / jump", "fly", "swim", "crawl"] },
+      { animal: "bat", emoji: "🦇", move: "fly", options: ["run", "fly", "swim", "hop / jump"] },
+      { animal: "dolphin", emoji: "🐬", move: "swim", options: ["fly", "run", "swim", "crawl"] },
+      { animal: "butterfly", emoji: "🦋", move: "fly", options: ["swim", "fly", "run", "hop / jump"] },
+      { animal: "zebra", emoji: "🦓", move: "run", options: ["run", "fly", "swim", "crawl"] },
+      { animal: "crocodile", emoji: "🐊", move: "swim", options: ["fly", "hop / jump", "swim", "climb"] },
+      { animal: "rabbit", emoji: "🐇", move: "hop / jump", options: ["fly", "swim", "hop / jump", "sail"] },
+      { animal: "tiger", emoji: "🐅", move: "run", options: ["run", "fly", "crawl", "glide"] }
+    ];
+
+    // Reading & Writing Part 1 Definitions (20 items from READING_WRITING_1 to 27.pptx)
+    const PART1_QUESTIONS = [
+      { q: "You can use this book to find the meaning and spelling of words you do not know.", answer: "a dictionary", options: ["a dictionary", "a postcard", "an envelope", "a calendar"], source: "READING_WRITING_1 & 7" },
+      { q: "This person works in a garage and repairs car engines when they are broken.", answer: "a mechanic", options: ["a journalist", "a mechanic", "a dentist", "an actor"], source: "READING_WRITING_6 & 22" },
+      { q: "You go to this shop when you are ill and need to buy some medicine.", answer: "a chemist's", options: ["a theatre", "a factory", "a chemist's", "a museum"], source: "READING_WRITING_4 & 8" },
+      { q: "This special car takes sick or hurt people quickly to the hospital.", answer: "an ambulance", options: ["a taxi", "an ambulance", "a lorry", "a sledge"], source: "READING_WRITING_2 & 12" },
+      { q: "You carry this small light in your hand so you can see in the dark.", answer: "a torch", options: ["a torch", "a comb", "a spoon", "an umbrella"], source: "READING_WRITING_3 & 8" },
+      { q: "This sea creature has a soft round body and eight long arms.", answer: "an octopus", options: ["a swan", "a dolphin", "an octopus", "a camel"], source: "READING_WRITING_6 & 20" },
+      { q: "Older students go to study subjects like science, history or medicine at this place.", answer: "a university", options: ["a playground", "a university", "a post office", "a circus"], source: "READING_WRITING_1 & 7" },
+      { q: "You use these metal or plastic things to cut paper or hair.", answer: "scissors", options: ["chopsticks", "knives", "scissors", "gloves"], source: "READING_WRITING_1 & 14" },
+      { q: "This person writes interesting stories for newspapers or magazines.", answer: "a journalist", options: ["a journalist", "a pilot", "a fireman", "a nurse"], source: "READING_WRITING_3 & 13" },
+      { q: "When it snows in winter, children sit on this to slide down a hill.", answer: "a sledge", options: ["a suitcase", "a sledge", "a rucksack", "a bridge"], source: "READING_WRITING_2 & 5" },
+      { q: "You put a letter or a birthday card inside this paper thing before you post it.", answer: "an envelope", options: ["a stamp", "an envelope", "a diary", "a newspaper"], source: "READING_WRITING_1 & 3" },
+      { q: "This large white bird has a very long neck and swims on rivers and lakes.", answer: "a swan", options: ["a parrot", "a penguin", "a swan", "a butterfly"], source: "READING_WRITING_6 & 21" },
+      { q: "When you go camping in the mountains, you carry your clothes and food on your back in this.", answer: "a rucksack", options: ["a pocket", "a rucksack", "a belt", "a blanket"], source: "READING_WRITING_2 & 8" },
+      { q: "We make bread, cakes, pizza and biscuits from this white powder.", answer: "flour", options: ["salt", "butter", "flour", "jam"], source: "READING_WRITING_7 & 17" },
+      { q: "Cups, windows, bottles and mirrors are usually made of this material.", answer: "glass", options: ["wool", "glass", "paper", "flour"], source: "READING_WRITING_9 & 15" },
+      { q: "You write about what you did every day in this special book.", answer: "a diary", options: ["a diary", "a stamp", "a menu", "a ticket"], source: "READING_WRITING_3 & 15" },
+      { q: "This person wears a helmet, drives a big red engine and stops fires.", answer: "a fireman", options: ["a policeman", "a fireman", "a waiter", "a clown"], source: "READING_WRITING_3 & Unit 37" },
+      { q: "You can see actors, clowns and acrobats doing exciting tricks inside a big tent here.", answer: "a circus", options: ["a circus", "a library", "a station", "a hospital"], source: "READING_WRITING_5 & 8" },
+      { q: "People build this over a river or a road so cars and people can cross to the other side.", answer: "a bridge", options: ["a castle", "a bridge", "a tent", "a path"], source: "READING_WRITING_2 & 18" },
+      { q: "Bees make this sweet yellow food, and people like eating it on bread.", answer: "honey", options: ["pepper", "honey", "soup", "cheese"], source: "Unit 14 & READING_WRITING" }
+    ];
+
+    // 11 Grounded Stories from FLYERS - WRITING 1.pptx to 13.pptx
+    const WRITING_STORIES = [
+      {
+        id: "w1",
+        title: "Writing 1: My Grandma's Birthday",
+        topic: "Past Simple • Family Get-Together",
+        wordBank: ["went", "baked", "gave", "sang"],
+        paragraphs: [
+          "Last Saturday was my grandma's birthday. She is 75 years old now.",
+          "We all [0] to Grandma's house. My mom [1] a birthday cake.",
+          "My dad [2] her a present. It was a new sweater.",
+          "Ella, Finn and I made her birthday cards. We [3] the 'Happy Birthday' song. We all had a nice time at Grandma's."
+        ],
+        answers: ["went", "baked", "gave", "sang"],
+        tfQuestions: [
+          { q: "Cody's family was home last Saturday.", a: "False" },
+          { q: "It was Cody's grandma's birthday.", a: "True" },
+          { q: "Cody's grandma was happy.", a: "True" }
+        ]
+      },
+      {
+        id: "w2",
+        title: "Writing 2: The Camping Trip (Mount Tuca)",
+        topic: "Past Simple • Outdoor Adventure",
+        wordBank: ["went", "put up", "cooked", "had"],
+        paragraphs: [
+          "My family went camping last weekend. We [0] to Mount Tuca. We were very excited.",
+          "We took a tent, sleeping bags and some food. We [1] the tent in the mountain.",
+          "We built a campfire at night. We [2] food and told ghost stories.",
+          "We [3] a great time!"
+        ],
+        answers: ["went", "put up", "cooked", "had"],
+        tfQuestions: [
+          { q: "Did Cody's family go fishing last weekend?", a: "No" },
+          { q: "Did they take some food?", a: "Yes" },
+          { q: "Did they have a good time?", a: "Yes" }
+        ]
+      },
+      {
+        id: "w3",
+        title: "Writing 3: The Rap Concert",
+        topic: "Adverbs of Manner • Music & Arts",
+        wordBank: ["It was a rap music concert.", "We like rap music very much.", "sang", "excited"],
+        paragraphs: [
+          "We all went to a concert last Friday. [0] It was at the Arts Center.",
+          "The students made their own rap music. They [1] rap music very well.",
+          "Ella, Finn and I were [2]. [3] My mom and dad like classical music, but they still had fun."
+        ],
+        answers: ["It was a rap music concert.", "sang", "excited", "We like rap music very much."],
+        tfQuestions: [
+          { q: "Cody and his family went to a concert at the Arts Center.", a: "True" },
+          { q: "Cody likes rap music very much.", a: "True" }
+        ]
+      },
+      {
+        id: "w5",
+        title: "Writing 5: Catching a Cold (Ella)",
+        topic: "Health Vocabulary & Past Tense",
+        wordBank: ["caught", "had", "some", "in"],
+        paragraphs: [
+          "My sister, Ella, was sick yesterday. She [0] a cold.",
+          "She [1] a high fever. My mom is our doctor. She checked Ella.",
+          "She gave Ella [2] medicine. Ella took the medicine.",
+          "She stayed [3] bed. She slept all day."
+        ],
+        answers: ["caught", "had", "some", "in"],
+        tfQuestions: [
+          { q: "Ella didn't feel well yesterday.", a: "True" },
+          { q: "Her dad gave her medicine.", a: "False" },
+          { q: "She slept in her bed all day.", a: "True" }
+        ]
+      },
+      {
+        id: "w6",
+        title: "Writing 6: Halloween (October 31st)",
+        topic: "Prepositions of Time (in / on) • Holidays",
+        wordBank: ["on", "wear", "say", "collect"],
+        paragraphs: [
+          "Halloween is my favorite holiday. It is [0] October 31st. It is a fun holiday for children.",
+          "My friends and I [1] Halloween costumes. We go around the neighborhood.",
+          "We [2] 'Trick or Treat'. We [3] candy and chocolates.",
+          "Other children come to our house too. My dad gives them candy and chocolates."
+        ],
+        answers: ["on", "wear", "say", "collect"],
+        tfQuestions: [
+          { q: "Is Halloween in November?", a: "No" },
+          { q: "Do children wear costumes on Halloween?", a: "Yes" },
+          { q: "Do children come to Cody's house?", a: "Yes" }
+        ]
+      },
+      {
+        id: "w8",
+        title: "Writing 8: My Best Day (Science Museum)",
+        topic: "Past Simple • School Field Trip",
+        wordBank: ["was", "to", "were", "talked"],
+        paragraphs: [
+          "Yesterday [0] my best day. My class went on a field trip.",
+          "We went [1] the science museum. There [2] interesting things at the museum.",
+          "We saw a huge dinosaur skeleton and a space shuttle.",
+          "We [3] to a real scientist and learned about space travel. Everything was exciting!"
+        ],
+        answers: ["was", "to", "were", "talked"],
+        tfQuestions: [
+          { q: "Cody's class was at the museum yesterday.", a: "True" },
+          { q: "They saw a dragon skeleton at the museum.", a: "False" },
+          { q: "Cody had a great time at the museum.", a: "True" }
+        ]
+      },
+      {
+        id: "w9",
+        title: "Writing 9: My Worst Day",
+        topic: "Had to / Couldn't • Past Events",
+        wordBank: ["had to", "couldn't", "late", "very well"],
+        paragraphs: [
+          "Today was my worst day. I woke up [0] this morning and missed my school bus.",
+          "I [1] walk to school. There was a math test at school, and I didn't do [2] on the test.",
+          "Then I lost my favorite pen. I [3] find it anywhere. I was unhappy all day."
+        ],
+        answers: ["late", "had to", "very well", "couldn't"],
+        tfQuestions: [
+          { q: "Did Cody get up early today?", a: "No" },
+          { q: "Did he take the school bus this morning?", a: "No" },
+          { q: "Did he find his favorite pen?", a: "No" }
+        ]
+      },
+      {
+        id: "w10",
+        title: "Writing 10: Vacation in Egypt",
+        topic: "World Travel • Past Simple",
+        wordBank: ["We went there by plane.", "pyramids", "It was half-human and half-lion.", "vacation"],
+        paragraphs: [
+          "My family had a vacation in Egypt last summer. [0]",
+          "We saw many things in Egypt. We saw the amazing [1]. They were really huge.",
+          "We also saw the Great Sphinx of Giza. [2]",
+          "We had a lot of fun in Egypt. It was a great [3]."
+        ],
+        answers: ["We went there by plane.", "pyramids", "It was half-human and half-lion.", "vacation"],
+        tfQuestions: [
+          { q: "Cody's family was in Egypt last summer.", a: "True" },
+          { q: "The pyramids were very big.", a: "True" }
+        ]
+      },
+      {
+        id: "w11",
+        title: "Writing 11: Lively New York (Big Apple)",
+        topic: "Superlatives • Cities & Numbers",
+        wordBank: ["coast", "world", "buildings", "subway"],
+        paragraphs: [
+          "New York is the largest city in the U.S. It is on the east [0] of the country.",
+          "'Big Apple' is a nickname for New York. Over 8 million people live there. They are from all over the [1].",
+          "There are many high [2], theaters, department stores and museums too.",
+          "There is a great [3] system in New York. It runs 24 hours a day!"
+        ],
+        answers: ["coast", "world", "buildings", "subway"],
+        tfQuestions: [
+          { q: "New York is the largest city in the U.S.", a: "True" },
+          { q: "People can take a subway anytime (24 hours a day).", a: "True" }
+        ]
+      },
+      {
+        id: "w12",
+        title: "Writing 12: China, Big and Crowded",
+        topic: "Large Numbers (Million/Billion) & Superlatives",
+        wordBank: ["countries", "billion", "history", "inventions"],
+        paragraphs: [
+          "China is one of the largest [0] in the world. It is in East Asia.",
+          "Over 1.3 [1] people live in China. China has a long [2] and the oldest written language system.",
+          "Four great [3] are from China: paper, the compass, gunpowder and printing. Panda bears are famous in China."
+        ],
+        answers: ["countries", "billion", "history", "inventions"],
+        tfQuestions: [
+          { q: "Is China in East Asia?", a: "Yes" },
+          { q: "Does China have a long history?", a: "Yes" }
+        ]
+      },
+      {
+        id: "w13",
+        title: "Writing 13: The Red Planet (Mars)",
+        topic: "Solar System • Comparatives & Superlatives",
+        wordBank: ["It looks red from space.", "Olympus Mons", "Mars has two moons.", "fourth"],
+        paragraphs: [
+          "Mars is the [0] planet from the Sun. It is smaller than Earth. [1]",
+          "Mars' surface is very dry and rocky. Mars has the largest mountain in our solar system. It is [2] (24 km high).",
+          "[3] They are Deimos and Phobos."
+        ],
+        answers: ["fourth", "It looks red from space.", "Olympus Mons", "Mars has two moons."],
+        tfQuestions: [
+          { q: "Mars is smaller than Earth.", a: "True" },
+          { q: "Mars' surface is dry and rocky.", a: "True" },
+          { q: "Mars has two moons called Deimos and Phobos.", a: "True" }
+        ]
+      }
+    ];
+
+    // Grammar Error Correction Items from FLYERS - WRITING 3, 11, 13, 14.pptx
+    const GRAMMAR_FIX_ITEMS = [
+      { wrong: "We went to a concerts last Friday.", right: "We went to a concert last Friday.", rule: "Sau mạo từ 'a' phải là danh từ số ít (concert).", options: ["We went to a concert last Friday.", "We go to a concerts last Friday.", "We went to an concerts last Friday."] },
+      { wrong: "I see a movie yesterday.", right: "I saw a movie yesterday.", rule: "Có 'yesterday' (quá khứ đơn) nên động từ 'see' đổi thành 'saw'.", options: ["I seeing a movie yesterday.", "I saw a movie yesterday.", "I sees a movie yesterday."] },
+      { wrong: "They can sing very good.", right: "They can sing very well.", rule: "Bổ nghĩa cho động từ 'sing' phải dùng trạng từ 'well' (không dùng tính từ 'good').", options: ["They can sing very goodly.", "They can sing very well.", "They can singing very good."] },
+      { wrong: "It have many moon.", right: "It has many moons.", rule: "Chủ ngữ 'It' đi với 'has', và sau 'many' là danh từ số nhiều 'moons'.", options: ["It has many moons.", "It have many moons.", "It has much moon."] },
+      { wrong: "Mars is small than Earth.", right: "Mars is smaller than Earth.", rule: "So sánh hơn với tính từ ngắn 'small' + '-er' + 'than' (smaller than).", options: ["Mars is smallest than Earth.", "Mars is more small than Earth.", "Mars is smaller than Earth."] },
+      { wrong: "There is waters on Earth.", right: "There is water on Earth.", rule: "'Water' là danh từ không đếm được nên không thêm '-s'.", options: ["There are waters on Earth.", "There is water on Earth.", "There is a water on Earth."] },
+      { wrong: "It is a first planet from the Sun.", right: "It is the first planet from the Sun.", rule: "Trước số thứ tự (first, second, third...) luôn dùng mạo từ 'the'.", options: ["It is the first planet from the Sun.", "It is an first planet from the Sun.", "It is one first planet from the Sun."] },
+      { wrong: "The doctor gave I a shot.", right: "The doctor gave me a shot.", rule: "Đứng sau động từ 'gave' làm tân ngữ phải dùng đại từ tân ngữ 'me'.", options: ["The doctor gave my a shot.", "The doctor gave me a shot.", "The doctor give I a shot."] }
+    ];
+
+    // Speaking Part 2: Information Exchange Cards (from FLYERS - SPEAKING 1, 3, 5, 6, 8, 9.pptx)
+    const SPEAKING_EXCHANGE_DATA = [
+      {
+        id: "sp1",
+        title: "Speaking 1: Swimming Lessons",
+        freeTalk: ["When is your birthday?", "Have you ever seen a real rocket?", "Do you like to learn about the universe?"],
+        intro: "William and Emma are friends. They both go to swimming lessons.",
+        cardA: {
+          owner: "William's swimming lessons",
+          items: [
+            { q: "1. What's William's teacher's name?", a: "His teacher's name is Mr. Brown." },
+            { q: "2. What day does he have lessons?", a: "He has lessons on Tuesdays." },
+            { q: "3. What time do the lessons start?", a: "They start at 4:30 p.m. (half past four)." },
+            { q: "4. Are the lessons interesting or boring?", a: "They are very interesting and fun!" },
+            { q: "5. Is the water cold?", a: "No, the water is warm." }
+          ]
+        },
+        cardB: {
+          owner: "Emma's swimming lessons",
+          items: [
+            { q: "1. What's Emma's teacher's name?", a: "Her teacher's name is Miss Green." },
+            { q: "2. What day does she have lessons?", a: "She has lessons on Saturdays." },
+            { q: "3. What time do the lessons start?", a: "They start at 10 o'clock in the morning." },
+            { q: "4. Are the lessons interesting or boring?", a: "She thinks they are a bit boring." },
+            { q: "5. Is the water cold?", a: "Yes, the water is quite cold." }
+          ]
+        }
+      },
+      {
+        id: "sp3",
+        title: "Speaking 3: Ann's & Bill's Houses",
+        freeTalk: ["Tell me about your family!", "How do you go to school?", "Do you like travelling by train?"],
+        intro: "Ann and Bill live in the same street.",
+        cardA: {
+          owner: "Ann's house",
+          items: [
+            { q: "1. Where's Ann's house?", a: "It's in Park Street, near the library." },
+            { q: "2. Is it old or new?", a: "It is a very new house." },
+            { q: "3. How many windows are there in Ann's house?", a: "There are eight big windows." },
+            { q: "4. What colour is her house?", a: "Her house is white and blue." },
+            { q: "5. Has it got a garden?", a: "Yes, it has got a lovely garden with flowers." }
+          ]
+        },
+        cardB: {
+          owner: "Bill's house",
+          items: [
+            { q: "1. Is Bill's house old or new?", a: "Bill's house is over 50 years old." },
+            { q: "2. What colour is his house?", a: "His house is yellow with a red roof." },
+            { q: "3. How many windows are there in Bill's house?", a: "There are six windows." },
+            { q: "4. Has it got a garden?", a: "No, it hasn't got a garden, only a balcony." },
+            { q: "5. Where's Bill's house?", a: "It's opposite the post office." }
+          ]
+        }
+      },
+      {
+        id: "sp5",
+        title: "Speaking 5: School Buses",
+        freeTalk: ["Tell me about your English teacher.", "Do you like learning English?", "What can you do to improve your English skills?"],
+        intro: "David and Helen both go to school by bus.",
+        cardA: {
+          owner: "David's school bus",
+          items: [
+            { q: "1. Where does David get on his bus?", a: "He gets on the bus at the corner of Hill Street." },
+            { q: "2. What time does David's bus leave?", a: "It leaves at 7:15 a.m. (quarter past seven)." },
+            { q: "3. What colour is it?", a: "It is bright yellow." },
+            { q: "4. What number is David's bus?", a: "It is bus number 24." },
+            { q: "5. What's the name of the bus driver?", a: "The driver's name is Mr. Clark." }
+          ]
+        },
+        cardB: {
+          owner: "Helen's school bus",
+          items: [
+            { q: "1. Where does Helen get on her bus?", a: "She gets on outside the museum." },
+            { q: "2. What time does Helen's bus leave?", a: "It leaves at 7:45 a.m." },
+            { q: "3. What colour is it?", a: "It is green and white." },
+            { q: "4. What number is Helen's bus?", a: "It is bus number 108." },
+            { q: "5. What's the name of the bus driver?", a: "Her bus driver is Mrs. Daisy." }
+          ]
+        }
+      },
+      {
+        id: "sp6",
+        title: "Speaking 6: Paul's & Peter's Bedrooms",
+        freeTalk: ["Tell me about your dream house.", "What is your dream job? Why do you want to do that job?"],
+        intro: "This is the house where Paul and Peter live.",
+        cardA: {
+          owner: "Paul's bedroom",
+          items: [
+            { q: "1. Is his room upstairs or downstairs?", a: "His room is upstairs on the second floor." },
+            { q: "2. Which room is next to Paul's room?", a: "The bathroom is next to his room." },
+            { q: "3. What colour are the walls in Paul's room?", a: "The walls are light blue." },
+            { q: "4. How many windows are there?", a: "There are two large windows." },
+            { q: "5. What's Paul's favorite thing in this room?", a: "His favorite thing is his electric guitar." }
+          ]
+        },
+        cardB: {
+          owner: "Peter's bedroom",
+          items: [
+            { q: "1. Is his room upstairs or downstairs?", a: "His bedroom is downstairs near the garden." },
+            { q: "2. Which room is next to Peter's room?", a: "The living room is next to his room." },
+            { q: "3. What colour are the walls in Peter's room?", a: "The walls are painted green." },
+            { q: "4. How many windows are there?", a: "There is only one big window." },
+            { q: "5. What's Peter's favorite thing in this room?", a: "His favorite thing is his computer." }
+          ]
+        }
+      },
+      {
+        id: "sp9",
+        title: "Speaking 9: David's & Betty's Pets",
+        freeTalk: ["Do you like watching the circus?", "Where do you often watch it?", "What do you like best in the circus?"],
+        intro: "David and Betty are taking their pets to school.",
+        cardA: {
+          owner: "David's pet",
+          items: [
+            { q: "1. What pet has David got?", a: "David has got a clever parrot." },
+            { q: "2. What's the pet's name?", a: "Its name is Coco." },
+            { q: "3. What colour is it?", a: "It is red, yellow and green." },
+            { q: "4. How old is it?", a: "It is three years old." },
+            { q: "5. What does it eat?", a: "It eats fruit and seeds." }
+          ]
+        },
+        cardB: {
+          owner: "Betty's pet",
+          items: [
+            { q: "1. What pet has Betty got?", a: "Betty has got a little white rabbit." },
+            { q: "2. What's the pet's name?", a: "Its name is Snowy." },
+            { q: "3. What colour is it?", a: "It has soft white fur and pink ears." },
+            { q: "4. How old is it?", a: "It is six months old." },
+            { q: "5. What does it eat?", a: "It loves eating carrots and green leaves." }
+          ]
+        }
+      }
+    ];
+
+    // Speaking Part 3: Picture Stories (9 grounded stories from FLYERS - SPEAKING 1–19.pptx)
+    const SPEAKING_STORIES_DATA = [
+      {
+        id: "st1",
+        title: "Speaking 1: Peter is in a film",
+        opening: "Peter is walking home. He can see a woman with some heavy bags. There are some people making a film of the woman, but Peter doesn't see them.",
+        questions: [
+          "1. Has the woman's bag broken?",
+          "2. What's Peter doing?",
+          "3. Who can Peter see now?",
+          "4. Is Peter in the film? What's he doing?"
+        ],
+        modelAnswer: "The woman's bag has broken. Everything has fallen on the road. Peter is helping her pick up the fruit, and the woman is laughing. Peter can see the film people with cameras now, and they are laughing too. Now Peter is in the film! He is carrying the woman's shopping."
+      },
+      {
+        id: "st3",
+        title: "Speaking 3: The picnic & the bears",
+        opening: "John and Sally and their parents are getting into their car. They're going to have a picnic in the countryside.",
+        questions: [
+          "1. Where has the family arrived? What is the father doing?",
+          "2. What is the mother doing? Who is watching the family?",
+          "3. Is the father afraid? Where is he climbing?",
+          "4. Are the children afraid? What are they giving the bears?"
+        ],
+        modelAnswer: "The family have arrived in the country. The father is putting the picnic on the grass. The mother is sleeping in the sun. A big bear is watching the family and saying to the baby bear, 'Come and eat!'. The father is afraid, so he is climbing a tree. The children aren't afraid. They are giving the bears some bananas!"
+      },
+      {
+        id: "st4",
+        title: "Speaking 4: A walk in the mountains",
+        opening: "Two girls are walking in the mountains. They're carrying rucksacks. Some people are skiing.",
+        questions: [
+          "1. What are the girls doing now?",
+          "2. Is the weather still good? What are the girls putting on?",
+          "3. What is the snowman giving to the girls?",
+          "4. What are the girls doing? Does the snowman like the music?",
+          "5. Is it still snowing? What is everyone doing at the end?"
+        ],
+        modelAnswer: "The girls are sitting down and having a picnic. Suddenly, it is snowing, so the girls are putting on their warm coats. A friendly snowman is giving an umbrella to the girls. The girls are singing and one girl is playing the guitar. The snowman likes the music! Now it has stopped snowing. The boys, the girls and the snowmen are having a party, dancing and singing happily."
+      },
+      {
+        id: "st6",
+        title: "Speaking 6: The same suitcases",
+        opening: "A woman and a man are going on holiday. They don't know each other. They are putting their clothes in their suitcases. Their suitcases look exactly the same.",
+        questions: [
+          "1. Where are they now and what are they carrying?",
+          "2. What's the weather like when they get off the plane?",
+          "3. What's the problem when they open the suitcases at the hotel?",
+          "4. What are the man and the woman wearing on the beach? Are they laughing?"
+        ],
+        modelAnswer: "They are at the airport carrying their suitcases. When they get off the plane, it is sunny. At the hotel, they are taking clothes out of the suitcases, but there is a problem: the man has the woman's suitcase and the woman has the man's suitcase! Later, the woman is wearing the man's big shirt to play tennis, and the man is wearing the woman's flowery shirt on the beach. They have seen each other and they are laughing!"
+      },
+      {
+        id: "st7",
+        title: "Speaking 7: Football in the living room",
+        opening: "It's raining today, so Michael can't play outside. He isn't very happy. He's throwing and catching his ball in the living room.",
+        questions: [
+          "1. Has Michael caught the ball? What has the ball hit?",
+          "2. Is the table broken? What is Michael trying to do?",
+          "3. Who has come into the room and what is she carrying?",
+          "4. What happens when Mum puts the cake on the table?"
+        ],
+        modelAnswer: "Michael hasn't caught the ball. The ball has hit a small table and broken it! Michael is trying to glue the table together. Now his mother has come into the room carrying a big birthday cake. She puts the cake on the table, and Michael is afraid. Crash! The table has broken again and the cake is on the floor. Michael's mum isn't happy!"
+      },
+      {
+        id: "st8",
+        title: "Speaking 8: The river & the crocodile",
+        opening: "John and his sister, Sally, are walking in the forest. They're going to have a picnic in the field across the river.",
+        questions: [
+          "1. Has John crossed the bridge? Why can't Sally cross?",
+          "2. What is Sally doing by the river?",
+          "3. What can John see in the water?",
+          "4. Where is Sally sitting now and what is John giving the crocodile?"
+        ],
+        modelAnswer: "They are at the bridge over the river. John has crossed the bridge, but Sally can't cross because the bridge has broken. Sally is taking off her shoes because she wants to walk across the river. John shouts, 'Don't go in the water!' because he can see a crocodile. Surprisingly, Sally is sitting safely on the back of the friendly crocodile as it swims across the river, and John is going to give the crocodile some food!"
+      },
+      {
+        id: "st9",
+        title: "Speaking 9: The untidy bedroom",
+        opening: "Emma and Jill are in their bedroom with their mother. She isn't happy because the room is untidy. She says, 'It's half past six. You must tidy your room and then you can watch TV in bed.'",
+        questions: [
+          "1. Where are Emma and Jill putting the toys?",
+          "2. What are the girls doing at nine o'clock?",
+          "3. What happens at midnight while they are sleeping?",
+          "4. What does their mother think the next morning?"
+        ],
+        modelAnswer: "Now Emma and Jill are tidying the room. They are putting all the toys in the cupboard. At nine o'clock, the room is tidy and the girls are in bed watching TV. At midnight, while the girls are asleep, the toys are coming out of the cupboard and playing together! The next morning, their mother comes into the room to wake them up. The room is untidy again, and she is thinking, 'What has happened here?'"
+      },
+      {
+        id: "st11",
+        title: "Speaking 11: John wants to see a film (Dinosaurs)",
+        opening: "John's father is taking him to the city for the day by train. John wants to see a film at the cinema, but his father wants to go to a museum.",
+        questions: [
+          "1. Where is John's father walking in the city?",
+          "2. What can John see inside the museum?",
+          "3. What is John watching and where are the children climbing?",
+          "4. Why is John very happy at the end of the day?"
+        ],
+        modelAnswer: "Now they are in the city. John's father is walking to the museum, although John says, 'I want to go to the cinema'. Inside the museum, John can see a very big dinosaur! John is watching an exciting film about dinosaurs, and some children are climbing on a big dinosaur model. John is very happy now because his father has bought him a toy dinosaur and a book about dinosaurs."
+      },
+      {
+        id: "st19",
+        title: "Speaking 19: Sam finds some treasure",
+        opening: "It's Sam's birthday today. His parents are giving him a present. Sam wants a drum.",
+        questions: [
+          "1. What is Sam's present? Is he happy at first?",
+          "2. What has Sam found inside the rucksack?",
+          "3. Where is Sam walking with the map?",
+          "4. What has he found under the tree?"
+        ],
+        modelAnswer: "Sam is opening his present. It is a rucksack, so Sam isn't very happy at first. Then Sam takes a treasure map out of the rucksack with a red cross on it. Sam is walking round the garden looking at the map. Finally, he looks under a big tree and finds a big drum! Sam is very happy now."
+      }
+    ];
+
+    // Listening Part 5 & Part 2 Interactive Scenes (from FLYERS - LISTENING 1, 4, 9, 20.pptx)
+    const LISTENING_SCENES = [
+      {
+        id: "ls1",
+        title: "Listening 1: Airport & Flyers Plane",
+        script: "Look at the picture of the airport. First, colour the clothes of the woman standing next to the plane blue. Next, draw and colour a green window on the plane. Then, look at the birds in the sky: colour the big bird group orange. After that, colour the word 'FLYERS' on the banner red. Finally, colour the cloud between the plane and the helicopter grey.",
+        part2Questions: [
+          { label: "Month of club trip", ans: "November" },
+          { label: "Name of boy's cousin", ans: "William" },
+          { label: "Where they meet", ans: "school" },
+          { label: "Number of children", ans: "11" },
+          { label: "Favourite hobby", ans: "fishing" }
+        ],
+        targets: [
+          { id: "woman_clothes", label: "Woman's clothes next to plane", expectedColor: "#3b82f6", expectedName: "Blue (Xanh dương)", x: 110, y: 195, w: 120, h: 70, icon: "👩‍✈️ Woman's Clothes" },
+          { id: "plane_window", label: "Window on the plane", expectedColor: "#22c55e", expectedName: "Green (Xanh lá)", x: 290, y: 140, w: 130, h: 65, icon: "✈️ Plane Window" },
+          { id: "sky_birds", label: "Birds flying in the sky", expectedColor: "#f97316", expectedName: "Orange (Cam)", x: 470, y: 45, w: 130, h: 60, icon: "🐦 Flying Birds" },
+          { id: "flyers_word", label: "The word 'FLYERS' banner", expectedColor: "#ef4444", expectedName: "Red (Đỏ)", x: 80, y: 45, w: 160, h: 55, icon: "🚩 'FLYERS' Sign" },
+          { id: "sky_cloud", label: "Cloud between plane & helicopter", expectedColor: "#94a3b8", expectedName: "Grey (Xám)", x: 280, y: 45, w: 140, h: 55, icon: "☁️ Sky Cloud" }
+        ]
+      },
+      {
+        id: "ls4",
+        title: "Listening 4: Snowman & Winter Sledge",
+        script: "Look at the snowy mountain picture. First, colour the snowman's belt yellow. Second, colour the spots on the snowman's hat purple. Third, look at the boy's jacket with the word 'SKI' and colour it green. Fourth, colour the sledge on the snow blue. Fifth, colour the snowman's umbrella grey.",
+        part2Questions: [
+          { label: "Where she went on holiday", ans: "island" },
+          { label: "How they travelled there", ans: "plane" },
+          { label: "Who she stayed with", ans: "cousins" },
+          { label: "Sport played on beach", ans: "volleyball" },
+          { label: "Favourite school subject", ans: "geography" }
+        ],
+        targets: [
+          { id: "snowman_belt", label: "Snowman's belt", expectedColor: "#eab308", expectedName: "Yellow (Vàng)", x: 90, y: 175, w: 135, h: 65, icon: "⛄ Snowman's Belt" },
+          { id: "hat_spots", label: "Spots on snowman's hat", expectedColor: "#a855f7", expectedName: "Purple (Tím)", x: 90, y: 55, w: 135, h: 65, icon: "🎩 Hat Spots" },
+          { id: "ski_jacket", label: "Boy's 'SKI' jacket", expectedColor: "#22c55e", expectedName: "Green (Xanh lá)", x: 285, y: 120, w: 140, h: 70, icon: "🧥 'SKI' Jacket" },
+          { id: "snow_sledge", label: "The winter sledge", expectedColor: "#3b82f6", expectedName: "Blue (Xanh dương)", x: 285, y: 210, w: 140, h: 60, icon: "🛷 Sledge" },
+          { id: "snowman_umbrella", label: "Snowman's umbrella", expectedColor: "#94a3b8", expectedName: "Grey (Xám)", x: 465, y: 90, w: 145, h: 70, icon: "☂️ Umbrella" }
+        ]
+      },
+      {
+        id: "ls9",
+        title: "Listening 9: City Hospital Room",
+        script: "Look at the hospital room. First, colour the comic being read by the boy lying in bed pink. Next, colour the uniform of the nurse giving medicine blue. Then, colour the flowers in the woman visitor's hand yellow. After that, colour the juice in the glass carried by the nurse orange. Finally, colour the 'CITY HOSPITAL' sign purple.",
+        part2Questions: [
+          { label: "Month club starts", ans: "January" },
+          { label: "Name of park", ans: "Salford" },
+          { label: "Day of meetings", ans: "Tuesday" },
+          { label: "Date of competition", ans: "22nd" },
+          { label: "Prize for winners", ans: "plants" }
+        ],
+        targets: [
+          { id: "boy_comic", label: "Comic read by boy in bed", expectedColor: "#ec4899", expectedName: "Pink (Hồng)", x: 80, y: 175, w: 140, h: 65, icon: "📖 Boy's Comic" },
+          { id: "nurse_uniform", label: "Nurse's uniform", expectedColor: "#3b82f6", expectedName: "Blue (Xanh dương)", x: 270, y: 175, w: 140, h: 65, icon: "👩‍⚕️ Nurse Uniform" },
+          { id: "visitor_flowers", label: "Flowers in visitor's hand", expectedColor: "#eab308", expectedName: "Yellow (Vàng)", x: 455, y: 175, w: 145, h: 65, icon: "💐 Visitor's Flowers" },
+          { id: "juice_glass", label: "Juice in glass on tray", expectedColor: "#f97316", expectedName: "Orange (Cam)", x: 360, y: 65, w: 140, h: 65, icon: "🍹 Glass of Juice" },
+          { id: "hospital_sign", label: "'CITY HOSPITAL' wall sign", expectedColor: "#a855f7", expectedName: "Purple (Tím)", x: 140, y: 65, w: 165, h: 65, icon: "🏥 'CITY HOSPITAL'" }
+        ]
+      },
+      {
+        id: "ls20",
+        title: "Listening 20: Space Rocket & Ringed Planet",
+        script: "Look at the space adventure picture. First, colour the flag next to the man with the camera green. Second, colour the planet with a ring yellow. Third, colour the plate between the two rocks blue. Fourth, colour the 'WINGS' stripe on the rocket red. Fifth, colour the space bird in the cage orange.",
+        part2Questions: [
+          { label: "Time school bus leaves", ans: "8.00" },
+          { label: "Name of science teacher", ans: "Harding" },
+          { label: "What they study in forest", ans: "insects" },
+          { label: "What to bring in rucksack", ans: "snacks" },
+          { label: "What clothes to wear", ans: "uniform" }
+        ],
+        targets: [
+          { id: "space_flag", label: "Flag next to cameraman", expectedColor: "#22c55e", expectedName: "Green (Xanh lá)", x: 80, y: 185, w: 135, h: 65, icon: "🏳️ Space Flag" },
+          { id: "ring_planet", label: "Planet with a ring (Saturn)", expectedColor: "#eab308", expectedName: "Yellow (Vàng)", x: 95, y: 55, w: 145, h: 65, icon: "🪐 Ringed Planet" },
+          { id: "rock_plate", label: "Plate between two rocks", expectedColor: "#3b82f6", expectedName: "Blue (Xanh dương)", x: 275, y: 195, w: 140, h: 60, icon: "🍽️ Plate on Rocks" },
+          { id: "rocket_wings", label: "Rocket stripe 'WINGS'", expectedColor: "#ef4444", expectedName: "Red (Đỏ)", x: 295, y: 65, w: 145, h: 70, icon: "🚀 Rocket 'WINGS'" },
+          { id: "cage_bird", label: "Space bird in cage", expectedColor: "#f97316", expectedName: "Orange (Cam)", x: 465, y: 125, w: 135, h: 70, icon: "🦜 Bird in Cage" }
+        ]
+      }
+    ];
+
+    const PALETTE_COLORS = [
+      { hex: "#ef4444", name: "Red (Đỏ)" },
+      { hex: "#3b82f6", name: "Blue (Xanh dương)" },
+      { hex: "#22c55e", name: "Green (Xanh lá)" },
+      { hex: "#eab308", name: "Yellow (Vàng)" },
+      { hex: "#f97316", name: "Orange (Cam)" },
+      { hex: "#a855f7", name: "Purple (Tím)" },
+      { hex: "#ec4899", name: "Pink (Hồng)" },
+      { hex: "#94a3b8", name: "Grey (Xám)" }
+    ];
+
+    // =========================================================================
+    // 2. STATE MANAGEMENT & LOCALSTORAGE SAFE WRAPPER
+    // =========================================================================
+
+    let appState = {
+      activeTab: "dashboard",
+      currentProfile: "Lucie",
+      speechRate: 0.85,
+      sfxEnabled: true,
+      tvLargeText: false,
+      stageFilter: 0,
+      unitSearchQuery: "",
+      activeModalUnitId: null,
+      // Vocab state
+      vocabCategory: "animals",
+      spotlightIndex: 0,
+      batsDolphinsAnswers: {},
+      animalMoveAnswers: {},
+      // Reading & Writing state
+      rwSubTab: "part1",
+      part1Index: 0,
+      part1Answers: {},
+      activeStoryId: "w1",
+      storyGapAnswers: {},
+      storyTfAnswers: {},
+      grammarAnswers: {},
+      // Speaking & Listening state
+      slSubTab: "exchange",
+      activeExchangeId: "sp1",
+      revealedExchangeAnswers: {},
+      activeSpeakingStoryId: "st1",
+      revealedModelStory: {},
+      activeListeningId: "ls1",
+      selectedBrushColor: "#3b82f6",
+      colouredTargets: {},
+      part2Inputs: {},
+      // Per-profile progress
+      profiles: {
+        "Lucie": { xp: 0, bonusShields: 0, completedUnits: [] },
+        "Lucas": { xp: 0, bonusShields: 0, completedUnits: [] },
+        "Gia đình": { xp: 0, bonusShields: 0, completedUnits: [] }
+      }
+    };
+
+    function loadSavedState() {
+      try {
+        const raw = localStorage.getItem("fff_tv_hub_state_v1");
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && parsed.profiles) {
+            appState.profiles = parsed.profiles;
+          }
+          if (parsed && parsed.currentProfile) {
+            appState.currentProfile = parsed.currentProfile;
+          }
+        }
+      } catch (err) {
+        // Ignore storage errors inside sandboxed contexts
+      }
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem("fff_tv_hub_state_v1", JSON.stringify({
+          currentProfile: appState.currentProfile,
+          profiles: appState.profiles
+        }));
+        try { ["Lucie", "Lucas"].forEach(n => localStorage.setItem("flyers_" + n.toLowerCase(), JSON.stringify({ khien: (function () { const q = appState.profiles[n] || {}; return Math.min(15, (q.bonusShields || 0) + Math.floor((q.completedUnits || []).length / 4) + Math.floor((q.xp || 0) / 100)); })(), xp: (appState.profiles[n] || {}).xp || 0, bai: ((appState.profiles[n] || {}).completedUnits || []).length }))); } catch (err) {}
+      } catch (err) {
+        // Ignore storage errors
+      }
+    }
+
+    function getActiveProfileData() {
+      return appState.profiles[appState.currentProfile] || appState.profiles["Lucie"];
+    }
+
+    function computeShieldCount() {
+      const p = getActiveProfileData();
+      const fromUnits = Math.floor((p.completedUnits ? p.completedUnits.length : 0) / 4);
+      const fromXp = Math.floor((p.xp || 0) / 100);
+      const total = Math.min(15, (p.bonusShields || 0) + fromUnits + fromXp);
+      return total;
+    }
+
+    function addXp(amount, reasonText) {
+      const p = getActiveProfileData();
+      const prevShields = computeShieldCount();
+      p.xp = (p.xp || 0) + amount;
+      saveState();
+      try {
+        const c = appState.currentProfile === "Lucie" ? "lucie" : (appState.currentProfile === "Lucas" ? "lucas" : null);
+        if (c) {
+          const a = JSON.parse(localStorage.getItem("giaDinh_nhatKy") || "[]");
+          a.push({ t: Date.now(), g: "flyers", c: c, s: "Tiếng Anh", q: String(reasonText || "Fun for Flyers").slice(0, 140), ok: true });
+          if (a.length > 6000) a.splice(0, a.length - 6000);
+          localStorage.setItem("giaDinh_nhatKy", JSON.stringify(a));
+        }
+      } catch (err) {}
+      updateHeaderAndHeroProgress();
+      const newShields = computeShieldCount();
+      if (newShields > prevShields) {
+        playSound("fanfare");
+        showToast("🎉 Xuất sắc! " + appState.currentProfile + " vừa đạt thêm Khiên Cambridge thứ " + newShields + "/15!", "fa-shield-halved");
+      } else if (reasonText) {
+        showToast(reasonText + " (+" + amount + " XP)", "fa-star");
+      }
+    }
+
+    // =========================================================================
+    // 3. WEB AUDIO SYNTHESIZER & WEB SPEECH API (TTS)
+    // =========================================================================
+
+    let audioCtx = null;
+    function playSound(type) {
+      if (!appState.sfxEnabled) return;
+      try {
+        if (!audioCtx) {
+          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+          if (!AudioContextClass) return;
+          audioCtx = new AudioContextClass();
+        }
+        if (audioCtx.state === "suspended") {
+          audioCtx.resume();
+        }
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        if (type === "correct") {
+          osc.type = "triangle";
+          osc.frequency.setValueAtTime(523.25, now);
+          osc.frequency.setValueAtTime(659.25, now + 0.09);
+          osc.frequency.setValueAtTime(783.99, now + 0.18);
+          gain.gain.setValueAtTime(0.18, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.38);
+          osc.start(now);
+          osc.stop(now + 0.38);
+        } else if (type === "wrong") {
+          osc.type = "sawtooth";
+          osc.frequency.setValueAtTime(220, now);
+          osc.frequency.setValueAtTime(165, now + 0.12);
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+          osc.start(now);
+          osc.stop(now + 0.3);
+        } else if (type === "fanfare") {
+          osc.type = "triangle";
+          osc.frequency.setValueAtTime(523.25, now);
+          osc.frequency.setValueAtTime(659.25, now + 0.1);
+          osc.frequency.setValueAtTime(783.99, now + 0.2);
+          osc.frequency.setValueAtTime(1046.5, now + 0.32);
+          gain.gain.setValueAtTime(0.22, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.65);
+          osc.start(now);
+          osc.stop(now + 0.65);
+        } else {
+          osc.type = "sine";
+          osc.frequency.setValueAtTime(660, now);
+          gain.gain.setValueAtTime(0.08, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+          osc.start(now);
+          osc.stop(now + 0.08);
+        }
+      } catch (e) {
+        // Ignore audio errors before user interaction
+      }
+    }
+
+    function speakText(text) {
+      if (!text) return;
+      try {
+        if ("speechSynthesis" in window) {
+          window.speechSynthesis.cancel();
+          const utter = new SpeechSynthesisUtterance(text);
+          utter.lang = "en-GB";
+          utter.rate = appState.speechRate;
+          utter.pitch = 1.05;
+          window.speechSynthesis.speak(utter);
+          showToast("🔊 Đang đọc: \"" + (text.length > 48 ? text.slice(0, 48) + "..." : text) + "\"", "fa-volume-high");
+        } else {
+          showToast("Trình duyệt không hỗ trợ đọc giọng nói tự động.", "fa-circle-info");
+        }
+      } catch (e) {
+        // Ignore speech errors
+      }
+    }
+
+    function toggleSpeechRate() {
+      if (appState.speechRate === 0.85) {
+        appState.speechRate = 1.0;
+      } else if (appState.speechRate === 1.0) {
+        appState.speechRate = 0.72;
+      } else {
+        appState.speechRate = 0.85;
+      }
+      const label = document.getElementById("speech-rate-label");
+      if (label) label.textContent = "Đọc: " + appState.speechRate + "x";
+      playSound("click");
+      showToast("Đã chỉnh tốc độ đọc tiếng Anh: " + appState.speechRate + "x", "fa-gauge-high");
+    }
+
+    function toggleSfx() {
+      appState.sfxEnabled = !appState.sfxEnabled;
+      const icon = document.getElementById("sfx-icon");
+      if (icon) {
+        icon.className = appState.sfxEnabled ? "fa-solid fa-bell" : "fa-solid fa-bell-slash text-slate-500";
+      }
+      showToast(appState.sfxEnabled ? "Đã bật âm thanh hiệu ứng" : "Đã tắt âm thanh hiệu ứng", "fa-bell");
+    }
+
+    function toggleTvScale() {
+      appState.tvLargeText = !appState.tvLargeText;
+      document.body.classList.toggle("tv-large-text", appState.tvLargeText);
+      const label = document.getElementById("tv-scale-label");
+      if (label) {
+        label.textContent = appState.tvLargeText ? "Chữ TV: Lớn 4K" : "Chữ TV: Chuẩn";
+      }
+      playSound("click");
+      showToast(appState.tvLargeText ? "Đã bật chế độ Chữ Lớn cho màn hình TV 4K" : "Đã chuyển về cỡ chữ TV tiêu chuẩn", "fa-tv");
+    }
+
+    let toastTimeout = null;
+    function showToast(msg, iconClass) {
+      const toast = document.getElementById("tv-toast");
+      const msgEl = document.getElementById("tv-toast-msg");
+      const iconEl = document.getElementById("tv-toast-icon");
+      if (!toast || !msgEl || !iconEl) return;
+      msgEl.textContent = msg;
+      iconEl.className = "fa-solid " + (iconClass || "fa-circle-check") + " text-amber-400 text-xl";
+      toast.classList.remove("hidden");
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.add("hidden");
+      }, 3200);
+    }
+
+    // =========================================================================
+    // 4. NAVIGATION & PROFILE SWITCHING
+    // =========================================================================
+
+    function switchTab(tabId) {
+      appState.activeTab = tabId;
+      const tabs = ["dashboard", "vocab", "reading_writing", "speaking_listening", "resources"];
+      tabs.forEach(t => {
+        const view = document.getElementById("view-" + t);
+        const btn = document.getElementById("nav-" + t);
+        if (view) {
+          view.classList.toggle("hidden", t !== tabId);
+        }
+        if (btn) {
+          if (t === tabId) {
+            btn.className = "tv-focusable nav-btn px-3.5 py-2 rounded-xl text-sm font-bold transition-all flex items-center gap-2 bg-amber-400 text-slate-950 shadow-md";
+          } else {
+            btn.className = "tv-focusable nav-btn px-3.5 py-2 rounded-xl text-sm font-bold transition-all flex items-center gap-2 text-slate-300 hover:text-white hover:bg-slate-800";
+          }
+        }
+      });
+      playSound("click");
+    }
+
+    function setProfile(profileName) {
+      appState.currentProfile = profileName;
+      saveState();
+      const map = { "Lucie": "prof-lucie", "Lucas": "prof-lucas", "Gia đình": "prof-family" };
+      Object.keys(map).forEach(k => {
+        const btn = document.getElementById(map[k]);
+        if (!btn) return;
+        if (k === profileName) {
+          btn.className = "tv-focusable px-2.5 py-1 rounded-lg text-xs font-bold transition-all bg-pink-500 text-white shadow";
+        } else {
+          btn.className = "tv-focusable px-2.5 py-1 rounded-lg text-xs font-bold transition-all text-slate-300 hover:text-white";
+        }
+      });
+      updateHeaderAndHeroProgress();
+      renderUnitsGrid();
+      playSound("click");
+      showToast("Đang học với hồ sơ: " + profileName, "fa-user-check");
+    }
+
+    function updateHeaderAndHeroProgress() {
+      const p = getActiveProfileData();
+      const shields = computeShieldCount();
+      const stageLabel = shields <= 7 ? "Chặng 1" : (shields <= 11 ? "Chặng 2" : "Chặng 3");
+
+      const hShield = document.getElementById("header-shield-count");
+      const hXp = document.getElementById("header-xp-count");
+      const heroName = document.getElementById("hero-profile-name");
+      const heroSum = document.getElementById("hero-shield-summary");
+      const compCount = document.getElementById("completed-units-count");
+      const heroXp = document.getElementById("hero-xp-val");
+      const shieldsRow = document.getElementById("shields-row");
+
+      if (hShield) hShield.textContent = shields + " / 15 Khiên";
+      if (hXp) hXp.textContent = (p.xp || 0) + " XP";
+      if (heroName) heroName.textContent = appState.currentProfile;
+      if (heroSum) heroSum.textContent = shields + " / 15 Khiên (" + stageLabel + ")";
+      if (compCount) compCount.textContent = (p.completedUnits ? p.completedUnits.length : 0);
+      if (heroXp) heroXp.textContent = (p.xp || 0) + " XP";
+
+      if (shieldsRow) {
+        let html = "";
+        for (let i = 1; i <= 15; i++) {
+          const active = i <= shields;
+          html += `<button onclick="speakText('Cambridge Shield number ${i}')" class="tv-focusable p-1.5 rounded-lg bg-slate-800/80 border ${active ? 'border-amber-400/50' : 'border-slate-700'}" title="Khiên ${i}/15">
+            <i class="fa-solid fa-shield-halved text-lg ${active ? 'shield-active' : 'shield-inactive'}"></i>
+          </button>`;
+        }
+        shieldsRow.innerHTML = html;
+      }
+    }
+
+    function awardBonusShield() {
+      const p = getActiveProfileData();
+      p.bonusShields = Math.min(15, (p.bonusShields || 0) + 1);
+      saveState();
+      updateHeaderAndHeroProgress();
+      playSound("fanfare");
+      showToast("Đã thưởng +1 Khiên khích lệ cho " + appState.currentProfile + "!", "fa-medal");
+    }
+
+    function resetAllProgress() {
+      appState.profiles[appState.currentProfile] = { xp: 50, bonusShields: 1, completedUnits: [1] };
+      saveState();
+      updateHeaderAndHeroProgress();
+      renderUnitsGrid();
+      showToast("Đã đặt lại tiến độ của " + appState.currentProfile + " về ban đầu.", "fa-rotate-left");
+    }
+
+    // =========================================================================
+    // 5. VIEW 1: 56 UNITS CURRICULUM EXPLORER & MODAL
+    // =========================================================================
+
+    function filterUnitsByStage(stageNum) {
+      appState.stageFilter = stageNum;
+      [0, 1, 2, 3].forEach(s => {
+        const btn = document.getElementById(s === 0 ? "stage-btn-all" : "stage-btn-" + s);
+        if (!btn) return;
+        if (s === stageNum) {
+          btn.className = "tv-focusable stage-filter-btn px-3.5 py-2 rounded-xl text-xs font-bold bg-amber-400 text-slate-950";
+        } else {
+          btn.className = "tv-focusable stage-filter-btn px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700";
+        }
+      });
+      renderUnitsGrid();
+      playSound("click");
+    }
+
+    function handleUnitSearch(val) {
+      appState.unitSearchQuery = (val || "").trim().toLowerCase();
+      renderUnitsGrid();
+    }
+
+    function renderUnitsGrid() {
+      const grid = document.getElementById("units-grid");
+      if (!grid) return;
+      const p = getActiveProfileData();
+      const completed = p.completedUnits || [];
+
+      const filtered = UNITS_DATA.filter(u => {
+        if (appState.stageFilter !== 0 && u.stage !== appState.stageFilter) return false;
+        if (appState.unitSearchQuery) {
+          const hay = (u.title + " " + u.grammar + " " + u.topics + " " + u.words.join(" ")).toLowerCase();
+          return hay.includes(appState.unitSearchQuery);
+        }
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div class="col-span-full p-8 text-center text-slate-400">Không tìm thấy Unit nào khớp với từ khóa tìm kiếm.</div>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(u => {
+        const isDone = completed.includes(u.id);
+        const stageColors = {
+          1: "border-cyan-500/30 hover:border-cyan-400",
+          2: "border-indigo-500/30 hover:border-indigo-400",
+          3: "border-amber-500/30 hover:border-amber-400"
+        };
+        const badgeColors = {
+          1: "bg-cyan-500/20 text-cyan-300",
+          2: "bg-indigo-500/20 text-indigo-300",
+          3: "bg-amber-500/20 text-amber-300"
+        };
+        return `
+          <div onclick="openUnitModal(${u.id})" tabindex="0" role="button" onkeydown="if(event.key==='Enter')openUnitModal(${u.id})" class="tv-focusable text-left p-4 rounded-2xl bg-slate-900/85 hover:bg-slate-800/90 border ${stageColors[u.stage]} transition-all cursor-pointer flex flex-col justify-between space-y-3">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between gap-2">
+                <span class="px-2 py-0.5 rounded-md text-[11px] font-bold ${badgeColors[u.stage]}">Chặng ${u.stage} • Buổi ${u.lesson}</span>
+                ${isDone
+                  ? `<span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[11px] font-bold"><i class="fa-solid fa-check mr-1"></i>Đã học</span>`
+                  : `<span class="text-[11px] text-slate-500">Chưa học</span>`
+                }
+              </div>
+              <h4 class="text-sm font-extrabold text-white">${u.title}</h4>
+              <p class="text-xs text-slate-300 line-clamp-2"><strong class="text-slate-400">Ngữ pháp:</strong> ${u.grammar}</p>
+            </div>
+            <div class="space-y-2 pt-1">
+              <div class="flex flex-wrap gap-1">
+                ${u.words.slice(0, 4).map(w => `<span class="px-2 py-0.5 rounded bg-slate-800 text-amber-300 text-[11px] font-medium">${w}</span>`).join("")}
+                ${u.words.length > 4 ? `<span class="px-1.5 py-0.5 text-[11px] text-slate-400">+${u.words.length - 4}</span>` : ""}
+              </div>
+              <div class="flex items-center justify-between text-[11px] text-slate-400 border-t border-slate-800 pt-2">
+                <span>${u.skills.join(" • ")}</span>
+                <span class="text-amber-300 font-bold">Mở bài <i class="fa-solid fa-chevron-right ml-0.5"></i></span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function openUnitModal(unitId) {
+      const unit = UNITS_DATA.find(u => u.id === unitId);
+      if (!unit) return;
+      appState.activeModalUnitId = unitId;
+
+      document.getElementById("modal-unit-stage").textContent = `Chặng ${unit.stage} • Lesson ${unit.lesson} • Chủ đề: ${unit.topics}`;
+      document.getElementById("modal-unit-title").textContent = unit.title;
+      document.getElementById("modal-unit-grammar").textContent = unit.grammar;
+
+      const wordsEl = document.getElementById("modal-unit-words");
+      wordsEl.innerHTML = unit.words.map(w => {
+        const safeW = w.replace(/'/g, "\\'");
+        return `<button onclick="speakText('${safeW}')" class="tv-focusable px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-amber-400 hover:text-slate-950 text-amber-300 font-bold text-sm border border-slate-700 transition-all flex items-center gap-2">
+          <i class="fa-solid fa-volume-high text-xs"></i>
+          <span>${w}</span>
+        </button>`;
+      }).join("");
+
+      const skillsEl = document.getElementById("modal-unit-skills");
+      skillsEl.innerHTML = unit.skills.map(s => `<span class="px-2.5 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 text-xs font-bold">${s}</span>`).join("");
+
+      const p = getActiveProfileData();
+      const isDone = (p.completedUnits || []).includes(unitId);
+      const compBtn = document.getElementById("modal-complete-btn");
+      if (compBtn) {
+        compBtn.innerHTML = isDone
+          ? `<i class="fa-solid fa-rotate-left"></i><span>Đã hoàn thành (Bấm để bỏ đánh dấu)</span>`
+          : `<i class="fa-solid fa-check"></i><span>Đánh dấu Đã học xong (+25 XP)</span>`;
+      }
+
+      document.getElementById("unit-modal").classList.remove("hidden");
+      playSound("click");
+    }
+
+    function closeUnitModal() {
+      document.getElementById("unit-modal").classList.add("hidden");
+      appState.activeModalUnitId = null;
+    }
+
+    function speakModalWords() {
+      const unit = UNITS_DATA.find(u => u.id === appState.activeModalUnitId);
+      if (!unit) return;
+      speakText(unit.title + ". Key vocabulary: " + unit.words.join(", "));
+    }
+
+    function toggleCurrentUnitComplete() {
+      const unitId = appState.activeModalUnitId;
+      if (!unitId) return;
+      const p = getActiveProfileData();
+      if (!p.completedUnits) p.completedUnits = [];
+      const idx = p.completedUnits.indexOf(unitId);
+      if (idx === -1) {
+        p.completedUnits.push(unitId);
+        playSound("correct");
+        addXp(25, "Đã hoàn thành Unit " + unitId);
+      } else {
+        p.completedUnits.splice(idx, 1);
+        saveState();
+        updateHeaderAndHeroProgress();
+        showToast("Đã bỏ đánh dấu hoàn thành Unit " + unitId, "fa-info-circle");
+      }
+      renderUnitsGrid();
+      openUnitModal(unitId);
+    }
+
+    // =========================================================================
+    // 6. VIEW 2: VOCABULARY FLASHCARDS & UNIT 5 INTERACTIVE GAMES
+    // =========================================================================
+
+    function selectVocabCategory(catKey) {
+      appState.vocabCategory = catKey;
+      appState.spotlightIndex = 0;
+      const cats = ["animals", "space", "health", "jobs_places", "events_travel"];
+      cats.forEach(c => {
+        const btn = document.getElementById("vcat-" + c);
+        if (!btn) return;
+        if (c === catKey) {
+          btn.className = "tv-focusable px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white shadow";
+        } else {
+          btn.className = "tv-focusable px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700";
+        }
+      });
+      renderVocabSection();
+      playSound("click");
+    }
+
+    function renderVocabSection() {
+      const deck = VOCAB_DECKS[appState.vocabCategory] || VOCAB_DECKS.animals;
+      const item = deck[appState.spotlightIndex] || deck[0];
+
+      const catNames = {
+        animals: "Unit 5 • About Animals",
+        space: "Unit 12 & Writing 13 • Space & Planets",
+        health: "Unit 33 & Writing 5 • Health & Hospital",
+        jobs_places: "Jobs, Places & Materials",
+        events_travel: "Writing 1–3 • Holidays, Camping & Music"
+      };
+
+      document.getElementById("spot-cat-badge").textContent = catNames[appState.vocabCategory] || "Vocabulary";
+      document.getElementById("spot-index-label").textContent = (appState.spotlightIndex + 1) + " / " + deck.length;
+      document.getElementById("spot-emoji").textContent = item.emoji;
+      document.getElementById("spot-word").textContent = item.word;
+      document.getElementById("spot-ipa").textContent = item.ipa;
+      document.getElementById("spot-vi").textContent = item.vi;
+      document.getElementById("spot-example").textContent = "\"" + item.ex + "\"";
+
+      const grid = document.getElementById("vocab-cards-grid");
+      grid.innerHTML = deck.map((v, idx) => {
+        const active = idx === appState.spotlightIndex;
+        return `
+          <button onclick="selectSpotlightIndex(${idx})" class="tv-focusable text-left p-3.5 rounded-2xl transition-all border ${active ? 'bg-indigo-900/80 border-amber-400 shadow-lg' : 'bg-slate-900/85 border-slate-700/80 hover:bg-slate-800'} flex flex-col justify-between">
+            <div class="flex items-start justify-between gap-2">
+              <span class="text-2xl">${v.emoji}</span>
+              <i class="fa-solid fa-volume-high text-xs ${active ? 'text-amber-300' : 'text-slate-500'}"></i>
+            </div>
+            <div class="mt-2">
+              <p class="text-sm font-extrabold text-white">${v.word}</p>
+              <p class="text-[11px] font-mono text-amber-300/90">${v.ipa}</p>
+              <p class="text-xs font-semibold text-emerald-300 mt-0.5">${v.vi}</p>
+            </div>
+          </button>
+        `;
+      }).join("");
+    }
+
+    function selectSpotlightIndex(idx) {
+      const deck = VOCAB_DECKS[appState.vocabCategory] || VOCAB_DECKS.animals;
+      appState.spotlightIndex = idx;
+      renderVocabSection();
+      const item = deck[idx];
+      if (item) {
+        speakText(item.word + ". " + item.ex);
+      }
+    }
+
+    function prevSpotlightVocab() {
+      const deck = VOCAB_DECKS[appState.vocabCategory] || VOCAB_DECKS.animals;
+      appState.spotlightIndex = (appState.spotlightIndex - 1 + deck.length) % deck.length;
+      renderVocabSection();
+      speakCurrentSpotlight();
+    }
+
+    function nextSpotlightVocab() {
+      const deck = VOCAB_DECKS[appState.vocabCategory] || VOCAB_DECKS.animals;
+      appState.spotlightIndex = (appState.spotlightIndex + 1) % deck.length;
+      renderVocabSection();
+      speakCurrentSpotlight();
+    }
+
+    function speakCurrentSpotlight() {
+      const deck = VOCAB_DECKS[appState.vocabCategory] || VOCAB_DECKS.animals;
+      const item = deck[appState.spotlightIndex];
+      if (item) {
+        speakText(item.word + ". " + item.ex);
+      }
+    }
+
+    function playAllCurrentVocab() {
+      const deck = VOCAB_DECKS[appState.vocabCategory] || VOCAB_DECKS.animals;
+      const allWords = deck.map(d => d.word).join(", ");
+      speakText("Let's practice these words: " + allWords);
+    }
+
+    // Unit 5 Game 1: Bats or Dolphins
+    function renderBatsDolphinsGame() {
+      const list = document.getElementById("bats-dolphins-list");
+      if (!list) return;
+      list.innerHTML = BATS_DOLPHINS_DATA.map(item => {
+        const chosen = appState.batsDolphinsAnswers[item.id];
+        const isCorrect = chosen === item.ans;
+        const safeText = item.text.replace(/'/g, "\\'");
+        return `
+          <div class="p-3 rounded-2xl bg-slate-900/90 border ${chosen ? (isCorrect ? 'border-emerald-500/60' : 'border-rose-500/60') : 'border-slate-700/80'} flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2 flex-1 min-w-[220px]">
+              <button onclick="speakText('${safeText}')" class="tv-focusable w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 flex items-center justify-center shrink-0" title="Nghe câu">
+                <i class="fa-solid fa-volume-high text-xs"></i>
+              </button>
+              <span class="text-xs font-medium text-slate-200">${item.text}</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <button onclick="answerBatsDolphins('${item.id}', 'B')" class="tv-focusable px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${chosen === 'B' ? (item.ans === 'B' ? 'bg-emerald-500 text-slate-950' : 'bg-rose-500 text-white') : 'bg-slate-800 hover:bg-slate-700 text-slate-300'}">
+                🦇 Bats (B)
+              </button>
+              <button onclick="answerBatsDolphins('${item.id}', 'D')" class="tv-focusable px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${chosen === 'D' ? (item.ans === 'D' ? 'bg-emerald-500 text-slate-950' : 'bg-rose-500 text-white') : 'bg-slate-800 hover:bg-slate-700 text-slate-300'}">
+                🐬 Dolphins (D)
+              </button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function answerBatsDolphins(id, choice) {
+      const item = BATS_DOLPHINS_DATA.find(x => x.id === id);
+      if (!item) return;
+      const alreadyCorrect = appState.batsDolphinsAnswers[id] === item.ans;
+      appState.batsDolphinsAnswers[id] = choice;
+      renderBatsDolphinsGame();
+      if (choice === item.ans) {
+        playSound("correct");
+        if (!alreadyCorrect) addXp(10, "Chính xác! (" + (choice === "B" ? "Bats" : "Dolphins") + ")");
+      } else {
+        playSound("wrong");
+        showToast("Chưa đúng, hãy thử lại nhé!", "fa-circle-exclamation");
+      }
+    }
+
+    function resetBatsDolphinsGame() {
+      appState.batsDolphinsAnswers = {};
+      renderBatsDolphinsGame();
+      playSound("click");
+    }
+
+    // Unit 5 Game 2: How do animals move?
+    function renderAnimalMoveGame() {
+      const container = document.getElementById("animal-move-container");
+      if (!container) return;
+      container.innerHTML = ANIMAL_MOVE_ITEMS.map((item, idx) => {
+        const chosen = appState.animalMoveAnswers[idx];
+        const isCorrect = chosen === item.move;
+        return `
+          <div class="p-3 rounded-2xl bg-slate-900/90 border ${chosen ? (isCorrect ? 'border-emerald-500/60' : 'border-rose-500/60') : 'border-slate-700/80'} flex flex-wrap items-center justify-between gap-2">
+            <button onclick="speakText('${item.animal}')" class="tv-focusable flex items-center gap-2 text-left">
+              <span class="text-2xl">${item.emoji}</span>
+              <span class="text-sm font-extrabold text-white capitalize">${item.animal}</span>
+              <i class="fa-solid fa-volume-high text-xs text-amber-300"></i>
+            </button>
+            <div class="flex flex-wrap gap-1.5">
+              ${item.options.map(opt => `
+                <button onclick="answerAnimalMove(${idx}, '${opt}')" class="tv-focusable px-3 py-1.5 rounded-xl text-xs font-bold ${chosen === opt ? (opt === item.move ? 'bg-emerald-500 text-slate-950' : 'bg-rose-500 text-white') : 'bg-slate-800 hover:bg-slate-700 text-slate-300'}">
+                  ${opt}
+                </button>
+              `).join("")}
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function answerAnimalMove(idx, opt) {
+      const item = ANIMAL_MOVE_ITEMS[idx];
+      if (!item) return;
+      const alreadyCorrect = appState.animalMoveAnswers[idx] === item.move;
+      appState.animalMoveAnswers[idx] = opt;
+      renderAnimalMoveGame();
+      if (opt === item.move) {
+        playSound("correct");
+        speakText("A " + item.animal + " can " + item.move.split(" / ")[0]);
+        if (!alreadyCorrect) addXp(10, "Đúng rồi! " + item.animal + " -> " + item.move);
+      } else {
+        playSound("wrong");
+      }
+    }
+
+    function resetAnimalMoveGame() {
+      appState.animalMoveAnswers = {};
+      renderAnimalMoveGame();
+      playSound("click");
+    }
+
+    // =========================================================================
+    // 7. VIEW 3: READING & WRITING STUDIO
+    // =========================================================================
+
+    function switchRwSub(subId) {
+      appState.rwSubTab = subId;
+      ["part1", "stories", "grammar"].forEach(s => {
+        const panel = document.getElementById("rw-panel-" + s);
+        const btn = document.getElementById("rw-sub-" + s);
+        if (panel) panel.classList.toggle("hidden", s !== subId);
+        if (btn) {
+          btn.className = s === subId
+            ? "tv-focusable px-4 py-2.5 rounded-xl text-xs font-extrabold bg-amber-400 text-slate-950"
+            : "tv-focusable px-4 py-2.5 rounded-xl text-xs font-extrabold bg-slate-800 text-slate-300 hover:bg-slate-700";
+        }
+      });
+      playSound("click");
+    }
+
+    function renderPart1Quiz() {
+      const area = document.getElementById("part1-question-area");
+      const badge = document.getElementById("part1-score-badge");
+      if (!area) return;
+
+      const correctCount = PART1_QUESTIONS.filter((q, idx) => appState.part1Answers[idx] === q.answer).length;
+      if (badge) badge.textContent = `Đúng: ${correctCount} / ${PART1_QUESTIONS.length}`;
+
+      const idx = appState.part1Index;
+      const item = PART1_QUESTIONS[idx];
+      const chosen = appState.part1Answers[idx];
+      const safeQ = item.q.replace(/'/g, "\\'");
+
+      area.innerHTML = `
+        <div class="lg:col-span-7 bg-slate-900/90 p-6 rounded-3xl border border-slate-700/80 space-y-5">
+          <div class="flex items-center justify-between">
+            <span class="px-3 py-1 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-bold">Câu ${idx + 1} / ${PART1_QUESTIONS.length} • Nguồn: ${item.source}</span>
+            <button onclick="speakText('${safeQ}')" class="tv-focusable px-3.5 py-1.5 rounded-xl bg-amber-400 text-slate-950 font-bold text-xs flex items-center gap-1.5">
+              <i class="fa-solid fa-volume-high"></i> <span>Nghe câu định nghĩa</span>
+            </button>
+          </div>
+
+          <p class="text-xl lg:text-2xl font-extrabold text-white leading-relaxed">
+            "${item.q}"
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+            ${item.options.map(opt => {
+              const isSelected = chosen === opt;
+              const isRight = opt === item.answer;
+              let btnStyle = "bg-slate-800 hover:bg-slate-700 text-white border-slate-600";
+              if (isSelected) {
+                btnStyle = isRight
+                  ? "bg-emerald-500 text-slate-950 border-emerald-300 shadow-lg"
+                  : "bg-rose-500 text-white border-rose-300";
+              }
+              return `
+                <button onclick="selectPart1Answer(${idx}, '${opt.replace(/'/g, "\\'")}')" class="tv-focusable p-4 rounded-2xl border-2 ${btnStyle} font-extrabold text-base flex items-center justify-between transition-all">
+                  <span>${opt}</span>
+                  ${isSelected ? `<i class="fa-solid ${isRight ? 'fa-circle-check' : 'fa-circle-xmark'}"></i>` : `<i class="fa-regular fa-circle text-slate-500"></i>`}
+                </button>
+              `;
+            }).join("")}
+          </div>
+
+          <div class="flex items-center justify-between pt-3 border-t border-slate-800">
+            <button onclick="movePart1Question(-1)" class="tv-focusable px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-white flex items-center gap-2">
+              <i class="fa-solid fa-arrow-left"></i> <span>Câu trước</span>
+            </button>
+            <button onclick="movePart1Question(1)" class="tv-focusable px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-xs font-bold text-white flex items-center gap-2">
+              <span>Câu tiếp theo</span> <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 bg-slate-900/70 p-5 rounded-3xl border border-slate-800 space-y-3">
+          <p class="text-xs font-bold uppercase text-slate-400">Danh sách 20 câu Reading &amp; Writing Part 1:</p>
+          <div class="grid grid-cols-5 gap-2">
+            ${PART1_QUESTIONS.map((qItem, i) => {
+              const ans = appState.part1Answers[i];
+              const ok = ans === qItem.answer;
+              let cls = "bg-slate-800 text-slate-300 border-slate-700";
+              if (i === idx) cls = " ring-2 ring-amber-400 bg-indigo-900 text-white";
+              if (ans) cls = ok ? "bg-emerald-500/30 text-emerald-300 border-emerald-400/50" : "bg-rose-500/30 text-rose-300 border-rose-400/50";
+              return `<button onclick="jumpPart1Question(${i})" class="tv-focusable py-2.5 rounded-xl border text-xs font-bold ${cls}">${i + 1}</button>`;
+            }).join("")}
+          </div>
+          <div class="p-3.5 rounded-2xl bg-slate-950/70 border border-slate-800 text-xs text-slate-300 space-y-1">
+            <p class="font-bold text-amber-300">Mẹo làm bài Flyers Part 1:</p>
+            <p>• Đọc kỹ từ khóa đầu câu: <em>"This person..."</em> (chỉ nghề nghiệp), <em>"You go to this place..."</em> (chỉ địa điểm), <em>"This animal / creature..."</em> (chỉ con vật).</p>
+            <p>• Khi viết vào bài thi thật, phải chép chính xác cả mạo từ <strong>a / an</strong> hoặc đuôi số nhiều <strong>-s</strong>.</p>
+          </div>
+        </div>
+      `;
+    }
+
+    function selectPart1Answer(qIdx, optionVal) {
+      const item = PART1_QUESTIONS[qIdx];
+      if (!item) return;
+      const wasRight = appState.part1Answers[qIdx] === item.answer;
+      appState.part1Answers[qIdx] = optionVal;
+      renderPart1Quiz();
+      if (optionVal === item.answer) {
+        playSound("correct");
+        speakText(optionVal + ". " + item.q);
+        if (!wasRight) addXp(15, "Chính xác: " + optionVal);
+      } else {
+        playSound("wrong");
+        showToast("Chưa chính xác, hãy đọc lại định nghĩa nhé!", "fa-circle-xmark");
+      }
+    }
+
+    function movePart1Question(delta) {
+      appState.part1Index = (appState.part1Index + delta + PART1_QUESTIONS.length) % PART1_QUESTIONS.length;
+      renderPart1Quiz();
+      playSound("click");
+    }
+
+    function jumpPart1Question(idx) {
+      appState.part1Index = idx;
+      renderPart1Quiz();
+      playSound("click");
+    }
+
+    function resetPart1Quiz() {
+      appState.part1Answers = {};
+      appState.part1Index = 0;
+      renderPart1Quiz();
+      playSound("click");
+    }
+
+    // RW SUB 2: STORIES GAP-FILL
+    function renderStoriesSection() {
+      const bar = document.getElementById("story-selector-bar");
+      const ws = document.getElementById("story-workspace");
+      if (!bar || !ws) return;
+
+      bar.innerHTML = WRITING_STORIES.map(st => {
+        const active = st.id === appState.activeStoryId;
+        return `<button onclick="selectWritingStory('${st.id}')" class="tv-focusable px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${active ? 'bg-indigo-600 text-white shadow' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">${st.title}</button>`;
+      }).join("");
+
+      const story = WRITING_STORIES.find(s => s.id === appState.activeStoryId) || WRITING_STORIES[0];
+      const storyState = appState.storyGapAnswers[story.id] || {};
+      const tfState = appState.storyTfAnswers[story.id] || {};
+
+      // Render paragraphs with interactive dropdown buttons for [0], [1], [2], [3]
+      const renderedParagraphs = story.paragraphs.map(p => {
+        return p.replace(/\[(\d+)\]/g, (_, slotStr) => {
+          const slot = parseInt(slotStr, 10);
+          const selectedVal = storyState[slot] || "";
+          const expectedVal = story.answers[slot];
+          const isCorrect = selectedVal === expectedVal;
+          let colorCls = "bg-slate-800 border-amber-400/50 text-amber-300";
+          if (selectedVal) {
+            colorCls = isCorrect ? "bg-emerald-500/30 border-emerald-400 text-emerald-200" : "bg-rose-500/30 border-rose-400 text-rose-200";
+          }
+          return `<select onchange="handleStorySlotChange('${story.id}', ${slot}, this.value)" class="tv-focusable mx-1 px-2.5 py-1 rounded-xl border ${colorCls} font-extrabold text-sm">
+            <option value="">-- Chọn (${slot + 1}) --</option>
+            ${story.wordBank.map(w => `<option value="${w.replace(/"/g, '&quot;')}" ${selectedVal === w ? 'selected' : ''}>${w}</option>`).join("")}
+          </select>`;
+        });
+      });
+
+      const fullPlainStory = story.paragraphs.map(p => {
+        return p.replace(/\[(\d+)\]/g, (_, slotStr) => story.answers[parseInt(slotStr, 10)] || "");
+      }).join(" ");
+      const safeFullStory = fullPlainStory.replace(/'/g, "\\'");
+
+      ws.innerHTML = `
+        <div class="lg:col-span-7 bg-slate-900/90 p-6 rounded-3xl border border-slate-700/80 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <span class="text-xs font-bold text-indigo-300">${story.topic}</span>
+              <h3 class="text-xl font-black text-white">${story.title}</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="fillStoryAnswers('${story.id}')" class="tv-focusable px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-amber-300">
+                <i class="fa-solid fa-wand-magic-sparkles mr-1"></i>Xem đáp án
+              </button>
+              <button onclick="speakText('${safeFullStory}')" class="tv-focusable px-4 py-2 rounded-xl bg-amber-400 text-slate-950 font-extrabold text-xs flex items-center gap-1.5">
+                <i class="fa-solid fa-volume-high"></i> <span>Nghe đọc cả truyện</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2 p-3 rounded-2xl bg-slate-950/70 border border-slate-800">
+            <span class="text-xs font-bold text-slate-400">Word Bank:</span>
+            ${story.wordBank.map(w => `<button onclick="speakText('${w.replace(/'/g, "\\'")}')" class="tv-focusable px-2.5 py-1 rounded-lg bg-indigo-500/20 text-indigo-200 text-xs font-bold border border-indigo-400/30">${w} <i class="fa-solid fa-volume-high ml-1 text-[10px]"></i></button>`).join("")}
+          </div>
+
+          <div class="space-y-3 text-base lg:text-lg text-slate-100 leading-relaxed">
+            ${renderedParagraphs.map(rp => `<p>${rp}</p>`).join("")}
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 bg-slate-900/90 p-6 rounded-3xl border border-slate-700/80 space-y-4">
+          <h4 class="text-base font-extrabold text-white flex items-center gap-2">
+            <i class="fa-solid fa-list-check text-emerald-400"></i>
+            <span>Câu Hỏi Đọc Hiểu (Reading Comprehension)</span>
+          </h4>
+          <div class="space-y-3">
+            ${story.tfQuestions.map((tf, i) => {
+              const picked = tfState[i];
+              const isRight = picked === tf.a;
+              const opts = (tf.a === "True" || tf.a === "False") ? ["True", "False"] : ["Yes", "No"];
+              return `
+                <div class="p-3.5 rounded-2xl bg-slate-950/70 border ${picked ? (isRight ? 'border-emerald-500/50' : 'border-rose-500/50') : 'border-slate-800'} space-y-2">
+                  <p class="text-xs font-bold text-slate-200">${i + 1}. ${tf.q}</p>
+                  <div class="flex gap-2">
+                    ${opts.map(o => `
+                      <button onclick="answerStoryTf('${story.id}', ${i}, '${o}')" class="tv-focusable px-3.5 py-1.5 rounded-xl text-xs font-bold ${picked === o ? (o === tf.a ? 'bg-emerald-500 text-slate-950' : 'bg-rose-500 text-white') : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">${o}</button>
+                    `).join("")}
+                  </div>
+                </div>
+              `;
+            }).join("")}
+          </div>
+        </div>
+      `;
+    }
+
+    function selectWritingStory(storyId) {
+      appState.activeStoryId = storyId;
+      renderStoriesSection();
+      playSound("click");
+    }
+
+    function handleStorySlotChange(storyId, slotIdx, val) {
+      if (!appState.storyGapAnswers[storyId]) appState.storyGapAnswers[storyId] = {};
+      appState.storyGapAnswers[storyId][slotIdx] = val;
+      const story = WRITING_STORIES.find(s => s.id === storyId);
+      renderStoriesSection();
+      if (story && val === story.answers[slotIdx]) {
+        playSound("correct");
+        addXp(10, "Điền từ chính xác!");
+      } else if (val) {
+        playSound("wrong");
+      }
+    }
+
+    function fillStoryAnswers(storyId) {
+      const story = WRITING_STORIES.find(s => s.id === storyId);
+      if (!story) return;
+      appState.storyGapAnswers[storyId] = {};
+      story.answers.forEach((a, idx) => {
+        appState.storyGapAnswers[storyId][idx] = a;
+      });
+      renderStoriesSection();
+      playSound("click");
+    }
+
+    function answerStoryTf(storyId, qIdx, choice) {
+      const story = WRITING_STORIES.find(s => s.id === storyId);
+      if (!story) return;
+      if (!appState.storyTfAnswers[storyId]) appState.storyTfAnswers[storyId] = {};
+      appState.storyTfAnswers[storyId][qIdx] = choice;
+      renderStoriesSection();
+      if (choice === story.tfQuestions[qIdx].a) {
+        playSound("correct");
+        addXp(10, "Trả lời đọc hiểu đúng!");
+      } else {
+        playSound("wrong");
+      }
+    }
+
+    // RW SUB 3: GRAMMAR ERROR CORRECTION
+    function renderGrammarQuiz() {
+      const list = document.getElementById("grammar-quiz-list");
+      if (!list) return;
+      list.innerHTML = GRAMMAR_FIX_ITEMS.map((item, idx) => {
+        const picked = appState.grammarAnswers[idx];
+        const isRight = picked === item.right;
+        return `
+          <div class="p-5 rounded-2xl bg-slate-900/90 border ${picked ? (isRight ? 'border-emerald-500/60' : 'border-rose-500/60') : 'border-slate-700/80'} space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded bg-rose-500/20 text-rose-300 text-xs font-bold">Câu sai #${idx + 1}</span>
+              <button onclick="speakText('${item.right.replace(/'/g, "\\'")}')" class="tv-focusable text-xs font-bold text-amber-300 hover:text-amber-200">
+                <i class="fa-solid fa-volume-high mr-1"></i>Nghe câu đúng
+              </button>
+            </div>
+            <p class="text-base font-extrabold text-rose-300 line-through">${item.wrong}</p>
+            <div class="space-y-1.5">
+              ${item.options.map(opt => `
+                <button onclick="selectGrammarFix(${idx}, '${opt.replace(/'/g, "\\'")}')" class="tv-focusable w-full text-left px-3.5 py-2.5 rounded-xl text-xs font-bold transition-all border ${picked === opt ? (opt === item.right ? 'bg-emerald-500 text-slate-950 border-emerald-300' : 'bg-rose-500 text-white border-rose-300') : 'bg-slate-800 hover:bg-slate-700 text-slate-200 border-slate-700'}">
+                  ${opt}
+                </button>
+              `).join("")}
+            </div>
+            ${picked ? `<p class="text-xs text-emerald-300 bg-slate-950/80 p-2.5 rounded-xl"><i class="fa-solid fa-graduation-cap mr-1"></i>${item.rule}</p>` : ""}
+          </div>
+        `;
+      }).join("");
+    }
+
+    function selectGrammarFix(idx, val) {
+      const item = GRAMMAR_FIX_ITEMS[idx];
+      if (!item) return;
+      appState.grammarAnswers[idx] = val;
+      renderGrammarQuiz();
+      if (val === item.right) {
+        playSound("correct");
+        speakText(item.right);
+        addXp(15, "Sửa lỗi ngữ pháp chính xác!");
+      } else {
+        playSound("wrong");
+      }
+    }
+
+    function resetGrammarQuiz() {
+      appState.grammarAnswers = {};
+      renderGrammarQuiz();
+      playSound("click");
+    }
+
+    // =========================================================================
+    // 8. VIEW 4: SPEAKING & LISTENING TV STUDIO
+    // =========================================================================
+
+    function switchSlSub(subId) {
+      appState.slSubTab = subId;
+      ["exchange", "story", "listening"].forEach(s => {
+        const panel = document.getElementById("sl-panel-" + s);
+        const btn = document.getElementById("sl-sub-" + s);
+        if (panel) panel.classList.toggle("hidden", s !== subId);
+        if (btn) {
+          btn.className = s === subId
+            ? "tv-focusable px-4 py-2.5 rounded-xl text-xs font-extrabold bg-amber-400 text-slate-950"
+            : "tv-focusable px-4 py-2.5 rounded-xl text-xs font-extrabold bg-slate-800 text-slate-300 hover:bg-slate-700";
+        }
+      });
+      playSound("click");
+    }
+
+    // Speaking Part 2: Info Exchange
+    function renderSpeakingExchange() {
+      const tabsEl = document.getElementById("speaking-exchange-tabs");
+      const contentEl = document.getElementById("speaking-exchange-content");
+      if (!tabsEl || !contentEl) return;
+
+      tabsEl.innerHTML = SPEAKING_EXCHANGE_DATA.map(sp => {
+        const active = sp.id === appState.activeExchangeId;
+        return `<button onclick="selectSpeakingExchange('${sp.id}')" class="tv-focusable px-3 py-1.5 rounded-xl text-xs font-bold ${active ? 'bg-amber-400 text-slate-950' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">${sp.title}</button>`;
+      }).join("");
+
+      const data = SPEAKING_EXCHANGE_DATA.find(x => x.id === appState.activeExchangeId) || SPEAKING_EXCHANGE_DATA[0];
+
+      contentEl.innerHTML = `
+        <div class="p-4 rounded-2xl bg-indigo-950/60 border border-indigo-400/30 space-y-2">
+          <p class="text-xs font-bold uppercase text-indigo-300"><i class="fa-solid fa-comments mr-1"></i>Warm-up Free Talk Questions (Bấm vào câu hỏi để nghe giám khảo hỏi):</p>
+          <div class="flex flex-wrap gap-2">
+            ${data.freeTalk.map(q => `<button onclick="speakText('${q.replace(/'/g, "\\'")}')" class="tv-focusable px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-xs font-bold text-white border border-slate-700 flex items-center gap-2">
+              <i class="fa-solid fa-volume-high text-amber-400"></i>
+              <span>${q}</span>
+            </button>`).join("")}
+          </div>
+        </div>
+
+        <p class="text-sm text-slate-300 font-semibold"><i class="fa-solid fa-circle-info text-cyan-400 mr-1.5"></i>${data.intro}</p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          ${[data.cardA, data.cardB].map((card, cIdx) => `
+            <div class="bg-slate-900/90 p-5 rounded-3xl border ${cIdx === 0 ? 'border-cyan-500/40' : 'border-amber-500/40'} space-y-3">
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-black text-white">${cIdx === 0 ? '🟦 Card A: ' : '🟨 Card B: '}${card.owner}</h3>
+                <span class="text-xs text-slate-400">Bấm để nghe câu hỏi &amp; câu trả lời</span>
+              </div>
+              <div class="space-y-2.5">
+                ${card.items.map((it, qIdx) => {
+                  const key = data.id + "_" + cIdx + "_" + qIdx;
+                  const revealed = !!appState.revealedExchangeAnswers[key];
+                  return `
+                    <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-2">
+                      <div class="flex items-center justify-between gap-2">
+                        <button onclick="speakText('${it.q.replace(/^\d+\.\s*/, '').replace(/'/g, "\\'")}')" class="tv-focusable text-left text-sm font-bold text-white hover:text-amber-300 flex items-center gap-2">
+                          <i class="fa-solid fa-volume-high text-amber-400 text-xs"></i>
+                          <span>${it.q}</span>
+                        </button>
+                        <button onclick="toggleExchangeAnswer('${key}', '${it.a.replace(/'/g, "\\'")}')" class="tv-focusable px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-[11px] font-bold text-cyan-300 shrink-0">
+                          ${revealed ? 'Ẩn gợi ý' : 'Xem &amp; Nghe trả lời'}
+                        </button>
+                      </div>
+                      ${revealed ? `<p class="text-xs font-semibold text-emerald-300 pl-5 border-l-2 border-emerald-400">${it.a}</p>` : ""}
+                    </div>
+                  `;
+                }).join("")}
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function selectSpeakingExchange(id) {
+      appState.activeExchangeId = id;
+      renderSpeakingExchange();
+      playSound("click");
+    }
+
+    function toggleExchangeAnswer(key, answerText) {
+      appState.revealedExchangeAnswers[key] = !appState.revealedExchangeAnswers[key];
+      renderSpeakingExchange();
+      if (appState.revealedExchangeAnswers[key]) {
+        speakText(answerText);
+        addXp(5, "Đã luyện câu trả lời Speaking!");
+      }
+    }
+
+    // Speaking Part 3: Picture Story Teller
+    function renderSpeakingStories() {
+      const tabsEl = document.getElementById("speaking-story-tabs");
+      const wsEl = document.getElementById("speaking-story-workspace");
+      if (!tabsEl || !wsEl) return;
+
+      tabsEl.innerHTML = SPEAKING_STORIES_DATA.map(st => {
+        const active = st.id === appState.activeSpeakingStoryId;
+        return `<button onclick="selectSpeakingStory('${st.id}')" class="tv-focusable px-3.5 py-2 rounded-xl text-xs font-bold ${active ? 'bg-cyan-400 text-slate-950' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">${st.title}</button>`;
+      }).join("");
+
+      const st = SPEAKING_STORIES_DATA.find(x => x.id === appState.activeSpeakingStoryId) || SPEAKING_STORIES_DATA[0];
+      const showModel = !!appState.revealedModelStory[st.id];
+      const safeOpening = st.opening.replace(/'/g, "\\'");
+      const safeModel = st.modelAnswer.replace(/'/g, "\\'");
+
+      wsEl.innerHTML = `
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div class="lg:col-span-6 bg-slate-900/90 p-6 rounded-3xl border border-slate-700/80 space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 text-xs font-bold">Mở đầu câu chuyện (Examiner's Prompt)</span>
+              <button onclick="speakText('${safeOpening}')" class="tv-focusable px-3 py-1.5 rounded-xl bg-amber-400 text-slate-950 font-bold text-xs">
+                <i class="fa-solid fa-volume-high mr-1"></i>Nghe mở bài
+              </button>
+            </div>
+            <p class="text-base lg:text-lg font-bold text-white leading-relaxed bg-slate-950/80 p-4 rounded-2xl border border-slate-800">
+              "${st.opening}"
+            </p>
+            <div class="space-y-2">
+              <p class="text-xs font-bold uppercase text-amber-300">Câu hỏi gợi ý để bé tự kể từng tranh (Bấm để nghe câu hỏi):</p>
+              ${st.questions.map(q => `
+                <button onclick="speakText('${q.replace(/^\d+\.\s*/, '').replace(/'/g, "\\'")}')" class="tv-focusable w-full text-left p-3.5 rounded-2xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700 text-sm font-semibold text-slate-200 flex items-center justify-between">
+                  <span>${q}</span>
+                  <i class="fa-solid fa-volume-high text-amber-400"></i>
+                </button>
+              `).join("")}
+            </div>
+          </div>
+
+          <div class="lg:col-span-6 bg-slate-900/90 p-6 rounded-3xl border border-emerald-500/30 flex flex-col justify-between space-y-4">
+            <div class="space-y-4">
+              <div class="flex items-center justify-between">
+                <h4 class="text-lg font-black text-white">Suggested Story Answer (Bài kể mẫu đạt 15 Khiên)</h4>
+                <button onclick="toggleSpeakingModelStory('${st.id}', '${safeModel}')" class="tv-focusable px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs">
+                  <i class="fa-solid fa-eye mr-1"></i>${showModel ? 'Ẩn bài mẫu' : 'Hiện &amp; Nghe bài kể mẫu'}
+                </button>
+              </div>
+
+              ${showModel ? `
+                <div class="p-5 rounded-2xl bg-emerald-950/40 border border-emerald-500/40 space-y-3">
+                  <p class="text-base lg:text-lg font-semibold text-emerald-100 leading-relaxed">"${st.modelAnswer}"</p>
+                  <button onclick="speakText('${safeModel}')" class="tv-focusable px-4 py-2 rounded-xl bg-amber-400 text-slate-950 font-extrabold text-xs flex items-center gap-2">
+                    <i class="fa-solid fa-volume-high"></i> <span>Nghe đọc lại toàn bộ câu chuyện</span>
+                  </button>
+                </div>
+              ` : `
+                <div class="p-8 rounded-2xl bg-slate-950/60 border border-dashed border-slate-700 text-center space-y-2">
+                  <i class="fa-solid fa-microphone-lines text-3xl text-amber-400"></i>
+                  <p class="text-sm font-bold text-slate-300">Hãy để bé tự trả lời các câu hỏi gợi ý bên trái trước!</p>
+                  <p class="text-xs text-slate-400">Sau khi bé kể xong, bấm nút "Hiện &amp; Nghe bài kể mẫu" để đối chiếu và luyện phát âm theo chuẩn Cambridge Flyers.</p>
+                </div>
+              `}
+            </div>
+
+            <div class="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 text-xs text-slate-300 space-y-1">
+              <p class="font-bold text-cyan-300">Tiêu chí chấm điểm Speaking Part 3 (Lộ trình Chặng 3):</p>
+              <p>• Kể câu chuyện 4 tranh bằng <strong>7 – 10 câu</strong>, kết hợp linh hoạt thì Hiện tại tiếp diễn (<em>is/are + V-ing</em>), Hiện tại hoàn thành (<em>has/have + VpII</em>) và từ nối (<em>because, so, suddenly, finally</em>).</p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function selectSpeakingStory(id) {
+      appState.activeSpeakingStoryId = id;
+      renderSpeakingStories();
+      playSound("click");
+    }
+
+    function toggleSpeakingModelStory(id, modelText) {
+      appState.revealedModelStory[id] = !appState.revealedModelStory[id];
+      renderSpeakingStories();
+      if (appState.revealedModelStory[id]) {
+        speakText(modelText);
+        addXp(15, "Đã hoàn thành bài luyện kể chuyện Speaking!");
+      }
+    }
+
+    // Listening Part 5 & Part 2 Studio
+    function renderListeningStudio() {
+      const tabsEl = document.getElementById("listening-scene-tabs");
+      const wsEl = document.getElementById("listening-studio-workspace");
+      if (!tabsEl || !wsEl) return;
+
+      tabsEl.innerHTML = LISTENING_SCENES.map(sc => {
+        const active = sc.id === appState.activeListeningId;
+        return `<button onclick="selectListeningScene('${sc.id}')" class="tv-focusable px-3.5 py-2 rounded-xl text-xs font-bold ${active ? 'bg-emerald-400 text-slate-950' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'}">${sc.title}</button>`;
+      }).join("");
+
+      const scene = LISTENING_SCENES.find(x => x.id === appState.activeListeningId) || LISTENING_SCENES[0];
+      const sceneColors = appState.colouredTargets[scene.id] || {};
+      const safeScript = scene.script.replace(/'/g, "\\'");
+
+      wsEl.innerHTML = `
+        <!-- Left: Part 5 Interactive Colouring Canvas -->
+        <div class="lg:col-span-7 bg-slate-900/90 p-5 rounded-3xl border border-slate-700/80 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <span class="text-xs font-bold text-emerald-300">Listening Part 5: Listen and Colour</span>
+              <h3 class="text-lg font-black text-white">${scene.title}</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="speakText('${safeScript}')" class="tv-focusable px-4 py-2 rounded-xl bg-amber-400 text-slate-950 font-extrabold text-xs flex items-center gap-1.5 shadow-md">
+                <i class="fa-solid fa-volume-high"></i> <span>Phát bài nghe (TTS)</span>
+              </button>
+              <button onclick="resetListeningScene('${scene.id}')" class="tv-focusable px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-300">
+                <i class="fa-solid fa-rotate-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Color Palette Picker -->
+          <div class="flex flex-wrap items-center gap-2 p-3 rounded-2xl bg-slate-950/80 border border-slate-800">
+            <span class="text-xs font-bold text-slate-300 mr-1"><i class="fa-solid fa-palette text-amber-400 mr-1"></i>Chọn bút màu:</span>
+            ${PALETTE_COLORS.map(c => {
+              const active = appState.selectedBrushColor === c.hex;
+              return `<button onclick="selectBrushColor('${c.hex}')" class="tv-focusable px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 border-2 transition-all ${active ? 'border-white scale-105 shadow-lg' : 'border-transparent opacity-80 hover:opacity-100'}" style="background-color: ${c.hex}; color: #0f172a;">
+                <span>${c.name}</span>
+              </button>`;
+            }).join("")}
+          </div>
+
+          <!-- Interactive SVG Scene Board -->
+          <div class="relative rounded-2xl overflow-hidden border-2 border-slate-700 bg-gradient-to-b from-slate-950 via-indigo-950/60 to-slate-900 p-4">
+            <svg viewBox="0 0 640 290" class="w-full h-auto select-none">
+              <rect x="0" y="0" width="640" height="290" rx="16" fill="rgba(15,23,42,0.5)" />
+              <circle cx="580" cy="45" r="24" fill="rgba(251,191,36,0.25)" />
+              <path d="M0 240 Q 160 200 320 235 T 640 225 L 640 290 L 0 290 Z" fill="rgba(30,41,59,0.85)" />
+              ${scene.targets.map(t => {
+                const fillHex = sceneColors[t.id] || "#1e293b";
+                const isCorrect = fillHex === t.expectedColor;
+                const strokeHex = sceneColors[t.id] ? (isCorrect ? "#34d399" : "#fb7185") : "#64748b";
+                return `
+                  <g onclick="colourSceneTarget('${scene.id}', '${t.id}')" class="cursor-pointer">
+                    <rect x="${t.x}" y="${t.y}" width="${t.w}" height="${t.h}" rx="14" fill="${fillHex}" stroke="${strokeHex}" stroke-width="3" />
+                    <text x="${t.x + t.w / 2}" y="${t.y + t.h / 2 + 5}" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="bold">${t.icon}</text>
+                  </g>
+                `;
+              }).join("")}
+            </svg>
+          </div>
+
+          <!-- Instructions Checklist -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            ${scene.targets.map((t, idx) => {
+              const currentHex = sceneColors[t.id];
+              const isOk = currentHex === t.expectedColor;
+              return `
+                <button onclick="speakText('Colour the ${t.label.replace(/'/g, "")} ${t.expectedName.split(" ")[0]}')" class="tv-focusable text-left p-2.5 rounded-xl bg-slate-950/80 border ${currentHex ? (isOk ? 'border-emerald-500/60' : 'border-rose-500/60') : 'border-slate-800'} flex items-center justify-between text-xs">
+                  <span class="text-slate-200 font-medium">${idx + 1}. ${t.label}</span>
+                  <span class="font-bold" style="color: ${t.expectedColor}">${isOk ? '✓ Đúng' : t.expectedName}</span>
+                </button>
+              `;
+            }).join("")}
+          </div>
+        </div>
+
+        <!-- Right: Listening Part 2 Note-Taking -->
+        <div class="lg:col-span-5 bg-slate-900/90 p-5 rounded-3xl border border-slate-700/80 space-y-4 flex flex-col justify-between">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-xs font-bold uppercase text-cyan-300">Listening Part 2: Listen and Write</span>
+                <h4 class="text-base font-black text-white">Điền từ khóa vào phiếu thông tin (5 marks)</h4>
+              </div>
+              <button onclick="revealPart2Answers('${scene.id}')" class="tv-focusable px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-amber-300">
+                Hiện đáp án
+              </button>
+            </div>
+
+            <div class="space-y-3">
+              ${scene.part2Questions.map((q, i) => {
+                const key = scene.id + "_p2_" + i;
+                const val = appState.part2Inputs[key] || "";
+                const isMatch = val.trim().toLowerCase() === q.ans.toLowerCase();
+                return `
+                  <div class="p-3 rounded-2xl bg-slate-950/80 border ${val ? (isMatch ? 'border-emerald-500/60' : 'border-amber-500/40') : 'border-slate-800'} space-y-1.5">
+                    <div class="flex items-center justify-between">
+                      <label class="text-xs font-bold text-slate-300">${i + 1}. ${q.label}:</label>
+                      <button onclick="speakText('${q.label}: ${q.ans}')" class="tv-focusable text-xs text-amber-300 hover:text-amber-200">
+                        <i class="fa-solid fa-volume-high mr-1"></i>Nghe câu
+                      </button>
+                    </div>
+                    <input type="text" value="${val.replace(/"/g, '&quot;')}" oninput="handlePart2Input('${scene.id}', ${i}, this.value)" placeholder="Nhập từ hoặc bấm Hiện đáp án..." class="tv-focusable w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-sm font-bold text-white focus:outline-none" />
+                  </div>
+                `;
+              }).join("")}
+            </div>
+          </div>
+
+          <div class="p-3.5 rounded-2xl bg-slate-950/80 border border-slate-800 text-xs text-slate-300 space-y-1">
+            <p class="font-bold text-emerald-300">Lời đọc mẫu (Audio Transcript):</p>
+            <p class="italic text-slate-400">"${scene.script}"</p>
+          </div>
+        </div>
+      `;
+    }
+
+    function selectListeningScene(id) {
+      appState.activeListeningId = id;
+      renderListeningStudio();
+      playSound("click");
+    }
+
+    function selectBrushColor(hex) {
+      appState.selectedBrushColor = hex;
+      renderListeningStudio();
+      playSound("click");
+    }
+
+    function colourSceneTarget(sceneId, targetId) {
+      const scene = LISTENING_SCENES.find(s => s.id === sceneId);
+      if (!scene) return;
+      const target = scene.targets.find(t => t.id === targetId);
+      if (!target) return;
+      if (!appState.colouredTargets[sceneId]) appState.colouredTargets[sceneId] = {};
+      appState.colouredTargets[sceneId][targetId] = appState.selectedBrushColor;
+      renderListeningStudio();
+      if (appState.selectedBrushColor === target.expectedColor) {
+        playSound("correct");
+        addXp(15, "Tô màu chính xác: " + target.label);
+      } else {
+        playSound("wrong");
+        showToast("Màu chưa khớp với hướng dẫn nghe (" + target.expectedName + ")", "fa-palette");
+      }
+    }
+
+    function resetListeningScene(sceneId) {
+      appState.colouredTargets[sceneId] = {};
+      renderListeningStudio();
+      playSound("click");
+    }
+
+    function handlePart2Input(sceneId, idx, val) {
+      const key = sceneId + "_p2_" + idx;
+      appState.part2Inputs[key] = val;
+      const scene = LISTENING_SCENES.find(s => s.id === sceneId);
+      if (scene && scene.part2Questions[idx]) {
+        if (val.trim().toLowerCase() === scene.part2Questions[idx].ans.toLowerCase()) {
+          playSound("correct");
+          addXp(10, "Điền đúng đáp án Listening Part 2!");
+          renderListeningStudio();
+        }
+      }
+    }
+
+    function revealPart2Answers(sceneId) {
+      const scene = LISTENING_SCENES.find(s => s.id === sceneId);
+      if (!scene) return;
+      scene.part2Questions.forEach((q, i) => {
+        appState.part2Inputs[sceneId + "_p2_" + i] = q.ans;
+      });
+      renderListeningStudio();
+      playSound("click");
+    }
+
+    // =========================================================================
+    // 9. SMART TV REMOTE & KEYBOARD NAVIGATION (D-PAD + NUMBER SHORTCUTS)
+    // =========================================================================
+
+    function setupTvKeyboardNavigation() {
+      window.addEventListener("keydown", (e) => {
+        const tag = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : "";
+        const isInput = tag === "input" || tag === "select" || tag === "textarea";
+
+        if (e.key === "Escape") {
+          closeUnitModal();
+          return;
+        }
+
+        if (!isInput) {
+          if (e.key === "1") { switchTab("dashboard"); return; }
+          if (e.key === "2") { switchTab("vocab"); return; }
+          if (e.key === "3") { switchTab("reading_writing"); return; }
+          if (e.key === "4") { switchTab("speaking_listening"); return; }
+          if (e.key === "5") { switchTab("resources"); return; }
+          if (e.key === " " && appState.activeTab === "vocab") {
+            e.preventDefault();
+            speakCurrentSpotlight();
+            return;
+          }
+        }
+
+        // Spatial D-Pad Arrow Navigation for Smart TV Remotes
+        if (!isInput && ["ArrowRight", "ArrowLeft", "ArrowDown", "ArrowUp"].includes(e.key)) {
+          const focusables = Array.from(document.querySelectorAll(".tv-focusable")).filter(el => {
+            return el.offsetParent !== null && !el.disabled;
+          });
+          if (focusables.length === 0) return;
+          const currentIdx = focusables.indexOf(document.activeElement);
+          if (currentIdx === -1) {
+            focusables[0].focus();
+            e.preventDefault();
+            return;
+          }
+          if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+            const next = focusables[(currentIdx + 1) % focusables.length];
+            next.focus();
+            e.preventDefault();
+          } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+            const prev = focusables[(currentIdx - 1 + focusables.length) % focusables.length];
+            prev.focus();
+            e.preventDefault();
+          }
+        }
+      });
+    }
+
+    // =========================================================================
+    // 10. INITIALIZATION
+    // =========================================================================
+
+    window.onload = function () {
+      loadSavedState();
+      setProfile(appState.currentProfile);
+      renderUnitsGrid();
+      renderVocabSection();
+      renderBatsDolphinsGame();
+      renderAnimalMoveGame();
+      renderPart1Quiz();
+      renderStoriesSection();
+      renderGrammarQuiz();
+      renderSpeakingExchange();
+      renderSpeakingStories();
+      renderListeningStudio();
+      setupTvKeyboardNavigation();
+    };
+  </script>
+<script src="../anh-chung/nhac-nen.js" data-ten="Fun for Flyers Lucie & Lucas" data-vitri="left:14px;bottom:14px" data-bpm="104" data-goc="G" data-kieu="glock" data-am="0.07" data-not="G4 B4 D5 G5 E5 D5 B4 D5 C5 E5 G5 E5 D5 B4 A4 G4"></script>
+</body>
+</html>
