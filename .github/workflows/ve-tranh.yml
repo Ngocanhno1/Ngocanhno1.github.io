@@ -73,3 +73,19 @@ jobs:
           SD_BIN=$(ls /tmp/sdcpp/bin/sd-cli /tmp/sdcpp/bin/sd 2>/dev/null | head -1)
           echo "Dùng $SD_BIN"
           SD_BIN="$SD_BIN" python3 tools/ve_tranh_flux.py ve ${{ matrix.ma }}
+
+  danh-dau:
+    needs: [liet-ke, ve]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          filter: blob:none
+      - run: pip install pillow
+      - name: Gắn dấu tranh FLUX
+        run: |
+          git config user.name "Nguyễn Hoàng Ngọc Anh"
+          git config user.email "ngocanhbtg88@users.noreply.github.com"
+          python3 tools/ve_tranh_flux.py danh-dau

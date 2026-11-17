@@ -39,7 +39,9 @@ window.__veTruyen = async function (ma) {
   for (const [ten, P] of jobs) {
     if (sessionStorage.getItem('anh:' + ten)) { window.__tt.xong.push(ten); continue; }
     // tranh đã có trên trang thì bỏ qua (chạy lại chỉ vẽ tranh còn thiếu)
-    const coSan = await fetch(`https://raw.githubusercontent.com/Ngocanhno1/Ngocanhno1.github.io/main/games/sach-truyen/anh/${ten}.webp`, { method: 'HEAD', cache: 'no-store' }).then(r => r.ok).catch(() => false);
+    // tranh đã có thì bỏ qua — trừ tranh do máy chủ vẽ bằng FLUX (có dấu "FLUX.1-schnell" trong tệp): Gemini vẽ lại đẹp hơn
+    const coSan = await fetch(`https://raw.githubusercontent.com/Ngocanhno1/Ngocanhno1.github.io/main/games/sach-truyen/anh/${ten}.webp?x=${Date.now()}`, { cache: 'no-store' })
+      .then(async r => r.ok && !new TextDecoder('latin1').decode(await r.arrayBuffer()).includes('FLUX.1-schnell')).catch(() => false);
     if (coSan) { window.__tt.xong.push(ten + '(co san)'); continue; }
     const PP = window.__tt.daGui ? P : (P.startsWith(STYLE) ? P : STYLE + ' ' + P);   // lượt đầu của cuộc trò chuyện luôn kèm mô tả nét vẽ
     window.__tt.daGui = true;
