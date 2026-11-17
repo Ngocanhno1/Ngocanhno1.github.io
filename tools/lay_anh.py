@@ -29,8 +29,9 @@ AI_STYLE = ", Cute Pixar 3D Disney style vibrant illustration for kids, high qua
 def tim_anh(src):
     """Trả về (đường dẫn ảnh thu nhỏ, tên file trên Commons)."""
     if "ai" in src:
-        return ("https://image.pollinations.ai/prompt/" + urllib.parse.quote(src["ai"] + AI_STYLE)
-                + "?width=512&height=512&nologo=true&seed=" + str(src.get("seed", 1))), ""
+        w, h = src.get("w", 512), src.get("h", 512)   # tranh truyện: khổ ngang, kiểu vẽ riêng ("kieu")
+        return ("https://image.pollinations.ai/prompt/" + urllib.parse.quote(src["ai"] + src.get("kieu", AI_STYLE))
+                + f"?width={w}&height={h}&nologo=true&seed=" + str(src.get("seed", 1))), ""
     if "t" in src:
         q = {"action": "query", "format": "json", "redirects": 1, "titles": src["t"],
              "prop": "pageimages", "piprop": "thumbnail|name", "pithumbsize": 520}
@@ -67,8 +68,14 @@ def lam_game(thu_muc):
             url, ten = tim_anh(src)
             im = Image.open(io.BytesIO(get(url, tries=3 if "ai" in src else 4))).convert("RGB")
             w, h = im.size
-            s = min(w, h)                     # cắt vuông ở giữa cho vừa khung
-            im = im.crop(((w - s) // 2, (h - s) // 2, (w + s) // 2, (h + s) // 2)).resize((360, 360), Image.LANCZOS)
+            if "w" in src:                    # tranh truyện: giữ khổ ngang
+                W, H = src["w"], src["h"]; k = max(W / w, H / h)
+                im = im.resize((round(w * k), round(h * k)), Image.LANCZOS)
+                w, h = im.size
+                im = im.crop(((w - W) // 2, (h - H) // 2, (w - W) // 2 + W, (h - H) // 2 + H))
+            else:
+                s = min(w, h)                 # cắt vuông ở giữa cho vừa khung
+                im = im.crop(((w - s) // 2, (h - s) // 2, (w + s) // 2, (h + s) // 2)).resize((360, 360), Image.LANCZOS)
             im.save(dich, "WEBP", quality=82, method=6)
             if "ai" in src:
                 ghi_cong[ma] = {"file": "Tranh AI Pollinations", "trang": "https://pollinations.ai"}
@@ -95,7 +102,7 @@ def lam_game(thu_muc):
     d = ImageDraw.Draw(sheet)
     for i, (ma, src, im) in enumerate(xong):
         x, y = (i % C) * S, (i // C) * S
-        sheet.paste(im.resize((S - 4, S - 4)), (x + 2, y + 2))
+        sheet.paste(im.resize((S - 4, S - 4)), (x + 2, y + 2))  # tranh ngang cũng thu về ô vuông để duyệt
         nhan = (ma + " " + (src.get("t") or src.get("f") or src.get("ai") or ""))[:18]
         d.rectangle([x + 2, y + S - 18, x + S - 2, y + S - 2], fill="white")
         d.text((x + 4, y + S - 17), nhan, fill="black")

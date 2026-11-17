@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="Nguyễn Hoàng Ngọc Anh">
+<meta name="keywords" content="Ban Tuyên giáo Trung ương">
+<meta name="title" content="Ban Tuyên giáo Trung ương">
+<title>Sách truyện nói – Lucie &amp; Lucas</title>
+<link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#2b1d5c"><link rel="apple-touch-icon" href="/img/icon-192.png"><script>if("serviceWorker" in navigator)addEventListener("load",function(){navigator.serviceWorker.register("/sw.js").catch(function(){})});</script>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script src="../anh-chung/giong-noi.js"></script>
+<script src="../anh-chung/thong-tin.js"></script>
+<script src="../anh-chung/mat-that.js"></script>
+<style>
+  :root { --dem: #1d1442; --tim: #2b1d5c; --vang: #ffd866; --kem: #fff8ec; --hong: #ff7aa8; --xanh: #4cc3ff; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body { font-family: "Baloo 2", "Segoe UI", Arial, sans-serif; color: #fff; overflow: hidden;
+    background: radial-gradient(ellipse at 50% -10%, #4b3a9a 0, var(--tim) 45%, var(--dem) 100%); -webkit-tap-highlight-color: transparent; }
+  .sao { position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image: radial-gradient(2px 2px at 10% 20%, #fff8, transparent), radial-gradient(2px 2px at 30% 70%, #fff6, transparent),
+      radial-gradient(3px 3px at 55% 15%, #ffe9a8, transparent), radial-gradient(2px 2px at 80% 40%, #fff7, transparent),
+      radial-gradient(2px 2px at 90% 85%, #fff5, transparent), radial-gradient(3px 3px at 15% 90%, #ffe9a8aa, transparent),
+      radial-gradient(2px 2px at 68% 62%, #fff6, transparent), radial-gradient(2px 2px at 40% 35%, #fff5, transparent);
+    animation: lapLanh 5s ease-in-out infinite alternate; }
+  @keyframes lapLanh { to { opacity: .55; } }
+  .man { position: fixed; inset: 0; z-index: 1; display: none; }
+  .man.hien { display: flex; }
+  button { font-family: inherit; cursor: pointer; }
+  button:focus-visible, a:focus-visible, .the:focus-visible { outline: 5px solid var(--vang); outline-offset: 4px; }
+
+  /* Giá sách */
+  #gia { flex-direction: column; align-items: center; overflow-y: auto; padding: 18px 16px 90px; }
+  .dau { display: flex; align-items: center; gap: 18px; margin: 4px 0 6px; }
+  .dau img { width: 74px; height: 74px; border-radius: 50%; object-fit: cover; border: 4px solid #fff; box-shadow: 0 6px 18px #0007; }
+  .dau img.lucie { border-color: var(--hong); } .dau img.lucas { border-color: var(--xanh); }
+  h1 { margin: 0; font-size: clamp(28px, 4.4vw, 52px); color: var(--vang); text-shadow: 0 4px 0 #6b2a00, 0 10px 24px #000a; line-height: 1.05; text-align: center; }
+  .phu { opacity: .9; font-size: clamp(16px, 2vw, 22px); margin: 2px 0 16px; text-align: center; }
+  .ve { position: fixed; left: 14px; top: 12px; z-index: 5; color: #fff; text-decoration: none; background: #0005; padding: 6px 14px; border-radius: 30px; font-weight: 700; }
+  #ke { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 22px; width: min(1200px, 100%); }
+  .the { background: var(--kem); color: #3b2a1a; border-radius: 22px; overflow: hidden; box-shadow: 0 10px 0 #0003, 0 16px 30px #0006; border: 0; padding: 0; text-align: left;
+    transition: transform .2s; position: relative; }
+  .the:hover, .the:focus-visible { transform: translateY(-6px) rotate(-.6deg); }
+  .the .bia { aspect-ratio: 3/2; background: linear-gradient(135deg, #ffd29a, #ff9fb8); display: block; width: 100%; object-fit: cover; }
+  .the .ten { font-weight: 800; font-size: 22px; padding: 10px 14px 0; line-height: 1.15; }
+  .the .tuan { padding: 2px 14px 14px; font-size: 16px; color: #8a6a4a; }
+  .the .moi { position: absolute; top: 10px; left: 10px; background: #ff3d6e; color: #fff; font-weight: 800; padding: 2px 12px; border-radius: 20px; box-shadow: 0 3px 0 #a3002c; }
+  .the .da { position: absolute; top: 10px; right: 10px; background: #2fb36a; color: #fff; font-weight: 700; padding: 2px 10px; border-radius: 20px; font-size: 14px; }
+  .trong { opacity: .85; font-size: 20px; text-align: center; padding: 30px; }
+
+  /* Đọc truyện */
+  #doc { flex-direction: column; padding: 14px 18px 12px; gap: 10px; }
+  .sach { flex: 1; min-height: 0; display: grid; grid-template-columns: 1.25fr 1fr; gap: 0; background: var(--kem); border-radius: 26px; overflow: hidden;
+    box-shadow: 0 0 0 8px #8b5a2b, 0 0 0 12px #5c3a18, 0 24px 50px #000a; position: relative; }
+  .sach::after { content: ""; position: absolute; top: 0; bottom: 0; left: calc(55.5% - 1px); width: 2px; background: linear-gradient(#0000, #0002 20%, #0002 80%, #0000); }
+  .tranh { position: relative; overflow: hidden; background: #f3e2c6; }
+  .tranh img.anh { width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity .6s; }
+  .tranh img.anh.mo { opacity: 0; }
+  .mat { position: absolute; bottom: 12px; width: clamp(64px, 9vw, 118px); aspect-ratio: 1; border-radius: 50%; object-fit: cover; border: 5px solid #fff;
+    box-shadow: 0 6px 16px #0007; transition: transform .35s, filter .35s; filter: saturate(.8) brightness(.92); transform: scale(.85); }
+  .mat.lucie { left: 12px; border-color: var(--hong); } .mat.lucas { left: calc(24px + clamp(64px, 9vw, 118px)); border-color: var(--xanh); }
+  .mat.noi { transform: scale(1.06) translateY(-6px); filter: none; animation: nhun 1.2s ease-in-out infinite; }
+  @keyframes nhun { 50% { transform: scale(1.1) translateY(-10px); } }
+  .chu { color: #3b2a1a; padding: clamp(18px, 3vw, 44px); display: flex; flex-direction: column; justify-content: center; overflow-y: auto;
+    background: repeating-linear-gradient(#fff8ec 0 46px, #f0e2c8 46px 47px); }
+  .chu .so { color: #b07a3a; font-weight: 700; font-size: clamp(14px, 1.6vw, 20px); margin-bottom: 6px; }
+  .chu .loi { font-size: clamp(20px, 2.6vw, 36px); line-height: 1.5; font-weight: 600; }
+  .chu .loi b { color: #c2185b; } .chu .loi i { color: #1565c0; font-style: normal; font-weight: 700; }
+  .chu h2 { margin: 0 0 10px; color: #c0392b; font-size: clamp(26px, 3.6vw, 48px); line-height: 1.1; }
+  .dieukhien { display: flex; justify-content: center; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .nut { border: 0; border-radius: 40px; padding: 10px 22px; font-size: clamp(18px, 2vw, 24px); font-weight: 800; color: #3b2a1a; background: var(--vang);
+    box-shadow: 0 5px 0 #b8860b; display: inline-flex; align-items: center; gap: 8px; }
+  .nut:active { transform: translateY(3px); box-shadow: 0 2px 0 #b8860b; }
+  .nut.phu2 { background: #fff; box-shadow: 0 5px 0 #9c8f7a; }
+  .nut.bat { background: #7be495; box-shadow: 0 5px 0 #2e8b57; }
+  .nut svg { width: 1.1em; height: 1.1em; }
+  .cham { display: flex; gap: 8px; } .cham span { width: 12px; height: 12px; border-radius: 50%; background: #fff5; } .cham span.on { background: var(--vang); }
+
+  /* Câu hỏi */
+  .dapan { display: grid; gap: 12px; margin-top: 14px; }
+  .dapan button { text-align: left; border: 3px solid #e2c99f; background: #fff; color: #3b2a1a; border-radius: 18px; padding: 10px 16px; font-size: clamp(18px, 2.2vw, 28px); font-weight: 700; }
+  .dapan button .k { display: inline-grid; place-items: center; width: 1.6em; height: 1.6em; border-radius: 50%; background: #ffe7a3; margin-right: 10px; }
+  .dapan button.dung { background: #c8f7d4; border-color: #2fb36a; } .dapan button.sai { background: #ffd6d6; border-color: #e74c3c; opacity: .8; }
+  .ai { display: flex; gap: 28px; justify-content: center; margin-top: 16px; }
+  .ai button { border: 0; background: none; color: #3b2a1a; font-size: 24px; font-weight: 800; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .ai img { width: clamp(90px, 12vw, 150px); aspect-ratio: 1; border-radius: 50%; object-fit: cover; border: 6px solid var(--hong); box-shadow: 0 8px 18px #0005; }
+  .ai button + button img { border-color: var(--xanh); }
+  .ngoisao { display: flex; gap: 10px; justify-content: center; margin: 14px 0; }
+  .ngoisao svg { width: clamp(48px, 7vw, 84px); height: auto; }
+  .trang-dem { background: radial-gradient(circle at 70% 25%, #fff6c9 0 7%, #ffe28a 7.5% 9%, transparent 9.5%), linear-gradient(#1d1a52, #3c2f86); position: relative; }
+
+  @media (max-aspect-ratio: 1/1) {
+    .sach { grid-template-columns: 1fr; grid-template-rows: 42% 58%; }
+    .sach::after { display: none; }
+    .chu { background: #fff8ec; }
+    .mat { width: 70px; } .mat.lucas { left: 92px; }
+  }
+</style>
+</head>
+<body>
+<div class="sao"></div>
+<a class="ve" href="../../">‹ Trang chủ</a>
+
+<section id="gia" class="man hien">
+  <div class="dau"><img class="lucie" id="fLucie" alt="Lucie"><h1>Sách truyện nói<br>Lucie &amp; Lucas</h1><img class="lucas" id="fLucas" alt="Lucas"></div>
+  <div class="phu">Mỗi tuần một truyện mới — chọn truyện, bố mẹ tắt đèn, cùng nghe nhé!</div>
+  <div id="ke"><div class="trong">Đang mở tủ sách...</div></div>
+</section>
+
+<section id="doc" class="man">
+  <div class="sach" id="sach">
+    <div class="tranh" id="tranh"><img class="anh" id="anh" alt=""><img class="mat lucie" id="mLucie" alt="Lucie"><img class="mat lucas" id="mLucas" alt="Lucas"></div>
+    <div class="chu" id="chu"></div>
+  </div>
+  <div class="dieukhien">
+    <button class="nut phu2" id="nTruoc" aria-label="Trang trước"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M15 5l-7 7 7 7z"/></svg>Trước</button>
+    <button class="nut" id="nDoc"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 4V5L7 9zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4z"/></svg>Đọc lại</button>
+    <div class="cham" id="cham"></div>
+    <button class="nut bat" id="nTu" aria-pressed="true">Tự lật trang</button>
+    <button class="nut phu2" id="nSau" aria-label="Trang sau">Sau<svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 5l7 7-7 7z"/></svg></button>
+    <button class="nut phu2" id="nGia">Tủ sách</button>
+  </div>
+</section>
+
+<script>
+const $ = id => document.getElementById(id);
+const HS = window.HS || {};
+["fLucie", "mLucie"].forEach(i => $(i).src = MatThat.url("lucie"));
+["fLucas", "mLucas"].forEach(i => $(i).src = MatThat.url("lucas"));
+const readJSON = k => { try { return JSON.parse(localStorage.getItem(k) || "null"); } catch (e) { return null; } };
+const saveJSON = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+function ghiNhatKy(child, q, ok) { try { const k = "giaDinh_nhatKy", a = JSON.parse(localStorage.getItem(k) || "[]"); a.push({ t: Date.now(), g: "sachtruyen", c: child, s: "Tiếng Việt", q: String(q).slice(0, 140), ok: !!ok }); if (a.length > 6000) a.splice(0, a.length - 6000); localStorage.setItem(k, JSON.stringify(a)); } catch (e) {} }
+
+/* ---------- Giọng đọc ---------- */
+let hen = null, phien = 0;
+function noi(text, xong) {
+  const ss = window.speechSynthesis, ma = ++phien;
+  clearTimeout(hen);
+  const het = () => { if (ma !== phien) return; ma === phien && (phien++, xong && xong()); };
+  // đề phòng máy không có giọng: tự đi tiếp sau thời gian ước lượng
+  hen = setTimeout(het, Math.max(6000, text.split(/\s+/).length * 600 + 3000));
+  if (!ss) return;
+  try { ss.cancel(); } catch (e) {}
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "vi-VN"; u.rate = 0.92; u.pitch = 1.05;
+  u.onend = () => setTimeout(het, 50);
+  u.addEventListener("end", () => setTimeout(het, 50));
+  ss.speak(u);
+}
+function imLang() { phien++; clearTimeout(hen); try { speechSynthesis.cancel(); } catch (e) {} }
+
+/* ---------- Tranh: ảnh máy chủ vẽ -> vẽ trực tiếp -> tranh trời sao tự vẽ ---------- */
+function veDuPhong(chu) {
+  const s = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 768 512"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd9a0"/><stop offset=".6" stop-color="#ffb3c6"/><stop offset="1" stop-color="#9fd8a8"/></linearGradient></defs>
+  <rect width="768" height="512" fill="url(#g)"/><circle cx="600" cy="120" r="60" fill="#fff4c2"/><path d="M0 400 Q200 330 384 390 T768 380 V512 H0z" fill="#7cc576"/>
+  <path d="M0 440 Q240 400 480 450 T768 430 V512 H0z" fill="#5aa95a"/><text x="384" y="250" font-family="Baloo 2,Arial" font-size="38" font-weight="700" fill="#7a4a1a" text-anchor="middle">${chu}</text></svg>`;
+  return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(s);
+}
+function datTranh(ma, moTa, chu) {
+  const img = $("anh"), ds = [`anh/${ma}.webp`];
+  if (moTa) ds.push("https://image.pollinations.ai/prompt/" + encodeURIComponent(moTa.ai + (moTa.kieu || "")) + `?width=768&height=512&nologo=true&seed=${moTa.seed || 1}`);
+  ds.push(veDuPhong(chu || ""));
+  let i = 0;
+  img.classList.add("mo");
+  img.onerror = () => { if (++i < ds.length) img.src = ds[i]; };
+  img.onload = () => img.classList.remove("mo");
+  img.src = ds[0];
+}
+
+/* ---------- Tủ sách ---------- */
+let DS = [], NGUON = {}, T = null, trang = 0, tuLat = true, nguoi = null, diem = 0, hoiSo = 0;
+const daDoc = () => readJSON("sachtruyen_doc") || {};
+async function moGia() {
+  imLang(); hien("gia");
+  try {
+    [DS, NGUON] = await Promise.all([fetch("truyen/danh-sach.json", { cache: "no-cache" }).then(r => r.json()), fetch("anh-nguon.json", { cache: "no-cache" }).then(r => r.json()).catch(() => ({}))]);
+  } catch (e) { $("ke").innerHTML = '<div class="trong">Chưa mở được tủ sách. Kiểm tra mạng rồi tải lại trang nhé.</div>'; return; }
+  const dd = daDoc();
+  $("ke").innerHTML = "";
+  DS.forEach((t, i) => {
+    const b = document.createElement("button"); b.className = "the";
+    b.innerHTML = `${i === 0 ? '<span class="moi">TUẦN NÀY</span>' : ""}${dd[t.ma] ? '<span class="da">Đã nghe</span>' : ""}
+      <img class="bia" alt=""><div class="ten"></div><div class="tuan">Truyện số ${t.so} · ${t.trang} trang · ${t.ngay.split("-").reverse().join("/")}</div>`;
+    b.querySelector(".ten").textContent = t.tieu_de;
+    const im = b.querySelector(".bia"), m = NGUON[t.ma + "-bia"]; let k = 0;
+    const nguon = [`anh/${t.ma}-bia.webp`].concat(m ? ["https://image.pollinations.ai/prompt/" + encodeURIComponent(m.ai + (m.kieu || "")) + `?width=768&height=512&nologo=true&seed=${m.seed}`] : [], [veDuPhong(t.tieu_de)]);
+    im.onerror = () => { if (++k < nguon.length) im.src = nguon[k]; }; im.src = nguon[0];
+    b.onclick = () => moTruyen(t.ma);
+    $("ke").appendChild(b);
+  });
+  if (!DS.length) $("ke").innerHTML = '<div class="trong">Truyện đầu tiên sắp về, con chờ chút nhé!</div>';
+  setTimeout(() => { const f = $("ke").querySelector(".the"); f && f.focus({ preventScroll: true }); }, 200);
+}
+function hien(id) { document.querySelectorAll(".man").forEach(m => m.classList.toggle("hien", m.id === id)); }
+
+/* ---------- Đọc truyện ----------
+   Trang: 0 = bìa, 1..n = truyện, n+1 = bài học, n+2 = ai trả lời, n+3.. = 3 câu hỏi, cuối = chúc ngủ ngon */
+async function moTruyen(ma) {
+  try { T = await fetch(`truyen/${ma}.json`, { cache: "no-cache" }).then(r => r.json()); } catch (e) { return; }
+  trang = 0; diem = 0; nguoi = null; hien("doc"); veTrang();
+}
+const KHEN = ["Con nghe lại truyện nhé, lần sau sẽ đúng nhiều hơn!", "Con được một ngôi sao!", "Con được hai ngôi sao, giỏi lắm!", "Con được ba ngôi sao, tuyệt vời quá!"];
+const N = () => T.trang.length;
+const tong = () => N() + 3 + T.hoi.length + 1;
+function toDam(s) { return s.replace(/\b(Lucie)\b/g, "<b>$1</b>").replace(/\b(Lucas)\b/g, "<i>$1</i>"); }
+function esc(s) { return String(s).replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]); }
+function matNoi(s) { $("mLucie").classList.toggle("noi", /Lucie|chị/.test(s)); $("mLucas").classList.toggle("noi", /Lucas|em\b|cậu bé/.test(s)); }
+function veCham() {
+  const c = $("cham"); c.innerHTML = "";
+  for (let i = 0; i < tong(); i++) { const s = document.createElement("span"); if (i === trang) s.className = "on"; c.appendChild(s); }
+}
+function veTrang() {
+  imLang(); veCham();
+  const n = N(), chu = $("chu"), tr = $("tranh");
+  tr.classList.remove("trang-dem"); $("anh").style.display = "";
+  $("nTruoc").disabled = trang === 0;
+  let docCau = "", tiep = true;
+  if (trang === 0) {
+    datTranh(T.ma + "-bia", NGUON[T.ma + "-bia"], T.tieu_de);
+    chu.innerHTML = `<div class="so">Sách truyện nói · Truyện số ${T.so}</div><h2>${esc(T.tieu_de)}</h2><div class="loi">Hôm nay, ${toDam("Lucie và Lucas")} lại có một chuyến phiêu lưu mới. Các con nghe nhé!</div>`;
+    docCau = T.doc_tieu_de + ". Hôm nay, Lu Xi và Lu Cát lại có một chuyến phiêu lưu mới. Các con nghe nhé!";
+    matNoi("Lucie Lucas");
+  } else if (trang <= n) {
+    const p = T.trang[trang - 1];
+    datTranh(`${T.ma}-${trang}`, NGUON[`${T.ma}-${trang}`], "");
+    chu.innerHTML = `<div class="so">Trang ${trang}/${n}</div><div class="loi">${toDam(esc(p.loi))}</div>`;
+    docCau = p.doc; matNoi(p.loi);
+  } else if (trang === n + 1) {
+    datTranh(`${T.ma}-${n}`, NGUON[`${T.ma}-${n}`], "");
+    chu.innerHTML = `<div class="so">Điều con học được</div><h2>Bài học nhỏ</h2><div class="loi">${toDam(esc(T.bai_hoc))}</div>`;
+    docCau = "Bài học nhỏ. " + T.doc_bai_hoc; matNoi("Lucie Lucas");
+  } else if (trang === n + 2) {
+    chu.innerHTML = `<div class="so">Đố vui sau truyện</div><h2>Ai trả lời câu hỏi?</h2><div class="loi">Con nghe kỹ chưa? Chọn bạn trả lời nhé!</div>
+      <div class="ai"><button data-c="lucie"><img alt=""><span>${esc((HS.lucie || {}).goi || "Lucie")}</span></button><button data-c="lucas"><img alt=""><span>${esc((HS.lucas || {}).goi || "Lucas")}</span></button></div>`;
+    chu.querySelectorAll(".ai button").forEach(b => { b.querySelector("img").src = MatThat.url(b.dataset.c); b.onclick = () => { nguoi = b.dataset.c; diem = 0; trang++; veTrang(); }; });
+    docCau = "Đố vui sau truyện. Ai trả lời câu hỏi nào?"; tiep = false; matNoi("Lucie Lucas");
+    setTimeout(() => chu.querySelector(".ai button").focus(), 100);
+  } else if (trang < tong() - 1) {
+    const h = T.hoi[trang - n - 3], dap = [h.dung].concat(h.sai), thuTu = dap.map((_, i) => i).sort(() => Math.random() - .5);
+    chu.innerHTML = `<div class="so">Câu ${trang - n - 2}/${T.hoi.length}</div><div class="loi">${toDam(esc(h.cau))}</div><div class="dapan"></div>`;
+    const box = chu.querySelector(".dapan"); let xong = false;
+    thuTu.forEach((j, k) => {
+      const b = document.createElement("button"); b.innerHTML = `<span class="k">${k + 1}</span>`; b.append(dap[j]); b.dataset.j = j;
+      b.onclick = () => {
+        if (xong) return; xong = true; const ok = j === 0;
+        b.classList.add(ok ? "dung" : "sai"); box.querySelector('[data-j="0"]').classList.add("dung");
+        if (ok) diem++;
+        ghiNhatKy(nguoi || "lucie", h.cau, ok);
+        imLang();
+        noi(ok ? "Đúng rồi! Con giỏi quá!" : "Chưa đúng rồi. Đáp án là: " + h.doc_dap[0], () => { trang++; veTrang(); });
+      };
+      box.appendChild(b);
+    });
+    docCau = h.doc + " " + thuTu.map((j, k) => (k + 1) + ". " + h.doc_dap[j]).join(". ");
+    tiep = false; matNoi(h.cau);
+    setTimeout(() => box.querySelector("button").focus(), 100);
+  } else {
+    tr.classList.add("trang-dem"); $("anh").style.display = "none";
+    const sao = [0, 1, 2].map(i => `<svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .8-5.2 4.8 1.5 7L12 17.6 5.7 21l1.5-7L2 9.3l7-.8z" fill="${i < diem ? "#ffc83d" : "#e7dccb"}" stroke="#b8860b" stroke-width="1"/></svg>`).join("");
+    chu.innerHTML = `<div class="so">Hết truyện</div><h2>Chúc ngủ ngon!</h2>${nguoi ? `<div class="ngoisao">${sao}</div>` : ""}<div class="loi">${toDam(esc(T.chuc))}</div>`;
+    docCau = (nguoi ? KHEN[Math.min(diem, 3)] + " " : "") + T.doc_chuc; tiep = false; matNoi("Lucie Lucas");
+    const dd = daDoc(); dd[T.ma] = Date.now(); saveJSON("sachtruyen_doc", dd);
+    if (nguoi) { const o = readJSON("sachtruyen_" + nguoi) || { truyen: {}, sao: 0 }; o.truyen = o.truyen || {};
+      o.truyen[T.ma] = Math.max(o.truyen[T.ma] || 0, diem); o.sao = Object.values(o.truyen).reduce((a, b) => a + b, 0); saveJSON("sachtruyen_" + nguoi, o); }
+  }
+  noi(docCau, () => { if (tiep && tuLat) setTimeout(() => { if ($("doc").classList.contains("hien")) { trang++; veTrang(); } }, 1500); });
+}
+function sang(d) {
+  if (!T) return; const n = N();
+  if (d > 0 && trang === n + 2) return;              // phải chọn người trả lời
+  if (d > 0 && trang > n + 2 && trang < tong() - 1) return; // phải trả lời câu hỏi
+  const m = Math.max(0, Math.min(tong() - 1, trang + d)); if (m !== trang) { trang = m; veTrang(); }
+}
+$("nTruoc").onclick = () => sang(-1);
+$("nSau").onclick = () => sang(1);
+$("nDoc").onclick = () => veTrang();
+$("nGia").onclick = () => moGia();
+$("nTu").onclick = () => { tuLat = !tuLat; $("nTu").classList.toggle("bat", tuLat); $("nTu").setAttribute("aria-pressed", tuLat); };
+document.addEventListener("keydown", e => {
+  if (!$("doc").classList.contains("hien")) return;
+  if (e.key === "ArrowRight" || e.key === "PageDown") { e.preventDefault(); sang(1); }
+  else if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); sang(-1); }
+  else if (e.key === "Escape" || e.key === "Backspace") { e.preventDefault(); moGia(); }
+  else if (/^[1-4]$/.test(e.key)) { const b = $("chu").querySelectorAll(".dapan button, .ai button")[+e.key - 1]; if (b) b.click(); }
+});
+window.__st = { get trang() { return trang; }, get tong() { return T ? tong() : 0; }, get T() { return T; } };
+moGia();
+</script>
+<script src="../anh-chung/nhac-nen.js" data-ten="Sách truyện nói Lucie &amp; Lucas" data-bpm="68" data-goc="F" data-kieu="glock" data-am="0.045" data-vitri="right:14px;bottom:14px" data-not="F5 A5 C6 A5 G5 F5 E5 G5 F5 A5 C6 D6 C6 A5 G5 F5"></script>
+</body>
+</html>

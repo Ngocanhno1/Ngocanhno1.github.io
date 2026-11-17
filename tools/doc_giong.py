@@ -54,6 +54,22 @@ def cau_trong(f):
     return ra
 
 
+def cau_truyen(f):
+    """Câu của Sách truyện nói: lấy các trường "doc..." (đã đổi tên Lucie/Lucas sang cách đọc tiếng Việt)."""
+    t = json.load(open(f, encoding="utf-8"))
+    tho = [t.get("doc_tieu_de", ""), t.get("doc_bai_hoc", ""), t.get("doc_chuc", "")]
+    tho += [p.get("doc", "") for p in t.get("trang", [])]
+    for h in t.get("hoi", []):
+        tho += [h.get("doc", "")] + h.get("doc_dap", [])
+    ra = []
+    for x in tho:
+        for p in CAT.split(x or ""):
+            k = chuan(p)
+            if 1 < len(k) <= 220 and re.search(r"[\w]", k):
+                ra.append(p.strip())
+    return ra
+
+
 def luu(tin):
     """Lưu dần lên trang trong lúc đọc, để giọng mới xuất hiện sớm."""
     co = sorted(f[:-4] for f in os.listdir(RA) if f.endswith(".mp3"))
@@ -79,6 +95,9 @@ def main():
     can = {}
     for x in ["A", "B", "C", "D"] + [str(i) for i in range(0, 101)]:
         can.setdefault(ma(chuan(x)), x)
+    for f in sorted(glob.glob("games/sach-truyen/truyen/tuan-*.json"), reverse=True):   # truyện mới nhất đọc trước
+        for p in cau_truyen(f):
+            can.setdefault(ma(chuan(p)), p)
     for f in game:
         for p in cau_trong(f):
             can.setdefault(ma(chuan(p)), p)

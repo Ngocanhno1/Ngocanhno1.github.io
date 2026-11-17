@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - "games/*/index.html"
+      - "games/sach-truyen/truyen/*.json"
       - "tools/doc_giong.py"
   workflow_dispatch:
   schedule:
