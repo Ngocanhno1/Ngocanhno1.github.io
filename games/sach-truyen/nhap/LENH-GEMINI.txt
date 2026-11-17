@@ -1,18 +1,28 @@
-Bạn là tác giả truyện thiếu nhi Việt Nam. Hãy viết TRUYỆN SỐ <SỐ TUẦN> của bộ "Sách truyện nói Lucie & Lucas" — truyện đọc to cho hai chị em nghe trước giờ đi ngủ.
-Nhân vật chính: Lucie (chị, 8 tuổi, học lớp 3, chu đáo, thích đọc sách) và Lucas (em trai, 6 tuổi, học lớp 1, hiếu động, tò mò). Có thể có bố mẹ, ông bà, bạn bè, con vật. KHÔNG dùng nhân vật, tên, chi tiết của truyện/phim có bản quyền.
-Chủ đề tuần này: <CHỦ ĐỀ VÀ BÀI HỌC>.
-Yêu cầu:
-- Đúng 6 trang. Mỗi trang 2-4 câu, tổng mỗi trang 35-60 chữ, câu ngắn, từ ngữ trong sáng, giàu hình ảnh, có lời thoại ngắn của nhân vật (đặt trong ngoặc kép “ ”), phù hợp trẻ 6-8 tuổi, nhẹ nhàng, ấm áp, kết thúc êm dịu để đi ngủ. Không có chi tiết đáng sợ hay hành động nguy hiểm trẻ có thể bắt chước.
-- Mô tả tranh minh hoạ bằng tiếng Anh cho mỗi trang (tối đa 25 từ). Tranh CHỈ vẽ cảnh vật, đồ vật, con vật, bàn tay; TUYỆT ĐỐI KHÔNG vẽ mặt người hay trẻ em (vì sẽ ghép ảnh thật của hai bé vào sau).
-- Bài học cuối truyện: 1-2 câu, nói trực tiếp với hai con (xưng "các con").
-- 3 câu hỏi đọc hiểu, mỗi câu có 1 đáp án đúng (có trong truyện) và 2 đáp án sai hợp lý.
-Trả về CHÍNH XÁC theo định dạng sau, mỗi mục 1 dòng, không đánh số, không markdown, không in đậm, không lời giới thiệu, không dùng dấu | trong nội dung:
-TIEUDE|<tên truyện tiếng Việt, ngắn>
+Bạn là tác giả truyện thiếu nhi Việt Nam. Hãy viết <SỐ LƯỢNG> TRUYỆN (số <TỪ> đến số <ĐẾN>) cho bộ "Sách truyện nói Lucie & Lucas" — truyện đọc to cho hai chị em nghe trước giờ đi ngủ, cứ 2 ngày phát 1 truyện.
+Nhân vật chính: Lucie (chị, 8 tuổi, học lớp 3, chu đáo, thích đọc sách) và Lucas (em trai, 6 tuổi, học lớp 1, hiếu động, tò mò). Có thể có bố mẹ, ông bà, bạn bè, con vật. KHÔNG dùng nhân vật, tên, chi tiết của truyện/phim có bản quyền. Mỗi truyện một bối cảnh, tình tiết riêng, không lặp lại câu mở đầu hay lời chúc giữa các truyện.
+Chủ đề và bài học từng truyện:
+<SỐ>. <CHỦ ĐỀ — BÀI HỌC>
+(mỗi truyện 1 dòng)
+Yêu cầu mỗi truyện:
+- Đúng 6 trang. Mỗi trang 2-4 câu, 35-60 chữ, câu ngắn, từ ngữ trong sáng, giàu hình ảnh, có lời thoại ngắn đặt trong ngoặc kép “ ”, nhẹ nhàng, ấm áp, kết thúc êm dịu để đi ngủ. Không có chi tiết đáng sợ, không hành động nguy hiểm trẻ có thể bắt chước.
+- Mô tả tranh tiếng Anh cho bìa và từng trang (tối đa 30 từ): chỉ vẽ cảnh vật, đồ vật, con vật, bàn tay; TUYỆT ĐỐI KHÔNG có mặt người hay trẻ em; không có chữ trong tranh.
+- Bài học: 1-2 câu nói với hai con (xưng "các con").
+- 3 câu hỏi RIÊNG cho Lucie (lớp 3): hỏi vì sao, cảm xúc nhân vật, ý nghĩa từ ngữ, điều con học được; đáp án 4-12 chữ.
+- 3 câu hỏi RIÊNG cho Lucas (lớp 1): rất ngắn, hỏi chi tiết dễ nhớ (ai, cái gì, màu gì, con gì, ở đâu); đáp án 1-5 chữ.
+- 6 câu hỏi trong một truyện KHÔNG được trùng nhau về nội dung. Mỗi câu 1 đáp án đúng có trong truyện, 2 đáp án sai hợp lý.
+- Lời chúc ngủ ngon 1 câu, khác nhau giữa các truyện.
+Trả về CHÍNH XÁC định dạng sau, mỗi mục 1 dòng, không đánh số, không markdown, không in đậm, không lời giới thiệu, không dùng dấu | trong nội dung:
+===TRUYEN <TỪ>===
+TIEUDE|<tên truyện>
 BIA|<mô tả tranh bìa tiếng Anh>
-TRANG|<lời kể trang 1>|<mô tả tranh tiếng Anh>
-(lặp đủ 6 dòng TRANG)
+TRANG|<lời kể>|<mô tả tranh tiếng Anh>
+(đủ 6 dòng TRANG)
 BAIHOC|<bài học>
-HOI|<câu hỏi>|<đáp án đúng>|<sai 1>|<sai 2>
-(đủ 3 dòng HOI)
-CHUC|<lời chúc ngủ ngon 1 câu>
+HOI_LUCIE|<câu hỏi>|<đáp án đúng>|<sai 1>|<sai 2>
+(đủ 3 dòng HOI_LUCIE)
+HOI_LUCAS|<câu hỏi>|<đáp án đúng>|<sai 1>|<sai 2>
+(đủ 3 dòng HOI_LUCAS)
+CHUC|<lời chúc ngủ ngon>
+===TRUYEN <TỪ+1>===
+... (lần lượt đến hết truyện <ĐẾN>)
 ===HET===
