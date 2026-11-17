@@ -3,7 +3,11 @@
 
    BƯỚC 1 — Tab AI Studio, mô hình Nano Banana Pro:
      https://aistudio.google.com/prompts/new_chat?authuser=ngocanh220788@gmail.com&model=gemini-3-pro-image-preview
-     Dán CẢ tệp này vào javascript_tool (chỉ định nghĩa hàm), rồi gọi: window.__veTruyen('tuan-12')
+     Nạp tệp này (AI Studio chặn eval thường, phải qua Trusted Types), rồi gọi window.__veTruyen('tuan-12'):
+       const pol = trustedTypes.createPolicy('l' + Date.now(), { createScript: s => s });
+       (0, eval)(pol.createScript(await (await fetch('https://raw.githubusercontent.com/Ngocanhno1/Ngocanhno1.github.io/main/tools/gemini-trinh-duyet.js?x=' + Date.now())).text()));
+       window.__veTruyen('tuan-12');
+     (Tab GitHub nạp tương tự; nếu Trusted Types báo lỗi thì dán thẳng phần hàm cần dùng.)
      Mỗi truyện mở 1 cuộc trò chuyện mới (tranh cùng một nét vẽ). Ảnh lưu vào sessionStorage 'anh:<mã>' (960x640 webp).
      Hỏi tiến độ: JSON.stringify(window.__tt)  -> {ma, xong:[...], loi:[...], het:true}
    BƯỚC 2 — Xuất: window.__xuat(['tuan-12']) rồi bấm phím ctrl+c (công cụ computer, key).
