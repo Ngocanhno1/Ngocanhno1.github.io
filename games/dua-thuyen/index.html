@@ -82,6 +82,13 @@ button{font-family:inherit;cursor:pointer;border:0}
 .the.lucie{background:linear-gradient(#ff8fc7,#d6337f)}.the.lucas{background:linear-gradient(#74c0fc,#1971c2)}
 .the .phimgoi{font-size:.55em;background:rgba(0,0,0,.2);border-radius:12px;padding:.1em .6em}
 .nutRow{display:flex;gap:1.5vw;flex-wrap:wrap;justify-content:center}
+#tayCam{background:rgba(255,255,255,.92);color:#22163d;border-radius:22px;padding:1.2vh 1.6vw;font-size:clamp(14px,1.4vw,20px);max-width:900px}
+#tayCam .qr2{display:flex;gap:3vw;justify-content:center;margin:.8vh 0}
+#tayCam figure{display:flex;flex-direction:column;align-items:center;font-weight:800}
+#tayCam figure div{width:clamp(96px,10vw,150px);aspect-ratio:1;background:#fff}
+#tayCam figure div svg,#tayCam figure div img{width:100%;height:100%}
+#tayCam #maPhong{font-size:1.4em;letter-spacing:.15em;color:#d6337f}
+.dt-noi{position:absolute;right:1.6vw;top:5.6vh;font-size:clamp(12px,1.2vw,16px);font-weight:800;color:#2b8a3e;background:#d3f9d8;border-radius:999px;padding:0 .7em}
 .cup{font-size:clamp(20px,2.4vw,34px);color:#fff;font-weight:800;background:rgba(0,0,0,.18);border-radius:18px;padding:.3em 1em}
 #demGio{top:12px!important;bottom:auto!important}
 @media (max-aspect-ratio:1/1){ #ban{grid-template-columns:1fr;grid-template-rows:1fr 1fr} .dapan button{font-size:clamp(16px,4.2vw,26px)} .cau{font-size:clamp(18px,4.8vw,30px)} }
@@ -104,6 +111,10 @@ button{font-family:inherit;cursor:pointer;border:0}
     <div class="the lucie"><img alt=""><span data-hs="lucie.goi">Tường San</span><small>Lớp <span data-hs="lucie.lop">3A6</span> · nửa bên TRÁI</small><span class="phimgoi">Chạm bên trái · phím 1 2 3 4</span></div>
     <div class="the lucas"><img alt=""><span data-hs="lucas.goi">Tường Minh</span><small>Lớp <span data-hs="lucas.lop">1A5</span> · nửa bên PHẢI</small><span class="phimgoi">Chạm bên phải · phím 7 8 9 0</span></div>
   </div>
+  <div id="tayCam"><b>📱 Chơi trên TV bằng điện thoại:</b> mỗi con quét mã của mình bằng camera điện thoại hoặc máy tính bảng
+    <div class="qr2"><figure><div id="qrLucie"></div><figcaption>Tay cầm <span data-hs="lucie.goi">Tường San</span></figcaption></figure>
+    <figure><div id="qrLucas"></div><figcaption>Tay cầm <span data-hs="lucas.goi">Tường Minh</span></figcaption></figure></div>
+    <small>Hoặc mở <b>ngocanhno1.github.io/tc</b> và nhập mã phòng <b id="maPhong">----</b></small></div>
   <p>Mỗi bạn trả lời câu hỏi ở nửa màn hình của mình, không cần chờ nhau. Đúng thì thuyền tiến lên. Hai chị em cùng về Đảo Kẹo thì được <b>Cúp đồng đội</b>!</p>
   <div class="nutRow"><button class="btn" id="nutBatDau">Bắt đầu đua</button><button class="btn hide" id="nutTiep" style="background:linear-gradient(#69db7c,#2f9e44);box-shadow:0 6px 0 #1b6b2c">Đua tiếp ván dở</button></div>
 </div>
@@ -117,6 +128,7 @@ button{font-family:inherit;cursor:pointer;border:0}
 </div>
 
 <script src="../anh-chung/thong-tin.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 <script>
 /*KB*/
 const KB = {
@@ -305,6 +317,7 @@ function veNua(c) {
   const s = V[c], el = document.getElementById(c === "lucie" ? "nLucie" : "nLucas");
   if (s.xong) {
     const con = BEN.find(x => x !== c);
+    phat(c);
     el.innerHTML = `<div class="ve-dich"><img src="${anh(c)}" alt="">${TEN(c)} về đích ${s.xong === 1 ? "thứ nhất" : "rồi"}!<small>${V[con].xong ? "" : "Cùng cổ vũ " + TEN(con) + " nào! 📣"}</small></div>`;
     return;
   }
@@ -318,6 +331,8 @@ function veNua(c) {
   el.querySelector(".doc").onclick = e => { e.stopPropagation(); docCau(c); };
   el.querySelectorAll(".dapan button").forEach(b => b.onclick = () => chon(c, +b.dataset.i));
   s.khoa = false;
+  phat(c);
+  if (typeof coDT !== "undefined" && coDT[c]) danhDauDT(c);
   if (c === "lucas") setTimeout(() => { if (cauHienTai("lucas") === q && !V.lucas.khoa) docCau("lucas"); }, 350);
 }
 function docCau(c) { const q = cauHienTai(c); try { speechSynthesis.cancel(); } catch (e) {} noi(q.cau, q.mon === "Tiếng Anh" && tiengAnh(q.cau)); }
@@ -340,6 +355,7 @@ function chon(c, i) {
     loi.textContent = "💡 " + (q.gt || ("Đáp án: " + q.dung)) + " " + KB.dongVien[Math.random() * KB.dongVien.length | 0];
   }
   luuVan();
+  phat(c, { kq: dung ? "dung" : "sai", dapan: q.dung, loi: loi.textContent });
   setTimeout(() => {
     if (V.lucie.xong && V.lucas.xong) return ketThuc();
     veNua(c); if (s.xong) veNua(BEN.find(x => x !== c));
@@ -355,6 +371,7 @@ function ketThuc() {
   document.getElementById("kqCup").textContent = "🏆 Cúp đồng đội cho hai chị em!";
   document.getElementById("kqLoi").textContent = KB.chucMung;
   document.getElementById("manCuoi").classList.remove("hide");
+  BEN.forEach(c => phat(c, { het: 1, nhat: c === nhat }));
   amDich(); noi(KB.chucMung);
   setTimeout(() => document.getElementById("nutLai").focus(), 300);
 }
@@ -398,8 +415,48 @@ document.getElementById("nutTiep").onclick = () => { V = cu; batDau(true); };
 document.getElementById("nutLai").onclick = () => batDau(false);
 setTimeout(() => (cu ? document.getElementById("nutTiep") : document.getElementById("nutBatDau")).focus(), 200);
 addEventListener("resize", () => V && veThuyen());
-window.__dt = { V: () => V, chon, KHO };
+
+// ===== Điện thoại làm tay cầm (qua Firebase Realtime Database, ~0,1 giây) =====
+const MAY_CHU = "https://lucie-lucas-ciecas-default-rtdb.asia-southeast1.firebasedatabase.app/gd_hh1g8b83gym1g74zmily/phong/";
+let MA = localStorage.getItem("duaThuyen_phong");
+if (!/^\d{4}$/.test(MA || "")) { MA = String(1000 + Math.floor(Math.random() * 9000)); try { localStorage.setItem("duaThuyen_phong", MA); } catch (e) {} }
+const GOC = MAY_CHU + "dt_" + MA;
+const coDT = { lucie: 0, lucas: 0 };
+function phat(c, them) {
+  if (!V) return;
+  const s = V[c], q = s.xong ? null : cauHienTai(c);
+  const o = Object.assign({ n: s.k, chang: s.vt, tong: SO_CHANG, xong: s.xong || 0, ten: TEN(c), t: Date.now(),
+    cau: q ? q.cau : "", mon: q ? q.mon : "", da: s.xong ? [] : (s.daHien || []) }, them || {});
+  fetch(GOC + "/" + c + ".json", { method: "PUT", body: JSON.stringify(o) }).catch(() => {});
+}
+function nghe() {
+  let es; try { es = new EventSource(GOC + "/bam.json"); } catch (e) { return; }
+  const xu = (c, d) => {
+    if (!d || !BEN.includes(c)) return;
+    if (d.chao && d.t > Date.now() - 60000) { coDT[c] = 1; danhDauDT(c); if (V) phat(c); }
+    if (typeof d.i === "number" && V && d.n === V[c].k && Date.now() - d.t < 30000) chon(c, d.i);
+  };
+  const nhan = e => { try { const m = JSON.parse(e.data); if (!m) return;
+    if (m.path === "/") { if (m.data) BEN.forEach(c => xu(c, m.data[c])); }
+    else { const c = m.path.split("/")[1]; if (m.path.split("/").length === 2) xu(c, m.data); else fetch(GOC + "/bam/" + c + ".json").then(r => r.json()).then(d => xu(c, d)).catch(() => {}); } } catch (x) {} };
+  es.addEventListener("put", nhan); es.addEventListener("patch", nhan);
+  es.onerror = () => { es.close(); setTimeout(nghe, 3000); };
+}
+function danhDauDT(c) {
+  const el = document.getElementById(c === "lucie" ? "nLucie" : "nLucas"); if (!el) return;
+  let b = el.querySelector(".dt-noi"); if (!b) { b = document.createElement("span"); b.className = "dt-noi"; el.appendChild(b); }
+  b.textContent = "📱 đã nối điện thoại";
+}
+function veQR() {
+  document.getElementById("maPhong").textContent = MA;
+  if (!window.qrcode) return;
+  BEN.forEach(c => { const q = qrcode(0, "M"); q.addData("https://ngocanhno1.github.io/tc/?p=" + MA + "&c=" + c); q.make();
+    document.getElementById(c === "lucie" ? "qrLucie" : "qrLucas").innerHTML = q.createSvgTag({ cellSize: 4, margin: 2, scalable: true }); });
+}
+fetch(GOC + "/bam.json", { method: "PUT", body: "{}" }).catch(() => {}).then(nghe);
+window.__dt = { V: () => V, chon, KHO, MA: () => MA };
 </script>
+<script>addEventListener("load", veQR);</script>
 <script src="../anh-chung/anh-that.js"></script>
 <!--NHAC--><script src="../anh-chung/nhac-nen.js" data-ten="Đua Thuyền Hai Chị Em" data-vitri="left:12px;top:12px" data-bpm="130" data-goc="C" data-kieu="marimba" data-not="C5 E5 G5 C6 A5 G5 E5 C5 D5 F5 A5 D6 B5 A5 G5 C6"></script>
 </body>
