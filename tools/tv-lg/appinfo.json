@@ -1,0 +1,14 @@
+{
+  "id": "com.lucielucas.gocchoi",
+  "version": "1.0.0",
+  "vendor": "Nguyen Hoang Ngoc Anh",
+  "type": "web",
+  "main": "index.html",
+  "title": "Góc Trò Chơi Lucie & Lucas",
+  "icon": "icon.png",
+  "largeIcon": "largeIcon.png",
+  "splashBackground": "splash.png",
+  "bgColor": "#7c4dff",
+  "resolution": "1920x1080",
+  "iconColor": "#7c4dff"
+}

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8"><title>Góc Trò Chơi Lucie &amp; Lucas</title>
+<style>html,body{margin:0;height:100%;background:#7c4dff;color:#fff;font-family:sans-serif;display:flex;align-items:center;justify-content:center;text-align:center}
+img{width:220px;height:220px;border-radius:40px}h1{font-size:54px;margin:24px 0 8px}p{font-size:30px;margin:0}</style></head>
+<body><div><img src="largeIcon.png" alt=""><h1>Góc Trò Chơi Lucie &amp; Lucas</h1><p id="tt">Đang mở…</p></div>
+<script>
+var URL_GAME = "https://ngocanhno1.github.io/?tv=1";
+function mo() {
+  if (navigator.onLine === false) { document.getElementById("tt").textContent = "TV chưa có mạng. Đang thử lại…"; return setTimeout(mo, 4000); }
+  location.replace(URL_GAME);
+}
+setTimeout(mo, 300);
+</script></body></html>
