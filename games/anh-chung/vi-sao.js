@@ -3,7 +3,10 @@
    - Đếm dần (nhớ mốc thời gian đã đếm), nên nhật ký có bị cắt bớt thì sao đã kiếm vẫn còn nguyên.
    - Cúp: chỉ cộng phần cúp MỚI so với số cúp cao nhất từng thấy, xoá tiến độ game cũng không mất sao.
    - Đổi quà: con gửi yêu cầu → sao bị giữ lại → bố mẹ duyệt (trao quà) hoặc từ chối (trả sao).
-   Mọi thứ lưu ở localStorage["cuaHang_v1"] trên chính máy đang chơi. */
+   Lưu ở localStorage["cuaHang_v1"] và đồng bộ lên Firebase (kho chung của gia đình), nên TV, điện thoại,
+   máy tính đều thấy cùng một ví: con xin đổi quà trên TV, bố mẹ duyệt trên điện thoại.
+   Mỗi máy chỉ ghi phần CIECAS mình đếm được (thietBi/<mã máy>), yêu cầu và điều chỉnh ghi theo từng mã riêng,
+   nên hai máy cùng lúc không đè lên nhau. Mất mạng thì vẫn chạy bằng bản trên máy, có mạng lại tự gộp. */
 (function () {
   if (window.ViSao) return;
   var KEY = "cuaHang_v1";
@@ -72,7 +75,8 @@
   }
 
   function soDu(s, c) {
-    var v = s.vi[c], tieu = 0, cong = 0;
+    var v = s.vi[c], tieu = 0, cong = 0, may = s.mayKhac || {};
+    Object.keys(may).forEach(function (k) { cong += (may[k] && +may[k][c]) || 0; });
     s.don.forEach(function (d) { if (d.c === c && d.tt !== "tuchoi") tieu += d.gia; });
     s.dieuChinh.forEach(function (d) { if (d.c === c) cong += d.n; });
     return v.kiem + cong - tieu;
@@ -81,5 +85,67 @@
   function quaCua(s, c) { return s.qua.filter(function (q) { return q.cho === "ca" || q.cho === c; }); }
   function mucTieu(s, c) { var id = s.vi[c].mucTieu; return s.qua.filter(function (q) { return q.id === id; })[0] || null; }
 
-  window.ViSao = { KEY: KEY, KIDS: KIDS, doc: doc, luu: luu, dongBo: dongBo, soDu: soDu, homNay: homNay, quaCua: quaCua, mucTieu: mucTieu, dayKey: dayKey };
+  /* ---------- Đồng bộ Firebase (Realtime Database, REST) ---------- */
+  var MAY_CHU = "https://lucie-lucas-ciecas-default-rtdb.asia-southeast1.firebasedatabase.app/gd_hh1g8b83gym1g74zmily/cuaHang";
+  var MAY = localStorage.getItem("cuaHang_may");
+  if (!MAY) { MAY = "m" + Date.now().toString(36) + Math.random().toString(36).slice(2, 7); try { localStorage.setItem("cuaHang_may", MAY); } catch (e) {} }
+  var nghe = [], dangDong = false, henGio = null, lanCuoi = "";
+  function moc(x) { return (x && (x.sua || x.t)) || 0; }
+  function dcId(d) { return d.id || ("dc" + d.t + d.c); }
+  function obj(a) { var o = {}; (a || []).forEach(function (x) { if (x && x.id) o[x.id] = x; }); return o; }
+  function mang(o) { if (!o) return []; return (Array.isArray(o) ? o : Object.keys(o).map(function (k) { return o[k]; })).filter(Boolean); }
+
+  function dongBoMay() {
+    if (dangDong) { henGio = henGio || setTimeout(function () { henGio = null; dongBoMay(); }, 1500); return Promise.resolve(); }
+    dangDong = true;
+    return fetch(MAY_CHU + ".json", { cache: "no-store" }).then(function (r) { if (!r.ok) throw r.status; return r.json(); }).then(function (C) {
+      C = C || {};
+      var s = doc(), vua = {}, doi = false;
+      // yêu cầu đổi quà: lấy bản sửa sau cùng
+      var dL = obj(s.don), dC = C.don || {};
+      Object.keys(dC).forEach(function (id) { if (!dL[id] || moc(dC[id]) > moc(dL[id])) { dL[id] = dC[id]; doi = true; } });
+      Object.keys(dL).forEach(function (id) { if (!dC[id] || moc(dL[id]) > moc(dC[id])) vua["don/" + id] = dL[id]; });
+      s.don = mang(dL).sort(function (a, b) { return a.t - b.t; });
+      // bố mẹ thưởng / bớt
+      var cL = {}; s.dieuChinh.forEach(function (d) { d.id = dcId(d); cL[d.id] = d; });
+      var cC = C.dieuChinh || {};
+      Object.keys(cC).forEach(function (id) { if (!cL[id]) { cL[id] = cC[id]; doi = true; } });
+      Object.keys(cL).forEach(function (id) { if (!cC[id]) vua["dieuChinh/" + id] = cL[id]; });
+      s.dieuChinh = mang(cL).sort(function (a, b) { return a.t - b.t; });
+      // danh sách quà, cách tính, mã số bố mẹ: bản sửa sau cùng thắng
+      if (C.qua && (C.qua.sua || 0) > (s.suaQua || 0)) { s.qua = mang(C.qua.ds); s.suaQua = C.qua.sua; doi = true; }
+      else if (!C.qua || (s.suaQua || 0) > (C.qua.sua || 0)) { s.suaQua = s.suaQua || 1; vua.qua = { sua: s.suaQua, ds: s.qua }; }
+      if (C.cauHinh && (C.cauHinh.sua || 0) > (s.suaCH || 0)) { s.cauHinh = C.cauHinh.v; s.suaCH = C.cauHinh.sua; doi = true; }
+      else if (!C.cauHinh || (s.suaCH || 0) > (C.cauHinh.sua || 0)) { s.suaCH = s.suaCH || 1; vua.cauHinh = { sua: s.suaCH, v: s.cauHinh }; }
+      KIDS.forEach(function (c) {
+        var mt = (C.mucTieu || {})[c], v = s.vi[c];
+        if (mt && (mt.sua || 0) > (v.suaMt || 0)) { v.mucTieu = mt.id || null; v.suaMt = mt.sua; doi = true; }
+        else if ((v.suaMt || 0) > ((mt && mt.sua) || 0)) vua["mucTieu/" + c] = { id: v.mucTieu || null, sua: v.suaMt };
+      });
+      // CIECAS các máy khác đếm được
+      var tb = C.thietBi || {}, khac = {};
+      Object.keys(tb).forEach(function (k) { if (k !== MAY && tb[k]) khac[k] = { lucie: +tb[k].lucie || 0, lucas: +tb[k].lucas || 0 }; });
+      if (JSON.stringify(khac) !== JSON.stringify(s.mayKhac || {})) doi = true;
+      s.mayKhac = khac;
+      var cua = tb[MAY] || {};
+      if (cua.lucie !== s.vi.lucie.kiem || cua.lucas !== s.vi.lucas.kiem)
+        vua["thietBi/" + MAY] = { lucie: s.vi.lucie.kiem, lucas: s.vi.lucas.kiem, t: Date.now(), ua: (navigator.userAgent || "").slice(0, 60) };
+      luuTho(s);
+      var gui = Object.keys(vua).length ? fetch(MAY_CHU + ".json", { method: "PATCH", body: JSON.stringify(vua) }) : null;
+      var dau = JSON.stringify([s.don, s.dieuChinh, s.qua, s.cauHinh, s.mayKhac, s.vi.lucie.mucTieu, s.vi.lucas.mucTieu]);
+      if (doi || dau !== lanCuoi) { lanCuoi = dau; nghe.forEach(function (f) { try { f(s); } catch (e) {} }); }
+      window.ViSao.daNoi = true;
+      return gui;
+    }).catch(function () { window.ViSao.daNoi = false; }).then(function () { dangDong = false; });
+  }
+  function luuTho(s) { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {} }
+  // Lưu trên máy rồi đẩy lên kho chung (gom lại, 0,8 giây/lần)
+  var hen2 = null;
+  function luuVaGui(s) { luuTho(s); clearTimeout(hen2); hen2 = setTimeout(dongBoMay, 800); }
+  function khiDoi(f) { nghe.push(f); }
+  function tuDong(giay) { dongBoMay(); setInterval(function () { if (!document.hidden) dongBoMay(); }, (giay || 15) * 1000);
+    document.addEventListener("visibilitychange", function () { if (!document.hidden) dongBoMay(); }); }
+
+  window.ViSao = { KEY: KEY, KIDS: KIDS, MAY: MAY, doc: doc, luu: luuVaGui, dongBo: dongBo, dongBoMay: dongBoMay, khiDoi: khiDoi, tuDong: tuDong,
+    soDu: soDu, homNay: homNay, quaCua: quaCua, mucTieu: mucTieu, dayKey: dayKey };
 })();

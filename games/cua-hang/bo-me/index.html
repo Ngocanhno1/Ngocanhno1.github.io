@@ -11,6 +11,7 @@
 <link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#7c4dff"><link rel="apple-touch-icon" href="/img/icon-192.png"><script>if("serviceWorker" in navigator)addEventListener("load",function(){navigator.serviceWorker.register("/sw.js").catch(function(){})});</script>
 <script src="../../anh-chung/vi-sao.js"></script>
 <style>
+  img.xu { width: 1.15em; height: 1.15em; vertical-align: -0.24em; display: inline-block; filter: drop-shadow(0 .05em .08em rgba(120,70,0,.35)); }
   :root { --ink: #2b2140; --muted: #6b6288; --line: #ece6f7; --pink: #ff6fae; --blue: #3fa9f5; --ok: #2f9e44; --bad: #e03131; --focus: #ffb703; }
   * { box-sizing: border-box; }
   body { margin: 0; font-family: "Baloo 2", "Segoe UI", system-ui, sans-serif; color: var(--ink); background: linear-gradient(170deg, #f3f0ff 0%, #e7f5ff 100%) fixed;
@@ -50,6 +51,10 @@
   .kid .sum { font-size: 15px; color: var(--muted); margin: 4px 0 8px; }
   .kid .adj { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
   .kid .adj input[type=text] { flex: 1 1 150px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .chip { font-size: 15px; font-weight: 700; padding: 3px 10px; border-radius: 999px; border: 2px solid; background: #fff; }
+  .chip.cong { color: #2b8a3e; border-color: #b2f2bb; background: #ebfbee; } .chip.tru { color: #c92a2a; border-color: #ffc9c9; background: #fff5f5; }
+  .chip:active { transform: scale(.95); }
   .kid .log { margin: 8px 0 0; padding: 0; list-style: none; font-size: 15px; color: var(--muted); }
   /* danh sách quà */
   .gift { display: grid; grid-template-columns: 54px 92px 1fr 110px 130px auto; gap: 8px; align-items: center; padding: 6px 0; border-top: 1px solid var(--line); }
@@ -92,6 +97,10 @@
 <script>
 const BE = { lucie: { ten: "Lucie", img: "../../../img/lucie.webp" }, lucas: { ten: "Lucas", img: "../../../img/lucas.webp" } };
 const ICONS = ["🎡", "📚", "🍦", "📺", "🍕", "🏊", "🎬", "🧸", "🎮", "🍰", "🛝", "🎁", "🚲", "🎨", "🍭", "⚽", "🍿", "🎈", "🍓", "🐶", "🎹", "🏰", "🌙", "🍪"];
+const XU = '<img class="xu" src="../../anh-chung/xu-ciecas-nho.webp" alt="CIECAS">';
+// Theo "Bảng điểm thi đua" dán ở nhà
+const DIEM = [["📚 Làm bài tập đầy đủ", 5], ["⏰ Dậy đúng giờ", 5], ["🛏️ Tự gấp chăn màn gọn gàng", 5], ["🪥 Đánh răng, rửa mặt đầy đủ", 5], ["💖 Giúp bố mẹ việc nhà", 5],
+  ["📺 Xem TV quá giờ", -10], ["📱 Chơi iPad", -10], ["🧸 Đòi mua đồ chơi", -10], ["😠 Bị phạt hoặc bị nhắc nhở nhiều lần", -10]];
 const $ = s => document.querySelector(s);
 const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const ngay = t => new Date(t).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "numeric", month: "numeric" });
@@ -123,13 +132,13 @@ function phim(k) {
 function xong() {
   if (buoc === "mo") { if (nhap === S.cauHinh.pin) { nhap = ""; return moKhoa(); } nhap = ""; return veKhoa("Mã chưa đúng, bố mẹ thử lại nhé"); }
   if (buoc === "dat1") { tam = nhap; nhap = ""; buoc = "dat2"; return veKhoa(); }
-  if (buoc === "dat2") { if (nhap === tam) { S = ViSao.doc(); S.cauHinh.pin = nhap; save(); nhap = ""; return moKhoa(); }
+  if (buoc === "dat2") { if (nhap === tam) { S = ViSao.doc(); S.cauHinh.pin = nhap; S.suaCH = Date.now(); save(); nhap = ""; return moKhoa(); }
     nhap = ""; buoc = "dat1"; return veKhoa("Hai lần nhập không khớp, đặt lại nhé"); }
 }
 function quenMa() {
   const a = 23 + Math.floor(Math.random() * 60), b = 17 + Math.floor(Math.random() * 30);
   const tl = prompt(`Để đặt lại mã, bố mẹ tính giúp: ${a} × ${b} = ?`);
-  if (tl !== null && +tl === a * b) { S = ViSao.doc(); S.cauHinh.pin = null; save(); buoc = "dat1"; nhap = ""; veKhoa(); }
+  if (tl !== null && +tl === a * b) { S = ViSao.doc(); S.cauHinh.pin = null; S.suaCH = Date.now(); save(); buoc = "dat1"; nhap = ""; veKhoa(); }
   else if (tl !== null) veKhoa("Chưa đúng phép tính");
 }
 document.addEventListener("keydown", e => { if (!$("#lock")) return;
@@ -145,74 +154,83 @@ function ve() {
   $("#app").innerHTML = `
   <div class="card"><h2>📨 Con xin đổi quà <small>${cho.length ? cho.length + " yêu cầu đang chờ" : ""}</small></h2>
     ${cho.length ? cho.map(d => `<div class="req"><img class="face ${d.c}" src="${BE[d.c].img}" alt="${BE[d.c].ten}"><span class="gi">${d.icon}</span>
-      <div class="nm"><b>${BE[d.c].ten}: ${esc(d.ten)}</b><span class="muted">⭐ ${d.gia} sao · gửi lúc ${ngay(d.t)}</span>
+      <div class="nm"><b>${BE[d.c].ten}: ${esc(d.ten)}</b><span class="muted">${XU} ${d.gia} CIECAS · gửi lúc ${ngay(d.t)}</span>
       <input type="text" data-nhan="${d.id}" placeholder="Lời nhắn cho con (không bắt buộc), vd: Chủ nhật này đi nhé!"></div>
-      <div class="acts"><button class="b ok" data-duyet="${d.id}">✅ Đồng ý</button><button class="b no" data-tuchoi="${d.id}">↩️ Từ chối, trả sao</button></div></div>`).join("")
+      <div class="acts"><button class="b ok" data-duyet="${d.id}">✅ Đồng ý</button><button class="b no" data-tuchoi="${d.id}">↩️ Từ chối, trả CIECAS</button></div></div>`).join("")
       : `<p class="muted">Chưa có yêu cầu nào. Khi con bấm “Đổi quà”, yêu cầu sẽ hiện ở đây.</p>`}
   </div>
 
-  <div class="card"><h2>⭐ Ví sao của các con</h2><div class="kids">${ViSao.KIDS.map(c => {
+  <div class="card"><h2>${XU} Ví CIECAS của các con <small>Ghi điểm thi đua hằng ngày ở đây</small></h2><div class="kids">${ViSao.KIDS.map(c => {
     const v = S.vi[c], tieu = S.don.filter(d => d.c === c && d.tt !== "tuchoi").reduce((a, d) => a + d.gia, 0);
     const dc = S.dieuChinh.filter(d => d.c === c), cong = dc.reduce((a, d) => a + d.n, 0);
-    return `<div class="kid"><div class="hd"><img class="face ${c}" src="${BE[c].img}" alt=""><b>${BE[c].ten}</b><span class="bal">⭐ ${ViSao.soDu(S, c)}</span></div>
-      <div class="sum">Kiếm từ trò chơi: ${v.kiem} · Bố mẹ thưởng/bớt: ${cong >= 0 ? "+" : ""}${cong} · Đã đổi quà: ${tieu}</div>
-      <div class="adj"><input type="text" id="lyDo_${c}" placeholder="Lý do, vd: con ngoan, giúp mẹ">
+    return `<div class="kid"><div class="hd"><img class="face ${c}" src="${BE[c].img}" alt=""><b>${BE[c].ten}</b><span class="bal">${XU} ${ViSao.soDu(S, c)}</span></div>
+      <div class="sum">Kiếm từ trò chơi: ${v.kiem + Object.values(S.mayKhac || {}).reduce((t, m) => t + (+m[c] || 0), 0)} · Bố mẹ thưởng/bớt: ${cong >= 0 ? "+" : ""}${cong} · Đã đổi quà: ${tieu}</div>
+      <div class="chips">${DIEM.map(([ly, n]) => `<button class="chip ${n > 0 ? "cong" : "tru"}" data-cong="${c}" data-n="${n}" data-ly="${ly}">${n > 0 ? "+" : "−"}${Math.abs(n)} ${ly}</button>`).join("")}</div>
+      <div class="adj"><input type="text" id="lyDo_${c}" placeholder="Lý do khác, vd: con ngoan">
         ${[5, 10].map(n => `<button class="b soft" data-cong="${c}" data-n="${n}">+${n}</button>`).join("")}
-        <button class="b soft" data-cong="${c}" data-n="-5">−5</button></div>
-      <ul class="log">${dc.slice(-4).reverse().map(d => `<li>${d.n > 0 ? "+" : ""}${d.n} ⭐ · ${esc(d.lyDo || "bố mẹ điều chỉnh")} · ${ngay(d.t)}</li>`).join("")}</ul></div>`;
+        <button class="b soft" data-cong="${c}" data-n="-10">−10</button></div>
+      <ul class="log">${dc.slice(-4).reverse().map(d => `<li>${d.n > 0 ? "+" : ""}${d.n} ${XU} · ${esc(d.lyDo || "bố mẹ điều chỉnh")} · ${ngay(d.t)}</li>`).join("")}</ul></div>`;
   }).join("")}</div></div>
 
   <div class="card"><h2>🎁 Danh sách quà <small>Sửa trực tiếp, máy tự lưu</small></h2>
     ${S.qua.map(q => `<div class="gift" data-id="${q.id}"><span class="gi">${q.icon}</span>
       <select data-f="icon" aria-label="Hình">${ICONS.concat(ICONS.includes(q.icon) ? [] : [q.icon]).map(i => `<option ${i === q.icon ? "selected" : ""}>${i}</option>`).join("")}</select>
       <input class="nameI" type="text" data-f="ten" value="${esc(q.ten)}" aria-label="Tên quà">
-      <span class="price">⭐<input type="number" min="1" max="9999" data-f="gia" value="${q.gia}" aria-label="Số sao"></span>
+      <span class="price">${XU}<input type="number" min="1" max="9999" data-f="gia" value="${q.gia}" aria-label="Số CIECAS"></span>
       <select class="cho" data-f="cho" aria-label="Dành cho"><option value="ca" ${q.cho === "ca" ? "selected" : ""}>Cả hai con</option><option value="lucie" ${q.cho === "lucie" ? "selected" : ""}>Chỉ Lucie</option><option value="lucas" ${q.cho === "lucas" ? "selected" : ""}>Chỉ Lucas</option></select>
       <button class="b no del" data-xoa="${q.id}" title="Xoá">🗑 Xoá</button></div>`).join("")}
     <p style="margin:12px 0 0"><button class="b" id="them">＋ Thêm quà mới</button></p>
   </div>
 
-  <div class="card"><h2>⚙️ Cách tính sao</h2><div class="set">
-    <span>Bao nhiêu câu trả lời đúng thì được 1 sao?</span><input type="number" min="1" max="50" id="cauMoiSao" value="${S.cauHinh.cauMoiSao}">
-    <span>Mỗi cúp giành được trong game được mấy sao?</span><input type="number" min="0" max="100" id="saoMoiCup" value="${S.cauHinh.saoMoiCup}">
+  <div class="card"><h2>⚙️ Cách tính CIECAS</h2><div class="set">
+    <span>Bao nhiêu câu trả lời đúng thì được 1 CIECAS?</span><input type="number" min="1" max="50" id="cauMoiSao" value="${S.cauHinh.cauMoiSao}">
+    <span>Mỗi cúp giành được trong game được mấy CIECAS?</span><input type="number" min="0" max="100" id="saoMoiCup" value="${S.cauHinh.saoMoiCup}">
     <span>Đổi mã số bố mẹ</span><button class="b soft" id="doiMa">Đổi mã</button></div>
-    <p class="muted">Áp dụng cho sao kiếm từ bây giờ, sao con đã có giữ nguyên. Sao được tính từ mọi trò chơi trên chính máy này (TV, điện thoại hoặc máy tính).</p></div>
+    <p class="muted">Áp dụng cho CIECAS kiếm từ bây giờ, CIECAS con đã có giữ nguyên. CIECAS được cộng từ mọi máy các con chơi (TV, điện thoại, máy tính) và dùng chung một ví: bố mẹ duyệt trên điện thoại được. ${ViSao.daNoi === false ? "<b style=\"color:#e03131\">Máy này đang mất mạng, sẽ tự gửi khi có mạng lại.</b>" : ""}</p></div>
 
   <div class="card"><h2>📜 Quà đã duyệt</h2>
     ${daXong.length ? `<ul class="hist">${daXong.map(d => `<li><img class="face ${d.c}" src="${BE[d.c].img}" alt="" style="width:34px;height:34px;border-width:3px"><span class="gi" style="font-size:26px">${d.icon}</span>
-      <span>${BE[d.c].ten}: ${esc(d.ten)} · ⭐ ${d.gia}${d.loiNhan ? " · “" + esc(d.loiNhan) + "”" : ""}</span><span class="st ${d.tt}">${d.tt === "duyet" ? "Đã đồng ý" : "Đã trả sao"} ${ngay(d.td || d.t)}</span></li>`).join("")}</ul>`
+      <span>${BE[d.c].ten}: ${esc(d.ten)} · ${XU} ${d.gia}${d.loiNhan ? " · “" + esc(d.loiNhan) + "”" : ""}</span><span class="st ${d.tt}">${d.tt === "duyet" ? "Đã đồng ý" : "Đã trả CIECAS"} ${ngay(d.td || d.t)}</span></li>`).join("")}</ul>`
       : `<p class="muted">Chưa có.</p>`}</div>`;
   gan();
 }
 function quyetDinh(id, tt) {
   S = ViSao.doc(); const d = S.don.find(x => x.id === id); if (!d || d.tt !== "cho") return ve();
   const nhan = document.querySelector(`[data-nhan="${id}"]`);
-  d.tt = tt; d.td = Date.now(); d.daBao = false; if (nhan && nhan.value.trim()) d.loiNhan = nhan.value.trim().slice(0, 120);
+  d.tt = tt; d.td = Date.now(); d.sua = Date.now(); d.daBao = false; if (nhan && nhan.value.trim()) d.loiNhan = nhan.value.trim().slice(0, 120);
   save(); ve();
 }
 function gan() {
   document.querySelectorAll("[data-duyet]").forEach(b => b.onclick = () => quyetDinh(b.dataset.duyet, "duyet"));
   document.querySelectorAll("[data-tuchoi]").forEach(b => b.onclick = () => quyetDinh(b.dataset.tuchoi, "tuchoi"));
   document.querySelectorAll("[data-cong]").forEach(b => b.onclick = () => {
-    const c = b.dataset.cong, n = +b.dataset.n, ly = $("#lyDo_" + c).value.trim();
-    S = ViSao.doc(); S.dieuChinh.push({ c, n, lyDo: ly.slice(0, 80), t: Date.now() }); if (S.dieuChinh.length > 300) S.dieuChinh.shift(); save(); ve(); });
+    const c = b.dataset.cong, n = +b.dataset.n, ly = b.dataset.ly || $("#lyDo_" + c).value.trim();
+    S = ViSao.doc(); S.dieuChinh.push({ id: "dc" + Date.now() + c, c, n, lyDo: ly.slice(0, 80), t: Date.now(), sua: Date.now() }); if (S.dieuChinh.length > 300) S.dieuChinh.shift(); save(); ve(); });
   document.querySelectorAll(".gift [data-f]").forEach(el => el.onchange = () => {
     S = ViSao.doc(); const q = S.qua.find(x => x.id === el.closest(".gift").dataset.id); if (!q) return;
     const f = el.dataset.f; let v = el.value;
     if (f === "gia") v = Math.max(1, Math.min(9999, Math.round(+v) || 1));
     if (f === "ten") v = v.trim().slice(0, 60) || "Quà";
-    q[f] = v; save(); if (f === "icon") ve(); });
+    q[f] = v; S.suaQua = Date.now(); save(); if (f === "icon") ve(); });
   document.querySelectorAll("[data-xoa]").forEach(b => b.onclick = () => {
     if (!confirm("Xoá món quà này khỏi cửa hàng?")) return;
-    S = ViSao.doc(); S.qua = S.qua.filter(q => q.id !== b.dataset.xoa); save(); ve(); });
-  $("#them").onclick = () => { S = ViSao.doc(); S.qua.push({ id: "q" + Date.now(), icon: "🎁", ten: "Quà mới", gia: 30, cho: "ca" }); save(); ve();
+    S = ViSao.doc(); S.qua = S.qua.filter(q => q.id !== b.dataset.xoa); S.suaQua = Date.now(); save(); ve(); });
+  $("#them").onclick = () => { S = ViSao.doc(); S.qua.push({ id: "q" + Date.now(), icon: "🎁", ten: "Quà mới", gia: 30, cho: "ca" }); S.suaQua = Date.now(); save(); ve();
     const ins = document.querySelectorAll(".gift .nameI"); const last = ins[ins.length - 1]; last.focus(); last.select(); };
-  ["cauMoiSao", "saoMoiCup"].forEach(k => $("#" + k).onchange = e => { S = ViSao.doc(); S.cauHinh[k] = Math.max(k === "cauMoiSao" ? 1 : 0, Math.round(+e.target.value) || 0); save(); });
+  ["cauMoiSao", "saoMoiCup"].forEach(k => $("#" + k).onchange = e => { S = ViSao.doc(); S.cauHinh[k] = Math.max(k === "cauMoiSao" ? 1 : 0, Math.round(+e.target.value) || 0); S.suaCH = Date.now(); save(); });
   $("#doiMa").onclick = () => { buoc = "dat1"; nhap = ""; veKhoa(); };
 }
 document.addEventListener("visibilitychange", () => { if (!document.hidden && !$("#lock") && !document.activeElement.matches("input")) { S = ViSao.dongBo(); ve(); } });
 
-if (S.cauHinh.pin && sessionStorage.getItem("cuaHang_mo") === "1") moKhoa(); else veKhoa();
+// Chờ lấy dữ liệu từ kho chung (mã số bố mẹ dùng chung mọi máy) rồi mới hiện màn khoá
+$("#app").innerHTML = `<div class="card lock"><h2>⏳ Đang kết nối…</h2></div>`;
+let batDau = false;
+function vao() { if (batDau) return; batDau = true; S = ViSao.doc(); buoc = S.cauHinh.pin ? "mo" : "dat1";
+  if (S.cauHinh.pin && sessionStorage.getItem("cuaHang_mo") === "1") moKhoa(); else veKhoa(); }
+ViSao.dongBoMay().then(vao); setTimeout(vao, 5000);
+ViSao.khiDoi(() => { if (!batDau) return; if ($("#lock")) { S = ViSao.doc(); if (buoc === "dat1" && S.cauHinh.pin && !nhap) { buoc = "mo"; veKhoa(); } return; }
+  if (!document.activeElement || !document.activeElement.matches("input, select")) ve(); });
+setInterval(() => { if (!document.hidden) ViSao.dongBoMay(); }, 10000);
 </script>
 <script src="../../anh-chung/anh-that.js" defer></script>
 </body>

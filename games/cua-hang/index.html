@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Cửa hàng đổi sao Lucie & Lucas</title>
+<title>Cửa hàng CIECAS Lucie & Lucas</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
@@ -13,6 +13,7 @@
 <script src="../anh-chung/thong-tin.js"></script>
 <script src="../anh-chung/vi-sao.js"></script>
 <style>
+  img.xu { width: 1.15em; height: 1.15em; vertical-align: -0.24em; display: inline-block; filter: drop-shadow(0 .05em .08em rgba(120,70,0,.35)); }
   :root { --ink: #2b2140; --muted: #6b6288; --pink: #ff6fae; --blue: #3fa9f5; --gold: #f59f00; --focus: #ffb703; --main: var(--pink); --mainDark: #d63a83; }
   body.lucas { --main: var(--blue); --mainDark: #1f7fc8; }
   * { box-sizing: border-box; }
@@ -33,8 +34,8 @@
   .who { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; }
   .kidBtn { display: flex; align-items: center; gap: 14px; padding: 10px 16px; border-radius: 26px; background: rgba(255,255,255,.7);
             border: 5px solid transparent; color: var(--ink); text-align: left; transition: transform .15s; }
-  .kidBtn img { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 5px solid var(--pink); background: #fff; flex: none; }
-  .kidBtn.lucas img { border-color: var(--blue); }
+  .kidBtn > img { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 5px solid var(--pink); background: #fff; flex: none; }
+  .kidBtn.lucas > img { border-color: var(--blue); }
   .kidBtn b { font-size: 28px; line-height: 1; display: block; }
   .kidBtn span { font-size: 18px; color: var(--muted); }
   .kidBtn.on { background: #fff; border-color: var(--main); transform: scale(1.02); box-shadow: 0 8px 0 rgba(43,33,64,.08), 0 14px 30px rgba(43,33,64,.12); }
@@ -98,12 +99,12 @@
   .box .b { font-size: 24px; padding: 10px 26px; }
   .conf { position: fixed; top: -20px; width: 12px; height: 18px; z-index: 60; pointer-events: none; border-radius: 3px; animation: roi linear forwards; }
   @keyframes roi { to { transform: translateY(110vh) rotate(720deg); } }
-  .sky { position: fixed; pointer-events: none; z-index: 0; font-size: 34px; opacity: .5; animation: troi 9s ease-in-out infinite; }
+  .sky { position: fixed; pointer-events: none; z-index: 0; opacity: .55; animation: troi 9s ease-in-out infinite; }
   @keyframes troi { 50% { transform: translateY(-24px) rotate(15deg); } }
   @media (max-width: 760px) {
     .hero { grid-template-columns: 1fr; }
     .who { grid-template-columns: 1fr 1fr; gap: 8px; }
-    .kidBtn { padding: 8px 10px; gap: 8px; } .kidBtn img { width: 52px; height: 52px; border-width: 4px; } .kidBtn b { font-size: 22px; } .kidBtn span { font-size: 15px; }
+    .kidBtn { padding: 8px 10px; gap: 8px; } .kidBtn > img { width: 52px; height: 52px; border-width: 4px; } .kidBtn b { font-size: 22px; } .kidBtn span { font-size: 15px; }
     .wallet .face { width: 86px; height: 86px; } .goal .gi { font-size: 70px; }
     .grid { grid-template-columns: 1fr 1fr; gap: 12px; } .gift .gi { font-size: 62px; } .gift h3 { font-size: 19px; } .b { font-size: 17px; }
     h1 { font-size: 30px; order: -1; flex-basis: 100%; }
@@ -113,11 +114,11 @@
 </style>
 </head>
 <body>
-<span class="sky" style="left:4%;top:18%">⭐</span><span class="sky" style="right:5%;top:38%;animation-delay:-3s">⭐</span><span class="sky" style="left:46%;top:80%;animation-delay:-6s">⭐</span>
+<img class="sky" src="../anh-chung/xu-ciecas.webp" alt="" style="left:3%;top:18%;width:64px"><img class="sky" src="../anh-chung/xu-ciecas.webp" alt="" style="right:4%;top:38%;width:54px;animation-delay:-3s"><img class="sky" src="../anh-chung/xu-ciecas.webp" alt="" style="left:46%;top:82%;width:46px;animation-delay:-6s">
 <div class="wrap">
   <div class="top">
     <a class="pill btn" href="../../" data-nav>⬅ Trang chủ</a>
-    <h1>🎁 Cửa hàng đổi sao</h1>
+    <h1>🎁 Cửa hàng CIECAS</h1>
     <a class="pill parent btn" href="bo-me/" data-nav id="nutBoMe">🔒 Bố mẹ duyệt</a>
   </div>
   <div class="who" id="who"></div>
@@ -135,14 +136,15 @@
 <script>
 const BE = { lucie: { ten: "Lucie", img: "../../img/lucie.webp" }, lucas: { ten: "Lucas", img: "../../img/lucas.webp" } };
 const LOI = {
-  chao: "Chào mừng con đến Cửa hàng đổi sao! Học giỏi để có thật nhiều sao, rồi đổi lấy món quà con thích nhé.",
+  chao: "Chào mừng con đến Cửa hàng CIECAS! Học giỏi để có thật nhiều đồng xu vàng, rồi đổi lấy món quà con thích nhé.",
   gui: "Con đã gửi yêu cầu đổi quà. Bố mẹ sẽ xem và duyệt cho con nhé!",
-  thieu: "Con chưa đủ sao. Cố lên, chơi thêm vài trò nữa là đủ rồi!",
+  thieu: "Con chưa đủ đồng xu. Cố lên, chơi thêm vài trò nữa là đủ rồi!",
   dongY: "Tuyệt vời! Bố mẹ đã đồng ý đổi quà cho con rồi!",
-  tuChoi: "Lần này bố mẹ chưa đổi được món quà này. Sao đã được trả lại cho con nhé.",
+  tuChoi: "Lần này bố mẹ chưa đổi được món quà này. Đồng xu đã được trả lại cho con nhé.",
   mucTieu: "Con đã chọn món quà này làm mục tiêu. Cố lên, mỗi câu trả lời đúng là thêm gần tới quà!",
-  hoi: "Con có chắc muốn đổi sao lấy món quà này không?"
+  hoi: "Con có chắc muốn đổi đồng xu lấy món quà này không?"
 };
+const XU = '<img class="xu" src="../anh-chung/xu-ciecas-nho.webp" alt="CIECAS">';
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 let be = new URLSearchParams(location.search).get("be") || localStorage.getItem("cuaHang_be") || "lucie";
@@ -175,15 +177,15 @@ function phao() {
 /* ---------- vẽ trang ---------- */
 function veBe() {
   $("#who").innerHTML = ViSao.KIDS.map(c => `<button class="kidBtn ${c} ${c === be ? "on" : ""}" data-be="${c}" data-nav>
-    <img src="${BE[c].img}" alt="${BE[c].ten}"><div><b>${BE[c].ten}</b><span>⭐ ${ViSao.soDu(S, c)} sao</span></div></button>`).join("");
+    <img src="${BE[c].img}" alt="${BE[c].ten}"><div><b>${BE[c].ten}</b><span>${XU} ${ViSao.soDu(S, c)} CIECAS</span></div></button>`).join("");
   document.querySelectorAll(".kidBtn").forEach(b => b.onclick = () => { chonBe(b.dataset.be); ting(); });
 }
 function veVi() {
   const du = ViSao.soDu(S, be), nay = ViSao.homNay(S, be), ch = S.cauHinh;
   $("#wallet").innerHTML = `<img class="face" src="${BE[be].img}" alt="${BE[be].ten}">
-    <div><div class="lbl">Ví sao của ${BE[be].ten}</div><div class="num">⭐ ${du}</div>
-    ${nay ? `<div class="today">Hôm nay con kiếm được +${nay} sao</div>` : ""}
-    <div class="how">Cứ ${ch.cauMoiSao} câu trả lời đúng = 1 sao · Mỗi cúp giành được = ${ch.saoMoiCup} sao</div></div>`;
+    <div><div class="lbl">Ví CIECAS của ${BE[be].ten}</div><div class="num"><img src="../anh-chung/xu-ciecas.webp" alt="" style="width:.95em;height:.95em;vertical-align:-.12em"> ${du}</div>
+    ${nay ? `<div class="today">Hôm nay con kiếm được +${nay} CIECAS</div>` : ""}
+    <div class="how">Cứ ${ch.cauMoiSao} câu trả lời đúng = 1 CIECAS · Mỗi cúp giành được = ${ch.saoMoiCup} CIECAS</div></div>`;
 }
 function veMucTieu() {
   const q = ViSao.mucTieu(S, be), du = ViSao.soDu(S, be);
@@ -193,17 +195,17 @@ function veMucTieu() {
   }
   const p = Math.min(1, Math.max(0, du) / q.gia), con = q.gia - du;
   $("#goal").innerHTML = `<span class="gi">${q.icon}</span><div style="flex:1;min-width:0"><h2>🎯 Mục tiêu của con</h2><h3>${esc(q.ten)}</h3>
-    <div class="bar ${p >= 1 ? "full" : ""}"><i style="width:${Math.max(4, p * 100)}%"></i><em>${Math.max(0, du)} / ${q.gia} sao</em></div>
-    <div class="msg ${p >= 1 ? "ok" : ""}">${p >= 1 ? "Đủ sao rồi! Đổi quà ngay thôi! 🎉" : `Còn ${con} sao nữa thôi! Cố lên!`}</div></div>`;
+    <div class="bar ${p >= 1 ? "full" : ""}"><i style="width:${Math.max(4, p * 100)}%"></i><em>${Math.max(0, du)} / ${q.gia} CIECAS</em></div>
+    <div class="msg ${p >= 1 ? "ok" : ""}">${p >= 1 ? "Đủ CIECAS rồi! Đổi quà ngay thôi! 🎉" : `Còn ${con} CIECAS nữa thôi! Cố lên!`}</div></div>`;
 }
 function veQua() {
   const du = ViSao.soDu(S, be), mt = S.vi[be].mucTieu, ds = ViSao.quaCua(S, be).slice().sort((a, b) => a.gia - b.gia);
   $("#grid").innerHTML = ds.length ? ds.map(q => {
     const p = Math.min(1, Math.max(0, du) / q.gia), du2 = du >= q.gia, isG = q.id === mt;
     return `<div class="gift ${isG ? "isGoal" : ""}">${isG ? '<span class="tagGoal">🎯 Mục tiêu</span>' : ""}
-      <div class="gi">${q.icon}</div><h3>${esc(q.ten)}</h3><div class="price">⭐ ${q.gia}</div>
+      <div class="gi">${q.icon}</div><h3>${esc(q.ten)}</h3><div class="price">${XU} ${q.gia}</div>
       <div class="bar ${du2 ? "full" : ""}"><i style="width:${Math.max(4, p * 100)}%"></i></div>
-      <div class="need">${du2 ? "Con đủ sao rồi!" : `Còn thiếu ${q.gia - Math.max(0, du)} sao`}</div>
+      <div class="need">${du2 ? "Con đủ CIECAS rồi!" : `Còn thiếu ${q.gia - Math.max(0, du)} CIECAS`}</div>
       <div class="acts">
         <button class="b ${du2 ? "buy" : "off"}" data-doi="${q.id}" data-nav>🎁 Đổi quà</button>
         ${isG ? "" : `<button class="b goalB" data-mt="${q.id}" data-nav>🎯 Chọn làm mục tiêu</button>`}
@@ -214,10 +216,10 @@ function veQua() {
 }
 function veCuaCon() {
   const ds = S.don.filter(d => d.c === be).sort((a, b) => b.t - a.t).slice(0, 12);
-  const TT = { cho: "⏳ Chờ bố mẹ duyệt", duyet: "✅ Bố mẹ đã đồng ý", tuchoi: "↩️ Đã trả lại sao" };
+  const TT = { cho: "⏳ Chờ bố mẹ duyệt", duyet: "✅ Bố mẹ đã đồng ý", tuchoi: "↩️ Đã trả lại CIECAS" };
   $("#mine").innerHTML = ds.length ? ds.map(d => `<div class="row"><span class="gi">${d.icon}</span>
-    <span class="nm">${esc(d.ten)}<small>⭐ ${d.gia} sao · ${new Date(d.t).toLocaleDateString("vi-VN", { day: "numeric", month: "numeric" })}${d.loiNhan ? " · Bố mẹ nhắn: " + esc(d.loiNhan) : ""}</small></span>
-    <span class="st ${d.tt}">${TT[d.tt]}</span></div>`).join("") : `<p class="none">Con chưa đổi món quà nào. Tích sao rồi đổi quà đầu tiên nhé!</p>`;
+    <span class="nm">${esc(d.ten)}<small>${XU} ${d.gia} CIECAS · ${new Date(d.t).toLocaleDateString("vi-VN", { day: "numeric", month: "numeric" })}${d.loiNhan ? " · Bố mẹ nhắn: " + esc(d.loiNhan) : ""}</small></span>
+    <span class="st ${d.tt}">${TT[d.tt]}</span></div>`).join("") : `<p class="none">Con chưa đổi món quà nào. Tích CIECAS rồi đổi quà đầu tiên nhé!</p>`;
   const cho = S.don.filter(d => d.tt === "cho").length;
   $("#nutBoMe").innerHTML = "🔒 Bố mẹ duyệt" + (cho ? `<span class="dot">${cho}</span>` : "");
 }
@@ -226,7 +228,7 @@ function ve() { document.body.className = be; veBe(); veVi(); veMucTieu(); veQua
 /* ---------- hành động ---------- */
 function chonBe(c) { be = c; localStorage.setItem("cuaHang_be", c); ve(); baoTin(); }
 function chonMucTieu(id) {
-  S = ViSao.doc(); S.vi[be].mucTieu = id; ViSao.luu(S); vui(); noi(LOI.mucTieu); ve();
+  S = ViSao.doc(); S.vi[be].mucTieu = id; S.vi[be].suaMt = Date.now(); ViSao.luu(S); vui(); noi(LOI.mucTieu); ve();
   setTimeout(() => { const g = $("#goal"); g.scrollIntoView({ behavior: "smooth", block: "center" }); }, 50);
 }
 function hop(html, fn) {
@@ -234,40 +236,40 @@ function hop(html, fn) {
   const bs = [...$("#box").querySelectorAll("button")]; bs.forEach(b => b.setAttribute("data-nav", ""));
   setTimeout(() => bs[0] && bs[0].focus(), 60); fn && fn();
 }
-function dong() { $("#modal").classList.remove("on"); }
+function dong() { $("#modal").classList.remove("on"); setTimeout(() => { if (!$("#modal").classList.contains("on")) baoTin(); }, 400); }
 function hoiDoi(id) {
   const q = S.qua.find(x => x.id === id), du = ViSao.soDu(S, be); if (!q) return;
   if (du < q.gia) {
     buon(); noi(LOI.thieu);
-    hop(`<div class="gi">${q.icon}</div><h2>Con cần thêm ${q.gia - Math.max(0, du)} sao nữa</h2><p>Chơi các trò chơi, trả lời đúng thật nhiều câu là đủ sao thôi!</p>
+    hop(`<div class="gi">${q.icon}</div><h2>Con cần thêm ${q.gia - Math.max(0, du)} CIECAS nữa</h2><p>Chơi các trò chơi, trả lời đúng thật nhiều câu là đủ CIECAS thôi!</p>
       <div class="acts"><button class="b goalB" id="mOk">🎯 Chọn làm mục tiêu</button><button class="b off" id="mNo">Để sau</button></div>`, () => {
       $("#mOk").onclick = () => { dong(); chonMucTieu(id); }; $("#mNo").onclick = dong; });
     return;
   }
   ting(); noi(LOI.hoi);
-  hop(`<div class="gi">${q.icon}</div><h2>${esc(q.ten)}</h2><p>Con đổi <b>⭐ ${q.gia} sao</b> để lấy món quà này nhé?<br>Ví còn lại: ${du - q.gia} sao.</p>
+  hop(`<div class="gi">${q.icon}</div><h2>${esc(q.ten)}</h2><p>Con đổi <b>${XU} ${q.gia} CIECAS</b> để lấy món quà này nhé?<br>Ví còn lại: ${du - q.gia} CIECAS.</p>
     <div class="acts"><button class="b buy" id="mOk">✔ Đổi luôn!</button><button class="b off" id="mNo">Để con nghĩ thêm</button></div>`, () => {
     $("#mOk").onclick = () => guiDoi(q); $("#mNo").onclick = dong; });
 }
 function guiDoi(q) {
   S = ViSao.doc();
   if (ViSao.soDu(S, be) < q.gia) return dong();
-  S.don.push({ id: "d" + Date.now(), c: be, qid: q.id, ten: q.ten, icon: q.icon, gia: q.gia, t: Date.now(), tt: "cho" });
-  if (S.vi[be].mucTieu === q.id) S.vi[be].mucTieu = null;
+  S.don.push({ id: "d" + Date.now(), c: be, qid: q.id, ten: q.ten, icon: q.icon, gia: q.gia, t: Date.now(), sua: Date.now(), tt: "cho" });
+  if (S.vi[be].mucTieu === q.id) { S.vi[be].mucTieu = null; S.vi[be].suaMt = Date.now(); }
   ViSao.luu(S); vui(); phao(); noi(LOI.gui);
-  hop(`<div class="gi">📨</div><h2>Đã gửi cho bố mẹ!</h2><p>Bố mẹ sẽ xem và duyệt món quà <b>${esc(q.ten)}</b> cho con. Sao của con được giữ lại chờ bố mẹ nhé.</p>
+  hop(`<div class="gi">📨</div><h2>Đã gửi cho bố mẹ!</h2><p>Bố mẹ sẽ xem và duyệt món quà <b>${esc(q.ten)}</b> cho con. CIECAS của con được giữ lại chờ bố mẹ nhé.</p>
     <div class="acts"><button class="b buy" id="mOk">Hay quá!</button></div>`, () => { $("#mOk").onclick = dong; });
   ve();
 }
 // Báo cho con khi bố mẹ đã duyệt / từ chối
 function baoTin() {
   const d = S.don.find(x => x.c === be && x.tt !== "cho" && !x.daBao); if (!d) return false;
-  S = ViSao.doc(); const x = S.don.find(y => y.id === d.id); x.daBao = true; ViSao.luu(S);
+  S = ViSao.doc(); const x = S.don.find(y => y.id === d.id); x.daBao = true; x.sua = Date.now(); ViSao.luu(S);
   const ok = d.tt === "duyet";
   setTimeout(() => {
     if (ok) { vui(); phao(); noi(LOI.dongY); } else { buon(); noi(LOI.tuChoi); }
     hop(`<div class="gi">${d.icon}</div><h2>${ok ? "Bố mẹ đã đồng ý! 🎉" : "Bố mẹ chưa đổi được quà này"}</h2>
-      <p>${esc(d.ten)}${d.loiNhan ? `<br><b>Bố mẹ nhắn:</b> ${esc(d.loiNhan)}` : ""}${ok ? "" : `<br>⭐ ${d.gia} sao đã được trả lại vào ví của con.`}</p>
+      <p>${esc(d.ten)}${d.loiNhan ? `<br><b>Bố mẹ nhắn:</b> ${esc(d.loiNhan)}` : ""}${ok ? "" : `<br>${XU} ${d.gia} CIECAS đã được trả lại vào ví của con.`}</p>
       <div class="acts"><button class="b buy" id="mOk">${ok ? "Yeah! Cảm ơn bố mẹ!" : "Con hiểu rồi"}</button></div>`, () => { $("#mOk").onclick = () => { dong(); ve(); baoTin(); }; });
   }, 400);
   return true;
@@ -288,6 +290,9 @@ document.addEventListener("keydown", e => {
   e.preventDefault(); if (best) { best.focus(); best.scrollIntoView({ block: "nearest", behavior: "smooth" }); }
 });
 document.addEventListener("visibilitychange", () => { if (!document.hidden) { S = ViSao.dongBo(); ve(); baoTin(); } });
+// Kho chung: bố mẹ duyệt trên điện thoại thì TV thấy ngay (kiểm tra 12 giây/lần)
+ViSao.khiDoi(() => { S = ViSao.dongBo(); ve(); if (!$("#modal").classList.contains("on")) baoTin(); });
+ViSao.tuDong(12);
 
 ve();
 if (!baoTin()) setTimeout(() => noi(LOI.chao), 700);
@@ -295,6 +300,6 @@ setTimeout(() => { const b = document.querySelector(".kidBtn.on"); b && b.focus(
 window.__tm = { get S() { return S; }, get be() { return be; } };
 </script>
 <script src="../anh-chung/anh-that.js" defer></script>
-<script src="../anh-chung/nhac-nen.js" data-ten="Cửa hàng đổi sao" data-bpm="108" data-goc="F" data-kieu="marimba" data-vitri="right:14px;bottom:14px" data-not="F5 A5 C6 A5 G5 Bb5 A5 F5 E5 G5 F5 D5 C5 E5 F5 C5"></script>
+<script src="../anh-chung/nhac-nen.js" data-ten="Cửa hàng CIECAS" data-bpm="108" data-goc="F" data-kieu="marimba" data-vitri="right:14px;bottom:14px" data-not="F5 A5 C6 A5 G5 Bb5 A5 F5 E5 G5 F5 D5 C5 E5 F5 C5"></script>
 </body>
 </html>
