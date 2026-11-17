@@ -18,8 +18,10 @@ Mỗi lần chạy:
    `tools/ve_tranh_flux.py`): miễn phí, không giới hạn lượt, không chữ in mờ. Đẩy truyện lên là tự vẽ (mỗi truyện 1 máy, song song,
    khoảng 12-15 phút/tranh), đêm nào 0h41 cũng vẽ bù tranh còn thiếu. Tranh đã có (kể cả tranh Gemini vẽ) thì giữ nguyên.
    Kéo về, ghép bảng xem; tranh có người/chữ hoặc sai cảnh thì `git rm` để máy chủ vẽ lại.
-   Tranh FLUX mang dấu "FLUX.1-schnell" trong tệp. **Mỗi chiều 15h37, Claude giao Gemini Nano Banana Pro vẽ lại** các tranh mang dấu
-   này cho đẹp hơn (`tools/gemini-trinh-duyet.js`, truyện phát sớm làm trước, hết lượt trong ngày thì hôm sau làm tiếp).
-   Tóm lại: FLUX lo cho đủ tranh ngay, Gemini thay dần bằng tranh đẹp hơn.
+   Tranh FLUX chỉ vẽ cảnh vật (máy không vẽ giống mặt hai con được), mang dấu "FLUX.1-schnell" trong tệp.
+   **Mỗi chiều 15h37, Claude giao Gemini Nano Banana Pro vẽ lại tranh CÓ HAI CON** (`tools/gemini-trinh-duyet.js`):
+   Gemini nhìn bảng nhân vật `anh/nhan-vat.webp` (vẽ từ ảnh thật của hai con) để vẽ Lucie, Lucas giống nhau ở mọi trang.
+   Tranh đã có hai con ghi trong `anh/co-nhan-vat.json`. Truyện phát sớm làm trước; hết lượt trong ngày thì hôm sau làm tiếp.
+   Tóm lại: FLUX lo đủ tranh ngay, Gemini thay dần bằng tranh có hai con.
 5. Máy chủ GitHub tự đọc giọng VieNeu (doc-giong.yml), rồi **tự nghe lại bằng Whisper và đọc lại câu bị lỗi** (tools/kiem_giong.py).
 6. Báo anh 2-3 dòng: tên các truyện mới, ngày phát.

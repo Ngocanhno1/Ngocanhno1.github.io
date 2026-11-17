@@ -1,101 +1,159 @@
-/* Đoạn mã chạy trong Chrome (Claude in Chrome) để Gemini vẽ tranh và chuyển sang GitHub, không qua máy chủ Claude.
-   Dùng cho Sách truyện nói (games/sach-truyen). Mỗi lần gọi javascript_tool tối đa ~45 giây, nên vòng vẽ chạy ngầm, Claude hỏi tiến độ qua window.__tt.
+/* Đoạn mã chạy trong Chrome (Claude in Chrome) để Gemini Nano Banana Pro vẽ tranh Sách truyện CÓ HAI CON (Lucie, Lucas)
+   rồi chuyển thẳng sang GitHub, không qua máy chủ Claude.
 
-   BƯỚC 1 — Tab AI Studio, mô hình Nano Banana Pro:
-     https://aistudio.google.com/prompts/new_chat?authuser=ngocanh220788@gmail.com&model=gemini-3-pro-image-preview
-     Nạp tệp này (AI Studio chặn eval thường, phải qua Trusted Types), rồi gọi window.__veTruyen('tuan-12'):
+   Nạp tệp (AI Studio chặn eval thường, phải qua Trusted Types):
        const pol = trustedTypes.createPolicy('l' + Date.now(), { createScript: s => s });
        (0, eval)(pol.createScript(await (await fetch('https://raw.githubusercontent.com/Ngocanhno1/Ngocanhno1.github.io/main/tools/gemini-trinh-duyet.js?x=' + Date.now())).text()));
-       window.__veTruyen('tuan-12');
-     (Tab GitHub nạp tương tự; nếu Trusted Types báo lỗi thì dán thẳng phần hàm cần dùng.)
-     Mỗi truyện mở 1 cuộc trò chuyện mới (tranh cùng một nét vẽ). Ảnh lưu vào sessionStorage 'anh:<mã>' (960x640 webp).
-     Hỏi tiến độ: JSON.stringify(window.__tt)  -> {ma, xong:[...], loi:[...], het:true}
-   BƯỚC 2 — Xuất: window.__xuat(['tuan-12']) rồi bấm phím ctrl+c (công cụ computer, key).
-   BƯỚC 3 — Tab GitHub (đã đăng nhập Ngocanhno1):
-     https://github.com/Ngocanhno1/Ngocanhno1.github.io/upload/main/games/sach-truyen/anh
-     Dán cả tệp này, gọi window.__nhan(), bấm ctrl+v (computer key), rồi window.__ghi('Tranh Gemini vẽ ...') để commit.
-   Sau đó ở AI Studio: sessionStorage.clear() để không gửi lại tranh cũ. */
+   Tab AI Studio: https://aistudio.google.com/prompts/new_chat?authuser=ngocanh220788@gmail.com&model=gemini-3-pro-image-preview
+   Mỗi lần gọi javascript_tool tối đa ~45 giây: các vòng vẽ chạy ngầm, hỏi tiến độ bằng JSON.stringify(window.__tt).
 
-// ===== VE =====
-window.__veTruyen = async function (ma) {
+   BƯỚC 0 (một lần) — Bảng nhân vật: window.__taoNhanVat()  (đính kèm ảnh thật img/lucie.webp, img/lucas.webp,
+     Gemini vẽ lại hai con theo nét màu nước). Claude xem kỹ (giống hai con, dễ thương, không chữ) rồi xuất lên anh/nhan-vat.webp
+     bằng window.__xuat(['nhan-vat']). Muốn đổi bảng nhân vật thì xóa anh/nhan-vat.webp và anh/co-nhan-vat.json rồi làm lại.
+   BƯỚC 1 — Mỗi truyện 1 cuộc trò chuyện mới: window.__veTruyen('tuan-05'). Lượt đầu đính kèm bảng nhân vật.
+     Chỉ vẽ tranh chưa có hai con (không có trong anh/co-nhan-vat.json): tranh thiếu, tranh FLUX, tranh Gemini cũ không người.
+     Hết lượt trong ngày thì window.__tt.hetLuot = true.
+   BƯỚC 2 — Xuất: await window.__xuat(['tuan-05']) rồi bấm phím ctrl+c (công cụ computer, key). Kèm co-nhan-vat.json đã cập nhật.
+   BƯỚC 3 — Tab GitHub (đã đăng nhập Ngocanhno1): https://github.com/Ngocanhno1/Ngocanhno1.github.io/upload/main/games/sach-truyen/anh
+     GitHub chặn nạp tệp từ xa: dán thẳng hai hàm __nhan và __ghi ở cuối tệp này, gọi __nhan(), bấm ctrl+v, rồi __ghi('Tranh Gemini vẽ ...').
+     __ghi tự chờ 12 giây cho GitHub tải xong rồi mới bấm Commit (bấm sớm ra trang lỗi). */
+
+var __RAW = 'https://raw.githubusercontent.com/Ngocanhno1/Ngocanhno1.github.io/main/';
+var __STYLE = "Children's picture-book illustration, soft watercolor on textured paper, warm gentle colors, cozy, landscape 3:2 aspect ratio. No text, no letters, no signature.";
+var __NHAN_VAT = "The two main characters are LUCIE (8-year-old girl, older sister, gentle and thoughtful) and LUCAS (6-year-old boy, younger brother, lively and curious). " +
+  "Draw them EXACTLY like the attached character reference: same faces, hairstyles and outfits, cute storybook style (not photorealistic).";
+
+async function __tep(url, ten) {   // tải ảnh, đổi sang PNG để đính kèm
+  const b = await (await fetch(url + (url.includes('?') ? '&' : '?') + 'x=' + Date.now(), { cache: 'no-store' })).blob();
+  const im = await createImageBitmap(b); const c = document.createElement('canvas'); c.width = im.width; c.height = im.height;
+  c.getContext('2d').drawImage(im, 0, 0); const png = await new Promise(r => c.toBlob(r, 'image/png'));
+  return new File([png], ten, { type: 'image/png' });
+}
+async function __dinhKem(files) {
+  const dt = new DataTransfer(); files.forEach(f => dt.items.add(f));
+  const inp = document.querySelector('input[type=file]'); inp.files = dt.files; inp.dispatchEvent(new Event('change', { bubbles: true }));
+  await new Promise(r => setTimeout(r, 5000));
+}
+async function __webp(src, W = 960, H = 640) {
+  const im = new Image(); im.src = src; await im.decode();
+  if (im.naturalWidth < 300) throw new Error('anh nho');
+  const c = document.createElement('canvas'); c.width = W; c.height = H; const g = c.getContext('2d');
+  const s = Math.max(W / im.naturalWidth, H / im.naturalHeight), w = im.naturalWidth * s, h = im.naturalHeight * s;
+  g.drawImage(im, (W - w) / 2, (H - h) / 2, w, h); return c.toDataURL('image/webp', 0.82).split(',')[1];
+}
+// gửi 1 lệnh, chờ Gemini vẽ xong, trả về ảnh của lượt trả lời CUỐI (blob ảnh cũ có thể đổi địa chỉ khi trang vẽ lại)
+async function __guiVaCho(P, kem) {
   const sl = ms => new Promise(r => setTimeout(r, ms));
-  const t = await fetch(`https://raw.githubusercontent.com/Ngocanhno1/Ngocanhno1.github.io/main/games/sach-truyen/truyen/${ma}.json?x=${Date.now()}`).then(r => r.json());
-  const STYLE = "Children's picture-book illustration, soft watercolor, warm gentle colors, landscape 3:2 aspect ratio. Absolutely NO people, NO faces, NO children, NO text, NO letters, NO signature.";
-  const jobs = [[`${ma}-bia`, `${STYLE} Book cover illustration: ${t.bia}.`]].concat(t.trang.map((p, i) => [`${ma}-${i + 1}`,
-    `Next illustration for the same picture book. Keep exactly the same watercolor style and color palette, landscape 3:2. No people, no faces, no text. Scene: ${p.anh}.`]));
-  const blobs = () => [...new Set([...document.querySelectorAll('img')].filter(i => i.src.startsWith('blob:')).map(i => i.src))];   // tab chạy nền: ảnh chưa giải mã nên không lọc theo kích thước
   const luot = () => [...document.querySelectorAll('ms-chat-turn')];
-  // ảnh của lượt trả lời CUỐI CÙNG (blob của ảnh cũ có thể đổi địa chỉ khi trang vẽ lại, nên không so tập blob)
   const anhCuoi = () => { const t = luot(); const c = t[t.length - 1]; if (!c || /^\s*User/.test(c.innerText)) return []; return [...c.querySelectorAll('img')].filter(i => i.src.startsWith('blob:')).map(i => i.src); };
   const dang = () => [...document.querySelectorAll('button')].some(b => /\bStop\b/.test(b.innerText));
-  async function webp(src) {
-    const im = new Image(); im.src = src; await im.decode();
-    if (im.naturalWidth < 300) throw new Error('anh nho');
-    const c = document.createElement('canvas'); c.width = 960; c.height = 640; const g = c.getContext('2d');
-    const s = Math.max(960 / im.naturalWidth, 640 / im.naturalHeight), w = im.naturalWidth * s, h = im.naturalHeight * s;
-    g.drawImage(im, (960 - w) / 2, (640 - h) / 2, w, h); return c.toDataURL('image/webp', 0.8).split(',')[1];
+  for (let i = 0; i < 90 && dang(); i++) await sl(2000);
+  if (kem && kem.length) await __dinhKem(kem);
+  const soLuot = luot().length;
+  const ta = document.querySelector('textarea');
+  Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value').set.call(ta, P); ta.dispatchEvent(new Event('input', { bubbles: true }));
+  await sl(800);
+  const b = [...document.querySelectorAll('button')].find(x => /^\s*Run/.test(x.innerText)); if (!b) return { loi: 'khong-thay-nut-Run' };
+  b.click();
+  for (let i = 0; i < 15 && !dang(); i++) await sl(1000);
+  for (let i = 0; i < 150 && dang(); i++) await sl(2000);
+  for (let i = 0; i < 15 && !(luot().length > soLuot && anhCuoi().length); i++) await sl(1000);
+  const moi = luot().length > soLuot ? anhCuoi() : [];
+  if (!moi.length) {
+    const q = /quota exceeded|daily limit|rate limit/i.test(document.body.innerText.slice(-4000));
+    return { loi: q ? 'HET_LUOT' : 'khong-co-anh' };
   }
+  return { src: moi[moi.length - 1] };
+}
+
+// ===== BẢNG NHÂN VẬT =====
+window.__taoNhanVat = async function () {
+  window.__tt = { ma: 'nhan-vat', xong: [], loi: [] };
+  const kem = [await __tep('https://ngocanhno1.github.io/img/lucie.webp', 'lucie.png'), await __tep('https://ngocanhno1.github.io/img/lucas.webp', 'lucas.png')];
+  const P = "Create a CHARACTER REFERENCE SHEET for a children's watercolor picture book, landscape 3:2. " +
+    "Attached photo 1 is the girl LUCIE (8 years old, older sister). Attached photo 2 is the boy LUCAS (6 years old, younger brother). " +
+    "Redraw both children as charming storybook characters in soft watercolor, keeping their real face shape, eyes, hairstyle and hair color so the family recognizes them. " +
+    "Show both full-body, standing side by side, front view, friendly smiles, on a plain cream background. " +
+    "Give them simple outfits to keep for the whole book: Lucie in a pastel pink dress with a small yellow hair clip, Lucas in a light blue T-shirt and beige shorts. " +
+    "No text, no names, no letters.";
+  const r = await __guiVaCho(P, kem);
+  if (r.src) { sessionStorage.setItem('anh:nhan-vat', await __webp(r.src)); window.__tt.xong.push('nhan-vat'); } else window.__tt.loi.push(r.loi);
+  window.__tt.het = true;
+};
+
+// ===== VẼ MỘT TRUYỆN =====
+window.__veTruyen = async function (ma) {
   window.__tt = { ma, xong: [], loi: [] };
+  const t = await fetch(`${__RAW}games/sach-truyen/truyen/${ma}.json?x=${Date.now()}`).then(r => r.json());
+  const coNV = await fetch(`${__RAW}games/sach-truyen/anh/co-nhan-vat.json?x=${Date.now()}`, { cache: 'no-store' }).then(r => r.ok ? r.json() : []).catch(() => []);
+  const sach = s => (s || '').replace(/,?\s*(no people|without people|no faces?|no humans?|no children|no text)\b/gi, '').replace(/\s+,/g, ',').trim();
+  const jobs = [[`${ma}-bia`, `Book cover illustration for the story "${t.tieu_de}". Show Lucie and Lucas together, happy, in this setting: ${sach(t.bia)}.`]]
+    .concat(t.trang.map((p, i) => [`${ma}-${i + 1}`,
+      `Illustration for page ${i + 1}. The page text (Vietnamese) is: «${p.loi}». Setting hints: ${sach(p.anh)}. ` +
+      `Show the characters this page is about, doing what the text says (draw Lucie and/or Lucas only if they are in this moment). ` +
+      `Parents, grandparents or other adults, if present, are gentle and simply drawn. Keep the same style, characters and outfits as before.`]));
+  let dau = true;
   for (const [ten, P] of jobs) {
-    if (sessionStorage.getItem('anh:' + ten)) { window.__tt.xong.push(ten); continue; }
-    // tranh đã có trên trang thì bỏ qua (chạy lại chỉ vẽ tranh còn thiếu)
-    // tranh đã có thì bỏ qua — trừ tranh do máy chủ vẽ bằng FLUX (có dấu "FLUX.1-schnell" trong tệp): Gemini vẽ lại đẹp hơn
-    const coSan = await fetch(`https://raw.githubusercontent.com/Ngocanhno1/Ngocanhno1.github.io/main/games/sach-truyen/anh/${ten}.webp?x=${Date.now()}`, { cache: 'no-store' })
-      .then(async r => r.ok && !new TextDecoder('latin1').decode(await r.arrayBuffer()).includes('FLUX.1-schnell')).catch(() => false);
-    if (coSan) { window.__tt.xong.push(ten + '(co san)'); continue; }
-    const PP = window.__tt.daGui ? P : (P.startsWith(STYLE) ? P : STYLE + ' ' + P);   // lượt đầu của cuộc trò chuyện luôn kèm mô tả nét vẽ
-    window.__tt.daGui = true;
+    if (sessionStorage.getItem('anh:' + ten) || coNV.includes(ten + '.webp')) { window.__tt.xong.push(ten + '(co)'); continue; }
+    let kem = null, PP = P;
+    if (dau) {   // lượt đầu: đính kèm bảng nhân vật (chưa có thì đính kèm ảnh thật của hai con)
+      const nv = await fetch(`${__RAW}games/sach-truyen/anh/nhan-vat.webp?x=${Date.now()}`, { method: 'HEAD', cache: 'no-store' }).then(r => r.ok).catch(() => false);
+      kem = nv ? [await __tep(`${__RAW}games/sach-truyen/anh/nhan-vat.webp`, 'nhan-vat.png')]
+               : [await __tep('https://ngocanhno1.github.io/img/lucie.webp', 'lucie.png'), await __tep('https://ngocanhno1.github.io/img/lucas.webp', 'lucas.png')];
+      PP = `${__STYLE} ${__NHAN_VAT} ${P}`;
+      dau = false;
+    }
     let ok = false;
     for (let lan = 0; lan < 2 && !ok; lan++) {
-      for (let i = 0; i < 90 && dang(); i++) await sl(2000);   // lượt trước còn chạy thì chờ hẳn
-      const truoc = new Set(blobs()), soLuot = luot().length;
-      const ta = document.querySelector('textarea');
-      Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value').set.call(ta, PP); ta.dispatchEvent(new Event('input', { bubbles: true }));
-      await sl(800);
-      const b = [...document.querySelectorAll('button')].find(x => /^\s*Run/.test(x.innerText)); if (!b) { window.__tt.loi.push(ten + ':khong-thay-nut-Run'); break; }
-      b.click();
-      for (let i = 0; i < 15 && !dang(); i++) await sl(1000);    // chờ bắt đầu vẽ
-      for (let i = 0; i < 120 && dang(); i++) await sl(2000);    // chờ vẽ xong
-      for (let i = 0; i < 15 && !(luot().length > soLuot && anhCuoi().length); i++) await sl(1000);
-      const moi = luot().length > soLuot ? anhCuoi() : [];
-      let b64 = null; for (const s of moi.reverse()) { try { b64 = await webp(s); break; } catch (e) {} }
-      if (b64) { sessionStorage.setItem('anh:' + ten, b64); window.__tt.xong.push(ten); ok = true; }
-      else window.__tt.loi.push(ten + ':lan' + lan);
+      const r = await __guiVaCho(PP, lan === 0 ? kem : null);
+      if (r.src) { sessionStorage.setItem('anh:' + ten, await __webp(r.src)); window.__tt.xong.push(ten); ok = true; }
+      else { window.__tt.loi.push(ten + ':' + r.loi); if (r.loi === 'HET_LUOT') { window.__tt.het = true; window.__tt.hetLuot = true; return; } }
     }
   }
   window.__tt.het = true;
 };
 
-// ===== XUAT ===== window.__xuat(['tuan-12','tuan-13']) rồi bấm ctrl+c
-window.__xuat = function (dsMa) {
-  const d = {};
-  for (let i = 0; i < sessionStorage.length; i++) { const k = sessionStorage.key(i); if (k.startsWith('anh:') && dsMa.some(m => k.startsWith('anh:' + m + '-'))) d[k.slice(4) + '.webp'] = { b: sessionStorage.getItem(k) }; }
+// ===== XUẤT ===== await window.__xuat(['tuan-05']) rồi bấm ctrl+c. Kèm co-nhan-vat.json (danh sách tranh đã có hai con).
+window.__xuat = async function (dsMa) {
+  const d = {}, moi = [];
+  for (let i = 0; i < sessionStorage.length; i++) {
+    const k = sessionStorage.key(i); if (!k.startsWith('anh:')) continue;
+    const ten = k.slice(4);
+    if (ten === 'nhan-vat' ? dsMa.includes('nhan-vat') : dsMa.some(m => ten.startsWith(m + '-'))) { d[ten + '.webp'] = { b: sessionStorage.getItem(k) }; if (ten !== 'nhan-vat') moi.push(ten + '.webp'); }
+  }
+  if (moi.length) {
+    const cu = await fetch(`${__RAW}games/sach-truyen/anh/co-nhan-vat.json?x=${Date.now()}`, { cache: 'no-store' }).then(r => r.ok ? r.json() : []).catch(() => []);
+    d['co-nhan-vat.json'] = { t: JSON.stringify([...new Set(cu.concat(moi))].sort()) };
+  }
   let ta = document.getElementById('__xuat'); if (!ta) { ta = document.createElement('textarea'); ta.id = '__xuat'; ta.style.cssText = 'position:fixed;left:0;top:0;width:200px;height:50px;z-index:99999'; document.body.appendChild(ta); }
-  ta.value = JSON.stringify(d); ta.focus(); ta.select(); return Object.keys(d).length;
+  ta.value = JSON.stringify(d); ta.focus(); ta.select(); return Object.keys(d);
 };
 
-// ===== NHAN ===== (tab GitHub upload) window.__nhan() rồi bấm ctrl+v
+// ===== NHẬN (tab GitHub upload) ===== window.__nhan() rồi bấm ctrl+v (dán được nhiều lần, tệp cộng dồn)
 window.__nhan = function () {
-  const ta = document.createElement('textarea'); ta.id = '__nhan'; ta.style.cssText = 'position:fixed;left:10px;top:10px;width:300px;height:60px;z-index:99999;background:#ffd'; document.body.appendChild(ta);
-  ta.addEventListener('paste', e => {
-    e.preventDefault(); const d = JSON.parse(e.clipboardData.getData('text')); const dt = new DataTransfer();
-    for (const [k, v] of Object.entries(d)) {
-      if (v.t != null) dt.items.add(new File([v.t], k, { type: 'text/plain' }));
-      else { const b = Uint8Array.from(atob(v.b), c => c.charCodeAt(0)); dt.items.add(new File([b], k, { type: 'image/webp' })); }
-    }
-    const inp = document.querySelector('input[type=file]'); inp.files = dt.files; inp.dispatchEvent(new Event('change', { bubbles: true }));
-    ta.value = 'da nhan ' + Object.keys(d).length;
-  });
+  let ta = document.getElementById('__nhan');
+  if (!ta) {
+    ta = document.createElement('textarea'); ta.id = '__nhan'; ta.style.cssText = 'position:fixed;left:10px;top:10px;width:300px;height:60px;z-index:99999;background:#ffd'; document.body.appendChild(ta);
+    ta.addEventListener('paste', e => {
+      e.preventDefault(); const d = JSON.parse(e.clipboardData.getData('text')); const dt = new DataTransfer();
+      for (const [k, v] of Object.entries(d)) {
+        if (v.t != null) dt.items.add(new File([v.t], k, { type: k.endsWith('.json') ? 'application/json' : 'text/plain' }));
+        else { const b = Uint8Array.from(atob(v.b), c => c.charCodeAt(0)); dt.items.add(new File([b], k, { type: 'image/webp' })); }
+      }
+      const inp = document.querySelector('input[type=file]'); inp.files = dt.files; inp.dispatchEvent(new Event('change', { bubbles: true }));
+      ta.value = (ta.value ? ta.value + ' + ' : '') + Object.keys(d).join(',');
+    });
+  }
   ta.focus(); return 'san sang';
 };
 
-// ===== GHI ===== window.__ghi('Tranh ...') — chờ tải lên xong rồi commit
+// ===== GHI ===== await window.__ghi('Tranh ...') — tự chờ tải lên xong rồi commit
 window.__ghi = async function (tin) {
   const sl = ms => new Promise(r => setTimeout(r, ms));
-  await sl(12000); document.getElementById('__nhan')?.remove();   // chờ GitHub tải hết tệp lên (bấm sớm sẽ ra trang lỗi)
+  await sl(12000); const v = document.getElementById('__nhan')?.value; document.getElementById('__nhan')?.remove();
   const m = document.querySelector('#commit-summary-input, input[name="message"]');
   Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(m, tin); m.dispatchEvent(new Event('input', { bubbles: true }));
   await sl(1500);
   const b = [...document.querySelectorAll('button')].find(x => /^\s*Commit changes\s*$/.test(x.innerText));
-  setTimeout(() => b.click(), 300); return !b.disabled;
+  setTimeout(() => b.click(), 300); return v;
 };
