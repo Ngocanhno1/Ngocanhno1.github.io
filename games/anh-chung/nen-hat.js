@@ -1,80 +1,73 @@
-/* Nền hạt màu xoáy theo con chuột (kiểu trang Google Antigravity).
-   Gắn: <script src="games/anh-chung/nen-hat.js"></script> — tự vẽ một lớp nền phía sau nội dung.
-   - Hàng nghìn vạch màu xếp thành các vòng tròn, xoay chậm; tâm vòng xoáy trôi theo chuột / ngón tay.
-   - Chuột đi qua thì hạt dạt ra như gợn nước. Không có chuột (TV) thì tâm tự lượn chậm.
-   - Tab ẩn thì dừng vẽ cho đỡ tốn pin; máy bật "giảm chuyển động" thì đứng yên. */
+/* Nền "thạch" kiểu Antigravity cho trang của Lucie & Lucas (tự viết lại, không dùng mã của Google).
+   - Nền: chấm xám li ti đứng yên.
+   - Quanh con trỏ: một vành tròn lớn gồm các vạch màu chĩa ra từ tâm (xanh dương -> tím -> đỏ cam).
+   - Vành đi theo con trỏ bằng lò xo có nảy, vòng ngoài trễ hơn vòng trong -> rung rinh như thạch.
+   - Không có chuột (TV) thì vành tự lượn chậm; tab ẩn thì dừng; máy bật "giảm chuyển động" thì đứng yên. */
 (function () {
   if (window.__nenHat) return; window.__nenHat = true;
-  var cv = document.createElement("canvas");
+  var cv = document.createElement("canvas"), dotsCv = document.createElement("canvas");
   cv.setAttribute("aria-hidden", "true");
   cv.style.cssText = "position:fixed;inset:0;width:100vw;height:100vh;z-index:-1;pointer-events:none";
-  var g = cv.getContext("2d");
-  var W = 0, H = 0, DPR = 1, P = [], R = [], still = false;
+  var g = cv.getContext("2d"), gd = dotsCv.getContext("2d");
+  var W = 0, H = 0, DPR = 1, P = [], R = [], RMAX = 400, still = false;
   try { still = matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) {}
-  var mouse = { x: -9999, y: -9999, t: 0 }, C = { x: 0, y: 0 }, T = { x: 0, y: 0 };
+  var mouse = { x: 0, y: 0, t: 0 };
+  var C = { x: 0, y: 0, vx: 0, vy: 0 };   // tâm vành: lò xo nảy đuổi theo con trỏ
 
+  function sstep(a, b, x) { x = Math.max(0, Math.min(1, (x - a) / (b - a))); return x * x * (3 - 2 * x); }
   function build() {
     DPR = Math.min(window.devicePixelRatio || 1, 1.5);
     W = innerWidth; H = innerHeight;
-    cv.width = W * DPR; cv.height = H * DPR; g.setTransform(DPR, 0, 0, DPR, 0, 0);
-    P = [];
-    var maxR = Math.hypot(W, H) * 0.62, gap = W < 700 ? 22 : 28, budget = Math.min(900, Math.round(W * H / 1500));
-    var rings = Math.floor(maxR / gap), per = budget / rings;
-    R = []; for (var q = 0; q <= rings; q++) R.push({ x: C.x || W * 0.55, y: C.y || H * 0.42 });
-    for (var k = 1; k <= rings; k++) {
-      var r = k * gap, n = Math.max(6, Math.round(per * (0.35 + 1.3 * k / rings))), sp = (k % 2 ? 1 : -1) * (0.05 + 0.12 / Math.sqrt(k));
-      for (var i = 0; i < n; i++) {
-        P.push({ k: k, x: 0, y: 0, vx: 0, vy: 0, ph: Math.random() * 6.28, r: r + (Math.random() - 0.5) * gap * 0.5, a: (i / n) * Math.PI * 2 + Math.random() * 0.3, sp: sp * (0.8 + Math.random() * 0.4),
-          len: 2 + Math.random() * 3.2, w: 1.3 + Math.random() * 1.3, ox: 0, oy: 0, dot: Math.random() < 0.18 });
-      }
+    [cv, dotsCv].forEach(function (c) { c.width = W * DPR; c.height = H * DPR; });
+    g.setTransform(DPR, 0, 0, DPR, 0, 0); gd.setTransform(DPR, 0, 0, DPR, 0, 0);
+    gd.clearRect(0, 0, W, H); gd.fillStyle = "rgba(70,70,90,.32)";   // chấm xám nền, vẽ sẵn một lần
+    var n = Math.round(W * H / 2600);
+    for (var i = 0; i < n; i++) { gd.beginPath(); gd.arc(Math.random() * W, Math.random() * H, 0.5 + Math.random() * 0.7, 0, 6.283); gd.fill(); }
+    RMAX = Math.min(W, H) * 0.56;
+    var gap = W < 700 ? 24 : 32, spacing = W < 700 ? 24 : 34;
+    if (!C.x) { C.x = W * 0.6; C.y = H * 0.55; }
+    P = []; R = [];
+    var rings = Math.ceil(RMAX / gap);
+    for (var k = 0; k <= rings; k++) R.push({ x: C.x, y: C.y });
+    for (k = 1; k <= rings; k++) {
+      var r = k * gap, m = Math.max(8, Math.round(2 * Math.PI * r / spacing)), sp = (k % 2 ? 1 : -1) * 0.025, off = Math.random() * 6.283;
+      for (var j = 0; j < m; j++) P.push({ k: k, r: r + (Math.random() - 0.5) * 6, a: off + j / m * 6.283 + (Math.random() - 0.5) * 0.06, sp: sp, ph: Math.random() * 6.283, s: 0.8 + Math.random() * 0.5 });
     }
-    if (!C.x) { C.x = T.x = W * 0.55; C.y = T.y = H * 0.42; }
   }
-  function color(a, r, dot) {
-    if (dot) return "rgba(60,60,80," + 0.35 * fade(r) + ")";
-    var h = (230 + ((Math.cos(a) + 1) / 2) * 140) % 360;   // xanh dương bên trái -> tím -> đỏ cam bên phải
-    return "hsla(" + h.toFixed(0) + ",85%,58%," + (0.75 * fade(r)).toFixed(3) + ")";
-  }
-  function fade(r) { var m = Math.min(W, H) * 0.95; return r < 40 ? r / 40 : Math.max(0, 1 - Math.pow(r / m, 2.2)); }
+  function hue(a) { return 228 + 128 * (1 + Math.cos(a + Math.PI / 4)) / 2; }   // trái-dưới xanh dương, trên-phải đỏ cam
 
   var last = 0;
   function frame(ts) {
     requestAnimationFrame(frame);
     if (document.hidden) return;
-    var dt = Math.min(0.05, (ts - last) / 1000 || 0.016); last = ts;
-    var idle = !mouse.t || ts - mouse.t > 4000;
-    if (idle) { T.x = W * (0.5 + 0.18 * Math.sin(ts / 5200)); T.y = H * (0.42 + 0.12 * Math.sin(ts / 3900)); }
-    else { T.x = mouse.x; T.y = mouse.y; }
-    C.x += (T.x - C.x) * Math.min(1, dt * 1.6); C.y += (T.y - C.y) * Math.min(1, dt * 1.6);
-    g.clearRect(0, 0, W, H);
-    g.lineCap = "round";
-    var t = ts / 1000;
+    var dt = Math.min(0.033, (ts - last) / 1000 || 0.016); last = ts;
+    var t = ts / 1000, idle = !mouse.t || ts - mouse.t > 5000;
+    var tx = idle ? W * (0.55 + 0.17 * Math.sin(t * 0.21)) : mouse.x, ty = idle ? H * (0.55 + 0.13 * Math.sin(t * 0.17 + 1)) : mouse.y;
+    C.vx += (tx - C.x) * 95 * dt; C.vy += (ty - C.y) * 95 * dt;   // lò xo nảy: vượt quá một chút rồi rung về như thạch
+    var damp = Math.exp(-9 * dt); C.vx *= damp; C.vy *= damp;
+    C.x += C.vx * dt; C.y += C.vy * dt;
     R[0].x = C.x; R[0].y = C.y;
-    for (var q = 1; q < R.length; q++) {   // vòng ngoài đuổi theo vòng trong: chuyển động lan ra như gợn sóng
-      var lag = Math.min(1, dt * (9 - 6 * q / R.length));
+    for (var q = 1; q < R.length; q++) {   // vòng ngoài đuổi vòng trong: lan sóng, kéo giãn như thạch
+      var lag = Math.min(1, dt * (16 - 11 * q / R.length));
       R[q].x += (R[q - 1].x - R[q].x) * lag; R[q].y += (R[q - 1].y - R[q].y) * lag;
     }
+    g.clearRect(0, 0, W, H);
+    g.drawImage(dotsCv, 0, 0, W, H);
+    g.lineCap = "round";
+    var inner = Math.min(W, H) * 0.12, peak = Math.min(W, H) * 0.26;
     for (var i = 0; i < P.length; i++) {
-      var p = P[i], c = R[Math.min(p.k, R.length - 1)];
+      var p = P[i];
+      var w = sstep(inner * 0.4, peak, p.r) * (1 - sstep(RMAX * 0.5, RMAX, p.r));   // vành tròn: thưa ở tâm, mờ dần ra ngoài
+      if (w < 0.03) continue;
       if (!still) p.a += p.sp * dt;
-      var breathe = 1 + 0.05 * Math.sin(t * 1.1 - p.r * 0.012) + 0.02 * Math.sin(t * 2.3 + p.ph);   // vòng thở phập phồng
+      var c = R[p.k], rr = p.r * (1 + 0.035 * Math.sin(t * 1.6 - p.r * 0.018) + 0.012 * Math.sin(t * 3 + p.ph));
       var ca = Math.cos(p.a), sa = Math.sin(p.a);
-      var tx = c.x + ca * p.r * breathe + Math.sin(t * 0.7 + p.ph + p.r * 0.01) * 4;
-      var ty = c.y + sa * p.r * 0.92 * breathe + Math.cos(t * 0.6 + p.ph) * 4;
-      var dx = tx - mouse.x, dy = ty - mouse.y, d2 = dx * dx + dy * dy;   // chuột đi qua: hạt dạt ra mềm mại
-      if (!idle && d2 < 19600) { var d = Math.sqrt(d2) || 1, f = Math.pow((140 - d) / 140, 2) * 46; tx += dx / d * f; ty += dy / d * f; }
-      if (!p.x) { p.x = tx; p.y = ty; }
-      p.vx += (tx - p.x) * 18 * dt; p.vy += (ty - p.y) * 18 * dt;   // lò xo + giảm chấn: có quán tính, uốn lượn tự nhiên
-      p.vx *= Math.pow(0.02, dt); p.vy *= Math.pow(0.02, dt);
-      p.x += p.vx * dt * 6; p.y += p.vy * dt * 6;
-      var x = p.x, y = p.y;
+      var x = c.x + ca * rr, y = c.y + sa * rr;
       if (x < -10 || y < -10 || x > W + 10 || y > H + 10) continue;
-      g.strokeStyle = color(p.a, p.r, p.dot);
-      g.lineWidth = p.dot ? 1.4 : p.w;
-      var sp2 = p.vx * p.vx + p.vy * p.vy, ux = -sa, uy = ca;   // vạch nghiêng theo hướng đang trôi
-      if (sp2 > 4) { var s0 = Math.sqrt(sp2); ux = ux * 0.4 + p.vx / s0 * 0.6; uy = uy * 0.4 + p.vy / s0 * 0.6; var n0 = Math.hypot(ux, uy) || 1; ux /= n0; uy /= n0; }
-      var L = p.dot ? 0.6 : p.len * (1 + Math.min(1.2, Math.sqrt(sp2) / 30));
-      g.beginPath(); g.moveTo(x - ux * L, y - uy * L); g.lineTo(x + ux * L, y + uy * L); g.stroke();
+      var L = (1.2 + 3.3 * w) * p.s, lw = (1 + 1.5 * w) * p.s;
+      g.strokeStyle = "hsla(" + hue(p.a).toFixed(0) + ",88%,56%," + (0.85 * w).toFixed(2) + ")";
+      g.lineWidth = lw;
+      g.beginPath(); g.moveTo(x - ca * L, y - sa * L); g.lineTo(x + ca * L, y + sa * L); g.stroke();
     }
   }
   function mv(x, y) { mouse.x = x; mouse.y = y; mouse.t = performance.now(); }
