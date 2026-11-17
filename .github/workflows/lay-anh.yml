@@ -5,6 +5,8 @@ on:
     paths:
       - "games/*/anh-nguon.json"
   workflow_dispatch:
+  schedule:
+    - cron: "17 19 * * *"   # 2 giờ 17 sáng giờ Việt Nam: tự vẽ nốt tranh AI còn thiếu (lượt vẽ miễn phí hồi lại mỗi ngày)
 
 permissions:
   contents: write
