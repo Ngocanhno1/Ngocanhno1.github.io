@@ -1,0 +1,15 @@
+# Gia hạn chế độ nhà phát triển (Developer Mode) của TV LG phòng khách mỗi tuần,
+# để app "Góc Trò Chơi Lucie & Lucas" không bị TV tự xóa. Mã chỉ dùng được để gia hạn.
+name: Gia hạn Developer Mode TV LG
+on:
+  schedule:
+    - cron: "23 1 * * 1"   # 8:23 sáng thứ Hai giờ Việt Nam
+  workflow_dispatch:
+jobs:
+  gia-han:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          r=$(curl -sS --retry 3 "https://developer.lge.com/secure/ResetDevModeSession.dev?sessionToken=403df07a0af5e325bb70adc120d48f9c2a44187bc7fcb6b0171877b82a9af8b3")
+          echo "$r"
+          echo "$r" | grep -q '"success"'
