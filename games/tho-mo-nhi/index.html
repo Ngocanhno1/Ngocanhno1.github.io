@@ -999,16 +999,35 @@ function updateCupHud() {
    VÒNG CHƠI
    ============================================================ */
 const R = { get: () => R3 || R2 };
+/* ---------- Tự lưu hầm đang đào: thoát ra vào lại là đứng đúng chỗ cũ ---------- */
+const KHOA_HAM = c => "thomo_ham_" + c;
+const LUU_TRUONG = ["pc", "pr", "layer", "maxLayer", "score", "inv", "asked", "right", "chests", "totalChests", "lucky", "streak", "bestStreak", "monRight", "doorsOpen", "t0", "monIdx", "face", "dir"];
+function luuHam() {
+  if (!G || G.over) return;
+  try { const o = { world: G.world, used: [...G.used], visited: [...G.visited] }; LUU_TRUONG.forEach(k => o[k] = G[k]); localStorage.setItem(KHOA_HAM(G.child), JSON.stringify(o)); } catch (e) {}
+}
+function docHam(c) { try { const o = JSON.parse(localStorage.getItem(KHOA_HAM(c)) || "null"); return o && o.world && o.world.grid ? o : null; } catch (e) { return null; } }
+function xoaHam(c) { try { localStorage.removeItem(KHOA_HAM(c)); } catch (e) {} }
+setInterval(luuHam, 3000);
+addEventListener("pagehide", luuHam);
+document.addEventListener("visibilitychange", () => { if (document.hidden) luuHam(); });
+
 function startGame(child) {
   SFX.init(); PANEL_CHILD = child;
   closeOverlays();
   const pool = questionPool(child);
-  const world = buildWorld(child);
+  const cu = docHam(child);
+  const world = cu ? cu.world : buildWorld(child);
   let total = 0; world.grid.forEach(row => row.forEach(x => { if (x.t === "chest") total++; }));
   G = { child, world, pool, kho: loadKho(child), used: new Set(), monIdx: 0, pc: world.startC, pr: 0, vx: world.startC, vy: 0, face: 0, dir: "down",
         swingT: 0, walkT: 0, lastAct: 0, layer: 0, maxLayer: 0, score: 0, inv: { coal: 0, iron: 0, silver: 0, gold: 0, emerald: 0, diamond: 0 },
         asked: 0, right: 0, chests: 0, totalChests: total, lucky: 0, streak: 0, bestStreak: 0, monRight: { "Toán": 0, "Tiếng Việt": 0, "Tiếng Anh": 0 },
         newCups: [], won: false, doorsOpen: 0, busy: false, over: false, t0: Date.now(), digHits: null, visited: new Set([0]) };
+  if (cu) {   // hầm đang đào dở: khôi phục đúng chỗ cũ
+    LUU_TRUONG.forEach(k => { if (cu[k] !== undefined) G[k] = cu[k]; });
+    G.used = new Set(cu.used || []); G.visited = new Set(cu.visited || [0]);
+    G.vx = G.pc; G.vy = G.pr;
+  }
   if (R3) { G.vx = cellX(G.pc); G.vy = cellY(G.pr); }
   R.get().rebuild(); R.get().resize(); R.get().placeDoorLight();
   $("start").classList.add("hide"); $("end").classList.add("hide"); $("homeBtn").classList.remove("hide");
@@ -1021,7 +1040,8 @@ function startGame(child) {
   hintStage = 0;
   buildDepth(); updateHUD(); updateStreak(); updateCupHud();
   hint("Bấm phím mũi tên xuống để đào xuống lòng đất!");
-  setTimeout(() => Voice.say(KB.chao), 300);
+  setTimeout(() => Voice.say(cu ? "Chào mừng con quay lại! Mình đào tiếp tầng " + (G.layer + 1) + " nhé!" : KB.chao), 300);
+  if (cu) hint("Đào tiếp từ chỗ cũ nhé! Tầng " + (G.layer + 1));
 }
 function buildDepth() {
   const d = $("depth"); d.innerHTML = "";
@@ -1242,7 +1262,7 @@ function showLoot(ma, texName, title, sub, loot, badges, cb) {
   }, 300 + keys.length * 280 + 1300);
 }
 function finish() {
-  G.over = true; G.busy = true; G.won = true; SFX.win();
+  G.over = true; G.busy = true; G.won = true; xoaHam(G.child); SFX.win();
   G.kho.ve++; saveKho(G.child, G.kho);
   const pct = G.asked ? G.right / G.asked : 0, stars = pct >= 0.85 ? 3 : pct >= 0.6 ? 2 : 1;
   try { const k = "thomo_" + G.child, o = JSON.parse(localStorage.getItem(k) || "{}"); o.luot = (o.luot || 0) + 1; if (stars === 3) o.cup = (o.cup || 0) + 1; o.best = Math.max(o.best || 0, G.score); o.kc = (o.kc || 0) + G.inv.diamond; o.lanCuoi = Date.now(); localStorage.setItem(k, JSON.stringify(o)); } catch (e) {}
