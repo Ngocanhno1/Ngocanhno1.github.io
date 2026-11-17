@@ -14,9 +14,10 @@ Mỗi lần chạy:
    3 câu hỏi Lucie (lớp 3) và 3 câu hỏi Lucas (lớp 1) KHÁC NHAU, mỗi câu đúng 1 đáp án có trong truyện; tranh không vẽ người.
    Sửa vào `nhap/truyen-XX-YY.txt`, chạy `python3 tools/them_truyen.py nhap/... ` (tự xếp ngày phát nối tiếp, tự kiểm tra lỗi).
    Đánh [x] chủ đề trong `chu-de.md`. Commit tác giả "Nguyễn Hoàng Ngọc Anh" <ngocanhbtg88@gmail.com>, rebase rồi push.
-4. **Gemini Nano Banana Pro vẽ tranh** (không dùng trang vẽ miễn phí vì có chữ in mờ): làm theo `tools/gemini-trinh-duyet.js`
-   (mỗi truyện 1 cuộc trò chuyện mới, 7 tranh: bìa + 6 trang; chạy được 2 tab song song). Tranh tải thẳng lên
-   `games/sach-truyen/anh/tuan-XX-bia.webp`, `tuan-XX-1.webp`... qua trang Upload của GitHub (Chrome đã đăng nhập Ngocanhno1).
-   Kéo về, ghép bảng xem từng tranh (PIL) để loại tranh có người/chữ, vẽ lại tranh hỏng.
+4. **Tranh: máy chủ GitHub tự vẽ** bằng mô hình mở FLUX.1-schnell chạy stable-diffusion.cpp (`.github/workflows/ve-tranh.yml`,
+   `tools/ve_tranh_flux.py`): miễn phí, không giới hạn lượt, không chữ in mờ. Đẩy truyện lên là tự vẽ (mỗi truyện 1 máy, song song,
+   khoảng 12-15 phút/tranh), đêm nào 0h41 cũng vẽ bù tranh còn thiếu. Tranh đã có (kể cả tranh Gemini vẽ) thì giữ nguyên.
+   Kéo về, ghép bảng xem; tranh có người/chữ hoặc sai cảnh thì `git rm` để máy chủ vẽ lại.
+   (Đường phụ: Gemini Nano Banana Pro qua `tools/gemini-trinh-duyet.js` — đẹp hơn nhưng giới hạn lượt mỗi ngày.)
 5. Máy chủ GitHub tự đọc giọng VieNeu (doc-giong.yml), rồi **tự nghe lại bằng Whisper và đọc lại câu bị lỗi** (tools/kiem_giong.py).
 6. Báo anh 2-3 dòng: tên các truyện mới, ngày phát.
