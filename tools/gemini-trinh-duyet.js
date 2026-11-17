@@ -24,6 +24,9 @@ window.__veTruyen = async function (ma) {
   const jobs = [[`${ma}-bia`, `${STYLE} Book cover illustration: ${t.bia}.`]].concat(t.trang.map((p, i) => [`${ma}-${i + 1}`,
     `Next illustration for the same picture book. Keep exactly the same watercolor style and color palette, landscape 3:2. No people, no faces, no text. Scene: ${p.anh}.`]));
   const blobs = () => [...new Set([...document.querySelectorAll('img')].filter(i => i.src.startsWith('blob:')).map(i => i.src))];   // tab chạy nền: ảnh chưa giải mã nên không lọc theo kích thước
+  const luot = () => [...document.querySelectorAll('ms-chat-turn')];
+  // ảnh của lượt trả lời CUỐI CÙNG (blob của ảnh cũ có thể đổi địa chỉ khi trang vẽ lại, nên không so tập blob)
+  const anhCuoi = () => { const t = luot(); const c = t[t.length - 1]; if (!c || /^\s*User/.test(c.innerText)) return []; return [...c.querySelectorAll('img')].filter(i => i.src.startsWith('blob:')).map(i => i.src); };
   const dang = () => [...document.querySelectorAll('button')].some(b => /\bStop\b/.test(b.innerText));
   async function webp(src) {
     const im = new Image(); im.src = src; await im.decode();
@@ -38,7 +41,7 @@ window.__veTruyen = async function (ma) {
     let ok = false;
     for (let lan = 0; lan < 2 && !ok; lan++) {
       for (let i = 0; i < 90 && dang(); i++) await sl(2000);   // lượt trước còn chạy thì chờ hẳn
-      const truoc = new Set(blobs());
+      const truoc = new Set(blobs()), soLuot = luot().length;
       const ta = document.querySelector('textarea');
       Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value').set.call(ta, P); ta.dispatchEvent(new Event('input', { bubbles: true }));
       await sl(800);
@@ -46,8 +49,8 @@ window.__veTruyen = async function (ma) {
       b.click();
       for (let i = 0; i < 15 && !dang(); i++) await sl(1000);    // chờ bắt đầu vẽ
       for (let i = 0; i < 120 && dang(); i++) await sl(2000);    // chờ vẽ xong
-      for (let i = 0; i < 10 && !blobs().some(s => !truoc.has(s)); i++) await sl(1000);
-      const moi = blobs().filter(s => !truoc.has(s));
+      for (let i = 0; i < 15 && !(luot().length > soLuot && anhCuoi().length); i++) await sl(1000);
+      const moi = luot().length > soLuot ? anhCuoi() : [];
       let b64 = null; for (const s of moi.reverse()) { try { b64 = await webp(s); break; } catch (e) {} }
       if (b64) { sessionStorage.setItem('anh:' + ten, b64); window.__tt.xong.push(ten); ok = true; }
       else window.__tt.loi.push(ten + ':lan' + lan);
