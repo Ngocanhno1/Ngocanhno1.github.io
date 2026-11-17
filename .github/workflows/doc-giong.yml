@@ -1,0 +1,41 @@
+name: Tự đọc giọng cho game (VieNeu-TTS)
+
+on:
+  push:
+    paths:
+      - "games/*/index.html"
+      - "tools/doc_giong.py"
+  workflow_dispatch:
+  schedule:
+    - cron: "7 20 * * *"   # 3 giờ 07 sáng giờ Việt Nam: đọc nốt câu mới
+
+permissions:
+  contents: write
+
+concurrency:
+  group: doc-giong
+  cancel-in-progress: false
+
+jobs:
+  doc-giong:
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq espeak-ng ffmpeg
+          pip install vieneu
+      - name: Đọc các câu còn thiếu
+        run: python tools/doc_giong.py
+      - name: Lưu giọng đọc vào trang
+        if: always()
+        run: |
+          git config user.name "Nguyễn Hoàng Ngọc Anh"
+          git config user.email "ngocanhbtg88@users.noreply.github.com"
+          git add games/anh-chung/giong
+          git diff --cached --quiet && exit 0
+          git commit -q -m "Tự động đọc giọng VieNeu cho game"
+          for i in 1 2 3; do git pull -q --rebase && git push -q && break; sleep 10; done
