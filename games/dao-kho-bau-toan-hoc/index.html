@@ -12,6 +12,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="../anh-chung/mat-that.js"></script>
 <style>
   html,body{margin:0;height:100%;overflow:hidden;background:#7fd3f7;font-family:"Baloo 2",system-ui,sans-serif;-webkit-tap-highlight-color:transparent;user-select:none}
   #three canvas{display:block}
@@ -735,6 +736,7 @@ function makeCharacter(kind){
   });
   [-1, 1].forEach(s => { const c = mesh(new THREE.SphereGeometry(0.075, 8, 6), M(0xff9bb8), s * 0.29, 0.33, 0.39, head); c.scale.set(1, 0.6, 0.4); c.castShadow = false; });
   const mouth = mesh(new THREE.TorusGeometry(0.075, 0.02, 6, 12, Math.PI), M(0xb03040), 0, 0.29, 0.47, head); mouth.rotation.z = Math.PI;
+  if ((isL || isB) && window.MatThat) MatThat.dan(head, kind, { r: 0.47, y: 0.42, z: 0.53 });   // mặt thật của hai chị em
   if (isL) {
     const hc = 0x6b3a1e;
     const cap = mesh(new THREE.SphereGeometry(0.535, 16, 10, 0, Math.PI * 2, 0, Math.PI * 0.52), M(hc), 0, 0.47, -0.02, head); cap.rotation.x = -0.42;

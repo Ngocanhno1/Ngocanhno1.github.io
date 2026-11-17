@@ -234,6 +234,7 @@
 <div id="toast"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="../anh-chung/mat-that.js"></script>
 <script>
 "use strict";
 /* =====================================================================
@@ -414,7 +415,7 @@ const PORTRAIT = {
 function loadPortraits(){
   $$("[data-portrait]").forEach(box => {
     const who = box.dataset.portrait;
-    getImg("p-"+who, PORTRAIT[who], who==="lucie"?777:888, NAME[who], who==="lucie"?2:1, true).then(url => {
+    (window.MatThat ? Promise.resolve(MatThat.url(who)) : getImg("p-"+who, PORTRAIT[who], who==="lucie"?777:888, NAME[who], who==="lucie"?2:1, true)).then(url => {
       const img = new Image(); img.alt = NAME[who]; img.onload = () => img.classList.add("ok"); img.src = url; box.appendChild(img);
     });
   });
@@ -562,10 +563,13 @@ function makeChar(type){
     mesh(new THREE.CylinderGeometry(0.12, 0.1, 0.75, 10), dress, 0, -0.37, 0, p); mesh(new THREE.SphereGeometry(0.11, 10, 10), skin, 0, -0.78, 0, p); p.userData.s = s; arms.push(p); }
   const head = new THREE.Group(); head.position.y = 2.45; body.add(head);
   const hd = mesh(new THREE.SphereGeometry(0.62, 28, 20), skin, 0, 0, 0, head); hd.scale.y = 0.95;
+  if (window.MatThat) MatThat.dan(head, type, { r:0.6, y:-0.03, z:0.68 });   // mặt thật của hai chị em
+  else {
   const black = M(0x111111, { roughness:0.3 }), white = new THREE.MeshBasicMaterial({ color:0xffffff });
   for (const s of [-1,1]) { mesh(new THREE.SphereGeometry(0.085, 12, 12), black, s*0.22, 0.02, 0.56, head); mesh(new THREE.SphereGeometry(0.03, 8, 8), white, s*0.2, 0.06, 0.64, head);
     const ck = mesh(new THREE.SphereGeometry(0.09, 10, 10), M(0xff9db5), s*0.36, -0.14, 0.5, head); ck.scale.z = 0.3; }
   const mouth = mesh(new THREE.TorusGeometry(0.1, 0.025, 8, 16, Math.PI), M(0xc2185b), 0, -0.2, 0.58, head); mouth.rotation.z = Math.PI;
+  }
   const cap = mesh(new THREE.SphereGeometry(0.66, 28, 16, 0, Math.PI*2, 0, Math.PI*0.5), hair, 0, 0.02, -0.04, head); cap.rotation.x = -0.32;
   if (L) {
     mesh(new THREE.CylinderGeometry(0.52, 0.42, 1.15, 18), hair, 0, -0.5, -0.3, head);
