@@ -85,6 +85,10 @@ def lam_game(thu_muc):
                 print("  hỏng", ma, e, flush=True)
         time.sleep(6 if "ai" in src else 0.3)   # máy vẽ tranh miễn phí giới hạn tốc độ: vẽ từ từ
     json.dump({"anh": ghi_cong, "loi": loi}, open(os.path.join(ra, "nguon-anh.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    # danh sách ảnh icon (e-<mã>.webp) đang có, để anh-that.js biết icon nào đã có ảnh
+    icon = sorted(f[2:-5] for f in os.listdir(ra) if f.startswith("e-") and f.endswith(".webp"))
+    if icon:
+        json.dump(icon, open(os.path.join(ra, "danh-sach.json"), "w", encoding="utf-8"))
     # bảng kiểm tra: mọi ảnh thu nhỏ kèm nhãn để Claude duyệt nhanh
     S, C = 120, 12
     sheet = Image.new("RGB", (C * S, ((len(xong) + C - 1) // C) * S or S), "white")
