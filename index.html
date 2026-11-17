@@ -18,6 +18,18 @@
     padding: 28px max(18px, env(safe-area-inset-right, 0px)) 40px max(18px, env(safe-area-inset-left, 0px));
     overflow-x: hidden;
   }
+  header { position: relative; z-index: 1; }
+  /* Lucie và Lucas bay lượn quanh trang */
+  .bay { position: fixed; left: -160px; z-index: 0; pointer-events: none; animation: bayNgang 38s linear infinite; }
+  .bay img { display: block; width: 92px; height: 92px; border-radius: 50%; border: 5px solid #fff; background: #fff;
+    box-shadow: 0 10px 24px rgba(90,60,180,.28); animation: bayNhun 3.6s ease-in-out infinite; }
+  .bay.b1 { top: 9%; } .bay.b1 img { border-color: #ff8fc5; }
+  .bay.b2 { top: 58%; animation-duration: 47s; animation-delay: -18s; } .bay.b2 img { border-color: #6cc4ff; width: 78px; height: 78px; animation-delay: -1.2s; }
+  .bay.b3 { top: 30%; animation-name: bayNguoc; animation-duration: 52s; animation-delay: -7s; } .bay.b3 img { border-color: #6cc4ff; width: 64px; height: 64px; animation-delay: -2s; }
+  .bay.b4 { top: 78%; animation-name: bayNguoc; animation-duration: 60s; animation-delay: -33s; } .bay.b4 img { border-color: #ff8fc5; width: 70px; height: 70px; animation-delay: -.6s; }
+  @keyframes bayNgang { from { left: -160px; } to { left: calc(100% + 40px); } }
+  @keyframes bayNguoc { from { left: calc(100% + 40px); } to { left: -160px; } }
+  @keyframes bayNhun { 0%,100% { transform: translateY(0) rotate(-7deg); } 25% { transform: translateY(-22px) rotate(4deg); } 50% { transform: translateY(-6px) rotate(8deg); } 75% { transform: translateY(-28px) rotate(-3deg); } }
   .cloud { position: fixed; font-size: 90px; opacity: .55; pointer-events: none; animation: drift 40s linear infinite; }
   .cloud.c2 { top: 60%; font-size: 70px; animation-duration: 55s; animation-delay: -20s; }
   .cloud.c1 { top: 8%; }
@@ -67,14 +79,16 @@
   .play { margin-top: 12px; align-self: flex-start; font-size: 22px; font-weight: 800; color: #fff; padding: 6px 26px;
           border-radius: 999px; background: linear-gradient(#ff8a3d, #f0590c); box-shadow: 0 5px 0 #b8400a; }
   footer { position: relative; z-index: 1; text-align: center; margin-top: 40px; font-size: 16px; color: #6b6288; }
-  @media (prefers-reduced-motion: reduce) { .cloud, .kids { animation: none; } }
+  @media (prefers-reduced-motion: reduce) { .cloud, .kids, .bay, .bay img { animation: none; } }
 </style>
 <link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#7c4dff"><link rel="apple-touch-icon" href="/img/icon-192.png"><script>if("serviceWorker" in navigator)addEventListener("load",function(){navigator.serviceWorker.register("/sw.js").catch(function(){})});</script>
 <script src="games/anh-chung/thong-tin.js"></script>
 </head>
 <body>
-<div class="cloud c1" aria-hidden="true">☁️</div>
-<div class="cloud c2" aria-hidden="true">☁️</div>
+<div class="bay b1" aria-hidden="true"><img src="img/lucie.webp" alt=""></div>
+<div class="bay b2" aria-hidden="true"><img src="img/lucas.webp" alt=""></div>
+<div class="bay b3" aria-hidden="true"><img src="img/lucas.webp" alt=""></div>
+<div class="bay b4" aria-hidden="true"><img src="img/lucie.webp" alt=""></div>
 <header>
   <div class="kids" aria-hidden="true"><img class="hface pink" src="img/lucie.webp" alt=""><span>🎮</span><img class="hface blue" src="img/lucas.webp" alt=""></div>
   <h1>Góc Trò Chơi Lucie &amp; Lucas</h1>
