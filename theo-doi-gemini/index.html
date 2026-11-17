@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Theo dõi Gemini Argon</title>
+  <style>
+    :root {
+      --bg-main: #0f172a;
+      --bg-card: #1e293b;
+      --bg-card-inner: #0f172a;
+      --border-color: #334155;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      
+      --green: #10b981;
+      --green-bg: rgba(16, 185, 129, 0.15);
+      --green-border: rgba(16, 185, 129, 0.3);
+      
+      --yellow: #eab308;
+      --yellow-bg: rgba(234, 179, 8, 0.15);
+      
+      --orange: #f97316;
+      --orange-bg: rgba(249, 115, 22, 0.15);
+      --orange-border: rgba(249, 115, 22, 0.3);
+      
+      --blue-light: #38bdf8;
+      --purple: #a855f7;
+      
+      --gray: #94a3b8;
+      --gray-bg: rgba(148, 163, 184, 0.15);
+      --gray-border: rgba(148, 163, 184, 0.3);
+      
+      --red-bg: rgba(239, 68, 68, 0.15);
+      --red-border: #ef4444;
+      --red-text: #fca5a5;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.5;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .header-left h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .summary {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .summary strong {
+      color: var(--green);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .last-update {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .btn-refresh {
+      background-color: var(--bg-card);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-refresh:hover {
+      background-color: #334155;
+      border-color: var(--text-muted);
+    }
+
+    .btn-refresh:active {
+      transform: scale(0.97);
+    }
+
+    .btn-refresh:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* Error Banner */
+    .error-banner {
+      background-color: var(--red-bg);
+      border: 1px solid var(--red-border);
+      color: var(--red-text);
+      padding: 12px 16px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.9rem;
+    }
+
+    /* Grid Layout */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    @media (min-width: 768px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1100px) {
+      .grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (min-width: 1440px) {
+      .grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    /* Card */
+    .card {
+      background-color: var(--bg-card);
+      border-radius: 16px;
+      padding: 20px;
+      border: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+
+    .card:hover {
+      border-color: #475569;
+    }
+
+    .card.status-disabled {
+      opacity: 0.75;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .account-info {
+      overflow: hidden;
+    }
+
+    .email {
+      font-weight: 600;
+      font-size: 1.02rem;
+      color: var(--text-main);
+      word-break: break-all;
+    }
+
+    .account-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 9999px;
+      white-space: nowrap;
+      letter-spacing: 0.03em;
+      flex-shrink: 0;
+    }
+
+    .badge-green {
+      background-color: var(--green-bg);
+      color: var(--green);
+      border: 1px solid var(--green-border);
+    }
+
+    .badge-orange {
+      background-color: var(--orange-bg);
+      color: var(--orange);
+      border: 1px solid var(--orange-border);
+    }
+
+    .badge-gray {
+      background-color: var(--gray-bg);
+      color: var(--gray);
+      border: 1px solid var(--gray-border);
+    }
+
+    /* Progress Bars */
+    .progress-section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background-color: rgba(15, 23, 42, 0.45);
+      padding: 12px;
+      border-radius: 12px;
+    }
+
+    .progress-item {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 0.8rem;
+    }
+
+    .progress-label {
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .progress-stats {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .progress-values {
+      color: var(--text-main);
+      font-size: 0.78rem;
+    }
+
+    .progress-pct {
+      font-weight: 700;
+      font-size: 0.78rem;
+    }
+
+    .pct-green { color: var(--green); }
+    .pct-yellow { color: var(--yellow); }
+    .pct-orange { color: var(--orange); }
+    .pct-blue { color: var(--blue-light); }
+    .pct-muted { color: var(--text-muted); font-weight: 400; }
+
+    .progress-track {
+      width: 100%;
+      height: 7px;
+      background-color: #0f172a;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.3s ease;
+    }
+
+    .fill-green { background-color: var(--green); }
+    .fill-yellow { background-color: var(--yellow); }
+    .fill-orange { background-color: var(--orange); }
+    .fill-blue { background-color: var(--blue-light); }
+    .fill-purple { background-color: var(--purple); }
+
+    /* Meta / Timestamps */
+    .meta-section {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .reopen-box {
+      background-color: var(--orange-bg);
+      border: 1px solid var(--orange-border);
+      color: #fdba74;
+      padding: 6px 10px;
+      border-radius: 8px;
+      margin-top: 2px;
+      font-size: 0.78rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .countdown {
+      font-weight: 700;
+      color: var(--orange);
+    }
+
+    /* Recent Tasks */
+    .tasks-section {
+      border-top: 1px solid var(--border-color);
+      padding-top: 12px;
+      margin-top: auto;
+    }
+
+    .tasks-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-dim);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+
+    .task-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .task-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 8px;
+      align-items: center;
+      font-size: 0.8rem;
+      background-color: rgba(15, 23, 42, 0.3);
+      padding: 5px 8px;
+      border-radius: 6px;
+    }
+
+    .task-time {
+      color: var(--text-dim);
+      font-family: monospace;
+      font-size: 0.75rem;
+    }
+
+    .task-desc {
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .task-desc.task-het {
+      color: var(--orange);
+    }
+
+    .task-tok {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .empty-tasks {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      font-style: italic;
+    }
+
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 48px 20px;
+      background-color: var(--bg-card);
+      border-radius: 16px;
+      color: var(--text-muted);
+      border: 1px dashed var(--border-color);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="header-left">
+        <h1>Theo dõi Gemini Argon</h1>
+        <div class="summary" id="summaryText">Đang tải dữ liệu...</div>
+      </div>
+      <div class="header-right">
+        <span class="last-update" id="lastUpdateText">Chưa cập nhật</span>
+        <button class="btn-refresh" id="refreshBtn" onclick="taiDuLieu()">Làm mới</button>
+      </div>
+    </header>
+
+    <div class="error-banner" id="errorBanner">
+      <span id="errorText">Không thể kết nối đến máy chủ. Đang hiển thị dữ liệu gần nhất (nếu có).</span>
+    </div>
+
+    <main class="grid" id="cardGrid">
+      <div class="empty-state">Đang tải thông tin tài khoản...</div>
+    </main>
+  </div>
+
+  <script>
+    const MAY_CHU = "__MAY_CHU__";
+    const MOT_NGAY_MS = 24 * 60 * 60 * 1000;
+    const BAY_NGAY_MS = 7 * MOT_NGAY_MS;
+
+    let boDemTuDong = null;
+    let dangTai = false;
+
+    function cheEmail(email) {
+      if (!email || typeof email !== 'string') return 'ẩn_danh';
+      const parts = email.split('@');
+      if (parts.length !== 2) return email;
+      const name = parts[0];
+      const domain = parts[1];
+      if (name.length <= 5) {
+        return name.slice(0, 1) + '***' + name.slice(-1) + '@' + domain;
+      }
+      return name.slice(0, 3) + '***' + name.slice(-2) + '@' + domain;
+    }
+
+    function khoaNgay(ms) {
+      const d = new Date(ms);
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    }
+
+    function dinhDangNgayGio(ms) {
+      if (!ms) return 'Chưa có';
+      const d = new Date(ms);
+      const hh = String(d.getHours()).padStart(2, '0');
+      const mm = String(d.getMinutes()).padStart(2, '0');
+      const dd = String(d.getDate()).padStart(2, '0');
+      const mo = String(d.getMonth() + 1).padStart(2, '0');
+      return `${hh}:${mm} ${dd}/${mo}`;
+    }
+
+    function dinhDangGioPhut(ms) {
+      if (!ms) return '--:--';
+      const d = new Date(ms);
+      const hh = String(d.getHours()).padStart(2, '0');
+      const mm = String(d.getMinutes()).padStart(2, '0');
+      return `${hh}:${mm}`;
+    }
+
+    function dinhDangGioGiay(d) {
+      const hh = String(d.getHours()).padStart(2, '0');
+      const mm = String(d.getMinutes()).padStart(2, '0');
+      const ss = String(d.getSeconds()).padStart(2, '0');
+      return `${hh}:${mm}:${ss}`;
+    }
+
+    function dinhDangDemNguoc(msConLai) {
+      if (msConLai <= 0) return 'sắp mở lại';
+      const tongPhut = Math.floor(msConLai / 60000);
+      const gio = Math.floor(tongPhut / 60);
+      const phut = tongPhut % 60;
+      if (gio > 0) {
+        return `còn ${gio} giờ ${phut} phút`;
+      }
+      return `còn ${phut} phút`;
+    }
+
+    function dinhDangSo(num) {
+      return Number(num || 0).toLocaleString('vi-VN');
+    }
+
+    function thoatHTML(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function layMauPhanTram(pct) {
+      if (pct > 50) return { textClass: 'pct-green', fillClass: 'fill-green' };
+      if (pct >= 20) return { textClass: 'pct-yellow', fillClass: 'fill-yellow' };
+      return { textClass: 'pct-orange', fillClass: 'fill-orange' };
+    }
+
+    function xuLyDuLieu(data) {
+      const lanObj = (data && typeof data.lan === 'object' && data.lan) ? data.lan : {};
+      const tkObj = (data && typeof data.tk === 'object' && data.tk) ? data.tk : {};
+      const now = Date.now();
+      const bayNgayTruoc = now - BAY_NGAY_MS;
+      const khoaHomNay = khoaNgay(now);
+
+      const mapTaiKhoan = new Map();
+
+      // 1. Gom từ nhánh "tk"
+      for (const [rawKey, info] of Object.entries(tkObj)) {
+        if (!rawKey) continue;
+        const email = rawKey.replace(/,/g, '.').trim();
+        if (!mapTaiKhoan.has(email)) {
+          mapTaiKhoan.set(email, {
+            email,
+            tt: (info && info.tt) ? info.tt : 'dung_duoc',
+            ten: (info && info.ten) ? info.ten : '',
+            runs: []
+          });
+        }
+      }
+
+      // 2. Gom từ nhánh "lan"
+      for (const [id, run] of Object.entries(lanObj)) {
+        if (!run || !run.e) continue;
+        const email = String(run.e).trim();
+        if (!mapTaiKhoan.has(email)) {
+          mapTaiKhoan.set(email, {
+            email,
+            tt: 'dung_duoc',
+            ten: '',
+            runs: []
+          });
+        }
+        const t = Number(run.t) || 0;
+        const tok = Number(run.tok) || 0;
+        const viec = run.viec ? String(run.viec) : '';
+        const kq = run.kq === 'het' ? 'het' : 'ok';
+        mapTaiKhoan.get(email).runs.push({ id, t, tok, viec, kq });
+      }
+
+      const danhSach = [];
+
+      for (const acc of mapTaiKhoan.values()) {
+        // Sắp xếp lần chạy mới nhất lên đầu
+        acc.runs.sort((a, b) => b.t - a.t);
+        const lanGanNhat = acc.runs.length > 0 ? acc.runs[0] : null;
+
+        // Xác định trạng thái & thứ tự ưu tiên
+        let badgeText = 'CÒN LƯỢT';
+        let badgeClass = 'badge-green';
+        let nhomUuTien = 1; // 1: Còn lượt, 2: Hết lượt, 3: Không dùng được
+        let dangHetLuot = false;
+
+        if (acc.tt === 'doi_mua_goi') {
+          badgeText = 'CẦN MUA GÓI';
+          badgeClass = 'badge-gray';
+          nhomUuTien = 3;
+        } else if (acc.tt === 'chua_dong_y') {
+          badgeText = 'CHƯA ĐỒNG Ý ĐIỀU KHOẢN';
+          badgeClass = 'badge-gray';
+          nhomUuTien = 3;
+        } else if (lanGanNhat && lanGanNhat.kq === 'het' && (now - lanGanNhat.t) < MOT_NGAY_MS) {
+          badgeText = 'HẾT LƯỢT';
+          badgeClass = 'badge-orange';
+          nhomUuTien = 2;
+          dangHetLuot = true;
+        }
+
+        // Gom theo ngày để tính giới hạn tối đa trong ngày
+        const thongKeNgay = {};
+        let chayHomNay = 0;
+        let chay7Ngay = 0;
+        let token7Ngay = 0;
+
+        for (const r of acc.runs) {
+          if (!r.t) continue;
+          const kNgay = khoaNgay(r.t);
+          if (!thongKeNgay[kNgay]) {
+            thongKeNgay[kNgay] = { ok: 0, coHet: false, total: 0 };
+          }
+          thongKeNgay[kNgay].total += 1;
+          if (r.kq === 'ok') thongKeNgay[kNgay].ok += 1;
+          if (r.kq === 'het') thongKeNgay[kNgay].coHet = true;
+
+          if (kNgay === khoaHomNay) {
+            chayHomNay += 1;
+          }
+          if (r.t >= bayNgayTruoc && r.t <= now + 60000) {
+            chay7Ngay += 1;
+            token7Ngay += r.tok;
+          }
+        }
+
+        // Ước tính tối đa trong ngày = số lần chạy ok lớn nhất trong một ngày mà ngày đó có kq=het
+        let uocTinhMaxNgay = 0;
+        for (const tkNgay of Object.values(thongKeNgay)) {
+          if (tkNgay.coHet && tkNgay.ok > uocTinhMaxNgay) {
+            uocTinhMaxNgay = tkNgay.ok;
+          }
+        }
+
+        danhSach.push({
+          ...acc,
+          lanGanNhat,
+          badgeText,
+          badgeClass,
+          nhomUuTien,
+          dangHetLuot,
+          chayHomNay,
+          chay7Ngay,
+          token7Ngay,
+          uocTinhMaxNgay: uocTinhMaxNgay > 0 ? uocTinhMaxNgay : null
+        });
+      }
+
+      // Sắp xếp: còn lượt (1) -> hết lượt (2) -> không dùng được (3)
+      danhSach.sort((a, b) => {
+        if (a.nhomUuTien !== b.nhomUuTien) return a.nhomUuTien - b.nhomUuTien;
+        const tA = a.lanGanNhat ? a.lanGanNhat.t : 0;
+        const tB = b.lanGanNhat ? b.lanGanNhat.t : 0;
+        if (tB !== tA) return tB - tA;
+        return a.email.localeCompare(b.email);
+      });
+
+      return danhSach;
+    }
+
+    function taoThanhTienDoLuot(label, soLanChay, maxLuot, heSoMacDinh) {
+      if (maxLuot !== null && maxLuot > 0) {
+        const pctConLai = Math.max(0, Math.min(100, Math.round(((maxLuot - soLanChay) / maxLuot) * 100)));
+        const mau = layMauPhanTram(pctConLai);
+        return `
+          <div class="progress-item">
+            <div class="progress-header">
+              <span class="progress-label">${label}</span>
+              <div class="progress-stats">
+                <span class="progress-values">${soLanChay} / ${maxLuot}</span>
+                <span class="progress-pct ${mau.textClass}">(${pctConLai}%)</span>
+              </div>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill ${mau.fillClass}" style="width: ${pctConLai}%"></div>
+            </div>
+          </div>
+        `;
+      } else {
+        const doRong = Math.min(100, Math.round((soLanChay / heSoMacDinh) * 100));
+        return `
+          <div class="progress-item">
+            <div class="progress-header">
+              <span class="progress-label">${label}</span>
+              <div class="progress-stats">
+                <span class="progress-values">${soLanChay} lần</span>
+                <span class="progress-pct pct-muted">(chưa rõ giới hạn)</span>
+              </div>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill fill-blue" style="width: ${doRong}%"></div>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    function taoThanhToken7Ngay(token7Ngay, maxTokenToanBo) {
+      const mocMax = Math.max(maxTokenToanBo, 100000);
+      const pctConLai = Math.max(0, Math.min(100, Math.round(((mocMax - token7Ngay) / mocMax) * 100)));
+      const mau = layMauPhanTram(pctConLai);
+      return `
+        <div class="progress-item">
+          <div class="progress-header">
+            <span class="progress-label">Token 7 ngày</span>
+            <div class="progress-stats">
+              <span class="progress-values">${dinhDangSo(token7Ngay)} tok</span>
+              <span class="progress-pct ${mau.textClass}">(${pctConLai}%)</span>
+            </div>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill ${mau.fillClass}" style="width: ${pctConLai}%"></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function hienThiGiaoDien(danhSach) {
+      const grid = document.getElementById('cardGrid');
+      const summaryText = document.getElementById('summaryText');
+
+      const tongTK = danhSach.length;
+      const soConLuot = danhSach.filter(x => x.nhomUuTien === 1).length;
+      summaryText.innerHTML = `<strong>${soConLuot}</strong> tài khoản còn lượt / <strong>${tongTK}</strong> tài khoản`;
+
+      if (tongTK === 0) {
+        grid.innerHTML = `<div class="empty-state">Chưa có dữ liệu tài khoản nào.</div>`;
+        return;
+      }
+
+      const maxTokenToanBo = danhSach.reduce((max, item) => Math.max(max, item.token7Ngay), 0);
+      const now = Date.now();
+
+      const htmlCards = danhSach.map(acc => {
+        const emailChe = thoatHTML(cheEmail(acc.email));
+        const ghiChu = acc.ten ? `<div class="account-note" title="${thoatHTML(acc.ten)}">${thoatHTML(acc.ten)}</div>` : '';
+        
+        const maxNgay = acc.uocTinhMaxNgay;
+        const max7Ngay = maxNgay ? maxNgay * 7 : null;
+
+        const barHomNay = taoThanhTienDoLuot('Hôm nay', acc.chayHomNay, maxNgay, 20);
+        const bar7Ngay = taoThanhTienDoLuot('7 ngày', acc.chay7Ngay, max7Ngay, 140);
+        const barToken = taoThanhToken7Ngay(acc.token7Ngay, maxTokenToanBo);
+
+        const thoiGianGanNhat = acc.lanGanNhat ? dinhDangNgayGio(acc.lanGanNhat.t) : 'Chưa từng chạy';
+
+        let htmlMoLai = '';
+        if (acc.dangHetLuot && acc.lanGanNhat) {
+          const thoiDiemMo = acc.lanGanNhat.t + MOT_NGAY_MS;
+          const conLaiMs = thoiDiemMo - now;
+          htmlMoLai = `
+            <div class="reopen-box">
+              <span>Dự kiến mở lại: <strong>${dinhDangNgayGio(thoiDiemMo)}</strong></span>
+              <span class="countdown">(${dinhDangDemNguoc(conLaiMs)})</span>
+            </div>
+          `;
+        }
+
+        const baViecGanNhat = acc.runs.slice(0, 3);
+        let htmlTasks = '';
+        if (baViecGanNhat.length === 0) {
+          htmlTasks = `<div class="empty-tasks">Chưa có hoạt động nào</div>`;
+        } else {
+          htmlTasks = baViecGanNhat.map(r => {
+            const moTa = r.viec ? thoatHTML(r.viec) : (r.kq === 'het' ? 'Hết lượt' : 'Không tên');
+            const lopHet = r.kq === 'het' ? 'task-het' : '';
+            return `
+              <div class="task-item">
+                <span class="task-time">${dinhDangGioPhut(r.t)}</span>
+                <span class="task-desc ${lopHet}" title="${moTa}">${moTa}</span>
+                <span class="task-tok">${dinhDangSo(r.tok)} tok</span>
+              </div>
+            `;
+          }).join('');
+        }
+
+        const cardDisabledClass = acc.nhomUuTien === 3 ? 'status-disabled' : '';
+
+        return `
+          <article class="card ${cardDisabledClass}">
+            <div class="card-header">
+              <div class="account-info">
+                <div class="email" title="${emailChe}">${emailChe}</div>
+                ${ghiChu}
+              </div>
+              <span class="badge ${acc.badgeClass}">${acc.badgeText}</span>
+            </div>
+
+            <div class="progress-section">
+              ${barHomNay}
+              ${bar7Ngay}
+              ${barToken}
+            </div>
+
+            <div class="meta-section">
+              <div class="meta-row">
+                <span>Lần dùng gần nhất: <strong>${thoiGianGanNhat}</strong></span>
+              </div>
+              ${htmlMoLai}
+            </div>
+
+            <div class="tasks-section">
+              <div class="tasks-title">3 việc gần nhất</div>
+              <div class="task-list">
+                ${htmlTasks}
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      grid.innerHTML = htmlCards;
+    }
+
+    async function taiDuLieu() {
+      if (dangTai) return;
+      dangTai = true;
+
+      const refreshBtn = document.getElementById('refreshBtn');
+      const errorBanner = document.getElementById('errorBanner');
+      const errorText = document.getElementById('errorText');
+      const lastUpdateText = document.getElementById('lastUpdateText');
+
+      refreshBtn.disabled = true;
+      refreshBtn.textContent = 'Đang tải...';
+
+      try {
+        const res = await fetch(MAY_CHU + "/argon.json", { cache: "no-store" });
+        if (!res.ok) {
+          throw new Error(`Máy chủ phản hồi mã lỗi ${res.status}`);
+        }
+        const data = await res.json();
+        const danhSach = xuLyDuLieu(data || {});
+        hienThiGiaoDien(danhSach);
+
+        errorBanner.style.display = 'none';
+        lastUpdateText.textContent = `Cập nhật lúc ${dinhDangGioGiay(new Date())}`;
+      } catch (err) {
+        errorText.textContent = `Không thể tải dữ liệu từ máy chủ (${err.message || 'Lỗi kết nối mạng'}). Sẽ tự động thử lại sau 60 giây.`;
+        errorBanner.style.display = 'flex';
+        const summaryText = document.getElementById('summaryText');
+        if (summaryText.textContent === 'Đang tải dữ liệu...') {
+          summaryText.textContent = 'Không có dữ liệu hiển thị';
+          document.getElementById('cardGrid').innerHTML = `<div class="empty-state">Không thể kết nối đến máy chủ. Vui lòng kiểm tra mạng hoặc bấm "Làm mới" để thử lại.</div>`;
+        }
+      } finally {
+        dangTai = false;
+        refreshBtn.disabled = false;
+        refreshBtn.textContent = 'Làm mới';
+      }
+    }
+
+    // Khởi chạy lần đầu và đặt hẹn giờ 60 giây
+    taiDuLieu();
+    boDemTuDong = setInterval(taiDuLieu, 60000);
+  </script>
+</body>
+</html>
