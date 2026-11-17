@@ -10,6 +10,7 @@
 <title>Sách truyện nói – Lucie &amp; Lucas</title>
 <link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#2b1d5c"><link rel="apple-touch-icon" href="/img/icon-192.png"><script>if("serviceWorker" in navigator)addEventListener("load",function(){navigator.serviceWorker.register("/sw.js").catch(function(){})});</script>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script>window.GIONG_MOT = true;   /* truyện chỉ dùng 1 giọng đọc, không xáo giọng */</script>
 <script src="../anh-chung/giong-noi.js"></script>
 <script src="../anh-chung/thong-tin.js"></script>
 <script src="../anh-chung/mat-that.js"></script>
@@ -158,10 +159,8 @@ function veDuPhong(chu) {
   <path d="M0 440 Q240 400 480 450 T768 430 V512 H0z" fill="#5aa95a"/><text x="384" y="250" font-family="Baloo 2,Arial" font-size="38" font-weight="700" fill="#7a4a1a" text-anchor="middle">${chu}</text></svg>`;
   return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(s);
 }
-function datTranh(ma, moTa, chu) {
-  const img = $("anh"), ds = [`anh/${ma}.webp`];
-  if (moTa) ds.push("https://image.pollinations.ai/prompt/" + encodeURIComponent(moTa.ai + (moTa.kieu || "")) + `?width=768&height=512&nologo=true&seed=${moTa.seed || 1}`);
-  ds.push(veDuPhong(chu || ""));
+function datTranh(ma, chu) {
+  const img = $("anh"), ds = [`anh/${ma}.webp`, veDuPhong(chu || "")];
   let i = 0;
   $("tranh").style.background = `#f3e2c6 url("${veDuPhong(chu || "")}") center/cover`;   // tranh tạm trong lúc chờ tranh vẽ
   img.classList.add("mo");
@@ -171,12 +170,15 @@ function datTranh(ma, moTa, chu) {
 }
 
 /* ---------- Tủ sách ---------- */
-let DS = [], NGUON = {}, T = null, trang = 0, tuLat = true, nguoi = null, diem = 0, hoiSo = 0;
+let DS = [], T = null, trang = 0, tuLat = true, nguoi = null, diem = 0, hoiSo = 0;
 const daDoc = () => readJSON("sachtruyen_doc") || {};
 async function moGia() {
   imLang(); hien("gia");
   try {
-    [DS, NGUON] = await Promise.all([fetch("truyen/danh-sach.json", { cache: "no-cache" }).then(r => r.json()), fetch("anh-nguon.json", { cache: "no-cache" }).then(r => r.json()).catch(() => ({}))]);
+    DS = await fetch("truyen/danh-sach.json", { cache: "no-cache" }).then(r => r.json());
+    // cứ 2 ngày phát 1 truyện: truyện chưa tới ngày thì chưa hiện (bố mẹ xem trước: thêm ?xem=tat vào đường link)
+    const d = new Date(), homNay = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    if (!/xem=tat/.test(location.search)) DS = DS.filter(t => t.ngay <= homNay);
   } catch (e) { $("ke").innerHTML = '<div class="trong">Chưa mở được tủ sách. Kiểm tra mạng rồi tải lại trang nhé.</div>'; return; }
   const dd = daDoc();
   $("ke").innerHTML = "";
@@ -185,8 +187,8 @@ async function moGia() {
     b.innerHTML = `${i === 0 ? '<span class="moi">TUẦN NÀY</span>' : ""}${dd[t.ma] ? '<span class="da">Đã nghe</span>' : ((readJSON("sachtruyen_dangdoc") || {})[t.ma] ? '<span class="da" style="background:#f59f00">Đang đọc dở · trang ' + (readJSON("sachtruyen_dangdoc") || {})[t.ma] + '</span>' : "")}
       <img class="bia" alt=""><div class="ten"></div><div class="tuan">Truyện số ${t.so} · ${t.trang} trang · ${t.ngay.split("-").reverse().join("/")}</div>`;
     b.querySelector(".ten").textContent = t.tieu_de;
-    const im = b.querySelector(".bia"), m = NGUON[t.ma + "-bia"]; let k = 0;
-    const nguon = [`anh/${t.ma}-bia.webp`].concat(m ? ["https://image.pollinations.ai/prompt/" + encodeURIComponent(m.ai + (m.kieu || "")) + `?width=768&height=512&nologo=true&seed=${m.seed}`] : [], [veDuPhong(t.tieu_de)]);
+    const im = b.querySelector(".bia"); let k = 0;
+    const nguon = [`anh/${t.ma}-bia.webp`, veDuPhong(t.tieu_de)];
     im.onerror = () => { if (++k < nguon.length) im.src = nguon[k]; }; im.src = nguon[0];
     b.onclick = () => moTruyen(t.ma);
     $("ke").appendChild(b);
@@ -201,7 +203,7 @@ function hien(id) { document.querySelectorAll(".man").forEach(m => m.classList.t
 async function moTruyen(ma) {
   try { T = await fetch(`truyen/${ma}.json`, { cache: "no-cache" }).then(r => r.json()); } catch (e) { return; }
   const dang = (readJSON("sachtruyen_dangdoc") || {})[ma];   // đọc dở lần trước: mở đúng trang đó
-  trang = dang && dang > 0 && dang <= N() ? dang : 0; diem = 0; nguoi = null; hien("doc"); veTrang();
+  trang = dang && dang > 0 && dang <= N() ? dang : 0; diem = 0; nguoi = null; daTraLoi = {}; hien("doc"); veTrang();
 }
 function ghiDangDoc() {   // nhớ trang truyện đang đọc (chỉ phần truyện, không tính phần đố vui)
   if (!T) return; const o = readJSON("sachtruyen_dangdoc") || {};
@@ -210,7 +212,10 @@ function ghiDangDoc() {   // nhớ trang truyện đang đọc (chỉ phần tru
 }
 const KHEN = ["Con nghe lại truyện nhé, lần sau sẽ đúng nhiều hơn!", "Con được một ngôi sao!", "Con được hai ngôi sao, giỏi lắm!", "Con được ba ngôi sao, tuyệt vời quá!"];
 const N = () => T.trang.length;
-const tong = () => N() + 3 + T.hoi.length + 1;
+const HOI = () => T["hoi_" + (nguoi || "lucie")] || T.hoi || [];
+const tong = () => N() + 3 + HOI().length + 1;
+let daTraLoi = {};
+function ten(c) { return ((HS[c] || {}).goi) || (c === "lucie" ? "Lucie" : "Lucas"); }
 function toDam(s) { return s.replace(/\b(Lucie)\b/g, "<b>$1</b>").replace(/\b(Lucas)\b/g, "<i>$1</i>"); }
 function esc(s) { return String(s).replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]); }
 function matNoi(s) { $("mLucie").classList.toggle("noi", /Lucie|chị/.test(s)); $("mLucas").classList.toggle("noi", /Lucas|em\b|cậu bé/.test(s)); }
@@ -225,17 +230,17 @@ function veTrang() {
   $("nTruoc").disabled = trang === 0;
   let docCau = "", tiep = true;
   if (trang === 0) {
-    datTranh(T.ma + "-bia", NGUON[T.ma + "-bia"], T.tieu_de);
+    datTranh(T.ma + "-bia", T.tieu_de);
     chu.innerHTML = `<div class="so">Sách truyện nói · Truyện số ${T.so}</div><h2>${esc(T.tieu_de)}</h2><div class="loi">Hôm nay, ${toDam("Lucie và Lucas")} lại có một chuyến phiêu lưu mới. Các con nghe nhé!</div>`;
     docCau = T.doc_tieu_de + ". Hôm nay, Lu Xi và Lu Cát lại có một chuyến phiêu lưu mới. Các con nghe nhé!";
     matNoi("Lucie Lucas");
   } else if (trang <= n) {
     const p = T.trang[trang - 1];
-    datTranh(`${T.ma}-${trang}`, NGUON[`${T.ma}-${trang}`], "");
+    datTranh(`${T.ma}-${trang}`, "");
     chu.innerHTML = `<div class="so">Trang ${trang}/${n}</div><div class="loi">${toDam(esc(p.loi))}</div>`;
     docCau = p.doc; matNoi(p.loi);
   } else if (trang === n + 1) {
-    datTranh(`${T.ma}-${n}`, NGUON[`${T.ma}-${n}`], "");
+    datTranh(`${T.ma}-${n}`, "");
     chu.innerHTML = `<div class="so">Điều con học được</div><h2>Bài học nhỏ</h2><div class="loi">${toDam(esc(T.bai_hoc))}</div>`;
     docCau = "Bài học nhỏ. " + T.doc_bai_hoc; matNoi("Lucie Lucas");
   } else if (trang === n + 2) {
@@ -245,8 +250,8 @@ function veTrang() {
     docCau = "Đố vui sau truyện. Ai trả lời câu hỏi nào?"; tiep = false; matNoi("Lucie Lucas");
     setTimeout(() => chu.querySelector(".ai button").focus(), 100);
   } else if (trang < tong() - 1) {
-    const h = T.hoi[trang - n - 3], dap = [h.dung].concat(h.sai), thuTu = dap.map((_, i) => i).sort(() => Math.random() - .5);
-    chu.innerHTML = `<div class="so">Câu ${trang - n - 2}/${T.hoi.length}</div><div class="loi">${toDam(esc(h.cau))}</div><div class="dapan"></div>`;
+    const h = HOI()[trang - n - 3], dap = [h.dung].concat(h.sai), thuTu = dap.map((_, i) => i).sort(() => Math.random() - .5);
+    chu.innerHTML = `<div class="so">Câu hỏi của ${esc(ten(nguoi))} · ${trang - n - 2}/${HOI().length}</div><div class="loi">${toDam(esc(h.cau))}</div><div class="dapan"></div>`;
     const box = chu.querySelector(".dapan"); let xong = false;
     thuTu.forEach((j, k) => {
       const b = document.createElement("button"); b.innerHTML = `<span class="k">${k + 1}</span>`; b.append(dap[j]); b.dataset.j = j;
@@ -266,8 +271,12 @@ function veTrang() {
   } else {
     tr.classList.add("trang-dem"); $("anh").style.display = "none";
     const sao = [0, 1, 2].map(i => `<svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .8-5.2 4.8 1.5 7L12 17.6 5.7 21l1.5-7L2 9.3l7-.8z" fill="${i < diem ? "#ffc83d" : "#e7dccb"}" stroke="#b8860b" stroke-width="1"/></svg>`).join("");
-    chu.innerHTML = `<div class="so">Hết truyện</div><h2>Chúc ngủ ngon!</h2>${nguoi ? `<div class="ngoisao">${sao}</div>` : ""}<div class="loi">${toDam(esc(T.chuc))}</div>`;
-    docCau = (nguoi ? KHEN[Math.min(diem, 3)] + " " : "") + T.doc_chuc; tiep = false; matNoi("Lucie Lucas");
+    if (nguoi) daTraLoi[nguoi] = 1;
+    const ban = nguoi && !daTraLoi[nguoi === "lucie" ? "lucas" : "lucie"] ? (nguoi === "lucie" ? "lucas" : "lucie") : null;
+    chu.innerHTML = `<div class="so">Hết truyện</div><h2>Chúc ngủ ngon!</h2>${nguoi ? `<div class="ngoisao">${sao}</div>` : ""}<div class="loi">${toDam(esc(T.chuc))}</div>
+      ${ban ? `<div class="ai"><button data-c="${ban}"><img alt=""><span>Đến lượt ${esc(ten(ban))}</span></button></div>` : ""}`;
+    chu.querySelectorAll(".ai button").forEach(b => { b.querySelector("img").src = MatThat.url(b.dataset.c); b.onclick = () => { nguoi = b.dataset.c; diem = 0; trang = n + 3; veTrang(); }; setTimeout(() => b.focus(), 100); });
+    docCau = (nguoi ? KHEN[Math.min(diem, 3)] + " " : "") + T.doc_chuc + (ban ? " Đến lượt bạn kia trả lời nhé!" : ""); tiep = false; matNoi("Lucie Lucas");
     const dd = daDoc(); dd[T.ma] = Date.now(); saveJSON("sachtruyen_doc", dd);
     if (nguoi) { const o = readJSON("sachtruyen_" + nguoi) || { truyen: {}, sao: 0 }; o.truyen = o.truyen || {};
       o.truyen[T.ma] = Math.max(o.truyen[T.ma] || 0, diem); o.sao = Object.values(o.truyen).reduce((a, b) => a + b, 0); saveJSON("sachtruyen_" + nguoi, o); }

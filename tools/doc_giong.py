@@ -61,7 +61,7 @@ def cau_truyen(f):
     t = json.load(open(f, encoding="utf-8"))
     tho = [t.get("doc_tieu_de", ""), t.get("doc_bai_hoc", ""), t.get("doc_chuc", "")]
     tho += [p.get("doc", "") for p in t.get("trang", [])]
-    for h in t.get("hoi", []):
+    for h in t.get("hoi", []) + t.get("hoi_lucie", []) + t.get("hoi_lucas", []):
         tho += [h.get("doc", "")] + h.get("doc_dap", [])
     ra = []
     for x in tho:
@@ -155,6 +155,8 @@ def main():
         for p in cau_trong(f):
             can.setdefault(ma(chuan(p)), p)
         thu_muc = os.path.dirname(f)   # file dữ liệu của game: truyện, câu hỏi để riêng
+        if thu_muc.endswith("sach-truyen"):   # truyện đã lấy riêng ở trên (câu đã đổi tên sang cách đọc)
+            continue
         for j in sorted(glob.glob(thu_muc + "/**/*.json", recursive=True)):
             if re.search(r"(anh-nguon|nguon-anh|danh-sach|manifest)\.json$", j) or "/anh/" in j or "/nhap/" in j:
                 continue

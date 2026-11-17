@@ -1,0 +1,132 @@
+{
+ "trang": [
+  {
+   "loi": "Xem bản tin trên ti vi, mẹ kể rằng các bạn nhỏ ở vùng lũ đang thiếu sách vở và đồ chơi. Nghe vậy, Lucie và Lucas nhìn sang kệ đồ chơi đầy ắp trong phòng mình. Lucie quay sang nói với em: “Lucas ơi, mình chọn đồ còn tốt gửi tặng các bạn nhé”.",
+   "anh": "A wooden bookshelf filled with colorful children's books and neat toys in a bright bedroom, soft morning light, no people, no text",
+   "doc": "Xem bản tin trên ti vi, mẹ kể rằng các bạn nhỏ ở vùng lũ đang thiếu sách vở và đồ chơi. Nghe vậy, Lu Xi và Lu Cát nhìn sang kệ đồ chơi đầy ắp trong phòng mình. Lu Xi quay sang nói với em: “Lu Cát ơi, mình chọn đồ còn tốt gửi tặng các bạn nhé”."
+  },
+  {
+   "loi": "Lucas gật đầu cái rụp rồi lấy ra một chiếc thùng giấy to để giữa thảm. Lucie chọn những quyển truyện tranh có bìa bóng đẹp, dùng khăn mềm lau sạch bụi. Chị cẩn thận vuốt phẳng từng trang giấy để các bạn nhỏ đọc được rõ ràng hơn.",
+   "anh": "Small hands wiping the cover of a colorful picture book with a soft cloth next to an open cardboard box, no faces, no text",
+   "doc": "Lu Cát gật đầu cái rụp rồi lấy ra một chiếc thùng giấy to để giữa thảm. Lu Xi chọn những quyển truyện tranh có bìa bóng đẹp, dùng khăn mềm lau sạch bụi. Chị cẩn thận vuốt phẳng từng trang giấy để các bạn nhỏ đọc được rõ ràng hơn."
+  },
+  {
+   "loi": "Lucas cầm chiếc xe cứu hỏa bằng gỗ màu đỏ mà em rất thích trên tay. Em ngập ngừng một chút rồi mỉm cười đặt chiếc xe vào trong thùng giấy. “Em tặng chiếc xe này để các bạn chơi cho vui, em vẫn còn xe tải xanh mà”, Lucas hào hứng nói.",
+   "anh": "A shiny red wooden fire truck toy being placed gently inside a cardboard box alongside neatly stacked books, warm lighting, no people, no text",
+   "doc": "Lu Cát cầm chiếc xe cứu hỏa bằng gỗ màu đỏ mà em rất thích trên tay. Em ngập ngừng một chút rồi mỉm cười đặt chiếc xe vào trong thùng giấy. “Em tặng chiếc xe này để các bạn chơi cho vui, em vẫn còn xe tải xanh mà”, Lu Cát hào hứng nói."
+  },
+  {
+   "loi": "Hai chị em còn chọn thêm hộp bút màu mới tinh và chú gấu bông áo kẻ sọc. Lucie viết một tấm thiệp nhỏ: “Chúc các bạn luôn vui vẻ và học giỏi nhé”. Lucas thì vẽ thêm một ông mặt trời tỏa nắng vàng rực rỡ lên góc tấm thiệp.",
+   "anh": "A handmade greeting card with a drawing of a smiling yellow sun, colored pencils, and a striped teddy bear nearby, no people, no text",
+   "doc": "Hai chị em còn chọn thêm hộp bút màu mới tinh và chú gấu bông áo kẻ sọc. Lu Xi viết một tấm thiệp nhỏ: “Chúc các bạn luôn vui vẻ và học giỏi nhé”. Lu Cát thì vẽ thêm một ông mặt trời tỏa nắng vàng rực rỡ lên góc tấm thiệp."
+  },
+  {
+   "loi": "Bố giúp hai chị em dán kín chiếc thùng giấy để chiều mang ra điểm quyên góp. Bố xoa đầu hai con khen ngợi: “Món quà của hai con chắc chắn sẽ mang lại nhiều niềm vui cho các bạn”. Chiếc hộp nhỏ như chứa đầy nắng ấm của tình yêu thương.",
+   "anh": "A sealed cardboard box with a sun drawing on top sitting by the front door, warm afternoon sunlight streaming in, no people, no text",
+   "doc": "Bố giúp hai chị em dán kín chiếc thùng giấy để chiều mang ra điểm quyên góp. Bố xoa đầu hai con khen ngợi: “Món quà của hai con chắc chắn sẽ mang lại nhiều niềm vui cho các bạn”. Chiếc hộp nhỏ như chứa đầy nắng ấm của tình yêu thương."
+  },
+  {
+   "loi": "Tối đó, kệ đồ chơi trong phòng tuy vơi đi một chút nhưng lòng hai chị em lại đầy ắp niềm vui. Lucie và Lucas tưởng tượng cảnh các bạn nhỏ mỉm cười khi mở chiếc hộp quà. Hơi ấm của sự sẻ chia đưa hai chị em vào giấc ngủ thật ngọt ngào.",
+   "anh": "A tidy bedroom shelf under soft nightlight glow, a plush pillow on a cozy bed, peaceful starry night outside the window, no people, no text",
+   "doc": "Tối đó, kệ đồ chơi trong phòng tuy vơi đi một chút nhưng lòng hai chị em lại đầy ắp niềm vui. Lu Xi và Lu Cát tưởng tượng cảnh các bạn nhỏ mỉm cười khi mở chiếc hộp quà. Hơi ấm của sự sẻ chia đưa hai chị em vào giấc ngủ thật ngọt ngào."
+  }
+ ],
+ "hoi_lucie": [
+  {
+   "cau": "Vì sao Lucie lại lau sạch và vuốt phẳng từng quyển truyện trước khi đem tặng?",
+   "dung": "Vì chị trân trọng món quà và tôn trọng người nhận",
+   "sai": [
+    "Vì những quyển truyện đó vừa bị rơi xuống nước",
+    "Vì mẹ bắt chị phải lau dọn cả căn phòng"
+   ],
+   "doc": "Vì sao Lu Xi lại lau sạch và vuốt phẳng từng quyển truyện trước khi đem tặng?",
+   "doc_dap": [
+    "Vì chị trân trọng món quà và tôn trọng người nhận",
+    "Vì những quyển truyện đó vừa bị rơi xuống nước",
+    "Vì mẹ bắt chị phải lau dọn cả căn phòng"
+   ]
+  },
+  {
+   "cau": "Hành động tặng chiếc xe cứu hỏa yêu thích của Lucas thể hiện điều gì?",
+   "dung": "Sự rộng lượng và tấm lòng biết sẻ chia với bạn bè",
+   "sai": [
+    "Em không còn thích chơi đồ chơi bằng gỗ nữa",
+    "Chiếc xe cứu hỏa đó đã bị hỏng một bánh"
+   ],
+   "doc": "Hành động tặng chiếc xe cứu hỏa yêu thích của Lu Cát thể hiện điều gì?",
+   "doc_dap": [
+    "Sự rộng lượng và tấm lòng biết sẻ chia với bạn bè",
+    "Em không còn thích chơi đồ chơi bằng gỗ nữa",
+    "Chiếc xe cứu hỏa đó đã bị hỏng một bánh"
+   ]
+  },
+  {
+   "cau": "Vì sao kệ đồ chơi vơi đi nhưng lòng hai chị em lại thấy đầy ắp niềm vui?",
+   "dung": "Vì việc giúp đỡ người khác mang lại hạnh phúc ấm áp",
+   "sai": [
+    "Vì ngày mai bố mẹ sẽ mua kệ đồ chơi mới",
+    "Vì căn phòng rộng hơn để đá bóng trong nhà"
+   ],
+   "doc": "Vì sao kệ đồ chơi vơi đi nhưng lòng hai chị em lại thấy đầy ắp niềm vui?",
+   "doc_dap": [
+    "Vì việc giúp đỡ người khác mang lại hạnh phúc ấm áp",
+    "Vì ngày mai bố mẹ sẽ mua kệ đồ chơi mới",
+    "Vì căn phòng rộng hơn để đá bóng trong nhà"
+   ]
+  }
+ ],
+ "hoi_lucas": [
+  {
+   "cau": "Lucas đã tặng chiếc xe đồ chơi màu gì?",
+   "dung": "Màu đỏ",
+   "sai": [
+    "Màu tím",
+    "Màu trắng"
+   ],
+   "doc": "Lu Cát đã tặng chiếc xe đồ chơi màu gì?",
+   "doc_dap": [
+    "Màu đỏ",
+    "Màu tím",
+    "Màu trắng"
+   ]
+  },
+  {
+   "cau": "Chú gấu bông đem tặng mặc áo như thế nào?",
+   "dung": "Áo kẻ sọc",
+   "sai": [
+    "Áo chấm bi",
+    "Áo hoa cúc"
+   ],
+   "doc": "Chú gấu bông đem tặng mặc áo như thế nào?",
+   "doc_dap": [
+    "Áo kẻ sọc",
+    "Áo chấm bi",
+    "Áo hoa cúc"
+   ]
+  },
+  {
+   "cau": "Lucas vẽ hình gì lên tấm thiệp tặng các bạn?",
+   "dung": "Ông mặt trời",
+   "sai": [
+    "Đám mây mưa",
+    "Cầu vồng"
+   ],
+   "doc": "Lu Cát vẽ hình gì lên tấm thiệp tặng các bạn?",
+   "doc_dap": [
+    "Ông mặt trời",
+    "Đám mây mưa",
+    "Cầu vồng"
+   ]
+  }
+ ],
+ "tieu_de": "Chiếc hộp chở nắng ấm",
+ "bia": "A cardboard box decorated with heart drawings, filled with neat storybooks and wooden toys in a cozy bedroom, warm light, no people, no text",
+ "bai_hoc": "Khi biết chia sẻ những gì mình có với người gặp khó khăn, niềm vui sẽ được nhân lên gấp bội. Các con hãy luôn giữ trái tim nhân hậu và biết quan tâm đến mọi người xung quanh nhé.",
+ "chuc": "Chúc hai trái tim ấm áp của bố mẹ ngủ thật ngon và có những giấc mơ đẹp nhé.",
+ "doc_tieu_de": "Chiếc hộp chở nắng ấm",
+ "doc_bai_hoc": "Khi biết chia sẻ những gì mình có với người gặp khó khăn, niềm vui sẽ được nhân lên gấp bội. Các con hãy luôn giữ trái tim nhân hậu và biết quan tâm đến mọi người xung quanh nhé.",
+ "doc_chuc": "Chúc hai trái tim ấm áp của bố mẹ ngủ thật ngon và có những giấc mơ đẹp nhé.",
+ "so": 6,
+ "ma": "tuan-06",
+ "ngay": "2026-11-27"
+}

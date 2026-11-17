@@ -53,7 +53,7 @@
     var text = (u && u.text) || "", lang = (u && u.lang) || "";
     if (!CO || /^en/i.test(lang) || (!/^vi/i.test(lang) && !VN.test(text))) return goc.speak(u);
     var ds = [], coFile = 0, viMay = coGiongViet();
-    var chon = PHU.length ? Math.floor(Math.random() * (PHU.length + 1)) - 1 : -1;   // -1 = giọng mặc định
+    var chon = (PHU.length && !window.GIONG_MOT) ? Math.floor(Math.random() * (PHU.length + 1)) - 1 : -1;   // -1 = giọng mặc định; trang đặt window.GIONG_MOT = true thì chỉ dùng 1 giọng (vd Sách truyện)
     var g = chon >= 0 ? PHU[chon] : null;
     function clip(duongDan, text) { var au = new Audio(BASE + duongDan + ".mp3"); au.preload = "auto"; ds.push({ au: au, text: text }); coFile++; }
     text.split(CAT).forEach(function (p) {

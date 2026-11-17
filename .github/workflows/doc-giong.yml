@@ -7,6 +7,7 @@ on:
       - "games/*/truyen/**"
       - "games/sach-truyen/truyen/*.json"
       - "tools/doc_giong.py"
+      - "tools/kiem_giong.py"
   workflow_dispatch:
   schedule:
     - cron: "7 20 * * *"   # 3 giờ 07 sáng giờ Việt Nam: đọc nốt câu mới
@@ -29,9 +30,19 @@ jobs:
           python-version: "3.12"
       - run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq espeak-ng ffmpeg
-          pip install vieneu
+          pip install vieneu faster-whisper
       - name: Đọc các câu còn thiếu
         run: |
           git config user.name "Nguyễn Hoàng Ngọc Anh"
           git config user.email "ngocanhbtg88@users.noreply.github.com"
           python tools/doc_giong.py
+        env:
+          HAN_PHUT: "170"
+      - name: Nghe lại giọng truyện, đọc lại câu bị lỗi
+        if: always()
+        run: |
+          git config user.name "Nguyễn Hoàng Ngọc Anh"
+          git config user.email "ngocanhbtg88@users.noreply.github.com"
+          python tools/kiem_giong.py
+        env:
+          HAN_PHUT_KIEM: "140"
