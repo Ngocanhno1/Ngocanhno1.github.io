@@ -45,13 +45,15 @@
   "t": "Banana"
  },
  "e-1f48e": {
-  "t": "Diamond"
+  "ai": "cute 3d cartoon sparkling blue diamond gem",
+  "seed": 5090
  },
  "e-1f36c": {
   "t": "Candy"
  },
  "e-1f425": {
-  "t": "Chick"
+  "ai": "cute 3d cartoon fluffy yellow baby chick",
+  "seed": 5101
  },
  "e-1f6df": {
   "t": "Lifebuoy"
@@ -94,7 +96,8 @@
   "t": "Turtle"
  },
  "e-1f3e0": {
-  "t": "House"
+  "ai": "cute 3d cartoon cozy Vietnamese house with red roof",
+  "seed": 5089
  },
  "e-1f4aa": {
   "ai": "cute 3d cartoon Vietnamese boy flexing strong arm",
@@ -129,7 +132,8 @@
   "t": "Saturn"
  },
  "e-1f3c5": {
-  "t": "Medal"
+  "ai": "cute 3d cartoon gold medal with red ribbon",
+  "seed": 5091
  },
  "e-1f3b5": {
   "ai": "cute 3d cartoon colorful bouncy musical notes",
@@ -349,7 +353,8 @@
   "t": "Ear"
  },
  "e-1f9b5": {
-  "t": "Human leg"
+  "ai": "cute 3d cartoon child leg kicking a ball",
+  "seed": 5093
  },
  "e-270b": {
   "t": "Hand"
@@ -399,7 +404,8 @@
   "t": "Honey"
  },
  "e-1f3ce": {
-  "t": "Formula One car"
+  "ai": "cute 3d cartoon red racing car",
+  "seed": 5102
  },
  "e-1f9f8": {
   "t": "Teddy bear"
@@ -445,10 +451,12 @@
   "t": "Snake"
  },
  "e-1f443": {
-  "t": "Human nose"
+  "ai": "cute 3d cartoon smiling child face pointing at nose",
+  "seed": 5094
  },
  "e-1f444": {
-  "t": "Lip"
+  "ai": "cute 3d cartoon child smiling with pink lips",
+  "seed": 5095
  },
  "e-1f9b7": {
   "t": "Human tooth"
@@ -460,7 +468,8 @@
   "t": "Human eye"
  },
  "e-1f9b6": {
-  "t": "Foot"
+  "ai": "cute 3d cartoon child bare foot on grass",
+  "seed": 5096
  },
  "e-1f353": {
   "t": "Strawberry"
@@ -531,7 +540,8 @@
   "seed": 5037
  },
  "e-1f3c1": {
-  "t": "Racing flags"
+  "ai": "cute 3d cartoon black and white checkered racing flag",
+  "seed": 5092
  },
  "e-1f606": {
   "ai": "cute 3d cartoon Vietnamese girl giggling with closed eyes",
@@ -612,7 +622,8 @@
   "t": "Chocolate chip cookie"
  },
  "e-1f9c3": {
-  "t": "Juice box"
+  "ai": "cute 3d cartoon fruit juice box with straw",
+  "seed": 5099
  },
  "e-1f35a": {
   "t": "Cooked rice"
@@ -627,7 +638,8 @@
   "t": "Snail"
  },
  "e-1f452": {
-  "t": "Sun hat"
+  "ai": "cute 3d cartoon straw sun hat with ribbon",
+  "seed": 5103
  },
  "e-1f474": {
   "ai": "cute 3d cartoon kind smiling Vietnamese grandfather",
@@ -657,7 +669,7 @@
   "seed": 5049
  },
  "e-1fab5": {
-  "t": "Log"
+  "t": "Firewood"
  },
  "e-1f578": {
   "t": "Spider web"
@@ -708,7 +720,8 @@
   "t": "Satellite"
  },
  "e-1f311": {
-  "t": "New moon"
+  "ai": "cute 3d cartoon dark new moon with tiny stars",
+  "seed": 5097
  },
  "e-1f916": {
   "ai": "cute 3d cartoon friendly small toy robot",
@@ -753,7 +766,8 @@
   "t": "Dress"
  },
  "e-1f9e2": {
-  "t": "Baseball cap"
+  "ai": "cute 3d cartoon colorful kids baseball cap",
+  "seed": 5100
  },
  "e-1f4d7": {
   "ai": "cute 3d cartoon green school notebook",
@@ -848,7 +862,8 @@
   "t": "Earthworm"
  },
  "e-1f576": {
-  "t": "Sunglasses"
+  "ai": "cute 3d cartoon cool colorful kids sunglasses",
+  "seed": 5088
  },
  "e-2614": {
   "t": "Umbrella"
@@ -866,7 +881,8 @@
   "t": "Goal (sport)"
  },
  "e-1f6bf": {
-  "t": "Shower"
+  "ai": "cute 3d cartoon Vietnamese child washing hands under shower with bubbles",
+  "seed": 5087
  },
  "e-1f385": {
   "ai": "cute 3d cartoon jolly Santa Claus waving",
@@ -970,7 +986,8 @@
   "t": "Pineapple"
  },
  "e-1f37f": {
-  "t": "Popcorn"
+  "ai": "cute 3d cartoon red striped box of popcorn",
+  "seed": 5098
  },
  "e-1f9ed": {
   "t": "Compass"
