@@ -1,0 +1,75 @@
+name: Tự vẽ tranh Sách truyện (FLUX miễn phí)
+
+# Mô hình mở FLUX.1-schnell chạy bằng stable-diffusion.cpp trên máy chủ GitHub: miễn phí, không giới hạn lượt, không chữ in mờ.
+# Mỗi truyện thiếu tranh chạy 1 máy riêng (song song); vẽ xong tranh nào đẩy lên ngay tranh đó.
+on:
+  push:
+    paths:
+      - "games/sach-truyen/truyen/*.json"
+      - "tools/ve_tranh_flux.py"
+      - ".github/workflows/ve-tranh.yml"
+  workflow_dispatch:
+  schedule:
+    - cron: "41 17 * * *"   # 0 giờ 41 giờ Việt Nam: vẽ bù tranh còn thiếu
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ve-tranh
+  cancel-in-progress: false
+
+jobs:
+  liet-ke:
+    runs-on: ubuntu-latest
+    outputs:
+      ds: ${{ steps.ds.outputs.ds }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: ds
+        run: echo "ds=$(python3 tools/ve_tranh_flux.py liet-ke)" >> "$GITHUB_OUTPUT"
+
+  ve:
+    needs: liet-ke
+    if: needs.liet-ke.outputs.ds != '[]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix:
+        ma: ${{ fromJSON(needs.liet-ke.outputs.ds) }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Dọn chỗ trống trên đĩa
+        run: sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL || true
+      - name: Lấy bản dựng stable-diffusion.cpp đã lưu
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: /tmp/sdcpp/bin
+          key: sdcpp-${{ runner.os }}-v1
+      - name: Dựng stable-diffusion.cpp
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          git clone --recursive --depth 1 https://github.com/leejet/stable-diffusion.cpp /tmp/sd-src
+          cmake -S /tmp/sd-src -B /tmp/sd-build -DCMAKE_BUILD_TYPE=Release -DGGML_NATIVE=OFF -DGGML_AVX2=ON -DGGML_FMA=ON -DGGML_F16C=ON
+          cmake --build /tmp/sd-build --config Release -j 4
+          mkdir -p /tmp/sdcpp/bin && cp -r /tmp/sd-build/bin/* /tmp/sdcpp/bin/
+          ls -la /tmp/sdcpp/bin
+      - name: Tải mô hình FLUX.1-schnell (Apache 2.0)
+        run: |
+          mkdir -p /tmp/models && cd /tmp/models
+          B=https://huggingface.co/second-state/FLUX.1-schnell-GGUF/resolve/main
+          for f in flux1-schnell-Q4_0.gguf ae.safetensors clip_l.safetensors t5xxl-Q4_K.gguf; do
+            curl -sSL --retry 5 -o "$f" "$B/$f"
+          done
+          ls -la
+      - run: pip install pillow
+      - name: Vẽ tranh ${{ matrix.ma }}
+        run: |
+          git config user.name "Nguyễn Hoàng Ngọc Anh"
+          git config user.email "ngocanhbtg88@users.noreply.github.com"
+          SD_BIN=$(ls /tmp/sdcpp/bin/sd-cli /tmp/sdcpp/bin/sd 2>/dev/null | head -1)
+          echo "Dùng $SD_BIN"
+          SD_BIN="$SD_BIN" python3 tools/ve_tranh_flux.py ve ${{ matrix.ma }}
