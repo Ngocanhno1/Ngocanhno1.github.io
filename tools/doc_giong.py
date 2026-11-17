@@ -59,13 +59,16 @@ def luu(tin):
     co = sorted(f[:-4] for f in os.listdir(RA) if f.endswith(".mp3"))
     json.dump(co, open(f"{RA}/danh-sach.json", "w"))
     sh = lambda *c: subprocess.run(c, check=False)
-    sh("git", "add", RA)
-    if subprocess.run(["git", "diff", "--cached", "--quiet"]).returncode:
-        sh("git", "commit", "-q", "-m", tin)
-        for _ in range(3):
-            if subprocess.run(["git", "pull", "-q", "--rebase"]).returncode == 0 and subprocess.run(["git", "push", "-q"]).returncode == 0:
-                break
-            time.sleep(10)
+    for _ in range(4):   # lấy bản mới nhất trên kho rồi ghi đè phần giọng của mình lên, tránh xung đột
+        subprocess.run(["git", "fetch", "-q", "origin", "main"])
+        subprocess.run(["git", "reset", "-q", "--soft", "origin/main"])
+        subprocess.run(["git", "add", RA])
+        if subprocess.run(["git", "diff", "--cached", "--quiet"]).returncode == 0:
+            return
+        subprocess.run(["git", "commit", "-q", "-m", tin])
+        if subprocess.run(["git", "push", "-q", "origin", "HEAD:main"]).returncode == 0:
+            return
+        time.sleep(10)
 
 
 def main():
@@ -112,6 +115,8 @@ def main():
                     print("  lỗi giọng mẫu", ten, e)
     co = sorted(f[:-4] for f in os.listdir(RA) if f.endswith(".mp3"))
     json.dump(co, open(f"{RA}/danh-sach.json", "w"))
+    if os.environ.get("GITHUB_ACTIONS"):
+        luu("Giọng VieNeu: đọc xong đợt này")
 
 
 if __name__ == "__main__":

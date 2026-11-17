@@ -33,12 +33,3 @@ jobs:
           git config user.name "Nguyễn Hoàng Ngọc Anh"
           git config user.email "ngocanhbtg88@users.noreply.github.com"
           python tools/doc_giong.py
-      - name: Lưu giọng đọc vào trang
-        if: always()
-        run: |
-          git config user.name "Nguyễn Hoàng Ngọc Anh"
-          git config user.email "ngocanhbtg88@users.noreply.github.com"
-          git add games/anh-chung/giong
-          git diff --cached --quiet && exit 0
-          git commit -q -m "Tự động đọc giọng VieNeu cho game"
-          for i in 1 2 3; do git pull -q --rebase && git push -q && break; sleep 10; done
