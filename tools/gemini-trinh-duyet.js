@@ -7,8 +7,8 @@
    Tab AI Studio: https://aistudio.google.com/prompts/new_chat?authuser=ngocanh220788@gmail.com&model=gemini-3-pro-image-preview
    Mỗi lần gọi javascript_tool tối đa ~45 giây: các vòng vẽ chạy ngầm, hỏi tiến độ bằng JSON.stringify(window.__tt).
 
-   BƯỚC 0 (một lần) — Bảng nhân vật: window.__taoNhanVat()  (đính kèm ảnh thật img/lucie.webp, img/lucas.webp,
-     Gemini vẽ lại hai con theo nét màu nước). Claude xem kỹ (giống hai con, dễ thương, không chữ) rồi xuất lên anh/nhan-vat.webp
+   BƯỚC 0 (một lần) — Bảng nhân vật cả nhà: window.__taoNhanVat(KHOA)  (KHOA giải mã ảnh thật của bố, mẹ, Lucie, Lucas trong
+     games/sach-truyen/tham-chieu.bin; khóa chỉ có trong lệnh việc định kỳ). Gemini vẽ lại cả nhà theo nét màu nước. Claude xem kỹ (giống hai con, dễ thương, không chữ) rồi xuất lên anh/nhan-vat.webp
      bằng window.__xuat(['nhan-vat']). Muốn đổi bảng nhân vật thì xóa anh/nhan-vat.webp và anh/co-nhan-vat.json rồi làm lại.
    BƯỚC 1 — Mỗi truyện 1 cuộc trò chuyện mới: window.__veTruyen('tuan-05'). Lượt đầu đính kèm bảng nhân vật.
      Chỉ vẽ tranh chưa có hai con (không có trong anh/co-nhan-vat.json): tranh thiếu, tranh FLUX, tranh Gemini cũ không người.
@@ -20,8 +20,19 @@
 
 var __RAW = 'https://raw.githubusercontent.com/Ngocanhno1/Ngocanhno1.github.io/main/';
 var __STYLE = "Children's picture-book illustration, soft watercolor on textured paper, warm gentle colors, cozy, landscape 3:2 aspect ratio. No text, no letters, no signature.";
-var __NHAN_VAT = "The two main characters are LUCIE (8-year-old girl, older sister, gentle and thoughtful) and LUCAS (6-year-old boy, younger brother, lively and curious). " +
-  "Draw them EXACTLY like the attached character reference: same faces, hairstyles and outfits, cute storybook style (not photorealistic).";
+var __NHAN_VAT = "The main characters are LUCIE (8-year-old girl, older sister, wears glasses with clear pink frames, long black hair with bangs) and LUCAS (6-year-old boy, younger brother, round cheeks, short black hair with bangs). " +
+  "Their family: MOM (Mẹ Thu Hà, long wavy black hair) and DAD (Bố Ngọc Anh, short black hair). " +
+  "Draw every family member EXACTLY like the attached character reference sheet: same faces, glasses, hairstyles and outfits, cute storybook style (not photorealistic).";
+
+// Ảnh thật của cả nhà (bố, mẹ, Lucie, Lucas) để Gemini vẽ bảng nhân vật: lưu MÃ HÓA ở games/sach-truyen/tham-chieu.bin
+// (kho công khai nên không để ảnh gốc). Khóa giải mã chỉ nằm trong lệnh của việc định kỳ, không ghi vào kho.
+async function __thamChieu(khoa) {
+  const raw = new Uint8Array(await (await fetch(__RAW + 'games/sach-truyen/tham-chieu.bin?x=' + Date.now(), { cache: 'no-store' })).arrayBuffer());
+  const k = await crypto.subtle.importKey('raw', Uint8Array.from(atob(khoa), c => c.charCodeAt(0)), 'AES-GCM', false, ['decrypt']);
+  const d = JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: raw.slice(0, 12) }, k, raw.slice(12))));
+  const ra = {}; for (const [ten, b64] of Object.entries(d)) ra[ten] = new File([Uint8Array.from(atob(b64), c => c.charCodeAt(0))], ten + '.jpg', { type: 'image/jpeg' });
+  return ra;
+}
 
 async function __tep(url, ten) {   // tải ảnh, đổi sang PNG để đính kèm
   const b = await (await fetch(url + (url.includes('?') ? '&' : '?') + 'x=' + Date.now(), { cache: 'no-store' })).blob();
@@ -66,16 +77,24 @@ async function __guiVaCho(P, kem) {
   return { src: moi[moi.length - 1] };
 }
 
-// ===== BẢNG NHÂN VẬT =====
-window.__taoNhanVat = async function () {
+// ===== BẢNG NHÂN VẬT ===== window.__taoNhanVat(khoa)  (khoa: khóa giải mã ảnh thật; không có khóa thì chỉ dùng ảnh mặt hai con)
+window.__taoNhanVat = async function (khoa) {
   window.__tt = { ma: 'nhan-vat', xong: [], loi: [] };
-  const kem = [await __tep('https://ngocanhno1.github.io/img/lucie.webp', 'lucie.png'), await __tep('https://ngocanhno1.github.io/img/lucas.webp', 'lucas.png')];
-  const P = "Create a CHARACTER REFERENCE SHEET for a children's watercolor picture book, landscape 3:2. " +
-    "Attached photo 1 is the girl LUCIE (8 years old, older sister). Attached photo 2 is the boy LUCAS (6 years old, younger brother). " +
-    "Redraw both children as charming storybook characters in soft watercolor, keeping their real face shape, eyes, hairstyle and hair color so the family recognizes them. " +
-    "Show both full-body, standing side by side, front view, friendly smiles, on a plain cream background. " +
-    "Give them simple outfits to keep for the whole book: Lucie in a pastel pink dress with a small yellow hair clip, Lucas in a light blue T-shirt and beige shorts. " +
-    "No text, no names, no letters.";
+  let kem, gt;
+  if (khoa) {
+    const t = await __thamChieu(khoa);
+    kem = ['lucie', 'lucie-kinh', 'lucas', 'me', 'bo', 'gia-dinh'].map(k => t[k]);
+    gt = "Attached photos: 1-2 = the girl LUCIE (8, older sister; she always wears glasses with clear pink frames), 3 = the boy LUCAS (6, younger brother), " +
+         "4 = their MOM (Mẹ Thu Hà), 5 = their DAD (Bố Ngọc Anh), 6 = the whole family together. ";
+  } else {
+    kem = [await __tep('https://ngocanhno1.github.io/img/lucie.webp', 'lucie.png'), await __tep('https://ngocanhno1.github.io/img/lucas.webp', 'lucas.png')];
+    gt = "Attached photo 1 = the girl LUCIE (8, older sister, wears glasses with clear pink frames), photo 2 = the boy LUCAS (6, younger brother). Also draw their MOM (long wavy black hair) and DAD (short black hair) as simple gentle adults. ";
+  }
+  const P = "Create a CHARACTER REFERENCE SHEET for a children's watercolor picture book, landscape 3:2. " + gt +
+    "Redraw each family member as a charming storybook character in soft watercolor, keeping their real face shape, eyes, hairstyle and hair color so the family recognizes them at once. " +
+    "Show all four full-body, standing in a row (Dad, Mom, Lucie, Lucas), front view, warm friendly smiles, on a plain cream background. " +
+    "Fixed outfits for the whole book: Lucie in a pastel pink dress, small yellow hair clip and her clear pink glasses; Lucas in a light blue T-shirt and beige shorts; " +
+    "Mom in a cream cardigan and light skirt; Dad in a navy shirt and dark trousers. No text, no names, no letters.";
   const r = await __guiVaCho(P, kem);
   if (r.src) { sessionStorage.setItem('anh:nhan-vat', await __webp(r.src)); window.__tt.xong.push('nhan-vat'); } else window.__tt.loi.push(r.loi);
   window.__tt.het = true;
@@ -91,7 +110,7 @@ window.__veTruyen = async function (ma) {
     .concat(t.trang.map((p, i) => [`${ma}-${i + 1}`,
       `Illustration for page ${i + 1}. The page text (Vietnamese) is: «${p.loi}». Setting hints: ${sach(p.anh)}. ` +
       `Show the characters this page is about, doing what the text says (draw Lucie and/or Lucas only if they are in this moment). ` +
-      `Parents, grandparents or other adults, if present, are gentle and simply drawn. Keep the same style, characters and outfits as before.`]));
+      `Mom and Dad look exactly like the reference sheet. Grandparents or other adults, if present, are gentle and simply drawn. Keep the same style, characters and outfits as before.`]));
   let dau = true;
   for (const [ten, P] of jobs) {
     if (sessionStorage.getItem('anh:' + ten) || coNV.includes(ten + '.webp')) { window.__tt.xong.push(ten + '(co)'); continue; }
