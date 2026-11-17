@@ -115,6 +115,8 @@ const CUPS = {
     return { n, icons: Array(Math.min(n, 12)).fill("🏮"), note: n + " cúp 3 sao" + (o.best ? " · nhiều nhất đúng " + o.best + "/25 câu" : "") }; },
   daokhobau: c => { const o = (readJSON("daoKhoBauToanHoc_v1") || {})[c] || {}, n = o.wins || 0;
     return { n, icons: Array(Math.min(n, 12)).fill("💎"), note: n + " lần tìm ra kho báu" + (o.island ? " · đang ở Đảo " + (o.island + 1) + "/5" : "") }; },
+  thomo: c => { const o = readJSON("thomo_" + c) || {}, n = o.cup || 0;
+    return { n, icons: Array(Math.min(n, 12)).fill("⛏️"), note: n + " cúp 3 sao · " + (o.luot || 0) + " lần tới kho báu" + (o.kc ? " · 💎" + o.kc : "") }; },
   duoihinh: c => { const o = readJSON("dhbc_" + c) || {}, g = (o.giai || []).length, n = Math.floor(g / 10);
     return { n, icons: Array(Math.min(n, 12)).fill("🖼️"), note: g + "/50 câu · ⭐" + (o.stars || 0) }; }
 };
@@ -128,7 +130,14 @@ function cupsHTML(key) {
   }).join("") + `</div>`;
 }
 const GAMES = [
-  { href: "games/hoi-lang-ca-dao/", name: "Hội Làng Đoán Ca Dao 3D", isNew: true, cups: "cadao",
+  { href: "games/tho-mo-nhi/", name: "Thợ Mỏ Nhí 3D", isNew: true, cups: "thomo",
+    desc: "Cầm cuốc đào xuống 6 tầng lòng đất tìm than, vàng, kim cương. Gặp rương kho báu thì trả lời đúng câu hỏi để mở rương!",
+    tags: ["Lucie lớp 3", "Lucas lớp 1", "Toán", "Tiếng Việt", "Tiếng Anh"], bg: "linear-gradient(180deg,#8fd3ff 0,#8fd3ff 30%,#5dbb3c 30%,#5dbb3c 36%,#8b5a2b 36%,#6b6b6b 62%,#2c2c3a 100%)",
+    art: `<span class="big" style="font-size:52px;left:8%;top:30px">⛏️</span><span class="big" style="font-size:50px;right:8%;top:34px">📦</span>
+          <span class="big" style="font-size:62px;left:42%;top:26px">💎</span>
+          <img class="face pink" src="${F.lucie}" style="left:18%;top:84px" alt="Lucie"><img class="face blue" src="${F.lucas}" style="right:18%;top:84px" alt="Lucas">
+          <span class="em" style="font-size:30px;left:46%;top:140px">🪙</span>` },
+  { href: "games/hoi-lang-ca-dao/", name: "Hội Làng Đoán Ca Dao 3D", cups: "cadao",
     desc: "Xem 2 bức tranh phép thuật, đoán từ còn thiếu trong câu ca dao, tục ngữ. Đúng thì trống hội vang, pháo giấy bay!",
     tags: ["Tường San 3A6", "Tường Minh 1A5", "Tiếng Việt", "50 câu"], bg: "radial-gradient(circle at 50% 35%,#ffd166 0,#e63946 45%,#3a0ca3 100%)",
     art: `<span class="big" style="font-size:52px;left:8%;top:22px">🏮</span><span class="big" style="font-size:52px;right:8%;top:22px">🏮</span>

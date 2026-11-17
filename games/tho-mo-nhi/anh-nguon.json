@@ -1,0 +1,42 @@
+{
+ "_ghi_chu": "Thợ Mỏ Nhí 17/11/2026: ảnh thật Wikipedia cho quặng, tranh AI cho rương và cửa (máy chủ GitHub tải sẵn vào anh/)",
+ "coal": {
+  "t": "Coal"
+ },
+ "iron": {
+  "t": "Iron ore"
+ },
+ "gold": {
+  "t": "Gold nugget"
+ },
+ "emerald": {
+  "t": "Emerald"
+ },
+ "diamond": {
+  "t": "Diamond"
+ },
+ "ruong-go": {
+  "ai": "cute voxel cube style open wooden treasure chest overflowing with shiny gold coins, cave background",
+  "seed": 7
+ },
+ "ruong-sat": {
+  "ai": "cute voxel cube style open iron treasure chest with silver ingots and gems, stone cave",
+  "seed": 7
+ },
+ "ruong-vang": {
+  "ai": "cute voxel cube style open golden treasure chest full of gold bars and coins, glowing",
+  "seed": 7
+ },
+ "ruong-kc": {
+  "ai": "cute voxel cube style open treasure chest full of sparkling blue diamonds, glowing cave",
+  "seed": 7
+ },
+ "cua": {
+  "ai": "magic glowing stone trapdoor with golden keyhole in underground voxel cave",
+  "seed": 7
+ },
+ "kho-bau": {
+  "ai": "giant pile of sparkling blue diamonds and gold treasure in a glowing voxel cave",
+  "seed": 7
+ }
+}
