@@ -690,6 +690,7 @@ function buildList(mode){
   const out = []; for (let i=0;i<25;i++) out.push(A[i], B[i]); return out;   // em Lucas đi trước, rồi đến lượt chị Lucie
 }
 function startGame(mode){
+  const dang = docVan(); if (dang && dang.mode === mode) return choiTiep();   // ván đang dở cùng chế độ: tự chơi tiếp
   Sound.init(); Sound.drumHit();
   S.mode = mode; S.list = buildList(mode); S.idx = 0; S.players = {};
   if (mode !== "lucie") S.players.lucas = newPlayer();
@@ -836,7 +837,7 @@ $("#btnRead").onclick = readQuestion;
 $("#btnHelp").onclick = useHelp;
 $("#fbNext").onclick = nextQuestion;
 $("#fbRead").onclick = readQuestion;
-$("#btnAgain").onclick = () => startGame(S.mode);
+$("#btnAgain").onclick = () => { try { localStorage.removeItem(KHOA_VAN); } catch(e) {} startGame(S.mode); };
 $("#btnBack").onclick = goHome;
 $$(".pic .imgbox").forEach(box => box.onclick = () => {
   const img = box.querySelector("img"); if (!img.getAttribute("src")) return;

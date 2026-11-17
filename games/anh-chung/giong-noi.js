@@ -8,11 +8,16 @@
   var ss = window.speechSynthesis;
   if (!ss || window.__giongNoi) return; window.__giongNoi = true;
   var me = document.currentScript, BASE = me ? me.src.replace(/giong-noi\.js.*$/, "giong/") : "/games/anh-chung/giong/";
-  var CO = null, goc = { speak: ss.speak.bind(ss), cancel: ss.cancel.bind(ss) };
+  var CO = null, PHU = [], goc = { speak: ss.speak.bind(ss), cancel: ss.cancel.bind(ss) };
   var VN = /[ăâđêôơưáàảãạấầẩẫậắằẳẵặéèẻẽẹếềểễệíìỉĩịóòỏõọốồổỗộớờởỡợúùủũụứừửữựýỳỷỹỵ]/i;
   var CAT = /[.!?…;:\n]+|\s\/\s|\s[-–—]\s/;
   fetch(BASE + "danh-sach.json", { cache: "no-cache" }).then(function (r) { return r.json(); })
     .then(function (a) { CO = {}; a.forEach(function (k) { CO[k] = 1; }); }).catch(function () {});
+  // các giọng phụ (Trúc Ly, Thiện Minh...) để mỗi lần đọc xáo trộn giọng cho đỡ nhàm
+  fetch(BASE + "giong.json", { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (o) {
+    Object.keys(o).forEach(function (thu) { var m = {}; (o[thu].co || []).forEach(function (k) { m[k] = 1; }); if (o[thu].co && o[thu].co.length > 50) PHU.push({ thu: thu, co: m }); });
+  }).catch(function () {});
+  function coGiongViet() { try { return ss.getVoices().some(function (v) { return /^vi/i.test(v.lang); }); } catch (e) { return false; } }
 
   function chuan(s) {
     return s.normalize("NFC").toLowerCase().replace(/["“”'‘’()\[\]«»*_]/g, "").replace(/\s+/g, " ")
@@ -47,12 +52,19 @@
   ss.speak = function (u) {
     var text = (u && u.text) || "", lang = (u && u.lang) || "";
     if (!CO || /^en/i.test(lang) || (!/^vi/i.test(lang) && !VN.test(text))) return goc.speak(u);
-    var ds = [], coFile = 0;
+    var ds = [], coFile = 0, viMay = coGiongViet();
+    var chon = PHU.length ? Math.floor(Math.random() * (PHU.length + 1)) - 1 : -1;   // -1 = giọng mặc định
+    var g = chon >= 0 ? PHU[chon] : null;
+    function clip(duongDan, text) { var au = new Audio(BASE + duongDan + ".mp3"); au.preload = "auto"; ds.push({ au: au, text: text }); coFile++; }
     text.split(CAT).forEach(function (p) {
-      p = p.trim(); if (!p) return;
-      var k = ma(chuan(p));
-      if (chuan(p) && CO[k]) { var au = new Audio(BASE + k + ".mp3"); au.preload = "auto"; ds.push({ au: au, text: p }); coFile++; }
-      else if (/[\p{L}\p{N}]/u.test(p)) ds.push({ text: p });
+      p = p.trim(); if (!p || !/[\p{L}\p{N}]/u.test(p)) return;
+      var c = chuan(p), k = ma(c);
+      if (c && g && g.co[k]) return clip(g.thu + "/" + k, p);
+      if (c && CO[k]) return clip(k, p);
+      // câu ghép lúc chơi chưa có sẵn: máy không có giọng Việt thì ghép từng chữ giọng VieNeu, đỡ phải im lặng
+      var tu = c.match(/[\p{L}\p{N}]+/gu) || [];
+      if (!viMay && tu.length && tu.every(function (t) { return CO[ma(t)]; })) { tu.forEach(function (t) { clip(ma(t), t); }); return; }
+      ds.push({ text: p });
     });
     if (!coFile) return goc.speak(u);
     ss.cancel();

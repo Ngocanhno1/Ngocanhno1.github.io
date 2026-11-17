@@ -6,6 +6,8 @@ Cách cắt câu và tính mã PHẢI giống hệt giong-noi.js."""
 import glob, json, os, re, subprocess, sys, time, unicodedata
 
 GIONG = os.environ.get("GIONG", "Quỳnh Anh")
+# Giọng mặc định (lưu ở giong/) + các giọng phụ để game xáo trộn cho đỡ nhàm (lưu ở giong/<thư mục>/)
+GIONG_PHU = [("tl", "Trúc Ly"), ("tm", "Thiện Minh")]
 RA = "games/anh-chung/giong"
 HAN_GIO = float(os.environ.get("HAN_PHUT", "290")) * 60   # dừng trước giới hạn 6 giờ của GitHub
 VN = re.compile(r"[ăâđêôơưáàảãạấầẩẫậắằẳẵặéèẻẽẹếềểễệíìỉĩịóòỏõọốồổỗộớờởỡợúùủũụứừửữựýỳỷỹỵ]", re.I)
@@ -70,10 +72,20 @@ def cau_truyen(f):
     return ra
 
 
-def luu(tin):
-    """Lưu dần lên trang trong lúc đọc, để giọng mới xuất hiện sớm."""
+def ghi_danh_sach():
+    """danh-sach.json: mã có giọng mặc định; giong.json: mã có ở từng giọng phụ (để game xáo trộn giọng)."""
     co = sorted(f[:-4] for f in os.listdir(RA) if f.endswith(".mp3"))
     json.dump(co, open(f"{RA}/danh-sach.json", "w"))
+    phu = {}
+    for thu, ten in GIONG_PHU:
+        d = f"{RA}/{thu}"
+        phu[thu] = {"ten": ten, "co": sorted(f[:-4] for f in os.listdir(d) if f.endswith(".mp3")) if os.path.isdir(d) else []}
+    json.dump(phu, open(f"{RA}/giong.json", "w", encoding="utf-8"), ensure_ascii=False)
+
+
+def luu(tin):
+    """Lưu dần lên trang trong lúc đọc, để giọng mới xuất hiện sớm."""
+    ghi_danh_sach()
     sh = lambda *c: subprocess.run(c, check=False)
     for _ in range(4):   # lấy bản mới nhất trên kho rồi ghi đè phần giọng của mình lên, tránh xung đột
         subprocess.run(["git", "fetch", "-q", "origin", "main"])
@@ -148,39 +160,42 @@ def main():
                 continue
             for p in cau_trong_json(j):
                 can.setdefault(ma(chuan(p)), p)
-    co = {f[:-4] for f in os.listdir(RA) if f.endswith(".mp3")}
-    thieu = [(k, v) for k, v in can.items() if k not in co]
-    print(f"{len(game)} game, {len(can)} câu, đã có {len(co & set(can))}, cần đọc {len(thieu)}", flush=True)
-    if thieu:
-        from vieneu import Vieneu
-        tts = Vieneu()
-        bd, xong = time.time(), 0
+    cau_chinh = dict(can)   # câu trọn vẹn (để đọc bằng các giọng phụ)
+    for v in list(can.values()):   # thư viện từng chữ: câu ghép lúc chơi chưa có sẵn thì game ghép chữ để đọc
+        for t in re.findall(r"[\wÀ-ỹ]+", chuan(v)):
+            can.setdefault(ma(chuan(t)), t)
+    for i in range(0, 1001):
+        can.setdefault(ma(str(i)), str(i))
+    viec = [(RA, GIONG, can)] + [(f"{RA}/{thu}", ten, cau_chinh) for thu, ten in GIONG_PHU]
+    tts, bd = None, time.time()
+    for thu, ten, ds in viec:
+        os.makedirs(thu, exist_ok=True)
+        co = {f[:-4] for f in os.listdir(thu) if f.endswith(".mp3")}
+        thieu = [(k, v) for k, v in ds.items() if k not in co]
+        print(f"[{ten}] {len(ds)} mục, đã có {len(co & set(ds))}, cần đọc {len(thieu)}", flush=True)
+        if not thieu:
+            continue
+        if tts is None:
+            from vieneu import Vieneu
+            tts = Vieneu()
+        xong = 0
         for k, v in thieu:
             if time.time() - bd > HAN_GIO:
                 print("Hết giờ, lần sau đọc tiếp", flush=True); break
             doc = v if re.search(r"[.!?…]$", v) else v + "."
             try:
-                wav = tts.infer(doc, voice=GIONG)
+                wav = tts.infer(doc, voice=ten)
                 tts.save(wav, "/tmp/c.wav")
-                subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", "/tmp/c.wav", "-ac", "1", "-ar", "24000", "-b:a", "40k", f"{RA}/{k}.mp3"], check=True)
+                subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", "/tmp/c.wav", "-ac", "1", "-ar", "24000", "-b:a", "40k", f"{thu}/{k}.mp3"], check=True)
                 xong += 1
                 if xong % 50 == 0:
                     print(f"  đã đọc {xong}/{len(thieu)} ({int(time.time() - bd)} giây)", flush=True)
                 if xong % 150 == 0 and os.environ.get("GITHUB_ACTIONS"):
-                    luu(f"Giọng VieNeu: đã đọc {xong}/{len(thieu)} câu")
+                    luu(f"Giọng VieNeu {ten}: đã đọc {xong}/{len(thieu)}")
             except Exception as e:
                 print("  lỗi", k, v[:60], e, flush=True)
         print(f"Đọc xong {xong} câu trong {int(time.time() - bd)} giây", flush=True)
-        if not os.path.exists(f"{RA}/mau"):   # vài giọng mẫu để bố mẹ nghe thử, chọn giọng
-            os.makedirs(f"{RA}/mau", exist_ok=True)
-            for ten in ["Quỳnh Anh", "Trúc Ly", "Ngọc Huyền", "Thiện Minh", "Mỹ Duyên"]:
-                try:
-                    tts.save(tts.infer("Chào Tường San và Tường Minh! Hôm nay hai chị em cùng vào hội làng đoán ca dao nhé.", voice=ten), "/tmp/m.wav")
-                    subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", "/tmp/m.wav", "-ac", "1", "-ar", "24000", "-b:a", "48k", f"{RA}/mau/{ten}.mp3"], check=True)
-                except Exception as e:
-                    print("  lỗi giọng mẫu", ten, e)
-    co = sorted(f[:-4] for f in os.listdir(RA) if f.endswith(".mp3"))
-    json.dump(co, open(f"{RA}/danh-sach.json", "w"))
+    ghi_danh_sach()
     if os.environ.get("GITHUB_ACTIONS"):
         luu("Giọng VieNeu: đọc xong đợt này")
 
