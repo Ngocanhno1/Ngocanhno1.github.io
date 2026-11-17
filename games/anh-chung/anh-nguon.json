@@ -1034,5 +1034,44 @@
  "e-26cf": {
   "ai": "cute 3d cartoon iron pickaxe with wooden handle",
   "seed": 5100
+ },
+ "e-1f3a1": {
+  "t": "Ferris wheel"
+ },
+ "e-1f4fa": {
+  "ai": "cute 3d cartoon retro television showing a happy cartoon",
+  "seed": 5301
+ },
+ "e-1f355": {
+  "t": "Pizza"
+ },
+ "e-1f3ca": {
+  "t": "Swimming pool"
+ },
+ "e-1f3ac": {
+  "ai": "cute 3d cartoon movie clapperboard with popcorn",
+  "seed": 5302
+ },
+ "e-1f370": {
+  "t": "Cheesecake"
+ },
+ "e-1f6dd": {
+  "t": "Playground slide"
+ },
+ "e-1f381": {
+  "ai": "cute 3d cartoon wrapped gift box with pink ribbon bow",
+  "seed": 5303
+ },
+ "e-1f6cd": {
+  "ai": "cute 3d cartoon colorful shopping bags",
+  "seed": 5304
+ },
+ "e-1f4e8": {
+  "ai": "cute 3d cartoon envelope letter with a heart flying",
+  "seed": 5305
+ },
+ "e-1f512": {
+  "ai": "cute 3d cartoon golden padlock",
+  "seed": 5306
  }
 }

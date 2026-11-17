@@ -77,7 +77,7 @@ def luu(tin):
     sh = lambda *c: subprocess.run(c, check=False)
     for _ in range(4):   # lấy bản mới nhất trên kho rồi ghi đè phần giọng của mình lên, tránh xung đột
         subprocess.run(["git", "fetch", "-q", "origin", "main"])
-        subprocess.run(["git", "reset", "-q", "--soft", "origin/main"])
+        subprocess.run(["git", "reset", "-q", "--mixed", "origin/main"])   # chỉ mục lấy đúng bản mới nhất trên kho, không đè lên file người khác vừa sửa
         subprocess.run(["git", "add", "--ignore-removal", RA])   # không bao giờ xóa file giọng đã có
         if subprocess.run(["git", "diff", "--cached", "--quiet"]).returncode == 0:
             return

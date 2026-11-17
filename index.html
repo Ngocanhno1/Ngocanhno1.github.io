@@ -83,6 +83,7 @@
 </style>
 <link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#7c4dff"><link rel="apple-touch-icon" href="/img/icon-192.png"><script>if("serviceWorker" in navigator)addEventListener("load",function(){navigator.serviceWorker.register("/sw.js").catch(function(){})});</script>
 <script src="games/anh-chung/thong-tin.js"></script>
+<script src="games/anh-chung/vi-sao.js"></script>
 </head>
 <body>
 <div class="bay b1" aria-hidden="true"><img src="img/lucie.webp" alt=""></div>
@@ -124,7 +125,18 @@ const CUPS = {
   duoihinh: c => { const o = readJSON("dhbc_" + c) || {}, g = (o.giai || []).length, n = Math.floor(g / 10);
     return { n, icons: Array(Math.min(n, 12)).fill("🖼️"), note: g + "/50 câu · ⭐" + (o.stars || 0) }; }
 };
+// Ví sao (Cửa hàng đổi quà): số sao và mục tiêu của từng bé
+const VI = window.ViSao ? ViSao.dongBo() : null;
+function viHTML() {
+  if (!VI) return "";
+  return `<div class="cups">` + ["lucie", "lucas"].map(c => {
+    const du = ViSao.soDu(VI, c), q = ViSao.mucTieu(VI, c), nm = c === "lucie" ? "Lucie" : "Lucas";
+    const goal = q ? (du >= q.gia ? ` · đủ sao đổi ${q.icon} rồi!` : ` · 🎯 còn ${q.gia - Math.max(0, du)} sao tới ${q.icon}`) : "";
+    return `<div class="cupRow ${c}"><img src="${F[c]}" alt="${nm}"><span class="n" style="flex:1;white-space:normal">⭐ ${du} sao${goal}</span></div>`;
+  }).join("") + `</div>`;
+}
 function cupsHTML(key) {
+  if (key === "vi") return viHTML();
   if (!CUPS[key]) return "";
   return `<div class="cups">` + ["lucie", "lucas"].map(c => {
     const r = CUPS[key](c), nm = c === "lucie" ? "Lucie" : "Lucas";
@@ -134,6 +146,12 @@ function cupsHTML(key) {
   }).join("") + `</div>`;
 }
 const GAMES = [
+  { href: "games/cua-hang/", name: "Cửa hàng đổi sao", isNew: true, cups: "vi",
+    desc: "Sao kiếm được ở mọi trò chơi đổi lấy quà thật bố mẹ đặt: đi công viên, truyện mới, que kem… Chọn mục tiêu, tích đủ sao rồi xin bố mẹ duyệt nhé!",
+    tags: ["Lucie", "Lucas", "Đổi quà", "Bố mẹ duyệt"], bg: "radial-gradient(circle at 50% 30%,#fff3bf 0,#ffd43b 40%,#ff8fc7 100%)",
+    art: `<span class="big" style="font-size:96px;top:30px">🎁</span><span class="big" style="font-size:40px;left:26%;top:40px">🎡</span><span class="big" style="font-size:44px;right:8%;top:22px">📚</span>
+          <img class="face pink" src="${F.lucie}" style="left:12%;top:90px;width:96px;height:96px" alt="Lucie"><img class="face blue" src="${F.lucas}" style="right:12%;top:90px;width:96px;height:96px" alt="Lucas">
+          <span class="em" style="font-size:34px;left:40%;top:150px">⭐</span><span class="em" style="font-size:28px;right:36%;top:10px">⭐</span>` },
   { href: "games/sach-truyen/", name: "Sách truyện nói hằng tuần", isNew: true, cups: "sachtruyen",
     desc: "Mỗi tuần một truyện mới có Lucie và Lucas là nhân vật chính: tranh vẽ, giọng kể, bài học nhỏ và câu đố sau truyện. Nghe trước giờ đi ngủ nhé!",
     tags: ["Lucie", "Lucas", "Đọc truyện", "Mỗi tuần 1 truyện"], bg: "url(games/sach-truyen/anh/tuan-01-bia.webp) center/cover, radial-gradient(circle at 75% 25%,#fff6c9 0 9%,transparent 10%),linear-gradient(#1d1a52,#3c2f86)",
