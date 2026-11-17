@@ -1,0 +1,38 @@
+{
+ "anh": {
+  "coal": {
+   "file": "Bituminous_Coal.JPG",
+   "trang": "https://commons.wikimedia.org/wiki/File:Bituminous_Coal.JPG"
+  },
+  "iron": {
+   "file": "HematitaEZ.jpg",
+   "trang": "https://commons.wikimedia.org/wiki/File:HematitaEZ.jpg"
+  },
+  "gold": {
+   "file": "Goldinpan.jpg",
+   "trang": "https://commons.wikimedia.org/wiki/File:Goldinpan.jpg"
+  },
+  "emerald": {
+   "file": "Béryl_var._émeraude_sur_gangue_(Muzo_Mine_Boyaca_-_Colombie)_2.jpg",
+   "trang": "https://commons.wikimedia.org/wiki/File:B%C3%A9ryl_var._%C3%A9meraude_sur_gangue_%28Muzo_Mine_Boyaca_-_Colombie%29_2.jpg"
+  },
+  "diamond": {
+   "file": "Rough_Diamond.jpg",
+   "trang": "https://commons.wikimedia.org/wiki/File:Rough_Diamond.jpg"
+  },
+  "ruong-vang": {
+   "file": "Tranh AI Pollinations",
+   "trang": "https://pollinations.ai"
+  },
+  "kho-bau": {
+   "file": "Tranh AI Pollinations",
+   "trang": "https://pollinations.ai"
+  }
+ },
+ "loi": {
+  "ruong-go": "{'ai': 'cute voxel cube style open wooden treasure chest overflowing with shiny gold coins, cave background', 'seed': 7}: HTTP Error 402: Payment Required",
+  "ruong-sat": "{'ai': 'cute voxel cube style open iron treasure chest with silver ingots and gems, stone cave', 'seed': 7}: HTTP Error 402: Payment Required",
+  "ruong-kc": "{'ai': 'cute voxel cube style open treasure chest full of sparkling blue diamonds, glowing cave', 'seed': 7}: HTTP Error 402: Payment Required",
+  "cua": "{'ai': 'magic glowing stone trapdoor with golden keyhole in underground voxel cave', 'seed': 7}: HTTP Error 402: Payment Required"
+ }
+}
