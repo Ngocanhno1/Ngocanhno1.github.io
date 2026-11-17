@@ -54,6 +54,20 @@ def cau_trong(f):
     return ra
 
 
+def luu(tin):
+    """Lưu dần lên trang trong lúc đọc, để giọng mới xuất hiện sớm."""
+    co = sorted(f[:-4] for f in os.listdir(RA) if f.endswith(".mp3"))
+    json.dump(co, open(f"{RA}/danh-sach.json", "w"))
+    sh = lambda *c: subprocess.run(c, check=False)
+    sh("git", "add", RA)
+    if subprocess.run(["git", "diff", "--cached", "--quiet"]).returncode:
+        sh("git", "commit", "-q", "-m", tin)
+        for _ in range(3):
+            if subprocess.run(["git", "pull", "-q", "--rebase"]).returncode == 0 and subprocess.run(["git", "push", "-q"]).returncode == 0:
+                break
+            time.sleep(10)
+
+
 def main():
     os.makedirs(RA, exist_ok=True)
     game = [f for f in sorted(glob.glob("games/*/index.html")) if "speechSynthesis" in open(f, encoding="utf-8").read()]
@@ -83,6 +97,8 @@ def main():
                 xong += 1
                 if xong % 50 == 0:
                     print(f"  đã đọc {xong}/{len(thieu)} ({int(time.time() - bd)} giây)", flush=True)
+                if xong % 150 == 0 and os.environ.get("GITHUB_ACTIONS"):
+                    luu(f"Giọng VieNeu: đã đọc {xong}/{len(thieu)} câu")
             except Exception as e:
                 print("  lỗi", k, v[:60], e, flush=True)
         print(f"Đọc xong {xong} câu trong {int(time.time() - bd)} giây", flush=True)

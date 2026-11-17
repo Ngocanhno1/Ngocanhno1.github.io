@@ -29,7 +29,10 @@ jobs:
           sudo apt-get update -qq && sudo apt-get install -y -qq espeak-ng ffmpeg
           pip install vieneu
       - name: Đọc các câu còn thiếu
-        run: python tools/doc_giong.py
+        run: |
+          git config user.name "Nguyễn Hoàng Ngọc Anh"
+          git config user.email "ngocanhbtg88@users.noreply.github.com"
+          python tools/doc_giong.py
       - name: Lưu giọng đọc vào trang
         if: always()
         run: |
