@@ -69,6 +69,7 @@
   footer { position: relative; z-index: 1; text-align: center; margin-top: 40px; font-size: 16px; color: #6b6288; }
   @media (prefers-reduced-motion: reduce) { .cloud, .kids { animation: none; } }
 </style>
+<link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#7c4dff"><link rel="apple-touch-icon" href="/img/icon-192.png"><script>if("serviceWorker" in navigator)addEventListener("load",function(){navigator.serviceWorker.register("/sw.js").catch(function(){})});</script>
 </head>
 <body>
 <div class="cloud c1" aria-hidden="true">☁️</div>
@@ -178,5 +179,13 @@ document.addEventListener("keydown", e => {
 <script src="games/anh-chung/anh-that.js" defer></script>
 <script src="games/anh-chung/nen-hat.js"></script>
 <script src="games/anh-chung/nhac-nen.js" data-ten="Trò chơi của Lucie &amp; Lucas" data-bpm="115" data-goc="C" data-kieu="marimba" data-not="C5 E5 G5 E5 F5 A5 G5 E5 D5 F5 E5 C5 D5 G4 C5"></script>
+<button id="nutCai" data-giu-icon style="display:none;position:fixed;right:16px;bottom:16px;z-index:9999;border:0;border-radius:999px;padding:12px 22px;font:800 18px 'Baloo 2',system-ui,sans-serif;color:#fff;background:linear-gradient(#a78bfa,#7c3aed);box-shadow:0 6px 0 #5b21b6,0 10px 24px rgba(0,0,0,.25);cursor:pointer">Cài vào máy để nhạc tự phát</button>
+<script>
+(function(){ var hoan=null, b=document.getElementById('nutCai');
+  addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); hoan=e; b.style.display='block'; });
+  b.onclick=function(){ if(!hoan) return; hoan.prompt(); hoan.userChoice.finally(function(){ hoan=null; b.style.display='none'; }); };
+  addEventListener('appinstalled', function(){ b.style.display='none'; });
+})();
+</script>
 </body>
 </html>
