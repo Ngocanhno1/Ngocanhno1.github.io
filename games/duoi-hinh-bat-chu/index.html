@@ -117,6 +117,7 @@ img.ph.real { object-fit:cover; border-radius:16%; border:4px solid #fff; box-sh
 @media (max-aspect-ratio:1/1) { #answers { grid-template-columns:1fr; } .ans { min-height:52px; } }
 </style>
 <link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#7c4dff"><link rel="apple-touch-icon" href="/img/icon-192.png"><script>if("serviceWorker" in navigator)addEventListener("load",function(){navigator.serviceWorker.register("/sw.js").catch(function(){})});</script>
+<script src="../anh-chung/thong-tin.js"></script>
 </head>
 <body>
 <canvas id="c3d"></canvas>
@@ -127,11 +128,11 @@ img.ph.real { object-fit:cover; border-radius:16%; border:4px solid #fff; box-sh
   <div class="modes">
     <button class="mode lucas" data-mode="lucas">
       <div class="faces"><img class="blue" src="../../img/lucas.webp" alt=""></div>
-      <b>EM LUCAS</b><span>Lớp 1 · 50 câu<br>Con vật, đồ vật, thiên nhiên</span><div class="prog"></div>
+      <b>EM LUCAS</b><span><span data-hs="lucas.goi">Tường Minh</span> · <span data-hs="lucas.lop">1A5</span> · 50 câu<br>Con vật, đồ vật, thiên nhiên</span><div class="prog"></div>
     </button>
     <button class="mode lucie" data-mode="lucie">
       <div class="faces"><img src="../../img/lucie.webp" alt=""></div>
-      <b>CHỊ LUCIE</b><span>Lớp 3 · 50 câu<br>Thành ngữ, tục ngữ, cổ tích</span><div class="prog"></div>
+      <b>CHỊ LUCIE</b><span><span data-hs="lucie.goi">Tường San</span> · <span data-hs="lucie.lop">3A6</span> · 50 câu<br>Thành ngữ, tục ngữ, cổ tích</span><div class="prog"></div>
     </button>
     <button class="mode duo" data-mode="duo">
       <div class="faces"><img src="../../img/lucie.webp" alt=""><img class="blue" src="../../img/lucas.webp" alt=""></div>

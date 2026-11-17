@@ -74,6 +74,7 @@
   @keyframes spinSlow{to{transform:rotate(360deg)}}
 </style>
 <link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#7c4dff"><link rel="apple-touch-icon" href="/img/icon-192.png"><script>if("serviceWorker" in navigator)addEventListener("load",function(){navigator.serviceWorker.register("/sw.js").catch(function(){})});</script>
+<script src="../anh-chung/thong-tin.js"></script>
 </head>
 <body>
 <div id="three" class="fixed inset-0"></div>
@@ -135,7 +136,7 @@
         <div class="flex items-center gap-3">
           <div id="avLucie" class="flex-none"></div>
           <div>
-            <div class="text-lg md:text-2xl font-extrabold text-pink-600 leading-tight">THUYỀN TRƯỞNG<br>CHỊ LUCIE <span class="text-slate-500 text-base md:text-xl">(Lớp 3)</span></div>
+            <div class="text-lg md:text-2xl font-extrabold text-pink-600 leading-tight">THUYỀN TRƯỞNG<br>CHỊ LUCIE <span class="text-slate-500 text-base md:text-xl">(<span data-hs="lucie.goi">Tường San</span> · <span data-hs="lucie.lop">3A6</span>)</span></div>
             <div class="mt-1">
               <span class="chip bg-pink-100 text-pink-700">➕➖ Số có 3 chữ số</span>
               <span class="chip bg-pink-100 text-pink-700">✖️➗ Bảng nhân – chia</span>
@@ -151,7 +152,7 @@
         <div class="flex items-center gap-3">
           <div id="avLucas" class="flex-none"></div>
           <div>
-            <div class="text-lg md:text-2xl font-extrabold text-blue-600 leading-tight">THỦY THỦ<br>EM LUCAS <span class="text-slate-500 text-base md:text-xl">(Lớp 1)</span></div>
+            <div class="text-lg md:text-2xl font-extrabold text-blue-600 leading-tight">THỦY THỦ<br>EM LUCAS <span class="text-slate-500 text-base md:text-xl">(<span data-hs="lucas.goi">Tường Minh</span> · <span data-hs="lucas.lop">1A5</span>)</span></div>
             <div class="mt-1">
               <span class="chip bg-blue-100 text-blue-700">➕➖ Phạm vi 10 – 20</span>
               <span class="chip bg-blue-100 text-blue-700">🐟 Đếm số</span>
@@ -1360,7 +1361,7 @@ async function beginGame(kind, island, coins, badges){
   $('hudAvatar').innerHTML = avatarSVG(kind, 46);
   $('hudName').textContent = kind === 'lucie' ? 'Thuyền trưởng Lucie' : 'Thủy thủ Lucas';
   $('hudName').style.color = kind === 'lucie' ? '#db2777' : '#2563eb';
-  $('hudGrade').textContent = kind === 'lucie' ? 'Lớp 3 · Bạn đồng hành: em Lucas' : 'Lớp 1 · Bạn đồng hành: chị Lucie';
+  $('hudGrade').textContent = kind === 'lucie' ? HS.lucie.goi + ' · Lớp ' + HS.lucie.lop + ' · Bạn đồng hành: em Lucas' : HS.lucas.goi + ' · Lớp ' + HS.lucas.lop + ' · Bạn đồng hành: chị Lucie';
   $('start').classList.add('hidden');
   await sailTo(island, true);
 }

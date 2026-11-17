@@ -146,6 +146,7 @@
   @media (max-height:640px) { :root { --pic:min(24vh,220px); } .question { margin:8px 0; } }
 </style>
 <link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#7c4dff"><link rel="apple-touch-icon" href="/img/icon-192.png"><script>if("serviceWorker" in navigator)addEventListener("load",function(){navigator.serviceWorker.register("/sw.js").catch(function(){})});</script>
+<script src="../anh-chung/thong-tin.js"></script>
 </head>
 <body>
 <canvas id="c3d"></canvas>
@@ -161,18 +162,20 @@
     <button class="mode m-lucas" data-mode="lucas">
       <div class="portraits"><div class="portrait" data-portrait="lucas"></div></div>
       <div class="mode-name">EM LUCAS</div>
-      <div class="mode-sub">Lớp 1 · 25 câu đồng dao &amp; tục ngữ ngắn</div>
+      <div class="mode-sub">Lớp <span data-hs="lucas.lop">1A5</span> · 25 câu đồng dao &amp; tục ngữ ngắn</div>
+      <div class="mode-tag" data-hs="lucas.ten">Nguyễn Ngọc Tường Minh</div>
     </button>
     <button class="mode m-lucie" data-mode="lucie">
       <div class="portraits"><div class="portrait" data-portrait="lucie"></div></div>
       <div class="mode-name">CHỊ LUCIE</div>
-      <div class="mode-sub">Lớp 3 · 25 câu ca dao lục bát &amp; tục ngữ</div>
+      <div class="mode-sub">Lớp <span data-hs="lucie.lop">3A6</span> · 25 câu ca dao lục bát &amp; tục ngữ</div>
+      <div class="mode-tag" data-hs="lucie.ten">Nguyễn Ngọc Tường San</div>
     </button>
     <button class="mode m-both" data-mode="both">
       <div class="portraits"><div class="portrait" data-portrait="lucie"></div><div class="portrait" data-portrait="lucas"></div></div>
       <div class="mode-name">HAI CHỊ EM CÙNG CHƠI</div>
       <div class="mode-sub">50 câu · lần lượt đổi lượt Chị Lucie và Em Lucas</div>
-      <div class="mode-tag">Cả nhà cùng chơi</div>
+      <div class="mode-tag"><span data-hs="truong">Trường TH&amp;THCS Chu Văn An</span></div>
     </button>
   </div>
   <p class="hint">Bấm vào tranh để phóng to · Bấm "Đọc câu hỏi" để nghe giọng đọc · Bàn phím: 1 2 3 4 để chọn đáp án</p>
@@ -785,7 +788,7 @@ function endGame(){
   S.active = null; camMode = "game";
   const ws = Object.keys(S.players);
   $("#endBody").innerHTML = `<div class="res">` + ws.map(w => { const P = S.players[w], st = starsOf(P);
-    return `<div class="resbox ${w}"><div class="nm">${NAME[w]}</div><div class="pt">${P.score} điểm</div><div class="stars">${[0,1,2].map(i => starSVG(i < st)).join("")}</div><div>Đúng ${P.right}/${P.total} câu</div></div>`; }).join("") + `</div>` +
+    return `<div class="resbox ${w}"><div class="nm">${NAME[w]}</div><div style="font-weight:700">${HS[w].ten} · Lớp ${HS[w].lop}</div><div class="pt">${P.score} điểm</div><div class="stars">${[0,1,2].map(i => starSVG(i < st)).join("")}</div><div>Đúng ${P.right}/${P.total} câu</div></div>`; }).join("") + `</div>` +
     `<div class="endmsg">${ws.length > 1 ? "Hai chị em đã cùng nhau học thêm thật nhiều câu ca dao, tục ngữ hay. Cả nhà khen cả hai!" : (starsOf(S.players[ws[0]]) >= 2 ? "Giỏi quá! Con đã thuộc rất nhiều câu ca dao, tục ngữ." : "Cố lên nhé! Chơi lại để thuộc thêm nhiều câu hay hơn nữa.")}</div>`;
   ws.forEach(w => saveProgress(w, S.players[w]));
   showScreen("scrEnd"); Sound.fanfare(); FX.finale();

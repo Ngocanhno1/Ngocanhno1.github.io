@@ -70,6 +70,7 @@
   @media (prefers-reduced-motion: reduce) { .cloud, .kids { animation: none; } }
 </style>
 <link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#7c4dff"><link rel="apple-touch-icon" href="/img/icon-192.png"><script>if("serviceWorker" in navigator)addEventListener("load",function(){navigator.serviceWorker.register("/sw.js").catch(function(){})});</script>
+<script src="games/anh-chung/thong-tin.js"></script>
 </head>
 <body>
 <div class="cloud c1" aria-hidden="true">☁️</div>
@@ -78,6 +79,7 @@
   <div class="kids" aria-hidden="true"><img class="hface pink" src="img/lucie.webp" alt=""><span>🎮</span><img class="hface blue" src="img/lucas.webp" alt=""></div>
   <h1>Góc Trò Chơi Lucie &amp; Lucas</h1>
   <p class="sub">Chọn một trò chơi để vừa chơi vừa học nhé!</p>
+  <p class="sub" style="font-size:1.05em;margin-top:4px">Của chị <b data-hs="lucie.ten">Nguyễn Ngọc Tường San</b> (lớp <span data-hs="lucie.lop">3A6</span>) và em <b data-hs="lucas.ten">Nguyễn Ngọc Tường Minh</b> (lớp <span data-hs="lucas.lop">1A5</span>) · <span data-hs="truong">Trường TH&amp;THCS Chu Văn An</span></p>
 </header>
 
 <main class="grid" id="grid"></main>
@@ -114,14 +116,14 @@ function cupsHTML(key) {
 const GAMES = [
   { href: "games/hoi-lang-ca-dao/", name: "Hội Làng Đoán Ca Dao 3D", isNew: true, cups: "cadao",
     desc: "Xem 2 bức tranh phép thuật, đoán từ còn thiếu trong câu ca dao, tục ngữ. Đúng thì trống hội vang, pháo giấy bay!",
-    tags: ["Lucie lớp 3", "Lucas lớp 1", "Tiếng Việt", "50 câu"], bg: "radial-gradient(circle at 50% 35%,#ffd166 0,#e63946 45%,#3a0ca3 100%)",
+    tags: ["Tường San 3A6", "Tường Minh 1A5", "Tiếng Việt", "50 câu"], bg: "radial-gradient(circle at 50% 35%,#ffd166 0,#e63946 45%,#3a0ca3 100%)",
     art: `<span class="big" style="font-size:52px;left:8%;top:22px">🏮</span><span class="big" style="font-size:52px;right:8%;top:22px">🏮</span>
           <span class="big" style="font-size:70px;left:41%;top:30px">🥁</span>
           <img class="face pink" src="${F.lucie}" style="left:18%;top:84px" alt="Lucie"><img class="face blue" src="${F.lucas}" style="right:18%;top:84px" alt="Lucas">
           <span class="em" style="font-size:30px;left:46%;top:140px">🎆</span>` },
   { href: "games/dao-kho-bau-toan-hoc/", name: "Đảo Kho Báu Toán Học 3D", cups: "daokhobau",
     desc: "Vượt 5 hòn đảo: xếp số qua cầu đá, nhảy bậc đá phép tính, bắn đại bác mở cổng kho báu của Cướp biển Max!",
-    tags: ["Lucie lớp 3", "Lucas lớp 1", "Toán", "5 đảo"], bg: "linear-gradient(180deg,#5ec8f2 0,#bfeaff 55%,#16b3c9 55%,#0e8fa6 100%)",
+    tags: ["Tường San 3A6", "Tường Minh 1A5", "Toán", "5 đảo"], bg: "linear-gradient(180deg,#5ec8f2 0,#bfeaff 55%,#16b3c9 55%,#0e8fa6 100%)",
     art: `<span class="big" style="font-size:54px;left:8%;top:34px">🏝️</span><span class="big" style="font-size:44px;right:8%;top:24px">🏴‍☠️</span>
           <span class="big" style="font-size:60px;left:42%;top:40px">💎</span>
           <img class="face pink" src="${F.lucie}" style="left:16%;top:84px" alt="Lucie"><img class="face blue" src="${F.lucas}" style="right:16%;top:84px" alt="Lucas">

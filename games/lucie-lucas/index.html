@@ -257,6 +257,7 @@
   #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 25; }
 </style>
 <link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#7c4dff"><link rel="apple-touch-icon" href="/img/icon-192.png"><script>if("serviceWorker" in navigator)addEventListener("load",function(){navigator.serviceWorker.register("/sw.js").catch(function(){})});</script>
+<script src="../anh-chung/thong-tin.js"></script>
 </head>
 <body>
 
@@ -275,11 +276,11 @@
   <div class="hint">Mỗi bạn có 30 level 3D qua 6 vùng đất. Trả lời sai là bố mẹ đuổi theo đấy! Trả lời đúng để vượt chướng ngại vật nhé!<br>Hôm nay ai chơi nào?</div>
   <div class="chars">
     <div class="charCard lucie" onclick="openLevels('lucie')">
-      <div class="heroWrap" data-hero="lucie"></div><h2>Lucie</h2><p>Lớp 3 • Công chúa phiêu lưu</p>
+      <div class="heroWrap" data-hero="lucie"></div><h2>Lucie</h2><p><b data-hs="lucie.ten">Nguyễn Ngọc Tường San</b><br>Lớp <span data-hs="lucie.lop">3A6</span> • Công chúa phiêu lưu</p>
       <div class="prog" id="prog-lucie"></div>
     </div>
     <div class="charCard lucas" onclick="openLevels('lucas')">
-      <div class="heroWrap" data-hero="lucas"></div><h2>Lucas</h2><p>Lớp 1 • Đua xe tốc độ</p>
+      <div class="heroWrap" data-hero="lucas"></div><h2>Lucas</h2><p><b data-hs="lucas.ten">Nguyễn Ngọc Tường Minh</b><br>Lớp <span data-hs="lucas.lop">1A5</span> • Đua xe tốc độ</p>
       <div class="prog" id="prog-lucas"></div>
     </div>
   </div>
