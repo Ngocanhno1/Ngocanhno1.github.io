@@ -38,12 +38,17 @@ window.__veTruyen = async function (ma) {
   window.__tt = { ma, xong: [], loi: [] };
   for (const [ten, P] of jobs) {
     if (sessionStorage.getItem('anh:' + ten)) { window.__tt.xong.push(ten); continue; }
+    // tranh đã có trên trang thì bỏ qua (chạy lại chỉ vẽ tranh còn thiếu)
+    const coSan = await fetch(`https://raw.githubusercontent.com/Ngocanhno1/Ngocanhno1.github.io/main/games/sach-truyen/anh/${ten}.webp`, { method: 'HEAD', cache: 'no-store' }).then(r => r.ok).catch(() => false);
+    if (coSan) { window.__tt.xong.push(ten + '(co san)'); continue; }
+    const PP = window.__tt.daGui ? P : (P.startsWith(STYLE) ? P : STYLE + ' ' + P);   // lượt đầu của cuộc trò chuyện luôn kèm mô tả nét vẽ
+    window.__tt.daGui = true;
     let ok = false;
     for (let lan = 0; lan < 2 && !ok; lan++) {
       for (let i = 0; i < 90 && dang(); i++) await sl(2000);   // lượt trước còn chạy thì chờ hẳn
       const truoc = new Set(blobs()), soLuot = luot().length;
       const ta = document.querySelector('textarea');
-      Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value').set.call(ta, P); ta.dispatchEvent(new Event('input', { bubbles: true }));
+      Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value').set.call(ta, PP); ta.dispatchEvent(new Event('input', { bubbles: true }));
       await sl(800);
       const b = [...document.querySelectorAll('button')].find(x => /^\s*Run/.test(x.innerText)); if (!b) { window.__tt.loi.push(ten + ':khong-thay-nut-Run'); break; }
       b.click();
