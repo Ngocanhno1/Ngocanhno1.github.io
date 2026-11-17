@@ -125,6 +125,8 @@ const CUPS = {
     return { n, icons: Array(Math.min(n, 12)).fill("🏆"), note: n + "/31 cúp" + (o.luot ? " · " + o.luot + " lần tới kho báu" : "") }; },
   sachtruyen: c => { const o = readJSON("sachtruyen_" + c) || {}, nt = Object.keys(o.truyen || {}).length, n = o.sao || 0;
     return { n, icons: Array(Math.min(n, 12)).fill("⭐"), note: nt + " truyện đã nghe · ⭐" + n }; },
+  duathuyen: c => { const o = readJSON("duaThuyen_" + c) || {}, n = o.dongDoi || 0;
+    return { n, icons: Array(Math.min(n, 12)).fill("🏆"), note: n + " cúp đồng đội · về nhất " + (o.nhat || 0) + " lần" }; },
   duaxe: c => { const o = readJSON("duaXe_" + c) || {}, n = o.vang || 0;
     return { n, icons: Array(Math.min(n, 12)).fill("🏆"), note: n + " cúp vàng · 🥈" + (o.bac || 0) + " · 🥉" + (o.dong || 0) + (o.diemCao ? " · kỷ lục ⭐" + o.diemCao : "") }; },
   duoihinh: c => { const o = readJSON("dhbc_" + c) || {}, g = (o.giai || []).length, n = Math.floor(g / 10);
@@ -152,7 +154,12 @@ function cupsHTML(key) {
   }).join("") + `</div>`;
 }
 const GAMES = [
-  { href: "games/dua-xe/", name: "Đua Xe Tia Chớp 3D", isNew: true, cups: "duaxe",
+  { href: "games/dua-thuyen/", name: "Đua Thuyền Hai Chị Em", isNew: true, cups: "duathuyen",
+    desc: "Hai chị em chơi CÙNG LÚC trên một màn hình chia đôi: chị trả lời câu lớp 3 bên trái, em trả lời câu lớp 1 bên phải. Đúng thì thuyền tiến về Đảo Kẹo. Cùng về đích được Cúp đồng đội!",
+    tags: ["Chơi cùng lúc", "Lucie lớp 3", "Lucas lớp 1", "Toán", "Tiếng Việt", "Tiếng Anh"], bg: "linear-gradient(180deg,#8fd8ff 0,#c9f0ff 35%,#3fb4e8 35%,#1e8ed1 100%)",
+    art: `<img class="face pink" src="${F.lucie}" style="left:16%;top:70px" alt="Lucie"><img class="face blue" src="${F.lucas}" style="left:42%;top:118px" alt="Lucas">
+          <span class="big" style="font-size:54px;right:8%;top:60px">🏝️</span><span class="em" style="font-size:34px;left:6%;top:20px">⛵</span>` },
+  { href: "games/dua-xe/", name: "Đua Xe Tia Chớp 3D", cups: "duaxe",
     desc: "Lái xe đua qua thành phố, đồng lúa, bờ biển, núi tuyết. Lái vào cổng có đáp án đúng để bật TURBO, vượt Thỏ Trắng, Cáo Cam, Gấu Nâu và về nhất!",
     tags: ["Lucas lớp 1", "Lucie lớp 3", "Toán", "Tiếng Việt", "Tiếng Anh"], bg: "linear-gradient(180deg,#6ec6ff 0,#d8f1ff 42%,#3a3f4b 42%,#3a3f4b 100%)",
     art: `<span class="big" style="font-size:54px;left:8%;top:28px">🏎️</span><span class="big" style="font-size:48px;right:8%;top:26px">🏁</span>

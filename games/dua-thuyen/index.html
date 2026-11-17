@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<script src="/games/anh-chung/dong-bo.js"></script>
+<script>window.DEM_GIO_HAI_BE = true;</script>
+<script src="/games/anh-chung/dem-gio.js" defer></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="author" content="Nguyễn Hoàng Ngọc Anh">
+<meta name="keywords" content="Ban Tuyên giáo Trung ương">
+<title>Đua Thuyền Hai Chị Em</title>
+<link rel="manifest" href="/manifest.webmanifest">
+<script>if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<script src="../anh-chung/giong-noi.js"></script>
+<script src="../anh-chung/mat-that.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'Baloo 2',system-ui,sans-serif;color:#22163d;-webkit-tap-highlight-color:transparent;user-select:none;background:#bdeaff}
+button{font-family:inherit;cursor:pointer;border:0}
+.hide{display:none!important}
+.btn{border-radius:999px;padding:.35em 1.3em;font-weight:800;font-size:clamp(20px,2.4vw,34px);color:#fff;background:linear-gradient(#ffa94d,#f76707);box-shadow:0 6px 0 #a63f00,0 10px 22px rgba(0,0,0,.25)}
+.btn:focus-visible{outline:5px solid #ffe066;outline-offset:4px}
+/* Sông */
+#song{position:fixed;left:0;right:0;top:0;height:31vh;overflow:hidden;
+  background:linear-gradient(#8fd8ff 0,#c9f0ff 30%,#3fb4e8 30%,#1e8ed1 100%)}
+#song .song-ve{position:absolute;inset:30% 0 0 0;background:repeating-linear-gradient(100deg,rgba(255,255,255,.18) 0 18px,transparent 18px 70px);animation:troi 3s linear infinite}
+@keyframes troi{to{background-position:-140px 0}}
+#song .lan{position:absolute;left:0;right:0;height:33%;border-top:3px dashed rgba(255,255,255,.35)}
+#lan1{top:33%}#lan2{top:66%}
+.thuyen{position:absolute;left:2%;width:clamp(70px,9vw,130px);height:clamp(46px,6vw,84px);transition:left .9s cubic-bezier(.3,1.4,.5,1);transform:translateY(-50%)}
+.thuyen .than{position:absolute;left:0;right:0;bottom:0;height:45%;border-radius:0 0 50% 50%/0 0 100% 100%;box-shadow:inset 0 -6px 0 rgba(0,0,0,.2)}
+.thuyen img{position:absolute;left:50%;bottom:32%;width:58%;aspect-ratio:1;transform:translateX(-50%);border-radius:50%;border:4px solid #fff;object-fit:cover;background:#eee;box-shadow:0 3px 8px rgba(0,0,0,.3)}
+.thuyen.lucie .than{background:linear-gradient(#ff8fc7,#d6337f)}
+.thuyen.lucas .than{background:linear-gradient(#74c0fc,#1971c2)}
+#t1{top:50%}#t2{top:83%}
+.thuyen.nay{animation:nay .6s ease-in-out infinite alternate}
+@keyframes nay{to{transform:translateY(-58%) rotate(-3deg)}}
+#dao{position:absolute;right:0;top:30%;bottom:0;width:11vw;min-width:70px;background:radial-gradient(ellipse 60% 45% at 60% 62%,#ffe8a3 0 92%,transparent 94%)}
+#dao b{position:absolute;left:0;right:0;bottom:8%;text-align:center;font-size:clamp(11px,1.2vw,18px);color:#a61e4d;text-shadow:0 1px 0 #fff}
+#dao .cay{position:absolute;left:52%;top:8%;width:28%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 35%,#8ce99a,#2b8a3e);box-shadow:-30% 20% 0 -10% #40c057}
+#dao .keo{position:absolute;width:18%;aspect-ratio:1;border-radius:50%;background:repeating-conic-gradient(#ff6b9a 0 30deg,#fff 30deg 60deg);border:2px solid #fff}
+#dao .k1{left:22%;top:38%}#dao .k2{left:70%;top:46%}
+#dich{position:absolute;right:11vw;top:30%;bottom:0;width:10px;background:repeating-linear-gradient(#fff 0 12px,#222 12px 24px);opacity:.85}
+#tieuDe{position:absolute;left:50%;top:1.2vh;transform:translateX(-50%);font-weight:800;font-size:clamp(20px,2.6vw,38px);color:#fff;text-shadow:0 3px 0 #1864ab;white-space:nowrap}
+/* Hai nửa câu hỏi */
+#ban{position:fixed;left:0;right:0;top:31vh;bottom:0;display:grid;grid-template-columns:1fr 1fr;gap:6px;background:#fff}
+.nua{position:relative;display:flex;flex-direction:column;padding:1.6vh 1.6vw 4.5vh;gap:1.2vh;overflow:hidden}
+.nua.lucie{background:linear-gradient(#fff0f6,#ffdeeb)}
+.nua.lucas{background:linear-gradient(#e7f5ff,#d0ebff)}
+.dau{display:flex;align-items:center;gap:.8vw;font-weight:800;font-size:clamp(18px,2.1vw,30px)}
+.dau img{width:clamp(40px,4.4vw,64px);aspect-ratio:1;border-radius:50%;object-fit:cover;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.dau .chang{margin-left:auto;font-size:.8em;background:#fff;border-radius:999px;padding:0 .8em}
+.mon{align-self:flex-start;font-size:clamp(13px,1.3vw,18px);font-weight:800;color:#fff;border-radius:999px;padding:0 .8em}
+.lucie .mon{background:#d6337f}.lucas .mon{background:#1971c2}
+.cau{font-weight:800;font-size:clamp(20px,2.5vw,40px);line-height:1.18;min-height:2.4em;display:flex;align-items:center;gap:.4em}
+.cau .doc{flex:none;font-size:.7em;border-radius:50%;width:1.9em;height:1.9em;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.dapan{display:grid;grid-template-columns:1fr 1fr;gap:1.2vh 1vw;flex:1}
+.dapan button{position:relative;border-radius:20px;font-weight:800;font-size:clamp(18px,2.2vw,34px);line-height:1.1;padding:.3em .5em .3em 1.6em;background:#fff;color:#22163d;box-shadow:0 5px 0 rgba(0,0,0,.14);transition:transform .08s,background .2s}
+.dapan button .phim{position:absolute;left:.45em;top:50%;transform:translateY(-50%);font-size:.62em;width:1.6em;height:1.6em;line-height:1.6em;border-radius:50%;color:#fff}
+.lucie .phim{background:#f06595}.lucas .phim{background:#339af0}
+.dapan button:focus-visible{outline:5px solid #fab005;outline-offset:2px;transform:scale(1.03)}
+.dapan button.dung{background:#8ce99a!important}
+.dapan button.sai{background:#ffa8a8!important;opacity:.8}
+.loi{position:absolute;left:0;right:0;bottom:.6vh;text-align:center;font-weight:700;font-size:clamp(15px,1.6vw,22px);min-height:1.4em}
+.ve-dich{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.2vh;text-align:center;background:rgba(255,255,255,.88);font-weight:800;font-size:clamp(24px,3vw,46px)}
+.ve-dich img{width:22%;aspect-ratio:1;border-radius:50%;object-fit:cover;border:6px solid #ffd43b}
+.ve-dich small{font-size:.55em;font-weight:700}
+.nhay{animation:nhay .45s}
+@keyframes nhay{40%{transform:scale(1.04)}}
+/* Màn đầu & cuối */
+.man{position:fixed;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.2vh;padding:3vh 3vw;text-align:center;
+  background:radial-gradient(circle at 50% 110%,#ffe066 0,transparent 45%),linear-gradient(170deg,#74c0fc,#9775fa 70%,#f783ac)}
+.man h1{font-size:clamp(40px,6.8vw,104px);line-height:.95;color:#fff;text-shadow:0 5px 0 #5f3dc4,0 10px 18px rgba(0,0,0,.25)}
+.man h1 small{display:block;font-size:.38em;text-shadow:0 3px 0 #5f3dc4}
+.man p{font-size:clamp(17px,2vw,28px);color:#fff;max-width:1100px;text-shadow:0 2px 0 rgba(0,0,0,.25)}
+.hai{display:flex;gap:4vw;justify-content:center;flex-wrap:wrap}
+.the{width:clamp(180px,22vw,320px);border-radius:26px;padding:1.6vh 1vw;color:#fff;font-weight:800;font-size:clamp(20px,2.3vw,34px);border:5px solid #fff;display:flex;flex-direction:column;align-items:center;gap:.5vh}
+.the img{width:62%;aspect-ratio:1;border-radius:50%;object-fit:cover;border:5px solid #fff}
+.the small{font-size:.6em;font-weight:700;line-height:1.15}
+.the.lucie{background:linear-gradient(#ff8fc7,#d6337f)}.the.lucas{background:linear-gradient(#74c0fc,#1971c2)}
+.the .phimgoi{font-size:.55em;background:rgba(0,0,0,.2);border-radius:12px;padding:.1em .6em}
+.nutRow{display:flex;gap:1.5vw;flex-wrap:wrap;justify-content:center}
+.cup{font-size:clamp(20px,2.4vw,34px);color:#fff;font-weight:800;background:rgba(0,0,0,.18);border-radius:18px;padding:.3em 1em}
+#demGio{top:12px!important;bottom:auto!important}
+@media (max-aspect-ratio:1/1){ #ban{grid-template-columns:1fr;grid-template-rows:1fr 1fr} .dapan button{font-size:clamp(16px,4.2vw,26px)} .cau{font-size:clamp(18px,4.8vw,30px)} }
+</style>
+</head>
+<body>
+<div id="song"><div class="song-ve"></div><div class="lan" id="lan1"></div><div class="lan" id="lan2"></div>
+  <div id="tieuDe">Đua Thuyền về Đảo Kẹo</div><div id="dich"></div><div id="dao"><div class="cay"></div><div class="keo k1"></div><div class="keo k2"></div><b>ĐẢO KẸO</b></div>
+  <div class="thuyen lucie nay" id="t1"><div class="than"></div><img alt="Lucie"></div>
+  <div class="thuyen lucas nay" id="t2"><div class="than"></div><img alt="Lucas"></div>
+</div>
+<div id="ban">
+  <section class="nua lucie" id="nLucie"></section>
+  <section class="nua lucas" id="nLucas"></section>
+</div>
+
+<div class="man" id="manDau">
+  <h1>Đua Thuyền<small>Hai Chị Em cùng chơi một lúc!</small></h1>
+  <div class="hai">
+    <div class="the lucie"><img alt=""><span data-hs="lucie.goi">Tường San</span><small>Lớp <span data-hs="lucie.lop">3A6</span> · nửa bên TRÁI</small><span class="phimgoi">Chạm bên trái · phím 1 2 3 4</span></div>
+    <div class="the lucas"><img alt=""><span data-hs="lucas.goi">Tường Minh</span><small>Lớp <span data-hs="lucas.lop">1A5</span> · nửa bên PHẢI</small><span class="phimgoi">Chạm bên phải · phím 7 8 9 0</span></div>
+  </div>
+  <p>Mỗi bạn trả lời câu hỏi ở nửa màn hình của mình, không cần chờ nhau. Đúng thì thuyền tiến lên. Hai chị em cùng về Đảo Kẹo thì được <b>Cúp đồng đội</b>!</p>
+  <div class="nutRow"><button class="btn" id="nutBatDau">Bắt đầu đua</button><button class="btn hide" id="nutTiep" style="background:linear-gradient(#69db7c,#2f9e44);box-shadow:0 6px 0 #1b6b2c">Đua tiếp ván dở</button></div>
+</div>
+
+<div class="man hide" id="manCuoi">
+  <h1 id="kqTieuDe">Về đích!</h1>
+  <div class="hai" id="kqHai"></div>
+  <div class="cup" id="kqCup"></div>
+  <p id="kqLoi"></p>
+  <div class="nutRow"><button class="btn" id="nutLai">🔁 Đua ván mới</button><button class="btn" onclick="location.href='/'" style="background:linear-gradient(#b197fc,#7048e8);box-shadow:0 6px 0 #4c2fa8">🏠 Trang chủ</button></div>
+</div>
+
+<script src="../anh-chung/thong-tin.js"></script>
+<script>
+/*KB*/
+const KB = {
+  chao: "Chào mừng hai chị em đến với cuộc đua về Đảo Kẹo ngọt ngào! Mỗi bạn trả lời câu hỏi của mình, đúng là thuyền tiến lên nhé!",
+  khen: ["Tuyệt vời quá, thuyền phóng nhanh như gió!", "Chính xác luôn, con thật là thông minh!", "Giỏi lắm, một cú chèo thuyền siêu đẳng!", "Xuất sắc, Đảo Kẹo đang ở rất gần rồi!", "Quá đỉnh, không câu nào làm khó được con!"],
+  dongVien: ["Nhìn đáp án và cố lên ở câu sau nhé!", "Không sao đâu, bình tĩnh đọc kỹ lại nào!", "Suýt trúng rồi, lần sau con sẽ làm được!", "Thuyền nghỉ một nhịp, chuẩn bị tăng tốc nhé!", "Đừng buồn nhé, cơ hội về đích vẫn còn!"],
+  veTruoc: "đã cập bến! Cùng cổ vũ thuyền còn lại về đích để nhận Cúp Đồng Đội nào!",
+  chucMung: "Chúc mừng hai chị em đã cùng nhau chinh phục Đảo Kẹo và giành chiếc Cúp Đồng Đội!"
+};
+/*END_KB*/
+/*DATA*/
+const RAW_LUCIE = `
+Toán|1|7 x 8 bằng bao nhiêu?|56|54|48|64|Theo bảng nhân 7, 7 nhân 8 bằng 56.
+Toán|1|63 chia 9 bằng mấy?|7|6|8|9|Vì 9 nhân 7 bằng 63.
+Toán|1|Số liền sau của 999 là?|1000|998|1001|990|999 cộng 1 bằng 1000.
+Toán|1|1 mét bằng bao nhiêu xăng-ti-mét?|100 cm|10 cm|1000 cm|50 cm|1 m đổi ra được 100 cm.
+Toán|1|Hình vuông có mấy góc vuông?|4|2|3|5|Hình vuông luôn có 4 góc vuông.
+Toán|1|300 cộng 450 bằng bao nhiêu?|750|650|850|700|300 cộng 450 bằng 750.
+Toán|1|Một tuần lễ có mấy ngày?|7 ngày|5 ngày|6 ngày|8 ngày|Từ thứ hai đến chủ nhật có 7 ngày.
+Toán|2|Một phần tư của 36 là?|9|8|6|4|Lấy 36 chia 4 bằng 9.
+Toán|2|Chu vi hình vuông cạnh 6 cm là?|24 cm|36 cm|12 cm|18 cm|Chu vi bằng cạnh nhân 4: 6 x 4 = 24.
+Toán|2|Gấp 12 lên 4 lần được?|48|16|36|44|Lấy 12 nhân 4 bằng 48.
+Toán|2|Số La Mã XIV là số mấy?|14|16|15|19|X là 10, IV là 4, ghép lại là 14.
+Toán|2|1 giờ 15 phút bằng bao nhiêu phút?|75 phút|65 phút|85 phút|60 phút|60 phút cộng 15 phút bằng 75 phút.
+Toán|2|Tìm x biết: x nhân 5 = 45|9|8|7|40|Lấy 45 chia 5 bằng 9.
+Toán|2|580 trừ 230 bằng bao nhiêu?|350|340|250|360|580 trừ 230 bằng 350.
+Toán|3|Diện tích hình chữ nhật dài 8 cm, rộng 5 cm?|40 cm vuông|26 cm vuông|13 cm vuông|45 cm vuông|Dài nhân rộng: 8 nhân 5 bằng 40.
+Toán|3|Chia 38 cho 5 thì số dư là mấy?|3|2|4|1|38 chia 5 được 7, dư 3.
+Toán|3|Tính giá trị: 100 - 20 x 3|40|240|60|80|Nhân trước trừ sau: 100 trừ 60 bằng 40.
+Toán|3|Một năm nhuận có bao nhiêu ngày?|366 ngày|365 ngày|360 ngày|364 ngày|Năm nhuận tháng 2 có 29 ngày nên 366 ngày.
+Toán|3|2 kg 50 g bằng bao nhiêu gam?|2050 g|250 g|2500 g|2005 g|2 kg là 2000 g, cộng 50 g bằng 2050 g.
+Toán|3|Số lớn nhất có 4 chữ số khác nhau?|9876|9999|9875|1234|Các chữ số lớn nhất khác nhau là 9, 8, 7, 6.
+Tiếng Việt|1|Từ nào chỉ hoạt động?|Chạy nhảy|Xinh đẹp|Bàn ghế|Đỏ tươi|Chạy nhảy là hành động của cơ thể.
+Tiếng Việt|1|Trái nghĩa với từ "chăm chỉ" là?|Lười biếng|Siêng năng|Cần cù|Hiền lành|Chăm chỉ ngược nghĩa với lười biếng.
+Tiếng Việt|1|Từ nào viết đúng chính tả?|Sắp xếp|Sắp sếp|Xắp xếp|Xắp sếp|Viết đúng là sắp xếp.
+Tiếng Việt|1|Từ nào chỉ sự vật?|Con mèo|Vàng óng|Học bài|Vui vẻ|Con mèo là từ chỉ sự vật, con vật.
+Tiếng Việt|1|Cuối câu hỏi ta dùng dấu gì?|Dấu chấm hỏi|Dấu chấm|Dấu phẩy|Dấu chấm than|Câu hỏi kết thúc bằng dấu chấm hỏi.
+Tiếng Việt|1|Từ nào cùng nghĩa với "dũng cảm"?|Gan dạ|Nhút nhát|Thông minh|Khỏe mạnh|Gan dạ và dũng cảm đều là không sợ hãi.
+Tiếng Việt|1|Từ nào chỉ đặc điểm?|Cao lớn|Đọc sách|Cái cây|Bầu trời|Cao lớn chỉ đặc điểm hình dáng.
+Tiếng Việt|2|Câu "Em đi học." thuộc kiểu câu gì?|Câu kể|Câu hỏi|Câu cảm|Câu khiến|Câu dùng để kể lại sự việc.
+Tiếng Việt|2|"Trẻ em như búp trên..." Điền từ còn thiếu?|cành|cây|lá|hoa|Câu thơ Bác Hồ: Trẻ em như búp trên cành.
+Tiếng Việt|2|Từ nào viết SAI chính tả?|xinh sắn|xinh xắn|sạch sẽ|sáng sủa|Viết đúng là xinh xắn.
+Tiếng Việt|2|Bộ phận trả lời "Làm gì?" trong "Mẹ nấu cơm"?|nấu cơm|Mẹ|cơm|Mẹ nấu|Nấu cơm là hoạt động của mẹ.
+Tiếng Việt|2|Câu "Ôi, bông hoa đẹp quá!" là câu gì?|Câu cảm|Câu hỏi|Câu khiến|Câu kể|Câu bộc lộ cảm xúc có từ "Ôi", "quá".
+Tiếng Việt|2|Từ nào chỉ người trong gia đình?|Ông bà|Bạn bè|Thầy cô|Hàng xóm|Ông bà là người thân trong gia đình.
+Tiếng Việt|2|Điền vào chỗ trống: "... nắng ... mưa"?|Dầm / dãi|Rầm / rãi|Dầm / rãi|Giầm / dãi|Thành ngữ đúng là dầm nắng dãi mưa.
+Tiếng Việt|3|"Ông mặt trời mặc áo mới" dùng biện pháp gì?|Nhân hóa|So sánh|Liệt kê|Điệp từ|Gọi "ông" và "mặc áo" như con người.
+Tiếng Việt|3|Thành ngữ nào chỉ sự đoàn kết?|Chung sức đồng lòng|Cầu được ước thấy|Đi sớm về khuya|Mò kim đáy bể|Cùng chung sức lực và lòng dạ.
+Tiếng Việt|3|"Tiếng suối trong như tiếng hát xa" có phép gì?|So sánh|Nhân hóa|Ẩn dụ|Câu khiến|Có từ "như" so sánh tiếng suối với tiếng hát.
+Tiếng Việt|3|Dấu hai chấm trong "Mẹ bảo: Con ăn đi" dùng để?|Báo lời nói trực tiếp|Báo phần liệt kê|Kết thúc câu|Ngăn cách các từ|Dẫn lời nói trực tiếp của mẹ.
+Tiếng Việt|3|Từ "xuân" trong "tuổi xuân" có nghĩa là gì?|Tuổi trẻ|Mùa đầu năm|Vui vẻ|Tươi tốt|Tuổi xuân chỉ quãng đời trẻ trung.
+Tiếng Việt|3|Câu nào là câu khiến?|Hãy đóng cửa lại!|Ai đóng cửa thế?|Cửa đóng rồi.|Cái cửa đẹp quá!|Có từ "Hãy" nêu yêu cầu, đề nghị.
+Tiếng Anh|1|How are you? - I'm ..., thank you.|fine|five|nine|name|I'm fine, thank you: Tôi khỏe, cảm ơn.
+Tiếng Anh|1|"Book" nghĩa là gì?|Quyển sách|Cây bút|Cái thước|Cục tẩy|Book là quyển sách.
+Tiếng Anh|1|Màu đỏ tiếng Anh là gì?|Red|Blue|Green|Yellow|Red là màu đỏ.
+Tiếng Anh|1|What's your name? - ... name is Lucie.|My|I|You|He|My name is: Tên của tôi là.
+Tiếng Anh|1|"Goodbye" nghĩa là gì?|Tạm biệt|Xin chào|Cảm ơn|Xin lỗi|Goodbye nghĩa là tạm biệt.
+Tiếng Anh|1|Số 8 trong tiếng Anh là?|Eight|Seven|Nine|Ten|Eight là số 8.
+Tiếng Anh|1|"Stand up" nghĩa là gì?|Đứng lên|Ngồi xuống|Mở sách|Trật tự|Stand up là đứng lên.
+Tiếng Anh|2|Is this our school? - Yes, ... is.|it|this|he|she|Trả lời cho this/that dùng it: Yes, it is.
+Tiếng Anh|2|How old are you? - I'm ... years old.|eight|fine|good|Lucie|Hỏi tuổi trả lời bằng số: eight.
+Tiếng Anh|2|May I ... in? - Yes, you can.|come|go|sit|stand|May I come in: Em xin phép vào lớp.
+Tiếng Anh|2|What colour is it? - It's ...|yellow|a pen|my book|big|Hỏi màu sắc: yellow, màu vàng.
+Tiếng Anh|2|Do you have a ruler? - No, I ...|don't|do|isn't|not|No, I don't: Không, tôi không có.
+Tiếng Anh|2|"Library" nghĩa là gì?|Thư viện|Phòng học|Sân chơi|Phòng nhạc|Library là thư viện.
+Tiếng Anh|2|Who's that? - ... is my brother.|He|She|It|They|Brother là anh, em trai nên dùng He.
+Tiếng Anh|3|What's your mother's job? - She's a ...|nurse|brother|kitchen|cooking|Hỏi nghề nghiệp: nurse, y tá.
+Tiếng Anh|3|Where's the living room? - It's ... here.|over|in|on|at|Cụm từ over here: ở đằng này.
+Tiếng Anh|3|How many ... are there? - There are two.|chairs|chair|a chair|the chair|Sau How many dùng danh từ số nhiều.
+Tiếng Anh|3|What is he doing? - He is ... to music.|listening|listen|listens|read|He is listening to music.
+Tiếng Anh|3|Would you like some milk? - Yes, ...|please|thank|I do|it is|Đáp lời mời lịch sự: Yes, please.
+Tiếng Anh|3|Where are the lamps? - ... are on the table.|They|It|There|This|Lamps số nhiều nên dùng They.
+`;
+const RAW_LUCAS = `
+Toán|1|1 + 2 bằng mấy?|3|2|4|5|1 thêm 2 bằng 3.
+Toán|1|5 - 1 bằng mấy?|4|3|5|2|5 bớt 1 còn 4.
+Toán|1|Số nào lớn hơn: 7 hay 3?|7|3|Bằng nhau|0|Số 7 lớn hơn số 3.
+Toán|1|3 + 3 bằng mấy?|6|5|7|4|3 cộng 3 bằng 6.
+Toán|1|Số đứng liền sau số 5 là?|6|4|7|5|Đếm 5 rồi đến 6.
+Toán|1|4 + 0 bằng mấy?|4|0|5|3|Số nào cộng 0 cũng bằng chính nó.
+Toán|1|Hình tam giác có mấy cạnh?|3 cạnh|4 cạnh|2 cạnh|5 cạnh|Tam giác có 3 cạnh.
+Toán|1|8 - 8 bằng mấy?|0|8|1|2|8 bớt hết 8 còn 0.
+Toán|2|6 + 4 bằng mấy?|10|9|8|7|6 thêm 4 tròn 10.
+Toán|2|10 - 3 bằng mấy?|7|6|8|5|10 bớt 3 còn 7.
+Toán|2|12 + 5 bằng mấy?|17|16|18|15|2 cộng 5 bằng 7, được 17.
+Toán|2|18 - 6 bằng mấy?|12|11|13|14|8 trừ 6 bằng 2, được 12.
+Toán|2|Số gồm 1 chục và 4 đơn vị là?|14|41|10|40|1 chục là 10, thêm 4 là 14.
+Toán|2|Số lớn nhất có 1 chữ số là?|9|10|8|1|Từ 0 đến 9 thì 9 lớn nhất.
+Toán|2|20 + 30 bằng mấy?|50|40|60|23|2 chục cộng 3 chục bằng 5 chục.
+Toán|2|70 - 20 bằng mấy?|50|40|60|90|7 chục trừ 2 chục còn 5 chục.
+Toán|2|Số liền trước của 10 là?|9|11|8|0|Trước số 10 là số 9.
+Toán|3|2 + 3 + 4 bằng mấy?|9|8|10|7|2 + 3 = 5, 5 + 4 = 9.
+Toán|3|10 - 2 - 3 bằng mấy?|5|6|4|7|10 - 2 = 8, 8 - 3 = 5.
+Toán|3|Điền số: 5 + ... = 9|4|3|5|6|5 thêm 4 thì bằng 9.
+Toán|3|25 + 13 bằng mấy?|38|37|28|39|20 + 10 = 30, 5 + 3 = 8, được 38.
+Toán|3|46 - 21 bằng mấy?|25|24|26|15|40 - 20 = 20, 6 - 1 = 5, được 25.
+Toán|3|Có 6 cái kẹo, ăn 2 cái, còn mấy?|4 cái|8 cái|3 cái|5 cái|6 trừ 2 còn 4 cái kẹo.
+Toán|3|Số tròn chục lớn hơn 80 là?|90|70|85|10|90 là số tròn chục lớn hơn 80.
+Toán|3|Kim ngắn chỉ số 3, kim dài chỉ số 12 là mấy giờ?|3 giờ|12 giờ|4 giờ|2 giờ|Đó là đúng 3 giờ.
+Tiếng Việt|1|Chữ đầu tiên trong bảng chữ cái là?|a|b|c|d|Chữ a đứng đầu bảng chữ cái.
+Tiếng Việt|1|Tiếng "cá" có dấu thanh gì?|Dấu sắc|Dấu huyền|Dấu hỏi|Dấu ngã|Tiếng cá có dấu sắc trên chữ a.
+Tiếng Việt|1|c - a - ca - sắc - ... là tiếng gì?|cá|cà|cả|cạ|Đánh vần: c - a - ca - sắc - cá.
+Tiếng Việt|1|Tiếng nào có âm "b"?|bà|cá|mẹ|gà|Tiếng "bà" bắt đầu bằng âm b.
+Tiếng Việt|1|Con gì kêu "meo meo"?|Con mèo|Con chó|Con gà|Con vịt|Con mèo kêu meo meo.
+Tiếng Việt|1|Tiếng "mẹ" có dấu gì?|Dấu nặng|Dấu sắc|Dấu hỏi|Dấu huyền|Chấm dưới chữ e là dấu nặng.
+Tiếng Việt|1|Từ nào chỉ người thân?|bố mẹ|cái bàn|con cá|quyển vở|Bố mẹ là người thân của em.
+Tiếng Việt|1|Con gì kêu "ò ó o"?|gà|cá|bò|dê|Con gà trống kêu ò ó o.
+Tiếng Việt|2|Điền c hay k: "...éo co"?|k|c|q|ch|Trước e, ê, i ta viết chữ k: kéo co.
+Tiếng Việt|2|Điền g hay gh: "...ế gỗ"?|gh|g|ng|ngh|Trước e, ê, i ta viết gh: ghế gỗ.
+Tiếng Việt|2|Tiếng "trường" có vần gì?|ương|ươn|uông|ang|tr - ương - trương - huyền - trường.
+Tiếng Việt|2|Từ nào viết đúng?|ngôi sao|ngôi xao|nghôi sao|ngôi sau|Viết đúng là ngôi sao.
+Tiếng Việt|2|Quả gì vỏ xanh, ruột đỏ, nhiều hạt đen?|Dưa hấu|Quả chuối|Quả cam|Quả táo|Dưa hấu ruột đỏ, hạt đen.
+Tiếng Việt|2|Điền ng hay ngh: "...e nhạc"?|ngh|ng|gh|nh|Trước e ta viết ngh: nghe nhạc.
+Tiếng Việt|2|Tiếng nào có vần "an"?|bàn|bông|bàng|bánh|b - an - ban - huyền - bàn.
+Tiếng Việt|2|Con gì có vòi dài?|Con voi|Con khỉ|Con hổ|Con thỏ|Con voi có cái vòi dài.
+Tiếng Việt|2|Trái nghĩa với "to" là gì?|nhỏ|cao|dài|rộng|To ngược với nhỏ.
+Tiếng Việt|3|Sắp xếp: "đi / Bé / học"|Bé đi học|Đi học bé|Học bé đi|Học đi bé|Câu đúng: Bé đi học.
+Tiếng Việt|3|Từ nào viết đúng chính tả?|chim sẻ|chim xẻ|trim sẻ|chim sẽ|Chim sẻ viết bằng s và dấu hỏi.
+Tiếng Việt|3|"Bầu trời mùa hè rất..." Điền từ gì?|xanh|ăn|chạy|ngủ|Bầu trời có màu xanh.
+Tiếng Việt|3|Tiếng nào có vần "oai"?|xoài|voi|còi|hoa|Tiếng xoài có vần oai.
+Tiếng Việt|3|Khi được tặng quà, con nói gì?|Con cảm ơn ạ|Con xin lỗi|Chào bạn|Tạm biệt|Nhận quà phải lễ phép cảm ơn.
+Tiếng Việt|3|Từ nào có 2 tiếng đều bắt đầu bằng "ch"?|chăm chỉ|chạy nhảy|chim sâu|cây chanh|Chăm và chỉ đều bắt đầu bằng ch.
+Tiếng Việt|3|"Gần mực thì đen, gần đèn thì..."?|sáng|tối|đỏ|xanh|Tục ngữ: Gần đèn thì sáng.
+Tiếng Việt|3|Con vật nào sống dưới nước?|Con tôm|Con chim|Con mèo|Con gà|Con tôm bơi dưới nước.
+Tiếng Anh|1|"Hello" nghĩa là gì?|Xin chào|Tạm biệt|Cảm ơn|Một|Hello là xin chào.
+Tiếng Anh|1|"Cat" là con gì?|Con mèo|Con chó|Con cá|Con chim|Cat là con mèo.
+Tiếng Anh|1|"One" là số mấy?|Số 1|Số 2|Số 3|Số 4|One là số 1.
+Tiếng Anh|1|"Apple" là quả gì?|Quả táo|Quả chuối|Quả cam|Quả nho|Apple là quả táo.
+Tiếng Anh|2|"Dog" là con gì?|Con chó|Con mèo|Con vịt|Con heo|Dog là con chó.
+Tiếng Anh|2|Số 2 tiếng Anh là gì?|Two|One|Three|Four|Two là số 2.
+Tiếng Anh|2|"Blue" là màu gì?|Màu xanh dương|Màu đỏ|Màu vàng|Màu đen|Blue là màu xanh nước biển.
+Tiếng Anh|2|"Car" là cái gì?|Xe ô tô|Xe đạp|Máy bay|Con thuyền|Car là xe ô tô.
+Tiếng Anh|3|Con cá tiếng Anh là gì?|Fish|Bird|Duck|Pig|Fish là con cá.
+Tiếng Anh|3|Quả chuối tiếng Anh là gì?|Banana|Apple|Mango|Orange|Banana là quả chuối.
+`;
+/*END_DATA*/
+const SO_CHANG = 10;
+const KHOA_VAN = "duaThuyen_dangChoi";
+const BEN = ["lucie", "lucas"];
+const PHIM = { lucie: ["1","2","3","4"], lucas: ["7","8","9","0"] };
+const PHIM_PHU = { lucie: ["q","w","e","r"], lucas: ["u","i","o","p"] };
+const TEN = c => (window.HS && HS[c] && HS[c].goi) || (c === "lucie" ? "Tường San" : "Tường Minh");
+const anh = c => window.MatThat ? MatThat.url(c) : "../../img/" + c + ".webp";
+
+function tach(raw) {
+  return raw.split("\n").map(l => l.trim()).filter(l => l.split("|").length >= 7).map(l => {
+    const p = l.split("|").map(x => x.trim());
+    return { mon: p[0], muc: +p[1] || 1, cau: p[2], dung: p[3], sai: p.slice(4, 7), gt: p[7] || "" };
+  });
+}
+const KHO = { lucie: tach(RAW_LUCIE), lucas: tach(RAW_LUCAS) };
+const tron = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.random() * (i + 1) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const tiengAnh = s => /[a-z]{3,}/i.test(s) && !/[ăâđêôơưáàảãạéèẻẽẹíìỉĩịóòỏõọúùủũụýỳỷỹỵ]/i.test(s);
+
+// Âm thanh
+let AC = null;
+function am(f, d, kieu, to) { try { AC = AC || new (window.AudioContext || window.webkitAudioContext)(); const o = AC.createOscillator(), g = AC.createGain(); o.type = kieu || "sine"; o.frequency.value = f; g.gain.setValueAtTime(to || .18, AC.currentTime); g.gain.exponentialRampToValueAtTime(.001, AC.currentTime + d); o.connect(g).connect(AC.destination); o.start(); o.stop(AC.currentTime + d); } catch (e) {} }
+const amDung = () => { am(660, .15, "triangle"); setTimeout(() => am(990, .25, "triangle"), 110); };
+const amSai = () => am(180, .35, "sawtooth", .08);
+const amDich = () => [523, 659, 784, 1046].forEach((f, i) => setTimeout(() => am(f, .3, "triangle"), i * 140));
+function noi(s, en) { try { const u = new SpeechSynthesisUtterance(s); u.lang = en ? "en-US" : "vi-VN"; u.rate = en ? .9 : 1; speechSynthesis.speak(u); } catch (e) {} }
+
+// Trạng thái ván
+let V = null;
+function vanMoi() {
+  const thuTu = c => {   // dễ trước, khó sau
+    const k = KHO[c].map((q, i) => ({ q, i })), muc = m => tron(k.filter(x => x.q.muc === m)).map(x => x.i);
+    return [...muc(1), ...muc(2), ...muc(3)];
+  };
+  V = { bd: Date.now(), lucie: { vt: 0, ds: thuTu("lucie"), k: 0, dung: 0, sai: 0, xong: 0 }, lucas: { vt: 0, ds: thuTu("lucas"), k: 0, dung: 0, sai: 0, xong: 0 } };
+  // trộn nhẹ trong từng chặng để không lúc nào cũng cùng môn
+  BEN.forEach(c => { const d = V[c].ds, n = d.length, a = tron(d.slice(0, Math.ceil(n / 3))), b = tron(d.slice(Math.ceil(n / 3), Math.ceil(2 * n / 3))), cc = tron(d.slice(Math.ceil(2 * n / 3))); V[c].ds = [...a, ...b, ...cc]; });
+}
+function luuVan() { try { localStorage.setItem(KHOA_VAN, JSON.stringify(V)); } catch (e) {} }
+function docVan() { try { const v = JSON.parse(localStorage.getItem(KHOA_VAN)); return v && v.lucie && Date.now() - v.bd < 12 * 3600e3 && !(v.lucie.xong && v.lucas.xong) ? v : null; } catch (e) { return null; } }
+
+function ghiNhatKy(c, q, ok) { try { const k = "giaDinh_nhatKy", a = JSON.parse(localStorage.getItem(k) || "[]"); a.push({ t: Date.now(), g: "duathuyen", c, s: q.mon, q: q.cau.slice(0, 140), ok: !!ok }); if (a.length > 6000) a.splice(0, a.length - 6000); localStorage.setItem(k, JSON.stringify(a)); } catch (e) {} }
+
+function veThuyen() {
+  BEN.forEach((c, i) => { const el = document.getElementById("t" + (i + 1)); el.style.left = `calc(2% + ${V[c].vt / SO_CHANG} * (100% - 11vw - 2% - ${getComputedStyle(el).width}))`; });
+}
+
+function cauHienTai(c) { const s = V[c]; return KHO[c][s.ds[s.k % s.ds.length]]; }
+
+function veNua(c) {
+  const s = V[c], el = document.getElementById(c === "lucie" ? "nLucie" : "nLucas");
+  if (s.xong) {
+    const con = BEN.find(x => x !== c);
+    el.innerHTML = `<div class="ve-dich"><img src="${anh(c)}" alt="">${TEN(c)} về đích ${s.xong === 1 ? "thứ nhất" : "rồi"}!<small>${V[con].xong ? "" : "Cùng cổ vũ " + TEN(con) + " nào! 📣"}</small></div>`;
+    return;
+  }
+  const q = cauHienTai(c), da = tron([q.dung, ...q.sai]);
+  s.daHien = da;
+  el.innerHTML = `<div class="dau"><img src="${anh(c)}" alt="">${TEN(c)}<span class="chang">Chặng ${s.vt + 1}/${SO_CHANG}</span></div>
+    <span class="mon">${q.mon}</span>
+    <div class="cau"><button class="doc" data-giu-icon title="Đọc câu hỏi">🔊</button><span>${q.cau}</span></div>
+    <div class="dapan">${da.map((t, i) => `<button data-i="${i}"><span class="phim">${PHIM[c][i]}</span>${t}</button>`).join("")}</div>
+    <div class="loi"></div>`;
+  el.querySelector(".doc").onclick = e => { e.stopPropagation(); docCau(c); };
+  el.querySelectorAll(".dapan button").forEach(b => b.onclick = () => chon(c, +b.dataset.i));
+  s.khoa = false;
+  if (c === "lucas") setTimeout(() => { if (cauHienTai("lucas") === q && !V.lucas.khoa) docCau("lucas"); }, 350);
+}
+function docCau(c) { const q = cauHienTai(c); try { speechSynthesis.cancel(); } catch (e) {} noi(q.cau, q.mon === "Tiếng Anh" && tiengAnh(q.cau)); }
+
+function chon(c, i) {
+  const s = V[c]; if (!s || s.xong || s.khoa) return;
+  s.khoa = true;
+  const q = cauHienTai(c), el = document.getElementById(c === "lucie" ? "nLucie" : "nLucas"), bs = el.querySelectorAll(".dapan button"), dung = s.daHien[i] === q.dung;
+  bs.forEach((b, j) => { if (s.daHien[j] === q.dung) b.classList.add("dung"); else if (j === i) b.classList.add("sai"); });
+  const loi = el.querySelector(".loi");
+  ghiNhatKy(c, q, dung);
+  s.k++;
+  if (dung) {
+    s.dung++; s.vt++; amDung(); el.classList.remove("nhay"); void el.offsetWidth; el.classList.add("nhay");
+    loi.textContent = "✅ " + KB.khen[Math.random() * KB.khen.length | 0];
+    veThuyen();
+    if (s.vt >= SO_CHANG) { s.xong = BEN.some(x => x !== c && V[x].xong) ? 2 : 1; amDich(); noi(TEN(c) + " " + KB.veTruoc); }
+  } else {
+    s.sai++; amSai();
+    loi.textContent = "💡 " + (q.gt || ("Đáp án: " + q.dung)) + " " + KB.dongVien[Math.random() * KB.dongVien.length | 0];
+  }
+  luuVan();
+  setTimeout(() => {
+    if (V.lucie.xong && V.lucas.xong) return ketThuc();
+    veNua(c); if (s.xong) veNua(BEN.find(x => x !== c));
+  }, dung ? 1100 : 2600);
+}
+
+function ketThuc() {
+  const nhat = BEN.find(c => V[c].xong === 1);
+  BEN.forEach(c => { try { const k = "duaThuyen_" + c, o = JSON.parse(localStorage.getItem(k) || "{}"); o.luot = (o.luot || 0) + 1; o.dongDoi = (o.dongDoi || 0) + 1; if (c === nhat) o.nhat = (o.nhat || 0) + 1; o.dung = (o.dung || 0) + V[c].dung; localStorage.setItem(k, JSON.stringify(o)); } catch (e) {} });
+  try { localStorage.removeItem(KHOA_VAN); } catch (e) {}
+  document.getElementById("kqTieuDe").textContent = "Hai chị em về Đảo Kẹo!";
+  document.getElementById("kqHai").innerHTML = BEN.map(c => `<div class="the ${c}"><img src="${anh(c)}" alt="">${TEN(c)}<small>${c === nhat ? "🥇 Về đích trước" : "🥈 Về đích sau"}<br>✅ ${V[c].dung} câu đúng · ❌ ${V[c].sai}</small></div>`).join("");
+  document.getElementById("kqCup").textContent = "🏆 Cúp đồng đội cho hai chị em!";
+  document.getElementById("kqLoi").textContent = KB.chucMung;
+  document.getElementById("manCuoi").classList.remove("hide");
+  amDich(); noi(KB.chucMung);
+  setTimeout(() => document.getElementById("nutLai").focus(), 300);
+}
+
+function batDau(tiep) {
+  if (!tiep) { vanMoi(); luuVan(); }
+  document.getElementById("manDau").classList.add("hide");
+  document.getElementById("manCuoi").classList.add("hide");
+  BEN.forEach(veNua); veThuyen();
+  if (!tiep) { try { speechSynthesis.cancel(); } catch (e) {} noi(KB.chao); }
+  if (window.batDauNhac) try { batDauNhac(); } catch (e) {}
+}
+
+// Phím: Lucie 1-4 / Q W E R, Lucas 7 8 9 0 / U I O P; điều khiển TV: mũi tên + OK
+addEventListener("keydown", e => {
+  if (!V || !document.getElementById("manDau").classList.contains("hide") || !document.getElementById("manCuoi").classList.contains("hide")) return;
+  const k = e.key.toLowerCase();
+  for (const c of BEN) { let i = PHIM[c].indexOf(k); if (i < 0) i = PHIM_PHU[c].indexOf(k); if (i >= 0) { e.preventDefault(); chon(c, i); return; } }
+  if (e.key.startsWith("Arrow")) {
+    const all = [...document.querySelectorAll(".dapan button")]; if (!all.length) return;
+    e.preventDefault();
+    let i = all.indexOf(document.activeElement); if (i < 0) { all[0].focus(); return; }
+    // hai lưới 2x2 nằm cạnh nhau: tính theo hàng/cột trên toàn màn
+    const r = all[i].getBoundingClientRect(), dx = { ArrowLeft: -1, ArrowRight: 1 }[e.key] || 0, dy = { ArrowUp: -1, ArrowDown: 1 }[e.key] || 0;
+    let best = null, bd = 1e9;
+    all.forEach((b, j) => { if (j === i) return; const q = b.getBoundingClientRect(), vx = q.left - r.left, vy = q.top - r.top;
+      if ((dx && Math.sign(vx) === dx && Math.abs(vy) < r.height) || (dy && Math.sign(vy) === dy && Math.abs(vx) < r.width)) { const d = Math.abs(vx) + Math.abs(vy); if (d < bd) { bd = d; best = b; } } });
+    if (best) best.focus();
+  }
+});
+
+// Khởi động
+document.querySelectorAll("#t1 img").forEach(i => i.src = anh("lucie"));
+document.querySelectorAll("#t2 img").forEach(i => i.src = anh("lucas"));
+document.querySelectorAll(".the.lucie img").forEach(i => i.src = anh("lucie"));
+document.querySelectorAll(".the.lucas img").forEach(i => i.src = anh("lucas"));
+const cu = docVan();
+if (cu) { document.getElementById("nutTiep").classList.remove("hide"); }
+document.getElementById("nutBatDau").onclick = () => batDau(false);
+document.getElementById("nutTiep").onclick = () => { V = cu; batDau(true); };
+document.getElementById("nutLai").onclick = () => batDau(false);
+setTimeout(() => (cu ? document.getElementById("nutTiep") : document.getElementById("nutBatDau")).focus(), 200);
+addEventListener("resize", () => V && veThuyen());
+window.__dt = { V: () => V, chon, KHO };
+</script>
+<script src="../anh-chung/anh-that.js"></script>
+<!--NHAC--><script src="../anh-chung/nhac-nen.js" data-ten="Đua Thuyền Hai Chị Em" data-vitri="left:12px;top:12px" data-bpm="130" data-goc="C" data-kieu="marimba" data-not="C5 E5 G5 C6 A5 G5 E5 C5 D5 F5 A5 D6 B5 A5 G5 C6"></script>
+</body>
+</html>

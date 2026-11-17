@@ -32,6 +32,7 @@
   // Bé nào đang chơi?
   var t0 = Date.now(), be = null, choGiay = 0;
   function timBe() {
+    if (window.DEM_GIO_HAI_BE) return "ca";          // game hai chị em chơi cùng lúc: tính giờ cho cả hai
     var a = rd("giaDinh_nhatKy", []), e = a[a.length - 1];
     if (e && (e.c === "lucie" || e.c === "lucas") && (e.t >= t0 - 1000 || Date.now() - e.t < 20 * 60000)) return e.c;
     try { if (typeof appState !== "undefined" && appState.currentProfile) { var p = String(appState.currentProfile).toLowerCase(); if (p === "lucie" || p === "lucas") return p; } } catch (x) {}   // Fun for Flyers
@@ -60,6 +61,17 @@
   function mmss(s) { s = Math.max(0, Math.round(s)); return Math.floor(s / 60) + ":" + ("0" + s % 60).slice(-2); }
   function noi(cau) { try { var u = new SpeechSynthesisUtterance(cau); u.lang = "vi-VN"; speechSynthesis.speak(u); } catch (e) {} }
   function veDongHo(c) {
+    if (c === "ca") {
+      dung(); if (!nut) return;
+      var h = ["lucie", "lucas"].map(function (x) { var d = giayHomNay(x), n = (gioiHan(x) + themGio(x)) * 60; return { x: x, d: d, n: n, con: n - d }; });
+      nut.innerHTML = h.map(function (o) { return '<img src="' + (window.MatThat ? MatThat.url(o.x) : "/img/" + o.x + ".webp") + '" alt="">' + Math.floor(o.d / 60) + "/" + Math.round(o.n / 60); }).join(" · ") + " phút";
+      nut.style.display = "flex";
+      var it = h.sort(function (a, b) { return a.con - b.con; })[0];
+      nut.className = it.con <= 300 ? "sap" : "";
+      if (it.con <= 300 && it.con > 0 && !daNhac[it.x + ngay()]) { daNhac[it.x + ngay()] = 1; noi(TEN[it.x] + " ơi, còn " + Math.ceil(it.con / 60) + " phút nữa là đến giờ nghỉ mắt rồi nhé!"); }
+      if (it.con <= 0) khoa(it.x); else if (daKhoa) moKhoa();
+      return;
+    }
     dung(); if (!nut) return;
     var dung_ = giayHomNay(c), han = (gioiHan(c) + themGio(c)) * 60, con = han - dung_;
     var anh = window.MatThat ? MatThat.url(c) : "/img/" + c + ".webp";
@@ -101,9 +113,9 @@
     var cB = timBe(); if (cB) be = cB;
     var dangChoi = document.visibilityState === "visible" && Date.now() - chamCuoi < NGHI * 1000 && !daKhoa;
     if (dangChoi) { if (be) { tamGhi += BUOC + choGiay; choGiay = 0; } else choGiay += BUOC; }
-    if (be && tamGhi >= 15) { congGiay(be, tamGhi); tamGhi = 0; }
+    if (be && tamGhi >= 15) { if (be === "ca") { congGiay("lucie", tamGhi); congGiay("lucas", tamGhi); } else congGiay(be, tamGhi); tamGhi = 0; }
     if (be) veDongHo(be);
   }, BUOC * 1000);
-  addEventListener("pagehide", function () { if (be && tamGhi) { congGiay(be, tamGhi); tamGhi = 0; } });
+  addEventListener("pagehide", function () { if (be && tamGhi) { if (be === "ca") { congGiay("lucie", tamGhi); congGiay("lucas", tamGhi); } else congGiay(be, tamGhi); tamGhi = 0; } });
   window.DemGio = { giayHomNay: giayHomNay, gioiHan: gioiHan, GIOI_HAN: GIOI_HAN };
 })();
