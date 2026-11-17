@@ -333,6 +333,7 @@
     <div class="quizTop">
       <span class="stageTag" id="qStage"></span>
       <span class="subject" id="qSubject">Toán</span>
+      <button type="button" id="qRead" onclick="docCauHoi(true)" style="border:0;border-radius:999px;padding:4px 12px;font:inherit;font-weight:800;color:#fff;background:#1c7ed6;cursor:pointer">🔊 Đọc</button>
       <span class="timerNum" id="timerNum">⏱ 10</span>
     </div>
     <div class="qtext" id="qText"></div>
@@ -5041,10 +5042,22 @@ function openQuestion() {
   });
   $("quizOverlay").classList.add("show");
   startTimer();
+  if (state.char === "lucas") setTimeout(() => { if (!state.answered) docCauHoi(false); }, 400);   // Lucas lớp 1: tự đọc câu hỏi
+}
+
+// Đọc câu hỏi và đáp án bằng giọng tự nhiên (giong-noi.js thay giọng máy bằng giọng VieNeu nếu đã có)
+function docCauHoi(bam) {
+  if (!("speechSynthesis" in window)) return;
+  const q = state.questions[state.idx]; if (!q) return;
+  const anh = q.subject === "Tiếng Anh";
+  const u = new SpeechSynthesisUtterance(q.question + ". " + q.options.map((o, i) => "ABCD"[i] + ". " + o).join(". "));
+  u.lang = anh ? "en-US" : "vi-VN"; u.rate = anh ? 0.85 : 1;
+  speechSynthesis.cancel(); speechSynthesis.speak(u);
 }
 
 function answer(i, btn) {
   if (state.answered) return;
+  try { speechSynthesis.cancel(); } catch (e) {}
   const q = state.questions[state.idx];
   if (i === q.correctIndex) {
     state.answered = true;
