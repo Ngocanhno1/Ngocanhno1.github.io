@@ -80,7 +80,7 @@ window.__nhan = function () {
 // ===== GHI ===== window.__ghi('Tranh ...') — chờ tải lên xong rồi commit
 window.__ghi = async function (tin) {
   const sl = ms => new Promise(r => setTimeout(r, ms));
-  await sl(4000); document.getElementById('__nhan')?.remove();
+  await sl(12000); document.getElementById('__nhan')?.remove();   // chờ GitHub tải hết tệp lên (bấm sớm sẽ ra trang lỗi)
   const m = document.querySelector('#commit-summary-input, input[name="message"]');
   Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(m, tin); m.dispatchEvent(new Event('input', { bubbles: true }));
   await sl(1500);
