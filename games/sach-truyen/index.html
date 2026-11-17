@@ -163,6 +163,7 @@ function datTranh(ma, moTa, chu) {
   if (moTa) ds.push("https://image.pollinations.ai/prompt/" + encodeURIComponent(moTa.ai + (moTa.kieu || "")) + `?width=768&height=512&nologo=true&seed=${moTa.seed || 1}`);
   ds.push(veDuPhong(chu || ""));
   let i = 0;
+  $("tranh").style.background = `#f3e2c6 url("${veDuPhong(chu || "")}") center/cover`;   // tranh tạm trong lúc chờ tranh vẽ
   img.classList.add("mo");
   img.onerror = () => { if (++i < ds.length) img.src = ds[i]; };
   img.onload = () => img.classList.remove("mo");
