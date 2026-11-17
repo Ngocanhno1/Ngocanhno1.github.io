@@ -36,6 +36,8 @@
   .stat { background: #f8f5ff; border-radius: 18px; padding: 10px 8px; text-align: center; }
   .stat b { display: block; font-size: 30px; line-height: 1.1; }
   .stat span { font-size: 15px; color: var(--muted); }
+  .han { display: block; margin-top: 12px; font-size: 17px; font-weight: 700; }
+  .han select { font: 700 17px inherit; padding: 4px 8px; border-radius: 10px; border: 2px solid #d0bfff; margin-left: 6px; }
   h3 { margin: 18px 0 8px; font-size: 20px; }
   .chart { width: 100%; height: auto; display: block; }
   .subj { display: grid; gap: 8px; }
@@ -88,6 +90,12 @@ function minutes(evts) {                     // ước tính thời gian chơi: 
   for (let i = 1; i < ts.length; i++) s += Math.min(120, (ts[i] - ts[i - 1]) / 1000);
   return Math.round(s / 60);
 }
+const GH_MD = { lucie: 45, lucas: 30 };          // giống games/anh-chung/dem-gio.js
+function gioiHan(c) { return (readJSON("gioiHanChoi") || {})[c] || GH_MD[c]; }
+function phutThat(c, evts) {                  // giờ chơi thật (đồng hồ trong game, cộng mọi máy); chưa có thì ước tính
+  let s = 0; for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k.indexOf("gioChoi_") === 0) s += ((readJSON(k) || {})[dayKey(now)] || {})[c] || 0; }
+  return s ? Math.round(s / 60) : minutes(evts);
+}
 function chart7(evts, color) {               // 7 ngày gần nhất: cột xanh = đúng, đỏ = sai
   const days = []; for (let i = 6; i >= 0; i--) { const d = new Date(now); d.setDate(d.getDate() - i); days.push(d); }
   const data = days.map(d => { const k = dayKey(d), e = evts.filter(x => dayKey(x.t) === k); return { d, ok: e.filter(x => x.ok).length, bad: e.filter(x => !x.ok).length }; });
@@ -127,7 +135,7 @@ function render() {
       <div class="today">
         <div class="stat"><b>${today.length}</b><span>câu hôm nay</span></div>
         <div class="stat"><b style="color:var(--ok)">${pct(today)}</b><span>trả lời đúng</span></div>
-        <div class="stat"><b>${minutes(today)}′</b><span>phút chơi</span></div>
+        <div class="stat"><b>${phutThat(c, today)}′</b><span>phút chơi / ${gioiHan(c)}′</span></div>
       </div>
       <h3>📅 7 ngày gần đây <small style="font-weight:500;color:var(--muted)">(xanh: đúng · đỏ: sai)</small></h3>
       ${chart7(all)}
@@ -141,7 +149,9 @@ function render() {
         <div class="cg"><b>Lucie &amp; Lucas phiêu lưu:</b> ${nCup} cúp · ⭐ ${stars} sao · đã mở Level ${Math.min(pl.unlocked || 1, 30)}/30<div class="ic">${CUP_ICONS.slice(0, nCup).join("") || "<span class='empty'>Chưa có cúp</span>"}</div></div>
         <div class="cg"><b>Rung Chuông Vàng:</b> ${rc.thang || 0} lần rung chuông · chơi ${rc.luot || 0} lượt${rc.xaNhat ? " · xa nhất câu " + rc.xaNhat + "/10" : ""}<div class="ic">${"🔔".repeat(Math.min(rc.thang || 0, 30)) || "<span class='empty'>Chưa rung chuông lần nào</span>"}</div></div>
       </div>
-      <div class="tip">${tip}</div>`;
+      <div class="tip">${tip}</div>
+      <label class="han">⏱ Giới hạn chơi mỗi ngày của ${K.name}: <select data-c="${c}">${[20,30,45,60,90,120].map(m => `<option value="${m}"${m === gioiHan(c) ? " selected" : ""}>${m} phút</option>`).join("")}</select></label>`;
+    el.querySelector(".han select").onchange = e => { const g = readJSON("gioiHanChoi") || {}; g[c] = Number(e.target.value); localStorage.setItem("gioiHanChoi", JSON.stringify(g)); render(); };
     box.appendChild(el);
   });
 }
