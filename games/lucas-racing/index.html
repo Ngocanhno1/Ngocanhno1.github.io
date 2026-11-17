@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Lucas Turbo #95 - Đường Đua Tri Thức Lớp 1 (Cánh Diều)</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-dark: #090d16;
+    --panel-bg: rgba(15, 23, 42, 0.92);
+    --mcqueen-red: #ef4444;
+    --lightning-gold: #facc15;
+    --nitro-blue: #38bdf8;
+    --emerald: #10b981;
+    --text-light: #f8fafc;
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: var(--bg-dark);
+    font-family: 'Nunito', system-ui, -apple-system, sans-serif;
+    color: var(--text-light);
+  }
+  #appLayout {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* Top HUD Bar */
+  .top-hud {
+    position: relative;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px 14px;
+    background: linear-gradient(90deg, rgba(15,23,42,0.96), rgba(30,41,59,0.94));
+    border-bottom: 3px solid var(--lightning-gold);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+  }
+  .brand-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .number-95 {
+    background: linear-gradient(135deg, #ef4444, #b91c1c);
+    border: 2px solid var(--lightning-gold);
+    color: var(--lightning-gold);
+    font-weight: 900;
+    font-size: 20px;
+    padding: 3px 10px;
+    border-radius: 10px;
+    transform: skewX(-10deg);
+    box-shadow: 0 0 12px rgba(250, 204, 21, 0.45);
+    letter-spacing: 0.5px;
+  }
+  .brand-title {
+    font-size: 17px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.15;
+  }
+  .brand-sub {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--lightning-gold);
+  }
+
+  /* Stats Pills */
+  .hud-stats {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .stat-pill {
+    background: rgba(15, 23, 42, 0.9);
+    border: 1.5px solid rgba(255,255,255,0.18);
+    border-radius: 12px;
+    padding: 5px 11px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 900;
+    font-size: 14px;
+  }
+  .stat-pill.gold {
+    border-color: var(--lightning-gold);
+    color: var(--lightning-gold);
+  }
+  .stat-pill.streak {
+    border-color: #fb923c;
+    color: #fdba74;
+  }
+  .stat-pill.stage {
+    border-color: var(--nitro-blue);
+    color: #bae6fd;
+  }
+
+  /* Top Controls */
+  .hud-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .hud-btn {
+    background: #1e293b;
+    color: #f8fafc;
+    border: 1.5px solid rgba(255,255,255,0.2);
+    border-radius: 10px;
+    padding: 6px 11px;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 13px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.15s ease;
+  }
+  .hud-btn:hover, .hud-btn:focus {
+    border-color: var(--lightning-gold);
+    background: #334155;
+    transform: translateY(-1px);
+    outline: none;
+  }
+  .hud-btn.active {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    border-color: var(--lightning-gold);
+    color: #fff;
+  }
+  .hud-select {
+    background: #1e293b;
+    color: #fff;
+    border: 1.5px solid var(--nitro-blue);
+    border-radius: 10px;
+    padding: 5px 9px;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  /* Main Game Viewport */
+  .game-stage {
+    position: relative;
+    flex: 1;
+    width: 100%;
+    overflow: hidden;
+    background: #0f172a;
+  }
+  #raceCanvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  /* Question Banner Overlay at Top of Highway */
+  .question-hud {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 15;
+    width: min(94vw, 820px);
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.96), rgba(30, 41, 59, 0.94));
+    border: 3px solid var(--lightning-gold);
+    border-radius: 20px;
+    padding: 10px 18px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65);
+    transition: all 0.2s ease;
+  }
+  .q-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .q-subject-tag {
+    font-size: 12.5px;
+    font-weight: 900;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: rgba(56, 189, 248, 0.2);
+    border: 1px solid var(--nitro-blue);
+    color: #7dd3fc;
+  }
+  .q-timer-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 900;
+    font-size: 14px;
+    color: var(--lightning-gold);
+  }
+  .q-timer-bar-bg {
+    width: 110px;
+    height: 10px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .q-timer-bar-fill {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, #10b981, #facc15, #ef4444);
+    transition: width 0.2s linear;
+  }
+  .q-main-text {
+    font-size: clamp(17px, 2.4vw, 24px);
+    font-weight: 900;
+    text-align: center;
+    color: #ffffff;
+    margin-bottom: 8px;
+    line-height: 1.3;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  }
+  .q-lane-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .lane-choice-btn {
+    border: 2.5px solid rgba(255,255,255,0.25);
+    border-radius: 14px;
+    padding: 8px 10px;
+    font-family: inherit;
+    font-size: clamp(14px, 1.8vw, 19px);
+    font-weight: 900;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: transform 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease;
+    text-align: center;
+  }
+  .lane-choice-btn.lane-0 {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.88), rgba(185, 28, 28, 0.92));
+  }
+  .lane-choice-btn.lane-1 {
+    background: linear-gradient(135deg, rgba(234, 179, 8, 0.9), rgba(161, 98, 7, 0.92));
+  }
+  .lane-choice-btn.lane-2 {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.88), rgba(4, 120, 87, 0.92));
+  }
+  .lane-choice-btn.selected-lane {
+    border-color: #ffffff;
+    box-shadow: 0 0 18px rgba(250, 204, 21, 0.85);
+    transform: scale(1.03);
+  }
+  .lane-badge {
+    background: rgba(0,0,0,0.35);
+    padding: 2px 8px;
+    border-radius: 8px;
+    font-size: 12px;
+    color: var(--lightning-gold);
+    flex-shrink: 0;
+  }
+
+  /* Speedometer & Nitro Gauge (Bottom Left) */
+  .speed-hud {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    z-index: 15;
+    background: var(--panel-bg);
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 18px;
+    padding: 10px 14px;
+    min-width: 195px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+  }
+  .speed-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+  .speed-val {
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--lightning-gold);
+    font-variant-numeric: tabular-nums;
+  }
+  .speed-unit {
+    font-size: 13px;
+    font-weight: 800;
+    color: #94a3b8;
+  }
+  .nitro-bar-wrap {
+    width: 100%;
+    height: 12px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 6px;
+    border: 1px solid rgba(56, 189, 248, 0.4);
+  }
+  .nitro-bar-fill {
+    height: 100%;
+    width: 60%;
+    background: linear-gradient(90deg, #38bdf8, #818cf8, #f43f5e);
+    transition: width 0.2s ease;
+  }
+  .streak-meter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 800;
+    color: #cbd5e1;
+  }
+  .streak-dots {
+    display: flex;
+    gap: 4px;
+  }
+  .streak-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.3);
+  }
+  .streak-dot.lit {
+    background: var(--lightning-gold);
+    box-shadow: 0 0 8px var(--lightning-gold);
+  }
+
+  /* On-screen Touch / TV Steering Controls (Bottom Center/Right) */
+  .touch-controls {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 15;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .ctrl-btn {
+    background: rgba(15, 23, 42, 0.9);
+    border: 2.5px solid var(--lightning-gold);
+    color: #fff;
+    border-radius: 16px;
+    padding: 10px 18px;
+    font-family: inherit;
+    font-weight: 900;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    transition: transform 0.1s ease, background 0.15s ease;
+  }
+  .ctrl-btn:active {
+    transform: scale(0.94);
+    background: #ef4444;
+  }
+  .ctrl-btn.nitro-btn {
+    background: linear-gradient(135deg, #0284c7, #2563eb);
+    border-color: #38bdf8;
+  }
+
+  /* Feedback Toast Popup (Ka-Chow / Correct / Explanation) */
+  #feedbackToast {
+    position: absolute;
+    top: 46%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    z-index: 25;
+    background: rgba(15, 23, 42, 0.96);
+    border: 3px solid var(--lightning-gold);
+    border-radius: 22px;
+    padding: 14px 26px;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  #feedbackToast.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  .fb-title {
+    font-size: 24px;
+    font-weight: 900;
+    margin-bottom: 4px;
+  }
+  .fb-sub {
+    font-size: 16px;
+    font-weight: 800;
+    color: #e2e8f0;
+  }
+
+  /* Modals (Trophy Garage & Stage Map) */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: rgba(9, 13, 22, 0.85);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  .modal-backdrop.open {
+    display: flex;
+  }
+  .modal-card {
+    background: #0f172a;
+    border: 3px solid var(--lightning-gold);
+    border-radius: 24px;
+    width: min(95vw, 880px);
+    max-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.85);
+  }
+  .modal-header {
+    padding: 14px 20px;
+    background: #1e293b;
+    border-bottom: 2px solid rgba(255,255,255,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .modal-title {
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--lightning-gold);
+  }
+  .modal-body {
+    padding: 18px 20px;
+    overflow-y: auto;
+  }
+  .grid-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+    gap: 12px;
+  }
+  .item-card {
+    background: #1e293b;
+    border: 2px solid rgba(255,255,255,0.14);
+    border-radius: 16px;
+    padding: 12px;
+    text-align: center;
+    transition: transform 0.15s ease;
+  }
+  .item-card.unlocked {
+    border-color: var(--lightning-gold);
+    background: linear-gradient(180deg, rgba(250,204,21,0.14), rgba(30,41,59,0.95));
+  }
+  .item-card.locked {
+    opacity: 0.55;
+  }
+  .item-icon {
+    font-size: 36px;
+    margin-bottom: 6px;
+  }
+  .item-name {
+    font-weight: 900;
+    font-size: 14.5px;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .item-desc {
+    font-size: 12px;
+    color: #94a3b8;
+    font-weight: 700;
+  }
+
+  @media (max-width: 720px) {
+    .speed-hud {
+      bottom: 72px;
+      left: 10px;
+      padding: 6px 10px;
+      min-width: 145px;
+    }
+    .speed-val { font-size: 20px; }
+    .touch-controls { bottom: 10px; width: 96%; justify-content: center; }
+    .ctrl-btn { padding: 8px 12px; font-size: 14px; }
+  }
+</style>
+</head>
+<body>
+<div id="appLayout">
+  <!-- TOP NAVIGATION & HUD -->
+  <header class="top-hud">
+    <div class="brand-badge">
+      <div class="number-95">#95</div>
+      <div>
+        <div class="brand-title">LUCAS TURBO RACING</div>
+        <div class="brand-sub" id="worldNameLabel">Chặng 1/30: Thung Lũng Đá Đỏ (SGK Cánh Diều Lớp 1)</div>
+      </div>
+    </div>
+
+    <div class="hud-stats">
+      <div class="stat-pill stage" title="Chặng đua hiện tại (30 chặng)">
+        🏁 Chặng: <span id="stageNumText">1</span>/30
+      </div>
+      <div class="stat-pill gold" title="Điểm Ngôi Sao Vàng">
+        ⭐ <span id="scoreText">0</span>
+      </div>
+      <div class="stat-pill streak" title="Chuỗi trả lời đúng liên tiếp (Đủ 5 câu nhận 1 Siêu Cúp!)">
+        🔥 Chuỗi: <span id="streakText">0</span>/5
+      </div>
+      <div class="stat-pill gold" title="Số Siêu Cúp đã sưu tập">
+        🏆 Cúp: <span id="trophyCountText">0</span>
+      </div>
+    </div>
+
+    <div class="hud-actions">
+      <select id="subjectSelect" class="hud-select" aria-label="Chọn môn học">
+        <option value="all">🌟 Tất cả môn Lớp 1</option>
+        <option value="math">🔢 Toán Lớp 1 (Cánh Diều)</option>
+        <option value="viet">📖 Tiếng Việt Lớp 1 (Cánh Diều)</option>
+        <option value="tnxh">🌱 Tự nhiên & Xã hội + Đạo đức</option>
+        <option value="eng">🇬🇧 Tiếng Anh Trẻ Em (Starters)</option>
+      </select>
+      <button class="hud-btn" id="btnSpeakQuestion" title="Đọc to câu hỏi cho Lucas">🔊 Đọc câu hỏi</button>
+      <button class="hud-btn" id="btnOpenTrophies">🏆 Phòng Cúp & Xe #95</button>
+      <button class="hud-btn" id="btnOpenStages">🗺️ 30 Chặng Đua</button>
+      <button class="hud-btn" id="btnTogglePause">⏸️ Tạm dừng</button>
+      <button class="hud-btn" id="btnToggleSound">🔔 Âm thanh: BẬT</button>
+    </div>
+  </header>
+
+  <!-- MAIN 3D HIGHWAY VIEWPORT -->
+  <main class="game-stage">
+    <canvas id="raceCanvas"></canvas>
+
+    <!-- QUESTION & 3-LANE GATE SELECTOR OVERLAY -->
+    <section class="question-hud" id="questionHud">
+      <div class="q-top-row">
+        <span class="q-subject-tag" id="qSubjectBadge">🔢 Toán Lớp 1 - Cánh Diều</span>
+        <div class="q-timer-wrap">
+          <span>⏱️ <span id="qTimeLeftText">15</span>s</span>
+          <div class="q-timer-bar-bg">
+            <div class="q-timer-bar-fill" id="qTimerBar"></div>
+          </div>
+        </div>
+      </div>
+      <div class="q-main-text" id="qPromptText">Đang chuẩn bị cổng câu hỏi trên đường đua...</div>
+      <div class="q-lane-buttons" id="qLaneButtons">
+        <button class="lane-choice-btn lane-0" id="laneBtn0" data-lane="0">
+          <span class="lane-badge">Làn Trái [A]</span>
+          <span id="laneOpt0">...</span>
+        </button>
+        <button class="lane-choice-btn lane-1 selected-lane" id="laneBtn1" data-lane="1">
+          <span class="lane-badge">Làn Giữa [B]</span>
+          <span id="laneOpt1">...</span>
+        </button>
+        <button class="lane-choice-btn lane-2" id="laneBtn2" data-lane="2">
+          <span class="lane-badge">Làn Phải [C]</span>
+          <span id="laneOpt2">...</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- SPEEDOMETER & NITRO GAUGE -->
+    <aside class="speed-hud">
+      <div class="speed-row">
+        <div>
+          <span class="speed-val" id="speedValue">185</span>
+          <span class="speed-unit">km/h</span>
+        </div>
+        <span style="font-size:12px;font-weight:900;color:#38bdf8;" id="carSkinBadge">🏎️ Tia Chớp Đỏ #95</span>
+      </div>
+      <div class="nitro-bar-wrap" title="Thanh năng lượng Nitro Tia Chớp">
+        <div class="nitro-bar-fill" id="nitroBarFill"></div>
+      </div>
+      <div class="streak-meter">
+        <span>Tiến độ nhận Cúp:</span>
+        <div class="streak-dots" id="streakDots">
+          <span class="streak-dot"></span>
+          <span class="streak-dot"></span>
+          <span class="streak-dot"></span>
+          <span class="streak-dot"></span>
+          <span class="streak-dot"></span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- STEERING & NITRO CONTROLS FOR TOUCH / TV REMOTE / KEYBOARD -->
+    <div class="touch-controls">
+      <button class="ctrl-btn" id="btnSteerLeft">⬅️ Sang Trái (A)</button>
+      <button class="ctrl-btn nitro-btn" id="btnFireNitro">⚡ Phóng Nitro (Cách/OK)</button>
+      <button class="ctrl-btn" id="btnSteerRight">Sang Phải (D) ➡️</button>
+    </div>
+
+    <!-- FEEDBACK POPUP TOAST -->
+    <div id="feedbackToast">
+      <div class="fb-title" id="fbTitle">⚡ KA-CHOW! CHÍNH XÁC!</div>
+      <div class="fb-sub" id="fbSub">+100 Sao Vàng & Phóng Tên Lửa Nitro!</div>
+    </div>
+  </main>
+
+  <!-- MODAL 1: TROPHY ROOM & CAR SKINS -->
+  <div class="modal-backdrop" id="modalTrophies">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">🏆 Phòng Truyền Thống Cúp Vàng & Gara Xe #95 Của Lucas</div>
+        <button class="hud-btn" id="btnCloseTrophies">Đóng ✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-weight:800;color:#cbd5e1;margin-bottom:12px;">
+          Mỗi khi Lucas trả lời đúng <b>5 câu liên tiếp</b> trên đường đua, Lucas sẽ mở khóa thêm <b>1 Siêu Cúp Danh Giá</b> và màu sơn mới cho chiếc xe #95!
+        </p>
+        <h3 style="color:#38bdf8;font-weight:900;margin-bottom:10px;font-size:16px;">🏎️ Chọn Mẫu Xe Đua #95 Trong Gara</h3>
+        <div class="grid-cards" id="carSkinsGrid" style="margin-bottom:20px;"></div>
+
+        <h3 style="color:#facc15;font-weight:900;margin-bottom:10px;font-size:16px;">🏆 Bộ Sưu Tập 10 Siêu Cúp Đường Đua Tri Thức</h3>
+        <div class="grid-cards" id="trophiesGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: 30 SCENIC RACING STAGES -->
+  <div class="modal-backdrop" id="modalStages">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">🗺️ Bản Đồ 30 Chặng Đua Vòng Quanh Thế Giới</div>
+        <button class="hud-btn" id="btnCloseStages">Đóng ✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-weight:800;color:#cbd5e1;margin-bottom:12px;">
+          Bấm vào bất kỳ chặng đua nào để chuyển đường đua ngay lập tức, hoặc trả lời đúng 2 câu hỏi ở mỗi chặng để tự động thăng cấp lên chặng tiếp theo!
+        </p>
+        <div class="grid-cards" id="stagesGrid"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  // =========================================================================
+  // 1. NGÂN HÀNG CÂU HỎI LỚP 1 (CHUẨN SGK CÁNH DIỀU + TIẾNG ANH STARTERS)
+  // =========================================================================
+  const QUESTION_BANK = [
+    // --- TOÁN LỚP 1 (CÁNH DIỀU) ---
+    { subject: 'math', badge: '🔢 Toán Lớp 1', q: 'Xe đua #95 có 5 ngôi sao, thu thập thêm 4 ngôi sao nữa. Hỏi Lucas có tất cả bao nhiêu ngôi sao?', opts: ['8 ngôi sao', '9 ngôi sao', '10 ngôi sao'], ans: 1, exp: '5 + 4 = 9 ngôi sao!' },
+    { subject: 'math', badge: '🔢 Toán Lớp 1', q: 'Tính nhẩm nhanh: 7 + 3 = ?', opts: ['9', '10', '8'], ans: 1, exp: '7 cộng 3 bằng 10!' },
+    { subject: 'math', badge: '🔢 Toán Lớp 1', q: 'Tính nhẩm nhanh: 10 - 4 = ?', opts: ['6', '5', '7'], ans: 0, exp: '10 trừ 4 bằng 6!' },
+    { subject: 'math', badge: '🔢 Toán Lớp 1', q: 'Trong các số: 12, 19, 15, số nào LỚN NHẤT?', opts: ['12', '19', '15'], ans: 1, exp: 'Số 19 là số lớn nhất!' },
+    { subject: 'math', badge: '🔢 Toán Lớp 1', q: 'Trong các số: 18, 11, 14, số nào BÉ NHẤT?', opts: ['11', '14', '18'], ans: 0, exp: 'Số 11 là số bé nhất!' },
+    { subject: 'math', badge: '🔢 Toán Lớp 1', q: 'Số liền sau của số 19 là số mấy?', opts: ['18', '20', '21'], ans: 1, exp: 'Đếm thêm 1 sau 19 là 20!' },
+    { subject: 'math', badge: '🔢 Toán Lớp 1', q: 'Số liền trước của số 10 là số mấy?', opts: ['9', '8', '11'], ans: 0, exp: 'Liền trước số 10 là số 9!' },
+    { subject: 'math', badge: '🔢 Toán Lớp 1', q: 'Tính nhẩm: 14 + 5 = ?', opts: ['18', '19', '20'], ans: 1, exp: '14 + 5 = 19!' },
+    { subject: 'math', badge: '🔢 Toán Lớp 1', q: 'Tính nhẩm: 18 - 6 = ?', opts: ['12', '13', '11'], ans: 0, exp: '18 - 6 = 12!' },
+    { subject: 'math', badge: '🔢 Toán Lớp 1', q: 'Bánh xe ô tô đua #95 của Lucas có dạng hình phẳng gì?', opts: ['Hình vuông', 'Hình tròn', 'Hình tam giác'], ans: 1, exp: 'Bánh xe có dạng hình tròn để lăn bon bon!' },
+    { subject: 'math', badge: '🔢 Toán Lớp 1', q: 'Biển báo giao thông có 3 cạnh và 3 góc nhọn là hình gì?', opts: ['Hình tam giác', 'Hình chữ nhật', 'Hình tròn'], ans: 0, exp: 'Hình có 3 cạnh là hình tam giác!' },
+    { subject: 'math', badge: '🔢 Toán Lớp 1', q: 'Tính: 20 + 30 = ?', opts: ['40', '50', '60'], ans: 1, exp: '2 chục + 3 chục = 5 chục (50)!' },
+    { subject: 'math', badge: '🔢 Toán Lớp 1', q: 'Tính: 70 - 20 = ?', opts: ['40', '60', '50'], ans: 2, exp: '7 chục - 2 chục = 5 chục (50)!' },
+    { subject: 'math', badge: '🔢 Toán Lớp 1', q: 'Số gồm 4 chục và 5 đơn vị được viết là số nào?', opts: ['54', '45', '40'], ans: 1, exp: '4 chục và 5 đơn vị là số 45!' },
+    { subject: 'math', badge: '🔢 Toán Lớp 1', q: 'Khi kim dài chỉ số 12, kim ngắn chỉ đúng số 8 thì đồng hồ chỉ mấy giờ?', opts: ['8 giờ đúng', '12 giờ đúng', '4 giờ đúng'], ans: 0, exp: 'Kim ngắn chỉ số 8, kim dài chỉ 12 là 8 giờ đúng!' },
+    { subject: 'math', badge: '🔢 Toán Lớp 1', q: 'Một tuần lễ có tất cả bao nhiêu ngày?', opts: ['5 ngày', '6 ngày', '7 ngày'], ans: 2, exp: 'Một tuần lễ có 7 ngày (từ Thứ Hai đến Chủ Nhật)!' },
+    { subject: 'math', badge: '🔢 Toán Lớp 1', q: 'Điền dấu thích hợp: 15 + 2 ... 19 - 2', opts: ['Dấu > (Lớn hơn)', 'Dấu = (Bằng nhau)', 'Dấu < (Bé hơn)'], ans: 1, exp: 'Vì 15 + 2 = 17 và 19 - 2 = 17 nên hai vế bằng nhau!' },
+    { subject: 'math', badge: '🔢 Toán Lớp 1', q: 'Gara có 16 chiếc xe đua, đã xuất phát 6 chiếc. Trong gara còn lại mấy chiếc?', opts: ['10 chiếc xe', '11 chiếc xe', '9 chiếc xe'], ans: 0, exp: '16 - 6 = 10 chiếc xe!' },
+
+    // --- TIẾNG VIỆT LỚP 1 (CÁNH DIỀU) ---
+    { subject: 'viet', badge: '📖 Tiếng Việt Lớp 1', q: 'Điền chữ cái đúng vào chỗ chấm: "...e đạp" (phương tiện có 2 bánh)', opts: ['x (xe đạp)', 's (se đạp)', 'c (ce đạp)'], ans: 0, exp: 'Viết đúng chính tả là "xe đạp"!' },
+    { subject: 'viet', badge: '📖 Tiếng Việt Lớp 1', q: 'Trước các chữ cái e, ê, i thì ta luôn viết chữ cái nào trong cặp c / k?', opts: ['Chữ c', 'Chữ k', 'Chữ q'], ans: 1, exp: 'Quy tắc chính tả Lớp 1: k đi với e, ê, i (như kể chuyện, kì diệu)!' },
+    { subject: 'viet', badge: '📖 Tiếng Việt Lớp 1', q: 'Chọn từ viết ĐÚNG chính tả chỉ con vật có 2 càng ở biển:', opts: ['con kua', 'con cua', 'con qua'], ans: 1, exp: 'Viết đúng là "con cua"!' },
+    { subject: 'viet', badge: '📖 Tiếng Việt Lớp 1', q: 'Trước âm e, ê, i thì ta dùng "ng" hay "ngh"? (Ví dụ: ...ỉ hè)', opts: ['ngh (nghỉ hè)', 'ng (ngỉ hè)', 'nh (nhỉ hè)'], ans: 0, exp: 'ngh đứng trước e, ê, i: nghỉ hè, nghe nhạc!' },
+    { subject: 'viet', badge: '📖 Tiếng Việt Lớp 1', q: 'Điền từ còn thiếu vào câu tục ngữ: "Học thầy không tày học ..."', opts: ['học trò', 'học bạn', 'học sách'], ans: 1, exp: '"Học thầy không tày học bạn"!' },
+    { subject: 'viet', badge: '📖 Tiếng Việt Lớp 1', q: 'Từ nào dưới đây chỉ đức tính TỐT của học sinh Lớp 1?', opts: ['Chăm chỉ', 'Lười biếng', 'Quên bài'], ans: 0, exp: 'Học sinh ngoan luôn chăm chỉ học tập!' },
+    { subject: 'viet', badge: '📖 Tiếng Việt Lớp 1', q: 'Điền âm đúng: "...òng sông" hiền hòa quanh co', opts: ['d (dòng sông)', 'r (ròng sông)', 'gi (giòng sông)'], ans: 0, exp: 'Viết đúng là "dòng sông"!' },
+    { subject: 'viet', badge: '📖 Tiếng Việt Lớp 1', q: 'Từ nào trái nghĩa với từ "Nhanh" trên đường đua?', opts: ['Mạnh', 'Chậm', 'Cao'], ans: 1, exp: 'Trái nghĩa với Nhanh là Chậm!' },
+    { subject: 'viet', badge: '📖 Tiếng Việt Lớp 1', q: 'Chọn từ viết đúng chính tả chỉ mặt trời mọc buổi sáng:', opts: ['Bình minh', 'Bình mih', 'Bìn minh'], ans: 0, exp: '"Bình minh" là lúc mặt trời mọc buổi sáng!' },
+    { subject: 'viet', badge: '📖 Tiếng Việt Lớp 1', q: 'Trong câu "Bé Lucas lái xe đua màu đỏ", từ nào chỉ MÀU SẮC?', opts: ['lái xe', 'màu đỏ', 'Bé Lucas'], ans: 1, exp: '"màu đỏ" là từ chỉ màu sắc!' },
+    { subject: 'viet', badge: '📖 Tiếng Việt Lớp 1', q: 'Điền chữ g hay gh vào chỗ trống: "cái ...ế gỗ"', opts: ['gh (cái ghế)', 'g (cái gế)', 'ng (cái ngế)'], ans: 0, exp: 'Trước âm ê ta viết gh: cái ghế gỗ!' },
+
+    // --- TỰ NHIÊN & XÃ HỘI + ĐẠO ĐỨC LỚP 1 (CÁNH DIỀU) ---
+    { subject: 'tnxh', badge: '🌱 Tự nhiên & Xã hội', q: 'Khi đi đến ngã tư có đèn tín hiệu giao thông màu ĐỎ, xe phải làm gì?', opts: ['Tăng tốc chạy nhanh', 'Dừng lại trước vạch kẻ', 'Rẽ trái ngay'], ans: 1, exp: 'Đèn đỏ báo hiệu các phương tiện phải dừng lại!' },
+    { subject: 'tnxh', badge: '🌱 Tự nhiên & Xã hội', q: 'Khi ngồi trên xe máy cùng bố mẹ, em cần làm gì để đảm bảo an toàn?', opts: ['Đội mũ bảo hiểm cài quai đúng cách', 'Đứng lên yên xe', 'Không cần đội mũ'], ans: 0, exp: 'Luôn đội mũ bảo hiểm và cài quai đúng quy cách!' },
+    { subject: 'tnxh', badge: '🌱 Tự nhiên & Xã hội', q: 'Bộ phận nào giúp em NHÌN thấy đường đua và đèn tín hiệu giao thông?', opts: ['Đôi tai', 'Đôi mắt', 'Cái mũi'], ans: 1, exp: 'Đôi mắt (thị giác) giúp chúng ta nhìn mọi vật xung quanh!' },
+    { subject: 'tnxh', badge: '🌱 Tự nhiên & Xã hội', q: 'Để hàm răng luôn trắng sạch và không bị sâu răng, em nên đánh răng khi nào?', opts: ['Tối trước khi ngủ và sáng thức dậy', 'Chỉ khi nào ăn kẹo', 'Một tuần 1 lần'], ans: 0, exp: 'Đánh răng đều đặn sáng và tối giúp bảo vệ răng chắc khỏe!' },
+    { subject: 'tnxh', badge: '🌱 Tự nhiên & Xã hội', q: 'Khi nhận quà hoặc được người lớn giúp đỡ, em nên nói lời gì?', opts: ['Im lặng quay đi', 'Lễ phép nói "Con cảm ơn ạ!"', 'Đòi thêm quà'], ans: 1, exp: 'Biết nói lời cảm ơn là biểu hiện của em bé ngoan, lễ phép!' },
+    { subject: 'tnxh', badge: '🌱 Tự nhiên & Xã hội', q: 'Khi đi bộ trên đường phố, em phải đi ở phần đường nào?', opts: ['Đi bộ trên vỉa hè', 'Chạy giữa lòng đường ô tô', 'Đá bóng dưới lòng đường'], ans: 0, exp: 'Người đi bộ luôn đi trên vỉa hè để an toàn!' },
+    { subject: 'tnxh', badge: '🌱 Tự nhiên & Xã hội', q: 'Bộ phận nào của cây hút nước và chất khoáng trong đất nuôi cây?', opts: ['Rễ cây', 'Hoa và quả', 'Ngọn cây'], ans: 0, exp: 'Rễ cây đâm sâu xuống đất để hút nước nuôi cây!' },
+
+    // --- TIẾNG ANH TRẺ EM (CAMBRIDGE STARTERS / LỚP 1) ---
+    { subject: 'eng', badge: '🇬🇧 English Starters', q: 'Chiếc xe đua #95 của Lucas có màu ĐỎ. Trong tiếng Anh, "Màu đỏ" là từ nào?', opts: ['Blue 🔵', 'Red 🔴', 'Green 🟢'], ans: 1, exp: 'Red 🔴 nghĩa là màu đỏ!' },
+    { subject: 'eng', badge: '🇬🇧 English Starters', q: 'Trong tiếng Anh, "Ô tô / Xe hơi" được gọi là gì?', opts: ['A car 🚗', 'A boat ⛵', 'A plane ✈️'], ans: 0, exp: 'A car 🚗 là chiếc ô tô!' },
+    { subject: 'eng', badge: '🇬🇧 English Starters', q: 'Đếm bằng tiếng Anh: "One, Two, Three, Four, ...". Số tiếp theo (Số 5) là gì?', opts: ['Five (5)', 'Seven (7)', 'Nine (9)'], ans: 0, exp: 'One, Two, Three, Four, Five (Số 5)!' },
+    { subject: 'eng', badge: '🇬🇧 English Starters', q: 'Con vật nào có bờm lớn và được gọi là "Chúa sơn lâm" (Con sư tử)?', opts: ['A lion 🦁', 'A duck 🦆', 'A fish 🐟'], ans: 0, exp: 'Lion 🦁 là con sư tử!' },
+    { subject: 'eng', badge: '🇬🇧 English Starters', q: 'Ngôi sao vàng trên đường đua trong tiếng Anh gọi là gì?', opts: ['A star ⭐', 'A tree 🌳', 'A book 📖'], ans: 0, exp: 'Star ⭐ nghĩa là ngôi sao!' },
+    { subject: 'eng', badge: '🇬🇧 English Starters', q: 'Đèn giao thông báo hiệu "Đi tiếp" có màu XANH LÁ CÂY. Tiếng Anh gọi là gì?', opts: ['Yellow 🟡', 'Green 🟢', 'Black ⚫'], ans: 1, exp: 'Green 🟢 là màu xanh lá cây!' },
+    { subject: 'eng', badge: '🇬🇧 English Starters', q: 'Khi gặp thầy cô buổi sáng, em chào bằng tiếng Anh như thế nào?', opts: ['Good morning! ☀️', 'Good night! 🌙', 'Goodbye! 👋'], ans: 0, exp: 'Good morning! ☀️ là Chào buổi sáng!' },
+    { subject: 'eng', badge: '🇬🇧 English Starters', q: 'Quả táo đỏ thơm ngon trong tiếng Anh là từ nào?', opts: ['An apple 🍎', 'A banana 🍌', 'A watermelon 🍉'], ans: 0, exp: 'An apple 🍎 là quả táo!' }
+  ];
+
+  // =========================================================================
+  // 2. DỮ LIỆU 30 CHẶNG ĐUA (6 THẾ GIỚI) & 10 SIÊU CÚP + MẪU XE ĐUA #95
+  // =========================================================================
+  const WORLDS = [
+    { name: 'Thung Lũng Đá Đỏ Radiator', skyTop: '#0284c7', skyBot: '#fed7aa', ground: '#d97706', road: '#334155',kerbA: '#ef4444', kerbB: '#f8fafc', prop: '🌵' },
+    { name: 'Đại Lộ Thủ Đô Hà Nội', skyTop: '#1d4ed8', skyBot: '#bae6fd', ground: '#15803d', road: '#1e293b', kerbA: '#facc15', kerbB: '#ffffff', prop: '🌳' },
+    { name: 'Cung Đường Biển Phú Quốc', skyTop: '#0369a1', skyBot: '#67e8f9', ground: '#eab308', road: '#334155', kerbA: '#06b6d4', kerbB: '#ffffff', prop: '🌴' },
+    { name: 'Đỉnh Tuyết Gala Yuzawa', skyTop: '#1e3a8a', skyBot: '#e0f2fe', ground: '#f1f5f9', road: '#475569', kerbA: '#3b82f6', kerbB: '#ffffff', prop: '🎄' },
+    { name: 'Đường Đua Ánh Sáng Tokyo', skyTop: '#090d16', skyBot: '#311042', ground: '#111827', road: '#1e1b4b', kerbA: '#ec4899', kerbB: '#38bdf8', prop: '🏢' },
+    { name: 'Đường Đua Vũ Trụ Ngân Hà', skyTop: '#020617', skyBot: '#1e1b4b', ground: '#0f172a', road: '#312e81', kerbA: '#a855f7', kerbB: '#facc15', prop: '🪐' }
+  ];
+
+  const TROPHY_LIST = [
+    { id: 1, icon: '🏆', name: 'Cúp Piston Đồng Khởi Đầu', desc: 'Đạt chuỗi 5 câu đúng liên tiếp lần đầu' },
+    { id: 2, icon: '⚡', name: 'Cúp Tia Chớp Bạc #95', desc: 'Đạt 2 chuỗi 5 câu đúng (10 câu)' },
+    { id: 3, icon: '🔥', name: 'Cúp Tên Lửa Nitro Vàng', desc: 'Đạt 3 chuỗi 5 câu đúng (15 câu)' },
+    { id: 4, icon: '🌟', name: 'Cúp Ngôi Sao Cánh Diều', desc: 'Đạt 4 chuỗi 5 câu đúng (20 câu)' },
+    { id: 5, icon: '👑', name: 'Cúp Vương Miện Toán Học', desc: 'Đạt 5 chuỗi 5 câu đúng (25 câu)' },
+    { id: 6, icon: '💎', name: 'Cúp Kim Cương Siêu Tốc', desc: 'Đạt 6 chuỗi 5 câu đúng (30 câu)' },
+    { id: 7, icon: '🚀', name: 'Cúp Phi Thuyền Ngân Hà', desc: 'Đạt 7 chuỗi 5 câu đúng (35 câu)' },
+    { id: 8, icon: '🦁', name: 'Cúp Bản Lĩnh Tay Đua Nhí', desc: 'Đạt 8 chuỗi 5 câu đúng (40 câu)' },
+    { id: 9, icon: '🌈', name: 'Cúp Cầu Vồng Toàn Năng', desc: 'Đạt 9 chuỗi 5 câu đúng (45 câu)' },
+    { id: 10, icon: '🏅', name: 'Siêu Cúp Huyền Thoại Lucas #95', desc: 'Chinh phục 10 chuỗi 5 câu đúng!' }
+  ];
+
+  const CAR_SKINS = [
+    { id: 'red95', name: 'Tia Chớp Đỏ #95', bodyColor: '#ef4444', stripeColor: '#facc15', reqTrophies: 0 },
+    { id: 'dinoco', name: 'Xanh Dinoco #95', bodyColor: '#0284c7', stripeColor: '#fde047', reqTrophies: 1 },
+    { id: 'gold95', name: 'Vàng Ánh Kim #95', bodyColor: '#eab308', stripeColor: '#ef4444', reqTrophies: 2 },
+    { id: 'cyber95', name: 'Tím Vũ Trụ #95', bodyColor: '#9333ea', stripeColor: '#38bdf8', reqTrophies: 3 }
+  ];
+
+  // =========================================================================
+  // 3. TRẠNG THÁI TRÒ CHƠI (GAME STATE) & LƯU TRỮ LOCALSTORAGE AN TOÀN
+  // =========================================================================
+  const state = {
+    stage: 1, // 1..30
+    stageCorrectCount: 0,
+    score: 0,
+    streak: 0,
+    trophiesUnlocked: 0,
+    selectedSkin: 'red95',
+    subjectFilter: 'all',
+    paused: false,
+    soundEnabled: true,
+
+    // Xe đua & Đường đua 3 làn (0: Trái, 1: Giữa, 2: Phải)
+    targetLane: 1,
+    carLaneX: 0, // -1 (trái), 0 (giữa), +1 (phải) nội suy mượt
+    speed: 190,
+    baseSpeed: 190,
+    boostTimer: 0,
+    nitro: 65,
+    roadOffset: 0,
+
+    // Cổng câu hỏi trên đường đua
+    currentQuestion: null,
+    gateZ: 1.0, // 1.0 (xa ở chân trời) -> 0.12 (chạm mũi xe #95)
+    questionTimeMax: 15,
+    questionTimeLeft: 15,
+    lastTickSecond: 15,
+    starsOnRoad: [],
+    confettiParticles: []
+  };
+
+  function loadProgress() {
+    try {
+      const raw = localStorage.getItem('lucas_turbo_95_save_v1');
+      if (raw) {
+        const data = JSON.parse(raw);
+        state.stage = Math.min(30, Math.max(1, Number(data.stage) || 1));
+        state.score = Number(data.score) || 0;
+        state.streak = Number(data.streak) || 0;
+        state.trophiesUnlocked = Number(data.trophiesUnlocked) || 0;
+        if (data.selectedSkin) state.selectedSkin = data.selectedSkin;
+      }
+    } catch (e) {}
+  }
+
+  function saveProgress() {
+    try {
+      localStorage.setItem('lucas_turbo_95_save_v1', JSON.stringify({
+        stage: state.stage,
+        score: state.score,
+        streak: state.streak,
+        trophiesUnlocked: state.trophiesUnlocked,
+        selectedSkin: state.selectedSkin
+      }));
+    } catch (e) {}
+  }
+
+  // =========================================================================
+  // 4. HỆ THỐNG ÂM THANH TỔNG HỢP WEB AUDIO API (TIẾNG VỖ TAY, NITRO, TÍCH TẮC)
+  // =========================================================================
+  let audioCtx = null;
+  function ensureAudio() {
+    if (!state.soundEnabled) return null;
+    if (!audioCtx) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (AC) audioCtx = new AC();
+    }
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume().catch(() => {});
+    }
+    return audioCtx;
+  }
+
+  function playClapAndFanfare() {
+    const ctx = ensureAudio();
+    if (!ctx) return;
+    const now = ctx.currentTime;
+
+    // 1. Tiếng vỗ tay rào rào (Synthesized Applause Bursts)
+    for (let i = 0; i < 10; i++) {
+      const bufSize = ctx.sampleRate * 0.055;
+      const buffer = ctx.createBuffer(1, bufSize, ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let j = 0; j < bufSize; j++) {
+        data[j] = (Math.random() * 2 - 1) * Math.exp(-j / (bufSize * 0.35));
+      }
+      const noise = ctx.createBufferSource();
+      noise.buffer = buffer;
+
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.value = 1100 + Math.random() * 600;
+
+      const gain = ctx.createGain();
+      gain.gain.value = 0.22;
+
+      noise.connect(filter);
+      filter.connect(gain);
+      gain.connect(ctx.destination);
+      noise.start(now + i * 0.055);
+    }
+
+    // 2. Kèn chiến thắng Ka-Chow!
+    const notes = [523.25, 659.25, 783.99, 1046.5];
+    notes.forEach((freq, idx) => {
+      const osc = ctx.createOscillator();
+      const g = ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, now + idx * 0.09);
+      g.gain.setValueAtTime(0.2, now + idx * 0.09);
+      g.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.09 + 0.28);
+      osc.connect(g);
+      g.connect(ctx.destination);
+      osc.start(now + idx * 0.09);
+      osc.stop(now + idx * 0.09 + 0.29);
+    });
+  }
+
+  function playNitroSound() {
+    const ctx = ensureAudio();
+    if (!ctx) return;
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const g = ctx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(140, now);
+    osc.frequency.exponentialRampToValueAtTime(520, now + 0.35);
+    g.gain.setValueAtTime(0.18, now);
+    g.gain.exponentialRampToValueAtTime(0.001, now + 0.38);
+    osc.connect(g);
+    g.connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.4);
+  }
+
+  function playWrongSound() {
+    const ctx = ensureAudio();
+    if (!ctx) return;
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const g = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(280, now);
+    osc.frequency.linearRampToValueAtTime(170, now + 0.28);
+    g.gain.setValueAtTime(0.18, now);
+    g.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+    osc.connect(g);
+    g.connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.32);
+  }
+
+  function playTickSound(urgent) {
+    const ctx = ensureAudio();
+    if (!ctx) return;
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const g = ctx.createGain();
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(urgent ? 980 : 660, now);
+    g.gain.setValueAtTime(urgent ? 0.12 : 0.06, now);
+    g.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+    osc.connect(g);
+    g.connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.06);
+  }
+
+  function speakCurrentQuestion() {
+    if (!state.currentQuestion || !('speechSynthesis' in window)) return;
+    try {
+      window.speechSynthesis.cancel();
+      const q = state.currentQuestion;
+      const utter = new SpeechSynthesisUtterance(
+        q.q + '. Làn A: ' + q.opts[0] + '. Làn B: ' + q.opts[1] + '. Làn C: ' + q.opts[2]
+      );
+      utter.lang = 'vi-VN';
+      utter.rate = 0.95;
+      window.speechSynthesis.speak(utter);
+    } catch (e) {}
+  }
+
+  // =========================================================================
+  // 5. QUẢN LÝ CÂU HỎI, CỔNG ĐƯỜNG ĐUA & CẬP NHẬT GIAO DIỆN
+  // =========================================================================
+  function getFilteredPool() {
+    if (state.subjectFilter === 'all') return QUESTION_BANK;
+    const filtered = QUESTION_BANK.filter(item => item.subject === state.subjectFilter);
+    return filtered.length ? filtered : QUESTION_BANK;
+  }
+
+  function spawnNextQuestion() {
+    const pool = getFilteredPool();
+    const chosen = pool[Math.floor(Math.random() * pool.length)];
+    state.currentQuestion = chosen;
+    state.gateZ = 1.0;
+
+    // Thời gian đếm ngược linh hoạt theo độ dài câu hỏi (tối thiểu 12 giây cho bé Lớp 1)
+    const dynamicSecs = Math.max(12, Math.min(20, Math.round(chosen.q.length / 4.5)));
+    state.questionTimeMax = dynamicSecs;
+    state.questionTimeLeft = dynamicSecs;
+    state.lastTickSecond = dynamicSecs;
+
+    document.getElementById('qSubjectBadge').textContent = chosen.badge;
+    document.getElementById('qPromptText').textContent = chosen.q;
+    document.getElementById('laneOpt0').textContent = chosen.opts[0];
+    document.getElementById('laneOpt1').textContent = chosen.opts[1];
+    document.getElementById('laneOpt2').textContent = chosen.opts[2];
+    updateLaneButtonsUI();
+  }
+
+  function updateLaneButtonsUI() {
+    for (let i = 0; i < 3; i++) {
+      const btn = document.getElementById('laneBtn' + i);
+      if (btn) {
+        btn.classList.toggle('selected-lane', state.targetLane === i);
+      }
+    }
+  }
+
+  function getWorldForStage(stageNum) {
+    const idx = Math.min(WORLDS.length - 1, Math.floor((stageNum - 1) / 5));
+    return WORLDS[idx];
+  }
+
+  function updateTopHudUI() {
+    const world = getWorldForStage(state.stage);
+    document.getElementById('worldNameLabel').textContent =
+      `Chặng ${state.stage}/30: ${world.name} (SGK Cánh Diều Lớp 1)`;
+    document.getElementById('stageNumText').textContent = state.stage;
+    document.getElementById('scoreText').textContent = state.score;
+    document.getElementById('streakText').textContent = state.streak % 5;
+    document.getElementById('trophyCountText').textContent = state.trophiesUnlocked;
+    document.getElementById('speedValue').textContent = Math.round(state.speed);
+    document.getElementById('nitroBarFill').style.width = `${Math.min(100, Math.max(0, state.nitro))}%`;
+
+    const skinObj = CAR_SKINS.find(s => s.id === state.selectedSkin) || CAR_SKINS[0];
+    document.getElementById('carSkinBadge').textContent = `🏎️ ${skinObj.name}`;
+
+    const dots = document.querySelectorAll('#streakDots .streak-dot');
+    const modStreak = state.streak % 5;
+    dots.forEach((d, idx) => {
+      d.classList.toggle('lit', idx < modStreak);
+    });
+  }
+
+  let toastTimeout = null;
+  function showFeedback(title, sub, borderColor) {
+    const el = document.getElementById('feedbackToast');
+    document.getElementById('fbTitle').textContent = title;
+    document.getElementById('fbSub').textContent = sub;
+    el.style.borderColor = borderColor || '#facc15';
+    el.classList.add('show');
+    if (toastTimeout) clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => {
+      el.classList.remove('show');
+    }, 2300);
+  }
+
+  function spawnConfettiBurst() {
+    const colors = ['#ef4444', '#facc15', '#38bdf8', '#10b981', '#f472b6'];
+    for (let i = 0; i < 45; i++) {
+      state.confettiParticles.push({
+        x: window.innerWidth * 0.5 + (Math.random() - 0.5) * 180,
+        y: window.innerHeight * 0.55,
+        vx: (Math.random() - 0.5) * 12,
+        vy: -Math.random() * 11 - 4,
+        size: 6 + Math.random() * 6,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        life: 1.0
+      });
+    }
+  }
+
+  function evaluateGatePass(chosenLane) {
+    const q = state.currentQuestion;
+    if (!q) return;
+
+    if (chosenLane === q.ans) {
+      // Trả lời ĐÚNG!
+      state.score += 100;
+      state.streak += 1;
+      state.stageCorrectCount += 1;
+      state.nitro = Math.min(100, state.nitro + 30);
+      state.boostTimer = 2.4;
+
+      playClapAndFanfare();
+      spawnConfettiBurst();
+
+      let msgTitle = '⚡ KA-CHOW! CHÍNH XÁC!';
+      let msgSub = `${q.exp} (+100 ⭐ & Tăng tốc Nitro!)`;
+
+      // Kiểm tra thưởng Siêu Cúp mỗi 5 câu đúng liên tiếp
+      if (state.streak > 0 && state.streak % 5 === 0) {
+        if (state.trophiesUnlocked < TROPHY_LIST.length) {
+          state.trophiesUnlocked += 1;
+        }
+        const unlockedTrophy = TROPHY_LIST[Math.min(TROPHY_LIST.length - 1, state.trophiesUnlocked - 1)];
+        msgTitle = `🏆 MỞ KHÓA SIÊU CÚP: ${unlockedTrophy.name.toUpperCase()}!`;
+        msgSub = `Tuyệt vời Lucas ơi! Chuỗi ${state.streak} câu đúng liên tiếp!`;
+      }
+
+      // Cứ 2 câu đúng thì thăng cấp lên Chặng tiếp theo (tối đa 30 chặng)
+      if (state.stageCorrectCount >= 2 && state.stage < 30) {
+        state.stage += 1;
+        state.stageCorrectCount = 0;
+      }
+
+      showFeedback(msgTitle, msgSub, '#10b981');
+      saveProgress();
+      updateTopHudUI();
+      spawnNextQuestion();
+    } else {
+      // Trả lời chưa đúng -> Giữ nguyên chặng, nhắc đáp án nhẹ nhàng
+      state.streak = 0;
+      state.speed = Math.max(120, state.speed - 40);
+      playWrongSound();
+      showFeedback(
+        '💡 Cố lên tay đua Lucas #95!',
+        `Đáp án đúng là: "${q.opts[q.ans]}" (${q.exp})`,
+        '#f59e0b'
+      );
+      saveProgress();
+      updateTopHudUI();
+      spawnNextQuestion();
+    }
+  }
+
+  // =========================================================================
+  // 6. VẼ ĐƯỜNG ĐUA 3D PERSPECTIVE & XE ĐUA TIA CHỚP #95 TRÊN CANVAS (60 FPS)
+  // =========================================================================
+  const canvas = document.getElementById('raceCanvas');
+  const ctx2d = canvas.getContext('2d');
+
+  function resizeCanvas() {
+    const rect = canvas.parentElement.getBoundingClientRect();
+    canvas.width = Math.max(320, rect.width);
+    canvas.height = Math.max(260, rect.height);
+  }
+  window.addEventListener('resize', resizeCanvas);
+
+  // Khởi tạo các ngôi sao trang trí trên mặt đường
+  for (let i = 0; i < 6; i++) {
+    state.starsOnRoad.push({
+      lane: (i % 3) - 1, // -1, 0, 1
+      z: (i + 1) / 6
+    });
+  }
+
+  function drawRaceScene(dt) {
+    const W = canvas.width;
+    const H = canvas.height;
+    const horizonY = H * 0.44;
+    const world = getWorldForStage(state.stage);
+
+    // 1. Bầu trời (Sky Gradient)
+    const skyGrad = ctx2d.createLinearGradient(0, 0, 0, horizonY);
+    skyGrad.addColorStop(0, world.skyTop);
+    skyGrad.addColorStop(1, world.skyBot);
+    ctx2d.fillStyle = skyGrad;
+    ctx2d.fillRect(0, 0, W, horizonY);
+
+    // Dãy núi xa ở đường chân trời
+    ctx2d.fillStyle = 'rgba(15, 23, 42, 0.35)';
+    ctx2d.beginPath();
+    ctx2d.moveTo(0, horizonY);
+    for (let x = 0; x <= W; x += W / 8) {
+      const peakH = 28 + Math.sin(x * 0.02 + state.stage) * 18;
+      ctx2d.lineTo(x, horizonY - peakH);
+    }
+    ctx2d.lineTo(W, horizonY);
+    ctx2d.closePath();
+    ctx2d.fill();
+
+    // 2. Mặt đất hai bên đường đua
+    ctx2d.fillStyle = world.ground;
+    ctx2d.fillRect(0, horizonY, W, H - horizonY);
+
+    // 3. Mặt đường cao tốc 3 làn (3D Trapezoid)
+    const roadTopW = W * 0.18;
+    const roadBotW = W * 0.88;
+    const centerX = W * 0.5;
+
+    ctx2d.fillStyle = world.road;
+    ctx2d.beginPath();
+    ctx2d.moveTo(centerX - roadTopW / 2, horizonY);
+    ctx2d.lineTo(centerX + roadTopW / 2, horizonY);
+    ctx2d.lineTo(centerX + roadBotW / 2, H);
+    ctx2d.lineTo(centerX - roadBotW / 2, H);
+    ctx2d.closePath();
+    ctx2d.fill();
+
+    // 4. Vạch kẻ lề đường Đỏ-Trắng (Rumble Strips) & Vạch phân 3 làn chuyển động
+    const numSlices = 18;
+    for (let i = 0; i < numSlices; i++) {
+      const t0 = i / numSlices;
+      const t1 = (i + 1) / numSlices;
+      // Phối cảnh phi tuyến giúp cảm giác lao tới tốc độ cao
+      const y0 = horizonY + Math.pow(t0, 1.75) * (H - horizonY);
+      const y1 = horizonY + Math.pow(t1, 1.75) * (H - horizonY);
+      const w0 = roadTopW + (roadBotW - roadTopW) * Math.pow(t0, 1.75);
+      const w1 = roadTopW + (roadBotW - roadTopW) * Math.pow(t1, 1.75);
+
+      const stripePhase = Math.floor((i + state.roadOffset * 14) % 2);
+      ctx2d.fillStyle = stripePhase === 0 ? world.kerbA : world.kerbB;
+
+      const kerbW0 = w0 * 0.045;
+      const kerbW1 = w1 * 0.045;
+
+      // Lề trái
+      ctx2d.beginPath();
+      ctx2d.moveTo(centerX - w0 / 2 - kerbW0, y0);
+      ctx2d.lineTo(centerX - w0 / 2, y0);
+      ctx2d.lineTo(centerX - w1 / 2, y1);
+      ctx2d.lineTo(centerX - w1 / 2 - kerbW1, y1);
+      ctx2d.closePath();
+      ctx2d.fill();
+
+      // Lề phải
+      ctx2d.beginPath();
+      ctx2d.moveTo(centerX + w0 / 2, y0);
+      ctx2d.lineTo(centerX + w0 / 2 + kerbW0, y0);
+      ctx2d.lineTo(centerX + w1 / 2 + kerbW1, y1);
+      ctx2d.lineTo(centerX + w1 / 2, y1);
+      ctx2d.closePath();
+      ctx2d.fill();
+
+      // Vạch đứt phân chia 3 làn (Làn Trái | Làn Giữa | Làn Phải)
+      if (stripePhase === 0) {
+        ctx2d.fillStyle = 'rgba(255, 255, 255, 0.78)';
+        [-1 / 6, 1 / 6].forEach(offsetRatio => {
+          const lx0 = centerX + w0 * offsetRatio;
+          const lx1 = centerX + w1 * offsetRatio;
+          const lw0 = Math.max(1.5, w0 * 0.012);
+          const lw1 = Math.max(2, w1 * 0.012);
+          ctx2d.beginPath();
+          ctx2d.moveTo(lx0 - lw0, y0);
+          ctx2d.lineTo(lx0 + lw0, y0);
+          ctx2d.lineTo(lx1 + lw1, y1);
+          ctx2d.lineTo(lx1 - lw1, y1);
+          ctx2d.closePath();
+          ctx2d.fill();
+        });
+      }
+    }
+
+    // 5. Ngôi sao vàng trên đường đua
+    state.starsOnRoad.forEach(star => {
+      const p = Math.pow(1 - star.z, 1.75);
+      const sy = horizonY + p * (H - horizonY);
+      const rw = roadTopW + (roadBotW - roadTopW) * p;
+      const sx = centerX + star.lane * (rw * 0.31);
+      const radius = 5 + p * 14;
+
+      ctx2d.save();
+      ctx2d.fillStyle = '#facc15';
+      ctx2d.beginPath();
+      ctx2d.arc(sx, sy, radius, 0, Math.PI * 2);
+      ctx2d.fill();
+      ctx2d.restore();
+    });
+
+    // 6. VẼ 3 CỔNG NĂNG LƯỢNG CÂU HỎI (A - B - C) ĐANG TIẾN VỀ PHÍA XE #95
+    if (state.currentQuestion) {
+      const gp = Math.pow(1 - state.gateZ, 1.75);
+      const gateY = horizonY + gp * (H - horizonY);
+      const gateRoadW = roadTopW + (roadBotW - roadTopW) * gp;
+      const laneW = gateRoadW / 3;
+      const gateH = 26 + gp * 68;
+
+      const gateColors = ['#ef4444', '#eab308', '#10b981'];
+      const gateLabels = ['A', 'B', 'C'];
+
+      for (let laneIdx = 0; laneIdx < 3; laneIdx++) {
+        const laneCenter = centerX + (laneIdx - 1) * laneW;
+        const boxW = laneW * 0.86;
+        const boxX = laneCenter - boxW / 2;
+        const boxY = gateY - gateH;
+
+        ctx2d.save();
+        ctx2d.fillStyle = gateColors[laneIdx];
+        ctx2d.globalAlpha = 0.88;
+        ctx2d.fillRect(boxX, boxY, boxW, gateH * 0.56);
+
+        ctx2d.strokeStyle = state.targetLane === laneIdx ? '#ffffff' : '#facc15';
+        ctx2d.lineWidth = state.targetLane === laneIdx ? 3.5 : 1.8;
+        ctx2d.strokeRect(boxX, boxY, boxW, gateH * 0.56);
+
+        // Cột cổng 2 bên
+        ctx2d.fillStyle = '#f8fafc';
+        ctx2d.fillRect(boxX, boxY, Math.max(3, boxW * 0.06), gateH);
+        ctx2d.fillRect(boxX + boxW - Math.max(3, boxW * 0.06), boxY, Math.max(3, boxW * 0.06), gateH);
+
+        // Chữ đáp án trên cổng 3D
+        const fontSize = Math.max(10, Math.min(22, Math.round(9 + gp * 13)));
+        ctx2d.font = `900 ${fontSize}px Nunito, sans-serif`;
+        ctx2d.fillStyle = '#ffffff';
+        ctx2d.textAlign = 'center';
+        ctx2d.textBaseline = 'middle';
+        const optText = `${gateLabels[laneIdx]}: ${state.currentQuestion.opts[laneIdx]}`;
+        ctx2d.fillText(optText, laneCenter, boxY + gateH * 0.28, boxW * 0.92);
+        ctx2d.restore();
+      }
+    }
+
+    // 7. VẼ SIÊU XE ĐUA #95 CỦA LUCAS Ở TIỀN CẢNH
+    const carY = H * 0.79;
+    const carX = centerX + state.carLaneX * (roadBotW * 0.29);
+    const carW = Math.min(155, Math.max(96, W * 0.14));
+    const carH = carW * 0.62;
+    const skin = CAR_SKINS.find(s => s.id === state.selectedSkin) || CAR_SKINS[0];
+
+    ctx2d.save();
+    ctx2d.translate(carX, carY);
+    // Hơi nghiêng thân xe khi chuyển làn
+    const tilt = (state.targetLane - 1 - state.carLaneX) * 0.12;
+    ctx2d.rotate(tilt);
+
+    // Bóng đổ dưới gầm xe
+    ctx2d.fillStyle = 'rgba(0, 0, 0, 0.55)';
+    ctx2d.beginPath();
+    ctx2d.ellipse(0, carH * 0.42, carW * 0.56, carH * 0.2, 0, 0, Math.PI * 2);
+    ctx2d.fill();
+
+    // Lửa pô Nitro kép khi tăng tốc
+    if (state.boostTimer > 0) {
+      const flameLen = 22 + Math.random() * 24;
+      [-carW * 0.22, carW * 0.22].forEach(fx => {
+        const fGrad = ctx2d.createLinearGradient(fx, carH * 0.35, fx, carH * 0.35 + flameLen);
+        fGrad.addColorStop(0, '#38bdf8');
+        fGrad.addColorStop(0.5, '#facc15');
+        fGrad.addColorStop(1, 'rgba(239, 68, 68, 0)');
+        ctx2d.fillStyle = fGrad;
+        ctx2d.beginPath();
+        ctx2d.moveTo(fx - 8, carH * 0.35);
+        ctx2d.lineTo(fx + 8, carH * 0.35);
+        ctx2d.lineTo(fx, carH * 0.35 + flameLen);
+        ctx2d.closePath();
+        ctx2d.fill();
+      });
+    }
+
+    // Bánh xe thể thao trái & phải
+    ctx2d.fillStyle = '#0f172a';
+    ctx2d.fillRect(-carW * 0.52, -carH * 0.12, carW * 0.16, carH * 0.46);
+    ctx2d.fillRect(carW * 0.36, -carH * 0.12, carW * 0.16, carH * 0.46);
+
+    // Thân xe khí động học #95
+    ctx2d.fillStyle = skin.bodyColor;
+    ctx2d.beginPath();
+    ctx2d.roundRect(-carW * 0.44, -carH * 0.35, carW * 0.88, carH * 0.72, 14);
+    ctx2d.fill();
+    ctx2d.lineWidth = 2.5;
+    ctx2d.strokeStyle = skin.stripeColor;
+    ctx2d.stroke();
+
+    // Cánh gió thể thao (Rear Spoiler)
+    ctx2d.fillStyle = '#1e293b';
+    ctx2d.fillRect(-carW * 0.46, -carH * 0.44, carW * 0.92, carH * 0.13);
+    ctx2d.strokeStyle = skin.stripeColor;
+    ctx2d.strokeRect(-carW * 0.46, -carH * 0.44, carW * 0.92, carH * 0.13);
+
+    // Kính hậu & Mái vòm
+    ctx2d.fillStyle = '#38bdf8';
+    ctx2d.beginPath();
+    ctx2d.roundRect(-carW * 0.28, -carH * 0.28, carW * 0.56, carH * 0.24, 8);
+    ctx2d.fill();
+
+    // Huy hiệu số #95 Tia Chớp nổi bật trên mui/đuôi xe
+    ctx2d.fillStyle = skin.stripeColor;
+    ctx2d.font = `900 ${Math.round(carW * 0.23)}px Nunito, sans-serif`;
+    ctx2d.textAlign = 'center';
+    ctx2d.textBaseline = 'middle';
+    ctx2d.fillText('⚡95⚡', 0, carH * 0.12);
+
+    // Đèn hậu LED đỏ rực
+    ctx2d.fillStyle = '#fef08a';
+    ctx2d.fillRect(-carW * 0.38, carH * 0.22, carW * 0.16, carH * 0.09);
+    ctx2d.fillRect(carW * 0.22, carH * 0.22, carW * 0.16, carH * 0.09);
+
+    ctx2d.restore();
+
+    // 8. Vẽ hạt pháo hoa ăn mừng (Confetti)
+    for (let i = state.confettiParticles.length - 1; i >= 0; i--) {
+      const p = state.confettiParticles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.32;
+      p.life -= dt * 0.7;
+      if (p.life <= 0) {
+        state.confettiParticles.splice(i, 1);
+        continue;
+      }
+      ctx2d.fillStyle = p.color;
+      ctx2d.fillRect(p.x, p.y, p.size, p.size * 0.7);
+    }
+  }
+
+  // =========================================================================
+  // 7. VÒNG LẶP VẬT LÝ & ĐẾM NGƯỢC CÂU HỎI (MAIN LOOP)
+  // =========================================================================
+  let lastTime = performance.now();
+
+  function gameTick(now) {
+    const dt = Math.min(0.05, (now - lastTime) / 1000);
+    lastTime = now;
+
+    if (!state.paused) {
+      // Tốc độ xe & hiệu ứng Nitro
+      if (state.boostTimer > 0) {
+        state.boostTimer = Math.max(0, state.boostTimer - dt);
+        state.speed = 295;
+      } else {
+        state.speed += (state.baseSpeed - state.speed) * Math.min(1, dt * 4);
+      }
+
+      // Nội suy chuyển làn mượt
+      const desiredX = state.targetLane - 1; // -1, 0, +1
+      state.carLaneX += (desiredX - state.carLaneX) * Math.min(1, dt * 11);
+
+      // Cuộn mặt đường
+      state.roadOffset = (state.roadOffset + dt * (state.speed / 120)) % 1;
+
+      // Ngôi sao trên đường tiến lại gần
+      state.starsOnRoad.forEach(star => {
+        star.z -= dt * 0.42;
+        if (star.z <= 0.12) {
+          if (Math.abs(star.lane - state.carLaneX) < 0.38) {
+            state.score += 5;
+            state.nitro = Math.min(100, state.nitro + 2);
+          }
+          star.z = 1.0;
+          star.lane = Math.floor(Math.random() * 3) - 1;
+        }
+      });
+
+      // Đếm ngược thời gian câu hỏi & di chuyển Cổng 3D tiến về phía xe
+      if (state.currentQuestion) {
+        state.questionTimeLeft = Math.max(0, state.questionTimeLeft - dt);
+        state.gateZ = Math.max(0.12, state.questionTimeLeft / state.questionTimeMax);
+
+        const secCeil = Math.ceil(state.questionTimeLeft);
+        if (secCeil !== state.lastTickSecond) {
+          state.lastTickSecond = secCeil;
+          document.getElementById('qTimeLeftText').textContent = secCeil;
+          if (secCeil <= 4 && secCeil > 0) {
+            playTickSound(true);
+          }
+        }
+        const pct = (state.questionTimeLeft / state.questionTimeMax) * 100;
+        document.getElementById('qTimerBar').style.width = `${pct}%`;
+
+        // Khi Cổng câu hỏi chạm tới xe đua #95 -> Kiểm tra làn xe đang đứng!
+        if (state.questionTimeLeft <= 0.05) {
+          evaluateGatePass(state.targetLane);
+        }
+      }
+
+      updateTopHudUI();
+    }
+
+    drawRaceScene(dt);
+    requestAnimationFrame(gameTick);
+  }
+
+  // =========================================================================
+  // 8. ĐIỀU KHIỂN BÀN PHÍM, REMOTE TV, CẢM ỨNG & PHÒNG TRUYỀN THỐNG CÚP
+  // =========================================================================
+  function steerToLane(laneIndex, triggerImmediateAnswer) {
+    ensureAudio();
+    state.targetLane = Math.max(0, Math.min(2, laneIndex));
+    updateLaneButtonsUI();
+    // Nếu bé bấm trực tiếp vào nút đáp án A / B / C thì cho xe lướt tới cổng và chấm điểm ngay!
+    if (triggerImmediateAnswer && state.currentQuestion) {
+      state.carLaneX = state.targetLane - 1;
+      evaluateGatePass(state.targetLane);
+    }
+  }
+
+  function fireManualNitro() {
+    ensureAudio();
+    if (state.nitro >= 20) {
+      state.nitro -= 20;
+      state.boostTimer = 2.0;
+      playNitroSound();
+      showFeedback('⚡ PHÓNG NITRO #95!', 'Tăng tốc lên 295 km/h!', '#38bdf8');
+      updateTopHudUI();
+    } else {
+      showFeedback('⛽ Hết bình Nitro!', 'Hãy trả lời đúng cổng câu hỏi để nạp đầy Nitro nhé!', '#f59e0b');
+    }
+  }
+
+  // Sự kiện nút chọn làn câu hỏi A / B / C
+  document.getElementById('laneBtn0').addEventListener('click', () => steerToLane(0, true));
+  document.getElementById('laneBtn1').addEventListener('click', () => steerToLane(1, true));
+  document.getElementById('laneBtn2').addEventListener('click', () => steerToLane(2, true));
+  if (false) [0].forEach(idx => {
+    document.getElementById('laneBtn' + idx).addEventListener('click', () => {
+      steerToLane(idx, true);
+    });
+  });
+
+  document.getElementById('btnSteerLeft').addEventListener('click', () => {
+    steerToLane(state.targetLane - 1, false);
+  });
+  document.getElementById('btnSteerRight').addEventListener('click', () => {
+    steerToLane(state.targetLane + 1, false);
+  });
+  document.getElementById('btnFireNitro').addEventListener('click', fireManualNitro);
+
+  // Chạm trực tiếp vào 3 làn trên màn hình Canvas
+  canvas.addEventListener('pointerdown', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const relX = (e.clientX - rect.left) / rect.width;
+    if (relX < 0.36) steerToLane(0, false);
+    else if (relX > 0.64) steerToLane(2, false);
+    else steerToLane(1, false);
+  });
+
+  // Bàn phím & Điều khiển TV LG (Mũi tên Trái/Phải, phím 1/2/3, Space/Enter)
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A') {
+      steerToLane(state.targetLane - 1, false);
+    } else if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') {
+      steerToLane(state.targetLane + 1, false);
+    } else if (e.key === '1') {
+      steerToLane(0, true);
+    } else if (e.key === '2') {
+      steerToLane(1, true);
+    } else if (e.key === '3') {
+      steerToLane(2, true);
+    } else if (e.key === ' ' || e.key === 'Enter') {
+      // Bấm Enter/Space để chốt ngay làn đang chọn qua cổng!
+      e.preventDefault();
+      steerToLane(state.targetLane, true);
+    }
+  });
+
+  // Bộ lọc môn học, Đọc câu hỏi, Tạm dừng, Âm thanh
+  document.getElementById('subjectSelect').addEventListener('change', (e) => {
+    state.subjectFilter = e.target.value;
+    spawnNextQuestion();
+  });
+
+  document.getElementById('btnSpeakQuestion').addEventListener('click', speakCurrentQuestion);
+
+  document.getElementById('btnTogglePause').addEventListener('click', (e) => {
+    state.paused = !state.paused;
+    e.currentTarget.textContent = state.paused ? '▶️ Tiếp tục đua' : '⏸️ Tạm dừng';
+    e.currentTarget.classList.toggle('active', state.paused);
+  });
+
+  document.getElementById('btnToggleSound').addEventListener('click', (e) => {
+    state.soundEnabled = !state.soundEnabled;
+    e.currentTarget.textContent = state.soundEnabled ? '🔔 Âm thanh: BẬT' : '🔕 Âm thanh: TẮT';
+  });
+
+  // Render Modal Phòng Cúp & Gara Xe #95
+  function renderTrophiesModal() {
+    const skinsGrid = document.getElementById('carSkinsGrid');
+    skinsGrid.innerHTML = '';
+    CAR_SKINS.forEach(skin => {
+      const unlocked = state.trophiesUnlocked >= skin.reqTrophies;
+      const isSelected = state.selectedSkin === skin.id;
+      const card = document.createElement('div');
+      card.className = 'item-card ' + (unlocked ? 'unlocked' : 'locked');
+      card.style.cursor = unlocked ? 'pointer' : 'not-allowed';
+      card.innerHTML = `
+        <div class="item-icon">🏎️</div>
+        <div class="item-name" style="color:${skin.stripeColor}">${skin.name}</div>
+        <div class="item-desc">${unlocked ? (isSelected ? '✅ Đang sử dụng' : 'Bấm để chọn xe này') : `Cần ${skin.reqTrophies} Siêu Cúp`}</div>
+      `;
+      if (unlocked) {
+        card.addEventListener('click', () => {
+          state.selectedSkin = skin.id;
+          saveProgress();
+          renderTrophiesModal();
+          updateTopHudUI();
+        });
+      }
+      skinsGrid.appendChild(card);
+    });
+
+    const trGrid = document.getElementById('trophiesGrid');
+    trGrid.innerHTML = '';
+    TROPHY_LIST.forEach((tr, idx) => {
+      const unlocked = idx < state.trophiesUnlocked;
+      const card = document.createElement('div');
+      card.className = 'item-card ' + (unlocked ? 'unlocked' : 'locked');
+      card.innerHTML = `
+        <div class="item-icon">${unlocked ? tr.icon : '🔒'}</div>
+        <div class="item-name">${tr.name}</div>
+        <div class="item-desc">${tr.desc}</div>
+      `;
+      trGrid.appendChild(card);
+    });
+  }
+
+  // Render Modal 30 Chặng Đua
+  function renderStagesModal() {
+    const stGrid = document.getElementById('stagesGrid');
+    stGrid.innerHTML = '';
+    for (let s = 1; s <= 30; s++) {
+      const w = getWorldForStage(s);
+      const active = state.stage === s;
+      const card = document.createElement('div');
+      card.className = 'item-card ' + (active ? 'unlocked' : '');
+      card.style.cursor = 'pointer';
+      card.innerHTML = `
+        <div class="item-icon">${w.prop}</div>
+        <div class="item-name">Chặng ${s}/30</div>
+        <div class="item-desc">${w.name}</div>
+      `;
+      card.addEventListener('click', () => {
+        state.stage = s;
+        saveProgress();
+        updateTopHudUI();
+        document.getElementById('modalStages').classList.remove('open');
+      });
+      stGrid.appendChild(card);
+    }
+  }
+
+  document.getElementById('btnOpenTrophies').addEventListener('click', () => {
+    renderTrophiesModal();
+    document.getElementById('modalTrophies').classList.add('open');
+  });
+  document.getElementById('btnCloseTrophies').addEventListener('click', () => {
+    document.getElementById('modalTrophies').classList.remove('open');
+  });
+
+  document.getElementById('btnOpenStages').addEventListener('click', () => {
+    renderStagesModal();
+    document.getElementById('modalStages').classList.add('open');
+  });
+  document.getElementById('btnCloseStages').addEventListener('click', () => {
+    document.getElementById('modalStages').classList.remove('open');
+  });
+
+  // Khởi động trò chơi
+  window.addEventListener('load', () => {
+    loadProgress();
+    resizeCanvas();
+    spawnNextQuestion();
+    updateTopHudUI();
+    requestAnimationFrame(gameTick);
+  });
+})();
+</script>
+</body>
+</html>
