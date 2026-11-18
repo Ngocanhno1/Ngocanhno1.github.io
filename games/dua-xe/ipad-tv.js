@@ -173,7 +173,7 @@
     var o = { trangThai: tt, ten: tenBe(c), lop: (window.HS && HS[c] && HS[c].lop) || "", lane: 1, diem: 0, hang: 1, tong: 5, kmh: 0, nitro: 0.35, chang: 1, cau: "", q: null, kq: null, xong: null };
     if (!p || tt === "cho") return o;
     var g = p.active, n = p.gates.length;
-    o.lane = p.lane; o.diem = p.score; o.kmh = G2.state === "race" ? Math.round(p.speed * 3.6) : 0;
+    o.lane = p.lane; o.diem = p.score; o.tim = p.tim; o.out = !!p.out; o.kmh = G2.state === "race" ? Math.round(p.speed * 3.6) : 0;
     o.nitro = Math.round(p.nitro * 100) / 100; o.chang = Math.min(N_CHANG, Math.floor(p.d / CHANG_LEN) + 1);
     try { o.hang = p.finished ? p.myRank : rankPlayer2(p); } catch (e) { o.hang = p.myRank || 1; }
     o.cau = Math.min(n, p.asked + (g && !g.res ? 1 : 0)) + "/" + n;
@@ -190,7 +190,7 @@
       o.kq = R.kq[c];
       if (!o.q || o.q.id === lid) o.q = { id: lid, mon: last.q.mon, q: last.q.q, opts: (last.opts || []).slice() };
     }
-    if (tt === "xong") o.xong = { hang: p.myRank, dung: p.right, tong: p.asked, diem: p.score };
+    if (tt === "xong") o.xong = { hang: p.myRank, dung: p.right, tong: p.asked, diem: p.score, hetLuot: !!p.out };
     return o;
   }
   function guiMan(c, ep) {

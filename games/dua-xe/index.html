@@ -49,6 +49,8 @@ button{font-family:inherit;cursor:pointer;outline:none}
 /* HUD 1 người */
 #hud{position:fixed;inset:0 0 auto 0;z-index:10;display:flex;align-items:flex-start;justify-content:space-between;gap:1vw;padding:1.2vh 1.2vw;pointer-events:none}
 .hbox{background:rgba(10,18,45,.72);border:3px solid rgba(255,255,255,.55);border-radius:18px;padding:.4vh 1vw;display:flex;align-items:center;gap:.8vw;font-weight:800;font-size:clamp(16px,2vw,30px)}
+.tim{display:inline-flex;gap:.15em;align-items:center}.tim svg{width:1.05em;height:1.05em;filter:drop-shadow(0 2px 0 rgba(0,0,0,.35));transition:transform .3s}.tim svg.mat{opacity:.35;filter:grayscale(1)}
+.tim.rung{animation:rungTim .6s}@keyframes rungTim{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px) scale(1.2)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
 .hbox img{width:clamp(40px,4.4vw,64px);height:clamp(40px,4.4vw,64px);border-radius:50%;object-fit:cover;border:3px solid #fff}
 #rankBox{flex-direction:column;gap:0;line-height:1;padding:.6vh 1.4vw;text-align:center}
 #rank{font-size:clamp(34px,5vw,78px);color:#ffe14d;text-shadow:0 4px 0 #b45309}
@@ -197,7 +199,7 @@ button{font-family:inherit;cursor:pointer;outline:none}
 <button class="btn xanh" id="homeBtn" onclick="location.href='../../'">🏠 Trang chủ</button>
 
 <div id="hud" class="hide">
-  <div class="hbox"><img id="hudFace" alt=""><span id="hudName"></span><span>⭐ <span id="score">0</span></span></div>
+  <div class="hbox"><img id="hudFace" alt=""><span id="hudName"></span><span>⭐ <span id="score">0</span></span><span class="tim" id="tim" title="Lượt được sai"></span></div>
   <div class="hbox" id="rankBox"><div id="rank">1<sup>/4</sup></div><div id="chang"></div></div>
 </div>
 <div id="track" class="hide"><div class="line"></div></div>
@@ -225,7 +227,7 @@ button{font-family:inherit;cursor:pointer;outline:none}
   <div class="phalf lucieHalf" id="half0">
     <div class="plines" id="plines0"></div>
     <div class="phud">
-      <div class="pbox"><img id="pface0" alt=""><span id="pname0">Lucie</span><span>⭐ <span id="pscore0">0</span></span></div>
+      <div class="pbox"><img id="pface0" alt=""><span id="pname0">Lucie</span><span>⭐ <span id="pscore0">0</span></span><span class="tim" id="tim0"></span></div>
       <div class="pbox"><div class="prank" id="prank0">1<sup>/5</sup></div></div>
     </div>
     <div class="pkeys">Chị Lucie: A/D làn · 1/2/3 đáp án · W ga · Q nitro</div>
@@ -244,7 +246,7 @@ button{font-family:inherit;cursor:pointer;outline:none}
   <div class="phalf lucasHalf" id="half1">
     <div class="plines" id="plines1"></div>
     <div class="phud">
-      <div class="pbox"><img id="pface1" alt=""><span id="pname1">Lucas</span><span>⭐ <span id="pscore1">0</span></span></div>
+      <div class="pbox"><img id="pface1" alt=""><span id="pname1">Lucas</span><span>⭐ <span id="pscore1">0</span></span><span class="tim" id="tim1"></span></div>
       <div class="pbox"><div class="prank" id="prank1">1<sup>/5</sup></div></div>
     </div>
     <div class="pkeys">Em Lucas: ⬅️/➡️ làn · 7/8/9 (J/K/L) đáp án · ⬆️ ga · 0/Enter nitro</div>
@@ -1142,7 +1144,8 @@ function startRace() {
   document.body.classList.remove("splitMode");
   $("splitUI").classList.add("hide"); $("splitDivider").classList.add("hide"); $("track").classList.remove("duoTrack");
   G.qs = buildQuestions(G.child);
-  Object.assign(G, { d: 0, x: LANES[1], lane: 1, speed: 0, boost: 0, superTurbo: false, gas: false, slow: 0, nitro: 0.35, nitroOn: 0, score: 0, ts: 1, tsTarget: 1, right: 0, asked: 0, streak: 0, bestStreak: 0, coins: 0, hits: 0, stage: 0, shake: 0, fovKick: 0, spin: 0, finished: false, finishOrder: [], mon: {}, active: null, hop: 0, color: MAUXE[G.carColor][0] });
+  Object.assign(G, { d: 0, x: LANES[1], lane: 1, speed: 0, boost: 0, superTurbo: false, gas: false, slow: 0, nitro: 0.35, nitroOn: 0, score: 0, ts: 1, tsTarget: 1, right: 0, asked: 0, streak: 0, bestStreak: 0, coins: 0, hits: 0, stage: 0, shake: 0, fovKick: 0, spin: 0, finished: false, finishOrder: [], mon: {}, active: null, hop: 0, color: MAUXE[G.carColor][0], tim: MANG, hetLuot: false });
+  veTim("tim", MANG);
   G.rivals = RIVALS.map((r, i) => ({ id: r.id, ten: r.ten, d: -6 - i * 2, x: LANES[[0, 2, 0][i]], lane: [0, 2, 0][i], speed: 0, boost: 0, k: [1.03, 1.0, 0.975][i], nextLane: rnd(2, 5), done: false, wasAhead: false }));
   layout();
   if (R3) {
@@ -1266,7 +1269,7 @@ function step(dt) {
   // cổng câu hỏi
   const g = G.gates.find(g => !g.done);
   if (g) {
-    if (!g.shown && g.s - G.d < Q_AHEAD) showQuestion(g);
+    if (!g.shown && !G.hetLuot && g.s - G.d < Q_AHEAD) showQuestion(g);
     if (g.shown && !g.res && G.d >= g.s) passGate(g);
   }
   // khi xe đã chốt đáp án đúng và lao xuyên qua vị trí cổng -> cổng vỡ tung thành pháo hoa/ngôi sao
@@ -1281,7 +1284,7 @@ function step(dt) {
 
   const st = Math.min(N_CHANG - 1, Math.floor(G.d / CHANG_LEN));
   if (st !== G.stage) { G.stage = st; big("CHẶNG " + (st + 1)); hint(KB.chang[st][0]); Voice.say("Chặng " + (st + 1) + ". " + KB.chang[st][0]); SFX.beep(true); }
-  if (!G.finished && G.d >= RACE_LEN) finish();
+  if (!G.finished && !G.hetLuot && G.d >= RACE_LEN) finish();
   updateHUD();
 }
 
@@ -1381,7 +1384,29 @@ function passGate(g) {
     const dv = pick(KB.dongvien); ex.className = "no"; ex.textContent = "Đáp án đúng: " + g.q.dung + (g.q.gt ? " — " + g.q.gt : "");
     Voice.say(dv); Voice.say("Đáp án đúng là " + g.q.dung, isEnText(g.q.dung)); if (g.q.gt) Voice.say(g.q.gt);
     if (R3) R3.puff(G.x, 0.6, 0, 0xffffff, 12, 0.9);
+    G.tim = Math.max(0, G.tim - 1); veTim("tim", G.tim);
+    toast("💔 " + (G.tim > 0 ? "Còn " + G.tim + " lượt được sai" : "Hết 3 lượt sai rồi!"), 2200);
+    Voice.say(NHAC_TIM[G.tim]);
+    if (G.tim <= 0) { G.hetLuot = true; G.slow = 9; setTimeout(hetLuot, 2600); }
   }
+}
+function hetLuot() {
+  if (G.state !== "race" || G.finished) return;
+  G.finished = true; G.state = "end"; G.tsTarget = 1; G.gas = false; Voice.stop(); hideQuestion();
+  const o = LS.get(cupKey(G.child), {});
+  o.luot = (o.luot || 0) + 1; o.hetLuot = (o.hetLuot || 0) + 1;
+  o.dungNhieuNhat = Math.max(o.dungNhieuNhat || 0, G.right);
+  LS.set(cupKey(G.child), o);
+  ["track", "speedo", "pad", "streak"].forEach(id => $(id).classList.add("hide"));
+  $("podium").innerHTML = '<div class="pod me"><img src="' + faceUrl(G.child) + '" alt=""></div>';
+  $("endTitle").textContent = "💔 Hết 3 lượt sai rồi!";
+  const msg = "Con đã trả lời sai 3 câu. Đọc thật kỹ câu hỏi rồi mình đua lại nhé!";
+  $("endMsg").textContent = msg;
+  $("endStats").innerHTML = `<div class="stat">Đúng <b>${G.right}/${G.asked}</b> câu</div><div class="stat">Đi được <b>${Math.round(G.d / RACE_LEN * 100)}%</b> đường đua</div><div class="stat">⭐ <b>${G.score}</b></div>`;
+  $("eAgain").textContent = "🏁 Đua lại";
+  $("end").classList.remove("hide"); $("homeBtn").classList.remove("hide");
+  focusList = [$("eAgain"), $("eHome")]; setFoc(0);
+  Voice.say("Hết lượt rồi!"); Voice.say(msg);
 }
 function hideQuestion() { $("qbox").classList.add("hide"); $("speedo").style.opacity = 1; G.active = null; }
 function logResult(q, ok, childId) {
@@ -1396,6 +1421,19 @@ function useNitro() {
   setTimeout(() => { if (G.boost <= 0) { $("lines").style.opacity = 0; $("vignette").style.opacity = 0; } }, 2300);
   big("🔥 NITRO!", "super");
 }
+
+
+/* ---------- Luật 3 lượt sai: sai đủ 3 câu là hết lượt, phải đua lại ---------- */
+const MANG = 3;
+const TIM_SVG = '<svg viewBox="0 0 24 22"><path d="M12 21.5 2.6 12.4C-.6 9.2.2 3.6 4.6 2.2 7.3 1.3 10 2.4 12 4.7c2-2.3 4.7-3.4 7.4-2.5 4.4 1.4 5.2 7 2 10.2Z" fill="#ef4444" stroke="#fff" stroke-width="1.6"/></svg>';
+function veTim(id, n) {
+  const e = $(id); if (!e) return;
+  if (e._n === n) return;
+  const mat = e._n != null && n < e._n; e._n = n;
+  e.innerHTML = Array.from({ length: MANG }, (_, i) => TIM_SVG.replace("<svg ", '<svg class="' + (i < n ? "" : "mat") + '" ')).join("");
+  if (mat) { e.classList.remove("rung"); void e.offsetWidth; e.classList.add("rung"); }
+}
+const NHAC_TIM = ["Hết lượt rồi!", "Con còn một lượt sai, cẩn thận nhé!", "Con còn hai lượt sai nhé!"];
 
 /* ---------- về đích 1 người ---------- */
 function finish() {
@@ -1423,6 +1461,7 @@ function finish() {
     $("endMsg").textContent = msg;
     $("endStats").innerHTML = `<div class="stat">Đúng <b>${G.right}/${G.asked}</b> câu</div><div class="stat">⭐ <b>${G.score}</b>${newHi ? " (kỷ lục!)" : ""}</div><div class="stat">Xu <b>${G.coins}</b></div><div class="stat">Liên tiếp <b>${G.bestStreak}</b></div>` +
       Object.keys(G.mon).map(m => `<div class="stat">${m}: <b>${G.mon[m][0]}/${G.mon[m][1]}</b></div>`).join("");
+    $("eAgain").textContent = "🏁 Đua tiếp";
     $("end").classList.remove("hide"); $("homeBtn").classList.remove("hide");
     focusList = [$("eAgain"), $("eHome")]; setFoc(0);
     if (G.myRank <= 3) { SFX.fanfare(); confetti(); }
@@ -1441,7 +1480,7 @@ function makePlayerState(child, idx, color, startLane) {
     speed: 0, boost: 0, superTurbo: false, gas: false, slow: 0, nitro: 0.35, nitroOn: 0,
     score: 0, ts: 1, tsTarget: 1, qs, gates, active: null,
     right: 0, asked: 0, streak: 0, bestStreak: 0, coins: 0, hits: 0,
-    stage: 0, shake: 0, fovKick: 0, spin: 0, hop: 0, finished: false, myRank: 1, mon: {}
+    stage: 0, shake: 0, fovKick: 0, spin: 0, hop: 0, finished: false, myRank: 1, mon: {}, tim: MANG, out: false
   };
 }
 
@@ -1521,7 +1560,7 @@ function step2(dt) {
     // cổng câu hỏi riêng của từng bé
     const g = p.gates.find(gt => !gt.done);
     if (g) {
-      if (!g.shown && g.s - p.d < Q_AHEAD) showQuestion2(p, g);
+      if (!g.shown && !p.out && g.s - p.d < Q_AHEAD) showQuestion2(p, g);
       if (g.shown && !g.res && p.d >= g.s) passGate2(p, g);
     }
     p.gates.forEach(gt => {
@@ -1533,7 +1572,7 @@ function step2(dt) {
     });
     if (p.active && p.active.res && p.d > p.active.s + 35) hideQuestion2(p);
 
-    if (!p.finished && p.d >= RACE_LEN) {
+    if (!p.finished && !p.out && p.d >= RACE_LEN) {
       p.finished = true;
       G2.finishOrder.push(p.child);
       p.myRank = G2.finishOrder.length;
@@ -1567,7 +1606,7 @@ function step2(dt) {
 }
 
 function rankPlayer2(p) {
-  if (p.finished) return p.myRank;
+  if (p.finished && !p.out) return p.myRank;
   const other = G2.players[1 - p.idx];
   let r = 1 + G2.rivals.filter(rv => rv.d > p.d).length;
   if (other.d > p.d) r++;
@@ -1577,7 +1616,7 @@ function rankPlayer2(p) {
 function updateHUD2() {
   G2.players.forEach((p, i) => {
     $("prank" + i).innerHTML = rankPlayer2(p) + "<sup>/5</sup>";
-    $("pscore" + i).textContent = p.score;
+    $("pscore" + i).textContent = p.score; veTim("tim" + i, p.tim);
     $("pkmh" + i).textContent = Math.round(p.speed * 3.6 * (G2.state === "race" ? 1 : 0));
     $("pspeed" + i).classList.toggle("hot", p.boost > 0 || p.nitroOn > 0 || p.gas);
     $("pnitro" + i).style.width = Math.round(p.nitro * 100) + "%";
@@ -1664,6 +1703,12 @@ function passGate2(p, g) {
     p.streak = 0; p.superTurbo = false; p.boost = 0; p.slow = 1.3; p.spin = 0.8; p.shake = 0.5;
     SFX.no();
     ex.className = "pqexp no"; ex.textContent = "Đáp án đúng: " + g.q.dung;
+    p.tim = Math.max(0, p.tim - 1); veTim("tim" + i, p.tim);
+    pbig2(i, p.tim > 0 ? "💔 Còn " + p.tim + " lượt sai" : "💔 HẾT LƯỢT!");
+    if (p.tim <= 0) {
+      p.out = true; p.slow = 9;
+      setTimeout(() => { if (!p.finished) { p.finished = true; p.speed = 0; hideQuestion2(p); pbig2(i, "💔 Hết lượt — chờ " + (i ? "chị" : "em") + " về đích nhé!"); } }, 2200);
+    }
   }
 }
 
@@ -1689,8 +1734,8 @@ function finish2() {
   hideQuestion2(p0); hideQuestion2(p1);
   // sắp xếp cả 5 xe cho bục trao giải
   const all5 = [
-    { id: "lucie", d: RACE_LEN + 2000 - (G2.finishOrder.indexOf("lucie") >= 0 ? G2.finishOrder.indexOf("lucie") * 10 : 500) },
-    { id: "lucas", d: RACE_LEN + 2000 - (G2.finishOrder.indexOf("lucas") >= 0 ? G2.finishOrder.indexOf("lucas") * 10 : 500) },
+    { id: "lucie", d: G2.finishOrder.indexOf("lucie") >= 0 ? RACE_LEN + 2000 - G2.finishOrder.indexOf("lucie") * 10 : p0.d },
+    { id: "lucas", d: G2.finishOrder.indexOf("lucas") >= 0 ? RACE_LEN + 2000 - G2.finishOrder.indexOf("lucas") * 10 : p1.d },
     ...G2.rivals.map(r => ({ id: r.id, d: r.done ? RACE_LEN + 2000 - G2.finishOrder.indexOf(r.id) * 10 : r.d }))
   ];
   all5.sort((a, b) => b.d - a.d);
@@ -1703,6 +1748,7 @@ function finish2() {
     p.score += rankBonus;
     const o = LS.get(cupKey(p.child), {});
     o.luot = (o.luot || 0) + 1;
+    if (p.out) { o.hetLuot = (o.hetLuot || 0) + 1; o.dungNhieuNhat = Math.max(o.dungNhieuNhat || 0, p.right); LS.set(cupKey(p.child), o); return; }
     if (p.myRank === 1) o.vang = (o.vang || 0) + 1;
     if (p.myRank === 2) o.bac = (o.bac || 0) + 1;
     if (p.myRank === 3) o.dong = (o.dong || 0) + 1;
@@ -1725,12 +1771,13 @@ function finish2() {
     }).join("");
     const lucieFirst = p0.myRank < p1.myRank;
     $("endTitle").textContent = "🏆 Hai chị em về đích tuyệt vời! 🏆";
-    const msg = (lucieFirst ? "Chị Lucie cán đích trước, em Lucas bám sát cực kỳ dũng cảm! " : "Em Lucas bứt tốc cán đích trước, chị Lucie đua cực kỳ xuất sắc! ") +
-      "Cả hai chị em đều rất thông minh và đáng khen!";
+    let msg;
+    if (p0.out && p1.out) msg = "Hai chị em đều hết 3 lượt sai rồi. Đọc thật kỹ câu hỏi rồi mình đua lại nhé!";
+    else if (p0.out || p1.out) { const v = p0.out ? p1 : p0, h = p0.out ? p0 : p1; msg = (v.idx ? "Em Lucas" : "Chị Lucie") + " đã về đích, " + (h.idx ? "em Lucas" : "chị Lucie") + " hết 3 lượt sai. Lần sau đọc kỹ hơn là về đích được thôi! Cả hai chị em đều rất cố gắng!"; }
+    else msg = (lucieFirst ? "Chị Lucie cán đích trước, em Lucas bám sát cực kỳ dũng cảm! " : "Em Lucas bứt tốc cán đích trước, chị Lucie đua cực kỳ xuất sắc! ") + "Cả hai chị em đều rất thông minh và đáng khen!";
     $("endMsg").textContent = msg;
     $("endStats").innerHTML =
-      `<div class="stat">👧 Lucie: Hạng <b>${p0.myRank}/5</b> · Đúng <b>${p0.right}/${p0.asked}</b> câu · ⭐ <b>${p0.score}</b></div>` +
-      `<div class="stat">👦 Lucas: Hạng <b>${p1.myRank}/5</b> · Đúng <b>${p1.right}/${p1.asked}</b> câu · ⭐ <b>${p1.score}</b></div>`;
+      [p0, p1].map(p => `<div class="stat">${p.idx ? "👦 Lucas" : "👧 Lucie"}: ${p.out ? "<b>Hết 3 lượt sai</b>" : "Hạng <b>" + p.myRank + "/5</b>"} · Đúng <b>${p.right}/${p.asked}</b> câu · ⭐ <b>${p.score}</b></div>`).join("");
     $("end").classList.remove("hide"); $("homeBtn").classList.remove("hide");
     focusList = [$("eAgain"), $("eHome")]; setFoc(0);
     SFX.fanfare(); confetti();

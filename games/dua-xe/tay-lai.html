@@ -636,6 +636,7 @@
     <div class="stats-row">
       <div class="badge rank" id="stat-rank">Hạng -/5</div>
       <div class="badge" id="stat-score">⭐ 0</div>
+      <div class="badge" id="stat-tim">❤️❤️❤️</div>
       <div class="badge" id="stat-stage">Chặng 1</div>
       <div class="badge" id="stat-q">Câu 0/20</div>
       <div class="badge speed" id="stat-speed">0 km/h</div>
@@ -1034,6 +1035,8 @@
         var tong = man.tong || 5;
         document.getElementById('stat-rank').textContent = 'Hạng ' + hang + '/' + tong;
         document.getElementById('stat-score').textContent = '⭐ ' + (man.diem || 0);
+        var tim = (typeof man.tim === 'number') ? man.tim : 3;
+        document.getElementById('stat-tim').textContent = '❤️'.repeat(tim) + '🤍'.repeat(Math.max(0, 3 - tim));
         document.getElementById('stat-stage').textContent = 'Chặng ' + (man.chang || 1);
         document.getElementById('stat-q').textContent = 'Câu ' + (man.cau || '0/20');
 
@@ -1087,6 +1090,13 @@
         }
 
         // 4. Xử lý trạng thái "xong"
+        if (man.out && st === 'dua' && !(man.q && !(man.kq && man.kq.id === man.q.id))) {
+          document.getElementById('finish-rank').textContent = '💔 Hết 3 lượt sai rồi!';
+          document.getElementById('finish-stats').textContent = 'Nhìn lên TV cổ vũ ' + (c === 'lucie' ? 'em Lucas' : 'chị Lucie') + ' nhé!';
+          document.getElementById('finish-praise').textContent = 'Lần sau đọc thật kỹ câu hỏi là về đích được thôi! 💪';
+          showScreen('xong');
+          return;
+        }
         if (st === 'xong' || man.xong) {
           var xObj = man.xong || {};
           var finalRank = xObj.hang || man.hang || 1;
@@ -1094,7 +1104,7 @@
           var finalTotal = (typeof xObj.tong !== 'undefined') ? xObj.tong : 20;
           var finalScore = (typeof xObj.diem !== 'undefined') ? xObj.diem : (man.diem || 0);
 
-          document.getElementById('finish-rank').textContent = 'Về đích! Hạng ' + finalRank;
+          document.getElementById('finish-rank').textContent = xObj.hetLuot ? '💔 Hết 3 lượt sai rồi!' : 'Về đích! Hạng ' + finalRank;
           document.getElementById('finish-stats').textContent =
             'Đúng: ' + finalRight + '/' + finalTotal + ' câu • Điểm: ⭐ ' + finalScore;
 
