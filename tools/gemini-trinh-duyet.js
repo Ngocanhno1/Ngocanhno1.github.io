@@ -89,7 +89,11 @@ async function __guiVaCho(P, kem) {
   await __cho(dang, 15000);
   await __cho(() => !dang(), 300000);
   const loiCuoi = () => { if (dang()) return false; const t = luot(); const c = t[t.length - 1]; return t.length > soLuot && c && /reached your|rate limit|quota|failed to generate/i.test(c.textContent.slice(0, 600)); };
-  await __cho(() => (luot().length > soLuot && anhCuoi().length > 0) || loiCuoi(), 90000);
+  const coAnh = () => (luot().length > soLuot && anhCuoi().length > 0) || loiCuoi();
+  for (let k = 0; k < 8 && !coAnh(); k++) {   // vẽ xong trang đứng yên: tự cuộn để trang hiện ảnh rồi chờ thay đổi
+    lanCuon = 0; cuon(); const tg = document.querySelector('ms-autoscroll-container, .chat-view-container'); if (tg) tg.scrollTop = tg.scrollHeight;
+    await __cho(coAnh, 12000);
+  }
   { const t = luot(); if (t.length) t[t.length - 1].scrollIntoView({ block: 'end' }); }
   const moi = luot().length > soLuot ? anhCuoi() : [];
   if (!moi.length) {
