@@ -20,80 +20,14 @@
    "file": "Brillanten.jpg",
    "trang": "https://commons.wikimedia.org/wiki/File:Brillanten.jpg"
   },
-  "ruong-go": {
-   "file": "Tranh AI Pollinations",
-   "trang": "https://pollinations.ai"
-  },
-  "ruong-sat": {
-   "file": "Tranh AI Pollinations",
-   "trang": "https://pollinations.ai"
-  },
-  "ruong-kc": {
-   "file": "Tranh AI Pollinations",
-   "trang": "https://pollinations.ai"
-  },
-  "cua": {
-   "file": "Tranh AI Pollinations",
-   "trang": "https://pollinations.ai"
-  },
   "silver": {
    "file": "Silver_crystal.jpg",
    "trang": "https://commons.wikimedia.org/wiki/File:Silver_crystal.jpg"
   },
-  "cup-0": {
-   "file": "Tranh AI Pollinations",
-   "trang": "https://pollinations.ai"
-  },
-  "cup-1": {
-   "file": "Tranh AI Pollinations",
-   "trang": "https://pollinations.ai"
-  },
-  "cup-2": {
-   "file": "Tranh AI Pollinations",
-   "trang": "https://pollinations.ai"
-  },
-  "cup-3": {
-   "file": "Tranh AI Pollinations",
-   "trang": "https://pollinations.ai"
-  },
-  "cuoc-0": {
-   "file": "Tranh AI Pollinations",
-   "trang": "https://pollinations.ai"
-  },
-  "cuoc-2": {
-   "file": "Tranh AI Pollinations",
-   "trang": "https://pollinations.ai"
-  },
-  "cuoc-3": {
-   "file": "Tranh AI Pollinations",
-   "trang": "https://pollinations.ai"
-  },
-  "cuoc-4": {
-   "file": "Tranh AI Pollinations",
-   "trang": "https://pollinations.ai"
-  },
-  "skin-thomo": {
-   "file": "Tranh AI Pollinations",
-   "trang": "https://pollinations.ai"
-  },
-  "skin-oto": {
-   "file": "Tranh AI Pollinations",
-   "trang": "https://pollinations.ai"
-  },
-  "skin-sieunhan": {
-   "file": "Tranh AI Pollinations",
-   "trang": "https://pollinations.ai"
-  },
-  "skin-ninja": {
-   "file": "Tranh AI Pollinations",
-   "trang": "https://pollinations.ai"
-  },
-  "skin-robot": {
+  "cuoc-1": {
    "file": "Tranh AI Pollinations",
    "trang": "https://pollinations.ai"
   }
  },
- "loi": {
-  "cuoc-1": "{'ai': 'voxel cube style stone pickaxe, simple background', 'seed': 7}: HTTP Error 402: Payment Required"
- }
+ "loi": {}
 }
