@@ -4,7 +4,12 @@
    Nạp tệp (AI Studio chặn eval thường, phải qua Trusted Types):
        const pol = trustedTypes.createPolicy('l' + Date.now(), { createScript: s => s });
        (0, eval)(pol.createScript(await (await fetch('https://raw.githubusercontent.com/Ngocanhno1/Ngocanhno1.github.io/main/tools/gemini-trinh-duyet.js?x=' + Date.now())).text()));
-   Tab AI Studio: https://aistudio.google.com/prompts/new_chat?authuser=ngocanh220788@gmail.com&model=gemini-3-pro-image-preview
+   Tab AI Studio: https://aistudio.google.com/prompts/new_chat?authuser=<EMAIL>&model=gemini-3-pro-image-preview
+   NHIỀU TÀI KHOẢN (anh dặn 18/11/2026): mỗi tài khoản Google có lượt vẽ riêng trong ngày. Danh sách tài khoản vẽ được nằm ở
+     Firebase .../argon/tk (trường ve:"duoc"). Chia truyện cho các tài khoản (tab 1 tài khoản A, tab 2 tài khoản B...).
+     Tab nào báo __tt.hetLuot thì: __xuat + tải lên phần đã vẽ (sessionStorage chỉ sống trong tab đó), mở tab mới với
+     authuser=<tài khoản kế tiếp còn lượt>, nạp lại tệp, gọi lại __veTruyen (tự bỏ qua tranh đã có). Mọi tài khoản hết thì dừng.
+     Tài khoản mới: thử window.__thuVe() — ra {ok:true} thì ghi ve:"duoc". Gặp trang đồng ý điều khoản thì không tự bấm.
    Mỗi lần gọi javascript_tool tối đa ~45 giây: các vòng vẽ chạy ngầm, hỏi tiến độ bằng JSON.stringify(window.__tt).
 
    BƯỚC 0 (một lần) — Bảng nhân vật cả nhà: window.__taoNhanVat(KHOA)  (KHOA giải mã ảnh thật của bố, mẹ, Lucie, Lucas trong
@@ -71,11 +76,25 @@ async function __guiVaCho(P, kem) {
   for (let i = 0; i < 15 && !(luot().length > soLuot && anhCuoi().length); i++) await sl(1000);
   const moi = luot().length > soLuot ? anhCuoi() : [];
   if (!moi.length) {
-    const q = /quota exceeded|daily limit|rate limit/i.test(document.body.innerText.slice(-4000));
+    const q = /quota exceeded|daily limit|rate limit|resource exhausted|reached your limit|\b429\b/i.test(document.body.innerText.slice(-4000)) ||
+              [...document.querySelectorAll('mat-dialog-container,[role=dialog]')].some(d => /unlock/i.test(d.innerText));
     return { loi: q ? 'HET_LUOT' : 'khong-co-anh' };
   }
   return { src: moi[moi.length - 1] };
 }
+
+// Email tài khoản đang mở và ghi sổ vào trang theo dõi (https://ngocanhno1.github.io/theo-doi-gemini/)
+window.__email = () => { const b = document.querySelector('[aria-label*="Google Account"]'); return ((b && b.getAttribute('aria-label')) || document.body.innerHTML).match(/[\w.+-]+@[\w.-]+\.\w+/)?.[0] || '?'; };
+async function __ghiSo(viec, kq, so) {
+  try { await fetch('https://lucie-lucas-ciecas-default-rtdb.asia-southeast1.firebasedatabase.app/gd_hh1g8b83gym1g74zmily/argon/lan.json',
+    { method: 'POST', body: JSON.stringify({ e: window.__email(), t: Date.now(), tok: 0, anh: so || 0, loai: 've', viec, kq }) }); } catch (e) {}
+}
+// Thử một tài khoản có vẽ được không (1 tranh nhỏ, không lưu)
+window.__thuVe = async function () {
+  const r = await __guiVaCho('Draw a small cute watercolor apple on a plain background. No text.');
+  await __ghiSo('thử vẽ', r.src ? 'ok' : (r.loi === 'HET_LUOT' ? 'het' : 'loi'));
+  return r.src ? { ok: true, e: window.__email() } : { ok: false, loi: r.loi, e: window.__email() };
+};
 
 // ===== BẢNG NHÂN VẬT ===== window.__taoNhanVat(khoa)  (khoa: khóa giải mã ảnh thật; không có khóa thì chỉ dùng ảnh mặt hai con)
 window.__taoNhanVat = async function (khoa) {
@@ -126,10 +145,11 @@ window.__veTruyen = async function (ma) {
     for (let lan = 0; lan < 2 && !ok; lan++) {
       const r = await __guiVaCho(PP, lan === 0 ? kem : null);
       if (r.src) { sessionStorage.setItem('anh:' + ten, await __webp(r.src)); window.__tt.xong.push(ten); ok = true; }
-      else { window.__tt.loi.push(ten + ':' + r.loi); if (r.loi === 'HET_LUOT') { window.__tt.het = true; window.__tt.hetLuot = true; return; } }
+      else { window.__tt.loi.push(ten + ':' + r.loi); if (r.loi === 'HET_LUOT') { window.__tt.het = true; window.__tt.hetLuot = true; await __ghiSo('vẽ tranh ' + ma, 'het', window.__tt.xong.filter(x => !x.endsWith('(co)')).length); return; } }
     }
   }
   window.__tt.het = true;
+  await __ghiSo('vẽ tranh ' + ma, 'ok', window.__tt.xong.filter(x => !x.endsWith('(co)')).length);
 };
 
 // ===== XUẤT ===== await window.__xuat(['tuan-05']) rồi bấm ctrl+c. Kèm co-nhan-vat.json (danh sách tranh đã có hai con).
