@@ -1,0 +1,257 @@
+NHAC|BPM=120|GOC=C|NOT=C5 E5 G5 C6 A5 G5 E5 C5 D5 F5 A5 G5 F5 E5 D5 C5
+CHAO|Chào mừng các con đến với Trường Kỹ Năng Lucie và Lucas! Cùng học điều hay và nhận thật nhiều đồng CIECAS nhé!
+KHEN|Giỏi quá, con trả lời đúng rồi!|Tuyệt vời, con thật thông minh!|Xuất sắc, tặng con đồng CIECAS nhé!|Con nhớ bài rất tốt, đáng khen lắm!|Đúng rồi, con là em bé ngoan!
+VIEN|Chưa đúng rồi, con thử nghĩ lại nhé!|Suýt đúng rồi, cố lên nào con ơi!|Đừng buồn nhé, mình cùng chọn lại nào!|Con nghe kỹ lại câu hỏi một chút nhé!|Thử lại lần nữa, con sẽ làm được!
+CHUC|Chúc mừng con đã hoàn thành xuất sắc 12 bài học cùng chị em Lucie và Lucas! Con đã trở thành em bé ngoan, lễ phép và giàu kỹ năng sống!
+BAI|01|Chào hỏi lễ phép|#FF7043|Học cách khoanh tay, mỉm cười và chào người lớn thật lễ phép.
+TRANG|01|Chiều chủ nhật, bố mẹ đưa hai chị em Lucie và Lucas về quê thăm ông bà ngoại. Vừa bước qua cổng làng, hai bạn đã thấy ông bà đang tưới cây trong sân.|A girl with pink glasses and a little boy walking into a Vietnamese village courtyard where grandparents are watering plants, warm sunlight, no text.
+TRANG|01|Ông bà vui mừng mở rộng vòng tay đón hai cháu. Nhưng vì lâu ngày mới gặp và hơi lạ chỗ, Lucas bỗng thấy ngại ngùng khi ông bà tiến lại gần.|Elderly Vietnamese grandparents smiling and opening arms toward a girl with pink glasses and a shy little boy in a garden, no text.
+TRANG|01|Lucas vội vàng nấp sau lưng mẹ, cúi gằm mặt xuống đất và im thin thít. Ông bà nhìn nhau hơi buồn vì chưa nghe thấy tiếng chào của cháu trai.|A little boy hiding behind his mother looking down shyly while grandparents look slightly sad, a girl with pink glasses watching, no text.
+TRANG|01|Chị Lucie nhẹ nhàng nắm tay em, bước lên trước. Hai chị em cùng khoanh tay trước ngực, nhìn ông bà tươi cười và nói to: Cháu chào ông bà ạ!|A girl with pink glasses and a little boy standing together with arms folded politely bowing slightly and smiling at happy grandparents, no text.
+TRANG|01|Ông bà cười hiền từ, xoa đầu khen Lucie và Lucas ngoan quá. Cả nhà cùng quây quần bên bàn trà, ăn bánh và kể chuyện thật vui vẻ.|Grandparents patting the heads of a girl with pink glasses and a little boy in a cozy Vietnamese living room with tea and snacks, no text.
+NHO|01|Gặp người lớn, con nhớ mỉm cười, khoanh tay và chào to rõ ràng.|Nhìn tươi cười|Khoanh tay lại|Chào rõ ràng
+LUCIE|01|Trong câu chuyện vừa rồi, hai chị em Lucie đã làm gì để ông bà vui lòng?|Bước ra khoanh tay và chào ông bà thật to|Tiếp tục trốn sau lưng mẹ cho đỡ ngại|Chạy thẳng vào nhà tìm đồ chơi trước|Nói nhỏ xíu vào tai mẹ nhờ mẹ chào hộ|Khoanh tay chào to mới là lễ phép.
+LUCIE|01|Buổi sáng đến cổng trường, con gặp thầy cô giáo đang đứng đón học sinh, con sẽ làm gì?|Dừng lại, mỉm cười và chào thầy cô ạ|Chạy vọt qua thật nhanh để kịp vào lớp|Cúi mặt đi thẳng coi như không nhìn thấy|Đợi thầy cô hỏi thăm trước rồi mới chào|Gặp thầy cô cần chủ động chào hỏi.
+LUCIE|01|Khi có bác hàng xóm sang nhà chơi với bố mẹ, con đang ngồi xem tivi thì nên ứng xử thế nào?|Đứng dậy khoanh tay chào bác rồi mới xem tiếp|Ngồi yên trên ghế và mắt vẫn nhìn tivi|Vẫy tay nói chào giống như chào bạn bè|Chạy trốn vào phòng ngủ đóng kín cửa lại|Đứng dậy khoanh tay chào mới lịch sự.
+LUCIE|01|Khi đi học về đến nhà, nhìn thấy bố mẹ đang nấu cơm trong bếp, con nên nói gì đầu tiên?|Con chào bố mẹ con mới đi học về ạ|Bố mẹ ơi hôm nay nhà mình ăn món gì thế|Con đói bụng quá lấy cơm cho con ăn ngay|Im lặng cất cặp rồi bật tivi lên xem|Đi học về phải thưa gửi bố mẹ.
+LUCAS|01|Gặp ông bà, Lucas nên làm gì?|Khoanh tay chào ạ|Trốn sau lưng mẹ|Quay mặt đi chỗ khác|Gặp ông bà phải chào lễ phép.
+LUCAS|01|Đến lớp gặp cô giáo, con nói gì?|Con chào cô ạ|Không nói gì cả|Cô ơi nhìn con này|Gặp cô giáo nhớ chào ngoan nhé.
+LUCAS|01|Khi chào người lớn, tay con để thế nào?|Khoanh tay trước ngực|Đút tay vào túi|Giơ chân đá bóng|Khoanh tay mới là em bé ngoan.
+LUCAS|01|Đi chơi về gặp mẹ, con làm gì?|Chào mẹ con về ạ|Đòi mẹ mua kẹo|Chạy đi tìm đồ chơi|Đi về nhớ chào bố mẹ nhé.
+DUNGSAI|01|Khoanh tay chào ông bà khi về quê|DUNG
+DUNGSAI|01|Trốn sau lưng mẹ không chịu chào khách|SAI
+DUNGSAI|01|Tươi cười chào cô giáo khi đến lớp|DUNG
+DUNGSAI|01|Mải xem điện thoại không chào bác hàng xóm|SAI
+DUNGSAI|01|Nói lời chào bố mẹ trước khi đi học|DUNG
+DUNGSAI|01|Quay mặt đi khi người lớn hỏi thăm|SAI
+BAI|02|Cảm ơn và xin lỗi|#42A5F5|Biết nói lời cảm ơn khi được giúp đỡ và xin lỗi khi làm sai.
+TRANG|02|Cuối tuần, mẹ làm một đĩa bánh bông lan thơm phức thưởng cho Lucie và Lucas. Hai chị em reo lên thích thú và cùng ngồi vào bàn ăn.|A mother bringing a plate of sponge cakes to a happy girl with pink glasses and a little boy sitting at a dining table, no text.
+TRANG|02|Khi mẹ đưa bánh cho hai chị em, vì quá háo hức nên Lucas vội vã vung tay. Cánh tay em vô tình quệt mạnh làm đổ cốc nước cam của chị Lucie.|A little boy excitedly reaching for cake and accidentally knocking over a glass of orange juice near a girl with pink glasses, no text.
+TRANG|02|Nước cam chảy lênh láng ra bàn làm ướt cả vạt áo của chị. Lucas sợ bị mắng nên ngồi đờ người ra, không nói câu nào và cũng quên cảm ơn mẹ.|A little boy looking frozen and scared while orange juice spills on the table, a girl with pink glasses looking at her wet shirt, no text.
+TRANG|02|Mẹ dịu dàng nhắc nhở. Lucas hiểu ra, liền lấy khăn giấy lau bàn, nhìn chị nói: Em xin lỗi chị Lucie ạ. Rồi hai chị em cùng cảm ơn mẹ đã làm bánh.|A little boy wiping the table with tissues and apologizing to a girl with pink glasses while their mother smiles warmly, no text.
+TRANG|02|Chị Lucie mỉm cười tha thứ cho em ngay. Hai chị em vui vẻ thưởng thức những chiếc bánh ngọt ngào trong tiếng cười ấm áp của cả gia đình.|A girl with pink glasses and a little boy happily eating cake together at a clean table with their mother smiling nearby, no text.
+NHO|02|Nhận quà hay được giúp thì cảm ơn, lỡ làm sai thì dũng cảm xin lỗi.|Nhìn thẳng chân thành|Nói lời cảm ơn|Nói lời xin lỗi
+LUCIE|02|Khi Lucas vô tình làm đổ cốc nước cam của chị Lucie, việc đúng đắn mà em đã làm là gì?|Xin lỗi chị Lucie và lấy khăn lau bàn|Đổ lỗi tại chị để cốc nước gần tay em|Khóc ầm lên để mẹ không mắng mình|Bỏ chạy ra ngoài phòng khách chơi tiếp|Làm sai cần xin lỗi và sửa sai.
+LUCIE|02|Trong giờ học vẽ ở lớp, bạn cùng bàn cho con mượn hộp bút màu rất đẹp, con sẽ làm gì?|Nhận bằng hai tay và nói cảm ơn bạn nhé|Cầm lấy dùng luôn vì bạn bè đã thân nhau|Lấy bút vẽ xong rồi vứt bừa ra bàn|Chê bút màu của bạn cũ quá không đẹp|Được bạn giúp cần nói lời cảm ơn.
+LUCIE|02|Khi chạy chơi ở sân trường, con vô tình va vào một em lớp một làm em bị ngã, con nên làm gì?|Đỡ em dậy, hỏi thăm và nói lời xin lỗi em|Chạy thật nhanh đi chỗ khác kẻo cô giáo thấy|Đứng cười vì thấy em ngã trông rất buồn cười|Bảo tại em đứng chắn đường chứ không phải tại mình|Làm người khác đau phải đỡ và xin lỗi.
+LUCIE|02|Vào ngày sinh nhật, bác tặng cho con một món quà nhưng con đã có món đồ đó ở nhà rồi, con sẽ nói sao?|Con xin bác bằng hai tay và cảm ơn bác ạ|Bác ơi món này con có rồi bác đổi cái khác đi|Cầm quà mở ra ngay trước mặt bác rồi bỏ đấy|Lắc đầu không nhận vì con không thích món này|Nhận quà người lớn phải hai tay cảm ơn.
+LUCAS|02|Được mẹ cho bánh, con nói gì?|Con cảm ơn mẹ ạ|Đưa đây cho con|Bánh này bé quá|Nhận đồ từ người lớn phải cảm ơn.
+LUCAS|02|Lỡ làm rơi đồ của bạn, con làm gì?|Nhặt lên và xin lỗi|Giấu đi thật nhanh|Đổ lỗi cho bạn khác|Làm rơi đồ cần nhặt và xin lỗi.
+LUCAS|02|Khi nhận quà từ ông bà, con dùng mấy tay?|Nhận bằng hai tay|Giật lấy bằng một tay|Chờ mẹ cầm hộ|Nhận bằng hai tay mới lễ phép.
+LUCAS|02|Con lỡ dẫm vào chân bạn, con nói sao?|Tớ xin lỗi bạn nhé|Tại chân cậu to quá|Im lặng bỏ đi luôn|Làm bạn đau nhớ xin lỗi ngay.
+DUNGSAI|02|Nhận quà bằng hai tay và nói lời cảm ơn|DUNG
+DUNGSAI|02|Làm hỏng đồ chơi của bạn rồi giấu đi|SAI
+DUNGSAI|02|Nói xin lỗi khi vô tình làm đổ nước ra bàn|DUNG
+DUNGSAI|02|Cầm lấy bánh người lớn cho mà không nói gì|SAI
+DUNGSAI|02|Cảm ơn bạn khi bạn cho mượn bút chì|DUNG
+DUNGSAI|02|Đổ lỗi cho em khi mình làm vỡ cốc|SAI
+BAI|03|Lắng nghe khi người khác nói|#66BB6A|Biết nhìn vào người nói, giữ trật tự và chờ đến lượt mình nói.
+TRANG|03|Tối thứ sáu, cả nhà ngồi ở phòng khách. Chị Lucie đang hào hứng kể cho bố mẹ nghe về chuyến đi tham quan bảo tàng của lớp mình hôm nay.|A girl with pink glasses excitedly telling a story to her parents in a cozy living room while a little boy sits nearby, no text.
+TRANG|03|Lucie vừa kể được vài câu thì Lucas cầm chiếc máy bay đồ chơi chạy tới, muốn khoe ngay với bố cách máy bay nhào lộn trên không.|A little boy running in with a toy airplane interrupting a girl with pink glasses who is talking to their parents, no text.
+TRANG|03|Lucas kéo áo bố và hét to: Bố ơi nhìn máy bay của con này! Tiếng hét làm chị Lucie cụt hứng, quên mất câu chuyện đang kể dở.|A little boy pulling his father's shirt and shouting loudly with a toy plane while a girl with pink glasses looks disappointed, no text.
+TRANG|03|Bố nhẹ nhàng đặt tay lên vai Lucas dặn con giữ trật tự. Lucas ngồi xuống, im lặng nhìn chị và chăm chú nghe chị kể hết chuyện mới đưa máy bay ra.|A father gently guiding a little boy to sit quietly and listen to a girl with pink glasses speaking, warm family scene, no text.
+TRANG|03|Khi chị kể xong, cả nhà vỗ tay khen ngợi rồi cùng quay sang xem Lucas biểu diễn máy bay. Ai cũng vui vì đều được lắng nghe trọn vẹn.|Parents and a girl with pink glasses clapping and watching a happy little boy play with his toy airplane in the living room, no text.
+NHO|03|Khi người khác đang nói, con nhìn họ, im lặng nghe và chờ đến lượt.|Im lặng chăm chú|Không cắt ngang lời|Chờ đến lượt mình
+LUCIE|03|Trong câu chuyện, Lucas đã sửa sai bằng cách nào khi chị Lucie đang kể chuyện cho bố mẹ?|Ngồi xuống im lặng nghe chị kể xong rồi mới nói|Hét to hơn nữa để bố mẹ phải nhìn máy bay|Giận dỗi ném máy bay xuống sàn rồi bỏ đi|Bịt miệng chị Lucie lại để mình được nói trước|Cần lắng nghe người khác nói xong đã.
+LUCIE|03|Trong giờ học, cô giáo đang giảng bài trên bảng nhưng con chợt nhớ ra một câu hỏi rất hay, con nên làm gì?|Đợi cô nói hết câu rồi giơ tay xin phép hỏi|Đứng bật dậy hỏi to ngay lập tức kẻo quên|Quay sang nói chuyện rầm rầm với bạn bên cạnh|Lên tận bục giảng kéo áo cô giáo để hỏi|Giơ tay xin phép mới là tôn trọng cô.
+LUCIE|03|Khi bạn thân đang buồn và tâm sự với con về chú mèo bị ốm, con nên lắng nghe như thế nào?|Nhìn vào mắt bạn, nghe chăm chú và an ủi bạn|Vừa nghe bạn nói vừa cúi xuống chơi xếp hình|Ngắt lời bạn để khoe chú chó nhà mình rất khỏe|Bỏ đi chỗ khác vì chuyện đó chẳng có gì vui|Chăm chú nghe giúp bạn vơi nỗi buồn.
+LUCIE|03|Khi bố mẹ đang bàn công việc quan trọng với khách, con muốn xin phép lấy hộp sữa trong tủ lạnh thì làm thế nào?|Đứng cạnh chờ bố mẹ ngưng lời rồi nói nhỏ xin phép|La hét thật to từ xa để mẹ nghe thấy ngay|Chạy vào chen giữa bố mẹ và khách để đòi sữa|Đập tay xuống bàn cho mọi người chú ý đến mình|Chờ người lớn nói xong mới xin phép.
+LUCAS|03|Khi cô giáo đang nói, con làm gì?|Im lặng lắng nghe cô|Nói chuyện với bạn|Hát to trong lớp|Cô giảng bài con nhớ lắng nghe nhé.
+LUCAS|03|Muốn phát biểu trong lớp, con làm sao?|Giơ tay xin phép|Hét to lên ngay|Đứng lên ghế nói|Giơ tay chờ cô gọi mới ngoan.
+LUCAS|03|Khi mẹ đang dặn dò, mắt con nhìn đâu?|Nhìn vào mặt mẹ|Nhìn vào tivi|Nhìn ra ngoài cửa|Nhìn người nói là tôn trọng họ.
+LUCAS|03|Chị đang kể chuyện, con muốn nói thì sao?|Chờ chị nói xong|Bịt miệng chị lại|La hét перебивать chị|Chờ đến lượt mình mới nói nhé.
+DUNGSAI|03|Chăm chú nhìn và nghe khi ông bà kể chuyện|DUNG
+DUNGSAI|03|Hét to cắt ngang lời khi bố mẹ đang nói|SAI
+DUNGSAI|03|Giơ tay xin phép trước khi phát biểu trên lớp|DUNG
+DUNGSAI|03|Vừa nói chuyện riêng vừa quay cóp trong giờ học|SAI
+DUNGSAI|03|Chờ bạn nói hết câu rồi mình mới trả lời|DUNG
+DUNGSAI|03|Quay lưng bỏ đi khi bạn đang nói với mình|SAI
+BAI|04|Chia sẻ và nhường nhịn|#AB47BC|Biết chia sẻ đồ ăn, đồ chơi và nhường nhịn bạn bè, em nhỏ.
+TRANG|04|Bố mới mua cho hai chị em một bộ xếp hình lâu đài rất đẹp. Cả Lucie và Lucas đều háo hức mở hộp ra trên thảm phòng khách.|A girl with pink glasses and a little boy opening a colorful castle building blocks box on a living room rug, no text.
+TRANG|04|Trong hộp chỉ có duy nhất một mảnh ghép hình lá cờ vàng để cắm lên đỉnh tháp. Cả hai chị em đều muốn tự tay cầm mảnh ghép đặc biệt đó.|A girl with pink glasses and a little boy both looking at a single golden flag block in the toy box, no text.
+TRANG|04|Lucas nhanh tay chộp lấy lá cờ giấu ra sau lưng, còn Lucie cũng giữ chặt các khối gạch không cho em lắp. Hai chị em bắt đầu nhăn mặt giận nhau.|A little boy hiding a yellow flag behind his back while a girl with pink glasses guards the building blocks looking upset, no text.
+TRANG|04|Chị Lucie chợt nhớ lời mẹ dặn phải thương em. Chị mỉm cười bảo: Hai chị em mình cùng xây tháp, rồi chị nhường Lucas cắm lá cờ lên đỉnh nhé!|A girl with pink glasses smiling kindly and offering blocks to a little boy so they can build the castle together, no text.
+TRANG|04|Lucas vui sướng đưa lá cờ ra. Hai chị em hợp sức xây được tòa lâu đài cao vút, cùng ngắm nhìn thành quả và cười vang khắp phòng.|A girl with pink glasses and a little boy happily finishing a tall toy castle with a golden flag on top, laughing together, no text.
+NHO|04|Chia sẻ đồ chơi, nhường nhịn em nhỏ thì niềm vui sẽ nhân đôi.|Cùng nhau chơi chung|Chia phần đều nhau|Nhường em nhỏ trước
+LUCIE|04|Khi chỉ có một lá cờ vàng trong bộ xếp hình, chị Lucie đã giải quyết thế nào để hai chị em cùng vui?|Rủ em cùng xây lâu đài và nhường em cắm cờ|Giật lấy lá cờ vì mình là chị nên được ưu tiên|Đập đổ hết các khối gạch để không ai chơi được|Mách bố mẹ để bố mẹ phạt em Lucas không được chơi|Chơi chung và nhường em sẽ vui hơn.
+LUCIE|04|Mẹ mua cho con một túi bánh quy rất ngon nhưng trong nhà chỉ còn một chiếc bánh cuối cùng mà em bé cũng đang nhìn thèm, con làm gì?|Bẻ đôi chiếc bánh chia cho em một nửa cùng ăn|Bỏ tọt ngay vào miệng ăn thật nhanh kẻo em xin|Cất giấu chiếc bánh vào ngăn kéo để mai ăn một mình|Đưa vỏ túi bánh không cho em để trêu chọc em|Chia sẻ đồ ăn thể hiện tình yêu thương.
+LUCIE|04|Khi ra công viên chơi cầu trượt, có nhiều bạn nhỏ đang xếp hàng phía sau con, con nên chơi như thế nào?|Trượt xuống rồi vòng ra xếp hàng lại từ đầu để nhường bạn|Ngồi lì ở trên đỉnh cầu trượt không cho ai trượt xuống|Trèo ngược từ dưới máng trượt lên làm vướng các bạn|Đẩy các bạn nhỏ hơn ra để mình được trượt liên tục|Xếp hàng theo lượt để ai cũng được chơi.
+LUCIE|04|Bạn sang nhà con chơi và rất thích thú ngắm nhìn quyển truyện tranh mới của con, con sẽ ứng xử thế nào?|Mời bạn ngồi xuống và hai đứa cùng đọc chung quyển truyện|Cất ngay quyển truyện vào tủ khóa lại sợ bạn làm rách|Bảo bạn về nhà mà tự bảo bố mẹ mua lấy mà đọc|Chỉ cho bạn nhìn bìa truyện chứ không cho mở bên trong|Chia sẻ sách truyện giúp tình bạn gắn bó.
+LUCAS|04|Có một món đồ chơi, hai anh em làm sao?|Cùng nhau chơi chung|Giành giật của nhau|Đập hỏng đồ chơi|Chơi chung với nhau mới vui vẻ.
+LUCAS|04|Con có kẹo ngon, gặp bạn thì làm gì?|Chia cho bạn cùng ăn|Quay lưng ăn một mình|Khoe cho bạn thèm|Chia quà cho bạn là bé ngoan.
+LUCAS|04|Khi chơi xích đu ở sân, con làm gì?|Chơi một lúc rồi nhường|Ngồi mãi không chịu xuống|Đẩy bạn ngã khỏi ghế|Biết nhường bạn mới có nhiều bạn.
+LUCAS|04|Em bé muốn mượn bóng, con làm sao?|Đưa bóng chơi cùng em|Đá bóng đi thật xa|Giấu bóng vào gầm giường|Nhường nhịn em nhỏ mới đáng khen.
+DUNGSAI|04|Rủ em cùng chơi chung bộ đồ chơi mới|DUNG
+DUNGSAI|04|Giành hết phần bánh ngon về phía mình|SAI
+DUNGSAI|04|Chia cho bạn một nửa chiếc bánh của mình|DUNG
+DUNGSAI|04|Giấu hết đồ chơi đi khi có bạn đến nhà|SAI
+DUNGSAI|04|Xếp hàng chờ đến lượt khi chơi cầu trượt|DUNG
+DUNGSAI|04|Chen lấn xô đẩy em nhỏ để giành chỗ ngồi|SAI
+BAI|05|Bình tĩnh khi tức giận|#EF5350|Biết gọi tên cảm xúc, hít thở sâu để giữ bình tĩnh khi tức giận.
+TRANG|05|Chiều thứ bảy, Lucas ngồi chăm chú suốt một tiếng đồng hồ để vẽ bức tranh siêu nhân tặng bố. Em tô màu rất cẩn thận và sắp hoàn thành.|A little boy carefully coloring a superhero drawing at a low table while a girl with pink glasses walks nearby, no text.
+TRANG|05|Chị Lucie đi ngang qua, vô tình vấp phải tấm thảm làm hộp màu nước rơi xuống, văng những vệt màu đen lem luốc lên bức tranh của em.|A girl with pink glasses tripping on a rug and spilling dark watercolor paint onto a little boy's drawing, no text.
+TRANG|05|Nhìn bức tranh bị hỏng, mặt Lucas đỏ bừng lên vì tức giận. Em nắm chặt hai tay, định vò nát tờ giấy và hét to mắng chị Lucie.|A little boy with a red angry face clenching his fists about to crumple the ruined drawing while a girl with pink glasses looks sorry, no text.
+TRANG|05|Chị Lucie vội xin lỗi và nhắc em bài tập thở quả bóng. Lucas nhắm mắt lại, hít vào thật sâu rồi thở ra từ từ ba lần và nói: Em đang rất buồn vì tranh hỏng.|A little boy closing his eyes taking deep breaths to calm down while a girl with pink glasses gently holds his shoulder, no text.
+TRANG|05|Cơn giận nguôi dần, chị Lucie lấy giấy mới và cùng em vẽ lại. Nhờ hai chị em phối hợp, bức tranh mới còn đẹp và rực rỡ hơn cả bức tranh cũ.|A girl with pink glasses and a little boy happily drawing and coloring a new picture together at the table, no text.
+NHO|05|Khi tức giận, con dừng lại, hít thở sâu và nói rõ điều mình buồn.|Dừng tay lại ngay|Hít sâu thở chậm|Nói ra cảm xúc
+LUCIE|05|Khi bức tranh bị lem màu làm Lucas tức giận, em đã làm gì để lấy lại bình tĩnh và không mắng chị?|Nhắm mắt hít thở sâu ba lần và nói ra cảm xúc|Vò nát bức tranh rồi ném thẳng vào người chị Lucie|Lấy màu nước bôi bẩn lại vào vở học của chị|Đập tay xuống bàn và la hét ầm ĩ khắp nhà|Hít thở sâu giúp con hạ cơn giận.
+LUCIE|05|Đang chơi đá bóng ở sân trường thì một bạn vô tình sút bóng trúng người làm con đau và rất bực mình, con nên làm gì?|Đứng yên hít thở sâu rồi bảo bạn lần sau đá cẩn thận|Chạy lại đấm đá bạn để trả đũa ngay lập tức|Cầm quả bóng ném thật mạnh đi chỗ khác cho bõ tức|Nói những lời xấu xí để mắng nhiếc bạn trước đám đông|Bình tĩnh nhắc nhở bạn thay vì đánh nhau.
+LUCIE|05|Khi con xin mẹ mua đồ chơi mới nhưng mẹ bảo chưa cần thiết và không mua, con cảm thấy ấm ức trong lòng thì làm thế nào?|Hít thở đều, nói cho mẹ biết con hơi buồn rồi nghe lời mẹ|Nằm lăn ra sàn siêu thị khóc lóc ăn vạ thật to|Giận mẹ và nhịn ăn cơm tối để phản đối mẹ|Đập phá những món đồ chơi cũ đang có ở trong nhà|Biết chấp nhận và bình tĩnh nói cảm xúc.
+LUCIE|05|Khi con lắp ghép mô hình mãi mà các mảnh cứ bị rơi ra làm con phát cáu, cách tốt nhất lúc đó là gì?|Đặt đồ chơi xuống, uống ngụm nước nghỉ ngơi rồi nhờ bố hướng dẫn|Cầm cả bộ mô hình đập mạnh xuống sàn cho vỡ tung|Đá văng chiếc hộp đựng đồ chơi vào góc tường|Khóc ầm lên và bắt mẹ phải lắp xong ngay cho mình|Nghỉ một chút rồi nhờ người lớn giúp.
+LUCAS|05|Khi đang rất tức giận, con làm gì đầu tiên?|Hít vào thở ra|La hét thật to|Ném đồ xuống đất|Hít thở sâu giúp con bình tĩnh lại.
+LUCAS|05|Bạn lỡ làm hỏng đồ của con, con làm sao?|Bình tĩnh nói với bạn|Đánh bạn ngay lập tức|Cắn vào tay bạn|Không được đánh bạn khi tức giận nhé.
+LUCAS|05|Khi con thấy buồn bực, con nói với ai?|Tâm sự với bố mẹ|Đập phá bàn ghế|Giận không thèm nói|Nói với bố mẹ để được an ủi nhé.
+LUCAS|05|Làm việc gì giúp con bớt giận dữ?|Đếm chậm từ một đến năm|Khóc ăn vạ trên sàn|Đá vào cánh cửa|Đếm chậm và thở đều sẽ hết giận.
+DUNGSAI|05|Hít thở sâu để giữ bình tĩnh khi bực mình|DUNG
+DUNGSAI|05|Ném đồ chơi xuống đất khi lắp ghép không được|SAI
+DUNGSAI|05|Nói nhẹ nhàng cho bố mẹ biết vì sao mình buồn|DUNG
+DUNGSAI|05|Nằm lăn ra đất ăn vạ khi không được mua kẹo|SAI
+DUNGSAI|05|Đếm chậm từ một đến năm để hạ cơn nóng giận|DUNG
+DUNGSAI|05|Đánh bạn khi bạn vô tình va vào người mình|SAI
+BAI|06|Làm việc nhóm|#FFA726|Biết phân chia công việc, phối hợp và giúp đỡ nhau khi làm việc chung.
+TRANG|06|Chủ nhật, mẹ giao nhiệm vụ cho hai chị em Lucie và Lucas dọn dẹp phòng đồ chơi cho gọn gàng trước giờ ăn trưa.|A mother talking to a girl with pink glasses and a little boy in a messy playroom filled with scattered toys and books, no text.
+TRANG|06|Trong phòng có rất nhiều sách truyện, thú bông và các khối gỗ nằm lộn xộn trên sàn. Nếu làm một mình thì sẽ rất lâu và mệt.|A messy children's room with books, plush toys, and wooden blocks scattered all over the floor, no text.
+TRANG|06|Lúc đầu, cả hai chị em cùng lao vào nhặt thú bông nên va đầu vào nhau cốp một cái. Lucas kêu đau rồi ngồi phịch xuống bảo: Nhiều thế này dọn sao nổi!|A girl with pink glasses and a little boy bumping heads while reaching for the same plush toy on the floor, looking frustrated, no text.
+TRANG|06|Chị Lucie suy nghĩ rồi phân công: Chị cao hơn sẽ xếp sách lên giá, Lucas thu gom thú bông và gỗ vào giỏ nhé! Xong việc chị sẽ phụ em.|A girl with pink glasses putting books on a shelf while a little boy puts plush toys into a basket, working together happily, no text.
+TRANG|06|Hai chị em vừa làm vừa hát, chẳng mấy chốc căn phòng đã sạch bong. Mẹ bước vào khen hai con biết đoàn kết làm việc nhóm thật giỏi.|A mother smiling and praising a girl with pink glasses and a little boy in a clean and tidy playroom, no text.
+NHO|06|Làm việc nhóm cần bàn bạc, chia việc rõ ràng và giúp đỡ lẫn nhau.|Cùng nhau bàn bạc|Chia đều công việc|Phối hợp giúp nhau
+LUCIE|06|Nhờ đâu mà hai chị em Lucie và Lucas có thể dọn sạch phòng đồ chơi một cách nhanh chóng và vui vẻ?|Biết phân chia công việc phù hợp và hỗ trợ nhau|Chị Lucie bắt em Lucas phải làm hết mọi việc|Hai chị em gom tất cả đồ đạc nhét giấu vào gầm giường|Ngồi khóc để mẹ thương và vào dọn hộ hai chị em|Chia việc hợp lý giúp hoàn thành nhanh.
+LUCIE|06|Cô giáo chia tổ của con cùng làm một tờ báo tường chào mừng ngày Nhà giáo, con nên tham gia như thế nào?|Cùng các bạn bàn bạc, nhận phần việc mình làm tốt và cố gắng|Ngồi chơi để mặc bạn tổ trưởng tự làm hết một mình|Khăng khăng bắt mọi người phải làm theo ý thích của riêng mình|Chê bai bức vẽ của các bạn trong nhóm là xấu xí|Mỗi người góp sức thì nhóm mới mạnh.
+LUCIE|06|Khi cùng bạn khiêng một chậu cây nhỏ ở góc lớp đem ra ngoài hành lang tưới nước, hai bạn cần làm gì?|Hô nhịp nhàng để cùng nhấc lên và đi đều bước với nhau|Mình buông tay ra bất ngờ cho bạn phải bê một mình|Kéo mạnh chậu cây về phía mình để đi nhanh hơn bạn|Vừa bê chậu cây vừa chạy nhảy đùa giỡn trên hành lang|Phối hợp nhịp nhàng mới an toàn và hiệu quả.
+LUCIE|06|Trong lúc làm việc nhóm, nếu con đã làm xong phần việc của mình sớm hơn các bạn khác, con nên làm gì tiếp theo?|Hỏi xem bạn nào cần giúp đỡ thì mình cùng làm phụ bạn|Bỏ đi ra ngoài sân chơi một mình vì việc của mình xong rồi|Ngồi thúc giục và chê các bạn làm chậm chạp quá|Phá bĩnh làm lộn xộn đồ dùng của các bạn đang làm|Giúp đỡ đồng đội giúp nhóm về đích sớm.
+LUCAS|06|Khi dọn đồ chơi cùng chị, con làm sao?|Chia việc cùng làm|Ngồi nhìn chị làm|Bày thêm đồ ra sàn|Cùng làm thì công việc mới nhanh xong.
+LUCAS|06|Làm việc nhóm với bạn, con cần làm gì?|Đoàn kết giúp đỡ bạn|Cãi nhau với bạn|Giành làm một mình|Đoàn kết giúp đỡ nhau mới tốt.
+LUCAS|06|Bạn cùng nhóm đang bê đồ nặng, con làm gì?|Chạy lại bê phụ bạn|Đứng cười trêu bạn|Ngáng chân của bạn|Thấy bạn vất vả nhớ giúp bạn nhé.
+LUCAS|06|Khi bàn bạc trong nhóm, con làm thế nào?|Lắng nghe ý kiến bạn|Hét to át lời bạn|Bỏ đi không thèm nghe|Cần tôn trọng ý kiến của các bạn.
+DUNGSAI|06|Phân chia công việc rõ ràng khi làm cùng các bạn|DUNG
+DUNGSAI|06|Ngồi chơi để mặc các bạn trong nhóm làm hết việc|SAI
+DUNGSAI|06|Phụ giúp bạn khi mình đã làm xong phần việc|DUNG
+DUNGSAI|06|Cãi nhau và giành giật đồ dùng khi làm việc chung|SAI
+DUNGSAI|06|Lắng nghe và tôn trọng ý kiến của các thành viên|DUNG
+DUNGSAI|06|Chê bai sản phẩm của bạn cùng tổ với mình|SAI
+BAI|07|Tự phục vụ bản thân|#26C6DA|Biết tự đánh răng, gấp chăn màn, mặc quần áo và cất đồ gọn gàng.
+TRANG|07|Sáng thứ hai đầu tuần, tiếng chuông báo thức vang lên. Đã đến giờ hai chị em Lucie và Lucas phải dậy chuẩn bị đi học.|Morning sunlight entering a bedroom where a girl with pink glasses and a little boy are waking up to an alarm clock, no text.
+TRANG|07|Mọi hôm mẹ thường giúp Lucas, nhưng hôm nay mẹ đang bận nấu bữa sáng dưới bếp. Chăn gối trên giường vẫn còn bung xõa lộn xộn.|A messy bed with unfolded blankets and pillows while a little boy sits sleepy-eyed, a girl with pink glasses standing nearby, no text.
+TRANG|07|Lucas ngồi ngáp ngắn ngáp dài trên giường rồi gọi vọng xuống: Mẹ ơi lên gấp chăn và lấy bàn chải đánh răng cho con với!|A sleepy little boy sitting on an unmade bed calling out for his mother while a girl with pink glasses neatly folds her own blanket, no text.
+TRANG|07|Chị Lucie đã gấp xong chăn của mình, liền quay sang hướng dẫn em. Lucas tự tay vuốt phẳng chăn, gấp gọn gàng rồi vào nhà tắm tự lấy kem đánh răng.|A girl with pink glasses showing a little boy how to fold his blanket neatly, then both brushing teeth in the bathroom, no text.
+TRANG|07|Khi hai chị em mặc đồng phục chỉnh tề bước xuống bếp, bố mẹ ngạc nhiên và khen Lucas nay đã lớn, biết tự phục vụ bản thân thật cừ.|A girl with pink glasses and a little boy in neat school uniforms smiling proudly at their parents in the kitchen, no text.
+NHO|07|Việc của mình tự tay làm lấy, gấp chăn đánh răng chẳng đợi ai nhắc.|Tự giác thức dậy|Gấp chăn gọn gàng|Tự đánh răng rửa mặt
+LUCIE|07|Buổi sáng khi mẹ bận nấu ăn dưới bếp, Lucas đã học được thói quen tốt nào từ chị Lucie?|Tự gấp chăn gối gọn gàng và tự đi đánh răng rửa mặt|Nằm ngủ tiếp trên giường chờ đến khi nào mẹ lên bế|Không cần đánh răng rửa mặt mà mặc quần áo đi học luôn|Khóc nhè bắt chị Lucie phải làm hộ tất cả mọi việc|Tự làm việc cá nhân mới là tự lập.
+LUCIE|07|Sau khi đi học về đến nhà, con nên làm gì với giày dép và chiếc cặp sách của mình?|Xếp giày lên kệ ngay ngắn và cất cặp vào góc học tập|Đá văng giày mỗi chiếc một nơi ngay trước cửa nhà|Quăng cặp sách lên ghế sofa rồi chạy đi chơi ngay|Đợi bố mẹ đi làm về mệt phải đi nhặt dọn cho mình|Đồ dùng của mình cần tự cất gọn.
+LUCIE|07|Trong bữa cơm gia đình, khi con đã lên lớp ba rồi, con nên ăn uống như thế nào cho đúng cách?|Tự xúc cơm ăn gọn gàng và ăn hết suất của mình|Bắt ông bà hoặc bố mẹ phải đi rong đút từng thìa cơm|Vừa ăn cơm vừa chạy nhảy khắp nhà làm rơi vãi thức ăn|Chỉ gắp thức ăn ngon còn cơm thì bỏ thừa lại bát|Lớn rồi cần tự xúc ăn gọn gàng.
+LUCIE|07|Sau khi tắm xong, quần áo bẩn vừa thay ra con nên để ở đâu để giúp đỡ bố mẹ?|Bỏ gọn gàng vào đúng giỏ đựng quần áo bẩn để đem giặt|Vứt bừa bãi ngay trên sàn nhà tắm ướt sũng nước|Nhét quần áo bẩn vào chung tủ với quần áo sạch thơm|Treo vắt vẻo lên thành ghế ở ngoài phòng khách|Bỏ đồ bẩn đúng giỏ giúp nhà sạch sẽ.
+LUCAS|07|Ngủ dậy buổi sáng, con làm gì với chăn?|Tự gấp chăn gọn gàng|Đạp chăn xuống đất|Để nguyên không gấp|Ngủ dậy nhớ tự gấp chăn gối nhé.
+LUCAS|07|Ai sẽ đánh răng cho con mỗi ngày?|Con tự tay đánh răng|Bắt mẹ đánh răng hộ|Không cần đánh răng|Lớn rồi con tự đánh răng mới giỏi.
+LUCAS|07|Đi học về, giày dép con để ở đâu?|Xếp ngay ngắn lên kệ|Vứt bừa ra giữa cửa|Đem lên giường ngủ|Xếp giày lên kệ cho nhà gọn gàng.
+LUCAS|07|Khi ăn cơm, con ăn như thế nào?|Tự cầm thìa xúc ăn|Đợi bà đút từng thìa|Vừa ăn vừa chạy chơi|Tự xúc cơm ăn mới mau lớn nhé.
+DUNGSAI|07|Tự đánh răng rửa mặt mỗi sáng thức dậy và tối trước khi ngủ|DUNG
+DUNGSAI|07|Vứt quần áo bẩn bừa bãi trên sàn nhà sau khi tắm|SAI
+DUNGSAI|07|Gấp chăn màn gọn gàng ngay sau khi thức dậy|DUNG
+DUNGSAI|07|Lớn rồi vẫn bắt ông bà đút cơm từng thìa mới chịu ăn|SAI
+DUNGSAI|07|Cất cặp sách và xếp giày dép đúng nơi quy định|DUNG
+DUNGSAI|07|Chơi đồ chơi xong bỏ mặc trên sàn bắt mẹ dọn|SAI
+BAI|08|An toàn với người lạ|#EC407A|Không nhận quà, không đi theo người lạ và nhớ số điện thoại bố mẹ.
+TRANG|08|Chiều thứ sáu, lúc tan học, hai chị em Lucie và Lucas đứng bên trong sân trường để chờ bố đến đón như lời bố dặn.|A girl with pink glasses and a little boy in school uniforms waiting inside the school gate in the afternoon, no text.
+TRANG|08|Bỗng có một chú lạ mặt đứng ngoài cổng trường vẫy gọi hai chị em. Trên tay chú cầm một túi kẹo mút nhiều màu sắc rất hấp dẫn.|A strange man outside the school gate holding colorful lollipops and waving at a girl with pink glasses and a little boy, no text.
+TRANG|08|Người lạ cười bảo: Bố hai cháu bận nhờ chú đón hộ, ra đây chú cho kẹo rồi chở đi! Lucas nhìn thấy kẹo liền định chạy mở cổng đi theo.|A little boy stepping toward the gate looking at the candy while a girl with pink glasses looks alert and cautious, no text.
+TRANG|08|Chị Lucie vội kéo tay em lại, lắc đầu nói to: Cháu không quen chú, cháu không đi đâu ạ! Rồi chị dắt Lucas chạy ngay vào phòng bác bảo vệ nhờ gọi điện cho bố.|A girl with pink glasses pulling a little boy back and leading him quickly toward the school security guard booth, no text.
+TRANG|08|Người lạ thấy vậy liền vội vã bỏ đi. Ít phút sau bố đến đón, bố ôm hai con và khen Lucie rất cảnh giác, còn nhắc Lucas nhớ kỹ số điện thoại của bố mẹ.|A father hugging a girl with pink glasses and a little boy near the school security guard, everyone looking relieved and happy, no text.
+NHO|08|Không nhận quà, không theo người lạ, nhớ số bố mẹ để gọi khi cần.|Không nhận quà lạ|Không đi theo họ|Báo người tin cậy
+LUCIE|08|Khi người lạ cho kẹo và nói bố nhờ đón hộ, chị Lucie đã xử trí thông minh như thế nào để bảo vệ hai chị em?|Từ chối dứt khoát và dắt em vào chỗ bác bảo vệ trường|Nhận lấy túi kẹo ăn trước rồi mới hỏi xem chú là ai|Mở cổng đi theo chú ngay vì sợ bố phải chờ lâu|Đứng một mình ngoài vỉa hè vắng vẻ để cãi nhau với chú|Từ chối người lạ và tìm bảo vệ ngay.
+LUCIE|08|Nếu con đi siêu thị cùng bố mẹ nhưng mải ngắm đồ chơi nên bị lạc mất bố mẹ, con cần làm gì để được an toàn?|Đứng yên tại quầy thu ngân hoặc tìm chú bảo vệ đọc số điện thoại bố mẹ|Chạy ra ngoài đường lớn tìm bố mẹ và đi theo người lạ ngoài đường|Ngồi khóc ở góc khuất không cho ai nhìn thấy mình|Nhờ một người lạ mặt chở mình bằng xe máy về nhà|Tìm bảo vệ siêu thị và đọc số bố mẹ.
+LUCIE|08|Khi con đang ở nhà một mình cùng em nhỏ, có người lạ bấm chuông bảo là thợ sửa điện và bảo con mở cửa, con làm gì?|Tuyệt đối không mở cửa, nói bố mẹ sắp về và gọi điện báo bố mẹ|Mở toang cửa ra ngay để chú vào sửa điện cho nhanh|Đưa chìa khóa qua khe cửa cho người lạ tự mở vào|Ra mở cửa rồi dẫn người lạ đi khắp các phòng trong nhà|Ở nhà một mình không mở cửa cho người lạ.
+LUCIE|08|Con cần ghi nhớ những thông tin quan trọng nào để phòng khi đi lạc có thể nhờ công an hoặc bảo vệ giúp đỡ?|Họ tên bố mẹ, số điện thoại của bố mẹ và địa chỉ nhà mình|Tên các món đồ chơi và bộ phim hoạt hình con yêu thích|Tên của các bạn học cùng lớp với con ở trên trường|Màu sắc chiếc cặp sách và đôi giày con đang mang|Nhớ số điện thoại bố mẹ và địa chỉ nhà.
+LUCAS|08|Người lạ cho bánh kẹo, con làm gì?|Lắc đầu không nhận|Cầm lấy ăn ngay|Đi theo lấy thêm|Không được nhận quà của người lạ nhé.
+LUCAS|08|Người lạ rủ đi chơi, con làm sao?|Không đi và chạy về|Đi theo họ ngay|Leo lên xe người lạ|Tuyệt đối không đi theo người lạ.
+LUCAS|08|Khi bị lạc ở siêu thị, con tìm ai?|Chú bảo vệ siêu thị|Đi ra ngoài đường|Theo người lạ về|Tìm chú bảo vệ mặc đồng phục nhé.
+LUCAS|08|Người lạ nắm tay kéo đi, con làm gì?|Hét to cứu cháu với|Im lặng đi theo|Khóc nhỏ không nói|Hét thật to để mọi người cứu giúp.
+DUNGSAI|08|Ghi nhớ số điện thoại của bố mẹ để gọi khi cần|DUNG
+DUNGSAI|08|Nhận bánh kẹo và đồ chơi từ người không quen biết|SAI
+DUNGSAI|08|Đứng bên trong sân trường chờ bố mẹ đến đón|DUNG
+DUNGSAI|08|Đi theo người lạ khi họ nói bố mẹ nhờ đón hộ|SAI
+DUNGSAI|08|Báo ngay cho bác bảo vệ hoặc cô giáo khi người lạ rủ rê|DUNG
+DUNGSAI|08|Mở cửa cho người lạ vào nhà khi bố mẹ đi vắng|SAI
+BAI|09|An toàn giao thông|#29B6F6|Đi bộ trên vỉa hè, qua đường ở vạch kẻ và luôn đội mũ bảo hiểm.
+TRANG|09|Sáng chủ nhật đẹp trời, mẹ dẫn hai chị em Lucie và Lucas đi bộ ra nhà sách ở phố bên cạnh rồi chiều bố sẽ đón bằng xe máy.|A mother walking on a clean sidewalk holding hands with a girl with pink glasses and a little boy on a sunny morning, no text.
+TRANG|09|Đến ngã tư đường phố đông xe cộ qua lại, nhà sách đã hiện ra ở ngay phía bên kia đường. Đèn tín hiệu dành cho người đi bộ vẫn đang màu đỏ.|A busy city intersection with a zebra crossing and a red pedestrian light, a bookstore visible across the street, no text.
+TRANG|09|Vì quá háo hức muốn xem truyện mới, Lucas buông tay mẹ định chạy băng qua lòng đường ngay lúc đèn đỏ và không đi vào vạch kẻ trắng.|A little boy trying to run into the street while the pedestrian light is red, his mother and a girl with pink glasses stopping him, no text.
+TRANG|09|Mẹ và chị Lucie kịp giữ chặt tay Lucas lại. Cả ba mẹ con cùng chờ đèn người đi bộ chuyển sang màu xanh rồi nắm tay nhau đi trên vạch kẻ đường.|A mother holding hands with a girl with pink glasses and a little boy crossing the street safely on a zebra crossing with green light, no text.
+TRANG|09|Lúc về, bố đón bằng xe máy, hai chị em tự giác đội mũ bảo hiểm và cài quai chắc chắn. Cả nhà có một chuyến đi thật vui và an toàn.|A girl with pink glasses and a little boy wearing helmets with straps fastened standing happily by their father's motorbike, no text.
+NHO|09|Đi bộ trên vỉa hè, qua đường đúng vạch kẻ, lên xe đội mũ ngay.|Đi trên vỉa hè|Qua đường đúng vạch|Đội mũ cài quai
+LUCIE|09|Khi muốn sang đường để vào nhà sách, mẹ và chị Lucie đã hướng dẫn Lucas qua đường như thế nào cho đúng luật?|Chờ đèn người đi bộ bật xanh, nắm tay người lớn đi trên vạch kẻ trắng|Chạy thật nhanh qua đường lúc đèn đỏ khi thấy xe còn ở xa|Đi chéo qua giữa ngã tư cho nhanh mà không cần nhìn đèn|Vừa đi qua lòng đường vừa cúi mặt đọc truyện tranh|Qua đường phải chờ đèn xanh và đi đúng vạch.
+LUCIE|09|Khi bố mẹ chở con đi học bằng xe máy hoặc xe đạp điện, việc bắt buộc con phải làm trước khi xe lăn bánh là gì?|Đội mũ bảo hiểm vừa đầu và cài quai mũ thật chắc chắn|Chỉ cần đội mũ chụp lên đầu cho mát chứ không cần cài quai|Cầm mũ bảo hiểm treo ở tay lái xe khi nào thấy công an mới đội|Ngồi phía sau xe đứng nhún nhảy và buông cả hai tay|Đội mũ bảo hiểm cài quai giúp bảo vệ đầu.
+LUCIE|09|Khi đi bộ cùng các bạn trên đường phố từ trường về nhà, các con phải đi ở phần đường nào để đảm bảo an toàn?|Đi gọn gàng ở trên vỉa hè dành cho người đi bộ|Đi dàn hàng ngang dưới lòng đường nơi ô tô xe máy đang chạy|Vừa đi bộ dưới lòng đường vừa đá bóng chuyền cho nhau|Chạy đuổi bắt nhau nhảy từ vỉa hè xuống lòng đường|Người đi bộ phải đi trên vỉa hè.
+LUCIE|09|Khi ngồi trên xe ô tô hoặc xe buýt đưa đón học sinh, con cần tuân thủ quy tắc an toàn nào dưới đây?|Ngồi yên tại ghế, thắt dây an toàn và không thò đầu tay ra cửa sổ|Thò đầu và vẫy tay ra ngoài cửa sổ ô tô để hóng gió|Tháo dây an toàn để đi lại chạy nhảy trên lối đi khi xe đang chạy|Mở chốt cửa xe ô tô khi xe chưa dừng hẳn lại|Ngồi ô tô phải thắt dây và không thò đầu ra ngoài.
+LUCAS|09|Đèn tín hiệu màu gì thì được qua đường?|Đèn hình người màu xanh|Đèn đang màu đỏ|Không cần nhìn đèn|Đèn xanh cho người đi bộ mới được đi.
+LUCAS|09|Ngồi trên xe máy, đầu con đội gì?|Đội mũ bảo hiểm|Không đội gì cả|Chỉ che bằng quyển vở|Lên xe máy nhớ đội mũ bảo hiểm nhé.
+LUCAS|09|Trẻ em qua đường cần đi thế nào?|Nắm tay người lớn|Tự chạy một mình|Nhắm mắt chạy qua|Qua đường nhớ nắm chặt tay bố mẹ.
+LUCAS|09|Khi đi bộ, con đi ở đâu?|Đi trên vỉa hè|Đi giữa lòng đường|Chạy trước mũi xe|Đi bộ trên vỉa hè mới an toàn.
+DUNGSAI|09|Đội mũ bảo hiểm và cài quai đúng quy cách khi đi xe máy|DUNG
+DUNGSAI|09|Tự ý chạy băng qua đường khi không có người lớn đi cùng|SAI
+DUNGSAI|09|Nắm tay bố mẹ và đi trên vạch kẻ trắng khi sang đường|DUNG
+DUNGSAI|09|Đá bóng và nô đùa ở dưới lòng đường có nhiều xe cộ|SAI
+DUNGSAI|09|Đi bộ ngay ngắn trên vỉa hè dành cho người đi bộ|DUNG
+DUNGSAI|09|Thò đầu và tay ra ngoài cửa sổ khi đang đi xe ô tô|SAI
+BAI|10|Quản lý thời gian|#7E57C2|Biết sắp xếp giờ học, giờ chơi và đi ngủ đúng giờ mỗi ngày.
+TRANG|10|Buổi tối sau bữa cơm, đã đến giờ ngồi vào bàn học bài theo thời gian biểu. Chị Lucie đã mở sách vở ra ngồi học ngay ngắn.|A girl with pink glasses studying neatly at her desk in the evening while a wall clock shows seven thirty, no text.
+TRANG|10|Còn Lucas thì vẫn ngồi trên ghế sofa mải mê xem phim hoạt hình trên tivi. Mẹ nhắc đi học bài nhưng em bảo: Cho con xem nốt tập này thôi ạ!|A little boy sitting on a sofa glued to the TV screen while his mother gently reminds him of the time, no text.
+TRANG|10|Xem hết tập này đến tập khác, đồng hồ đã chỉ chín giờ tối. Lúc này Lucas mới cuống quýt mở vở tập viết thì mắt đã díp lại vì buồn ngủ.|A sleepy little boy yawning at his desk trying to write homework late at night with the clock showing nine o'clock, no text.
+TRANG|10|Sáng hôm sau dậy muộn, Lucas rất mệt. Tối đó, chị Lucie giúp em vẽ một bảng thời gian biểu có hình đồng hồ: học bài xong sớm sẽ được xem tivi trước khi ngủ.|A girl with pink glasses helping a little boy draw a colorful daily schedule chart with clock pictures at their desk, no text.
+TRANG|10|Làm theo bảng giờ giấc, Lucas học bài xong lúc tám giờ, vui vẻ chơi cùng chị rồi chín giờ lên giường đi ngủ. Sáng dậy em thấy khỏe khoắn và tràn đầy năng lượng.|A little boy sleeping peacefully in bed at nine o'clock and waking up energetic and happy the next morning, no text.
+NHO|10|Học ra học, chơi ra chơi, ngủ đúng giờ cho người khỏe mạnh.|Làm việc theo lịch|Học xong mới chơi|Đi ngủ đúng giờ
+LUCIE|10|Vì sao tối hôm trước Lucas lại bị buồn ngủ gật gù khi chưa viết xong bài và sáng hôm sau thức dậy mệt mỏi?|Vì mải xem tivi quá lâu không chịu học bài và đi ngủ đúng giờ|Vì cô giáo giao cho Lucas bài tập của học sinh lớp năm|Vì bóng đèn ở bàn học của Lucas sáng quá làm chói mắt|Vì chị Lucie rủ Lucas chạy bộ quanh sân lúc nửa đêm|Mải chơi quên giờ học sẽ làm con mệt.
+LUCIE|10|Sau khi ăn tối và nghỉ ngơi một lát, con vừa có bài tập về nhà vừa muốn lắp bộ xếp hình mới, con nên sắp xếp thứ tự thế nào?|Tập trung làm xong hết bài tập trước rồi dùng thời gian còn lại để chơi|Ngồi chơi xếp hình đến khuya khi nào mệt quá thì bỏ bài tập đấy|Vừa viết được một chữ lại vừa quay sang lắp một mảnh ghép|Đợi đến sáng mai trước khi đến lớp mới lấy vở ra làm vội|Hoàn thành việc học trước khi chơi mới tốt.
+LUCIE|10|Khi bố mẹ cho phép con xem tivi hoặc chơi trò chơi trên màn hình trong ba mươi phút, khi đồng hồ báo hết giờ con sẽ làm gì?|Tự giác tắt tivi ngay để cho mắt nghỉ ngơi và chuyển sang việc khác|Khóc lóc xin bố mẹ cho xem thêm một tiếng đồng hồ nữa|Giấu điều khiển tivi đi để bố mẹ không tắt được màn hình|Giận dỗi đập điều khiển xuống bàn vì đang xem dở hay|Tuân thủ đúng thời gian đã hẹn với bố mẹ.
+LUCIE|10|Buổi tối, học sinh tiểu học nên chuẩn bị sách vở và lên giường đi ngủ vào khoảng mấy giờ để cơ thể cao lớn và sáng mai tỉnh táo?|Đi ngủ trước chín giờ hoặc chín rưỡi tối để ngủ đủ giấc|Thức đến mười hai giờ đêm cùng người lớn xem bóng đá|Ngủ lúc nào cũng được miễn là sáng mai dậy nổi thì đi học|Chờ đến khi nào gục xuống bàn học mới leo lên giường ngủ|Ngủ sớm và đủ giấc giúp con thông minh, cao lớn.
+LUCAS|10|Buổi tối, việc nào con cần làm trước?|Học bài xong trước|Xem tivi thật lâu|Chơi đồ chơi đến khuya|Học bài xong sớm rồi mới chơi nhé.
+LUCAS|10|Đến chín giờ tối, con cần làm gì?|Lên giường đi ngủ|Đòi đi công viên|Bật tivi xem tiếp|Đi ngủ đúng giờ mới khỏe mạnh.
+LUCAS|10|Khi hết giờ chơi đã hẹn, con làm sao?|Tự giác cất đồ chơi|Khóc đòi chơi tiếp|Chạy trốn bố mẹ|Ngoan ngoãn dừng chơi khi hết giờ.
+LUCAS|10|Khi ngồi học bài, con cần thế nào?|Tập trung học nhanh|Vừa học vừa nghịch|Nằm dài ra bàn|Tập trung học nhanh sẽ có giờ chơi.
+DUNGSAI|10|Hoàn thành bài tập về nhà trước khi xem tivi hoặc chơi đồ chơi|DUNG
+DUNGSAI|10|Thức khuya xem phim hoạt hình làm sáng hôm sau dậy muộn|SAI
+DUNGSAI|10|Đi ngủ đúng giờ vào buổi tối để cơ thể khỏe mạnh|DUNG
+DUNGSAI|10|Vừa ngồi học bài vừa nghịch đồ chơi làm mất nhiều thời gian|SAI
+DUNGSAI|10|Tự giác tắt tivi khi đã hết thời gian được phép xem|DUNG
+DUNGSAI|10|Để dồn bài tập đến sát giờ đi học mới lấy ra làm vội|SAI
+BAI|11|Tiết kiệm và giữ gìn đồ dùng|#8D6E63|Biết tắt điện nước khi không dùng, giữ gìn sách vở và đồ chơi.
+TRANG|11|Hôm nay là cuối tuần, Lucas vào nhà tắm rửa tay rồi chạy vội ra phòng khách để vẽ tranh cùng chị Lucie.|A little boy running out of the bathroom toward the living room where a girl with pink glasses is drawing, no text.
+TRANG|11|Trong nhà tắm, vòi nước vẫn đang chảy rào rào và bóng đèn vẫn bật sáng trưng. Ra bàn vẽ, Lucas lại xé vội mấy tờ giấy trắng tinh chỉ để gấp máy bay ném chơi.|A bathroom with a running faucet and light on, while in the living room a little boy tears clean notebook pages, no text.
+TRANG|11|Chị Lucie nghe tiếng nước chảy liền chạy vào xem. Thấy nước tràn cả chậu và giấy trắng bị vứt dưới sàn, chị buồn bã lắc đầu.|A girl with pink glasses looking worried at the running tap in the bathroom and crumpled clean paper on the floor, no text.
+TRANG|11|Chị Lucie gọi Lucas lại, hướng dẫn em vặn chặt vòi nước, tắt công tắc đèn khi ra khỏi phòng và dùng giấy nháp cũ để gấp máy bay thay vì xé vở mới.|A girl with pink glasses showing a little boy how to turn off the water tap and light switch, holding recycled paper, no text.
+TRANG|11|Hai chị em cùng bọc lại sách vở cho phẳng phiu và xếp bút màu vào hộp. Bố mẹ về thấy vậy rất vui và thưởng cho hai con thêm đồng vào heo đất tiết kiệm.|A girl with pink glasses and a little boy neatly covering their books and putting coins into a piggy bank with happy parents, no text.
+NHO|11|Tắt điện khóa nước khi xong, giữ gìn sách vở đồ dùng bền lâu.|Tắt điện khóa nước|Giữ gìn sách vở|Không làm lãng phí
+LUCIE|11|Chị Lucie đã nhắc nhở và hướng dẫn em Lucas làm những việc gì để thực hành tiết kiệm trong gia đình?|Khóa vòi nước, tắt đèn khi ra ngoài và không xé giấy vở mới|Mở vòi nước thật to cho mát nhà và bật hết đèn cả ngày|Xé hết quyển vở mới để hai chị em thi gấp tàu thủy|Đổ hết hộp bút màu ra sàn nhà để chọn màu cho nhanh|Tiết kiệm điện, nước, giấy là thói quen tốt.
+LUCIE|11|Trong bữa ăn trưa ở trường hoặc ở nhà, để không làm lãng phí thức ăn do người lớn vất vả nấu nướng, con nên làm gì?|Lấy lượng thức ăn vừa đủ sức ăn của mình và ăn hết suất|Lấy thật đầy một đĩa to rồi ăn hai miếng xong đem đổ đi|Bới tung đĩa thức ăn chung lên rồi chê không thèm ăn|Ném cơm và rau xuống gầm bàn khi cô giáo không để ý|Lấy vừa đủ và ăn hết để tránh lãng phí.
+LUCIE|11|Khi được bố mẹ mua cho cặp sách, hộp bút và sách giáo khoa mới đầu năm học, con cần sử dụng như thế nào?|Bọc sách vở cẩn thận, cất bút vào hộp sau khi dùng xong|Vẽ bậy ngoệch ngoạc lên khắp bìa sách và mặt bàn học|Lấy kéo cắt cặp sách ra xem bên trong có gì|Ném hộp bút làm bóng đá chơi với các bạn ở lớp|Giữ gìn đồ dùng học tập giúp dùng được bền lâu.
+LUCIE|11|Khi cả lớp ra sân tập thể dục dưới trời nắng sáng, người cuối cùng bước ra khỏi phòng học nên nhớ làm việc gì?|Tắt bóng đèn và tắt quạt điện trong lớp học trước khi ra sân|Bật thêm tất cả quạt và đèn lên cho phòng học trông thật sáng|Đóng sập cửa thật mạnh làm vỡ kính cửa sổ lớp học|Mở vòi nước ở góc rửa tay cho chảy suốt giờ thể dục|Ra khỏi phòng nhớ tắt đèn quạt để tiết kiệm điện.
+LUCAS|11|Rửa tay xong, con làm gì với vòi nước?|Vặn khóa vòi nước|Để nước chảy mãi|Tạt nước ra sàn|Dùng nước xong nhớ khóa vòi ngay nhé.
+LUCAS|11|Ra khỏi phòng không có ai, con làm gì?|Tắt bóng đèn đi|Bật thêm đèn lên|Để nguyên đi chơi|Tắt đèn khi không dùng để tiết kiệm điện.
+LUCAS|11|Với sách vở của mình, con làm sao?|Giữ gìn sạch đẹp|Xé giấy ném chơi|Vẽ bậy lên bìa|Yêu quý sách vở không được xé giấy nhé.
+LUCAS|11|Khi ăn cơm, thế nào là tiết kiệm?|Ăn hết suất của mình|Bỏ thừa nửa bát|Đổ cơm vào thùng rác|Ăn hết suất không bỏ thừa thức ăn.
+DUNGSAI|11|Vặn chặt vòi nước ngay sau khi rửa tay xong|DUNG
+DUNGSAI|11|Xé giấy trong vở mới tinh để gấp máy bay ném rác|SAI
+DUNGSAI|11|Tắt đèn và quạt khi không có ai ở trong phòng|DUNG
+DUNGSAI|11|Lấy thật nhiều thức ăn rồi bỏ thừa mứa không ăn hết|SAI
+DUNGSAI|11|Giữ gìn sách vở sạch đẹp, không vẽ bậy hay làm quăn góc|DUNG
+DUNGSAI|11|Đập quăng đồ chơi cũ để đòi bố mẹ mua đồ chơi mới|SAI
+BAI|12|Tự tin nói trước lớp|#FFCA28|Biết đứng thẳng, nhìn mọi người và nói to rõ ràng trước đám đông.
+TRANG|12|Tuần này, lớp của Lucas có buổi sinh hoạt kể chuyện về gia đình em. Tối hôm trước, Lucas rất lo lắng và sợ ngày mai phải đứng trước cả lớp.|A little boy looking worried at home in the evening while thinking about speaking in front of his classroom, no text.
+TRANG|12|Lucas nói nhỏ với chị Lucie: Chị ơi em run lắm, ngày mai lên bục giảng chắc em quên hết chữ và các bạn sẽ cười em mất!|A nervous little boy talking to a girl with pink glasses in their study room, holding a family photo, no text.
+TRANG|12|Khi thử tập nói, Lucas cúi gằm mặt nhìn mũi chân, hai tay xoắn vạt áo và nói lí nhí trong miệng đến mức chị Lucie ngồi ngay cạnh cũng không nghe rõ.|A little boy looking down at his shoes twisting his shirt and mumbling softly while a girl with pink glasses listens, no text.
+TRANG|12|Chị Lucie mỉm cười dạy em bí quyết: Em hãy hít thở sâu, đứng thẳng lưng, nhìn vào các bạn mỉm cười, đầu tiên chào cô và các bạn rồi nói to rõ ràng nhé!|A girl with pink glasses coaching a little boy to stand tall, smile, and speak clearly while holding a family drawing, no text.
+TRANG|12|Hôm sau trên lớp, Lucas làm đúng như lời chị dặn, tự tin khoe bức tranh gia đình và kể chuyện rất hay. Cô giáo và cả lớp vỗ tay khen Lucas vang dội.|A confident little boy standing tall at the front of the classroom showing a family picture while teacher and classmates clap happily, no text.
+NHO|12|Đứng thẳng lưng, nhìn mọi người, mỉm cười và nói thật to rõ ràng.|Đứng thẳng mỉm cười|Nhìn về phía trước|Nói to rõ ràng
+LUCIE|12|Chị Lucie đã hướng dẫn Lucas những bí quyết nào để em có thể tự tin kể chuyện trước cô giáo và cả lớp?|Hít thở sâu, đứng thẳng, nhìn các bạn mỉm cười và nói to rõ ràng|Cúi mặt nhìn xuống đất và nói thật nhanh cho mau về chỗ|Lấy quyển vở che kín mặt lại để không nhìn thấy ai dưới lớp|Giả vờ bị đau bụng để xin cô giáo không phải lên bảng kể|Đứng thẳng, nhìn thẳng và nói rõ giúp con tự tin.
+LUCIE|12|Khi cô giáo mời con lên trước lớp để giới thiệu bản thân với một bạn học sinh mới chuyển đến, câu đầu tiên con nên nói là gì?|Chào cô và các bạn, sau đó giới thiệu tên và sở thích của mình|Đứng im lặng nhìn chằm chằm vào bạn mới mà không nói câu nào|Nói luôn một mạch không đầu không cuối rồi chạy về chỗ ngồi|Quay mặt vào bảng đen và viết tên mình lên bảng thay vì nói|Mở đầu bằng lời chào giúp bài nói lịch sự, tự tin.
+LUCIE|12|Đang trình bày bài nói trước lớp thì con bỗng nhiên hồi hộp và quên mất một ý tiếp theo, con nên xử lý thế nào?|Bình tĩnh hít một hơi, mỉm cười nhìn vào tranh gợi ý rồi nói tiếp|Khóc òa lên ngay trên bục giảng và bỏ chạy về chỗ ngồi|Đập tay lên bàn cô giáo vì tức giận bản thân đã quên bài|Đứng đơ ra đó im lặng suốt cả tiết học không nói gì thêm|Bình tĩnh thở sâu và nhìn gợi ý để nhớ lại.
+LUCIE|12|Khi một bạn khác trong lớp đang đứng trên bục giảng thuyết trình mà bạn ấy hơi run, ngồi ở dưới con nên làm gì để cổ vũ bạn?|Ngồi ngay ngắn nhìn bạn, mỉm cười khích lệ và vỗ tay khi bạn nói xong|Chỉ trỏ và cười nhạo thật to làm cho bạn càng thêm xấu hổ|Nói chuyện riêng ồn ào ở dưới lớp không thèm nghe bạn nói|Làm mặt xấu trêu chọc để cho bạn bị quên hết bài đang nói|Lắng nghe và vỗ tay giúp bạn thêm tự tin.
+LUCAS|12|Khi lên nói trước lớp, con đứng thế nào?|Đứng thẳng lưng lên|Cúi gằm mặt xuống|Quay lưng vào lớp|Đứng thẳng lưng trông sẽ rất tự tin.
+LUCAS|12|Khi phát biểu, giọng nói cần thế nào?|Nói to và rõ ràng|Nói lí nhí trong miệng|La hét chói tai|Nói to rõ để cô và bạn nghe thấy.
+LUCAS|12|Trước khi bắt đầu kể chuyện, con làm gì?|Chào cô và các bạn|Không chào ai cả|Cười một mình|Nhớ chào cô và các bạn trước nhé.
+LUCAS|12|Khi bạn nói xong trên bảng, con làm gì?|Vỗ tay khen ngợi bạn|Chê bai trêu chọc bạn|Ngồi im không nhìn|Vỗ tay cổ vũ bạn thật đáng khen.
+DUNGSAI|12|Đứng thẳng lưng, mỉm cười và nhìn về phía các bạn khi nói|DUNG
+DUNGSAI|12|Cúi gằm mặt xuống đất và nói lí nhí khi cô giáo gọi trả lời|SAI
+DUNGSAI|12|Nói lời chào cô giáo và các bạn trước khi bắt đầu trình bày|DUNG
+DUNGSAI|12|Cười nhạo và trêu chọc khi bạn trên bảng đang hồi hộp|SAI
+DUNGSAI|12|Hít thở sâu và tập nói ở nhà trước để thêm tự tin|DUNG
+DUNGSAI|12|Lấy tay che mặt hoặc xoắn vạt áo liên tục khi đứng trước lớp|SAI
