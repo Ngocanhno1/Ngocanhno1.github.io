@@ -61,7 +61,7 @@ async function __webp(src, W = 960, H = 640) {
 async function __guiVaCho(P, kem) {
   const sl = ms => new Promise(r => setTimeout(r, ms));
   const luot = () => [...document.querySelectorAll('ms-chat-turn')];
-  const anhCuoi = () => { const t = luot(); const c = t[t.length - 1]; if (!c || /^\s*User/.test(c.innerText)) return []; return [...c.querySelectorAll('img')].filter(i => i.src.startsWith('blob:')).map(i => i.src); };
+  const anhCuoi = () => { const t = luot(); const c = t[t.length - 1]; if (c) c.scrollIntoView({ block: 'end' }); if (!c || /^\s*User/.test(c.innerText)) return []; return [...c.querySelectorAll('img')].filter(i => i.src.startsWith('blob:')).map(i => i.src); };
   const dang = () => [...document.querySelectorAll('button')].some(b => /\bStop\b/.test(b.innerText));
   for (let i = 0; i < 90 && dang(); i++) await sl(2000);
   if (kem && kem.length) await __dinhKem(kem);
@@ -73,7 +73,7 @@ async function __guiVaCho(P, kem) {
   b.click();
   for (let i = 0; i < 15 && !dang(); i++) await sl(1000);
   for (let i = 0; i < 150 && dang(); i++) await sl(2000);
-  for (let i = 0; i < 15 && !(luot().length > soLuot && anhCuoi().length); i++) await sl(1000);
+  for (let i = 0; i < 40 && !(luot().length > soLuot && anhCuoi().length); i++) await sl(1000);
   const moi = luot().length > soLuot ? anhCuoi() : [];
   if (!moi.length) {
     const q = /quota exceeded|daily limit|rate limit|resource exhausted|reached your limit|\b429\b/i.test(document.body.innerText.slice(-4000)) ||
