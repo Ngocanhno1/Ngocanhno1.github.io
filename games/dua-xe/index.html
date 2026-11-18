@@ -1385,7 +1385,7 @@ function passGate(g) {
     Voice.say(dv); Voice.say("Đáp án đúng là " + g.q.dung, isEnText(g.q.dung)); if (g.q.gt) Voice.say(g.q.gt);
     if (R3) R3.puff(G.x, 0.6, 0, 0xffffff, 12, 0.9);
     G.tim = Math.max(0, G.tim - 1); veTim("tim", G.tim);
-    toast("💔 " + (G.tim > 0 ? "Còn " + G.tim + " lượt được sai" : "Hết 3 lượt sai rồi!"), 2200);
+    toast((G.tim > 0 ? "Còn " + G.tim + " lượt được sai" : "Hết 3 lượt sai rồi!"), 2200);
     Voice.say(NHAC_TIM[G.tim]);
     if (G.tim <= 0) { G.hetLuot = true; G.slow = 9; setTimeout(hetLuot, 2600); }
   }
@@ -1399,7 +1399,7 @@ function hetLuot() {
   LS.set(cupKey(G.child), o);
   ["track", "speedo", "pad", "streak"].forEach(id => $(id).classList.add("hide"));
   $("podium").innerHTML = '<div class="pod me"><img src="' + faceUrl(G.child) + '" alt=""></div>';
-  $("endTitle").textContent = "💔 Hết 3 lượt sai rồi!";
+  $("endTitle").textContent = "Hết 3 lượt sai rồi!";
   const msg = "Con đã trả lời sai 3 câu. Đọc thật kỹ câu hỏi rồi mình đua lại nhé!";
   $("endMsg").textContent = msg;
   $("endStats").innerHTML = `<div class="stat">Đúng <b>${G.right}/${G.asked}</b> câu</div><div class="stat">Đi được <b>${Math.round(G.d / RACE_LEN * 100)}%</b> đường đua</div><div class="stat">⭐ <b>${G.score}</b></div>`;
@@ -1704,10 +1704,10 @@ function passGate2(p, g) {
     SFX.no();
     ex.className = "pqexp no"; ex.textContent = "Đáp án đúng: " + g.q.dung;
     p.tim = Math.max(0, p.tim - 1); veTim("tim" + i, p.tim);
-    pbig2(i, p.tim > 0 ? "💔 Còn " + p.tim + " lượt sai" : "💔 HẾT LƯỢT!");
+    pbig2(i, p.tim > 0 ? "Còn " + p.tim + " lượt sai" : "HẾT LƯỢT!");
     if (p.tim <= 0) {
       p.out = true; p.slow = 9;
-      setTimeout(() => { if (!p.finished) { p.finished = true; p.speed = 0; hideQuestion2(p); pbig2(i, "💔 Hết lượt — chờ " + (i ? "chị" : "em") + " về đích nhé!"); } }, 2200);
+      setTimeout(() => { if (!p.finished) { p.finished = true; p.speed = 0; hideQuestion2(p); pbig2(i, "Hết lượt — chờ " + (i ? "chị" : "em") + " về đích nhé!"); } }, 2200);
     }
   }
 }
