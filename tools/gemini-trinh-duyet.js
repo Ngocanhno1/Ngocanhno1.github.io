@@ -61,11 +61,14 @@ async function __webp(src, W = 960, H = 640) {
 async function __guiVaCho(P, kem) {
   const sl = ms => new Promise(r => setTimeout(r, ms));
   const luot = () => [...document.querySelectorAll('ms-chat-turn')];
-  const anhCuoi = () => { const t = luot(); const c = t[t.length - 1]; if (c) c.scrollIntoView({ block: 'end' }); if (!c || /^\s*User/.test(c.innerText)) return []; return [...c.querySelectorAll('img')].filter(i => i.src.startsWith('blob:')).map(i => i.src); };
+  // ảnh có thể nằm ở lượt riêng sau lượt "Thoughts": lấy mọi ảnh blob đủ lớn trong các lượt MỚI (sau lệnh vừa gửi)
+  let soLuot = 0;
+  const anhCuoi = () => { const t = luot(); const c = t[t.length - 1]; if (c) c.scrollIntoView({ block: 'end' });
+    return t.slice(soLuot).flatMap(x => [...x.querySelectorAll('img')]).filter(i => i.src.startsWith('blob:') && i.naturalWidth >= 300).map(i => i.src); };
   const dang = () => [...document.querySelectorAll('button')].some(b => /\bStop\b/.test(b.innerText));
   for (let i = 0; i < 90 && dang(); i++) await sl(2000);
   if (kem && kem.length) await __dinhKem(kem);
-  const soLuot = luot().length;
+  soLuot = luot().length;
   const ta = document.querySelector('textarea');
   Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value').set.call(ta, P); ta.dispatchEvent(new Event('input', { bubbles: true }));
   await sl(800);
@@ -73,11 +76,11 @@ async function __guiVaCho(P, kem) {
   b.click();
   for (let i = 0; i < 15 && !dang(); i++) await sl(1000);
   for (let i = 0; i < 150 && dang(); i++) await sl(2000);
-  for (let i = 0; i < 40 && !(luot().length > soLuot && anhCuoi().length); i++) await sl(1000);
+  for (let i = 0; i < 90 && !(luot().length > soLuot && anhCuoi().length); i++) { await sl(1000); if (i > 20 && !dang() && /reached your|rate limit/i.test(document.body.innerText.slice(-3000))) break; }
   const moi = luot().length > soLuot ? anhCuoi() : [];
   if (!moi.length) {
     const q = /quota exceeded|daily limit|rate limit|resource exhausted|reached your limit|\b429\b/i.test(document.body.innerText.slice(-4000)) ||
-              [...document.querySelectorAll('mat-dialog-container,[role=dialog]')].some(d => /unlock/i.test(d.innerText));
+              [...document.querySelectorAll('mat-dialog-container,[role=dialog]')].some(d => /unlock|go further with ai studio/i.test(d.innerText));
     return { loi: q ? 'HET_LUOT' : 'khong-co-anh' };
   }
   return { src: moi[moi.length - 1] };
