@@ -58,25 +58,36 @@ async function __webp(src, W = 960, H = 640) {
   g.drawImage(im, (W - w) / 2, (H - h) / 2, w, h); return c.toDataURL('image/webp', 0.82).split(',')[1];
 }
 // gửi 1 lệnh, chờ Gemini vẽ xong, trả về ảnh của lượt trả lời CUỐI (blob ảnh cũ có thể đổi địa chỉ khi trang vẽ lại)
+// Chờ theo thay đổi trên trang (MutationObserver) thay vì setTimeout: tab nền bị Chrome hãm setTimeout còn 1 lần/phút
+function __cho(dk, ms) {
+  return new Promise(res => {
+    if (dk()) return res(true);
+    let xong = false; const het = v => { if (xong) return; xong = true; ob.disconnect(); clearTimeout(t); res(v); };
+    const ob = new MutationObserver(() => { try { if (dk()) het(true); } catch (e) {} });
+    ob.observe(document.body, { subtree: true, childList: true, attributes: true, characterData: true });
+    const t = setTimeout(() => het(dk()), ms);
+  });
+}
 async function __guiVaCho(P, kem) {
   const sl = ms => new Promise(r => setTimeout(r, ms));
   const luot = () => [...document.querySelectorAll('ms-chat-turn')];
   // ảnh có thể nằm ở lượt riêng sau lượt "Thoughts": lấy mọi ảnh blob đủ lớn trong các lượt MỚI (sau lệnh vừa gửi)
   let soLuot = 0;
-  const anhCuoi = () => { const t = luot(); const c = t[t.length - 1]; if (c) c.scrollIntoView({ block: 'end' });
-    return t.slice(soLuot).flatMap(x => [...x.querySelectorAll('img')]).filter(i => i.src.startsWith('blob:') && i.naturalWidth >= 300).map(i => i.src); };
+  const anhCuoi = () => luot().slice(soLuot).flatMap(x => [...x.querySelectorAll('img')]).filter(i => i.src.startsWith('blob:') && !(i.naturalWidth && i.naturalWidth < 300)).map(i => i.src);
   const dang = () => [...document.querySelectorAll('button')].some(b => /\bStop\b/.test(b.innerText));
-  for (let i = 0; i < 90 && dang(); i++) await sl(2000);
+  await __cho(() => !dang(), 180000);
   if (kem && kem.length) await __dinhKem(kem);
   soLuot = luot().length;
   const ta = document.querySelector('textarea');
   Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value').set.call(ta, P); ta.dispatchEvent(new Event('input', { bubbles: true }));
-  await sl(800);
-  const b = [...document.querySelectorAll('button')].find(x => /^\s*Run/.test(x.innerText)); if (!b) return { loi: 'khong-thay-nut-Run' };
+  const nutRun = () => [...document.querySelectorAll('button')].find(x => /^\s*Run/.test(x.innerText));
+  await __cho(() => { const x = nutRun(); return x && !x.disabled && x.getAttribute('aria-disabled') !== 'true'; }, 5000);
+  const b = nutRun(); if (!b) return { loi: 'khong-thay-nut-Run' };
   b.click();
-  for (let i = 0; i < 15 && !dang(); i++) await sl(1000);
-  for (let i = 0; i < 150 && dang(); i++) await sl(2000);
-  for (let i = 0; i < 90 && !(luot().length > soLuot && anhCuoi().length); i++) { await sl(1000); if (i > 20 && !dang() && /reached your|rate limit/i.test(document.body.innerText.slice(-3000))) break; }
+  await __cho(dang, 15000);
+  await __cho(() => !dang(), 300000);
+  await __cho(() => (luot().length > soLuot && anhCuoi().length > 0) || /reached your|rate limit|quota/i.test(document.body.innerText.slice(-3000)), 90000);
+  { const t = luot(); if (t.length) t[t.length - 1].scrollIntoView({ block: 'end' }); }
   const moi = luot().length > soLuot ? anhCuoi() : [];
   if (!moi.length) {
     const q = /quota exceeded|daily limit|rate limit|resource exhausted|reached your limit|\b429\b/i.test(document.body.innerText.slice(-4000)) ||
