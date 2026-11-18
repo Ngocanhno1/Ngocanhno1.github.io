@@ -152,11 +152,18 @@ def main():
         for p in cau_truyen(f):
             can.setdefault(ma(chuan(p)), p)
     for f in game:
+        doi_ten = "docTen(" in open(f, encoding="utf-8").read()   # game tự đổi Lucie → Lu Xi... trước khi đọc
         for p in cau_trong(f):
+            if doi_ten:
+                p = re.sub(r"(?i)ciecas", "Ci Cát", p.replace("Lucie", "Lu Xi").replace("Lucas", "Lu Cát"))
             can.setdefault(ma(chuan(p)), p)
         thu_muc = os.path.dirname(f)   # file dữ liệu của game: truyện, câu hỏi để riêng
         if thu_muc.endswith("sach-truyen"):   # truyện đã lấy riêng ở trên (câu đã đổi tên sang cách đọc)
             continue
+        for j in sorted(glob.glob(thu_muc + "/du-lieu*.js")):   # file bài học dạng JS (vd ky-nang/du-lieu.js); tên đọc kiểu Việt như game
+            for p in cau_trong(j):
+                p = re.sub(r"(?i)ciecas", "Ci Cát", p.replace("Lucie", "Lu Xi").replace("Lucas", "Lu Cát"))
+                can.setdefault(ma(chuan(p)), p)
         for j in sorted(glob.glob(thu_muc + "/**/*.json", recursive=True)):
             if re.search(r"(anh-nguon|nguon-anh|danh-sach|manifest)\.json$", j) or "/anh/" in j or "/nhap/" in j:
                 continue

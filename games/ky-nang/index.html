@@ -850,8 +850,11 @@
     Object.assign(window.__tm, patch);
   }
 
+  // Tên đọc theo kiểu Việt cho giọng VieNeu (giống Sách truyện): Lucie → Lu Xi, Lucas → Lu Cát, CIECAS → Ci Cát
+  function docTen(s) { return String(s || "").replace(/Lucie/g, "Lu Xi").replace(/Lucas/g, "Lu Cát").replace(/CIECAS/gi, "Ci Cát"); }
   // Giọng nói chuẩn theo đề bài
   function noi(chu, en) {
+    if (!en) chu = docTen(chu);
     try {
       speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(chu);
@@ -886,7 +889,7 @@
       }
       try {
         speechSynthesis.cancel();
-        const u = new SpeechSynthesisUtterance(text);
+        const u = new SpeechSynthesisUtterance(docTen(text));
         u.lang = "vi-VN";
         u.rate = 0.95;
         let moved = false;
