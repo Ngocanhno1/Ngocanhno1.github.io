@@ -73,7 +73,9 @@ async function __guiVaCho(P, kem) {
   const luot = () => [...document.querySelectorAll('ms-chat-turn')];
   // ảnh có thể nằm ở lượt riêng sau lượt "Thoughts": lấy mọi ảnh blob đủ lớn trong các lượt MỚI (sau lệnh vừa gửi)
   let soLuot = 0;
-  const anhCuoi = () => luot().slice(soLuot).flatMap(x => [...x.querySelectorAll('img')]).filter(i => i.src.startsWith('blob:') && !(i.naturalWidth && i.naturalWidth < 300)).map(i => i.src);
+  let lanCuon = 0;   // trang chỉ vẽ ảnh của lượt đang hiện trên màn hình: thỉnh thoảng cuộn xuống cuối
+  const cuon = () => { if (Date.now() - lanCuon < 1500) return; lanCuon = Date.now(); const t = luot(); if (t.length) t[t.length - 1].scrollIntoView({ block: 'end' }); };
+  const anhCuoi = () => (cuon(), luot().slice(soLuot)).flatMap(x => [...x.querySelectorAll('img')]).filter(i => i.src.startsWith('blob:') && !(i.naturalWidth && i.naturalWidth < 300)).map(i => i.src);
   const dang = () => [...document.querySelectorAll('button')].some(b => /\bStop\b/.test(b.innerText));
   await __cho(() => !dang(), 180000);
   if (kem && kem.length) await __dinhKem(kem);
