@@ -4,6 +4,17 @@
        JSON.stringify(window.__tt)  → hỏi tiến độ
        await window.__xuatKN(['01','02'])  → đưa vào ô dán, bấm ctrl+c; tab GitHub upload games/ky-nang/anh dùng __nhan/__ghi */
 (function () {
+  // Tab chạy nền bị Chrome hãm đồng hồ (1 lần/phút) → vòng chờ chậm hẳn. Cho setTimeout dài chạy qua Worker (không bị hãm).
+  if (!window.__wk) {
+    const pol = trustedTypes.createPolicy('w' + Date.now(), { createScriptURL: s => s });
+    const w = new Worker(pol.createScriptURL(URL.createObjectURL(new Blob(['onmessage=e=>setTimeout(()=>postMessage(e.data[0]),e.data[1])'], { type: 'text/javascript' }))));
+    let id = 0; const cb = {}; w.onmessage = e => { const f = cb[e.data]; delete cb[e.data]; if (f) f(); };
+    const st = window.setTimeout.bind(window), ct = window.clearTimeout.bind(window);
+    window.setTimeout = (f, ms, ...a) => { if (typeof f !== 'function' || !(ms >= 500)) return st(f, ms, ...a); const i = 1e9 + (++id); cb[i] = () => f(...a); w.postMessage([i, ms]); return i; };
+    window.clearTimeout = i => { if (i > 1e9) delete cb[i]; else ct(i); };
+    window.__wk = w;
+  }
+  // Mẹo: mỗi bài 1 cuộc trò chuyện mới (trò chuyện dài nhiều tranh thì Gemini vẽ chậm dần). sessionStorage giữ tranh khi đổi trang/tài khoản trong cùng tab.
   const RAW = 'https://raw.githubusercontent.com/Ngocanhno1/Ngocanhno1.github.io/main/';
   async function duLieu() {
     const s = await (await fetch(RAW + 'games/ky-nang/du-lieu.js?x=' + Date.now(), { cache: 'no-store' })).text();
