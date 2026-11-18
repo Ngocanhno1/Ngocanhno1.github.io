@@ -630,6 +630,19 @@ function buildObjsFor(gatesRef) {
     else if (r < 0.56) objs.push({ t: "nitro", s: p, lane: Math.floor(Math.random() * 3) });
   }
   gatesRef.forEach(g => { for (let k = 0; k < 5; k++) objs.push({ t: "coin", s: g.s + 14 + k * 4, lane: 1 }); });
+  // trái tim hồi lượt sai: 2 quả mỗi chặng, đặt xa cổng, làn ngẫu nhiên (đôi khi có nón chắn bên cạnh cho thử thách)
+  for (let st = 0; st < N_CHANG; st++) {
+    let dat = 0;
+    for (let tries = 0; tries < 60 && dat < 2; tries++) {
+      const pos = st * CHANG_LEN + rnd(120, CHANG_LEN - 60);
+      if (nearGate(pos) || objs.some(o => o.t === "tim" && Math.abs(o.s - pos) < 200)) continue;
+      const ln = Math.floor(Math.random() * 3);
+      for (let i = objs.length - 1; i >= 0; i--) if (Math.abs(objs[i].s - pos) < 9) objs.splice(i, 1);
+      objs.push({ t: "tim", s: pos, lane: ln });
+      if (Math.random() < 0.5) objs.push({ t: "cone", s: pos - 10, lane: ln });
+      dat++;
+    }
+  }
   objs.sort((a, b) => a.s - b.s);
   return objs;
 }
@@ -782,6 +795,14 @@ function initThree() {
   const mk = {
     coin: () => { const g = new T.Group(), c = new T.Mesh(coinGeo, coinMat); c.rotation.x = Math.PI / 2; g.add(c); [0.075, -0.075].forEach(z => { const f = new T.Mesh(new T.CircleGeometry(0.5, 20), coinFace); f.position.z = z; if (z < 0) f.rotation.y = Math.PI; g.add(f); }); g.position.y = 1; return g; },
     cone: () => { const g = new T.Group(), c = new T.Mesh(new T.ConeGeometry(0.5, 1.2, 12), M(0xf97316)); c.position.y = 0.6; g.add(c); const b = new T.Mesh(new T.CylinderGeometry(0.33, 0.4, 0.2, 12), M(0xffffff)); b.position.y = 0.55; g.add(b); const base = new T.Mesh(new T.BoxGeometry(1.1, 0.1, 1.1), M(0xf97316)); base.position.y = 0.05; g.add(base); return g; },
+    tim: () => { const g = new T.Group(), sh = new T.Shape();
+      sh.moveTo(0, -0.55); sh.bezierCurveTo(-0.15, -0.38, -0.62, -0.1, -0.62, 0.22); sh.bezierCurveTo(-0.62, 0.52, -0.25, 0.62, 0, 0.36);
+      sh.bezierCurveTo(0.25, 0.62, 0.62, 0.52, 0.62, 0.22); sh.bezierCurveTo(0.62, -0.1, 0.15, -0.38, 0, -0.55);
+      const h = new T.Mesh(new T.ExtrudeGeometry(sh, { depth: 0.3, bevelEnabled: true, bevelThickness: 0.08, bevelSize: 0.06, bevelSegments: 3 }), new T.MeshLambertMaterial({ color: 0xff2d55, emissive: 0x7a0019 }));
+      h.geometry.center(); h.scale.setScalar(1.25); h.position.y = 1.35; g.add(h);
+      const ring = new T.Mesh(new T.TorusGeometry(1.0, 0.07, 8, 28), new T.MeshBasicMaterial({ color: 0xffd1dc, transparent: true, opacity: 0.8 })); ring.position.y = 1.35; g.add(ring);
+      const glow = new T.Mesh(new T.CircleGeometry(0.9, 24), new T.MeshBasicMaterial({ color: 0xff7aa2, transparent: true, opacity: 0.35 })); glow.rotation.x = -Math.PI / 2; glow.position.y = 0.04; g.add(glow);
+      return g; },
     nitro: () => { const g = new T.Group(), c = new T.Mesh(new T.CylinderGeometry(0.42, 0.42, 1.2, 14), new T.MeshLambertMaterial({ color: 0x22d3ee, emissive: 0x0e4a5a })); c.position.y = 1; g.add(c); const t = new T.Mesh(new T.CylinderGeometry(0.2, 0.2, 0.3, 10), M(0xe5e7eb)); t.position.y = 1.7; g.add(t); const s = new T.Mesh(new T.TorusGeometry(0.43, 0.06, 6, 18), M(0xa78bfa)); s.rotation.x = Math.PI / 2; s.position.y = 1; g.add(s); return g; }
   };
   const finTex = canvasTex(256, 64, (x) => { for (let i = 0; i < 16; i++) for (let j = 0; j < 4; j++) { x.fillStyle = (i + j) % 2 ? "#111" : "#fff"; x.fillRect(i * 16, j * 16, 16, 16); } });
@@ -876,6 +897,7 @@ function renderSceneForView(d, gates, objs, rivals, cam, dt, aspect) {
     let m = r.objMeshes.get(o); if (!m) { m = r.mk[o.t](); r.scene.add(m); r.objMeshes.set(o, m); }
     m.position.x = LANES[o.lane]; m.position.z = -(o.s - d); m.visible = true; vis.add(o);
     if (o.t === "coin") m.rotation.y += dt * 4; if (o.t === "nitro") m.rotation.y += dt * 2;
+    if (o.t === "tim") { m.rotation.y += dt * 2.5; m.children[0].position.y = 1.35 + Math.sin(performance.now() / 260) * 0.18; }
     if (o.hitT) { m.rotation.z += dt * 12; m.position.y += dt * 6; m.position.x += o.hitDir * dt * 8; }
   }
   r.objMeshes.forEach((m, o) => { if (!vis.has(o)) m.visible = false; });
@@ -1020,6 +1042,11 @@ function render2View(x, X0, Y0, W, H, stPlayer, gates, objs, rivals, otherPlayer
       else if (it.st === 1) { x.fillStyle = "#8b5a2b"; x.fillRect(p.x - 0.3 * s, p.y - 3 * s, 0.6 * s, 3 * s); x.fillStyle = "#22c55e"; x.beginPath(); x.arc(p.x, p.y - 3.8 * s, 2 * s, 0, 7); x.fill(); }
       else if (it.st === 2) { x.strokeStyle = "#a16207"; x.lineWidth = 0.4 * s; x.beginPath(); x.moveTo(p.x, p.y); x.quadraticCurveTo(p.x + s, p.y - 3 * s, p.x + 0.5 * s, p.y - 6 * s); x.stroke(); x.fillStyle = "#16a34a"; for (let k = 0; k < 5; k++) { x.beginPath(); x.ellipse(p.x + 0.5 * s, p.y - 6 * s, 2.6 * s, 0.5 * s, k * 0.7, 0, 7); x.fill(); } }
       else { x.fillStyle = "#166534"; x.beginPath(); x.moveTo(p.x - 2.4 * s, p.y); x.lineTo(p.x, p.y - 7 * s); x.lineTo(p.x + 2.4 * s, p.y); x.fill(); x.fillStyle = "#fff"; x.beginPath(); x.moveTo(p.x - 1 * s, p.y - 4 * s); x.lineTo(p.x, p.y - 7 * s); x.lineTo(p.x + 1 * s, p.y - 4 * s); x.fill(); }
+    } else if (it.k === "tim") {
+      const p = proj(LANES[it.lane], 1.3, it.ds); if (!p) return; const r = 0.6 * p.s;
+      x.fillStyle = "#ff2d55"; x.strokeStyle = "#fff"; x.lineWidth = Math.max(2, 0.08 * p.s);
+      x.beginPath(); x.moveTo(p.x, p.y + r); x.bezierCurveTo(p.x - r * 1.6, p.y - r * 0.2, p.x - r * 0.7, p.y - r * 1.4, p.x, p.y - r * 0.5);
+      x.bezierCurveTo(p.x + r * 0.7, p.y - r * 1.4, p.x + r * 1.6, p.y - r * 0.2, p.x, p.y + r); x.fill(); x.stroke();
     } else if (it.k === "coin" || it.k === "nitro" || it.k === "cone") {
       const p = proj(LANES[it.lane], it.k === "cone" ? 0 : 1, it.ds); if (!p) return; const s = p.s;
       if (it.k === "coin") { x.fillStyle = "#ffcc00"; x.beginPath(); x.ellipse(p.x, p.y, 0.55 * s * Math.abs(Math.sin(performance.now() / 200)) + 2, 0.55 * s, 0, 0, 7); x.fill(); x.strokeStyle = "#b45309"; x.lineWidth = 2; x.stroke(); }
@@ -1262,6 +1289,7 @@ function step(dt) {
       o.done = true;
       if (o.t === "coin") { o.got = true; G.coins++; G.score += 10; SFX.coin(); if (R3) R3.puff(G.x, 1, -1, 0xffd400, 3, 0.4); }
       else if (o.t === "nitro") { o.got = true; G.nitro = Math.min(1, G.nitro + 0.4); G.score += 20; SFX.tone(660, 0.2, "triangle", 0.15, 1320); toast("+ Nitro! Bấm 🔥 để phóng"); }
+      else if (o.t === "tim") { o.got = true; anTim(G, "tim", null); }
       else if (o.t === "cone") { if (G.boost > 0 || G.nitroOn > 0) { o.hitT = 1; o.hitDir = Math.random() < 0.5 ? -1 : 1; SFX.hit(); G.score += 5; } else { o.hitT = 1; o.hitDir = Math.random() < 0.5 ? -1 : 1; G.slow = 0.9; G.shake = 0.5; G.hits++; SFX.hit(); toast("Ối! Né nón giao thông nhé!"); } }
     }
   }
@@ -1433,6 +1461,15 @@ function veTim(id, n) {
   e.innerHTML = Array.from({ length: MANG }, (_, i) => TIM_SVG.replace("<svg ", '<svg class="' + (i < n ? "" : "mat") + '" ')).join("");
   if (mat) { e.classList.remove("rung"); void e.offsetWidth; e.classList.add("rung"); }
 }
+function anTim(p, hudId, pIdx) {
+  if (p.hetLuot || p.out) return;
+  [784, 988, 1175, 1568].forEach((f, i) => setTimeout(() => SFX.tone(f, 0.16, "triangle", 0.16), i * 70));
+  if (R3) R3.puff(p.x, 1.4, -1, 0xff5c8a, 14, 0.9, true);
+  let txt;
+  if (p.tim < MANG) { p.tim++; veTim(hudId, p.tim); txt = "+1 tim! Còn " + p.tim + " lượt được sai"; if (pIdx == null) Voice.say("Con được thêm một trái tim!"); }
+  else { p.score += 50; txt = "Tim đã đầy! +50 ⭐"; }
+  if (pIdx == null) toast(txt, 2000); else pbig2(pIdx, txt);
+}
 const NHAC_TIM = ["Hết lượt rồi!", "Con còn một lượt sai, cẩn thận nhé!", "Con còn hai lượt sai nhé!"];
 
 /* ---------- về đích 1 người ---------- */
@@ -1553,6 +1590,7 @@ function step2(dt) {
         o[gotKey] = true;
         if (o.t === "coin") { p.coins++; p.score += 10; SFX.coin(); }
         else if (o.t === "nitro") { p.nitro = Math.min(1, p.nitro + 0.4); p.score += 20; SFX.tone(660, 0.2, "triangle", 0.15, 1320); }
+        else if (o.t === "tim") anTim(p, "tim" + idx, idx);
         else if (o.t === "cone") { if (p.boost <= 0 && p.nitroOn <= 0) { p.slow = 0.85; p.shake = 0.45; p.hits++; SFX.hit(); } else { p.score += 5; SFX.hit(); } }
       }
     }
