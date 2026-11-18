@@ -10,13 +10,14 @@
     const s = await (await fetch(RAW + 'games/ky-nang/du-lieu.js?x=' + Date.now(), { cache: 'no-store' })).text();
     return JSON.parse(s.slice(s.indexOf('{'), s.lastIndexOf('}') + 1));
   }
-  window.__veBai = async function (ma) {
+  window.__veBai = async function (ma, chiTrang) {   // chiTrang: [4,5] = chỉ vẽ trang 4, 5 (chia việc cho nhiều tab)
     window.__tt = { ma, xong: [], loi: [] };
     const KN = await duLieu(), bai = KN.bai.find(b => b.ma === ma);
     const coSan = await fetch(RAW + 'games/ky-nang/anh/da-ve.json?x=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.json() : []).catch(() => []);
     let dau = true;
     for (let i = 0; i < bai.trang.length; i++) {
       const t = bai.trang[i], ten = t.anh;
+      if (chiTrang && !chiTrang.includes(i + 1)) continue;
       if (sessionStorage.getItem('kn:' + ten) || coSan.includes(ten + '.webp')) { window.__tt.xong.push(ten + '(co)'); continue; }
       let P = `Illustration ${i + 1} of 5 for a children's life-skills lesson "${bai.ten}". The Vietnamese story text for this page is: «${t.ke}». ` +
         `Scene: ${t.ve.replace(/a girl with pink glasses/gi, 'Lucie').replace(/a little boy/gi, 'Lucas')}. ` +
