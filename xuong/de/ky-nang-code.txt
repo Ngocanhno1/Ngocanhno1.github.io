@@ -1,0 +1,65 @@
+Bạn là lập trình viên game giáo dục web giỏi. Viết TRỌN một file index.html (HTML + CSS + JS thuần, không framework, không thư viện ngoài) cho game "Trường Kỹ Năng Lucie & Lucas" dạy kỹ năng mềm cho trẻ: Lucie (chị, lớp 3) và Lucas (em, lớp 1). Chơi trên TV LG màn ngang (điều khiển bằng phím mũi tên, Enter, phím số 1-4, phím Back/Escape) và trên điện thoại dọc (chạm). File đặt ở /games/ky-nang/index.html.
+
+=== PHẦN ĐẦU <head> BẮT BUỘC (chép y nguyên, đúng thứ tự) ===
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="author" content="Nguyễn Hoàng Ngọc Anh">
+<meta name="keywords" content="Ban Tuyên giáo Trung ương">
+<title>Trường Kỹ Năng Lucie & Lucas</title>
+<script src="/games/anh-chung/dong-bo.js"></script>
+<script>window.DEM_GIO_HAI_BE = true;</script>
+<script src="/games/anh-chung/dem-gio.js" defer></script>
+<link rel="manifest" href="/manifest.webmanifest">
+<script>if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));</script>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<script src="../anh-chung/thong-tin.js"></script>
+<script src="../anh-chung/giong-noi.js"></script>
+<script src="../anh-chung/mat-that.js"></script>
+<script src="../anh-chung/vi-sao.js"></script>
+<script src="du-lieu.js"></script>
+Cuối <body> thêm:
+<script src="../anh-chung/nhac-nen.js" data-ten="Trường Kỹ Năng" data-kieu="marimba" data-vitri="right:14px;bottom:14px" data-bpm="__BPM__" data-goc="__GOC__" data-not="__NOT__"></script>
+<script src="../anh-chung/anh-that.js"></script>
+(giữ nguyên chữ __BPM__, __GOC__, __NOT__, tôi sẽ tự thay)
+
+=== DỮ LIỆU (đã có sẵn trong du-lieu.js, KHÔNG viết lại) ===
+window.KN = {
+  chao: "lời chào", khen: ["..5 câu"], vien: ["..5 câu"], chuc: "lời chúc",
+  bai: [ { ma: "01", ten: "Chào hỏi lễ phép", mau: "#ff8a65", gioiThieu: "...",
+           trang: [ { ke: "lời kể", anh: "01-1" }, ... 5 trang ],   // ảnh ở "anh/01-1.webp"
+           nho: { cau: "khẩu hiệu cần nhớ", buoc: ["bước 1","bước 2","bước 3"] },
+           lucie: [ { cau, dung, sai: [3 đáp án], gt } x4 ],
+           lucas: [ { cau, dung, sai: [2 đáp án], gt } x4 ],
+           dungSai: [ { viec: "Chào bà khi đi học về", dung: true } x6 ] } , ... 12 bài ] }
+
+=== DÙNG CHUNG (đã có, chỉ gọi) ===
+- Ảnh mặt thật: MatThat.url("lucie") / MatThat.url("lucas") trả về đường dẫn ảnh tròn. Tên hiển thị: (window.HS && HS.lucie && HS.lucie.ten) || "Lucie", tương tự lucas.
+- Giọng đọc: dùng speechSynthesis bình thường: function noi(chu, en) { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(chu); u.lang = en ? "en-US" : "vi-VN"; u.rate = 0.95; speechSynthesis.speak(u); } (giong-noi.js tự đổi sang giọng tự nhiên). Chỉ đọc nguyên văn chuỗi trong dữ liệu (không ghép thêm chữ vào câu đọc) để có sẵn giọng thu âm. Có thể đọc nhiều chuỗi nối tiếp bằng hàng đợi (onend).
+- Đồng CIECAS (đọc "ci cát"): ảnh "../anh-chung/xu-ciecas.webp". Số dư: (function(){ try { const s = ViSao.doc(); ViSao.dongBo && ViSao.dongBo(); return ViSao.soDu(ViSao.doc(), c); } catch(e) { return null; } })(). Ví tự cộng 1 CIECAS cho mỗi 5 câu trả lời đúng được ghi vào nhật ký, và 2 CIECAS cho mỗi cúp mới.
+- Nhật ký (BẮT BUỘC ghi mỗi lần trả lời, cả câu Nên/Không nên): function ghiNhatKy(c, cau, ok) { try { const k = "giaDinh_nhatKy", a = JSON.parse(localStorage.getItem(k) || "[]"); a.push({ t: Date.now(), g: "kynang", c, s: "Kỹ năng", q: String(cau).slice(0, 140), ok: !!ok }); if (a.length > 6000) a.splice(0, a.length - 6000); localStorage.setItem(k, JSON.stringify(a)); } catch (e) {} }
+- Tiến độ lưu localStorage["kynang_" + c] = { sao: { "01": 3, ... }, cup: <số bài đạt 3 sao>, lan: <số lần học> }.
+
+=== LUỒNG GAME ===
+1. Màn chào: tiêu đề "Trường Kỹ Năng", hai thẻ lớn chọn bé (ảnh mặt thật tròn viền hồng cho Lucie, viền xanh cho Lucas, tên, "Lớp 3"/"Lớp 1"). Chọn xong đọc KN.chao.
+2. Sân trường: lưới 12 lớp học (4 cột x 3 hàng trên TV, 2 cột trên điện thoại), mỗi ô là tấm thẻ màu bai.mau có ảnh trang 1 làm hình nền, số bài, tên bài, 3 ngôi sao (đã đạt tô vàng), dấu "Mới" ở bài kế tiếp nên học. Trên cùng: ảnh mặt bé, tên, số dư CIECAS (ảnh đồng xu + số), số cúp, nút "Đổi bé", nút "Ôn tập nhanh" (chỉ hiện khi đã học ít nhất 2 bài). Không khóa bài nào.
+3. HỌC (truyện tranh): mỗi trang hiện ảnh lớn (chiếm 60-65% màn TV, bo góc, hiệu ứng lật/trượt khi sang trang), dưới là lời kể chữ to; tự đọc lời kể khi mở trang. Nút "◀ Trước", "🔊 Nghe lại", "Tiếp ▶" (phím trái/phải). Thanh 5 chấm tiến độ.
+   Ảnh: thử lần lượt "anh/<ma>.webp" → "https://image.pollinations.ai/prompt/" + encodeURIComponent(mô tả hoặc tên bài + " children's book illustration") + "?width=768&height=512&nologo=true" (tối đa 3 ảnh tải cùng lúc) → tranh SVG tự vẽ (nền gradient màu bài + chữ tên bài + hai hình tròn ảnh mặt thật Lucie, Lucas). Không bao giờ để khung trống.
+4. Thẻ "NHỚ NHÉ!": khẩu hiệu nho.cau thật to trong khung sáng lấp lánh, 3 bước hiện dần từng bước (mỗi bước là thẻ có số 1-2-3), đọc khẩu hiệu rồi từng bước. Nút "Làm bài kiểm tra".
+5. KIỂM TRA phần 1 "Nên hay Không nên?": 6 thẻ dungSai xáo trộn, mỗi thẻ hiện giữa màn, 2 nút to xanh lá "👍 Nên" (phím 1 hoặc trái) và đỏ "👎 Không nên" (phím 2 hoặc phải), tự đọc chữ thẻ. Đúng: thẻ bay sang bên, tiếng "ting", +1 điểm. Sai: thẻ rung, hiện đáp án đúng 1,5 giây.
+6. KIỂM TRA phần 2 "Con chọn cách nào?": 4 câu theo bé (Lucie: bai.lucie, 4 lựa chọn; Lucas: bai.lucas, 3 lựa chọn), xáo đáp án, nút đáp án to đánh số 1-4, nút "🔊 Đọc". Lucas: tự đọc câu hỏi rồi đọc lần lượt từng đáp án. Lucie: tự đọc câu hỏi. Đúng: nút xanh, pháo hoa nhỏ, đọc 1 câu ngẫu nhiên trong KN.khen, đồng CIECAS nhỏ bay lên góc ví. Sai: nút đỏ, hiện đáp án đúng + gt, đọc 1 câu trong KN.vien rồi đọc gt; câu sai được đưa xuống cuối để làm lại 1 lần (lần làm lại không tính điểm nhưng vẫn ghi nhật ký).
+7. Kết quả bài: điểm = số đúng lần đầu trên 10. Sao: >=9 được 3 sao, >=7 được 2, >=4 được 1. Lưu sao cao nhất. Đạt 3 sao lần đầu ở bài đó thì tăng cup và hiện cúp vàng nhảy múa, có chữ "+2 CIECAS". Màn kết quả hiện ảnh mặt bé, số sao (hiệu ứng rơi từng ngôi), số câu đúng, số dư CIECAS mới (gọi ViSao.dongBo trước khi đọc), nhắc lại khẩu hiệu nho.cau. Nút "Học lại", "Về sân trường", "Bài tiếp". Khi cả 12 bài có sao, đọc KN.chuc và hiện bằng khen "Học sinh Kỹ năng" có ảnh mặt bé.
+8. Ôn tập nhanh: 10 câu trộn từ các bài đã học (trộn câu trắc nghiệm của bé và thẻ Nên/Không nên), cách chơi như trên, có đồng hồ đếm ngược vui (không ép, hết giờ vẫn cho trả lời).
+
+=== GIAO DIỆN ===
+- Tươi sáng, sinh động kiểu sách tranh: nền trời xanh có mây trôi chậm (CSS), font 'Baloo 2', nút tròn bóng có bóng đổ, hiệu ứng nảy khi bấm, chữ rất to (dùng clamp, tối thiểu 22px trên TV đọc từ xa 3 mét).
+- Không dùng emoji làm hình minh họa lớn (emoji chỉ trong nút nhỏ là được). Ảnh nhân vật luôn là ảnh mặt thật MatThat.url.
+- Mọi nút focus được, có viền vàng to khi focus (:focus-visible và lớp .focus), điều hướng 4 hướng bằng phím mũi tên giữa các nút đang hiện (tự tìm nút gần nhất theo hướng), Enter để bấm, Escape/Backspace/phím Back của TV (keyCode 461) để quay lại màn trước. Khi đổi màn tự focus nút chính.
+- Âm thanh hiệu ứng (ting đúng, bụp sai, lật trang, pháo hoa) tự tổng hợp bằng Web Audio, chỉ tạo AudioContext sau cú bấm đầu tiên.
+- Bộ đếm thời gian hoạt cảnh dùng thời gian thật (performance.now), không dựa vào số khung hình.
+- Màn ngang TV: ảnh bên trái, chữ bên phải nếu rộng; điện thoại dọc: ảnh trên, chữ dưới.
+
+=== MÓC KIỂM THỬ (bắt buộc) ===
+window.__tm = { man: tên màn hiện tại ("chao","san","hoc","nho","dungsai","tracnghiem","ketqua","on"), be, bai: mã bài, trang, cau: câu đang hỏi (object), dapAn: mảng chữ các nút đáp án theo thứ tự hiện, dungLa: chỉ số đáp án đúng } — cập nhật mỗi khi đổi màn/câu.
+Không gọi alert/confirm/prompt. Không có lỗi console. Nếu window.KN không có thì hiện thông báo "Chưa tải được bài học".
+
+Trả về MỘT khối code duy nhất ```html ... ```, đầy đủ từ <!DOCTYPE html> đến </html>, không rút gọn, không viết "...", không giải thích.

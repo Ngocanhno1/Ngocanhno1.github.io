@@ -1,0 +1,28 @@
+Bạn là chuyên gia giáo dục kỹ năng sống cho trẻ em Việt Nam và nhà thiết kế game giáo dục. Hãy soạn NỘI DUNG cho game trên trình duyệt (chơi trên TV) tên "Trường Kỹ Năng Lucie & Lucas". Lucie là chị (8 tuổi, lớp 3), Lucas là em (6 tuổi, lớp 1). Game gồm các BÀI HỌC kỹ năng mềm: mỗi bài là một câu chuyện ngắn bằng tranh (Lucie và Lucas gặp tình huống thật trong đời sống gia đình, trường học, ngoài đường), giọng đọc kể từng trang, cuối bài nêu bài học rút ra; học xong làm ngay bài KIỂM TRA tình huống để nhớ và nhận biết cách ứng xử đúng. Trả lời đúng được thưởng đồng CIECAS.
+KHÔNG dùng tên, nhân vật của phim/truyện có bản quyền. Lời văn ấm áp, xưng "con" khi nói với người chơi, câu ngắn dễ hiểu, phù hợp văn hóa Việt Nam (lễ phép với ông bà, bố mẹ, thầy cô).
+
+Soạn đúng 12 bài, theo thứ tự:
+1 Chào hỏi lễ phép; 2 Cảm ơn và xin lỗi; 3 Lắng nghe khi người khác nói; 4 Chia sẻ và nhường nhịn; 5 Gọi tên cảm xúc và bình tĩnh khi tức giận; 6 Làm việc nhóm; 7 Tự phục vụ bản thân (gấp chăn, cất đồ, tự đánh răng); 8 An toàn với người lạ; 9 An toàn giao thông; 10 Quản lý thời gian (học, chơi, ngủ đúng giờ); 11 Tiết kiệm và giữ gìn đồ dùng; 12 Tự tin nói trước lớp.
+
+Trả về CHÍNH XÁC theo định dạng dưới, không thêm lời giới thiệu, không bảng markdown, không in đậm, không đánh số dòng. Không dùng dấu | trong nội dung.
+
+Dòng đầu: NHAC|BPM=..|GOC=..|NOT=<16 nốt nhạc vui tươi, ví dụ C5 E5 G5 ...>
+Dòng thứ hai: CHAO|<lời chào mở đầu game cho giọng đọc, dưới 30 chữ>
+Dòng: KHEN|<câu khen 1>|<câu khen 2>|<câu khen 3>|<câu khen 4>|<câu khen 5>
+Dòng: VIEN|<câu động viên khi sai 1>|...|<câu 5>
+Dòng: CHUC|<lời chúc mừng khi học xong cả 12 bài>
+
+Với MỖI bài:
+BAI|<mã 2 chữ số vd 01>|<tên bài ngắn>|<màu chủ đạo dạng #rrggbb>|<câu giới thiệu bài, dưới 25 chữ>
+TRANG|<mã bài>|<lời kể trang này, 20 đến 40 chữ, có tên Lucie hoặc Lucas>|<mô tả tranh bằng TIẾNG ANH cho máy vẽ tranh, 15-30 từ, tả cảnh và hành động, gọi hai bạn là "a girl with pink glasses" và "a little boy", không có chữ trong tranh>
+(mỗi bài đúng 5 dòng TRANG: mở đầu tình huống, vấn đề, cách làm sai hoặc lúng túng, cách làm đúng, kết quả vui)
+NHO|<mã bài>|<bài học cần nhớ, một câu dưới 20 chữ, dễ thuộc như khẩu hiệu>|<bước 1 ngắn>|<bước 2 ngắn>|<bước 3 ngắn>
+LUCIE|<mã bài>|<câu hỏi tình huống cho lớp 3>|<đáp án đúng>|<sai 1>|<sai 2>|<sai 3>|<giải thích ngắn dưới 15 chữ>
+(mỗi bài đúng 4 dòng LUCIE: 1 câu hỏi nhớ lại bài học, 3 câu tình huống MỚI khác truyện)
+LUCAS|<mã bài>|<câu hỏi rất ngắn cho trẻ 6 tuổi>|<đúng>|<sai 1>|<sai 2>|<giải thích dưới 12 chữ>
+(mỗi bài đúng 4 dòng LUCAS, chỉ 3 lựa chọn, đáp án ngắn dưới 8 chữ)
+DUNGSAI|<mã bài>|<một hành động ngắn>|<DUNG hoặc SAI>
+(mỗi bài đúng 6 dòng DUNGSAI: 3 việc nên làm, 3 việc không nên làm, trộn lẫn, dùng cho trò chơi phân loại nhanh)
+
+Yêu cầu: đáp án sai phải hợp lý (là cách ứng xử trẻ hay mắc), không quá lộ; mỗi câu chỉ một đáp án đúng; đáp án đúng không quá dài so với đáp án sai. Bài 8 và 9 phải đúng quy tắc an toàn thật (không đi theo người lạ, không nhận quà người lạ, nhớ số điện thoại bố mẹ, đi bộ trên vỉa hè, qua đường ở vạch kẻ và cầm tay người lớn, đội mũ bảo hiểm).
+Kết thúc bằng dòng ===HET===
