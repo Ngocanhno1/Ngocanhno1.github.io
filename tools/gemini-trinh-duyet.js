@@ -86,7 +86,8 @@ async function __guiVaCho(P, kem) {
   b.click();
   await __cho(dang, 15000);
   await __cho(() => !dang(), 300000);
-  await __cho(() => (luot().length > soLuot && anhCuoi().length > 0) || /reached your|rate limit|quota/i.test(document.body.innerText.slice(-3000)), 90000);
+  const loiCuoi = () => { if (dang()) return false; const t = luot(); const c = t[t.length - 1]; return t.length > soLuot && c && /reached your|rate limit|quota|failed to generate/i.test(c.textContent.slice(0, 600)); };
+  await __cho(() => (luot().length > soLuot && anhCuoi().length > 0) || loiCuoi(), 90000);
   { const t = luot(); if (t.length) t[t.length - 1].scrollIntoView({ block: 'end' }); }
   const moi = luot().length > soLuot ? anhCuoi() : [];
   if (!moi.length) {
