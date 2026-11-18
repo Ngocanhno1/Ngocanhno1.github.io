@@ -1,0 +1,37 @@
+name: Nhận tranh Sách truyện từ tab vẽ (qua Firebase)
+
+on:
+  push:
+    paths:
+      - "tools/nhan-tranh.txt"
+  workflow_dispatch:
+  schedule:
+    - cron: "*/20 * * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nhan-tranh
+  cancel-in-progress: false
+
+jobs:
+  nhan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Kéo tranh về kho
+        run: python tools/nhan_tranh.py
+      - name: Lưu và xóa khỏi Firebase
+        run: |
+          git config user.name "Nguyễn Hoàng Ngọc Anh"
+          git config user.email "sach-truyen-bot@users.noreply.github.com"
+          git add -A games/sach-truyen/anh
+          if ! git diff --cached --quiet; then
+            git commit -m "Tranh Gemini vẽ (có nhân vật): $(cut -c1-200 /tmp/da-nhan.txt)"
+            for i in 1 2 3; do git pull --rebase -q origin main && git push && break; sleep 5; done
+          fi
+          for ten in $(cat /tmp/da-nhan.txt); do
+            curl -s -X DELETE "https://lucie-lucas-ciecas-default-rtdb.asia-southeast1.firebasedatabase.app/gd_hh1g8b83gym1g74zmily/sach-truyen-tai/$ten.json" > /dev/null
+          done

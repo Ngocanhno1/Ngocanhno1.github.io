@@ -190,6 +190,21 @@ window.__xuat = async function (dsMa) {
   ta.value = JSON.stringify(d); ta.focus(); ta.select(); return Object.keys(d);
 };
 
+// ===== GỬI QUA FIREBASE ===== await window.__guiFB(['tuan-05']) — không cần mở GitHub, không dùng bộ nhớ tạm.
+// Máy chủ GitHub (workflow nhan-tranh.yml, 20 phút/lần hoặc khi sửa tools/nhan-tranh.txt) kéo tranh về kho rồi xóa khỏi Firebase.
+window.__guiFB = async function (dsMa) {
+  const FB = 'https://lucie-lucas-ciecas-default-rtdb.asia-southeast1.firebasedatabase.app/gd_hh1g8b83gym1g74zmily/sach-truyen-tai/';
+  const da = [];
+  for (let i = 0; i < sessionStorage.length; i++) {
+    const k = sessionStorage.key(i); if (!k.startsWith('anh:')) continue;
+    const ten = k.slice(4);
+    if (!(ten === 'nhan-vat' ? dsMa.includes('nhan-vat') : dsMa.some(m => ten.startsWith(m + '-')))) continue;
+    const r = await fetch(FB + ten + '.json', { method: 'PUT', body: JSON.stringify({ b: sessionStorage.getItem(k), t: Date.now() }) });
+    da.push(ten + (r.ok ? '' : ':LOI' + r.status));
+  }
+  return da;
+};
+
 // ===== NHẬN (tab GitHub upload) ===== window.__nhan() rồi bấm ctrl+v (dán được nhiều lần, tệp cộng dồn)
 window.__nhan = function () {
   let ta = document.getElementById('__nhan');
