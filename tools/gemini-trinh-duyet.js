@@ -125,11 +125,12 @@ window.__veTruyen = async function (ma) {
   const t = await fetch(`${__RAW}games/sach-truyen/truyen/${ma}.json?x=${Date.now()}`).then(r => r.json());
   const coNV = await fetch(`${__RAW}games/sach-truyen/anh/co-nhan-vat.json?x=${Date.now()}`, { cache: 'no-store' }).then(r => r.ok ? r.json() : []).catch(() => []);
   const sach = s => (s || '').replace(/,?\s*(no people|without people|no faces?|no humans?|no children|no text)\b/gi, '').replace(/\s+,/g, ',').trim();
-  const jobs = [[`${ma}-bia`, `Book cover illustration for the story "${t.tieu_de}". Show Lucie and Lucas together, happy, in this setting: ${sach(t.bia)}.`]]
+  const jobs = [[`${ma}-bia`, `Book cover illustration for the story "${t.tieu_de}". Show Lucie and Lucas together, happy, in this setting: ${sach(t.bia)}. Do NOT write the title or any text in the picture.`]]
     .concat(t.trang.map((p, i) => [`${ma}-${i + 1}`,
       `Illustration for page ${i + 1}. The page text (Vietnamese) is: «${p.loi}». Setting hints: ${sach(p.anh)}. ` +
       `Show the characters this page is about, doing what the text says (draw Lucie and/or Lucas only if they are in this moment). ` +
-      `Mom and Dad look exactly like the reference sheet. Grandparents or other adults, if present, are gentle and simply drawn. Keep the same style, characters and outfits as before.`]));
+      `Mom and Dad look exactly like the reference sheet. Grandparents or other adults, if present, are gentle and simply drawn. Keep the same style, characters and outfits as before. ` +
+      `IMPORTANT: the Vietnamese text is only to tell you what happens. Do NOT write any text, letters, captions, words or speech bubbles anywhere in the picture.`]));
   let dau = true;
   for (const [ten, P] of jobs) {
     if (sessionStorage.getItem('anh:' + ten) || coNV.includes(ten + '.webp')) { window.__tt.xong.push(ten + '(co)'); continue; }
