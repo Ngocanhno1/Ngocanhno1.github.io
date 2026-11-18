@@ -1202,11 +1202,9 @@
       <rect x="44" y="34" width="680" height="86" rx="24" fill="rgba(255,255,255,0.9)"/>
       <text x="384" y="90" font-family="Baloo 2, sans-serif" font-size="38" font-weight="800" fill="#1a237e" text-anchor="middle">${escapeXml(ten)}</text>
       <circle cx="260" cy="240" r="88" fill="#ff5c8d" stroke="#fff" stroke-width="6"/>
-      <image href="${escapeXml(lucieUrl)}" x="178" y="158" width="164" height="164" preserveAspectRatio="xMidYMid slice" clip-path="url(#c1)"/>
+      <text x="260" y="262" font-family="Baloo 2, sans-serif" font-size="40" font-weight="800" fill="#fff" text-anchor="middle">Lucie</text>
       <circle cx="508" cy="240" r="88" fill="#29b6f6" stroke="#fff" stroke-width="6"/>
-      <image href="${escapeXml(lucasUrl)}" x="426" y="158" width="164" height="164" preserveAspectRatio="xMidYMid slice" clip-path="url(#c2)"/>
-      <rect x="64" y="365" width="640" height="105" rx="22" fill="rgba(255,255,255,0.92)"/>
-      <text x="384" y="428" font-family="Baloo 2, sans-serif" font-size="28" font-weight="700" fill="#0d47a1" text-anchor="middle">${escapeXml(sub)}</text>
+      <text x="508" y="262" font-family="Baloo 2, sans-serif" font-size="40" font-weight="800" fill="#fff" text-anchor="middle">Lucas</text>
     </svg>`;
     return "data:image/svg+xml;utf8," + encodeURIComponent(svg);
   }
@@ -1228,7 +1226,7 @@
       imgEl.src = localUrl;
     };
     localTester.onerror = () => {
-      const promptStr = (moTa || (bai && bai.ten) || "skill") + " children's book illustration";
+      const promptStr = (moTa || (bai && bai.ten) || "skill") + ", Vietnamese family, cute children's picture-book illustration, no text";
       const pollUrl = "https://image.pollinations.ai/prompt/" + encodeURIComponent(promptStr) + "?width=768&height=512&nologo=true";
       pollQueue.push({
         url: pollUrl,
@@ -1428,7 +1426,7 @@
     ds.forEach((b) => {
       const imgEl = document.getElementById("bg-card-" + b.ma);
       const t1 = (b.trang && b.trang[0]) || { anh: b.ma + "-1", ke: b.ten };
-      if (imgEl) ganAnhThongMinh(imgEl, t1.anh, b, t1.ke);
+      if (imgEl) ganAnhThongMinh(imgEl, t1.anh, b, t1.ve || b.ten);
     });
 
     appEl.querySelectorAll(".lesson-card").forEach(btn => {
@@ -1497,7 +1495,7 @@
     `;
 
     const imgEl = document.getElementById("story-main-img");
-    ganAnhThongMinh(imgEl, tr.anh, bai, tr.ke);
+    ganAnhThongMinh(imgEl, tr.anh, bai, tr.ve || bai.ten);
 
     // Tự đọc lời kể khi mở trang
     noi(tr.ke);
@@ -2321,7 +2319,7 @@
   moManChao();
 })();
 </script>
-<script src="../anh-chung/nhac-nen.js" data-ten="Trường Kỹ Năng" data-kieu="marimba" data-vitri="right:14px;bottom:14px" data-bpm="__BPM__" data-goc="__GOC__" data-not="__NOT__"></script>
+<script src="../anh-chung/nhac-nen.js" data-ten="Trường Kỹ Năng" data-kieu="marimba" data-vitri="right:14px;bottom:14px" data-bpm="120" data-goc="C" data-not="C5 E5 G5 C6 A5 G5 E5 C5 D5 F5 A5 G5 F5 E5 D5 C5"></script>
 <script src="../anh-chung/anh-that.js"></script>
 </body>
 </html>

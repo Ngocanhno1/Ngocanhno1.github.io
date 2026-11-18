@@ -125,6 +125,8 @@ const CUPS = {
     return { n, icons: Array(Math.min(n, 12)).fill("🏆"), note: n + "/31 cúp" + (o.luot ? " · " + o.luot + " lần tới kho báu" : "") }; },
   sachtruyen: c => { const o = readJSON("sachtruyen_" + c) || {}, nt = Object.keys(o.truyen || {}).length, n = o.sao || 0;
     return { n, icons: Array(Math.min(n, 12)).fill("⭐"), note: nt + " truyện đã nghe · ⭐" + n }; },
+  kynang: c => { const o = readJSON("kynang_" + c) || {}, n = o.cup || 0, b = Object.keys(o.sao || {}).length;
+    return { n, icons: Array(Math.min(n, 12)).fill("🏅"), note: n + "/12 huy hiệu · đã học " + b + "/12 bài" }; },
   duathuyen: c => { const o = readJSON("duaThuyen_" + c) || {}, n = o.dongDoi || 0;
     return { n, icons: Array(Math.min(n, 12)).fill("🏆"), note: n + " cúp đồng đội · về nhất " + (o.nhat || 0) + " lần" }; },
   duaxe: c => { const o = readJSON("duaXe_" + c) || {}, n = o.vang || 0;
@@ -154,7 +156,12 @@ function cupsHTML(key) {
   }).join("") + `</div>`;
 }
 const GAMES = [
-  { href: "games/dua-thuyen/", name: "Đua Thuyền Hai Chị Em", isNew: true, cups: "duathuyen",
+  { href: "games/ky-nang/", name: "Trường Kỹ Năng", isNew: true, cups: "kynang",
+    desc: "12 bài học kỹ năng sống bằng truyện tranh có giọng kể: chào hỏi, cảm ơn xin lỗi, bình tĩnh khi giận, an toàn với người lạ, an toàn giao thông... Học xong làm bài kiểm tra ngay, trả lời đúng được thưởng CIECAS!",
+    tags: ["Kỹ năng sống", "Lucie lớp 3", "Lucas lớp 1", "Học rồi kiểm tra"], bg: "linear-gradient(180deg,#8fd3ff 0,#d6f0ff 55%,#9be29b 55%,#5cbf5c 100%)",
+    art: `<img class="face pink" src="${F.lucie}" style="left:14%;top:76px" alt="Lucie"><img class="face blue" src="${F.lucas}" style="left:40%;top:96px" alt="Lucas">
+          <span class="big" style="font-size:56px;right:8%;top:40px">🏫</span><span class="em" style="font-size:34px;left:6%;top:18px">🤝</span>` },
+  { href: "games/dua-thuyen/", name: "Đua Thuyền Hai Chị Em", cups: "duathuyen",
     desc: "Hai chị em chơi CÙNG LÚC trên một màn hình chia đôi: chị trả lời câu lớp 3 bên trái, em trả lời câu lớp 1 bên phải. Đúng thì thuyền tiến về Đảo Kẹo. Cùng về đích được Cúp đồng đội!",
     tags: ["Chơi cùng lúc", "Lucie lớp 3", "Lucas lớp 1", "Toán", "Tiếng Việt", "Tiếng Anh"], bg: "linear-gradient(180deg,#8fd8ff 0,#c9f0ff 35%,#3fb4e8 35%,#1e8ed1 100%)",
     art: `<img class="face pink" src="${F.lucie}" style="left:16%;top:70px" alt="Lucie"><img class="face blue" src="${F.lucas}" style="left:42%;top:118px" alt="Lucas">

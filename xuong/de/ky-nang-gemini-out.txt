@@ -59,7 +59,7 @@ LUCIE|03|Khi bố mẹ đang bàn công việc quan trọng với khách, con mu
 LUCAS|03|Khi cô giáo đang nói, con làm gì?|Im lặng lắng nghe cô|Nói chuyện với bạn|Hát to trong lớp|Cô giảng bài con nhớ lắng nghe nhé.
 LUCAS|03|Muốn phát biểu trong lớp, con làm sao?|Giơ tay xin phép|Hét to lên ngay|Đứng lên ghế nói|Giơ tay chờ cô gọi mới ngoan.
 LUCAS|03|Khi mẹ đang dặn dò, mắt con nhìn đâu?|Nhìn vào mặt mẹ|Nhìn vào tivi|Nhìn ra ngoài cửa|Nhìn người nói là tôn trọng họ.
-LUCAS|03|Chị đang kể chuyện, con muốn nói thì sao?|Chờ chị nói xong|Bịt miệng chị lại|La hét перебивать chị|Chờ đến lượt mình mới nói nhé.
+LUCAS|03|Chị đang kể chuyện, con muốn nói thì sao?|Chờ chị nói xong|Bịt miệng chị lại|La hét cắt lời chị|Chờ đến lượt mình mới nói nhé.
 DUNGSAI|03|Chăm chú nhìn và nghe khi ông bà kể chuyện|DUNG
 DUNGSAI|03|Hét to cắt ngang lời khi bố mẹ đang nói|SAI
 DUNGSAI|03|Giơ tay xin phép trước khi phát biểu trên lớp|DUNG
