@@ -1,9 +1,10 @@
-name: Nhận tranh Sách truyện từ tab vẽ (qua Firebase)
+name: Nhận tranh từ tab vẽ (qua Firebase, Gemini soát lỗi trước)
 
 on:
   push:
     paths:
       - "tools/nhan-tranh.txt"
+      - "tools/nhan_tranh.py"
   workflow_dispatch:
   schedule:
     - cron: "*/20 * * * *"
@@ -22,16 +23,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Kéo tranh về kho
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python tools/nhan_tranh.py
       - name: Lưu và xóa khỏi Firebase
         run: |
           git config user.name "Nguyễn Hoàng Ngọc Anh"
           git config user.email "sach-truyen-bot@users.noreply.github.com"
-          git add -A games/sach-truyen/anh
+          git add -A games/sach-truyen/anh games/ky-nang/anh
           if ! git diff --cached --quiet; then
-            git commit -m "Tranh Gemini vẽ (có nhân vật): $(cut -c1-200 /tmp/da-nhan.txt)"
+            git commit -m "Tranh Gemini (đã soát): $(cat /tmp/tom-tat.txt)"
             for i in 1 2 3; do git pull --rebase -q origin main && git push && break; sleep 5; done
           fi
-          for ten in $(cat /tmp/da-nhan.txt); do
-            curl -s -X DELETE "https://lucie-lucas-ciecas-default-rtdb.asia-southeast1.firebasedatabase.app/gd_hh1g8b83gym1g74zmily/sach-truyen-tai/$ten.json" > /dev/null
-          done
+          # xóa khỏi Firebase, trừ tranh vừa được gửi lại trong lúc đang xử lý (t đã đổi)
+          G="https://lucie-lucas-ciecas-default-rtdb.asia-southeast1.firebasedatabase.app/gd_hh1g8b83gym1g74zmily"
+          while IFS='|' read -r duong t; do
+            [ -z "$duong" ] && continue
+            now=$(curl -s "$G/$duong/t.json")
+            [ "$now" = "$t" ] && curl -s -X DELETE "$G/$duong.json" > /dev/null
+          done < /tmp/da-nhan.txt

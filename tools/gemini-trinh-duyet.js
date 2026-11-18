@@ -10,6 +10,10 @@
      Tab nào báo __tt.hetLuot thì: __xuat + tải lên phần đã vẽ (sessionStorage chỉ sống trong tab đó), mở tab mới với
      authuser=<tài khoản kế tiếp còn lượt>, nạp lại tệp, gọi lại __veTruyen (tự bỏ qua tranh đã có). Mọi tài khoản hết thì dừng.
      Tài khoản mới: thử window.__thuVe() — ra {ok:true} thì ghi ve:"duoc". Gặp trang đồng ý điều khoản thì không tự bấm.
+   CÁCH NHANH NHẤT (18/11/2026): window.__tuDong([{loai:'truyen',ma:'tuan-05'},{loai:'kn',ma:'03'}]) — vẽ lần lượt, mỗi tranh vẽ xong
+     gửi NGAY lên Firebase (sach-truyen-tai / ky-nang-tai); máy chủ (nhan-tranh.yml, 20 phút/lần) cho Gemini soát lỗi rồi mới nhận vào kho,
+     tranh lỗi ghi vào sach-truyen-ve-lai / ky-nang-ve-lai kèm lý do và lần vẽ sau tự vẽ lại. Hết lượt thì tự chuyển tài khoản.
+     Trang tự tải lại sau mỗi việc: Claude nạp lại tệp này (+ tệp kỹ năng) rồi gọi window.__tiepTuc(). Không cần __xuat/__nhan/__ghi nữa.
    Mỗi lần gọi javascript_tool tối đa ~45 giây: các vòng vẽ chạy ngầm, hỏi tiến độ bằng JSON.stringify(window.__tt).
 
    BƯỚC 0 (một lần) — Bảng nhân vật cả nhà: window.__taoNhanVat(KHOA)  (KHOA giải mã ảnh thật của bố, mẹ, Lucie, Lucas trong
@@ -104,6 +108,12 @@ async function __guiVaCho(P, kem) {
   return { src: moi[moi.length - 1] };
 }
 
+// ===== FIREBASE: gửi ngay từng tranh, đọc danh sách tranh bị máy chủ loại để vẽ lại =====
+var __FB = 'https://lucie-lucas-ciecas-default-rtdb.asia-southeast1.firebasedatabase.app/gd_hh1g8b83gym1g74zmily/';
+async function __fbLay(nut) { try { return (await (await fetch(__FB + nut + '.json', { cache: 'no-store' })).json()) || {}; } catch (e) { return {}; } }
+async function __fbGui(nut, ten, b) { try { return (await fetch(__FB + nut + '/' + ten + '.json', { method: 'PUT', body: JSON.stringify({ b, t: Date.now() }) })).ok; } catch (e) { return false; } }
+async function __fbXoa(nut, ten) { try { await fetch(__FB + nut + '/' + ten + '.json', { method: 'DELETE' }); } catch (e) {} }
+
 // Email tài khoản đang mở và ghi sổ vào trang theo dõi (https://ngocanhno1.github.io/theo-doi-gemini/)
 window.__email = () => { const b = document.querySelector('[aria-label*="Google Account"]'); return ((b && b.getAttribute('aria-label')) || document.body.innerHTML).match(/[\w.+-]+@[\w.-]+\.\w+/)?.[0] || '?'; };
 async function __ghiSo(viec, kq, so) {
@@ -142,8 +152,9 @@ window.__taoNhanVat = async function (khoa) {
 
 // ===== VẼ MỘT TRUYỆN =====
 window.__veTruyen = async function (ma) {
-  window.__tt = { ma, xong: [], loi: [] };
+  window.__tt = { ma, xong: [], loi: [], taiKhoan: window.__email() };
   const t = await fetch(`${__RAW}games/sach-truyen/truyen/${ma}.json?x=${Date.now()}`).then(r => r.json());
+  const veLai = await __fbLay('sach-truyen-ve-lai');   // tranh máy chủ đã loại: {ten: {ly_do}}
   const coNV = await fetch(`${__RAW}games/sach-truyen/anh/co-nhan-vat.json?x=${Date.now()}`, { cache: 'no-store' }).then(r => r.ok ? r.json() : []).catch(() => []);
   const sach = s => (s || '').replace(/,?\s*(no people|without people|no faces?|no humans?|no children|no text)\b/gi, '').replace(/\s+,/g, ',').trim();
   const jobs = [[`${ma}-bia`, `Book cover illustration for the story "${t.tieu_de}". Show Lucie and Lucas together, happy, in this setting: ${sach(t.bia)}. Do NOT write the title or any text in the picture.`]]
@@ -154,8 +165,10 @@ window.__veTruyen = async function (ma) {
       `IMPORTANT: the Vietnamese text is only to tell you what happens. Do NOT write any text, letters, captions, words or speech bubbles anywhere in the picture.`]));
   let dau = true;
   for (const [ten, P] of jobs) {
-    if (sessionStorage.getItem('anh:' + ten) || coNV.includes(ten + '.webp')) { window.__tt.xong.push(ten + '(co)'); continue; }
-    let kem = null, PP = P;
+    if (veLai[ten]) sessionStorage.removeItem('anh:' + ten);
+    else if (sessionStorage.getItem('anh:' + ten) || coNV.includes(ten + '.webp')) { window.__tt.xong.push(ten + '(co)'); continue; }
+    window.__tt.dangVe = ten;
+    let kem = null, PP = P + (veLai[ten] ? ` A previous version was rejected because: ${veLai[ten].ly_do}. Avoid this problem.` : '');
     if (dau) {   // lượt đầu: đính kèm bảng nhân vật (chưa có thì đính kèm ảnh thật của hai con)
       const nv = await fetch(`${__RAW}games/sach-truyen/anh/nhan-vat.webp?x=${Date.now()}`, { method: 'HEAD', cache: 'no-store' }).then(r => r.ok).catch(() => false);
       kem = nv ? [await __tep(`${__RAW}games/sach-truyen/anh/nhan-vat.webp`, 'nhan-vat.png')]
@@ -166,13 +179,44 @@ window.__veTruyen = async function (ma) {
     let ok = false;
     for (let lan = 0; lan < 2 && !ok; lan++) {
       const r = await __guiVaCho(PP, lan === 0 ? kem : null);
-      if (r.src) { sessionStorage.setItem('anh:' + ten, await __webp(r.src)); window.__tt.xong.push(ten); ok = true; }
+      if (r.src) {
+        const b = await __webp(r.src); sessionStorage.setItem('anh:' + ten, b); window.__tt.xong.push(ten); ok = true;
+        if (await __fbGui('sach-truyen-tai', ten, b) && veLai[ten]) await __fbXoa('sach-truyen-ve-lai', ten);   // gửi ngay, máy chủ soát rồi nhận
+      }
       else { window.__tt.loi.push(ten + ':' + r.loi); if (r.loi === 'HET_LUOT') { window.__tt.het = true; window.__tt.hetLuot = true; await __ghiSo('vẽ tranh ' + ma, 'het', window.__tt.xong.filter(x => !x.endsWith('(co)')).length); return; } }
     }
   }
   window.__tt.het = true;
   await __ghiSo('vẽ tranh ' + ma, 'ok', window.__tt.xong.filter(x => !x.endsWith('(co)')).length);
 };
+
+// ===== TỰ ĐỘNG NHIỀU VIỆC, TỰ ĐỔI TÀI KHOẢN =====
+// window.__tuDong([{loai:'truyen',ma:'tuan-05'},{loai:'kn',ma:'03'}])  (không await; hỏi tiến độ bằng window.__tt)
+// Mỗi việc 1 cuộc trò chuyện mới: xong việc thì trang tự tải lại; hết lượt thì tự chuyển sang tài khoản kế tiếp còn lượt
+// (danh sách: Firebase argon/tk, ve:"duoc"; tài khoản hết lượt trong ngày ghi ở localStorage 'veHet').
+// Sau mỗi lần trang tải lại, Claude chỉ cần nạp lại tệp (và tệp kỹ năng) rồi gọi window.__tiepTuc().
+var __MO_VE = 'gemini-3-pro-image-preview';
+function __moChat(email) { location.href = 'https://aistudio.google.com/prompts/new_chat?authuser=' + encodeURIComponent(email) + '&model=' + __MO_VE; }
+async function __doiTaiKhoan() {
+  const hom = new Date().toISOString().slice(0, 10), het = JSON.parse(localStorage.getItem('veHet') || '{}');
+  het[window.__email()] = hom; localStorage.setItem('veHet', JSON.stringify(het));
+  const tk = await __fbLay('argon/tk');
+  const tiep = Object.entries(tk).filter(([, v]) => v && v.ve === 'duoc').map(([k]) => k.replace(/,/g, '.')).find(e => het[e] !== hom);
+  if (!tiep) { window.__tt.tatCaHet = true; return 'TAT_CA_HET'; }
+  __moChat(tiep); return 'DOI:' + tiep;
+}
+window.__tuDong = async function (ds) {
+  ds = ds || JSON.parse(localStorage.getItem('tuDongCho') || '[]');
+  localStorage.setItem('tuDongCho', JSON.stringify(ds));
+  if (!ds.length) { localStorage.removeItem('tuDongCho'); window.__tt = Object.assign(window.__tt || {}, { xongHet: true }); return 'XONG'; }
+  const v = ds[0];
+  if (v.loai === 'kn') await window.__veBai(v.ma, v.trang); else await window.__veTruyen(v.ma);
+  if (window.__tt.hetLuot) return __doiTaiKhoan();
+  ds.shift(); localStorage.setItem('tuDongCho', JSON.stringify(ds));
+  if (!ds.length) { localStorage.removeItem('tuDongCho'); window.__tt.xongHet = true; return 'XONG'; }
+  __moChat(window.__email()); return 'VIEC_TIEP';
+};
+window.__tiepTuc = () => localStorage.getItem('tuDongCho') ? (window.__tuDong(), 'DANG_CHAY') : 'KHONG_CO_VIEC';
 
 // ===== XUẤT ===== await window.__xuat(['tuan-05']) rồi bấm ctrl+c. Kèm co-nhan-vat.json (danh sách tranh đã có hai con).
 window.__xuat = async function (dsMa) {

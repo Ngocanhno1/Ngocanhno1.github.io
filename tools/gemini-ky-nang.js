@@ -11,20 +11,24 @@
     return JSON.parse(s.slice(s.indexOf('{'), s.lastIndexOf('}') + 1));
   }
   window.__veBai = async function (ma, chiTrang) {   // chiTrang: [4,5] = chỉ vẽ trang 4, 5 (chia việc cho nhiều tab)
-    window.__tt = { ma, xong: [], loi: [] };
+    window.__tt = { ma, xong: [], loi: [], taiKhoan: window.__email() };
     const KN = await duLieu(), bai = KN.bai.find(b => b.ma === ma);
+    const veLai = await __fbLay('ky-nang-ve-lai');   // tranh máy chủ đã loại
     const coSan = await fetch(RAW + 'games/ky-nang/anh/da-ve.json?x=' + Date.now(), { cache: 'no-store' }).then(r => r.ok ? r.json() : []).catch(() => []);
     let dau = true;
     for (let i = 0; i < bai.trang.length; i++) {
       const t = bai.trang[i], ten = t.anh;
       if (chiTrang && !chiTrang.includes(i + 1)) continue;
-      if (sessionStorage.getItem('kn:' + ten) || coSan.includes(ten + '.webp')) { window.__tt.xong.push(ten + '(co)'); continue; }
+      if (veLai[ten]) sessionStorage.removeItem('kn:' + ten);
+      else if (sessionStorage.getItem('kn:' + ten) || coSan.includes(ten + '.webp')) { window.__tt.xong.push(ten + '(co)'); continue; }
+      window.__tt.dangVe = ten;
       let P = `Illustration ${i + 1} of 5 for a children's life-skills lesson "${bai.ten}". The Vietnamese story text for this page is: «${t.ke}». ` +
         `Scene: ${t.ve.replace(/a girl with pink glasses/gi, 'Lucie').replace(/a little boy/gi, 'Lucas')}. ` +
         `Show clearly what the text says, with expressive faces so a 6-year-old understands the feeling and the right or wrong behaviour. ` +
         `Draw Lucie and/or Lucas only if they are in this moment, exactly like the reference sheet (same faces, Lucie's clear pink glasses, same outfits). ` +
         `Other adults and children are gentle, simply drawn Vietnamese people. Vietnamese everyday setting. ` +
-        `IMPORTANT: Do NOT write any text, letters, numbers, captions or speech bubbles anywhere in the picture.`;
+        `IMPORTANT: Do NOT write any text, letters, numbers, captions or speech bubbles anywhere in the picture.` +
+        (veLai[ten] ? ` A previous version was rejected because: ${veLai[ten].ly_do}. Avoid this problem.` : '');
       let kem = null;
       if (dau) {
         kem = [await __tep(RAW + 'games/sach-truyen/anh/nhan-vat.webp', 'nhan-vat.png')];
@@ -34,7 +38,10 @@
       let ok = false;
       for (let lan = 0; lan < 2 && !ok; lan++) {
         const r = await __guiVaCho(P, lan === 0 ? kem : null);
-        if (r.src) { sessionStorage.setItem('kn:' + ten, await __webp(r.src)); window.__tt.xong.push(ten); ok = true; }
+        if (r.src) {
+          const b = await __webp(r.src); sessionStorage.setItem('kn:' + ten, b); window.__tt.xong.push(ten); ok = true;
+          if (await __fbGui('ky-nang-tai', ten, b) && veLai[ten]) await __fbXoa('ky-nang-ve-lai', ten);   // gửi ngay, máy chủ soát rồi nhận
+        }
         else {
           window.__tt.loi.push(ten + ':' + r.loi);
           if (r.loi === 'HET_LUOT') { window.__tt.het = true; window.__tt.hetLuot = true; await __ghiSo('vẽ tranh kỹ năng ' + ma, 'het', window.__tt.xong.length); return; }
