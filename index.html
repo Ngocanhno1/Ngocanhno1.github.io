@@ -148,19 +148,41 @@
     .grid { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 15px; }
     .art { height: 144px; }
   }
-  /* TV & màn rộng: các trò chơi xếp thành DẢI NGANG 2 hàng, cuộn ngang; thẻ đang chọn (di chuột/điều khiển) phóng to */
+  /* TV & màn rộng: KHUNG LỚN phía trên + 2 HÀNG THẺ NHỎ phía dưới. Di chuột / bấm mũi tên tới thẻ nào thì khung lớn hiện trò đó */
+  #hero { display: none; }
   @media (min-width: 1100px) {
-    .grid { grid-auto-flow: column; grid-template-rows: repeat(2, auto); grid-template-columns: none;
-      grid-auto-columns: clamp(270px, 19.5vw, 380px); gap: 18px 20px; max-width: none; margin: 4px -24px 0;
-      padding: 30px max(3vw, 30px) 40px; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x proximity;
-      scroll-padding: 0 4vw; scrollbar-width: thin; scroll-behavior: smooth; }
-    .grid > a.game { scroll-snap-align: start; transition: transform .28s cubic-bezier(.22,1,.36,1), box-shadow .28s ease, filter .28s ease, border-color .2s; }
-    .grid:has(a.game:hover) > a.game:not(:hover), .grid:has(a.game:focus-visible) > a.game:not(:focus-visible) { filter: saturate(.8) brightness(.96); }
-    .grid > a.game:hover, .grid > a.game:focus-visible { transform: scale(1.13); z-index: 10;
-      box-shadow: 0 0 0 6px rgba(255, 183, 3, .38), 0 22px 44px rgba(43, 33, 64, .32); }
-    .grid > a.game:nth-child(odd):hover, .grid > a.game:nth-child(odd):focus-visible { transform-origin: center top; }
-    .grid > a.game:nth-child(even):hover, .grid > a.game:nth-child(even):focus-visible { transform-origin: center bottom; }
+    body { height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+    #hero { display: grid; grid-template-columns: 1.15fr 1fr; gap: 28px; align-items: stretch; flex: 1; min-height: 0;
+      max-width: min(96vw, 1840px); width: 100%; margin: 14px auto 0; position: relative; z-index: 1; }
+    #hero .hArt { position: relative; border-radius: 28px; overflow: hidden; box-shadow: 0 14px 40px rgba(43,33,64,.28);
+      border: 5px solid #fff; display: grid; place-items: center; animation: heroVao .35s cubic-bezier(.22,1,.36,1); }
+    #hero .hArt .zoom { position: absolute; left: 50%; top: 50%; width: 520px; height: 260px; transform: translate(-50%,-50%) scale(var(--k,1.6)); }
+    #hero .hArt .zoom .face { width: 112px; height: 112px; border-width: 6px; }
+    #hero .hInfo { display: flex; flex-direction: column; justify-content: center; gap: 12px; padding: 10px 6px; animation: heroVao .35s cubic-bezier(.22,1,.36,1); }
+    #hero h2 { margin: 0; font-size: clamp(34px, 3.4vw, 60px); line-height: 1.05; color: #fff; text-shadow: 0 4px 0 #6c4bd6, 0 8px 18px rgba(80,40,160,.3); }
+    #hero p { margin: 0; font-size: clamp(17px, 1.35vw, 24px); line-height: 1.4; color: #3b3159; }
+    #hero .tags span { font-size: 15px; padding: 3px 12px; }
+    #hero .cups { max-width: 640px; }
+    #hero .vao { align-self: flex-start; font: 800 clamp(22px, 1.8vw, 32px) "Baloo 2", system-ui; color: #fff; text-decoration: none;
+      padding: 10px 38px; border-radius: 999px; background: linear-gradient(#ff8a3d, #f0590c); box-shadow: 0 6px 0 #b8400a, 0 12px 24px rgba(0,0,0,.2); }
+    #hero .goi { font-size: 15px; color: #6b6288; }
+    @keyframes heroVao { from { opacity: .3; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    .grid { flex: none; max-width: min(96vw, 1840px); width: 100%; margin: 16px auto 0; padding: 18px 6px 8px;
+      grid-template-columns: repeat(7, minmax(0, 1fr)); grid-auto-flow: row; gap: 14px; }
+    a.game { border-radius: 18px; border-width: 3px; box-shadow: 0 6px 14px rgba(43,33,64,.16);
+      transition: transform .22s cubic-bezier(.22,1,.36,1), box-shadow .22s, border-color .2s, filter .2s; }
+    a.game .body p, a.game .tags, a.game .cups, a.game .play, a.game .art .badge { display: none; }
+    a.game .art { height: 84px; }
+    a.game .art .face { width: 52px; height: 52px; border-width: 3px; transform: translateY(-34px); }
+    a.game .art .big, a.game .art .em { transform: scale(.45); transform-origin: top center; }
+    a.game .art img[src*="xu-ciecas"] { width: 80px !important; top: 6px !important; }
+    a.game .body { padding: 6px 10px 8px; }
+    a.game .body h2 { font-size: 15px; line-height: 1.15; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    a.game:hover, a.game:focus-visible, a.game.dangChon { transform: translateY(-8px) scale(1.12); border-color: var(--focus); z-index: 5;
+      box-shadow: 0 0 0 5px rgba(255,183,3,.35), 0 16px 28px rgba(43,33,64,.28); }
+    footer { margin-top: 6px; }
   }
+  @media (min-width: 1100px) and (max-height: 760px) { #hero .hArt .zoom { --k: 1.2; } a.game .art { height: 64px; } }
   @media (prefers-reduced-motion: reduce) { .cloud, .kids, .bay, .bay img { animation: none; } }
 </style>
 <link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#7c4dff"><link rel="apple-touch-icon" href="/img/icon-192.png">
@@ -182,6 +204,7 @@
   </div>
 </header>
 
+<section id="hero" aria-live="polite"></section>
 <main class="grid" id="grid"></main>
 <footer>Bố mẹ làm tặng Lucie &amp; Lucas 💛</footer>
 
@@ -331,6 +354,23 @@ GAMES.forEach((g, i) => {
   grid.appendChild(a);
   if (i === 0) setTimeout(() => a.focus({ preventScroll: true }), 300);  // điều khiển TV: ô đầu tiên được chọn sẵn
 });
+
+// Khung lớn (TV): hiện trò đang được chọn ở 2 hàng thẻ nhỏ phía dưới
+const hero = document.getElementById("hero");
+function hienHero(i) {
+  const g = GAMES[i]; if (!g || !hero || getComputedStyle(hero).display === "none") return;
+  document.querySelectorAll("a.game.dangChon").forEach(x => x.classList.remove("dangChon"));
+  const a = document.querySelectorAll("a.game")[i]; if (a) a.classList.add("dangChon");
+  hero.innerHTML = `<a class="hArt" href="${g.href}" style="background:${g.bg}"><div class="zoom">${g.art}</div></a>
+    <div class="hInfo"><h2>${g.name}</h2><p>${g.desc}</p>
+    <div class="tags">${g.tags.map(t => `<span>${t}</span>`).join("")}</div>${g.cups ? cupsHTML(g.cups) : ""}
+    <a class="vao" href="${g.href}">Chơi ngay ▶</a><span class="goi">Bấm OK trên điều khiển hoặc bấm vào ô để vào chơi</span></div>`;
+}
+document.querySelectorAll("a.game").forEach((a, i) => {
+  a.addEventListener("mouseenter", () => hienHero(i));
+  a.addEventListener("focus", () => hienHero(i));
+});
+hienHero(0);
 // Phím mũi tên & phím số 1-9 trên điều khiển TV để chuyển nhanh giữa các trò chơi
 document.addEventListener("keydown", e => {
   const items = [...document.querySelectorAll("a.game")];
