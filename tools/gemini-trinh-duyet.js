@@ -196,6 +196,10 @@ window.__veTruyen = async function (ma) {
 // (danh sách: Firebase argon/tk, ve:"duoc"; tài khoản hết lượt trong ngày ghi ở localStorage 'veHet').
 // Sau mỗi lần trang tải lại, Claude chỉ cần nạp lại tệp (và tệp kỹ năng) rồi gọi window.__tiepTuc().
 var __MO_VE = 'gemini-3-pro-image';
+// Mỗi tài khoản một hàng đợi riêng (4 tab chạy song song dùng chung localStorage của aistudio.google.com)
+function __khoaCho(email) { return 'tuDongCho:' + (email || window.__email()); }
+function __docCho(email) { try { return JSON.parse(localStorage.getItem(__khoaCho(email)) || '[]'); } catch (e) { return []; } }
+function __ghiCho(ds, email) { if (ds && ds.length) localStorage.setItem(__khoaCho(email), JSON.stringify(ds)); else localStorage.removeItem(__khoaCho(email)); }
 function __moChat(email) { location.href = 'https://aistudio.google.com/prompts/new_chat?authuser=' + encodeURIComponent(email) + '&model=' + __MO_VE; }
 async function __doiTaiKhoan() {
   const hom = new Date().toISOString().slice(0, 10), het = JSON.parse(localStorage.getItem('veHet') || '{}');
@@ -203,20 +207,21 @@ async function __doiTaiKhoan() {
   const tk = await __fbLay('argon/tk');
   const tiep = Object.entries(tk).filter(([, v]) => v && v.ve === 'duoc').map(([k]) => k.replace(/,/g, '.')).find(e => het[e] !== hom);
   if (!tiep) { window.__tt.tatCaHet = true; return 'TAT_CA_HET'; }
+  __ghiCho(__docCho(tiep).concat(__docCho()), tiep); __ghiCho([]);   // chuyển việc còn lại sang tài khoản kế tiếp
   __moChat(tiep); return 'DOI:' + tiep;
 }
 window.__tuDong = async function (ds) {
-  ds = ds || JSON.parse(localStorage.getItem('tuDongCho') || '[]');
-  localStorage.setItem('tuDongCho', JSON.stringify(ds));
-  if (!ds.length) { localStorage.removeItem('tuDongCho'); window.__tt = Object.assign(window.__tt || {}, { xongHet: true }); return 'XONG'; }
+  ds = ds || __docCho();
+  __ghiCho(ds);
+  if (!ds.length) { window.__tt = Object.assign(window.__tt || {}, { xongHet: true }); return 'XONG'; }
   const v = ds[0];
   if (v.loai === 'kn') await window.__veBai(v.ma, v.trang); else await window.__veTruyen(v.ma);
   if (window.__tt.hetLuot) return __doiTaiKhoan();
-  ds.shift(); localStorage.setItem('tuDongCho', JSON.stringify(ds));
-  if (!ds.length) { localStorage.removeItem('tuDongCho'); window.__tt.xongHet = true; return 'XONG'; }
+  ds.shift(); __ghiCho(ds);
+  if (!ds.length) { window.__tt.xongHet = true; return 'XONG'; }
   __moChat(window.__email()); return 'VIEC_TIEP';
 };
-window.__tiepTuc = () => localStorage.getItem('tuDongCho') ? (window.__tuDong(), 'DANG_CHAY') : 'KHONG_CO_VIEC';
+window.__tiepTuc = () => __docCho().length ? (window.__tuDong(), 'DANG_CHAY') : 'KHONG_CO_VIEC';
 
 // ===== XUẤT ===== await window.__xuat(['tuan-05']) rồi bấm ctrl+c. Kèm co-nhan-vat.json (danh sách tranh đã có hai con).
 window.__xuat = async function (dsMa) {
