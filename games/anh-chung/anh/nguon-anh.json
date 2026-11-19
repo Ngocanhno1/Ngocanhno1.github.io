@@ -152,10 +152,6 @@
    "file": "Porto_Covo_Outubro_2014-3.jpg",
    "trang": "https://commons.wikimedia.org/wiki/File:Porto_Covo_Outubro_2014-3.jpg"
   },
-  "e-26a1": {
-   "file": "Tranh AI Pollinations",
-   "trang": "https://pollinations.ai"
-  },
   "e-1f33b": {
    "file": "Sunflower_sky_backdrop.jpg",
    "trang": "https://commons.wikimedia.org/wiki/File:Sunflower_sky_backdrop.jpg"
@@ -544,10 +540,6 @@
    "file": "Snail.jpg",
    "trang": "https://commons.wikimedia.org/wiki/File:Snail.jpg"
   },
-  "e-1f4d5": {
-   "file": "Tranh AI Pollinations",
-   "trang": "https://pollinations.ai"
-  },
   "e-1f992": {
    "file": "Giraffe_Mikumi_National_Park.jpg",
    "trang": "https://commons.wikimedia.org/wiki/File:Giraffe_Mikumi_National_Park.jpg"
@@ -648,10 +640,6 @@
    "file": "Woman_in_a_V-Neck_T-Shirt.jpg",
    "trang": "https://commons.wikimedia.org/wiki/File:Woman_in_a_V-Neck_T-Shirt.jpg"
   },
-  "e-1f914": {
-   "file": "Tranh AI Pollinations",
-   "trang": "https://pollinations.ai"
-  },
   "e-2696": {
    "file": "Balance_à_tabac_1850.JPG",
    "trang": "https://commons.wikimedia.org/wiki/File:Balance_%C3%A0_tabac_1850.JPG"
@@ -659,10 +647,6 @@
   "e-1f4e6": {
    "file": "Box.agr.jpg",
    "trang": "https://commons.wikimedia.org/wiki/File:Box.agr.jpg"
-  },
-  "e-1f496": {
-   "file": "Tranh AI Pollinations",
-   "trang": "https://pollinations.ai"
   },
   "e-1f993": {
    "file": "Plains_Zebra_Equus_quagga_cropped.jpg",
@@ -784,10 +768,6 @@
    "file": "GuitareClassique5.png",
    "trang": "https://commons.wikimedia.org/wiki/File:GuitareClassique5.png"
   },
-  "e-1f423": {
-   "file": "Tranh AI Pollinations",
-   "trang": "https://pollinations.ai"
-  },
   "e-1f415": {
    "file": "Huskiesatrest.jpg",
    "trang": "https://commons.wikimedia.org/wiki/File:Huskiesatrest.jpg"
@@ -840,10 +820,6 @@
    "file": "Bellis_perennis_sl1.jpg",
    "trang": "https://commons.wikimedia.org/wiki/File:Bellis_perennis_sl1.jpg"
   },
-  "e-26cf": {
-   "file": "Tranh AI Pollinations",
-   "trang": "https://pollinations.ai"
-  },
   "e-1f3a1": {
    "file": "Ain_Dubai_View.jpg",
    "trang": "https://commons.wikimedia.org/wiki/File:Ain_Dubai_View.jpg"
@@ -856,10 +832,6 @@
    "file": "Backyardpool.jpg",
    "trang": "https://commons.wikimedia.org/wiki/File:Backyardpool.jpg"
   },
-  "e-1f3ac": {
-   "file": "Tranh AI Pollinations",
-   "trang": "https://pollinations.ai"
-  },
   "e-1f370": {
    "file": "Baked_cheesecake_with_raspberries_and_blueberries.jpg",
    "trang": "https://commons.wikimedia.org/wiki/File:Baked_cheesecake_with_raspberries_and_blueberries.jpg"
@@ -868,11 +840,7 @@
    "file": "A_girl_sliding_in_Valparaiso,_Chile.jpg",
    "trang": "https://commons.wikimedia.org/wiki/File:A_girl_sliding_in_Valparaiso%2C_Chile.jpg"
   },
-  "e-1f381": {
-   "file": "Tranh AI Pollinations",
-   "trang": "https://pollinations.ai"
-  },
-  "e-1f4e8": {
+  "e-1f512": {
    "file": "Tranh AI Pollinations",
    "trang": "https://pollinations.ai"
   },
@@ -881,7 +849,5 @@
    "trang": "https://commons.wikimedia.org/wiki/File:Portrait_of_a_red_fox_in_Rautas_fj%C3%A4llurskog_%28cropped%29.jpg"
   }
  },
- "loi": {
-  "e-1f512": "{'ai': 'cute 3d cartoon golden padlock', 'seed': 5306}: HTTP Error 402: Payment Required"
- }
+ "loi": {}
 }
