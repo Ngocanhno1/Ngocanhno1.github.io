@@ -115,7 +115,7 @@ async function __fbGui(nut, ten, b) { try { return (await fetch(__FB + nut + '/'
 async function __fbXoa(nut, ten) { try { await fetch(__FB + nut + '/' + ten + '.json', { method: 'DELETE' }); } catch (e) {} }
 
 // Email tài khoản đang mở và ghi sổ vào trang theo dõi (https://ngocanhno1.github.io/theo-doi-gemini/)
-window.__email = () => { const b = document.querySelector('[aria-label*="Google Account"]'); return ((b && b.getAttribute('aria-label')) || document.body.innerHTML).match(/[\w.+-]+@[\w.-]+\.\w+/)?.[0] || '?'; };
+window.__email = () => { const b = document.querySelector('[aria-label*="Google Account"]'); return ((b && b.getAttribute('aria-label')) || document.body.innerHTML).match(/[\w.+-]+@[\w.-]+\.\w+/)?.[0] ?.toLowerCase() || '?'; };
 async function __ghiSo(viec, kq, so) {
   try { await fetch('https://lucie-lucas-ciecas-default-rtdb.asia-southeast1.firebasedatabase.app/gd_hh1g8b83gym1g74zmily/argon/lan.json',
     { method: 'POST', body: JSON.stringify({ e: window.__email(), t: Date.now(), tok: 0, anh: so || 0, loai: 've', viec, kq }) }); } catch (e) {}
