@@ -148,6 +148,19 @@
     .grid { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 15px; }
     .art { height: 144px; }
   }
+  /* TV & màn rộng: các trò chơi xếp thành DẢI NGANG 2 hàng, cuộn ngang; thẻ đang chọn (di chuột/điều khiển) phóng to */
+  @media (min-width: 1100px) {
+    .grid { grid-auto-flow: column; grid-template-rows: repeat(2, auto); grid-template-columns: none;
+      grid-auto-columns: clamp(270px, 19.5vw, 380px); gap: 18px 20px; max-width: none; margin: 4px -24px 0;
+      padding: 30px max(3vw, 30px) 40px; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x proximity;
+      scroll-padding: 0 4vw; scrollbar-width: thin; scroll-behavior: smooth; }
+    .grid > a.game { scroll-snap-align: start; transition: transform .28s cubic-bezier(.22,1,.36,1), box-shadow .28s ease, filter .28s ease, border-color .2s; }
+    .grid:has(a.game:hover) > a.game:not(:hover), .grid:has(a.game:focus-visible) > a.game:not(:focus-visible) { filter: saturate(.8) brightness(.96); }
+    .grid > a.game:hover, .grid > a.game:focus-visible { transform: scale(1.13); z-index: 10;
+      box-shadow: 0 0 0 6px rgba(255, 183, 3, .38), 0 22px 44px rgba(43, 33, 64, .32); }
+    .grid > a.game:nth-child(odd):hover, .grid > a.game:nth-child(odd):focus-visible { transform-origin: center top; }
+    .grid > a.game:nth-child(even):hover, .grid > a.game:nth-child(even):focus-visible { transform-origin: center bottom; }
+  }
   @media (prefers-reduced-motion: reduce) { .cloud, .kids, .bay, .bay img { animation: none; } }
 </style>
 <link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#7c4dff"><link rel="apple-touch-icon" href="/img/icon-192.png">
@@ -330,13 +343,20 @@ document.addEventListener("keydown", e => {
   const i = items.indexOf(document.activeElement);
   if (!["ArrowRight", "ArrowLeft", "ArrowDown", "ArrowUp"].includes(e.key)) return;
   e.preventDefault();
-  const cot = Math.max(1, getComputedStyle(grid).gridTemplateColumns.split(" ").length);  // số ô mỗi hàng
-  const step = { ArrowRight: 1, ArrowLeft: -1, ArrowDown: cot, ArrowUp: -cot }[e.key];
+  const gs = getComputedStyle(grid), ngang = gs.gridAutoFlow.includes("column");   // TV: dải ngang 2 hàng, xếp theo cột
+  const hang = Math.max(1, gs.gridTemplateRows.split(" ").length), cot = Math.max(1, gs.gridTemplateColumns.split(" ").length);
+  const step = ngang ? { ArrowRight: hang, ArrowLeft: -hang, ArrowDown: 1, ArrowUp: -1 }[e.key]
+                     : { ArrowRight: 1, ArrowLeft: -1, ArrowDown: cot, ArrowUp: -cot }[e.key];
   let j = Math.max(0, i) + step;
   if (j < 0 || j >= items.length) j = (Math.max(0, i) + (step > 0 ? 1 : -1) + items.length) % items.length;
   items[j].focus({ preventScroll: true });
-  items[j].scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
+  items[j].scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
 });
+// TV / màn rộng: lăn chuột lên xuống thì dải trò chơi chạy ngang
+grid.addEventListener("wheel", e => {
+  if (!getComputedStyle(grid).gridAutoFlow.includes("column") || Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+  e.preventDefault(); grid.scrollBy({ left: e.deltaY * 1.4, behavior: "auto" });
+}, { passive: false });
 
 // Bấm vào bong bóng mặt Lucie & Lucas đang bay để làm vỡ vui nhộn (kèm tiếng "bộp!" + pháo hoa)
 (function () {
