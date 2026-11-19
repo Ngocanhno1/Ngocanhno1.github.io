@@ -1,0 +1,132 @@
+{
+ "trang": [
+  {
+   "loi": "Trường Chu Văn An tổ chức Ngày hội chia sẻ để quyên góp đồ dùng tặng các bạn nhỏ ở vùng khó khăn. Hai chị em Lucie và Lucas hào hứng bàn nhau sẽ mang gì đến góp. Lucie lục ngăn kéo tìm những đồ mình không dùng nữa nhưng vẫn còn rất tốt.",
+   "anh": "A child's desk drawer open showing neatly arranged toys, crayons, and storybooks, warm bedroom light, cheerful watercolor, no people, no text",
+   "doc": "Trường Chu Văn An tổ chức Ngày hội chia sẻ để quyên góp đồ dùng tặng các bạn nhỏ ở vùng khó khăn. Hai chị em Lu Xi và Lu Cát hào hứng bàn nhau sẽ mang gì đến góp. Lu Xi lục ngăn kéo tìm những đồ mình không dùng nữa nhưng vẫn còn rất tốt."
+  },
+  {
+   "loi": "Lucas ôm chặt chú gấu bông nâu yêu thích mà em ít chơi rồi đắn đo: \"Chị ơi, em thích chú gấu này nhưng em có hai con gấu rồi. Nếu cho bạn khác một con, bạn ấy sẽ có gấu ôm ngủ\". Lucie khen em suy nghĩ thật đáng yêu.",
+   "anh": "A small brown teddy bear sitting alone on a wooden shelf next to storybooks, soft bedroom light, cute watercolor illustration, no people, no text",
+   "doc": "Lu Cát ôm chặt chú gấu bông nâu yêu thích mà em ít chơi rồi đắn đo: \"Chị ơi, em thích chú gấu này nhưng em có hai con gấu rồi. Nếu cho bạn khác một con, bạn ấy sẽ có gấu ôm ngủ\". Lu Xi khen em suy nghĩ thật đáng yêu."
+  },
+  {
+   "loi": "Lucie chọn bộ bút màu còn mới tinh vì ở nhà em đã có nhiều bộ bút và hộp sáp. Em cẩn thận kiểm tra từng cây bút xem còn tốt không rồi xếp gọn gàng vào hộp. Hai chị em còn gấp thêm mấy chiếc máy bay giấy thật đẹp để kèm theo cho vui.",
+   "anh": "A box of colorful crayons neatly arranged next to small paper airplanes on a table, bright cheerful colors, watercolor, no people, no text",
+   "doc": "Lu Xi chọn bộ bút màu còn mới tinh vì ở nhà em đã có nhiều bộ bút và hộp sáp. Em cẩn thận kiểm tra từng cây bút xem còn tốt không rồi xếp gọn gàng vào hộp. Hai chị em còn gấp thêm mấy chiếc máy bay giấy thật đẹp để kèm theo cho vui."
+  },
+  {
+   "loi": "Sáng thứ Hai, sân trường rực rỡ với gian hàng chia sẻ đầy màu sắc. Các bạn mang tới sách truyện, đồ chơi, quần áo, dụng cụ học tập xếp thành từng chồng ngay ngắn. Lucas tự tay đặt chú gấu bông nâu lên bàn, lòng vừa hơi luyến tiếc vừa rất tự hào.",
+   "anh": "A school fair table covered with donated items including books, toys, and school supplies arranged neatly, colorful bunting above, watercolor, no people, no text",
+   "doc": "Sáng thứ Hai, sân trường rực rỡ với gian hàng chia sẻ đầy màu sắc. Các bạn mang tới sách truyện, đồ chơi, quần áo, dụng cụ học tập xếp thành từng chồng ngay ngắn. Lu Cát tự tay đặt chú gấu bông nâu lên bàn, lòng vừa hơi luyến tiếc vừa rất tự hào."
+  },
+  {
+   "loi": "Cô giáo nói với cả lớp: \"Khi các con chia sẻ một món đồ, các con không mất đi gì cả, ngược lại các con nhận được niềm vui vì đã giúp đỡ người khác\". Lucas thì thầm với chị: \"Em hiểu rồi, cho đi mà mình thấy vui thì mình đã nhận được rồi chị nhỉ?\".",
+   "anh": "A school notice board decorated with colorful hearts and the word \"SHARING\" made of paper cutouts, cheerful atmosphere, watercolor, no people, no text",
+   "doc": "Cô giáo nói với cả lớp: \"Khi các con chia sẻ một món đồ, các con không mất đi gì cả, ngược lại các con nhận được niềm vui vì đã giúp đỡ người khác\". Lu Cát thì thầm với chị: \"Em hiểu rồi, cho đi mà mình thấy vui thì mình đã nhận được rồi chị nhỉ?\"."
+  },
+  {
+   "loi": "Chiều tối hôm đó, hai chị em ngồi bên cửa sổ nhìn bầu trời đầy sao. Lucas bỗng nói: \"Chị ơi, mai mình gấp thêm máy bay giấy để lần sau lại góp nha!\". Lucie gật đầu, cả hai cùng mỉm cười ấm áp.",
+   "anh": "A window view of a starry night sky with a few paper airplanes on the windowsill, cozy warm indoor light, dreamy watercolor, no people, no text",
+   "doc": "Chiều tối hôm đó, hai chị em ngồi bên cửa sổ nhìn bầu trời đầy sao. Lu Cát bỗng nói: \"Chị ơi, mai mình gấp thêm máy bay giấy để lần sau lại góp nha!\". Lu Xi gật đầu, cả hai cùng mỉm cười ấm áp."
+  }
+ ],
+ "hoi_lucie": [
+  {
+   "cau": "Vì sao Lucas quyết định tặng chú gấu bông dù em rất thích?",
+   "dung": "Vì em có hai con gấu, tặng một con để bạn khác cũng có gấu ôm ngủ",
+   "sai": [
+    "Vì chú gấu bông đã bị rách không chơi được nữa",
+    "Vì mẹ bắt em phải mang đi tất cả đồ chơi"
+   ],
+   "doc": "Vì sao Lu Cát quyết định tặng chú gấu bông dù em rất thích?",
+   "doc_dap": [
+    "Vì em có hai con gấu, tặng một con để bạn khác cũng có gấu ôm ngủ",
+    "Vì chú gấu bông đã bị rách không chơi được nữa",
+    "Vì mẹ bắt em phải mang đi tất cả đồ chơi"
+   ]
+  },
+  {
+   "cau": "Cô giáo đã giải thích ý nghĩa của việc chia sẻ như thế nào?",
+   "dung": "Khi chia sẻ ta không mất gì mà nhận lại niềm vui",
+   "sai": [
+    "Chia sẻ là bắt buộc, ai không mang đồ sẽ bị phạt",
+    "Chia sẻ là đổi đồ với nhau, ai đổi nhiều thì thắng"
+   ],
+   "doc": "Cô giáo đã giải thích ý nghĩa của việc chia sẻ như thế nào?",
+   "doc_dap": [
+    "Khi chia sẻ ta không mất gì mà nhận lại niềm vui",
+    "Chia sẻ là bắt buộc, ai không mang đồ sẽ bị phạt",
+    "Chia sẻ là đổi đồ với nhau, ai đổi nhiều thì thắng"
+   ]
+  },
+  {
+   "cau": "Ngoài đồ dùng, hai chị em còn tự tay làm thêm gì để góp?",
+   "dung": "Gấp máy bay giấy thật đẹp",
+   "sai": [
+    "Nặn tượng đất sét cho các bạn",
+    "Vẽ tranh bán đấu giá lấy tiền"
+   ],
+   "doc": "Ngoài đồ dùng, hai chị em còn tự tay làm thêm gì để góp?",
+   "doc_dap": [
+    "Gấp máy bay giấy thật đẹp",
+    "Nặn tượng đất sét cho các bạn",
+    "Vẽ tranh bán đấu giá lấy tiền"
+   ]
+  }
+ ],
+ "hoi_lucas": [
+  {
+   "cau": "Lucas mang con gì đi tặng bạn?",
+   "dung": "Gấu bông nâu",
+   "sai": [
+    "Mèo bông trắng",
+    "Thỏ bông hồng"
+   ],
+   "doc": "Lu Cát mang con gì đi tặng bạn?",
+   "doc_dap": [
+    "Gấu bông nâu",
+    "Mèo bông trắng",
+    "Thỏ bông hồng"
+   ]
+  },
+  {
+   "cau": "Lucie chọn tặng đồ gì ở trường?",
+   "dung": "Bộ bút màu",
+   "sai": [
+    "Đôi giày mới",
+    "Chiếc mũ đỏ"
+   ],
+   "doc": "Lu Xi chọn tặng đồ gì ở trường?",
+   "doc_dap": [
+    "Bộ bút màu",
+    "Đôi giày mới",
+    "Chiếc mũ đỏ"
+   ]
+  },
+  {
+   "cau": "Trường tổ chức ngày hội để làm gì?",
+   "dung": "Để chia sẻ đồ cho các bạn khó khăn",
+   "sai": [
+    "Để thi chạy nhanh",
+    "Để ăn bánh kẹo"
+   ],
+   "doc": "Trường tổ chức ngày hội để làm gì?",
+   "doc_dap": [
+    "Để chia sẻ đồ cho các bạn khó khăn",
+    "Để thi chạy nhanh",
+    "Để ăn bánh kẹo"
+   ]
+  }
+ ],
+ "tieu_de": "Ngày hội chia sẻ",
+ "bia": "A colorful school charity fair table with homemade crafts, small toys and decorations, cheerful banner, watercolor style, no people, no text",
+ "bai_hoc": "Chia sẻ không phải là mất đi, mà là nhận lại niềm vui và sự ấm áp. Hãy sẵn lòng giúp đỡ những bạn khó khăn hơn mình, các con nhé.",
+ "chuc": "Chúc hai con ngủ ngon, mơ thấy nụ cười rạng rỡ vì đã biết chia sẻ yêu thương nhé.",
+ "doc_tieu_de": "Ngày hội chia sẻ",
+ "doc_bai_hoc": "Chia sẻ không phải là mất đi, mà là nhận lại niềm vui và sự ấm áp. Hãy sẵn lòng giúp đỡ những bạn khó khăn hơn mình, các con nhé.",
+ "doc_chuc": "Chúc hai con ngủ ngon, mơ thấy nụ cười rạng rỡ vì đã biết chia sẻ yêu thương nhé.",
+ "so": 14,
+ "ma": "tuan-14",
+ "ngay": "2026-12-13"
+}
