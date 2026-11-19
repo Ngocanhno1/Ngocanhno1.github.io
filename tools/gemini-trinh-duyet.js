@@ -195,7 +195,7 @@ window.__veTruyen = async function (ma) {
 // Mỗi việc 1 cuộc trò chuyện mới: xong việc thì trang tự tải lại; hết lượt thì tự chuyển sang tài khoản kế tiếp còn lượt
 // (danh sách: Firebase argon/tk, ve:"duoc"; tài khoản hết lượt trong ngày ghi ở localStorage 'veHet').
 // Sau mỗi lần trang tải lại, Claude chỉ cần nạp lại tệp (và tệp kỹ năng) rồi gọi window.__tiepTuc().
-var __MO_VE = 'gemini-3-pro-image-preview';
+var __MO_VE = 'gemini-3-pro-image';
 function __moChat(email) { location.href = 'https://aistudio.google.com/prompts/new_chat?authuser=' + encodeURIComponent(email) + '&model=' + __MO_VE; }
 async function __doiTaiKhoan() {
   const hom = new Date().toISOString().slice(0, 10), het = JSON.parse(localStorage.getItem('veHet') || '{}');
