@@ -7,7 +7,7 @@ import glob, json, os, re, subprocess, sys, time, unicodedata
 
 GIONG = os.environ.get("GIONG", "Quỳnh Anh")
 # Giọng mặc định (lưu ở giong/) + các giọng phụ để game xáo trộn cho đỡ nhàm (lưu ở giong/<thư mục>/)
-GIONG_PHU = [("tl", "Trúc Ly"), ("tm", "Thiện Minh")]
+GIONG_PHU = []   # 20/11/2026: chỉ một giọng (Hoài My), không xáo giọng phụ
 RA = "games/anh-chung/giong"
 HAN_GIO = float(os.environ.get("HAN_PHUT", "290")) * 60   # dừng trước giới hạn 6 giờ của GitHub
 VN = re.compile(r"[ăâđêôơưáàảãạấầẩẫậắằẳẵặéèẻẽẹếềểễệíìỉĩịóòỏõọốồổỗộớờởỡợúùủũụứừửữựýỳỷỹỵ]", re.I)
