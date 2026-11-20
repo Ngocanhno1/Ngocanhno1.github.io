@@ -1,0 +1,34 @@
+name: Đọc lại toàn bộ giọng bằng Hoài My (edge-tts)
+
+on:
+  push:
+    paths:
+      - "giong-gemini/lam-edge.txt"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  doc:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    strategy:
+      fail-fast: false
+      matrix:
+        manh: [0, 1, 2, 3, 4, 5]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: sudo apt-get install -y -qq ffmpeg >/dev/null && pip install -q edge-tts
+      - name: Đọc
+        env:
+          MANH: ${{ matrix.manh }}
+          SO_MANH: "6"
+          HAN_PHUT: "330"
+        run: |
+          git config user.name "Nguyễn Hoàng Ngọc Anh"
+          git config user.email "ngocanhbtg88@users.noreply.github.com"
+          python -u tools/doc_giong_edge.py
