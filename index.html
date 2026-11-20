@@ -177,6 +177,8 @@ const CUP_ICONS = ["🏆", "🥇", "⚡", "👑", "🌟", "💎", "🚀", "📖"
 const readJSON = k => { try { return JSON.parse(localStorage.getItem(k) || "null"); } catch (e) { return null; } };
 // Cúp từng bé đã giành trong mỗi game (đọc thẳng từ dữ liệu game lưu trên máy này)
 const CUPS = {
+  phocho: c => { const o = readJSON("phocho_" + c) || {}, n = o.cup || 0, h = (o.hu || {}).tietkiem || 0;
+    return { n, icons: Array(Math.min(n, 12)).fill("🏪"), note: n + "/30 phiên 3 sao · Hũ Tiết Kiệm " + h }; },
   phieuluu: c => { const p = readJSON("lucieLucas_v3_" + c) || {}, n = p.trophies || 0;
     const stars = Object.values(p.stars || {}).reduce((a, b) => a + b, 0);
     return { n, icons: CUP_ICONS.slice(0, n).reverse(), note: n + " cúp · ⭐" + stars }; },
@@ -223,7 +225,12 @@ function cupsHTML(key) {
   }).join("") + `</div>`;
 }
 const GAMES = [
-  { href: "games/ky-nang/", name: "Trường Kỹ Năng", isNew: true, cups: "kynang",
+  { href: "games/pho-cho-nhi/", name: "Phố Chợ Nhí", isNew: true, cups: "phocho",
+    desc: "30 phiên chợ: đi chợ chọn quầy tiết kiệm nhất để nấu Mâm Cơm Việt Nam, rồi làm Chủ Sạp Tài Ba tính tiền cho khách. CIECAS kiếm được chia vào 3 hũ, Hũ Tiết Kiệm đổi quà thật cuối tuần!",
+    tags: ["Tư duy chi tiêu", "Lucie lớp 3", "Lucas lớp 1", "Toán"], bg: "linear-gradient(180deg,#ffd6a5 0,#fff1d6 55%,#f4a261 55%,#e76f51 100%)",
+    art: `<img class="face pink" src="${F.lucie}" style="left:14%;top:76px" alt="Lucie"><img class="face blue" src="${F.lucas}" style="left:40%;top:96px" alt="Lucas">
+          <span class="big" style="font-size:56px;right:8%;top:40px">🏪</span><span class="em" style="font-size:34px;left:6%;top:18px">🧺</span>` },
+  { href: "games/ky-nang/", name: "Trường Kỹ Năng", cups: "kynang",
     desc: "12 bài học kỹ năng sống bằng truyện tranh có giọng kể: chào hỏi, cảm ơn xin lỗi, bình tĩnh khi giận, an toàn với người lạ, an toàn giao thông... Học xong làm bài kiểm tra ngay, trả lời đúng được thưởng CIECAS!",
     tags: ["Kỹ năng sống", "Lucie lớp 3", "Lucas lớp 1", "Học rồi kiểm tra"], bg: "linear-gradient(180deg,#8fd3ff 0,#d6f0ff 55%,#9be29b 55%,#5cbf5c 100%)",
     art: `<img class="face pink" src="${F.lucie}" style="left:14%;top:76px" alt="Lucie"><img class="face blue" src="${F.lucas}" style="left:40%;top:96px" alt="Lucas">
