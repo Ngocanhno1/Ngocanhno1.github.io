@@ -33,6 +33,7 @@ async def doc(f):
     import edge_tts
     s = open(f, encoding="utf-8-sig", errors="ignore").read()
     s = chuan_hoa(s)
+    os.makedirs("doc-mp3/ra", exist_ok=True)
     ra = os.path.join("doc-mp3/ra", os.path.basename(f)[:-4] + ".mp3")
     await edge_tts.Communicate(s, GIONG, rate=TOC_DO).save(ra)
     os.remove(f)
