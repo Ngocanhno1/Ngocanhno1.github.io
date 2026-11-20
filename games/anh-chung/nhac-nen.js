@@ -99,7 +99,12 @@
     if (NGOAI) { showSplash(); return; }   // nhạc riêng của game cần một cú chạm thật
     if (!on) return;
     play();
-    setTimeout(function () { if (!ctx || ctx.state !== "running") showSplash(); }, 350);
+    setTimeout(function () {
+      // chờ bản lưu từ máy khác tải xong (nếu cần tải lại trang thì không hiện màn chào 2 lần)
+      var san = window.DongBo && window.DongBo.san, xong = false;
+      function hien() { if (xong || window.__dangTaiLai) return; xong = true; if (!ctx || ctx.state !== "running") showSplash(); }
+      if (san && san.then) { san.then(function () { setTimeout(hien, 60); }, hien); setTimeout(hien, 3000); } else hien();
+    }, 350);
   }
   if (d.chao !== "0") { if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", tryAutoplay); else tryAutoplay(); }
   document.addEventListener("visibilitychange", function () { if (document.hidden) { if (ctx) ctx.suspend(); } else if (on && timer && ctx) ctx.resume(); });

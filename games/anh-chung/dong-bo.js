@@ -103,7 +103,7 @@
         if (!doi.length) return;
         window.dispatchEvent(new CustomEvent("dongbo", { detail: doi }));
         var daTai = false; try { daTai = sessionStorage.getItem("_db_tai") === "1"; } catch (e) {}
-        if (!daCham && !daTai && Date.now() - t0 < 15000) { try { sessionStorage.setItem("_db_tai", "1"); } catch (e) {} location.reload(); }
+        if (!daCham && !daTai && Date.now() - t0 < 15000) { try { sessionStorage.setItem("_db_tai", "1"); } catch (e) {} window.__dangTaiLai = true; location.reload(); }
         else bao();
       });
     }).catch(function () {}).then(function () { keoXong = true; });
@@ -117,8 +117,8 @@
     document.body.appendChild(d); setTimeout(function () { d.remove(); }, 12000);
   }
   try { if (sessionStorage.getItem("_db_tai") === "1") setTimeout(function () { sessionStorage.removeItem("_db_tai"); }, 20000); } catch (e) {}
-  keo();
-  window.DongBo = { gui: gui, keo: keo };
+  var san = keo();
+  window.DongBo = { gui: gui, keo: keo, san: san };
 })();
 
 /* Nút 🏠 về trang chủ cho mọi trò chơi (iPad, iPhone không có nút quay lại) */
