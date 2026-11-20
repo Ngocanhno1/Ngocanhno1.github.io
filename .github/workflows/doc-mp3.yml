@@ -23,8 +23,9 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -q edge-tts
-      - run: python -u tools/doc_mp3.py
-      - run: |
+      - run: mkdir -p doc-mp3 && (python -u tools/doc_mp3.py 2>&1 | tee doc-mp3/nhat-ky.txt)
+      - if: always()
+        run: |
           git config user.name "Nguyễn Hoàng Ngọc Anh"
           git config user.email "ngocanhbtg88@users.noreply.github.com"
           git add -A doc-mp3
