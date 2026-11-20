@@ -144,7 +144,7 @@
               <span class="chip bg-pink-100 text-pink-700">➕➖ Số có 3 chữ số</span>
               <span class="chip bg-pink-100 text-pink-700">✖️➗ Bảng nhân – chia</span>
               <span class="chip bg-pink-100 text-pink-700">🔢 Sắp xếp số</span>
-              <span class="chip bg-pink-100 text-pink-700">🌡️ Số âm</span>
+              <span class="chip bg-pink-100 text-pink-700">🌡️ Nhiệt độ</span>
             </div>
           </div>
         </div>
@@ -483,27 +483,26 @@ const G3 = {
   negTemp(){
     const t = Math.random();
     if (t < .4) {
-      const a = R(1, 8), d = R(a + 1, a + 7), ans = a - d;
+      const a = R(15, 35), d = R(3, Math.min(14, a - 2)), ans = a - d;
       return mkQ(`Buổi chiều trên Đảo Băng Giá nhiệt độ là ${a}°C. Ban đêm nhiệt độ giảm ${d}°C. Ban đêm nhiệt độ là bao nhiêu?`, ans,
-        { neg: true, unit: '°C', board: `🌡️ ${a}°C giảm ${d}°C = ?`, cands: [d - a, a + d, ans - 1, ans + 1, -(a + d)], hint: `Tưởng tượng nhiệt kế: từ ${a} đi xuống ${a} vạch là tới 0, xuống tiếp ${d - a} vạch nữa là số âm!`, word: true });
+        { unit: '°C', board: `🌡️ ${a}°C giảm ${d}°C = ?`, cands: [a + d, ans - 1, ans + 1, ans + 10, ans - 10], hint: `Giảm thì làm phép trừ: ${a} − ${d}`, word: true });
     }
     if (t < .7) {
-      const a = -R(2, 9), u = R(1, 12), ans = a + u;
-      return mkQ(`Buổi sáng nhiệt độ là ${fmt(a)}°C. Đến trưa nhiệt độ tăng thêm ${u}°C. Buổi trưa nhiệt độ là bao nhiêu?`, ans,
-        { neg: true, unit: '°C', board: `🌡️ ${fmt(a)}°C tăng ${u}°C = ?`, cands: [-ans, a - u, ans + 1, ans - 1, u - a], hint: `Từ ${fmt(a)} đi lên trên nhiệt kế ${u} vạch. Qua số 0 là số dương!`, word: true });
+      const a = R(5, 20), u = R(3, 15), ans = a + u;
+      return mkQ(`Buổi sáng nhiệt độ là ${a}°C. Đến trưa nhiệt độ tăng thêm ${u}°C. Buổi trưa nhiệt độ là bao nhiêu?`, ans,
+        { unit: '°C', board: `🌡️ ${a}°C tăng ${u}°C = ?`, cands: [Math.abs(a - u), ans + 1, ans - 1, ans + 10], hint: `Tăng thì làm phép cộng: ${a} + ${u}`, word: true });
     }
-    const dep = R(4, 15), up = Math.random() < .5, m = R(2, 8);
-    const ans = up ? -dep + m : -dep - m;
-    return mkQ(`Chú cá heo 🐬 đang ở độ sâu ${fmt(-dep)} m (dưới mặt biển ${dep} m). Cá heo ${up ? 'bơi lên' : 'lặn sâu thêm'} ${m} m. Cá heo đang ở độ sâu nào?`, ans,
-      { neg: true, unit: ' m', board: `🐬 ${fmt(-dep)} m ${up ? 'bơi lên' : 'lặn thêm'} ${m} m`, cands: [-ans, up ? -dep - m : -dep + m, ans + 1, ans - 1], hint: up ? 'Bơi lên thì gần mặt nước hơn, số âm sẽ "bé" lại về phía 0!' : 'Lặn sâu thêm thì càng xa mặt nước, số âm càng lớn về độ sâu!', word: true });
+    const dep = R(12, 60), up = Math.random() < .5, m = R(3, Math.min(11, dep - 2));
+    const ans = up ? dep - m : dep + m;
+    return mkQ(`Chú cá heo 🐬 đang ở dưới mặt biển ${dep} m. Cá heo ${up ? 'bơi lên' : 'lặn sâu thêm'} ${m} m. Lúc này cá heo ở dưới mặt biển bao nhiêu mét?`, ans,
+      { unit: ' m', board: `🐬 ${dep} m ${up ? 'bơi lên' : 'lặn thêm'} ${m} m`, cands: [up ? dep + m : dep - m, ans + 1, ans - 1, ans + 10], hint: up ? 'Bơi lên thì gần mặt nước hơn: làm phép trừ!' : 'Lặn sâu thêm thì xa mặt nước hơn: làm phép cộng!', word: true });
   },
   negCmp(){
-    const nums = distinct(4, () => R(-10, 10));
-    if (!nums.some(n => n < 0)) nums[0] = -R(1, 9);
+    const nums = distinct(4, () => R(5, 39));
     const cold = Math.random() < .5;
     const ans = cold ? Math.min(...nums) : Math.max(...nums);
     return mkChoice(cold ? 'Nhiệt độ nào <span class="text-sky-600">LẠNH NHẤT</span>? 🥶' : 'Nhiệt độ nào <span class="text-rose-600">NÓNG NHẤT</span>? 🥵',
-      nums.map(n => fmt(n) + '°C'), fmt(ans) + '°C', { keepOrder: true, label: cold ? 'Nhiệt độ nào lạnh nhất?' : 'Nhiệt độ nào nóng nhất?', hint: 'Số âm càng xa số 0 thì càng lạnh (càng bé)!' });
+      nums.map(n => n + '°C'), ans + '°C', { keepOrder: true, label: cold ? 'Nhiệt độ nào lạnh nhất?' : 'Nhiệt độ nào nóng nhất?', hint: 'Số độ càng bé thì càng lạnh, càng lớn thì càng nóng!' });
   },
   sign(){
     for (let g = 0; g < 50; g++) {
@@ -534,9 +533,9 @@ const G3 = {
     return mkQ(`${a} : ${BOX} = ${q}`, b, { cands: [b + 1, b - 1, q, b + 2], hint: `Số chia = Số bị chia : Thương: ${a} : ${q}` });
   },
   tempGate(){
-    const a = R(1, 6), d = R(a + 1, a + 6), ans = a - d;
-    if (Math.random() < .6) return mkQ(`${a}°C giảm ${d}°C = ${BOX}`, ans, { neg: true, unit: '°C', cands: [d - a, a + d, ans - 1, ans + 1], hint: `Từ ${a}°C xuống 0°C là ${a} độ, còn phải giảm thêm ${d - a} độ nữa!` });
-    return mkQ(`${a}°C giảm ${BOX} = ${fmt(ans)}°C`, d, { unit: '°C', cands: [d + 1, d - 1, d - a, a], hint: `Đếm trên nhiệt kế từ ${a} xuống ${fmt(ans)} là bao nhiêu vạch?` });
+    const a = R(20, 38), d = R(3, 15), ans = a - d;
+    if (Math.random() < .6) return mkQ(`${a}°C giảm ${d}°C = ${BOX}`, ans, { unit: '°C', cands: [a + d, ans - 1, ans + 1, ans + 10], hint: `Làm phép trừ: ${a} − ${d}` });
+    return mkQ(`${a}°C giảm ${BOX} = ${ans}°C`, d, { unit: '°C', cands: [d + 1, d - 1, d + 10, a], hint: `Lấy ${a} − ${ans}` });
   }
 };
 const G3_POOL = [
@@ -593,7 +592,7 @@ const THEMES = [
 ];
 const TOPICS = {
   1: ['Phép cộng trong phạm vi 10', 'Phép trừ trong phạm vi 10', 'Cộng, trừ trong phạm vi 20', 'Sắp xếp số & tìm số chưa biết', 'Tổng hợp – Thách đấu Cướp biển Max'],
-  3: ['Cộng, trừ số có 2 – 3 chữ số', 'Bảng nhân 2 đến 9', 'Bảng chia 2 đến 9', 'Sắp xếp số & làm quen số âm', 'Tổng hợp – Thách đấu Cướp biển Max']
+  3: ['Cộng, trừ số có 2 – 3 chữ số', 'Bảng nhân 2 đến 9', 'Bảng chia 2 đến 9', 'Nhiệt độ & so sánh số', 'Tổng hợp – Thách đấu Cướp biển Max']
 };
 const BADGES = ['🌴 Huy hiệu Dừa Xanh', '⭐ Huy hiệu Sao Biển', '🌋 Huy hiệu Núi Lửa', '❄️ Huy hiệu Băng Giá', '👑 Huy hiệu Vua Kho Báu'];
 const OPT_COLORS = ['#3b82f6', '#f97316', '#a855f7', '#ec4899'];
