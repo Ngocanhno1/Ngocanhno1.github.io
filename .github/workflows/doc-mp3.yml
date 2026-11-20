@@ -1,0 +1,33 @@
+name: Đọc chữ thành MP3 (edge-tts)
+
+on:
+  push:
+    paths:
+      - "doc-mp3/vao/*.txt"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: doc-mp3
+  cancel-in-progress: false
+
+jobs:
+  doc:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -q edge-tts
+      - run: python -u tools/doc_mp3.py
+      - run: |
+          git config user.name "Nguyễn Hoàng Ngọc Anh"
+          git config user.email "ngocanhbtg88@users.noreply.github.com"
+          git add -A doc-mp3
+          git diff --cached --quiet || git commit -m "Đọc chữ thành MP3"
+          git pull --rebase -q origin main
+          git push
