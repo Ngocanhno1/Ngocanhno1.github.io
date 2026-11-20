@@ -1850,7 +1850,7 @@
     // Kiểm tra số dư mới sau khi đồng bộ
     const soduMoi = laySoDu(state.be);
 
-    // Kiểm tra cả 12 bài đã có sao chưa
+    // Kiểm tra tất cả bài đã có sao chưa
     const ds = dssBai();
     const du12Bai = ds.length > 0 && ds.every(b => (td.sao[b.ma] || 0) > 0);
 
@@ -1898,7 +1898,7 @@
               <img class="avatar-sm" style="width:68px;height:68px" src="${anhMat(state.be)}" alt="${tenBe(state.be)}">
               <div style="text-align:left">
                 <div style="font-weight:800;color:#e65100;font-size:clamp(24px,2.5vw,34px)">🏅 BẰNG KHEN HỌC SINH KỸ NĂNG</div>
-                <div style="font-weight:700;color:#4e342e;font-size:clamp(20px,2vw,26px)">Chúc mừng ${tenBe(state.be)} đã chinh phục trọn bộ 12 bài học!</div>
+                <div style="font-weight:700;color:#4e342e;font-size:clamp(20px,2vw,26px)">Chúc mừng ${tenBe(state.be)} đã chinh phục trọn bộ ${dssBai().length} bài học!</div>
               </div>
             </div>
           ` : ""}

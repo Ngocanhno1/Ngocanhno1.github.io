@@ -1764,6 +1764,774 @@ window.KN = {
      "Nói to rõ ràng"
     ]
    }
+  },
+  {
+   "ma": "13",
+   "ten": "Tự mặc quần áo và chuẩn bị đồ đi học",
+   "mau": "#5C6BC0",
+   "gioiThieu": "Mỗi sáng thức dậy, con tự gấp chăn, mặc quần áo gọn gàng và kiểm tra đủ sách vở trước khi đến lớp.",
+   "trang": [
+    {
+     "ke": "Buổi sáng nắng ấm, Lucie và Lucas thức dậy đúng giờ trong phòng ngủ gọn gàng. Hai chị em cùng nhau gấp chăn ngay ngắn trước khi thay quần áo đi học.",
+     "anh": "13-1",
+     "ve": ""
+    },
+    {
+     "ke": "Lucie kiên nhẫn chỉ cho em cách xem mặt trước, mặt sau của chiếc áo. Lucas tự tay cài từng chiếc khuy thật khéo mà không cần bố mẹ làm hộ.",
+     "anh": "13-2",
+     "ve": ""
+    },
+    {
+     "ke": "Ra đến cửa, Lucas ngồi lên ghế gỗ tự xỏ đôi tất trắng và đi đôi giày thể thao màu xanh. Lucie kiểm tra giúp em đúng chân trái, chân phải rồi khen em rất giỏi.",
+     "anh": "13-3",
+     "ve": ""
+    },
+    {
+     "ke": "Hai chị em cùng kiểm tra ba lô đi học: sách vở, hộp bút và bình nước đều được xếp ngăn nắp đúng ngăn để không quên đồ dùng.",
+     "anh": "13-4",
+     "ve": ""
+    },
+    {
+     "ke": "Đeo ba lô ngay ngắn trên vai, Lucie và Lucas cười tươi rạng rỡ vẫy tay chào bố mẹ. Tự làm việc cá nhân giúp hai con lớn khôn và tự tin mỗi ngày.",
+     "anh": "13-5",
+     "ve": ""
+    }
+   ],
+   "lucie": [
+    {
+     "cau": "Trong các việc sau, việc nào con NÊN làm?",
+     "dung": "Buổi sáng tự gấp chăn và tự mặc quần áo đi học.",
+     "sai": [
+      "Vứt quần áo ngủ bừa bãi trên sàn nhà rồi chạy đi chơi.",
+      "Đợi bố mẹ mặc hộ từng chiếc áo, đôi tất dù mình đã lớn.",
+      "Mặc áo trái mặt nhưng ngại sửa nên cứ để vậy đi học."
+     ],
+     "gt": "Tự làm việc cá nhân giúp con tự lập và không bị muộn học."
+    },
+    {
+     "cau": "Trong các việc sau, việc nào con NÊN làm?",
+     "dung": "Kiểm tra sách vở, hộp bút và bình nước trước khi ra khỏi nhà.",
+     "sai": [
+      "Mặc áo trái mặt nhưng ngại sửa nên cứ để vậy đi học.",
+      "Đợi bố mẹ mặc hộ từng chiếc áo, đôi tất dù mình đã lớn.",
+      "Vứt quần áo ngủ bừa bãi trên sàn nhà rồi chạy đi chơi."
+     ],
+     "gt": "Kiểm tra kỹ giúp con không quên đồ dùng học tập ở nhà."
+    },
+    {
+     "cau": "Trong các việc sau, việc nào con NÊN làm?",
+     "dung": "Xem kỹ mũi giày để xỏ đúng chân trái và chân phải.",
+     "sai": [
+      "Mặc áo trái mặt nhưng ngại sửa nên cứ để vậy đi học.",
+      "Đợi bố mẹ mặc hộ từng chiếc áo, đôi tất dù mình đã lớn.",
+      "Vứt quần áo ngủ bừa bãi trên sàn nhà rồi chạy đi chơi."
+     ],
+     "gt": "Đi đúng chân giúp con bước đi êm ái và chạy nhảy an toàn."
+    }
+   ],
+   "lucas": [
+    {
+     "cau": "Việc nào con KHÔNG NÊN làm?",
+     "dung": "Đợi bố mẹ mặc hộ từng chiếc áo, đôi tất dù mình đã lớn.",
+     "sai": [
+      "Buổi sáng tự gấp chăn và tự mặc quần áo đi học.",
+      "Kiểm tra sách vở, hộp bút và bình nước trước khi ra khỏi nhà."
+     ],
+     "gt": "Con đã đủ khéo léo để tự mặc quần áo và đi giày của mình."
+    },
+    {
+     "cau": "Việc nào con KHÔNG NÊN làm?",
+     "dung": "Vứt quần áo ngủ bừa bãi trên sàn nhà rồi chạy đi chơi.",
+     "sai": [
+      "Buổi sáng tự gấp chăn và tự mặc quần áo đi học.",
+      "Xem kỹ mũi giày để xỏ đúng chân trái và chân phải."
+     ],
+     "gt": "Nên gấp gọn hoặc bỏ vào giỏ đồ bẩn để phòng luôn sạch đẹp."
+    },
+    {
+     "cau": "Việc nào con KHÔNG NÊN làm?",
+     "dung": "Mặc áo trái mặt nhưng ngại sửa nên cứ để vậy đi học.",
+     "sai": [
+      "Buổi sáng tự gấp chăn và tự mặc quần áo đi học.",
+      "Xem kỹ mũi giày để xỏ đúng chân trái và chân phải."
+     ],
+     "gt": "Nên chỉnh lại quần áo ngay ngắn để trông gọn gàng, lịch sự."
+    }
+   ],
+   "dungSai": [
+    {
+     "viec": "Buổi sáng tự gấp chăn và tự mặc quần áo đi học.",
+     "dung": true
+    },
+    {
+     "viec": "Đợi bố mẹ mặc hộ từng chiếc áo, đôi tất dù mình đã lớn.",
+     "dung": false
+    },
+    {
+     "viec": "Kiểm tra sách vở, hộp bút và bình nước trước khi ra khỏi nhà.",
+     "dung": true
+    },
+    {
+     "viec": "Vứt quần áo ngủ bừa bãi trên sàn nhà rồi chạy đi chơi.",
+     "dung": false
+    },
+    {
+     "viec": "Xem kỹ mũi giày để xỏ đúng chân trái và chân phải.",
+     "dung": true
+    },
+    {
+     "viec": "Mặc áo trái mặt nhưng ngại sửa nên cứ để vậy đi học.",
+     "dung": false
+    }
+   ],
+   "nho": {
+    "cau": "Mỗi sáng thức dậy, con tự gấp chăn, mặc quần áo gọn gàng và kiểm tra đủ sách vở trước khi đến lớp.",
+    "buoc": [
+     "Tự mặc áo quần đúng chiều, cài khuy ngay ngắn",
+     "Đi tất và xỏ giày đúng chân trái, chân phải",
+     "Soạn đủ sách vở, hộp bút, bình nước vào ba lô"
+    ]
+   }
+  },
+  {
+   "ma": "14",
+   "ten": "Bình tĩnh xử lý khi bị lạc",
+   "mau": "#26A69A",
+   "gioiThieu": "Nếu lỡ lạc bố mẹ nơi đông người, con giữ bình tĩnh, đứng yên hoặc nhờ nhân viên mặc đồng phục gọi cho bố mẹ.",
+   "trang": [
+    {
+     "ke": "Cuối tuần cả nhà đi siêu thị rất đông vui. Lucie và Lucas luôn nắm tay nhau đi gần xe đẩy và giữ bố mẹ trong tầm mắt.",
+     "anh": "14-1",
+     "ve": ""
+    },
+    {
+     "ke": "Khi không thấy bố mẹ ngay trước mặt, Lucas hơi lo lắng. Lucie lập tức nắm chặt tay em, nhắc em dừng lại ngay tại chỗ và không chạy lung tung.",
+     "anh": "14-2",
+     "ve": ""
+    },
+    {
+     "ke": "Hai chị em hít thở sâu giữ bình tĩnh, quan sát xung quanh rồi bước tới quầy dịch vụ gặp cô nhân viên mặc đồng phục để nhờ giúp đỡ.",
+     "anh": "14-3",
+     "ve": ""
+    },
+    {
+     "ke": "Lucie đọc rõ họ tên và số điện thoại của bố mẹ đã học thuộc để cô nhân viên gọi điện báo tin. Hai chị em kiên nhẫn đứng chờ ngay tại quầy.",
+     "anh": "14-4",
+     "ve": ""
+    },
+    {
+     "ke": "Chỉ ít phút sau, bố mẹ chạy tới ôm hai con vào lòng trong niềm vui vỡ òa. Bình tĩnh và nhớ số điện thoại bố mẹ giúp hai con luôn an toàn.",
+     "anh": "14-5",
+     "ve": ""
+    }
+   ],
+   "lucie": [
+    {
+     "cau": "Trong các việc sau, việc nào con NÊN làm?",
+     "dung": "Học thuộc số điện thoại của bố mẹ để dùng khi cần thiết.",
+     "sai": [
+      "Chạy thật nhanh ra ngoài đường lớn để tự tìm bố mẹ.",
+      "Nhận kẹo và lên xe của người không quen biết khi đang chờ bố mẹ.",
+      "Đi theo một người lạ hứa dẫn đi tìm bố mẹ."
+     ],
+     "gt": "Thuộc số điện thoại giúp người hỗ trợ liên lạc với bố mẹ rất nhanh."
+    },
+    {
+     "cau": "Trong các việc sau, việc nào con NÊN làm?",
+     "dung": "Bình tĩnh tìm đến quầy thu ngân hoặc chú bảo vệ mặc đồng phục nhờ gọi điện.",
+     "sai": [
+      "Nhận kẹo và lên xe của người không quen biết khi đang chờ bố mẹ.",
+      "Đi theo một người lạ hứa dẫn đi tìm bố mẹ.",
+      "Chạy thật nhanh ra ngoài đường lớn để tự tìm bố mẹ."
+     ],
+     "gt": "Nhân viên mặc đồng phục là người đáng tin cậy ở siêu thị và khu vui chơi."
+    },
+    {
+     "cau": "Trong các việc sau, việc nào con NÊN làm?",
+     "dung": "Luôn nắm tay bố mẹ hoặc đi trong tầm mắt khi đến nơi đông người.",
+     "sai": [
+      "Nhận kẹo và lên xe của người không quen biết khi đang chờ bố mẹ.",
+      "Đi theo một người lạ hứa dẫn đi tìm bố mẹ.",
+      "Chạy thật nhanh ra ngoài đường lớn để tự tìm bố mẹ."
+     ],
+     "gt": "Đi gần bố mẹ là cách tốt nhất để không bị lạc."
+    }
+   ],
+   "lucas": [
+    {
+     "cau": "Việc nào con KHÔNG NÊN làm?",
+     "dung": "Đi theo một người lạ hứa dẫn đi tìm bố mẹ.",
+     "sai": [
+      "Luôn nắm tay bố mẹ hoặc đi trong tầm mắt khi đến nơi đông người.",
+      "Bình tĩnh tìm đến quầy thu ngân hoặc chú bảo vệ mặc đồng phục nhờ gọi điện."
+     ],
+     "gt": "Tuyệt đối không bao giờ đi theo người lạ khi bị lạc."
+    },
+    {
+     "cau": "Việc nào con KHÔNG NÊN làm?",
+     "dung": "Chạy thật nhanh ra ngoài đường lớn để tự tìm bố mẹ.",
+     "sai": [
+      "Bình tĩnh tìm đến quầy thu ngân hoặc chú bảo vệ mặc đồng phục nhờ gọi điện.",
+      "Luôn nắm tay bố mẹ hoặc đi trong tầm mắt khi đến nơi đông người."
+     ],
+     "gt": "Chạy lung tung ra đường rất nguy hiểm và khiến bố mẹ khó tìm thấy con hơn."
+    },
+    {
+     "cau": "Việc nào con KHÔNG NÊN làm?",
+     "dung": "Nhận kẹo và lên xe của người không quen biết khi đang chờ bố mẹ.",
+     "sai": [
+      "Luôn nắm tay bố mẹ hoặc đi trong tầm mắt khi đến nơi đông người.",
+      "Bình tĩnh tìm đến quầy thu ngân hoặc chú bảo vệ mặc đồng phục nhờ gọi điện."
+     ],
+     "gt": "Không nhận đồ ăn và không lên xe người lạ trong mọi tình huống."
+    }
+   ],
+   "dungSai": [
+    {
+     "viec": "Học thuộc số điện thoại của bố mẹ để dùng khi cần thiết.",
+     "dung": true
+    },
+    {
+     "viec": "Đi theo một người lạ hứa dẫn đi tìm bố mẹ.",
+     "dung": false
+    },
+    {
+     "viec": "Bình tĩnh tìm đến quầy thu ngân hoặc chú bảo vệ mặc đồng phục nhờ gọi điện.",
+     "dung": true
+    },
+    {
+     "viec": "Chạy thật nhanh ra ngoài đường lớn để tự tìm bố mẹ.",
+     "dung": false
+    },
+    {
+     "viec": "Luôn nắm tay bố mẹ hoặc đi trong tầm mắt khi đến nơi đông người.",
+     "dung": true
+    },
+    {
+     "viec": "Nhận kẹo và lên xe của người không quen biết khi đang chờ bố mẹ.",
+     "dung": false
+    }
+   ],
+   "nho": {
+    "cau": "Nếu lỡ lạc bố mẹ nơi đông người, con giữ bình tĩnh, đứng yên hoặc nhờ nhân viên mặc đồng phục gọi cho bố mẹ.",
+    "buoc": [
+     "Không khóc hoảng, không chạy lung tung",
+     "Nhờ chú bảo vệ hoặc cô nhân viên mặc đồng phục giúp",
+     "Đọc thuộc số điện thoại bố mẹ, tuyệt đối không theo người lạ"
+    ]
+   }
+  },
+  {
+   "ma": "15",
+   "ten": "Rửa tay sạch đúng cách",
+   "mau": "#29B6F6",
+   "gioiThieu": "Rửa tay bằng xà phòng trước khi ăn, sau khi đi vệ sinh và sau khi chơi giúp đôi tay sạch vi khuẩn, cơ thể khỏe mạnh.",
+   "trang": [
+    {
+     "ke": "Vừa chơi ngoài sân về, đôi tay Lucas còn dính bụi đất. Lucie mỉm cười nhắc em vào rửa tay thật sạch bằng xà phòng trước khi ngồi vào bàn ăn.",
+     "anh": "15-1",
+     "ve": ""
+    },
+    {
+     "ke": "Hai chị em làm ướt bàn tay dưới vòi nước sạch, rồi nhấn một lượng nước rửa tay vừa đủ xoa đều tạo bọt trắng mịn.",
+     "anh": "15-2",
+     "ve": ""
+    },
+    {
+     "ke": "Lucie hướng dẫn Lucas chà kỹ lòng bàn tay, mu bàn tay, các kẽ ngón tay và từng đầu ngón tay trong ít nhất hai mươi giây để đánh bay vi khuẩn.",
+     "anh": "15-3",
+     "ve": ""
+    },
+    {
+     "ke": "Sau khi chà sạch, hai chị em xả hết bọt xà phòng dưới vòi nước chảy rồi nhớ khóa chặt vòi nước ngay để không lãng phí nước sạch.",
+     "anh": "15-4",
+     "ve": ""
+    },
+    {
+     "ke": "Lau khô tay bằng chiếc khăn sạch, Lucie và Lucas giơ đôi bàn tay thơm tho sạch bóng lên cười tươi rồi vui vẻ vào bữa cơm cùng gia đình.",
+     "anh": "15-5",
+     "ve": ""
+    }
+   ],
+   "lucie": [
+    {
+     "cau": "Trong các việc sau, việc nào con NÊN làm?",
+     "dung": "Rửa tay với xà phòng trước khi ăn cơm và sau khi đi vệ sinh.",
+     "sai": [
+      "Chỉ nhúng tay qua nước lã vài giây rồi ngồi vào bàn ăn ngay.",
+      "Để vòi nước chảy tràn liên tục trong lúc đang xoa xà phòng.",
+      "Tay đang dính đất cát ngoài sân nhưng vẫn bốc bánh ăn ngay."
+     ],
+     "gt": "Xà phòng giúp loại bỏ vi khuẩn gây đau bụng và cảm cúm."
+    },
+    {
+     "cau": "Trong các việc sau, việc nào con NÊN làm?",
+     "dung": "Chà kỹ cả các kẽ ngón tay, ngón cái và đầu ngón tay.",
+     "sai": [
+      "Để vòi nước chảy tràn liên tục trong lúc đang xoa xà phòng.",
+      "Tay đang dính đất cát ngoài sân nhưng vẫn bốc bánh ăn ngay.",
+      "Chỉ nhúng tay qua nước lã vài giây rồi ngồi vào bàn ăn ngay."
+     ],
+     "gt": "Kẽ ngón tay và đầu ngón tay là nơi dễ bám nhiều vi khuẩn nhất."
+    },
+    {
+     "cau": "Trong các việc sau, việc nào con NÊN làm?",
+     "dung": "Lau khô tay bằng khăn sạch sau khi rửa xong.",
+     "sai": [
+      "Tay đang dính đất cát ngoài sân nhưng vẫn bốc bánh ăn ngay.",
+      "Chỉ nhúng tay qua nước lã vài giây rồi ngồi vào bàn ăn ngay.",
+      "Để vòi nước chảy tràn liên tục trong lúc đang xoa xà phòng."
+     ],
+     "gt": "Bàn tay khô ráo sạch sẽ giúp hạn chế vi khuẩn bám lại."
+    }
+   ],
+   "lucas": [
+    {
+     "cau": "Việc nào con KHÔNG NÊN làm?",
+     "dung": "Chỉ nhúng tay qua nước lã vài giây rồi ngồi vào bàn ăn ngay.",
+     "sai": [
+      "Lau khô tay bằng khăn sạch sau khi rửa xong.",
+      "Chà kỹ cả các kẽ ngón tay, ngón cái và đầu ngón tay."
+     ],
+     "gt": "Rửa qua nước lã không làm sạch được bụi bẩn và vi khuẩn bám trên tay."
+    },
+    {
+     "cau": "Việc nào con KHÔNG NÊN làm?",
+     "dung": "Để vòi nước chảy tràn liên tục trong lúc đang xoa xà phòng.",
+     "sai": [
+      "Chà kỹ cả các kẽ ngón tay, ngón cái và đầu ngón tay.",
+      "Lau khô tay bằng khăn sạch sau khi rửa xong."
+     ],
+     "gt": "Nên tắt vòi khi chà xà phòng và khóa chặt sau khi rửa xong để tiết kiệm nước."
+    },
+    {
+     "cau": "Việc nào con KHÔNG NÊN làm?",
+     "dung": "Tay đang dính đất cát ngoài sân nhưng vẫn bốc bánh ăn ngay.",
+     "sai": [
+      "Lau khô tay bằng khăn sạch sau khi rửa xong.",
+      "Chà kỹ cả các kẽ ngón tay, ngón cái và đầu ngón tay."
+     ],
+     "gt": "Bụi bẩn và vi khuẩn từ tay sẽ theo thức ăn vào bụng gây đau bụng."
+    }
+   ],
+   "dungSai": [
+    {
+     "viec": "Rửa tay với xà phòng trước khi ăn cơm và sau khi đi vệ sinh.",
+     "dung": true
+    },
+    {
+     "viec": "Chỉ nhúng tay qua nước lã vài giây rồi ngồi vào bàn ăn ngay.",
+     "dung": false
+    },
+    {
+     "viec": "Chà kỹ cả các kẽ ngón tay, ngón cái và đầu ngón tay.",
+     "dung": true
+    },
+    {
+     "viec": "Để vòi nước chảy tràn liên tục trong lúc đang xoa xà phòng.",
+     "dung": false
+    },
+    {
+     "viec": "Lau khô tay bằng khăn sạch sau khi rửa xong.",
+     "dung": true
+    },
+    {
+     "viec": "Tay đang dính đất cát ngoài sân nhưng vẫn bốc bánh ăn ngay.",
+     "dung": false
+    }
+   ],
+   "nho": {
+    "cau": "Rửa tay bằng xà phòng trước khi ăn, sau khi đi vệ sinh và sau khi chơi giúp đôi tay sạch vi khuẩn, cơ thể khỏe mạnh.",
+    "buoc": [
+     "Dùng xà phòng chà kỹ lòng, mu và kẽ ngón tay đủ 20 giây",
+     "Xả sạch bọt dưới vòi nước rồi khóa vòi ngay",
+     "Lau khô tay bằng khăn sạch trước khi ăn"
+    ]
+   }
+  },
+  {
+   "ma": "16",
+   "ten": "Nhận lỗi chân thành và biết tha thứ",
+   "mau": "#F06292",
+   "gioiThieu": "Khi lỡ làm sai, con dũng cảm xin lỗi chân thành và sửa sai; khi bạn biết nhận lỗi, con mở lòng tha thứ.",
+   "trang": [
+    {
+     "ke": "Trong phòng chơi, Lucie vừa khéo léo xếp xong một tòa tháp gỗ rất cao. Lucas chạy ngang qua vội vàng nên lỡ chạm làm tòa tháp đổ sập xuống thảm.",
+     "anh": "16-1",
+     "ve": ""
+    },
+    {
+     "ke": "Lucie thoáng buồn nhìn những khối gỗ rơi vương vãi. Lucas dừng lại ngay, không bỏ chạy cũng không đổ lỗi cho ai vì em biết mình đã chạy ẩu.",
+     "anh": "16-2",
+     "ve": ""
+    },
+    {
+     "ke": "Lucas bước lại gần, chắp tay nhìn thẳng vào mắt chị và nói lời xin lỗi thật chân thành: Em xin lỗi chị Lucie, lần sau em sẽ đi chậm cẩn thận hơn ạ.",
+     "anh": "16-3",
+     "ve": ""
+    },
+    {
+     "ke": "Thấy em biết nhận lỗi thật lòng, Lucie mỉm cười dịu dàng nắm tay em tha thứ và rủ em cùng nhau xây lại tòa tháp mới.",
+     "anh": "16-4",
+     "ve": ""
+    },
+    {
+     "ke": "Hai chị em vui vẻ cùng nhau xếp nên một tòa lâu đài gỗ còn cao và vững chắc hơn trước. Biết xin lỗi và tha thứ làm tình cảm thêm ấm áp.",
+     "anh": "16-5",
+     "ve": ""
+    }
+   ],
+   "lucie": [
+    {
+     "cau": "Trong các việc sau, việc nào con NÊN làm?",
+     "dung": "Lỡ làm đổ đồ của chị, chủ động xin lỗi và giúp chị xếp lại.",
+     "sai": [
+      "Giận dỗi mãi không chịu nói chuyện dù bạn đã xin lỗi chân thành.",
+      "Làm hỏng đồ chơi của bạn rồi lặng lẽ bỏ đi không nói gì.",
+      "Đổ lỗi cho người khác vì sợ bị mắng."
+     ],
+     "gt": "Xin lỗi đi kèm hành động sửa sai thể hiện sự chân thành và trách nhiệm."
+    },
+    {
+     "cau": "Trong các việc sau, việc nào con NÊN làm?",
+     "dung": "Mỉm cười tha thứ khi em hoặc bạn đã thành thật nhận lỗi.",
+     "sai": [
+      "Giận dỗi mãi không chịu nói chuyện dù bạn đã xin lỗi chân thành.",
+      "Đổ lỗi cho người khác vì sợ bị mắng.",
+      "Làm hỏng đồ chơi của bạn rồi lặng lẽ bỏ đi không nói gì."
+     ],
+     "gt": "Biết tha thứ giúp cả hai cùng vui vẻ và thân thiết hơn."
+    },
+    {
+     "cau": "Trong các việc sau, việc nào con NÊN làm?",
+     "dung": "Rút kinh nghiệm để lần sau không lặp lại lỗi cũ nữa.",
+     "sai": [
+      "Đổ lỗi cho người khác vì sợ bị mắng.",
+      "Giận dỗi mãi không chịu nói chuyện dù bạn đã xin lỗi chân thành.",
+      "Làm hỏng đồ chơi của bạn rồi lặng lẽ bỏ đi không nói gì."
+     ],
+     "gt": "Lời xin lỗi đẹp nhất là khi mình thật sự cố gắng làm tốt hơn."
+    }
+   ],
+   "lucas": [
+    {
+     "cau": "Việc nào con KHÔNG NÊN làm?",
+     "dung": "Làm hỏng đồ chơi của bạn rồi lặng lẽ bỏ đi không nói gì.",
+     "sai": [
+      "Lỡ làm đổ đồ của chị, chủ động xin lỗi và giúp chị xếp lại.",
+      "Rút kinh nghiệm để lần sau không lặp lại lỗi cũ nữa."
+     ],
+     "gt": "Trốn tránh sẽ khiến bạn buồn và mất niềm tin vào mình."
+    },
+    {
+     "cau": "Việc nào con KHÔNG NÊN làm?",
+     "dung": "Đổ lỗi cho người khác vì sợ bị mắng.",
+     "sai": [
+      "Mỉm cười tha thứ khi em hoặc bạn đã thành thật nhận lỗi.",
+      "Rút kinh nghiệm để lần sau không lặp lại lỗi cũ nữa."
+     ],
+     "gt": "Đổ lỗi là không trung thực và làm tổn thương người vô tội."
+    },
+    {
+     "cau": "Việc nào con KHÔNG NÊN làm?",
+     "dung": "Giận dỗi mãi không chịu nói chuyện dù bạn đã xin lỗi chân thành.",
+     "sai": [
+      "Mỉm cười tha thứ khi em hoặc bạn đã thành thật nhận lỗi.",
+      "Lỡ làm đổ đồ của chị, chủ động xin lỗi và giúp chị xếp lại."
+     ],
+     "gt": "Giữ cơn giận lâu chỉ làm cả hai đều mệt mỏi và mất vui."
+    }
+   ],
+   "dungSai": [
+    {
+     "viec": "Lỡ làm đổ đồ của chị, chủ động xin lỗi và giúp chị xếp lại.",
+     "dung": true
+    },
+    {
+     "viec": "Làm hỏng đồ chơi của bạn rồi lặng lẽ bỏ đi không nói gì.",
+     "dung": false
+    },
+    {
+     "viec": "Mỉm cười tha thứ khi em hoặc bạn đã thành thật nhận lỗi.",
+     "dung": true
+    },
+    {
+     "viec": "Đổ lỗi cho người khác vì sợ bị mắng.",
+     "dung": false
+    },
+    {
+     "viec": "Rút kinh nghiệm để lần sau không lặp lại lỗi cũ nữa.",
+     "dung": true
+    },
+    {
+     "viec": "Giận dỗi mãi không chịu nói chuyện dù bạn đã xin lỗi chân thành.",
+     "dung": false
+    }
+   ],
+   "nho": {
+    "cau": "Khi lỡ làm sai, con dũng cảm xin lỗi chân thành và sửa sai; khi bạn biết nhận lỗi, con mở lòng tha thứ.",
+    "buoc": [
+     "Không giấu lỗi hay đổ lỗi cho người khác",
+     "Nhìn vào mắt người đối diện, nói lời xin lỗi chân thành",
+     "Cùng khắc phục lỗi và vui vẻ tha thứ cho nhau"
+    ]
+   }
+  },
+  {
+   "ma": "17",
+   "ten": "Phòng cháy và thoát hiểm an toàn",
+   "mau": "#FF7043",
+   "gioiThieu": "Không nghịch lửa và điện; khi có sự cố cháy, con bình tĩnh che khăn ẩm, cúi thấp người đi cầu thang bộ ra chỗ thoáng.",
+   "trang": [
+    {
+     "ke": "Cuối tuần, bố hướng dẫn Lucie và Lucas kiểm tra góc bếp và ổ cắm điện trong nhà. Bố dặn hai con tuyệt đối không tự nghịch bật lửa, diêm hay chạm vào bếp nóng.",
+     "anh": "17-1",
+     "ve": ""
+    },
+    {
+     "ke": "Cả nhà cùng tập luyện kỹ năng thoát hiểm: khi nghe chuông báo cháy hoặc thấy khói, hai chị em bình tĩnh gọi ngay người lớn và không trốn trong tủ hay gầm giường.",
+     "anh": "17-2",
+     "ve": ""
+    },
+    {
+     "ke": "Lucie và Lucas thực hành lấy khăn ẩm che kín mũi miệng, cúi thấp người men theo tường để tránh hít phải làn khói thường bay lên cao.",
+     "anh": "17-3",
+     "ve": ""
+    },
+    {
+     "ke": "Khi di chuyển thoát hiểm ở nhà cao tầng, hai chị em nhớ đi theo cầu thang bộ an toàn cùng người lớn, tuyệt đối không dùng thang máy và không quay lại lấy đồ chơi.",
+     "anh": "17-4",
+     "ve": ""
+    },
+    {
+     "ke": "Ra đến khoảng sân rộng thoáng mát cùng bố mẹ, Lucie và Lucas nhắc lại số điện thoại cứu hỏa một một bốn và tự tin vì đã thuộc kỹ năng bảo vệ mình.",
+     "anh": "17-5",
+     "ve": ""
+    }
+   ],
+   "lucie": [
+    {
+     "cau": "Trong các việc sau, việc nào con NÊN làm?",
+     "dung": "Tránh xa bật lửa, diêm, bếp đang đun và không chọc đồ vào ổ điện.",
+     "sai": [
+      "Chạy quay ngược lại phòng để lấy gấu bông hay đồ chơi khi đang thoát hiểm.",
+      "Chui vào tủ quần áo hoặc gầm giường trốn khi thấy có khói.",
+      "Dùng thang máy để chạy xuống khi có báo cháy ở chung cư."
+     ],
+     "gt": "Phòng tránh từ đầu là cách an toàn nhất để không xảy ra cháy nổ."
+    },
+    {
+     "cau": "Trong các việc sau, việc nào con NÊN làm?",
+     "dung": "Dùng khăn ướt che mũi miệng và cúi thấp người di chuyển khi có khói.",
+     "sai": [
+      "Chui vào tủ quần áo hoặc gầm giường trốn khi thấy có khói.",
+      "Chạy quay ngược lại phòng để lấy gấu bông hay đồ chơi khi đang thoát hiểm.",
+      "Dùng thang máy để chạy xuống khi có báo cháy ở chung cư."
+     ],
+     "gt": "Khói bay lên cao nên cúi thấp và dùng khăn ẩm giúp dễ thở hơn."
+    },
+    {
+     "cau": "Trong các việc sau, việc nào con NÊN làm?",
+     "dung": "Nhớ số điện thoại gọi cứu hỏa là 114 và gọi ngay người lớn khi thấy nguy hiểm.",
+     "sai": [
+      "Dùng thang máy để chạy xuống khi có báo cháy ở chung cư.",
+      "Chạy quay ngược lại phòng để lấy gấu bông hay đồ chơi khi đang thoát hiểm.",
+      "Chui vào tủ quần áo hoặc gầm giường trốn khi thấy có khói."
+     ],
+     "gt": "Gọi đúng số 114 giúp các chú lính cứu hỏa đến hỗ trợ kịp thời."
+    }
+   ],
+   "lucas": [
+    {
+     "cau": "Việc nào con KHÔNG NÊN làm?",
+     "dung": "Dùng thang máy để chạy xuống khi có báo cháy ở chung cư.",
+     "sai": [
+      "Tránh xa bật lửa, diêm, bếp đang đun và không chọc đồ vào ổ điện.",
+      "Dùng khăn ướt che mũi miệng và cúi thấp người di chuyển khi có khói."
+     ],
+     "gt": "Khi có cháy thang máy có thể mất điện và mắc kẹt, phải đi cầu thang bộ."
+    },
+    {
+     "cau": "Việc nào con KHÔNG NÊN làm?",
+     "dung": "Chui vào tủ quần áo hoặc gầm giường trốn khi thấy có khói.",
+     "sai": [
+      "Nhớ số điện thoại gọi cứu hỏa là 114 và gọi ngay người lớn khi thấy nguy hiểm.",
+      "Dùng khăn ướt che mũi miệng và cúi thấp người di chuyển khi có khói."
+     ],
+     "gt": "Trốn trong góc kín rất nguy hiểm và khiến người lớn khó tìm thấy con."
+    },
+    {
+     "cau": "Việc nào con KHÔNG NÊN làm?",
+     "dung": "Chạy quay ngược lại phòng để lấy gấu bông hay đồ chơi khi đang thoát hiểm.",
+     "sai": [
+      "Nhớ số điện thoại gọi cứu hỏa là 114 và gọi ngay người lớn khi thấy nguy hiểm.",
+      "Dùng khăn ướt che mũi miệng và cúi thấp người di chuyển khi có khói."
+     ],
+     "gt": "An toàn của bản thân là quan trọng nhất, không quay lại lấy đồ vật."
+    }
+   ],
+   "dungSai": [
+    {
+     "viec": "Tránh xa bật lửa, diêm, bếp đang đun và không chọc đồ vào ổ điện.",
+     "dung": true
+    },
+    {
+     "viec": "Dùng thang máy để chạy xuống khi có báo cháy ở chung cư.",
+     "dung": false
+    },
+    {
+     "viec": "Dùng khăn ướt che mũi miệng và cúi thấp người di chuyển khi có khói.",
+     "dung": true
+    },
+    {
+     "viec": "Chui vào tủ quần áo hoặc gầm giường trốn khi thấy có khói.",
+     "dung": false
+    },
+    {
+     "viec": "Nhớ số điện thoại gọi cứu hỏa là 114 và gọi ngay người lớn khi thấy nguy hiểm.",
+     "dung": true
+    },
+    {
+     "viec": "Chạy quay ngược lại phòng để lấy gấu bông hay đồ chơi khi đang thoát hiểm.",
+     "dung": false
+    }
+   ],
+   "nho": {
+    "cau": "Không nghịch lửa và điện; khi có sự cố cháy, con bình tĩnh che khăn ẩm, cúi thấp người đi cầu thang bộ ra chỗ thoáng.",
+    "buoc": [
+     "Không nghịch bật lửa, diêm, bếp nóng hay ổ cắm điện",
+     "Dùng khăn ẩm che mũi miệng, cúi thấp người, không trốn trong tủ",
+     "Đi cầu thang bộ ra sân thoáng, nhớ số cứu hỏa 114"
+    ]
+   }
+  },
+  {
+   "ma": "18",
+   "ten": "Chia sẻ đồ chơi và chơi công bằng cùng bạn",
+   "mau": "#9CCC65",
+   "gioiThieu": "Khi chơi cùng bạn, con biết chia sẻ đồ chơi, chơi luân phiên công bằng và cùng nhau thu dọn gọn gàng sau khi chơi.",
+   "trang": [
+    {
+     "ke": "Chiều thứ bảy nắng đẹp, Lucie mang giỏ gỗ xếp hình còn Lucas cầm chiếc xe ô tô đỏ ra thảm cỏ công viên chơi cùng các bạn hàng xóm.",
+     "anh": "18-1",
+     "ve": ""
+    },
+    {
+     "ke": "Cả Lucas và bạn nhỏ áo vàng đều rất thích chiếc xe ô tô đỏ nên cùng đưa tay muốn cầm trước, khiến không khí hơi lúng túng.",
+     "anh": "18-2",
+     "ve": ""
+    },
+    {
+     "ke": "Lucie mỉm cười gợi ý thật công bằng: Chúng mình chơi luân phiên nhé! Mỗi bạn lái xe một vòng rồi đổi cho nhau, còn lúc chờ thì cùng xây cầu gỗ làm đường đua.",
+     "anh": "18-3",
+     "ve": ""
+    },
+    {
+     "ke": "Lucas vui vẻ nhường chiếc xe đỏ cho bạn chơi lượt đầu tiên, rồi hào hứng cùng chị Lucie lắp ghép chiếc cầu gỗ thật đẹp cho đường đua chung.",
+     "anh": "18-4",
+     "ve": ""
+    },
+    {
+     "ke": "Cả nhóm bạn chơi đùa rộn rã tiếng cười vì ai cũng được tham gia công bằng. Trước khi ra về, cả ba còn cùng nhau thu dọn đồ chơi gọn gàng vào giỏ.",
+     "anh": "18-5",
+     "ve": ""
+    }
+   ],
+   "lucie": [
+    {
+     "cau": "Trong các việc sau, việc nào con NÊN làm?",
+     "dung": "Chơi luân phiên từng lượt để bạn nào cũng được cầm đồ chơi yêu thích.",
+     "sai": [
+      "Ôm hết tất cả đồ chơi vào lòng không cho ai chơi cùng.",
+      "Giằng mạnh đồ chơi từ tay bạn khi chưa đến lượt mình.",
+      "Trả lại đồ chơi cho bạn trong tình trạng bừa bộn, thiếu mảnh ghép."
+     ],
+     "gt": "Chơi luân phiên công bằng giúp cả nhóm vui vẻ và không cãi nhau."
+    },
+    {
+     "cau": "Trong các việc sau, việc nào con NÊN làm?",
+     "dung": "Hỏi ý kiến bạn lịch sự trước khi mượn món đồ chơi của bạn.",
+     "sai": [
+      "Trả lại đồ chơi cho bạn trong tình trạng bừa bộn, thiếu mảnh ghép.",
+      "Ôm hết tất cả đồ chơi vào lòng không cho ai chơi cùng.",
+      "Giằng mạnh đồ chơi từ tay bạn khi chưa đến lượt mình."
+     ],
+     "gt": "Xin phép trước khi mượn thể hiện sự tôn trọng bạn bè."
+    },
+    {
+     "cau": "Trong các việc sau, việc nào con NÊN làm?",
+     "dung": "Cùng các bạn thu dọn đồ chơi gọn gàng vào giỏ trước khi về.",
+     "sai": [
+      "Giằng mạnh đồ chơi từ tay bạn khi chưa đến lượt mình.",
+      "Trả lại đồ chơi cho bạn trong tình trạng bừa bộn, thiếu mảnh ghép.",
+      "Ôm hết tất cả đồ chơi vào lòng không cho ai chơi cùng."
+     ],
+     "gt": "Cùng dọn dẹp giúp rèn thói quen ngăn nắp và tinh thần đồng đội."
+    }
+   ],
+   "lucas": [
+    {
+     "cau": "Việc nào con KHÔNG NÊN làm?",
+     "dung": "Giằng mạnh đồ chơi từ tay bạn khi chưa đến lượt mình.",
+     "sai": [
+      "Hỏi ý kiến bạn lịch sự trước khi mượn món đồ chơi của bạn.",
+      "Chơi luân phiên từng lượt để bạn nào cũng được cầm đồ chơi yêu thích."
+     ],
+     "gt": "Giằng giật dễ làm hỏng đồ chơi và làm bạn buồn hoặc bị đau."
+    },
+    {
+     "cau": "Việc nào con KHÔNG NÊN làm?",
+     "dung": "Ôm hết tất cả đồ chơi vào lòng không cho ai chơi cùng.",
+     "sai": [
+      "Chơi luân phiên từng lượt để bạn nào cũng được cầm đồ chơi yêu thích.",
+      "Cùng các bạn thu dọn đồ chơi gọn gàng vào giỏ trước khi về."
+     ],
+     "gt": "Chia sẻ cùng chơi sẽ vui hơn rất nhiều so với chơi một mình."
+    },
+    {
+     "cau": "Việc nào con KHÔNG NÊN làm?",
+     "dung": "Trả lại đồ chơi cho bạn trong tình trạng bừa bộn, thiếu mảnh ghép.",
+     "sai": [
+      "Cùng các bạn thu dọn đồ chơi gọn gàng vào giỏ trước khi về.",
+      "Hỏi ý kiến bạn lịch sự trước khi mượn món đồ chơi của bạn."
+     ],
+     "gt": "Cần giữ gìn đồ chơi của bạn cẩn thận như đồ của chính mình."
+    }
+   ],
+   "dungSai": [
+    {
+     "viec": "Chơi luân phiên từng lượt để bạn nào cũng được cầm đồ chơi yêu thích.",
+     "dung": true
+    },
+    {
+     "viec": "Giằng mạnh đồ chơi từ tay bạn khi chưa đến lượt mình.",
+     "dung": false
+    },
+    {
+     "viec": "Hỏi ý kiến bạn lịch sự trước khi mượn món đồ chơi của bạn.",
+     "dung": true
+    },
+    {
+     "viec": "Ôm hết tất cả đồ chơi vào lòng không cho ai chơi cùng.",
+     "dung": false
+    },
+    {
+     "viec": "Cùng các bạn thu dọn đồ chơi gọn gàng vào giỏ trước khi về.",
+     "dung": true
+    },
+    {
+     "viec": "Trả lại đồ chơi cho bạn trong tình trạng bừa bộn, thiếu mảnh ghép.",
+     "dung": false
+    }
+   ],
+   "nho": {
+    "cau": "Khi chơi cùng bạn, con biết chia sẻ đồ chơi, chơi luân phiên công bằng và cùng nhau thu dọn gọn gàng sau khi chơi.",
+    "buoc": [
+     "Không giằng giật đồ chơi trên tay bạn",
+     "Thống nhất chơi luân phiên công bằng để ai cũng vui",
+     "Cùng nhau cất dọn đồ chơi gọn gàng khi chơi xong"
+    ]
+   }
   }
  ],
  "chao": "Chào mừng các con đến với Trường Kỹ Năng Lucie và Lucas! Cùng học điều hay và nhận thật nhiều đồng CIECAS nhé!",
@@ -1781,5 +2549,5 @@ window.KN = {
   "Con nghe kỹ lại câu hỏi một chút nhé!",
   "Thử lại lần nữa, con sẽ làm được!"
  ],
- "chuc": "Chúc mừng con đã hoàn thành xuất sắc 12 bài học cùng chị em Lucie và Lucas! Con đã trở thành em bé ngoan, lễ phép và giàu kỹ năng sống!"
+ "chuc": "Chúc mừng con đã hoàn thành xuất sắc 18 bài học cùng chị em Lucie và Lucas! Con đã trở thành em bé ngoan, lễ phép và giàu kỹ năng sống!"
 };
