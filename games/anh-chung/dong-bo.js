@@ -120,3 +120,18 @@
   keo();
   window.DongBo = { gui: gui, keo: keo };
 })();
+
+/* Nút 🏠 về trang chủ cho mọi trò chơi (iPad, iPhone không có nút quay lại) */
+(function () {
+  var p = location.pathname.replace(/index\.html$/, "");
+  if (p === "/" || p === "" || /\/tc\/$/.test(p)) return;
+  function gan() {
+    if (document.getElementById("nutVeNha")) return;
+    var a = document.createElement("a");
+    a.id = "nutVeNha"; a.href = "/"; a.setAttribute("aria-label", "Về trang chủ chọn trò chơi khác"); a.setAttribute("data-giu-icon", "");
+    a.textContent = "🏠";
+    a.style.cssText = "position:fixed;left:8px;top:50%;transform:translateY(-50%);z-index:2147483000;width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.92);border:3px solid #f59e0b;box-shadow:0 4px 12px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;font-size:28px;text-decoration:none;-webkit-tap-highlight-color:transparent";
+    document.body.appendChild(a);
+  }
+  if (document.body) gan(); else document.addEventListener("DOMContentLoaded", gan);
+})();
