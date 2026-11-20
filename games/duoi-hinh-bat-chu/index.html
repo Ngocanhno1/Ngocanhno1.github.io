@@ -300,7 +300,349 @@ const LUCIE_RAW = `
 const parse = (raw, kid, start) => raw.trim().split("\n").map((l, i) => {
   const [p, a, e] = l.split("|"); return { id: start + i, kid, p: p.trim(), a: a.trim(), e: e.trim() };
 });
-const QS = [...parse(LUCAS_RAW, "lucas", 1), ...parse(LUCIE_RAW, "lucie", 51)];
+const LUCAS_MOI = `
+🐱|CON MÈO|Hình 🐱 là Con mèo.
+🐶|CON CHÓ|Hình 🐶 là Con chó.
+🦆|CON VỊT|Hình 🦆 là Con vịt.
+🐷|CON LỢN|Hình 🐷 là Con lợn.
+🐮|CON BÒ|Hình 🐮 là Con bò.
+🐓|CON GÀ TRỐNG|Hình 🐓 là Con gà trống.
+🐰|CON THỎ|Hình 🐰 là Con thỏ.
+🐸|CON ẾCH|Hình 🐸 là Con ếch.
+🐟|CON CÁ|Hình 🐟 là Con cá.
+🐦|CON CHIM|Hình 🐦 là Con chim.
+🍎|QUẢ TÁO|Hình 🍎 là Quả táo.
+🍌|QUẢ CHUỐI|Hình 🍌 là Quả chuối.
+🍊|QUẢ CAM|Hình 🍊 là Quả cam.
+🍉|QUẢ DƯA HẤU|Hình 🍉 là Quả dưa hấu.
+🍇|CHÙM NHO|Hình 🍇 là Chùm nho.
+🍓|QUẢ DÂU TÂY|Hình 🍓 là Quả dâu tây.
+🍍|QUẢ DỨA|Hình 🍍 là Quả dứa.
+🥭|QUẢ XOÀI|Hình 🥭 là Quả xoài.
+🍐|QUẢ LÊ|Hình 🍐 là Quả lê.
+🍒|QUẢ ANH ĐÀO|Hình 🍒 là Quả anh đào.
+✏️|BÚT CHÌ|Hình ✏️ là Bút chì.
+📖|QUYỂN SÁCH|Hình 📖 là Quyển sách.
+📏|THƯỚC KẺ|Hình 📏 là Thước kẻ.
+🎒|CẶP SÁCH|Hình 🎒 là Cặp sách.
+✂️|CÁI KÉO|Hình ✂️ là Cái kéo.
+🖍️|BÚT SÁP MÀU|Hình 🖍️ là Bút sáp màu.
+📓|QUYỂN VỞ|Hình 📓 là Quyển vở.
+🪑|CÁI GHẾ|Hình 🪑 là Cái ghế.
+⏰|ĐỒNG HỒ|Hình ⏰ là Đồng hồ.
+🔔|CÁI CHUÔNG|Hình 🔔 là Cái chuông.
+☀️|MẶT TRỜI|Hình ☀️ là Mặt trời.
+🌙|MẶT TRĂNG|Hình 🌙 là Mặt trăng.
+⭐|NGÔI SAO|Hình ⭐ là Ngôi sao.
+☁️|ĐÁM MÂY|Hình ☁️ là Đám mây.
+🌧️|CƠN MƯA|Hình 🌧️ là Cơn mưa.
+❄️|BÔNG TUYẾT|Hình ❄️ là Bông tuyết.
+💨|CƠN GIÓ|Hình 💨 là Cơn gió.
+🔥|NGỌN LỬA|Hình 🔥 là Ngọn lửa.
+💧|GIỌT NƯỚC|Hình 💧 là Giọt nước.
+🚗|XE Ô TÔ|Hình 🚗 là Xe ô tô.
+🚌|XE BUÝT|Hình 🚌 là Xe buýt.
+🚲|XE ĐẠP|Hình 🚲 là Xe đạp.
+⛵|THUYỀN BUỒM|Hình ⛵ là Thuyền buồm.
+🚀|TÊN LỬA|Hình 🚀 là Tên lửa.
+🐯|CON HỔ|Hình 🐯 là Con hổ.
+🐘|CON VOI|Hình 🐘 là Con voi.
+🐻|CON GẤU|Hình 🐻 là Con gấu.
+🐒|CON KHỈ|Hình 🐒 là Con khỉ.
+🦒|HƯƠU CAO CỔ|Hình 🦒 là Hươu cao cổ.
+🦊|CON CÁO|Hình 🦊 là Con cáo.
+🦌|CON HƯƠU|Hình 🦌 là Con hươu.
+🌹|HOA HỒNG|Hình 🌹 là Hoa hồng.
+🌷|HOA TUY-LÍP|Hình 🌷 là Hoa tuy-líp.
+🌼|HOA CÚC|Hình 🌼 là Hoa cúc.
+🍀|CỎ BỐN LÁ|Hình 🍀 là Cỏ bốn lá.
+🌳|CÂY XANH|Hình 🌳 là Cây xanh.
+🌴|CÂY DỪA|Hình 🌴 là Cây dừa.
+🌵|XƯƠNG RỒNG|Hình 🌵 là Xương rồng.
+🍄|CÂY NẤM|Hình 🍄 là Cây nấm.
+🍚|BÁT CƠM|Hình 🍚 là Bát cơm.
+🥚|QUẢ TRỨNG|Hình 🥚 là Quả trứng.
+🥛|CỐC SỮA|Hình 🥛 là Cốc sữa.
+🍰|BÁNH KEM|Hình 🍰 là Bánh kem.
+🍦|QUE KEM|Hình 🍦 là Que kem.
+🍪|BÁNH QUY|Hình 🍪 là Bánh quy.
+🍜|BÁT PHỞ|Hình 🍜 là Bát phở.
+🍬|VIÊN KẸO|Hình 🍬 là Viên kẹo.
+🏠|NGÔI NHÀ|Hình 🏠 là Ngôi nhà.
+🛏️|CÁI GIƯỜNG|Hình 🛏️ là Cái giường.
+🛋️|GHẾ SÔ-PHA|Hình 🛋️ là Ghế sô-pha.
+🚪|CÁNH CỬA|Hình 🚪 là Cánh cửa.
+🪟|CỬA SỔ|Hình 🪟 là Cửa sổ.
+💡|BÓNG ĐÈN|Hình 💡 là Bóng đèn.
+📺|CÁI TI VI|Hình 📺 là Cái ti vi.
+🍽️|CÁI ĐĨA|Hình 🍽️ là Cái đĩa.
+🥄|CÁI THÌA|Hình 🥄 là Cái thìa.
+👕|ÁO PHÔNG|Hình 👕 là Áo phông.
+👗|CÁI VÁY|Hình 👗 là Cái váy.
+🩳|QUẦN ĐÙI|Hình 🩳 là Quần đùi.
+🧦|ĐÔI TẤT|Hình 🧦 là Đôi tất.
+👟|GIÀY THỂ THAO|Hình 👟 là Giày thể thao.
+🧢|MŨ LƯỠI TRAI|Hình 🧢 là Mũ lưỡi trai.
+👓|CÁI KÍNH|Hình 👓 là Cái kính.
+🧣|KHĂN QUÀNG|Hình 🧣 là Khăn quàng.
+☂️|CÁI Ô|Hình ☂️ là Cái ô.
+👀|ĐÔI MẮT|Hình 👀 là Đôi mắt.
+👂|CÁI TAI|Hình 👂 là Cái tai.
+👃|CÁI MŨI|Hình 👃 là Cái mũi.
+👄|CÁI MIỆNG|Hình 👄 là Cái miệng.
+🖐️|BÀN TAY|Hình 🖐️ là Bàn tay.
+🦶|BÀN CHÂN|Hình 🦶 là Bàn chân.
+🦷|CHIẾC RĂNG|Hình 🦷 là Chiếc răng.
+❤️|TRÁI TIM|Hình ❤️ là Trái tim.
+💪|CÁNH TAY|Hình 💪 là Cánh tay.
+😊|NỤ CƯỜI|Hình 😊 là Nụ cười.
+🐝|CON ONG|Hình 🐝 là Con ong.
+🦋|CON BƯỚM|Hình 🦋 là Con bướm.
+🐜|CON KIẾN|Hình 🐜 là Con kiến.
+🐞|BỌ RÙA|Hình 🐞 là Bọ rùa.
+🐌|ỐC SÊN|Hình 🐌 là Ốc sên.
+🕷️|CON NHỆN|Hình 🕷️ là Con nhện.
+🦀|CON CUA|Hình 🦀 là Con cua.
+🐢|CON RÙA|Hình 🐢 là Con rùa.
+⚽|QUẢ BÓNG ĐÁ|Hình ⚽ là Quả bóng đá.
+🏀|QUẢ BÓNG RỔ|Hình 🏀 là Quả bóng rổ.
+🎈|QUẢ BÓNG BAY|Hình 🎈 là Quả bóng bay.
+🪁|CÁI DIỀU|Hình 🪁 là Cái diều.
+🧸|GẤU BÔNG|Hình 🧸 là Gấu bông.
+🤖|NGƯỜI MÁY|Hình 🤖 là Người máy.
+🪀|CON QUAY|Hình 🪀 là Con quay.
+🧩|GHÉP HÌNH|Hình 🧩 là Ghép hình.
+🥁|CÁI TRỐNG|Hình 🥁 là Cái trống.
+🎁|HỘP QUÀ|Hình 🎁 là Hộp quà.
+🥕|CỦ CÀ RỐT|Hình 🥕 là Củ cà rốt.
+🌽|BẮP NGÔ|Hình 🌽 là Bắp ngô.
+🍅|QUẢ CÀ CHUA|Hình 🍅 là Quả cà chua.
+🥔|CỦ KHOAI TÂY|Hình 🥔 là Củ khoai tây.
+🥒|QUẢ DƯA CHUỘT|Hình 🥒 là Quả dưa chuột.
+🥦|SÚP LƠ XANH|Hình 🥦 là Súp lơ xanh.
+🍆|QUẢ CÀ TÍM|Hình 🍆 là Quả cà tím.
+🧅|CỦ HÀNH|Hình 🧅 là Củ hành.
+🧄|CỦ TỎI|Hình 🧄 là Củ tỏi.
+🌶️|QUẢ ỚT|Hình 🌶️ là Quả ớt.
+🏥|BỆNH VIỆN|Hình 🏥 là Bệnh viện.
+🏞️|CÔNG VIÊN|Hình 🏞️ là Công viên.
+🏖️|BÃI BIỂN|Hình 🏖️ là Bãi biển.
+⛰️|NGỌN NÚI|Hình ⛰️ là Ngọn núi.
+🏝️|HÒN ĐẢO|Hình 🏝️ là Hòn đảo.
+🌉|CÂY CẦU|Hình 🌉 là Cây cầu.
+🏰|LÂU ĐÀI|Hình 🏰 là Lâu đài.
+🎪|RẠP XIẾC|Hình 🎪 là Rạp xiếc.
+🛒|SIÊU THỊ|Hình 🛒 là Siêu thị.
+👨‍👩‍👧‍👦|GIA ĐÌNH|Hình 👨‍👩‍👧‍👦 là Gia đình.
+👴|ÔNG NỘI|Hình 👴 là Ông nội.
+👵|BÀ NGOẠI|Hình 👵 là Bà ngoại.
+👩‍🏫|CÔ GIÁO|Hình 👩‍🏫 là Cô giáo.
+👮|CHÚ CẢNH SÁT|Hình 👮 là Chú cảnh sát.
+👨‍🌾|BÁC NÔNG DÂN|Hình 👨‍🌾 là Bác nông dân.
+🦸|SIÊU ANH HÙNG|Hình 🦸 là Siêu anh hùng.
+🔴|HÌNH TRÒN ĐỎ|Hình 🔴 là Hình tròn đỏ.
+🟦|HÌNH VUÔNG XANH|Hình 🟦 là Hình vuông xanh.
+🔺|HÌNH TAM GIÁC|Hình 🔺 là Hình tam giác.
+⭐|HÌNH NGÔI SAO|Hình ⭐ là Hình ngôi sao.
+💛|TRÁI TIM VÀNG|Hình 💛 là Trái tim vàng.
+➕|DẤU CỘNG|Hình ➕ là Dấu cộng.
+➖|DẤU TRỪ|Hình ➖ là Dấu trừ.
+1️⃣|SỐ MỘT|Hình 1️⃣ là Số một.
+5️⃣|SỐ NĂM|Hình 5️⃣ là Số năm.
+🔟|SỐ MƯỜI|Hình 🔟 là Số mười.
+🧧|BAO LÌ XÌ|Hình 🧧 là Bao lì xì.
+🎂|BÁNH SINH NHẬT|Hình 🎂 là Bánh sinh nhật.
+🎆|PHÁO HOA|Hình 🎆 là Pháo hoa.
+🎉|PHÁO GIẤY|Hình 🎉 là Pháo giấy.
+👑|VƯƠNG MIỆN|Hình 👑 là Vương miện.
+🏆|CHIẾC CÚP|Hình 🏆 là Chiếc cúp.
+🥇|HUY CHƯƠNG VÀNG|Hình 🥇 là Huy chương vàng.
+🎀|CHIẾC NƠ|Hình 🎀 là Chiếc nơ.
+🌊|SÓNG BIỂN|Hình 🌊 là Sóng biển.
+🪵|KHÚC GỖ|Hình 🪵 là Khúc gỗ.
+🪨|HÒN ĐÁ|Hình 🪨 là Hòn đá.
+🐚|VỎ ỐC|Hình 🐚 là Vỏ ốc.
+🪶|LÔNG CHIM|Hình 🪶 là Lông chim.
+🪺|TỔ CHIM|Hình 🪺 là Tổ chim.
+🕸️|MẠNG NHỆN|Hình 🕸️ là Mạng nhện.
+🌱|MẦM CÂY|Hình 🌱 là Mầm cây.
+🍂|LÁ MÙA THU|Hình 🍂 là Lá mùa thu.
+🔒|Ổ KHÓA|Hình 🔒 là Ổ khóa.
+🔦|ĐÈN PIN|Hình 🔦 là Đèn pin.
+📷|MÁY ẢNH|Hình 📷 là Máy ảnh.
+☎️|ĐIỆN THOẠI|Hình ☎️ là Điện thoại.
+💻|MÁY TÍNH|Hình 💻 là Máy tính.
+🎨|BẢNG VẼ|Hình 🎨 là Bảng vẽ.
+💎|VIÊN KIM CƯƠNG|Hình 💎 là Viên kim cương.`;
+const LUCIE_MOI = `
+☀️ + 🌻|HƯỚNG DƯƠNG|Loài hoa luôn quay về phía mặt trời.
+🌊 + 🐚|BIỂN CẢ|Vùng nước mặn rộng lớn bao quanh lục địa.
+⛰️ + 🔥|NÚI LỬA|Ngọn núi có dung nham nóng phun trào.
+❄️ + ⛄|TUYẾT RƠI|Hiện tượng thời tiết lạnh giá có bông tuyết trắng.
+💧 + 🏞️|THÁC NƯỚC|Dòng nước đổ từ vách núi cao xuống.
+🍃 + 💨|GIÓ THU|Làn gió mát mẻ dịu nhẹ của mùa thu.
+⚡ + 🌩️|SẤM CHỚP|Âm thanh và ánh sáng trong cơn dông.
+🌅 + 🐦|BÌNH MINH|Khoảnh khắc mặt trời vừa mọc buổi sáng sớm.
+📚 + 🏛️|THƯ VIỆN|Nơi lưu giữ và cho mượn rất nhiều sách hay.
+✏️ + 📏|HỌC CỤ|Các đồ dùng phục vụ cho việc học tập.
+🎒 + 🚶|ĐẾN TRƯỜNG|Hoạt động đi học mỗi sáng của học sinh.
+🧑‍🏫 + 📖|GIẢNG BÀI|Công việc dạy kiến thức của thầy cô giáo.
+🏅 + 📜|GIẤY KHEN|Phần thưởng dành cho học sinh chăm ngoan.
+🖍️ + 🎨|MỸ THUẬT|Môn học vẽ tranh và sáng tạo màu sắc.
+🎵 + 🎤|ÂM NHẠC|Môn học hát và làm quen với giai điệu.
+🌍 + 🗺️|ĐỊA LÝ|Môn tìm hiểu về đất nước, sông núi, bản đồ.
+🧪 + 🔬|KHOA HỌC|Môn khám phá các hiện tượng tự nhiên quanh ta.
+👴 + 👵|ÔNG BÀ|Người sinh ra bố mẹ, luôn yêu thương con cháu.
+👧 + 👦|CHỊ EM|Mối quan hệ thân thiết giữa Lucie và Lucas.
+🏠 + ❤️|TỔ ẤM|Ngôi nhà ngập tràn tình yêu thương gia đình.
+🍲 + 🍚|CƠM NHÀ|Bữa ăn ấm cúng cả gia đình quây quần.
+🙏 + 💐|BIẾT ƠN|Lòng trân trọng công lao của người giúp mình.
+💬 + ❤️|LỜI HAY|Những câu nói lễ phép, dịu dàng, tử tế.
+🤲 + 🧸|CHIA SẺ|Biết san sẻ niềm vui và đồ dùng với người khác.
+🛡️ + 💛|CHĂM SÓC|Quan tâm, lo lắng cho sức khỏe người thân.
+👧 + 🤝|CHỊ NGÃ EM NÂNG|Anh chị em trong nhà yêu thương đùm bọc nhau.
+🐜 + 🍚|KIẾN THA LÂU ĐẦY TỔ|Kiên trì tích góp từng chút sẽ có kết quả lớn.
+🔥 + 💎|LỬA THỬ VÀNG|Gian khó giúp rèn luyện ý chí và bản lĩnh.
+🌱 + 🍎|GIEO GIÓ GẶT BÃO|Làm điều xấu sẽ nhận lại hậu quả tương xứng.
+📖 + 💡|HỌC MỘT BIẾT MƯỜI|Khen người thông minh, hiểu sâu rộng.
+🐎 + 🛤️|ĐƯỜNG DÀI BIẾT NGỰA HAY|Thời gian dài mới thấy rõ người giỏi, kiên trì.
+🐝 + 🍯|CHĂM CHỈ NHƯ ONG|Khen người siêng năng làm việc không ngừng.
+🐢 + 🐇|CHẬM MÀ CHẮC|Làm cẩn thận từng bước sẽ đạt kết quả tốt.
+🌕 + 🏮|TRĂNG RẰM SÁNG TỎ|Đêm rằm ánh trăng tròn vành vạnh sáng ngời.
+🦁 + 💪|KHỎE NHƯ VOI|Khen người có sức khỏe dẻo dai, cường tráng.
+🐓 + 🌅|THỨC KHUYA DẬY SỚM|Chỉ sự chịu khó, cần mẫn làm việc.
+🌊 + 🪨|NƯỚC CHẢY ĐÁ MÒN|Kiên nhẫn lâu ngày sẽ vượt qua việc khó.
+🧵 + 🪡|CÓ CÔNG MÀI SẮT|Chăm chỉ rèn luyện ắt sẽ thành công.
+🏡 + 🌿|AN CƯ LẠC NGHIỆP|Có chỗ ở ổn định thì yên tâm làm việc.
+🌞 + 🌧️|NẮNG MƯA LÀ CHUYỆN TRỜI|Thiên nhiên biến đổi là quy luật tự nhiên.
+🕊️ + 🌿|HÒA BÌNH ẤM NO|Cuộc sống yên vui, đầy đủ và hạnh phúc.
+🍉 + 🏝️|SỰ TÍCH DƯA HẤU|Truyện Mai An Tiêm chăm chỉ trồng dưa trên đảo hoang.
+⭐ + 🐦|ĂN KHẾ TRẢ VÀNG|Chú chim phượng hoàng chở người em ra đảo lấy vàng.
+👠 + 🐟|TẤM CÁM|Truyện cô Tấm hiền lành và chú cá bống.
+🏔️ + 🌊|SƠN TINH THỦY TINH|Truyền thuyết giải thích hiện tượng lũ lụt hằng năm.
+🐢 + 🗡️|SỰ TÍCH HỒ GƯƠM|Cụ Rùa Vàng nhận lại thanh gươm báu từ vua Lê Lợi.
+🌕 + 🌳|CHÚ CUỘI CUNG TRĂNG|Truyện cây đa thần bay lên mặt trăng đêm Trung Thu.
+🥥 + 🎵|SỌ DỪA|Chàng trai tốt bụng tài giỏi ẩn mình trong vỏ dừa.
+🍜 + 🐄|PHỞ BÒ|Món nước nổi tiếng của ẩm thực Hà Nội.
+🥖 + 🥬|BÁNH MÌ|Món ăn giòn rụm quen thuộc mỗi buổi sáng.
+🟩 + 🍃|BÁNH CHƯNG|Chiếc bánh vuông xanh gói lá dong ngày Tết.
+🥟 + 🦐|NEM RÁN|Món cuốn giòn rụm thơm ngon trong mâm cỗ.
+🍚 + 🍗|CƠM TẤM|Món cơm ngon nổi tiếng của miền Nam.
+🥣 + 🌽|CHÈ NGÔ|Món ngọt mát nấu từ hạt ngô nếp thơm.
+🍡 + ⚪|BÁNH TRÔI|Món bánh ngọt nhân đường phên dịp Tết Hàn Thực.
+🥮 + 🏮|BÁNH TRUNG THU|Món bánh nướng, bánh dẻo phá cỗ đêm rằm.
+🥣 + 🦆|CHÁO VỊT|Món cháo nóng hổi bổ dưỡng.
+🥬 + 🍲|CANH CHUA|Món canh thanh mát vị chua ngọt dịu nhẹ.
+🐉 + 🏝️|VỊNH HẠ LONG|Di sản thiên nhiên thế giới với hàng nghìn đảo đá.
+🌉 + 🐉|CẦU RỒNG|Cây cầu phun lửa, phun nước nổi tiếng ở Đà Nẵng.
+🏮 + 🏘️|PHỐ CỔ HỘI AN|Khu phố cổ lung linh đèn lồng ở Quảng Nam.
+⛰️ + ☁️|ĐỈNH PHAN XI PĂNG|Nóc nhà Đông Dương cao nhất Việt Nam.
+🏯 + 🌺|CỐ ĐÔ HUẾ|Vùng đất kinh đô xưa bên dòng sông Hương.
+🏝️ + 🌴|ĐẢO PHÚ QUỐC|Hòn đảo ngọc xinh đẹp ở miền Tây Nam.
+🏛️ + 📜|VĂN MIẾU QUỐC TỬ GIÁM|Trường đại học đầu tiên của nước Việt Nam.
+🌸 + 🌲|ĐÀ LẠT|Thành phố ngàn hoa khí hậu mát mẻ quanh năm.
+🚤 + 🍉|CHỢ NỔI CÁI RĂNG|Khu chợ họp trên sông đặc sắc của miền Tây.
+🩺 + 🏥|BÁC SĨ|Người khám và chữa bệnh cứu giúp mọi người.
+🚒 + 🔥|LÍNH CỨU HỎA|Người dũng cảm dập lửa cứu người khi có cháy.
+✈️ + 👨‍✈️|PHI CÔNG|Người điều khiển máy bay trên bầu trời.
+🌾 + 🚜|NÔNG DÂN|Người trồng lúa, rau củ nuôi sống xã hội.
+🚀 + 🌌|PHI HÀNH GIA|Người bay vào vũ trụ khám phá các hành tinh.
+👷 + 🏗️|KỸ SƯ XÂY DỰNG|Người thiết kế và xây dựng cầu đường, nhà cửa.
+🍳 + 👨‍🍳|ĐẦU BẾP|Người nấu những món ăn ngon và bổ dưỡng.
+📚 + 👩‍🏫|GIÁO VIÊN|Người truyền đạt tri thức và dạy dỗ học sinh.
+🎨 + 🖼️|HỌA SĨ|Người sáng tạo nên những bức tranh đẹp.
+👮 + 🚦|CẢNH SÁT GIAO THÔNG|Người giữ trật tự an toàn trên đường phố.
+🐬 + 🌊|CÁ HEO|Loài vật thông minh, thân thiện sống ở đại dương.
+🐘 + 💦|VOI CHÂU Á|Loài vật to lớn, thông minh có chiếc vòi dài.
+🐢 + ⏳|RÙA BIỂN|Loài bò sát có mai cứng sống rất thọ dưới biển.
+🌸 + 🧧|TẾT NGUYÊN ĐÁN|Dịp lễ lớn nhất mừng năm mới sum vầy.
+🏮 + 🌕|TẾT TRUNG THU|Ngày hội rước đèn phá cỗ của thiếu nhi.
+💐 + 👩‍🏫|NGÀY NHÀ GIÁO|Ngày 20/11 tri ân các thầy cô giáo.
+🎈 + 🧒|QUỐC TẾ THIẾU NHI|Ngày 1/6 vui chơi của trẻ em toàn cầu.
+🥁 + 🦁|MÚA LÂN|Tiết mục rộn ràng mang lại niềm vui lễ hội.
+🚣 + 🏁|ĐUA THUYỀN RỒNG|Lễ hội sông nước thể hiện tinh thần đồng đội.
+🎄 + 🎅|LỄ GIÁNG SINH|Ngày lễ mùa đông ấm áp với cây thông và quà.
+🇻🇳 + 🎆|QUỐC KHÁNH|Ngày 2/9 trọng đại của dân tộc Việt Nam.
+🌳 + 🧤|TẾT TRỒNG CÂY|Hoạt động trồng thêm cây xanh đầu mùa xuân.
+🔭 + ✨|KÍNH THIÊN VĂN|Dụng cụ giúp quan sát các vì sao ở xa.
+🧭 + ⬆️|LA BÀN|Dụng cụ có kim chỉ phương Bắc giúp định hướng.
+🧲 + 📎|NAM CHÂM|Vật có lực hút các đồ vật bằng sắt.
+⚡ + 💡|ĐIỆN NĂNG|Nguồn năng lượng giúp đèn sáng, quạt quay.
+🌱 + 💧|QUANG HỢP|Quá trình lá cây tạo chất dinh dưỡng từ nắng.
+🛰️ + 🌍|VỆ TINH|Thiết bị bay quanh Trái Đất truyền tín hiệu.
+🤖 + 💻|TRÍ TUỆ NHÂN TẠO|Công nghệ giúp máy tính học hỏi và hỗ trợ người.
+♻️ + 🌍|TÁI CHẾ|Biến rác giấy, nhựa cũ thành đồ dùng mới có ích.
+🪖 + 🛵|MŨ BẢO HIỂM|Vật bảo vệ đầu an toàn khi đi xe máy, xe đạp.
+🚦 + 🚶|VẠCH QUA ĐƯỜNG|Lối kẻ trắng dành cho người đi bộ sang đường.
+🧼 + 🖐️|RỬA TAY SẠCH|Thói quen tốt diệt vi khuẩn trước khi ăn.
+🦷 + 🪥|ĐÁNH RĂNG|Giữ hàm răng trắng khỏe sáng và tối.
+🧯 + 🔥|BÌNH CHỮA CHÁY|Thiết bị dập lửa khẩn cấp khi có cháy nhỏ.
+☎️ + 1️⃣1️⃣4️⃣|CỨU HỎA|Số điện thoại khẩn cấp gọi khi có hỏa hoạn.
+🐷 + 💰|LỢN ĐẤT TIẾT KIỆM|Thói quen để dành tiền cho việc có ích.
+🗑️ + ♻️|PHÂN LOẠI RÁC|Chia rác tái chế và rác hữu cơ đúng thùng.
+⏰ + 📅|ĐÚNG GIỜ|Thói quen quý trọng thời gian của mọi người.
+🙇 + 💬|LỄ PHÉP|Cư xử kính trọng với ông bà, bố mẹ, thầy cô.
+🏸 + 🪶|CẦU LÔNG|Môn đánh quả cầu lông qua lưới bằng vợt.
+🏓 + 🎾|BÓNG BÀN|Môn đánh bóng nhỏ nhanh nhẹn trên mặt bàn.
+🏊 + 💧|BƠI LỘI|Kỹ năng vận động dưới nước rất tốt cho sức khỏe.
+🚴 + 🛣️|ĐẠP XE|Hoạt động thể thao rèn đôi chân khỏe mạnh.
+♟️ + 👑|CỜ VUA|Môn thể thao trí tuệ rèn tư duy chiến thuật.
+🏀 + 🧺|BÓNG RỔ|Môn ném bóng vào rổ trên cao theo đồng đội.
+🤸 + 🪢|NHẢY DÂY|Trò chơi vận động vui nhộn giờ ra chơi.
+🏃 + 🏁|CHẠY TIẾP SỨC|Cuộc đua đồng đội chuyền gậy về đích.
+🥋 + 🥋|VÕ THUẬT|Môn rèn luyện sức khỏe, kỷ luật và tự vệ.
+🚁 + ☁️|TRỰC THĂNG|Máy bay có cánh quạt lớn trên đỉnh bay thẳng đứng.
+🚌 + 🏫|XE BUÝT HỌC SINH|Xe đưa đón các bạn nhỏ đến trường an toàn.
+🚇 + 🏙️|TÀU ĐIỆN TRÊN CAO|Phương tiện công cộng hiện đại, nhanh và xanh.
+🚠 + ⛰️|CÁP TREO|Phương tiện đưa du khách lên đỉnh núi cao.
+🎹 + 🎶|ĐÀN PIANO|Nhạc cụ có hàng phím trắng đen âm thanh du dương.
+🎸 + 🎵|ĐÀN GHI-TA|Nhạc cụ sáu dây quen thuộc trong các buổi ca hát.
+🥁 + 🎉|TRỐNG HỘI|Nhạc cụ tạo nhịp rộn rã trong ngày hội làng.
+🎻 + 🎼|ĐÀN VI-Ô-LÔNG|Nhạc cụ kéo vĩ có âm thanh trong trẻo.
+🎭 + 🎪|MÚA RỐI NƯỚC|Nghệ thuật sân khấu dân gian độc đáo của Việt Nam.
+🖌️ + 📜|THƯ PHÁP|Nghệ thuật viết chữ đẹp bằng bút lông ngày Tết.
+📷 + 🖼️|NHIẾP ẢNH|Nghệ thuật ghi lại khoảnh khắc đẹp bằng máy ảnh.
+💃 + 🎶|MÚA DÂN GIAN|Những điệu múa uyển chuyển mang bản sắc quê hương.
+📖 + ✍️|LÀM THƠ|Sáng tác những vần thơ giàu cảm xúc và nhạc điệu.
+🏺 + 👐|NGHỀ GỐM|Tạo hình bát đĩa, bình hoa từ đất sét nung.
+✨ + ⭐|LẤP LÁNH|Từ láy tả ánh sáng phản chiếu lung linh đẹp mắt.
+🌧️ + 💧|TÍ TÁCH|Từ láy mô phỏng tiếng giọt mưa rơi nhẹ nhàng.
+🐦 + 🎶|LÍU LO|Từ láy tả tiếng chim hót vui tai trên cành.
+🌊 + 💨|RÌ RÀO|Từ láy tả tiếng gió thổi qua hàng cây hoặc sóng biển.
+😀 + 🎉|RỘN RÀNG|Từ láy tả không khí vui tươi, nhộn nhịp.
+🐢 + 🚶|CHẬM RÃI|Từ láy tả dáng đi từ tốn, khoan thai.
+🌸 + 🌬️|THOANG THOẢNG|Từ láy tả mùi hương hoa nhẹ nhàng dễ chịu.
+🍃 + 🌬️|ĐUNG ĐƯA|Từ láy tả cành lá khẽ lay động trong gió.
+☀️ + 🌻|RỰC RỠ|Từ láy tả màu sắc và ánh sáng tươi tắn nổi bật.
+😴 + 🌙|ÊM ĐỀM|Từ láy tả không gian yên bình, dịu nhẹ.
+🌳 + 🫁|LÁ PHỔI XANH|Tên gọi ví von của rừng cây đối với Trái Đất.
+💡 + ❌|TIẾT KIỆM ĐIỆN|Tắt thiết bị khi không dùng để giảm lãng phí.
+🚰 + 💧|TIẾT KIỆM NƯỚC|Khóa vòi nước ngay sau khi rửa tay xong.
+🛍️ + 🌿|TÚI VẢI|Loại túi dùng nhiều lần thay cho túi ni-lông.
+☀️ + ⚡|NĂNG LƯỢNG MẶT TRỜI|Nguồn điện sạch lấy từ ánh nắng tự nhiên.
+🌬️ + ⚡|ĐIỆN GIÓ|Nguồn năng lượng sạch tạo ra nhờ cánh quạt gió.
+🚮 + 🏞️|GIỮ SẠCH CÔNG VIÊN|Bỏ rác đúng nơi quy định khi đi chơi ngoài trời.
+🚲 + 🌍|SỐNG XANH|Lối sống thân thiện, giảm rác thải và khí thải.
+🌱 + 🪴|ƯƠM MẦM XANH|Trồng và chăm sóc cây non mỗi ngày.
+🌊 + 🐠|BẢO VỆ ĐẠI DƯƠNG|Không xả rác nhựa xuống biển để cứu sinh vật biển.
+⏰ + 🏃|CHIẾC ĐỒNG HỒ|Không chân mà chạy suốt ngày đêm, giúp ta xem giờ.
+✏️ + 📉|CÂY BÚT CHÌ|Càng viết càng ngắn lại, giúp bé vẽ và làm toán.
+🪞 + 😀|CÁI GƯƠNG|Em cười nó cười theo, em khóc nó cũng khóc.
+🕯️ + 🔥|NGỌN NẾN|Thân trắng tỏa sáng trong đêm, càng cháy càng thấp.
+🧭 + 🚢|CHIẾC LA BÀN|Giúp thuyền trưởng luôn biết hướng Bắc trên biển.
+🧼 + 🫧|BÁNH XÀ PHÒNG|Càng giúp tay sạch thơm thì thân mình càng nhỏ đi.
+🗝️ + 🔒|CHÌA KHÓA|Nhỏ xíu nhưng mở được cánh cửa lớn.
+🏆 + 👧👦|QUÁN QUÂN|Danh hiệu dành cho người xuất sắc nhất cuộc thi.
+🌟 + 💡|THÔNG THÁI|Hiểu biết sâu rộng và suy luận sắc bén.
+🤝 + 🌍|TÌNH HỮU NGHỊ|Tình bạn thân thiết giữa các dân tộc trên thế giới.
+📚 + 🏔️|BIỂN HỌC VÔ BỜ|Kiến thức rộng lớn, cần học hỏi suốt đời.
+🌈 + ✨|ƯỚC MƠ BAY CAO|Khát vọng đẹp đẽ vươn tới tương lai.
+❤️ + 🇻🇳|YÊU TỔ QUỐC|Tình yêu thiêng liêng với quê hương đất nước.
+🎯 + 💪|QUYẾT TÂM|Ý chí bền bỉ không bỏ cuộc trước khó khăn.
+🧠 + ⚡|NHANH TRÍ|Phản ứng thông minh, tìm ra cách giải quyết nhanh.
+🌻 + 😊|LẠC QUAN|Luôn nhìn đời bằng ánh mắt vui tươi, tích cực.
+🎉 + 🥇|CHIẾN THẮNG|Niềm vui trọn vẹn khi chinh phục đủ 30 màn chơi!`;
+const QS = [...parse(LUCAS_RAW, "lucas", 1), ...parse(LUCIE_RAW, "lucie", 51), ...parse(LUCAS_MOI, "lucas", 1001), ...parse(LUCIE_MOI, "lucie", 2001)];
 const byId = Object.fromEntries(QS.map(q => [q.id, q]));
 const KIDS = { lucie: { name: "Lucie", img: "../../img/lucie.webp" }, lucas: { name: "Lucas", img: "../../img/lucas.webp" } };
 
@@ -357,9 +699,11 @@ function say(text) { if (!soundOn || !viVoice) return; try { speechSynthesis.can
 /* ---------- LƯU TIẾN ĐỘ ---------- */
 const MODES = { lucas: "Em Lucas", lucie: "Chị Lucie", duo: "Hai chị em" };
 function newOrder(mode) {
-  const L = shuffle(QS.filter(q => q.kid === "lucas").map(q => q.id)), C = shuffle(QS.filter(q => q.kid === "lucie").map(q => q.id));
-  if (mode === "lucas") return L; if (mode === "lucie") return C;
-  const o = []; for (let i = 0; i < 50; i++) o.push(C[i], L[i]); return o;     // chị trước, em sau, xen kẽ
+  const ds = kid => { const da = (readJSON("dhbc_" + kid) || { giai: [] }).giai || [], all = QS.filter(q => q.kid === kid).map(q => q.id);
+    return shuffle(all.filter(id => !da.includes(id))).concat(shuffle(all.filter(id => da.includes(id)))); };
+  const L = ds("lucas"), C = ds("lucie");
+  if (mode === "lucas") return L.slice(0, 20); if (mode === "lucie") return C.slice(0, 20);
+  const o = []; for (let i = 0; i < 10; i++) o.push(C[i], L[i]); return o;     // chị trước, em sau, xen kẽ
 }
 function loadProg(mode) { const p = readJSON("dhbc_tienDo_" + mode); return p && p.order && p.order.length ? p : { order: newOrder(mode), i: 0, kq: {} }; }
 function kidStats(kid) { return readJSON("dhbc_" + kid) || { stars: 0, giai: [] }; }
