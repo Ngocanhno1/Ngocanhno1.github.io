@@ -1,0 +1,39 @@
+name: Giọng đọc Gemini TTS
+
+on:
+  push:
+    paths:
+      - "giong-gemini/thu.txt"
+      - "giong-gemini/lam-truyen.txt"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: giong-gemini
+  cancel-in-progress: false
+
+jobs:
+  doc:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: sudo apt-get install -y -qq ffmpeg >/dev/null
+      - name: Đọc giọng
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          git config user.name "Nguyễn Hoàng Ngọc Anh"
+          git config user.email "ngocanhbtg88@users.noreply.github.com"
+          if git diff --name-only HEAD~1 HEAD | grep -q lam-truyen; then python tools/giong_gemini.py truyen; else python tools/giong_gemini.py; fi
+      - name: Lưu
+        run: |
+          git add -A giong-gemini games/anh-chung/giong
+          git diff --cached --quiet || git commit -m "Giọng Gemini TTS"
+          git pull --rebase -q origin main
+          git push
