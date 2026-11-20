@@ -50,7 +50,7 @@ button{font-family:inherit;cursor:pointer;outline:none}
 /* HUD 1 người */
 #hud{position:fixed;inset:0 0 auto 0;z-index:10;display:flex;align-items:flex-start;justify-content:space-between;gap:1vw;padding:1.2vh 1.2vw;pointer-events:none}
 .hbox{background:rgba(10,18,45,.72);border:3px solid rgba(255,255,255,.55);border-radius:18px;padding:.4vh 1vw;display:flex;align-items:center;gap:.8vw;font-weight:800;font-size:clamp(16px,2vw,30px)}
-.tim{display:inline-flex;gap:.15em;align-items:center}.tim svg{width:1.05em;height:1.05em;filter:drop-shadow(0 2px 0 rgba(0,0,0,.35));transition:transform .3s}.tim svg.mat{opacity:.35;filter:grayscale(1)}
+.tim{display:inline-flex;flex-wrap:nowrap;gap:.15em;align-items:center;margin-left:.45em;flex:none}.tim svg{width:1.05em;height:1.05em;filter:drop-shadow(0 2px 0 rgba(0,0,0,.35));transition:transform .3s}.tim svg.mat{opacity:.35;filter:grayscale(1)}
 .tim.rung{animation:rungTim .6s}@keyframes rungTim{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px) scale(1.2)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
 .hbox img{width:clamp(40px,4.4vw,64px);height:clamp(40px,4.4vw,64px);border-radius:50%;object-fit:cover;border:3px solid #fff}
 #rankBox{flex-direction:column;gap:0;line-height:1;padding:.6vh 1.4vw;text-align:center}

@@ -345,6 +345,7 @@ document.addEventListener("keydown", e => {
   const i = items.indexOf(document.activeElement);
   if (!["ArrowRight", "ArrowLeft", "ArrowDown", "ArrowUp"].includes(e.key)) return;
   e.preventDefault();
+  if (i < 0) { items[0].focus(); return; }
   const gs = getComputedStyle(grid), ngang = gs.gridAutoFlow.includes("column");   // TV: dải ngang 2 hàng, xếp theo cột
   const hang = Math.max(1, gs.gridTemplateRows.split(" ").length), cot = Math.max(1, gs.gridTemplateColumns.split(" ").length);
   const step = ngang ? { ArrowRight: hang, ArrowLeft: -hang, ArrowDown: 1, ArrowUp: -1 }[e.key]
