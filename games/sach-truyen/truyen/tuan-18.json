@@ -1,0 +1,132 @@
+{
+  "trang": [
+    {
+      "loi": "Những cánh hoa đào hồng phớt nở rộ báo hiệu Tết Nguyên Đán đã về thật gần. Sân nhà ông bà rộn ràng tiếng cười khi cả gia đình cùng chuẩn bị gói bánh chưng.",
+      "anh": "A blooming pink peach blossom branch in a ceramic vase beside a bright Vietnamese courtyard",
+      "doc": "Những cánh hoa đào hồng phớt nở rộ báo hiệu Tết Nguyên Đán đã về thật gần. Sân nhà ông bà rộn ràng tiếng cười khi cả gia đình cùng chuẩn bị gói bánh chưng."
+    },
+    {
+      "loi": "Lucie giúp bà lau từng chiếc lá dong xanh mướt cho thật sạch và khô ráo. Lucas ngồi ngay bên cạnh, cẩn thận đếm từng sợi lạt giang mềm dẻo đưa cho ông.",
+      "anh": "Lucie wiping green dong leaves while Lucas hands bamboo strings happily in a sunlit courtyard",
+      "doc": "Lu Xi giúp bà lau từng chiếc lá dong xanh mướt cho thật sạch và khô ráo. Lu Cát ngồi ngay bên cạnh, cẩn thận đếm từng sợi lạt giang mềm dẻo đưa cho ông."
+    },
+    {
+      "loi": "Ông khéo léo xếp lá vào khuôn gỗ, múc gạo nếp trắng ngần, đỗ xanh vàng ươm và miếng thịt thơm phức rồi gói thành chiếc bánh vuông vức như món quà của đất trời.",
+      "anh": "Square green banh chung cakes wrapped neatly with bamboo strings next to bowls of sticky rice and yellow mung beans",
+      "doc": "Ông khéo léo xếp lá vào khuôn gỗ, múc gạo nếp trắng ngần, đỗ xanh vàng ươm và miếng thịt thơm phức rồi gói thành chiếc bánh vuông vức như món quà của đất trời."
+    },
+    {
+      "loi": "Chiều muộn, nồi bánh chưng lớn được bắc lên bếp củi hồng rực. Hai chị em ngồi bên cạnh bố mẹ, nghe tiếng lửa reo tí tách và hít hà mùi lá dong thơm ngào ngạt.",
+      "anh": "Lucie and Lucas sitting warmly at a safe distance watching a steaming traditional banh chung pot over glowing embers",
+      "doc": "Chiều muộn, nồi bánh chưng lớn được bắc lên bếp củi hồng rực. Hai chị em ngồi bên cạnh bố mẹ, nghe tiếng lửa reo tí tách và hít hà mùi lá dong thơm ngào ngạt."
+    },
+    {
+      "loi": "Sáng hôm sau, khi vớt những chiếc bánh chưng xanh rờn nóng hổi ra khỏi nồi, cả nhà cùng nâng niu đặt cặp bánh đẹp nhất lên bàn thờ tổ tiên với lòng biết ơn.",
+      "anh": "Steaming freshly cooked square green banh chung cakes stacked neatly on a woven bamboo tray",
+      "doc": "Sáng hôm sau, khi vớt những chiếc bánh chưng xanh rờn nóng hổi ra khỏi nồi, cả nhà cùng nâng niu đặt cặp bánh đẹp nhất lên bàn thờ tổ tiên với lòng biết ơn."
+    },
+    {
+      "loi": "Tết đến mang theo mùi hương quen thuộc và tình cảm sum vầy ấm áp. Hai chị em háo hức chờ khoảnh khắc giao thừa để chúc Tết ông bà và bố mẹ thật lễ phép.",
+      "anh": "Lucie and Lucas smiling joyfully together under warm red Tet lanterns and pink peach blossoms",
+      "doc": "Tết đến mang theo mùi hương quen thuộc và tình cảm sum vầy ấm áp. Hai chị em háo hức chờ khoảnh khắc giao thừa để chúc Tết ông bà và bố mẹ thật lễ phép."
+    }
+  ],
+  "hoi_lucie": [
+    {
+      "cau": "Trong buổi gói bánh chưng, Lucie và Lucas đã giúp ông bà việc gì?",
+      "dung": "Lucie lau lá dong, còn Lucas đếm và đưa lạt giang cho ông",
+      "sai": [
+        "Cả hai ngồi xem tivi trong nhà",
+        "Hai chị em tự đi mua bánh ngoài chợ"
+      ],
+      "doc": "Trong buổi gói bánh chưng, Lu Xi và Lu Cát đã giúp ông bà việc gì?",
+      "doc_dap": [
+        "Lu Xi lau lá dong, còn Lu Cát đếm và đưa lạt giang cho ông",
+        "Cả hai ngồi xem tivi trong nhà",
+        "Hai chị em tự đi mua bánh ngoài chợ"
+      ]
+    },
+    {
+      "cau": "Những nguyên liệu chính bên trong chiếc bánh chưng là gì?",
+      "dung": "Gạo nếp, đỗ xanh và thịt",
+      "sai": [
+        "Bột mì, đường và sữa tươi",
+        "Khoai tây, cà rốt và bơ"
+      ],
+      "doc": "Những nguyên liệu chính bên trong chiếc bánh chưng là gì?",
+      "doc_dap": [
+        "Gạo nếp, đỗ xanh và thịt",
+        "Bột mì, đường và sữa tươi",
+        "Khoai tây, cà rốt và bơ"
+      ]
+    },
+    {
+      "cau": "Sau khi luộc chín, cặp bánh chưng đẹp nhất được đặt ở đâu?",
+      "dung": "Trên bàn thờ tổ tiên để bày tỏ lòng biết ơn",
+      "sai": [
+        "Đem cất ngay vào tủ lạnh",
+        "Đặt ở ngoài cổng sân"
+      ],
+      "doc": "Sau khi luộc chín, cặp bánh chưng đẹp nhất được đặt ở đâu?",
+      "doc_dap": [
+        "Trên bàn thờ tổ tiên để bày tỏ lòng biết ơn",
+        "Đem cất ngay vào tủ lạnh",
+        "Đặt ở ngoài cổng sân"
+      ]
+    }
+  ],
+  "hoi_lucas": [
+    {
+      "cau": "Hoa gì nở hồng báo hiệu Tết đến?",
+      "dung": "Hoa đào",
+      "sai": [
+        "Hoa hướng dương",
+        "Hoa sen"
+      ],
+      "doc": "Hoa gì nở hồng báo hiệu Tết đến?",
+      "doc_dap": [
+        "Hoa đào",
+        "Hoa hướng dương",
+        "Hoa sen"
+      ]
+    },
+    {
+      "cau": "Bánh chưng có hình gì?",
+      "dung": "Hình vuông",
+      "sai": [
+        "Hình tròn",
+        "Hình tam giác"
+      ],
+      "doc": "Bánh chưng có hình gì?",
+      "doc_dap": [
+        "Hình vuông",
+        "Hình tròn",
+        "Hình tam giác"
+      ]
+    },
+    {
+      "cau": "Lá gói bánh chưng có màu gì?",
+      "dung": "Màu xanh",
+      "sai": [
+        "Màu tím",
+        "Màu đen"
+      ],
+      "doc": "Lá gói bánh chưng có màu gì?",
+      "doc_dap": [
+        "Màu xanh",
+        "Màu tím",
+        "Màu đen"
+      ]
+    }
+  ],
+  "tieu_de": "Nồi bánh chưng ngày Tết",
+  "bia": "Lucie and Lucas smiling beside green dong leaves and square banh chung wrapped with bamboo strings in a warm Vietnamese Tet courtyard",
+  "bai_hoc": "Ngày Tết càng thêm vui và ý nghĩa khi cả nhà cùng nhau chuẩn bị, giữ gìn nét đẹp truyền thống và biết ơn ông bà, bố mẹ.",
+  "chuc": "Chúc hai bé ngoan ngủ thật ngon, mơ thấy hoa đào nở rộ và những ngày xuân rực rỡ!",
+  "doc_tieu_de": "Nồi bánh chưng ngày Tết",
+  "doc_bai_hoc": "Ngày Tết càng thêm vui và ý nghĩa khi cả nhà cùng nhau chuẩn bị, giữ gìn nét đẹp truyền thống và biết ơn ông bà, bố mẹ.",
+  "doc_chuc": "Chúc hai bé ngoan ngủ thật ngon, mơ thấy hoa đào nở rộ và những ngày xuân rực rỡ!",
+  "so": 18,
+  "ma": "tuan-18",
+  "ngay": "2026-12-21"
+}

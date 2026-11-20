@@ -1,0 +1,132 @@
+{
+  "trang": [
+    {
+      "loi": "Lucas đã vào lớp Một nên bố mẹ chuẩn bị cho em một chiếc giường nhỏ xinh có ga màu xanh bầu trời. Nhưng tối đầu tiên tắt đèn, em vẫn hơi rụt rè.",
+      "anh": "A cozy child's bed with sky-blue star-patterned sheets and a plush teddy bear in a warm bedroom",
+      "doc": "Lu Cát đã vào lớp Một nên bố mẹ chuẩn bị cho em một chiếc giường nhỏ xinh có ga màu xanh bầu trời. Nhưng tối đầu tiên tắt đèn, em vẫn hơi rụt rè."
+    },
+    {
+      "loi": "Nhìn bóng cái cây ngoài cửa sổ đung đưa trên tường, Lucas gọi khẽ: “Chị Lucie ơi, em hơi sợ bóng tối một chút”. Lucie liền bước sang ngồi cạnh mép giường em.",
+      "anh": "Lucie sitting kindly beside Lucas's bed comforting him in a softly lit cozy bedroom",
+      "doc": "Nhìn bóng cái cây ngoài cửa sổ đung đưa trên tường, Lu Cát gọi khẽ: Chị Lu Xi ơi, em hơi sợ bóng tối một chút. Lu Xi liền bước sang ngồi cạnh mép giường em."
+    },
+    {
+      "loi": "Chị bật chiếc đèn ngủ hình mặt trăng tỏa ánh sáng vàng dịu rồi chỉ ra cửa sổ: “Kia chỉ là bóng cành cây đang đung đưa ru em ngủ thôi, không có gì đáng sợ đâu!”.",
+      "anh": "A cute glowing crescent moon nightlight on a bedside table casting gentle warm shadows",
+      "doc": "Chị bật chiếc đèn ngủ hình mặt trăng tỏa ánh sáng vàng dịu rồi chỉ ra cửa sổ: Kia chỉ là bóng cành cây đang đung đưa ru em ngủ thôi, không có gì đáng sợ đâu!."
+    },
+    {
+      "loi": "Lucie đưa cho Lucas chú gấu bông nâu quen thuộc và dạy em hít thở thật sâu ba lần cho bình tĩnh. Lucas ôm chú gấu vào lòng, thấy căn phòng ấm áp hẳn lên.",
+      "anh": "Lucie handing a cute brown plush teddy bear to Lucas who smiles bravely in his cozy bed",
+      "doc": "Lu Xi đưa cho Lu Cát chú gấu bông nâu quen thuộc và dạy em hít thở thật sâu ba lần cho bình tĩnh. Lu Cát ôm chú gấu vào lòng, thấy căn phòng ấm áp hẳn lên."
+    },
+    {
+      "loi": "Bố mẹ bước vào chúc hai con ngủ ngon rồi khẽ khép cửa. Lucas tự nhủ: “Mình là học sinh lớp Một dũng cảm rồi!” và bình yên nhắm mắt lại.",
+      "anh": "A softly lit tidy children's bedroom with a glowing moon lamp and a starry night window",
+      "doc": "Bố mẹ bước vào chúc hai con ngủ ngon rồi khẽ khép cửa. Lu Cát tự nhủ: Mình là học sinh lớp Một dũng cảm rồi! và bình yên nhắm mắt lại."
+    },
+    {
+      "loi": "Sáng hôm sau tỉnh dậy trong nắng sớm, Lucas reo lên sung sướng vì mình đã tự ngủ trọn một đêm ngon giấc. Lớn lên từng ngày thật là kỳ diệu!",
+      "anh": "Lucie and Lucas smiling brightly together in morning sunshine in their tidy bedroom",
+      "doc": "Sáng hôm sau tỉnh dậy trong nắng sớm, Lu Cát reo lên sung sướng vì mình đã tự ngủ trọn một đêm ngon giấc. Lớn lên từng ngày thật là kỳ diệu!"
+    }
+  ],
+  "hoi_lucie": [
+    {
+      "cau": "Điều gì khiến Lucas hơi sợ vào tối đầu tiên ngủ giường riêng?",
+      "dung": "Bóng cành cây ngoài cửa sổ đung đưa trên tường trong bóng tối",
+      "sai": [
+        "Tiếng sấm sét ầm ầm",
+        "Em làm mất chú gấu bông"
+      ],
+      "doc": "Điều gì khiến Lu Cát hơi sợ vào tối đầu tiên ngủ giường riêng?",
+      "doc_dap": [
+        "Bóng cành cây ngoài cửa sổ đung đưa trên tường trong bóng tối",
+        "Tiếng sấm sét ầm ầm",
+        "Em làm mất chú gấu bông"
+      ]
+    },
+    {
+      "cau": "Lucie đã giúp em bớt sợ bằng những cách nào?",
+      "dung": "Bật đèn ngủ mặt trăng, giải thích bóng cành cây và dạy em hít thở sâu",
+      "sai": [
+        "Bật sáng tất cả đèn trong nhà",
+        "Cho em xem phim suốt đêm"
+      ],
+      "doc": "Lu Xi đã giúp em bớt sợ bằng những cách nào?",
+      "doc_dap": [
+        "Bật đèn ngủ mặt trăng, giải thích bóng cành cây và dạy em hít thở sâu",
+        "Bật sáng tất cả đèn trong nhà",
+        "Cho em xem phim suốt đêm"
+      ]
+    },
+    {
+      "cau": "Sáng hôm sau tỉnh dậy, cảm xúc của Lucas như thế nào?",
+      "dung": "Sung sướng và tự hào vì mình đã tự ngủ trọn một đêm ngon giấc",
+      "sai": [
+        "Buồn bã không muốn đi học",
+        "Vẫn rất sợ căn phòng của mình"
+      ],
+      "doc": "Sáng hôm sau tỉnh dậy, cảm xúc của Lu Cát như thế nào?",
+      "doc_dap": [
+        "Sung sướng và tự hào vì mình đã tự ngủ trọn một đêm ngon giấc",
+        "Buồn bã không muốn đi học",
+        "Vẫn rất sợ căn phòng của mình"
+      ]
+    }
+  ],
+  "hoi_lucas": [
+    {
+      "cau": "Chiếc đèn ngủ trong phòng Lucas có hình gì?",
+      "dung": "Hình mặt trăng",
+      "sai": [
+        "Hình ô tô",
+        "Hình bông hoa"
+      ],
+      "doc": "Chiếc đèn ngủ trong phòng Lu Cát có hình gì?",
+      "doc_dap": [
+        "Hình mặt trăng",
+        "Hình ô tô",
+        "Hình bông hoa"
+      ]
+    },
+    {
+      "cau": "Lucas ôm bạn đồ chơi nào đi ngủ?",
+      "dung": "Chú gấu bông nâu",
+      "sai": [
+        "Chú khủng long",
+        "Chiếc máy bay"
+      ],
+      "doc": "Lu Cát ôm bạn đồ chơi nào đi ngủ?",
+      "doc_dap": [
+        "Chú gấu bông nâu",
+        "Chú khủng long",
+        "Chiếc máy bay"
+      ]
+    },
+    {
+      "cau": "Khi hơi sợ, con hít thở sâu mấy lần cho bình tĩnh?",
+      "dung": "Ba lần",
+      "sai": [
+        "Mười lần",
+        "Không cần thở"
+      ],
+      "doc": "Khi hơi sợ, con hít thở sâu mấy lần cho bình tĩnh?",
+      "doc_dap": [
+        "Ba lần",
+        "Mười lần",
+        "Không cần thở"
+      ]
+    }
+  ],
+  "tieu_de": "Ngủ riêng một mình thật dũng cảm",
+  "bia": "Lucie and Lucas smiling bravely in cozy pajamas beside a glowing star nightlight in a tidy children's bedroom",
+  "bai_hoc": "Ai cũng có lúc hơi lo lắng trước điều mới mẻ, nhưng chỉ cần bình tĩnh hít thở sâu và tin vào bản thân, con sẽ trở nên thật dũng cảm!",
+  "chuc": "Chúc hai em bé dũng cảm của bố mẹ ngủ một giấc thật sâu và bình yên đến sáng!",
+  "doc_tieu_de": "Ngủ riêng một mình thật dũng cảm",
+  "doc_bai_hoc": "Ai cũng có lúc hơi lo lắng trước điều mới mẻ, nhưng chỉ cần bình tĩnh hít thở sâu và tin vào bản thân, con sẽ trở nên thật dũng cảm!",
+  "doc_chuc": "Chúc hai em bé dũng cảm của bố mẹ ngủ một giấc thật sâu và bình yên đến sáng!",
+  "so": 25,
+  "ma": "tuan-25",
+  "ngay": "2027-01-04"
+}

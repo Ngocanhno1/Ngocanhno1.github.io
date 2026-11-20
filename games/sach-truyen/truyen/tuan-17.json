@@ -1,0 +1,132 @@
+{
+  "trang": [
+    {
+      "loi": "Tháng Mười Hai về mang theo không khí Giáng sinh rộn ràng khắp phố. Trong phòng khách, bố vừa dựng một cây thông nhỏ xanh mướt có dây đèn lấp lánh.",
+      "anh": "Lucie and Lucas looking excitedly at a small green Christmas tree with glowing warm fairy lights",
+      "doc": "Tháng Mười Hai về mang theo không khí Giáng sinh rộn ràng khắp phố. Trong phòng khách, bố vừa dựng một cây thông nhỏ xanh mướt có dây đèn lấp lánh."
+    },
+    {
+      "loi": "Lucie lấy giấy màu cắt những ngôi sao vàng lấp lánh, còn Lucas cẩn thận treo từng quả châu đỏ lên cành thông. Hai chị em phối hợp thật nhịp nhàng.",
+      "anh": "Lucie cutting yellow paper stars while Lucas hangs shiny red ornaments on the Christmas tree",
+      "doc": "Lu Xi lấy giấy màu cắt những ngôi sao vàng lấp lánh, còn Lu Cát cẩn thận treo từng quả châu đỏ lên cành thông. Hai chị em phối hợp thật nhịp nhàng."
+    },
+    {
+      "loi": "Đặt xong ngôi sao lớn nhất lên đỉnh cây thông, Lucas chợt hỏi: “Chị ơi, ông già Noel có thích nhận quà từ tụi mình không?”. Lucie reo lên: “Hay là mình tự vẽ thiệp chúc mừng bố mẹ và ông bà nhé!”.",
+      "anh": "Colorful handmade Christmas greeting cards with little pine trees and stars on a wooden table",
+      "doc": "Đặt xong ngôi sao lớn nhất lên đỉnh cây thông, Lu Cát chợt hỏi: Chị ơi, ông già Noel có thích nhận quà từ tụi mình không?. Lu Xi reo lên: Hay là mình tự vẽ thiệp chúc mừng bố mẹ và ông bà nhé!."
+    },
+    {
+      "loi": "Hai chị em hí hoáy vẽ những tấm thiệp thật xinh rồi đặt gọn gàng dưới gốc cây thông cùng hai chiếc tất len đỏ. Ánh đèn vàng tỏa sáng ấm áp cả căn phòng.",
+      "anh": "Lucie and Lucas placing handmade holiday cards and red knitted stockings under the glowing Christmas tree",
+      "doc": "Hai chị em hí hoáy vẽ những tấm thiệp thật xinh rồi đặt gọn gàng dưới gốc cây thông cùng hai chiếc tất len đỏ. Ánh đèn vàng tỏa sáng ấm áp cả căn phòng."
+    },
+    {
+      "loi": "Buổi tối, cả nhà quây quần bên bàn ăn thưởng thức bánh quy gừng thơm phức. Bố mẹ mở từng tấm thiệp của hai con ra xem và ôm hai chị em vào lòng thật chặt.",
+      "anh": "A plate of cute smiling gingerbread cookies and warm milk mugs on a festive wooden table",
+      "doc": "Buổi tối, cả nhà quây quần bên bàn ăn thưởng thức bánh quy gừng thơm phức. Bố mẹ mở từng tấm thiệp của hai con ra xem và ôm hai chị em vào lòng thật chặt."
+    },
+    {
+      "loi": "Ngoài cửa sổ, bầu trời đêm đông trong vắt đầy sao. Hai chị em nằm nghe tiếng chuông Giáng sinh dịu nhẹ và cảm thấy niềm vui lớn nhất chính là được tặng yêu thương cho gia đình.",
+      "anh": "Lucie and Lucas gazing out a cozy window at a starry winter night sky with glowing fairy lights",
+      "doc": "Ngoài cửa sổ, bầu trời đêm đông trong vắt đầy sao. Hai chị em nằm nghe tiếng chuông Giáng sinh dịu nhẹ và cảm thấy niềm vui lớn nhất chính là được tặng yêu thương cho gia đình."
+    }
+  ],
+  "hoi_lucie": [
+    {
+      "cau": "Hai chị em đã cùng nhau làm món quà gì trong đêm Giáng sinh?",
+      "dung": "Tự vẽ thiệp chúc mừng tặng bố mẹ và ông bà",
+      "sai": [
+        "Mua một chiếc xe đạp mới",
+        "Nướng một chiếc bánh kem khổng lồ"
+      ],
+      "doc": "Hai chị em đã cùng nhau làm món quà gì trong đêm Giáng sinh?",
+      "doc_dap": [
+        "Tự vẽ thiệp chúc mừng tặng bố mẹ và ông bà",
+        "Mua một chiếc xe đạp mới",
+        "Nướng một chiếc bánh kem khổng lồ"
+      ]
+    },
+    {
+      "cau": "Lucie và Lucas đã đặt những tấm thiệp ở đâu?",
+      "dung": "Dưới gốc cây thông cùng hai chiếc tất len đỏ",
+      "sai": [
+        "Ngoài ban công tầng hai",
+        "Trong cặp sách đi học"
+      ],
+      "doc": "Lu Xi và Lu Cát đã đặt những tấm thiệp ở đâu?",
+      "doc_dap": [
+        "Dưới gốc cây thông cùng hai chiếc tất len đỏ",
+        "Ngoài ban công tầng hai",
+        "Trong cặp sách đi học"
+      ]
+    },
+    {
+      "cau": "Điều ý nghĩa nhất mà hai chị em nhận ra trong đêm Giáng sinh là gì?",
+      "dung": "Tự tay trao gửi yêu thương cho gia đình mang lại niềm vui lớn",
+      "sai": [
+        "Phải có cây thông thật to mới vui",
+        "Chỉ cần ăn thật nhiều bánh kẹo"
+      ],
+      "doc": "Điều ý nghĩa nhất mà hai chị em nhận ra trong đêm Giáng sinh là gì?",
+      "doc_dap": [
+        "Tự tay trao gửi yêu thương cho gia đình mang lại niềm vui lớn",
+        "Phải có cây thông thật to mới vui",
+        "Chỉ cần ăn thật nhiều bánh kẹo"
+      ]
+    }
+  ],
+  "hoi_lucas": [
+    {
+      "cau": "Lucie cắt hình gì để trang trí cây thông?",
+      "dung": "Ngôi sao vàng",
+      "sai": [
+        "Quả dưa hấu",
+        "Chiếc thuyền giấy"
+      ],
+      "doc": "Lu Xi cắt hình gì để trang trí cây thông?",
+      "doc_dap": [
+        "Ngôi sao vàng",
+        "Quả dưa hấu",
+        "Chiếc thuyền giấy"
+      ]
+    },
+    {
+      "cau": "Lucas đã treo gì lên cành thông?",
+      "dung": "Quả châu đỏ",
+      "sai": [
+        "Chiếc dép nhỏ",
+        "Cái bát sứ"
+      ],
+      "doc": "Lu Cát đã treo gì lên cành thông?",
+      "doc_dap": [
+        "Quả châu đỏ",
+        "Chiếc dép nhỏ",
+        "Cái bát sứ"
+      ]
+    },
+    {
+      "cau": "Cả nhà cùng ăn bánh gì vào buổi tối?",
+      "dung": "Bánh quy gừng",
+      "sai": [
+        "Bánh chưng xanh",
+        "Bánh mì cay"
+      ],
+      "doc": "Cả nhà cùng ăn bánh gì vào buổi tối?",
+      "doc_dap": [
+        "Bánh quy gừng",
+        "Bánh chưng xanh",
+        "Bánh mì cay"
+      ]
+    }
+  ],
+  "tieu_de": "Đêm Giáng sinh lung linh",
+  "bia": "Lucie and Lucas decorating a glowing Christmas tree with golden stars and red ribbons in a cozy living room",
+  "bai_hoc": "Niềm vui ngày lễ không chỉ là được nhận quà, mà còn là khi ta tự tay làm món quà nhỏ gửi tặng yêu thương đến người thân.",
+  "chuc": "Chúc Lucie và Lucas một đêm thật an lành, ấm áp và ngập tràn phép màu nhé!",
+  "doc_tieu_de": "Đêm Giáng sinh lung linh",
+  "doc_bai_hoc": "Niềm vui ngày lễ không chỉ là được nhận quà, mà còn là khi ta tự tay làm món quà nhỏ gửi tặng yêu thương đến người thân.",
+  "doc_chuc": "Chúc Lu Xi và Lu Cát một đêm thật an lành, ấm áp và ngập tràn phép màu nhé!",
+  "so": 17,
+  "ma": "tuan-17",
+  "ngay": "2026-12-19"
+}

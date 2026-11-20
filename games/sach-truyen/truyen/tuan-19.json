@@ -1,0 +1,132 @@
+{
+  "trang": [
+    {
+      "loi": "Chủ nhật đẹp trời, ông bà ngoại lên chơi thăm gia đình. Vừa nghe tiếng chuông cổng, Lucie và Lucas liền chạy ùa ra đón với nụ cười rạng rỡ.",
+      "anh": "Lucie and Lucas running happily toward the sunny garden gate to welcome visitors",
+      "doc": "Chủ nhật đẹp trời, ông bà ngoại lên chơi thăm gia đình. Vừa nghe tiếng chuông cổng, Lu Xi và Lu Cát liền chạy ùa ra đón với nụ cười rạng rỡ."
+    },
+    {
+      "loi": "Cả hai dừng lại ngay ngắn, khoanh tay thật đẹp và đồng thanh cất tiếng trong trẻo: “Cháu chào ông bà ạ!”. Ông bà vui lắm, xoa đầu khen hai đứa cháu thật lễ phép.",
+      "anh": "Lucie and Lucas standing neatly folding their arms politely greeting their grandparents with bright smiles",
+      "doc": "Cả hai dừng lại ngay ngắn, khoanh tay thật đẹp và đồng thanh cất tiếng trong trẻo: Cháu chào ông bà ạ!. Ông bà vui lắm, xoa đầu khen hai đứa cháu thật lễ phép."
+    },
+    {
+      "loi": "Vào nhà, Lucie nhanh nhẹn rót hai chén trà ấm đặt lên khay, còn Lucas bưng đĩa quýt chín vàng mời ông bà bằng cả hai tay. Miệng em ngoan ngoãn nói: “Cháu mời ông bà dùng nước ạ!”.",
+      "anh": "A neat wooden tray with two warm teacups and bright orange tangerines on a living room table",
+      "doc": "Vào nhà, Lu Xi nhanh nhẹn rót hai chén trà ấm đặt lên khay, còn Lu Cát bưng đĩa quýt chín vàng mời ông bà bằng cả hai tay. Miệng em ngoan ngoãn nói: Cháu mời ông bà dùng nước ạ!."
+    },
+    {
+      "loi": "Trong bữa cơm trưa, hai chị em chờ ông bà và bố mẹ ngồi đủ mới bắt đầu ăn. Trước khi cầm đũa, cả hai cùng mời ông bà, mời bố mẹ thật to rõ ràng.",
+      "anh": "A cozy Vietnamese family dining table set with steaming rice bowls and home-cooked dishes",
+      "doc": "Trong bữa cơm trưa, hai chị em chờ ông bà và bố mẹ ngồi đủ mới bắt đầu ăn. Trước khi cầm đũa, cả hai cùng mời ông bà, mời bố mẹ thật to rõ ràng."
+    },
+    {
+      "loi": "Chiều đến, ông kể chuyện ngày xưa còn bà dạy Lucie gấp hạc giấy. Lucas ngồi lắng nghe chăm chú, không ngắt lời khi người lớn đang nói chuyện.",
+      "anh": "Lucie and Lucas sitting attentively folding colorful origami paper cranes in a sunlit living room",
+      "doc": "Chiều đến, ông kể chuyện ngày xưa còn bà dạy Lu Xi gấp hạc giấy. Lu Cát ngồi lắng nghe chăm chú, không ngắt lời khi người lớn đang nói chuyện."
+    },
+    {
+      "loi": "Trước khi đi ngủ, hai chị em ôm chúc ông bà ngủ ngon. Lời chào lễ phép nhỏ bé nhưng làm cả ngôi nhà lúc nào cũng tràn ngập tiếng cười ấm áp.",
+      "anh": "Two colorful origami paper cranes resting on a wooden bedside table under warm evening light",
+      "doc": "Trước khi đi ngủ, hai chị em ôm chúc ông bà ngủ ngon. Lời chào lễ phép nhỏ bé nhưng làm cả ngôi nhà lúc nào cũng tràn ngập tiếng cười ấm áp."
+    }
+  ],
+  "hoi_lucie": [
+    {
+      "cau": "Khi ông bà đến nhà, Lucie và Lucas đã chào ông bà như thế nào?",
+      "dung": "Đứng ngay ngắn, khoanh tay và nói “Cháu chào ông bà ạ!”",
+      "sai": [
+        "Vẫy tay từ trong phòng ngủ",
+        "Mải chơi không ra mở cửa"
+      ],
+      "doc": "Khi ông bà đến nhà, Lu Xi và Lu Cát đã chào ông bà như thế nào?",
+      "doc_dap": [
+        "Đứng ngay ngắn, khoanh tay và nói Cháu chào ông bà ạ!",
+        "Vẫy tay từ trong phòng ngủ",
+        "Mải chơi không ra mở cửa"
+      ]
+    },
+    {
+      "cau": "Lucas đã bưng đĩa quýt mời ông bà bằng cách nào?",
+      "dung": "Bưng bằng cả hai tay và nói lời mời lễ phép",
+      "sai": [
+        "Đặt vội một tay rồi chạy đi",
+        "Nhờ chị bưng hộ"
+      ],
+      "doc": "Lu Cát đã bưng đĩa quýt mời ông bà bằng cách nào?",
+      "doc_dap": [
+        "Bưng bằng cả hai tay và nói lời mời lễ phép",
+        "Đặt vội một tay rồi chạy đi",
+        "Nhờ chị bưng hộ"
+      ]
+    },
+    {
+      "cau": "Khi ông bà đang nói chuyện, thái độ ngoan ngoãn của Lucas là gì?",
+      "dung": "Ngồi lắng nghe chăm chú, không ngắt lời người lớn",
+      "sai": [
+        "Nói chen vào thật to",
+        "Bỏ đi chơi chỗ khác"
+      ],
+      "doc": "Khi ông bà đang nói chuyện, thái độ ngoan ngoãn của Lu Cát là gì?",
+      "doc_dap": [
+        "Ngồi lắng nghe chăm chú, không ngắt lời người lớn",
+        "Nói chen vào thật to",
+        "Bỏ đi chơi chỗ khác"
+      ]
+    }
+  ],
+  "hoi_lucas": [
+    {
+      "cau": "Gặp ông bà, con khoanh tay nói gì?",
+      "dung": "Cháu chào ông bà ạ",
+      "sai": [
+        "Đi chơi thôi",
+        "Không nói gì"
+      ],
+      "doc": "Gặp ông bà, con khoanh tay nói gì?",
+      "doc_dap": [
+        "Cháu chào ông bà ạ",
+        "Đi chơi thôi",
+        "Không nói gì"
+      ]
+    },
+    {
+      "cau": "Khi đưa đồ cho ông bà, con dùng mấy tay?",
+      "dung": "Cả hai tay",
+      "sai": [
+        "Một tay",
+        "Không cần đưa"
+      ],
+      "doc": "Khi đưa đồ cho ông bà, con dùng mấy tay?",
+      "doc_dap": [
+        "Cả hai tay",
+        "Một tay",
+        "Không cần đưa"
+      ]
+    },
+    {
+      "cau": "Trước khi ăn cơm con nhớ làm gì?",
+      "dung": "Mời ông bà và bố mẹ",
+      "sai": [
+        "Ăn ngay lập tức",
+        "Chạy quanh bàn"
+      ],
+      "doc": "Trước khi ăn cơm con nhớ làm gì?",
+      "doc_dap": [
+        "Mời ông bà và bố mẹ",
+        "Ăn ngay lập tức",
+        "Chạy quanh bàn"
+      ]
+    }
+  ],
+  "tieu_de": "Lời chào lễ phép với ông bà",
+  "bia": "Lucie and Lucas bowing politely with folded arms greeting their smiling grandparents at a sunny porch",
+  "bai_hoc": "Lễ phép khoanh tay chào hỏi, đưa đồ bằng hai tay và mời cơm người lớn là cách đẹp nhất để thể hiện lòng kính yêu ông bà, bố mẹ.",
+  "chuc": "Chúc hai em bé ngoan ngoãn, lễ phép của bố mẹ có một giấc ngủ thật say!",
+  "doc_tieu_de": "Lời chào lễ phép với ông bà",
+  "doc_bai_hoc": "Lễ phép khoanh tay chào hỏi, đưa đồ bằng hai tay và mời cơm người lớn là cách đẹp nhất để thể hiện lòng kính yêu ông bà, bố mẹ.",
+  "doc_chuc": "Chúc hai em bé ngoan ngoãn, lễ phép của bố mẹ có một giấc ngủ thật say!",
+  "so": 19,
+  "ma": "tuan-19",
+  "ngay": "2026-12-23"
+}

@@ -1,0 +1,132 @@
+{
+  "trang": [
+    {
+      "loi": "Chiều nay mẹ đi chợ vắng, hai chị em chơi tung bóng mềm trong phòng khách. Quả bóng nảy hơi cao rồi vô tình chạm vào chiếc bình hoa nhỏ trên bàn trà.",
+      "anh": "A soft colorful play ball resting near a small ceramic vase with yellow daisies on a wooden table",
+      "doc": "Chiều nay mẹ đi chợ vắng, hai chị em chơi tung bóng mềm trong phòng khách. Quả bóng nảy hơi cao rồi vô tình chạm vào chiếc bình hoa nhỏ trên bàn trà."
+    },
+    {
+      "loi": "“Choang!”, chiếc bình trượt nhẹ xuống thảm làm nước tràn ra ướt một góc bàn và miệng bình bị sứt một mảnh nhỏ. Lucas giật mình, đôi mắt tròn xoe đầy lo lắng.",
+      "anh": "A small ceramic flower vase tipped over on a living room rug with spilled water and yellow daisies",
+      "doc": "Choang!, chiếc bình trượt nhẹ xuống thảm làm nước tràn ra ướt một góc bàn và miệng bình bị sứt một mảnh nhỏ. Lu Cát giật mình, đôi mắt tròn xoe đầy lo lắng."
+    },
+    {
+      "loi": "Lucas định giấu mảnh vỡ xuống dưới thảm vì sợ mẹ mắng. Lucie nhẹ nhàng nắm tay em: “Mình không nên giấu đâu Lucas. Nói thật với mẹ và cùng lau sạch mới là dũng cảm!”.",
+      "anh": "Lucie gently holding Lucas's hand reassuring him in a warm sunlit living room",
+      "doc": "Lu Cát định giấu mảnh vỡ xuống dưới thảm vì sợ mẹ mắng. Lu Xi nhẹ nhàng nắm tay em: Mình không nên giấu đâu Lu Cát. Nói thật với mẹ và cùng lau sạch mới là dũng cảm!."
+    },
+    {
+      "loi": "Hai chị em lấy khăn khô thấm sạch nước trên bàn, cẩn thận nhặt mảnh sứ bỏ vào giấy báo để không ai bị đứt tay. Khi mẹ về, cả hai khoanh tay nhận lỗi thật thà.",
+      "anh": "A neat folded towel and yellow daisies placed safely in a clean glass cup on a dry wooden table",
+      "doc": "Hai chị em lấy khăn khô thấm sạch nước trên bàn, cẩn thận nhặt mảnh sứ bỏ vào giấy báo để không ai bị đứt tay. Khi mẹ về, cả hai khoanh tay nhận lỗi thật thà."
+    },
+    {
+      "loi": "Mẹ không hề giận mà còn ôm hai con vào lòng: “Mẹ rất vui vì các con đã trung thực nhận lỗi và biết dọn dẹp an toàn. Lần sau mình ra sân chơi bóng nhé!”.",
+      "anh": "Lucie and Lucas smiling relieved and happy together in a warm cozy living room",
+      "doc": "Mẹ không hề giận mà còn ôm hai con vào lòng: Mẹ rất vui vì các con đã trung thực nhận lỗi và biết dọn dẹp an toàn. Lần sau mình ra sân chơi bóng nhé!."
+    },
+    {
+      "loi": "Đêm xuống, lòng Lucas nhẹ tênh không còn chút lo âu nào. Nói lời chân thật giúp mình luôn bình an và được mọi người tin yêu hơn.",
+      "anh": "Yellow daisies glowing softly in a glass cup under a warm evening lamp on a bedside table",
+      "doc": "Đêm xuống, lòng Lu Cát nhẹ tênh không còn chút lo âu nào. Nói lời chân thật giúp mình luôn bình an và được mọi người tin yêu hơn."
+    }
+  ],
+  "hoi_lucie": [
+    {
+      "cau": "Vì sao chiếc bình hoa nhỏ trên bàn trà bị đổ và sứt miệng?",
+      "dung": "Do hai chị em chơi tung bóng mềm trong phòng khách làm bóng chạm vào",
+      "sai": [
+        "Do chú mèo nhảy lên bàn",
+        "Do gió thổi mạnh qua cửa sổ"
+      ],
+      "doc": "Vì sao chiếc bình hoa nhỏ trên bàn trà bị đổ và sứt miệng?",
+      "doc_dap": [
+        "Do hai chị em chơi tung bóng mềm trong phòng khách làm bóng chạm vào",
+        "Do chú mèo nhảy lên bàn",
+        "Do gió thổi mạnh qua cửa sổ"
+      ]
+    },
+    {
+      "cau": "Trước khi mẹ về, Lucie và Lucas đã xử lý thế nào cho an toàn?",
+      "dung": "Lau khô nước và gói cẩn thận mảnh vỡ vào giấy báo",
+      "sai": [
+        "Giấu mảnh vỡ xuống dưới tấm thảm",
+        "Bỏ nguyên hiện trường rồi đi ngủ"
+      ],
+      "doc": "Trước khi mẹ về, Lu Xi và Lu Cát đã xử lý thế nào cho an toàn?",
+      "doc_dap": [
+        "Lau khô nước và gói cẩn thận mảnh vỡ vào giấy báo",
+        "Giấu mảnh vỡ xuống dưới tấm thảm",
+        "Bỏ nguyên hiện trường rồi đi ngủ"
+      ]
+    },
+    {
+      "cau": "Vì sao mẹ không mắng mà lại khen hai chị em?",
+      "dung": "Vì hai con đã trung thực nhận lỗi và biết thu dọn an toàn",
+      "sai": [
+        "Vì chiếc bình đó rất rẻ",
+        "Vì mẹ muốn mua bình mới"
+      ],
+      "doc": "Vì sao mẹ không mắng mà lại khen hai chị em?",
+      "doc_dap": [
+        "Vì hai con đã trung thực nhận lỗi và biết thu dọn an toàn",
+        "Vì chiếc bình đó rất rẻ",
+        "Vì mẹ muốn mua bình mới"
+      ]
+    }
+  ],
+  "hoi_lucas": [
+    {
+      "cau": "Hai chị em chơi gì trong phòng khách?",
+      "dung": "Tung bóng mềm",
+      "sai": [
+        "Đạp xe đạp",
+        "Thả diều"
+      ],
+      "doc": "Hai chị em chơi gì trong phòng khách?",
+      "doc_dap": [
+        "Tung bóng mềm",
+        "Đạp xe đạp",
+        "Thả diều"
+      ]
+    },
+    {
+      "cau": "Khi lỡ làm vỡ bình, hai chị em đã làm gì với mẹ?",
+      "dung": "Nói thật và nhận lỗi",
+      "sai": [
+        "Giấu đi không nói",
+        "Đổ lỗi cho chú mèo"
+      ],
+      "doc": "Khi lỡ làm vỡ bình, hai chị em đã làm gì với mẹ?",
+      "doc_dap": [
+        "Nói thật và nhận lỗi",
+        "Giấu đi không nói",
+        "Đổ lỗi cho chú mèo"
+      ]
+    },
+    {
+      "cau": "Chơi bóng nên chơi ở đâu cho an toàn?",
+      "dung": "Ở ngoài sân rộng",
+      "sai": [
+        "Trên bàn ăn",
+        "Cạnh bình hoa"
+      ],
+      "doc": "Chơi bóng nên chơi ở đâu cho an toàn?",
+      "doc_dap": [
+        "Ở ngoài sân rộng",
+        "Trên bàn ăn",
+        "Cạnh bình hoa"
+      ]
+    }
+  ],
+  "tieu_de": "Chiếc bình hoa và lời nói thật",
+  "bia": "Lucie and Lucas standing honestly together looking at a small ceramic flower vase in a warm sunlit living room",
+  "bai_hoc": "Khi lỡ làm sai, hãy dũng cảm nhận lỗi và nói sự thật thay vì giấu giếm. Sự trung thực luôn mang lại bình an và niềm tin.",
+  "chuc": "Chúc hai bạn nhỏ trung thực, đáng yêu của bố mẹ ngủ thật ngon giấc!",
+  "doc_tieu_de": "Chiếc bình hoa và lời nói thật",
+  "doc_bai_hoc": "Khi lỡ làm sai, hãy dũng cảm nhận lỗi và nói sự thật thay vì giấu giếm. Sự trung thực luôn mang lại bình an và niềm tin.",
+  "doc_chuc": "Chúc hai bạn nhỏ trung thực, đáng yêu của bố mẹ ngủ thật ngon giấc!",
+  "so": 24,
+  "ma": "tuan-24",
+  "ngay": "2027-01-02"
+}

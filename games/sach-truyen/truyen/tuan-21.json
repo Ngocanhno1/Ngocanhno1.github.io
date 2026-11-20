@@ -1,0 +1,132 @@
+{
+  "trang": [
+    {
+      "loi": "Trên giá sách trong phòng hai chị em có một chú lợn đất màu hồng má phính rất dễ thương. Bố tặng chú lợn này để hai chị em học cách tiết kiệm từ nhỏ.",
+      "anh": "A cute smiling pink ceramic piggy bank sitting neatly on a wooden bookshelf in morning light",
+      "doc": "Trên giá sách trong phòng hai chị em có một chú lợn đất màu hồng má phính rất dễ thương. Bố tặng chú lợn này để hai chị em học cách tiết kiệm từ nhỏ."
+    },
+    {
+      "loi": "Mỗi lần hai chị em tự gấp chăn màn gọn gàng hay giúp mẹ nhặt rau, bố mẹ thưởng cho vài đồng tiền tiết kiệm nhỏ. Lucie và Lucas vui vẻ bỏ ngay vào bụng chú lợn đất.",
+      "anh": "Lucie and Lucas happily dropping shiny coins into a cute pink ceramic piggy bank together",
+      "doc": "Mỗi lần hai chị em tự gấp chăn màn gọn gàng hay giúp mẹ nhặt rau, bố mẹ thưởng cho vài đồng tiền tiết kiệm nhỏ. Lu Xi và Lu Cát vui vẻ bỏ ngay vào bụng chú lợn đất."
+    },
+    {
+      "loi": "Một hôm đi ngang cửa hàng đồ chơi, Lucas thấy một chiếc ô tô nhựa rất bắt mắt nên muốn xin đập lợn đất mua ngay. Chú lợn đất lúc ấy mới chỉ nặng được một nửa.",
+      "anh": "A colorful toy shop window displaying small toy cars in warm afternoon sunlight",
+      "doc": "Một hôm đi ngang cửa hàng đồ chơi, Lu Cát thấy một chiếc ô tô nhựa rất bắt mắt nên muốn xin đập lợn đất mua ngay. Chú lợn đất lúc ấy mới chỉ nặng được một nửa."
+    },
+    {
+      "loi": "Lucie nhẹ nhàng bảo em: “Nhà mình có mấy chiếc xe rồi mà. Nếu hai chị em kiên nhẫn nuôi chú lợn thêm chút nữa, mình sẽ mua được bộ sách bách khoa vũ trụ mà em rất thích đấy!”.",
+      "anh": "Lucie talking kindly to Lucas while pointing at a picture of space planets in a cozy bedroom",
+      "doc": "Lu Xi nhẹ nhàng bảo em: Nhà mình có mấy chiếc xe rồi mà. Nếu hai chị em kiên nhẫn nuôi chú lợn thêm chút nữa, mình sẽ mua được bộ sách bách khoa vũ trụ mà em rất thích đấy!."
+    },
+    {
+      "loi": "Lucas suy nghĩ một lát rồi gật đầu đồng ý. Một tháng sau, chú lợn đất đã nặng trĩu. Hai chị em cùng bố mẹ mang tiền tiết kiệm đi mua đúng cuốn sách vũ trụ tuyệt đẹp.",
+      "anh": "A bright colorful children's space encyclopedia book with rockets and planets open on a wooden desk",
+      "doc": "Lu Cát suy nghĩ một lát rồi gật đầu đồng ý. Một tháng sau, chú lợn đất đã nặng trĩu. Hai chị em cùng bố mẹ mang tiền tiết kiệm đi mua đúng cuốn sách vũ trụ tuyệt đẹp."
+    },
+    {
+      "loi": "Buổi tối, hai chị em say sưa ngắm những hành tinh lấp lánh trong trang sách mới. Biết chờ đợi và chi tiêu hợp lý giúp ước mơ lớn trở thành sự thật.",
+      "anh": "Lucie and Lucas happily reading a colorful space picture book together under a warm bedroom lamp",
+      "doc": "Buổi tối, hai chị em say sưa ngắm những hành tinh lấp lánh trong trang sách mới. Biết chờ đợi và chi tiêu hợp lý giúp ước mơ lớn trở thành sự thật."
+    }
+  ],
+  "hoi_lucie": [
+    {
+      "cau": "Lucie và Lucas kiếm được tiền bỏ lợn đất từ những việc gì?",
+      "dung": "Tự gấp chăn màn gọn gàng và giúp mẹ việc nhà",
+      "sai": [
+        "Xin tiền của các bạn cùng lớp",
+        "Bán hết sách vở cũ"
+      ],
+      "doc": "Lu Xi và Lu Cát kiếm được tiền bỏ lợn đất từ những việc gì?",
+      "doc_dap": [
+        "Tự gấp chăn màn gọn gàng và giúp mẹ việc nhà",
+        "Xin tiền của các bạn cùng lớp",
+        "Bán hết sách vở cũ"
+      ]
+    },
+    {
+      "cau": "Vì sao Lucie khuyên Lucas chưa nên đập lợn đất mua ô tô nhựa?",
+      "dung": "Vì ở nhà đã có nhiều xe và nên để dành mua sách vũ trụ em thích",
+      "sai": [
+        "Vì cửa hàng đồ chơi hết hàng",
+        "Vì chú lợn đất quá cứng không mở được"
+      ],
+      "doc": "Vì sao Lu Xi khuyên Lu Cát chưa nên đập lợn đất mua ô tô nhựa?",
+      "doc_dap": [
+        "Vì ở nhà đã có nhiều xe và nên để dành mua sách vũ trụ em thích",
+        "Vì cửa hàng đồ chơi hết hàng",
+        "Vì chú lợn đất quá cứng không mở được"
+      ]
+    },
+    {
+      "cau": "Nhờ kiên nhẫn tiết kiệm thêm một tháng, hai chị em đã mua được gì?",
+      "dung": "Cuốn sách bách khoa vũ trụ tuyệt đẹp",
+      "sai": [
+        "Một thùng kẹo ngọt",
+        "Một chiếc diều giấy"
+      ],
+      "doc": "Nhờ kiên nhẫn tiết kiệm thêm một tháng, hai chị em đã mua được gì?",
+      "doc_dap": [
+        "Cuốn sách bách khoa vũ trụ tuyệt đẹp",
+        "Một thùng kẹo ngọt",
+        "Một chiếc diều giấy"
+      ]
+    }
+  ],
+  "hoi_lucas": [
+    {
+      "cau": "Chú lợn đất của hai chị em có màu gì?",
+      "dung": "Màu hồng",
+      "sai": [
+        "Màu đen",
+        "Màu xanh lá"
+      ],
+      "doc": "Chú lợn đất của hai chị em có màu gì?",
+      "doc_dap": [
+        "Màu hồng",
+        "Màu đen",
+        "Màu xanh lá"
+      ]
+    },
+    {
+      "cau": "Cuối cùng hai chị em đã mua cuốn sách về gì?",
+      "dung": "Về vũ trụ",
+      "sai": [
+        "Về nấu ăn",
+        "Về bóng đá"
+      ],
+      "doc": "Cuối cùng hai chị em đã mua cuốn sách về gì?",
+      "doc_dap": [
+        "Về vũ trụ",
+        "Về nấu ăn",
+        "Về bóng đá"
+      ]
+    },
+    {
+      "cau": "Tiết kiệm giúp mình làm được gì?",
+      "dung": "Mua được món đồ thật ý nghĩa",
+      "sai": [
+        "Làm mất đồ chơi",
+        "Ngủ quên đi học"
+      ],
+      "doc": "Tiết kiệm giúp mình làm được gì?",
+      "doc_dap": [
+        "Mua được món đồ thật ý nghĩa",
+        "Làm mất đồ chơi",
+        "Ngủ quên đi học"
+      ]
+    }
+  ],
+  "tieu_de": "Chú lợn đất tiết kiệm",
+  "bia": "Lucie and Lucas smiling happily putting shiny coins into a cute pink ceramic piggy bank on a sunny desk",
+  "bai_hoc": "Biết tiết kiệm từng chút một và suy nghĩ kỹ trước khi mua đồ sẽ giúp các con thực hiện được những mục tiêu thật ý nghĩa!",
+  "chuc": "Chúc hai bạn nhỏ biết tiết kiệm ngủ thật ngon và mơ bay vào vũ trụ bao la!",
+  "doc_tieu_de": "Chú lợn đất tiết kiệm",
+  "doc_bai_hoc": "Biết tiết kiệm từng chút một và suy nghĩ kỹ trước khi mua đồ sẽ giúp các con thực hiện được những mục tiêu thật ý nghĩa!",
+  "doc_chuc": "Chúc hai bạn nhỏ biết tiết kiệm ngủ thật ngon và mơ bay vào vũ trụ bao la!",
+  "so": 21,
+  "ma": "tuan-21",
+  "ngay": "2026-12-27"
+}

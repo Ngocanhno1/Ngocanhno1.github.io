@@ -1,0 +1,132 @@
+{
+  "trang": [
+    {
+      "loi": "Chiều thứ bảy, bố đưa Lucie và Lucas đi bộ sang nhà sách ở bên kia đường. Đến ngã tư đông xe cộ, cả nhà dừng lại ngay ngắn trên vỉa hè.",
+      "anh": "Lucie and Lucas standing neatly on the sidewalk near a white-striped crosswalk",
+      "doc": "Chiều thứ bảy, bố đưa Lu Xi và Lu Cát đi bộ sang nhà sách ở bên kia đường. Đến ngã tư đông xe cộ, cả nhà dừng lại ngay ngắn trên vỉa hè."
+    },
+    {
+      "loi": "Lucas nhìn thấy nhà sách đối diện liền định bước xuống lòng đường ngay. Lucie vội nắm chặt tay em giữ lại: “Khoan đã Lucas, đèn cho người đi bộ vẫn đang màu đỏ kìa!”.",
+      "anh": "A pedestrian traffic signal glowing bright red beside a busy sunlit city street",
+      "doc": "Lu Cát nhìn thấy nhà sách đối diện liền định bước xuống lòng đường ngay. Lu Xi vội nắm chặt tay em giữ lại: Khoan đã Lu Cát, đèn cho người đi bộ vẫn đang màu đỏ kìa!."
+    },
+    {
+      "loi": "Bố mỉm cười giải thích: “Đèn đỏ là dừng lại, đèn xanh mới được đi. Trước khi bước xuống vạch kẻ trắng, các con còn phải quan sát cả bên trái và bên phải nữa nhé”.",
+      "anh": "Lucie and Lucas holding hands carefully looking left and right at a pedestrian crosswalk",
+      "doc": "Bố mỉm cười giải thích: Đèn đỏ là dừng lại, đèn xanh mới được đi. Trước khi bước xuống vạch kẻ trắng, các con còn phải quan sát cả bên trái và bên phải nữa nhé."
+    },
+    {
+      "loi": "“Tít tít!”, đèn người đi bộ chuyển sang màu xanh tươi, các ô tô và xe máy đều dừng lại ngay ngắn trước vạch. Hai chị em nắm tay bố bước đều qua đường trên vạch kẻ trắng.",
+      "anh": "A glowing green pedestrian walking signal above a clean white zebra crosswalk in bright sunlight",
+      "doc": "Tít tít!, đèn người đi bộ chuyển sang màu xanh tươi, các ô tô và xe máy đều dừng lại ngay ngắn trước vạch. Hai chị em nắm tay bố bước đều qua đường trên vạch kẻ trắng."
+    },
+    {
+      "loi": "Sang đến vỉa hè bên kia an toàn, Lucas vỗ tay hào hứng đọc thuộc lòng: “Đèn đỏ dừng lại, đèn vàng đi chậm, đèn xanh mới đi, luôn đi đúng vạch kẻ trắng!”.",
+      "anh": "Lucie and Lucas smiling proudly arriving safely in front of a cozy colorful bookstore",
+      "doc": "Sang đến vỉa hè bên kia an toàn, Lu Cát vỗ tay hào hứng đọc thuộc lòng: Đèn đỏ dừng lại, đèn vàng đi chậm, đèn xanh mới đi, luôn đi đúng vạch kẻ trắng!."
+    },
+    {
+      "loi": "Trên đường về, hai chị em còn nhắc nhau luôn đội mũ bảo hiểm cài quai chắc chắn mỗi khi ngồi xe máy. Tuân thủ luật giao thông giúp mọi chuyến đi đều an toàn và vui vẻ.",
+      "anh": "Two bright children's helmets placed neatly on a hallway shelf in warm evening light",
+      "doc": "Trên đường về, hai chị em còn nhắc nhau luôn đội mũ bảo hiểm cài quai chắc chắn mỗi khi ngồi xe máy. Tuân thủ luật giao thông giúp mọi chuyến đi đều an toàn và vui vẻ."
+    }
+  ],
+  "hoi_lucie": [
+    {
+      "cau": "Vì sao Lucie giữ tay Lucas lại khi em định bước xuống đường?",
+      "dung": "Vì đèn dành cho người đi bộ vẫn đang màu đỏ",
+      "sai": [
+        "Vì nhà sách hôm nay đóng cửa",
+        "Vì trời sắp đổ mưa to"
+      ],
+      "doc": "Vì sao Lu Xi giữ tay Lu Cát lại khi em định bước xuống đường?",
+      "doc_dap": [
+        "Vì đèn dành cho người đi bộ vẫn đang màu đỏ",
+        "Vì nhà sách hôm nay đóng cửa",
+        "Vì trời sắp đổ mưa to"
+      ]
+    },
+    {
+      "cau": "Ngoài việc chờ đèn xanh, bố còn dặn hai chị em làm gì trước khi qua đường?",
+      "dung": "Đi trên vạch kẻ trắng và quan sát kỹ bên trái, bên phải",
+      "sai": [
+        "Chạy thật nhanh qua giữa dòng xe",
+        "Vừa đi vừa đọc truyện"
+      ],
+      "doc": "Ngoài việc chờ đèn xanh, bố còn dặn hai chị em làm gì trước khi qua đường?",
+      "doc_dap": [
+        "Đi trên vạch kẻ trắng và quan sát kỹ bên trái, bên phải",
+        "Chạy thật nhanh qua giữa dòng xe",
+        "Vừa đi vừa đọc truyện"
+      ]
+    },
+    {
+      "cau": "Mỗi khi ngồi trên xe máy, hai chị em nhắc nhau nhớ làm gì?",
+      "dung": "Đội mũ bảo hiểm và cài quai chắc chắn",
+      "sai": [
+        "Đứng lên yên xe nhìn đường",
+        "Cầm nhiều đồ chơi trên tay"
+      ],
+      "doc": "Mỗi khi ngồi trên xe máy, hai chị em nhắc nhau nhớ làm gì?",
+      "doc_dap": [
+        "Đội mũ bảo hiểm và cài quai chắc chắn",
+        "Đứng lên yên xe nhìn đường",
+        "Cầm nhiều đồ chơi trên tay"
+      ]
+    }
+  ],
+  "hoi_lucas": [
+    {
+      "cau": "Đèn đỏ báo hiệu mình phải làm gì?",
+      "dung": "Dừng lại",
+      "sai": [
+        "Chạy nhanh qua",
+        "Nhảy lò cò"
+      ],
+      "doc": "Đèn đỏ báo hiệu mình phải làm gì?",
+      "doc_dap": [
+        "Dừng lại",
+        "Chạy nhanh qua",
+        "Nhảy lò cò"
+      ]
+    },
+    {
+      "cau": "Mình đi qua đường trên vạch màu gì?",
+      "dung": "Vạch kẻ trắng",
+      "sai": [
+        "Bãi cỏ xanh",
+        "Giữa ngã tư"
+      ],
+      "doc": "Mình đi qua đường trên vạch màu gì?",
+      "doc_dap": [
+        "Vạch kẻ trắng",
+        "Bãi cỏ xanh",
+        "Giữa ngã tư"
+      ]
+    },
+    {
+      "cau": "Đèn màu gì thì người đi bộ được qua đường?",
+      "dung": "Màu xanh",
+      "sai": [
+        "Màu đỏ",
+        "Màu đen"
+      ],
+      "doc": "Đèn màu gì thì người đi bộ được qua đường?",
+      "doc_dap": [
+        "Màu xanh",
+        "Màu đỏ",
+        "Màu đen"
+      ]
+    }
+  ],
+  "tieu_de": "Đèn xanh rồi, mình cùng qua đường",
+  "bia": "Lucie and Lucas holding hands safely waiting at a sunny pedestrian crosswalk with a bright traffic light",
+  "bai_hoc": "Khi qua đường, các con luôn nắm tay người lớn, đi đúng vạch kẻ trắng, chờ đèn xanh và quan sát hai bên thật cẩn thận nhé!",
+  "chuc": "Chúc hai bạn nhỏ thông minh, an toàn của bố mẹ ngủ thật ngon giấc!",
+  "doc_tieu_de": "Đèn xanh rồi, mình cùng qua đường",
+  "doc_bai_hoc": "Khi qua đường, các con luôn nắm tay người lớn, đi đúng vạch kẻ trắng, chờ đèn xanh và quan sát hai bên thật cẩn thận nhé!",
+  "doc_chuc": "Chúc hai bạn nhỏ thông minh, an toàn của bố mẹ ngủ thật ngon giấc!",
+  "so": 20,
+  "ma": "tuan-20",
+  "ngay": "2026-12-25"
+}

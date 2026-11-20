@@ -1,0 +1,132 @@
+{
+  "trang": [
+    {
+      "loi": "Hôm nay ở lớp có giờ vẽ tranh chủ đề “Khu vườn mơ ước”. Lucas hào hứng mở hộp bút sáp mới tinh đủ hai mươi bốn màu rực rỡ.",
+      "anh": "A neat bright box of twenty-four colorful crayons and white drawing paper on a wooden school desk",
+      "doc": "Hôm nay ở lớp có giờ vẽ tranh chủ đề Khu vườn mơ ước. Lu Cát hào hứng mở hộp bút sáp mới tinh đủ hai mươi bốn màu rực rỡ."
+    },
+    {
+      "loi": "Ngồi cạnh Lucas, bạn Minh cứ loay hoay mãi vì quên mang hộp bút màu ở nhà. Khuôn mặt bạn buồn thiu, nhìn tờ giấy trắng trước mặt mà chưa vẽ được nét nào.",
+      "anh": "A blank white drawing sheet and a single lead pencil sitting on a school desk in soft morning light",
+      "doc": "Ngồi cạnh Lu Cát, bạn Minh cứ loay hoay mãi vì quên mang hộp bút màu ở nhà. Khuôn mặt bạn buồn thiu, nhìn tờ giấy trắng trước mặt mà chưa vẽ được nét nào."
+    },
+    {
+      "loi": "Thấy vậy, Lucas liền đẩy hộp bút màu ra giữa bàn và mỉm cười bảo: “Minh dùng chung với tớ nhé! Cậu tô bầu trời xanh trước, tớ tô ông mặt trời đỏ”.",
+      "anh": "Lucie and Lucas smiling warmly while sharing bright crayons and drawing colorful flowers together at a sunny desk",
+      "doc": "Thấy vậy, Lu Cát liền đẩy hộp bút màu ra giữa bàn và mỉm cười bảo: Minh dùng chung với tớ nhé! Cậu tô bầu trời xanh trước, tớ tô ông mặt trời đỏ."
+    },
+    {
+      "loi": "Giờ ra chơi, Lucie sang lớp em chơi và thấy bức tranh của Lucas cùng bạn Minh thật rực rỡ. Chị khen: “Em giỏi lắm, biết chia sẻ thì cả hai bạn đều có tranh đẹp!”.",
+      "anh": "Two cheerful crayon drawings of sunny gardens with rainbows lying side by side on a desk",
+      "doc": "Giờ ra chơi, Lu Xi sang lớp em chơi và thấy bức tranh của Lu Cát cùng bạn Minh thật rực rỡ. Chị khen: Em giỏi lắm, biết chia sẻ thì cả hai bạn đều có tranh đẹp!."
+    },
+    {
+      "loi": "Chiều về, bạn Minh tặng lại Lucas một ngôi sao giấy gấp rất khéo để cảm ơn. Tình bạn trở nên thân thiết hơn chỉ từ một hộp bút màu chia sẻ đúng lúc.",
+      "anh": "A cute folded shiny golden paper star resting on a wooden study desk beside colored pencils",
+      "doc": "Chiều về, bạn Minh tặng lại Lu Cát một ngôi sao giấy gấp rất khéo để cảm ơn. Tình bạn trở nên thân thiết hơn chỉ từ một hộp bút màu chia sẻ đúng lúc."
+    },
+    {
+      "loi": "Tối nay trước khi đi ngủ, Lucas đặt ngôi sao giấy cạnh gối. Em hiểu rằng khi mình mở lòng giúp đỡ bạn bè, niềm vui sẽ nhân lên gấp đôi.",
+      "anh": "Lucie and Lucas smiling happily admiring a folded golden paper star in a warm cozy bedroom",
+      "doc": "Tối nay trước khi đi ngủ, Lu Cát đặt ngôi sao giấy cạnh gối. Em hiểu rằng khi mình mở lòng giúp đỡ bạn bè, niềm vui sẽ nhân lên gấp đôi."
+    }
+  ],
+  "hoi_lucie": [
+    {
+      "cau": "Vì sao bạn Minh ngồi cạnh Lucas lại buồn trong giờ vẽ tranh?",
+      "dung": "Vì bạn quên mang hộp bút màu ở nhà",
+      "sai": [
+        "Vì bạn không thích vẽ tranh",
+        "Vì bạn bị đau chân"
+      ],
+      "doc": "Vì sao bạn Minh ngồi cạnh Lu Cát lại buồn trong giờ vẽ tranh?",
+      "doc_dap": [
+        "Vì bạn quên mang hộp bút màu ở nhà",
+        "Vì bạn không thích vẽ tranh",
+        "Vì bạn bị đau chân"
+      ]
+    },
+    {
+      "cau": "Lucas đã giúp bạn Minh bằng cách nào?",
+      "dung": "Đẩy hộp bút màu ra giữa bàn để hai bạn cùng dùng chung",
+      "sai": [
+        "Vẽ hộ bạn toàn bộ bức tranh",
+        "Đổi chỗ ngồi sang bàn khác"
+      ],
+      "doc": "Lu Cát đã giúp bạn Minh bằng cách nào?",
+      "doc_dap": [
+        "Đẩy hộp bút màu ra giữa bàn để hai bạn cùng dùng chung",
+        "Vẽ hộ bạn toàn bộ bức tranh",
+        "Đổi chỗ ngồi sang bàn khác"
+      ]
+    },
+    {
+      "cau": "Bạn Minh đã làm gì để cảm ơn Lucas?",
+      "dung": "Tặng Lucas một ngôi sao giấy gấp thật khéo",
+      "sai": [
+        "Tặng Lucas một chiếc xe đạp",
+        "Mời Lucas đi công viên"
+      ],
+      "doc": "Bạn Minh đã làm gì để cảm ơn Lu Cát?",
+      "doc_dap": [
+        "Tặng Lu Cát một ngôi sao giấy gấp thật khéo",
+        "Tặng Lu Cát một chiếc xe đạp",
+        "Mời Lu Cát đi công viên"
+      ]
+    }
+  ],
+  "hoi_lucas": [
+    {
+      "cau": "Giờ học hôm nay các bạn làm gì?",
+      "dung": "Vẽ tranh",
+      "sai": [
+        "Bơi lội",
+        "Học hát"
+      ],
+      "doc": "Giờ học hôm nay các bạn làm gì?",
+      "doc_dap": [
+        "Vẽ tranh",
+        "Bơi lội",
+        "Học hát"
+      ]
+    },
+    {
+      "cau": "Lucas đã chia sẻ đồ dùng gì với bạn?",
+      "dung": "Hộp bút màu",
+      "sai": [
+        "Đôi giày mới",
+        "Chiếc mũ len"
+      ],
+      "doc": "Lu Cát đã chia sẻ đồ dùng gì với bạn?",
+      "doc_dap": [
+        "Hộp bút màu",
+        "Đôi giày mới",
+        "Chiếc mũ len"
+      ]
+    },
+    {
+      "cau": "Bạn Minh tặng lại Lucas món quà gì?",
+      "dung": "Ngôi sao giấy",
+      "sai": [
+        "Quả bóng đá",
+        "Chiếc kẹo mút"
+      ],
+      "doc": "Bạn Minh tặng lại Lu Cát món quà gì?",
+      "doc_dap": [
+        "Ngôi sao giấy",
+        "Quả bóng đá",
+        "Chiếc kẹo mút"
+      ]
+    }
+  ],
+  "tieu_de": "Chiếc bút chì chia đôi niềm vui",
+  "bia": "Lucie and Lucas smiling warmly sharing colorful pencils at a bright sunlit classroom study table",
+  "bai_hoc": "Tình bạn đẹp bắt đầu từ sự quan tâm và sẵn sàng chia sẻ khi bạn gặp khó khăn. Chia sẻ giúp niềm vui nhân đôi!",
+  "chuc": "Chúc hai em bé giàu lòng yêu thương ngủ thật ngon và luôn có thật nhiều bạn tốt!",
+  "doc_tieu_de": "Chiếc bút chì chia đôi niềm vui",
+  "doc_bai_hoc": "Tình bạn đẹp bắt đầu từ sự quan tâm và sẵn sàng chia sẻ khi bạn gặp khó khăn. Chia sẻ giúp niềm vui nhân đôi!",
+  "doc_chuc": "Chúc hai em bé giàu lòng yêu thương ngủ thật ngon và luôn có thật nhiều bạn tốt!",
+  "so": 23,
+  "ma": "tuan-23",
+  "ngay": "2026-12-31"
+}

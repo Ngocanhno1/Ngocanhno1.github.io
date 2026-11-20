@@ -1,0 +1,132 @@
+{
+  "trang": [
+    {
+      "loi": "Sáng chủ nhật nắng đẹp, hai chị em cùng bố mẹ ra công viên gần nhà tập thể dục. Bãi cỏ xanh mướt điểm đầy hoa cúc trắng nhỏ xinh.",
+      "anh": "A bright sunny green park lawn dotted with white daisies and shady trees",
+      "doc": "Sáng chủ nhật nắng đẹp, hai chị em cùng bố mẹ ra công viên gần nhà tập thể dục. Bãi cỏ xanh mướt điểm đầy hoa cúc trắng nhỏ xinh."
+    },
+    {
+      "loi": "Đi đến gần ghế đá, Lucas phát hiện mấy vỏ chai nhựa và túi giấy ai đó ăn xong bỏ quên trên cỏ. Em nhíu mày: “Rác nằm ở đây làm bãi cỏ xấu quá chị ơi!”.",
+      "anh": "A few empty plastic bottles and paper cups left near a wooden park bench on green grass",
+      "doc": "Đi đến gần ghế đá, Lu Cát phát hiện mấy vỏ chai nhựa và túi giấy ai đó ăn xong bỏ quên trên cỏ. Em nhíu mày: Rác nằm ở đây làm bãi cỏ xấu quá chị ơi!."
+    },
+    {
+      "loi": "Lucie liền lấy đôi găng tay vải sạch trong balo của bố ra chia cho em một đôi. Hai chị em hóa thân thành “biệt đội xanh”, cùng nhau nhặt sạch từng chiếc vỏ chai.",
+      "anh": "Lucie and Lucas wearing clean cloth gloves happily picking up plastic bottles from the park grass",
+      "doc": "Lu Xi liền lấy đôi găng tay vải sạch trong balo của bố ra chia cho em một đôi. Hai chị em hóa thân thành biệt đội xanh, cùng nhau nhặt sạch từng chiếc vỏ chai."
+    },
+    {
+      "loi": "Đến chỗ đặt thùng rác phân loại, Lucie chỉ cho Lucas: “Vỏ chai nhựa và giấy sạch bỏ vào thùng màu xanh tái chế, còn vỏ chuối bỏ vào thùng rác hữu cơ em nhé!”.",
+      "anh": "Lucie pointing helpfully while Lucas drops a plastic bottle into a green recycling bin in the park",
+      "doc": "Đến chỗ đặt thùng rác phân loại, Lu Xi chỉ cho Lu Cát: Vỏ chai nhựa và giấy sạch bỏ vào thùng màu xanh tái chế, còn vỏ chuối bỏ vào thùng rác hữu cơ em nhé!."
+    },
+    {
+      "loi": "Chỉ mười phút sau, bãi cỏ quanh ghế đá lại sạch bóng tinh tươm. Mấy chú chim sẻ sà xuống nhảy nhót líu lo như đang cảm ơn hai bạn nhỏ tốt bụng.",
+      "anh": "Cute little sparrows hopping cheerfully on a spotless green park lawn in warm sunlight",
+      "doc": "Chỉ mười phút sau, bãi cỏ quanh ghế đá lại sạch bóng tinh tươm. Mấy chú chim sẻ sà xuống nhảy nhót líu lo như đang cảm ơn hai bạn nhỏ tốt bụng."
+    },
+    {
+      "loi": "Về nhà rửa tay sạch sẽ, hai chị em thấy trong lòng vui phơi phới. Chỉ cần mỗi người bỏ rác đúng nơi quy định, Trái Đất sẽ luôn xanh tươi và sạch đẹp.",
+      "anh": "Lucie and Lucas smiling brightly together under a blooming green tree in a spotless park",
+      "doc": "Về nhà rửa tay sạch sẽ, hai chị em thấy trong lòng vui phơi phới. Chỉ cần mỗi người bỏ rác đúng nơi quy định, Trái Đất sẽ luôn xanh tươi và sạch đẹp."
+    }
+  ],
+  "hoi_lucie": [
+    {
+      "cau": "Hai chị em đã dùng gì để giữ sạch tay khi nhặt rác ở công viên?",
+      "dung": "Đeo găng tay vải sạch lấy từ balo của bố",
+      "sai": [
+        "Dùng chiếc lá khô",
+        "Không cần dùng gì cả"
+      ],
+      "doc": "Hai chị em đã dùng gì để giữ sạch tay khi nhặt rác ở công viên?",
+      "doc_dap": [
+        "Đeo găng tay vải sạch lấy từ balo của bố",
+        "Dùng chiếc lá khô",
+        "Không cần dùng gì cả"
+      ]
+    },
+    {
+      "cau": "Lucie đã hướng dẫn Lucas phân loại rác như thế nào?",
+      "dung": "Chai nhựa, giấy sạch vào thùng tái chế; vỏ chuối vào thùng hữu cơ",
+      "sai": [
+        "Bỏ tất cả chung vào một túi rồi để dưới ghế",
+        "Ném vỏ chai xuống hồ nước"
+      ],
+      "doc": "Lu Xi đã hướng dẫn Lu Cát phân loại rác như thế nào?",
+      "doc_dap": [
+        "Chai nhựa, giấy sạch vào thùng tái chế; vỏ chuối vào thùng hữu cơ",
+        "Bỏ tất cả chung vào một túi rồi để dưới ghế",
+        "Ném vỏ chai xuống hồ nước"
+      ]
+    },
+    {
+      "cau": "Sau khi bãi cỏ sạch sẽ, cảnh vật xung quanh trông thế nào?",
+      "dung": "Bãi cỏ sạch tinh tươm và chim sẻ sà xuống nhảy nhót vui vẻ",
+      "sai": [
+        "Công viên đóng cửa ngay lập tức",
+        "Trời đổ tuyết trắng xóa"
+      ],
+      "doc": "Sau khi bãi cỏ sạch sẽ, cảnh vật xung quanh trông thế nào?",
+      "doc_dap": [
+        "Bãi cỏ sạch tinh tươm và chim sẻ sà xuống nhảy nhót vui vẻ",
+        "Công viên đóng cửa ngay lập tức",
+        "Trời đổ tuyết trắng xóa"
+      ]
+    }
+  ],
+  "hoi_lucas": [
+    {
+      "cau": "Hai chị em nhặt rác ở đâu?",
+      "dung": "Ở công viên",
+      "sai": [
+        "Ở rạp chiếu phim",
+        "Ở trên tàu hỏa"
+      ],
+      "doc": "Hai chị em nhặt rác ở đâu?",
+      "doc_dap": [
+        "Ở công viên",
+        "Ở rạp chiếu phim",
+        "Ở trên tàu hỏa"
+      ]
+    },
+    {
+      "cau": "Vỏ chai nhựa bỏ vào thùng nào?",
+      "dung": "Thùng rác tái chế",
+      "sai": [
+        "Bãi cỏ xanh",
+        "Gầm ghế đá"
+      ],
+      "doc": "Vỏ chai nhựa bỏ vào thùng nào?",
+      "doc_dap": [
+        "Thùng rác tái chế",
+        "Bãi cỏ xanh",
+        "Gầm ghế đá"
+      ]
+    },
+    {
+      "cau": "Sau khi nhặt rác về nhà, con nhớ làm gì?",
+      "dung": "Rửa tay thật sạch",
+      "sai": [
+        "Đi ngủ ngay không rửa tay",
+        "Ăn kẹo ngay lập tức"
+      ],
+      "doc": "Sau khi nhặt rác về nhà, con nhớ làm gì?",
+      "doc_dap": [
+        "Rửa tay thật sạch",
+        "Đi ngủ ngay không rửa tay",
+        "Ăn kẹo ngay lập tức"
+      ]
+    }
+  ],
+  "tieu_de": "Biệt đội nhặt rác ở công viên",
+  "bia": "Lucie and Lucas wearing cloth gloves smiling as they sort plastic bottles into a green recycling bin in a sunny park",
+  "bai_hoc": "Không xả rác bừa bãi và biết phân loại rác đúng thùng là hành động nhỏ nhưng giúp bảo vệ môi trường xanh sạch mỗi ngày.",
+  "chuc": "Chúc hai hiệp sĩ bảo vệ môi trường ngủ thật ngon giấc giữa thiên nhiên trong lành!",
+  "doc_tieu_de": "Biệt đội nhặt rác ở công viên",
+  "doc_bai_hoc": "Không xả rác bừa bãi và biết phân loại rác đúng thùng là hành động nhỏ nhưng giúp bảo vệ môi trường xanh sạch mỗi ngày.",
+  "doc_chuc": "Chúc hai hiệp sĩ bảo vệ môi trường ngủ thật ngon giấc giữa thiên nhiên trong lành!",
+  "so": 22,
+  "ma": "tuan-22",
+  "ngay": "2026-12-29"
+}

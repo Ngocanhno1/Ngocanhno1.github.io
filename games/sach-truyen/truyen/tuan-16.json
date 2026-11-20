@@ -1,0 +1,132 @@
+{
+  "trang": [
+    {
+      "loi": "Gió mùa đông bắc ùa về làm buổi sáng trở nên se lạnh. Trước khi ra khỏi nhà, mẹ đưa cho Lucie chiếc khăn len hồng và cho Lucas chiếc khăn len xanh dương thật mềm.",
+      "anh": "Lucie and Lucas putting on cozy knitted pink and blue scarves in a bright hallway",
+      "doc": "Gió mùa đông bắc ùa về làm buổi sáng trở nên se lạnh. Trước khi ra khỏi nhà, mẹ đưa cho Lu Xi chiếc khăn len hồng và cho Lu Cát chiếc khăn len xanh dương thật mềm."
+    },
+    {
+      "loi": "Lucas vội vã muốn chạy ra sân chơi ngay nên định bỏ lại chiếc khăn len trên ghế. Em nói: “Trời chỉ hơi mát thôi mà, quàng khăn vướng lắm chị ơi!”.",
+      "anh": "A soft blue knitted winter scarf left on a wooden chair beside a small backpack, chilly morning window",
+      "doc": "Lu Cát vội vã muốn chạy ra sân chơi ngay nên định bỏ lại chiếc khăn len trên ghế. Em nói: Trời chỉ hơi mát thôi mà, quàng khăn vướng lắm chị ơi!."
+    },
+    {
+      "loi": "Lucie nhẹ nhàng quàng chiếc khăn lên cổ cho em rồi cài khuy áo khoác thật kín. Chị dặn: “Giữ ấm cổ và bàn chân thì mới không bị ho hay sổ mũi đâu Lucas ạ”.",
+      "anh": "Lucie gently wrapping a blue knitted scarf around Lucas's neck while both smile warmly",
+      "doc": "Lu Xi nhẹ nhàng quàng chiếc khăn lên cổ cho em rồi cài khuy áo khoác thật kín. Chị dặn: Giữ ấm cổ và bàn chân thì mới không bị ho hay sổ mũi đâu Lu Cát ạ."
+    },
+    {
+      "loi": "Hai chị em ra sân đi bộ cùng bố, hít thở không khí trong lành mà vẫn thấy thật ấm áp. Lucas thích thú thổi ra những làn khói trắng nhỏ xíu trong gió lạnh.",
+      "anh": "Lucie and Lucas walking happily together along a misty morning tree-lined path in winter scarves",
+      "doc": "Hai chị em ra sân đi bộ cùng bố, hít thở không khí trong lành mà vẫn thấy thật ấm áp. Lu Cát thích thú thổi ra những làn khói trắng nhỏ xíu trong gió lạnh."
+    },
+    {
+      "loi": "Về đến nhà, hai chị em tự giác rửa tay bằng nước ấm và uống một ly nước mật ong chanh thơm lừng mẹ pha sẵn. Bàn tay bé xíu của Lucas hồng hào, ấm sực.",
+      "anh": "Two warm ceramic mugs of honey lemon tea with steam rising on a wooden kitchen table",
+      "doc": "Về đến nhà, hai chị em tự giác rửa tay bằng nước ấm và uống một ly nước mật ong chanh thơm lừng mẹ pha sẵn. Bàn tay bé xíu của Lu Cát hồng hào, ấm sực."
+    },
+    {
+      "loi": "Tối đến, cả hai cuộn tròn trong chiếc chăn bông êm ái. Nhờ biết giữ ấm cơ thể suốt cả ngày, hai chị em đều khỏe mạnh và sẵn sàng cho một giấc ngủ thật ngon.",
+      "anh": "Lucie and Lucas tucked cozily under warm blankets smiling goodnight under a soft bedside lamp",
+      "doc": "Tối đến, cả hai cuộn tròn trong chiếc chăn bông êm ái. Nhờ biết giữ ấm cơ thể suốt cả ngày, hai chị em đều khỏe mạnh và sẵn sàng cho một giấc ngủ thật ngon."
+    }
+  ],
+  "hoi_lucie": [
+    {
+      "cau": "Vì sao Lucie khuyên Lucas phải quàng khăn len khi ra ngoài trời lạnh?",
+      "dung": "Để giữ ấm cổ, tránh bị ho và sổ mũi",
+      "sai": [
+        "Để chạy nhanh hơn ngoài sân",
+        "Để làm đẹp khi chụp ảnh"
+      ],
+      "doc": "Vì sao Lu Xi khuyên Lu Cát phải quàng khăn len khi ra ngoài trời lạnh?",
+      "doc_dap": [
+        "Để giữ ấm cổ, tránh bị ho và sổ mũi",
+        "Để chạy nhanh hơn ngoài sân",
+        "Để làm đẹp khi chụp ảnh"
+      ]
+    },
+    {
+      "cau": "Sau khi đi dạo ngoài trời lạnh về nhà, hai chị em đã làm gì?",
+      "dung": "Rửa tay nước ấm và uống nước mật ong chanh",
+      "sai": [
+        "Uống ngay một ly nước đá lạnh",
+        "Mở quạt thật to cho mát"
+      ],
+      "doc": "Sau khi đi dạo ngoài trời lạnh về nhà, hai chị em đã làm gì?",
+      "doc_dap": [
+        "Rửa tay nước ấm và uống nước mật ong chanh",
+        "Uống ngay một ly nước đá lạnh",
+        "Mở quạt thật to cho mát"
+      ]
+    },
+    {
+      "cau": "Câu chuyện nhắc chúng ta điều gì trong những ngày gió mùa đông?",
+      "dung": "Chủ động giữ ấm cơ thể để bảo vệ sức khỏe",
+      "sai": [
+        "Ngủ suốt cả ngày không ra ngoài",
+        "Không cần mặc áo khoác khi trời se lạnh"
+      ],
+      "doc": "Câu chuyện nhắc chúng ta điều gì trong những ngày gió mùa đông?",
+      "doc_dap": [
+        "Chủ động giữ ấm cơ thể để bảo vệ sức khỏe",
+        "Ngủ suốt cả ngày không ra ngoài",
+        "Không cần mặc áo khoác khi trời se lạnh"
+      ]
+    }
+  ],
+  "hoi_lucas": [
+    {
+      "cau": "Chiếc khăn len của Lucas có màu gì?",
+      "dung": "Màu xanh dương",
+      "sai": [
+        "Màu tím",
+        "Màu đen"
+      ],
+      "doc": "Chiếc khăn len của Lu Cát có màu gì?",
+      "doc_dap": [
+        "Màu xanh dương",
+        "Màu tím",
+        "Màu đen"
+      ]
+    },
+    {
+      "cau": "Ai đã giúp quàng khăn ấm cho Lucas?",
+      "dung": "Chị Lucie",
+      "sai": [
+        "Chú mèo",
+        "Bạn gấu"
+      ],
+      "doc": "Ai đã giúp quàng khăn ấm cho Lu Cát?",
+      "doc_dap": [
+        "Chị Lu Xi",
+        "Chú mèo",
+        "Bạn gấu"
+      ]
+    },
+    {
+      "cau": "Trời lạnh đi ra ngoài con nhớ làm gì?",
+      "dung": "Mặc áo ấm và quàng khăn",
+      "sai": [
+        "Đi chân đất",
+        "Mặc áo ngắn tay"
+      ],
+      "doc": "Trời lạnh đi ra ngoài con nhớ làm gì?",
+      "doc_dap": [
+        "Mặc áo ấm và quàng khăn",
+        "Đi chân đất",
+        "Mặc áo ngắn tay"
+      ]
+    }
+  ],
+  "tieu_de": "Chiếc khăn ấm ngày đông",
+  "bia": "Lucie and Lucas wearing warm winter scarves and cozy jackets smiling together in a chilly winter morning garden",
+  "bai_hoc": "Mùa đông trời lạnh, các con nhớ mặc đủ ấm, quàng khăn giữ ấm cổ và uống nước ấm để cơ thể luôn khỏe mạnh nhé!",
+  "chuc": "Chúc hai em bé khỏe mạnh của bố mẹ ngủ thật ấm và mơ những giấc mơ ngọt ngào!",
+  "doc_tieu_de": "Chiếc khăn ấm ngày đông",
+  "doc_bai_hoc": "Mùa đông trời lạnh, các con nhớ mặc đủ ấm, quàng khăn giữ ấm cổ và uống nước ấm để cơ thể luôn khỏe mạnh nhé!",
+  "doc_chuc": "Chúc hai em bé khỏe mạnh của bố mẹ ngủ thật ấm và mơ những giấc mơ ngọt ngào!",
+  "so": 16,
+  "ma": "tuan-16",
+  "ngay": "2026-12-17"
+}
