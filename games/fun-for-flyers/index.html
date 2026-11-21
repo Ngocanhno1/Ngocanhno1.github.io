@@ -70,7 +70,7 @@
 <body class="min-h-screen flex flex-col selection:bg-amber-400 selection:text-slate-950">
 
   <!-- TOP SMART TV HEADER -->
-  <header class="glass-header sticky top-0 z-40 px-4 lg:px-8 py-3">
+  <header class="glass-header lg:sticky top-0 z-40 px-4 lg:px-8 py-3">
     <div class="max-w-[1600px] mx-auto flex flex-wrap items-center justify-between gap-3">
       <!-- Brand Title -->
       <div class="flex items-center gap-3">
@@ -667,7 +667,7 @@
 
   <!-- UNIT DETAIL MODAL -->
   <div id="unit-modal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="glass-card rounded-3xl max-w-2xl w-full p-6 lg:p-8 border-2 border-amber-400/50 shadow-2xl space-y-5">
+    <div class="glass-card rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto custom-scroll p-6 lg:p-8 border-2 border-amber-400/50 shadow-2xl space-y-5">
       <div class="flex items-start justify-between gap-4">
         <div>
           <span id="modal-unit-stage" class="px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 text-xs font-bold">Chặng 1 • Lesson 1</span>
@@ -744,7 +744,7 @@
       { id: 20, stage: 2, lesson: 24, title: "Unit 20 - Calling and sending", grammar: "Review present tenses", topics: "Time, numbers, the home", words: ["sound", "instrument", "call", "strange", "repeat", "advice", "website", "phone", "conversation", "address book", "calendar", "pay"], skills: ["Listening", "Reading", "Speaking"] },
       { id: 21, stage: 2, lesson: 27, title: "Unit 21 - The time of the year", grammar: "Gerund (V-ing)", topics: "Weather, time, seasons", words: ["second", "minute", "hour", "week", "weekend", "month", "season", "century", "spring", "summer", "autumn", "winter"], skills: ["Reading", "Speaking"] },
       { id: 22, stage: 2, lesson: 28, title: "Unit 22 - Important numbers", grammar: "Comparative and superlative adjectives review", topics: "Numbers, family and friends", words: ["fact", "adventure", "passenger", "thousand", "million", "kilometre"], skills: ["Reading", "Listening"] },
-      { id: 23, stage: 2, lesson: 29, title: "Unit 23 - World, weather, work", grammar: "Contractions: there's, I've, who's...", topics: "Weather, work", words: ["world", "weather", " clouds", "storm", "office", "repair"], skills: ["Reading", "Writing"] },
+      { id: 23, stage: 2, lesson: 29, title: "Unit 23 - World, weather, work", grammar: "Contractions: there's, I've, who's...", topics: "Weather, work", words: ["world", "weather", "clouds", "storm", "office", "repair"], skills: ["Reading", "Writing"] },
       { id: 24, stage: 2, lesson: 30, title: "Unit 24 - Leaving and arriving", grammar: "Prepositions: by, on", topics: "Transport, places", words: ["station", "path", "railway", "wheel", "ticket", "journey", "travel", "airport", "helicopter", "plane", "balloon", "train", "taxi", "lorry"], skills: ["Listening", "Reading"] },
       { id: 25, stage: 2, lesson: 31, title: "Unit 25 - What shall we do next?", grammar: "Be + going to for plans", topics: "Sports and leisure", words: ["naughty", "excited", "surprise", "frighten", "plastic", "ugly", "secret"], skills: ["Reading", "Listening"] },
       { id: 26, stage: 2, lesson: 32, title: "Unit 26 - Where can we go on holiday?", grammar: "Have you ever...?; prepositions review", topics: "Sports and leisure", words: ["camping", "climbing", "sailing", "adventure", "torch", "tent", "island"], skills: ["Reading", "Listening", "Speaking"] },
@@ -1522,7 +1522,7 @@
             appState.profiles = parsed.profiles;
           }
           if (parsed && parsed.currentProfile) {
-            appState.currentProfile = parsed.currentProfile;
+            appState.currentProfile = parsed.currentProfile; if (typeof parsed.speechRate === "number") { appState.speechRate = parsed.speechRate; const lbl = document.getElementById("speech-rate-label"); if (lbl) lbl.textContent = "Đọc: " + appState.speechRate + "x"; } if (typeof parsed.sfxEnabled === "boolean") { appState.sfxEnabled = parsed.sfxEnabled; const ic = document.getElementById("sfx-icon"); if (ic) ic.className = appState.sfxEnabled ? "fa-solid fa-bell" : "fa-solid fa-bell-slash text-slate-500"; } if (typeof parsed.tvLargeText === "boolean") { appState.tvLargeText = parsed.tvLargeText; document.body.classList.toggle("tv-large-text", appState.tvLargeText); const tlbl = document.getElementById("tv-scale-label"); if (tlbl) tlbl.textContent = appState.tvLargeText ? "Chữ TV: Lớn 4K" : "Chữ TV: Chuẩn"; } ["batsDolphinsAnswers", "animalMoveAnswers", "part1Answers", "storyGapAnswers", "storyTfAnswers", "grammarAnswers", "colouredTargets", "part2Inputs"].forEach(k => { if (parsed[k] && typeof parsed[k] === "object") appState[k] = parsed[k]; }); if (typeof parsed.part1Index === "number") appState.part1Index = Math.max(0, Math.min(PART1_QUESTIONS.length - 1, parsed.part1Index));
           }
         }
       } catch (err) {
@@ -1534,7 +1534,7 @@
       try {
         localStorage.setItem("fff_tv_hub_state_v1", JSON.stringify({
           currentProfile: appState.currentProfile,
-          profiles: appState.profiles
+          profiles: appState.profiles, speechRate: appState.speechRate, sfxEnabled: appState.sfxEnabled, tvLargeText: appState.tvLargeText, batsDolphinsAnswers: appState.batsDolphinsAnswers, animalMoveAnswers: appState.animalMoveAnswers, part1Index: appState.part1Index, part1Answers: appState.part1Answers, storyGapAnswers: appState.storyGapAnswers, storyTfAnswers: appState.storyTfAnswers, grammarAnswers: appState.grammarAnswers, colouredTargets: appState.colouredTargets, part2Inputs: appState.part2Inputs
         }));
       } catch (err) {
         // Ignore storage errors
@@ -1553,9 +1553,9 @@
       return total;
     }
 
-    function addXp(amount, reasonText) {
+    function addXp(amount, reasonText, awardKey) {
       const p = getActiveProfileData();
-      const prevShields = computeShieldCount();
+      if (awardKey) { if (!p.xpAwarded) p.xpAwarded = {}; if (p.xpAwarded[awardKey]) return; p.xpAwarded[awardKey] = true; } const prevShields = computeShieldCount();
       p.xp = (p.xp || 0) + amount;
       saveState();
       updateHeaderAndHeroProgress();
@@ -1660,7 +1660,7 @@
       const label = document.getElementById("speech-rate-label");
       if (label) label.textContent = "Đọc: " + appState.speechRate + "x";
       playSound("click");
-      showToast("Đã chỉnh tốc độ đọc tiếng Anh: " + appState.speechRate + "x", "fa-gauge-high");
+      saveState(); showToast("Đã chỉnh tốc độ đọc tiếng Anh: " + appState.speechRate + "x", "fa-gauge-high");
     }
 
     function toggleSfx() {
@@ -1669,7 +1669,7 @@
       if (icon) {
         icon.className = appState.sfxEnabled ? "fa-solid fa-bell" : "fa-solid fa-bell-slash text-slate-500";
       }
-      showToast(appState.sfxEnabled ? "Đã bật âm thanh hiệu ứng" : "Đã tắt âm thanh hiệu ứng", "fa-bell");
+      saveState(); showToast(appState.sfxEnabled ? "Đã bật âm thanh hiệu ứng" : "Đã tắt âm thanh hiệu ứng", "fa-bell");
     }
 
     function toggleTvScale() {
@@ -1680,7 +1680,7 @@
         label.textContent = appState.tvLargeText ? "Chữ TV: Lớn 4K" : "Chữ TV: Chuẩn";
       }
       playSound("click");
-      showToast(appState.tvLargeText ? "Đã bật chế độ Chữ Lớn cho màn hình TV 4K" : "Đã chuyển về cỡ chữ TV tiêu chuẩn", "fa-tv");
+      saveState(); showToast(appState.tvLargeText ? "Đã bật chế độ Chữ Lớn cho màn hình TV 4K" : "Đã chuyển về cỡ chữ TV tiêu chuẩn", "fa-tv");
     }
 
     let toastTimeout = null;
@@ -1703,7 +1703,7 @@
     // =========================================================================
 
     function switchTab(tabId) {
-      appState.activeTab = tabId;
+      appState.activeTab = tabId; closeUnitModal(); if ("speechSynthesis" in window) { try { window.speechSynthesis.cancel(); } catch (e) {} }
       const tabs = ["dashboard", "vocab", "reading_writing", "speaking_listening", "resources"];
       tabs.forEach(t => {
         const view = document.getElementById("view-" + t);
@@ -1775,7 +1775,7 @@
 
     function awardBonusShield() {
       const p = getActiveProfileData();
-      p.bonusShields = Math.min(15, (p.bonusShields || 0) + 1);
+      if (computeShieldCount() >= 15) { showToast(appState.currentProfile + " đã đạt tối đa 15 / 15 Khiên Cambridge!", "fa-trophy"); return; } p.bonusShields = Math.min(15, (p.bonusShields || 0) + 1);
       saveState();
       updateHeaderAndHeroProgress();
       playSound("fanfare");
@@ -1783,7 +1783,7 @@
     }
 
     function resetAllProgress() {
-      appState.profiles[appState.currentProfile] = { xp: 50, bonusShields: 1, completedUnits: [1] };
+      if (!window._resetConfirmPending) { window._resetConfirmPending = true; showToast("Bấm lại lần nữa trong 5 giây để xác nhận đặt lại tiến độ!", "fa-triangle-exclamation"); setTimeout(() => { window._resetConfirmPending = false; }, 5000); return; } window._resetConfirmPending = false; appState.profiles[appState.currentProfile] = { xp: 50, bonusShields: 1, completedUnits: [1], xpAwarded: {} };
       saveState();
       updateHeaderAndHeroProgress();
       renderUnitsGrid();
@@ -1847,7 +1847,7 @@
           3: "bg-amber-500/20 text-amber-300"
         };
         return `
-          <div onclick="openUnitModal(${u.id})" tabindex="0" role="button" onkeydown="if(event.key==='Enter')openUnitModal(${u.id})" class="tv-focusable text-left p-4 rounded-2xl bg-slate-900/85 hover:bg-slate-800/90 border ${stageColors[u.stage]} transition-all cursor-pointer flex flex-col justify-between space-y-3">
+          <div onclick="openUnitModal(${u.id})" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openUnitModal(${u.id});}" class="tv-focusable text-left p-4 rounded-2xl bg-slate-900/85 hover:bg-slate-800/90 border ${stageColors[u.stage]} transition-all cursor-pointer flex flex-col justify-between space-y-3">
             <div class="space-y-2">
               <div class="flex items-center justify-between gap-2">
                 <span class="px-2 py-0.5 rounded-md text-[11px] font-bold ${badgeColors[u.stage]}">Chặng ${u.stage} • Buổi ${u.lesson}</span>
@@ -1904,13 +1904,13 @@
           : `<i class="fa-solid fa-check"></i><span>Đánh dấu Đã học xong (+25 XP)</span>`;
       }
 
-      document.getElementById("unit-modal").classList.remove("hidden");
+      const modalEl = document.getElementById("unit-modal"); modalEl.classList.remove("hidden"); const firstFocus = modalEl.querySelector(".tv-focusable"); if (firstFocus) firstFocus.focus();
       playSound("click");
     }
 
     function closeUnitModal() {
       document.getElementById("unit-modal").classList.add("hidden");
-      appState.activeModalUnitId = null;
+      appState.activeModalUnitId = null; if ("speechSynthesis" in window) { try { window.speechSynthesis.cancel(); } catch (e) {} }
     }
 
     function speakModalWords() {
@@ -1928,7 +1928,7 @@
       if (idx === -1) {
         p.completedUnits.push(unitId);
         playSound("correct");
-        addXp(25, "Đã hoàn thành Unit " + unitId);
+        addXp(25, "Đã hoàn thành Unit " + unitId, "unit_" + unitId);
       } else {
         p.completedUnits.splice(idx, 1);
         saveState();
@@ -1936,7 +1936,7 @@
         showToast("Đã bỏ đánh dấu hoàn thành Unit " + unitId, "fa-info-circle");
       }
       renderUnitsGrid();
-      openUnitModal(unitId);
+      const compBtn = document.getElementById("modal-complete-btn"); const nowDone = (p.completedUnits || []).includes(unitId); if (compBtn) compBtn.innerHTML = nowDone ? '<i class="fa-solid fa-rotate-left"></i><span>Đã hoàn thành (Bấm để bỏ đánh dấu)</span>' : '<i class="fa-solid fa-check"></i><span>Đánh dấu Đã học xong (+25 XP)</span>';
     }
 
     // =========================================================================
@@ -2070,11 +2070,11 @@
       const item = BATS_DOLPHINS_DATA.find(x => x.id === id);
       if (!item) return;
       const alreadyCorrect = appState.batsDolphinsAnswers[id] === item.ans;
-      appState.batsDolphinsAnswers[id] = choice;
+      appState.batsDolphinsAnswers[id] = choice; saveState();
       renderBatsDolphinsGame();
       if (choice === item.ans) {
         playSound("correct");
-        if (!alreadyCorrect) addXp(10, "Chính xác! (" + (choice === "B" ? "Bats" : "Dolphins") + ")");
+        if (!alreadyCorrect) addXp(10, "Chính xác! (" + (choice === "B" ? "Bats" : "Dolphins") + ")", "bd_" + id);
       } else {
         playSound("wrong");
         showToast("Chưa đúng, hãy thử lại nhé!", "fa-circle-exclamation");
@@ -2082,7 +2082,7 @@
     }
 
     function resetBatsDolphinsGame() {
-      appState.batsDolphinsAnswers = {};
+      appState.batsDolphinsAnswers = {}; saveState();
       renderBatsDolphinsGame();
       playSound("click");
     }
@@ -2117,19 +2117,19 @@
       const item = ANIMAL_MOVE_ITEMS[idx];
       if (!item) return;
       const alreadyCorrect = appState.animalMoveAnswers[idx] === item.move;
-      appState.animalMoveAnswers[idx] = opt;
+      appState.animalMoveAnswers[idx] = opt; saveState();
       renderAnimalMoveGame();
       if (opt === item.move) {
         playSound("correct");
         speakText("A " + item.animal + " can " + item.move.split(" / ")[0]);
-        if (!alreadyCorrect) addXp(10, "Đúng rồi! " + item.animal + " -> " + item.move);
+        if (!alreadyCorrect) addXp(10, "Đúng rồi! " + item.animal + " -> " + item.move, "am_" + idx);
       } else {
         playSound("wrong");
       }
     }
 
     function resetAnimalMoveGame() {
-      appState.animalMoveAnswers = {};
+      appState.animalMoveAnswers = {}; saveState();
       renderAnimalMoveGame();
       playSound("click");
     }
@@ -2216,7 +2216,7 @@
               const ok = ans === qItem.answer;
               let cls = "bg-slate-800 text-slate-300 border-slate-700";
               if (i === idx) cls = " ring-2 ring-amber-400 bg-indigo-900 text-white";
-              if (ans) cls = ok ? "bg-emerald-500/30 text-emerald-300 border-emerald-400/50" : "bg-rose-500/30 text-rose-300 border-rose-400/50";
+              if (ans) cls = (ok ? "bg-emerald-500/30 text-emerald-300 border-emerald-400/50" : "bg-rose-500/30 text-rose-300 border-rose-400/50") + (i === idx ? " ring-2 ring-amber-400" : "");
               return `<button onclick="jumpPart1Question(${i})" class="tv-focusable py-2.5 rounded-xl border text-xs font-bold ${cls}">${i + 1}</button>`;
             }).join("")}
           </div>
@@ -2233,12 +2233,12 @@
       const item = PART1_QUESTIONS[qIdx];
       if (!item) return;
       const wasRight = appState.part1Answers[qIdx] === item.answer;
-      appState.part1Answers[qIdx] = optionVal;
+      appState.part1Answers[qIdx] = optionVal; saveState();
       renderPart1Quiz();
       if (optionVal === item.answer) {
         playSound("correct");
         speakText(optionVal + ". " + item.q);
-        if (!wasRight) addXp(15, "Chính xác: " + optionVal);
+        if (!wasRight) addXp(15, "Chính xác: " + optionVal, "p1_" + qIdx);
       } else {
         playSound("wrong");
         showToast("Chưa chính xác, hãy đọc lại định nghĩa nhé!", "fa-circle-xmark");
@@ -2258,7 +2258,7 @@
     }
 
     function resetPart1Quiz() {
-      appState.part1Answers = {};
+      appState.part1Answers = {}; saveState();
       appState.part1Index = 0;
       renderPart1Quiz();
       playSound("click");
@@ -2363,12 +2363,12 @@
 
     function handleStorySlotChange(storyId, slotIdx, val) {
       if (!appState.storyGapAnswers[storyId]) appState.storyGapAnswers[storyId] = {};
-      appState.storyGapAnswers[storyId][slotIdx] = val;
+      appState.storyGapAnswers[storyId][slotIdx] = val; saveState();
       const story = WRITING_STORIES.find(s => s.id === storyId);
       renderStoriesSection();
       if (story && val === story.answers[slotIdx]) {
         playSound("correct");
-        addXp(10, "Điền từ chính xác!");
+        addXp(10, "Điền từ chính xác!", "sg_" + storyId + "_" + slotIdx);
       } else if (val) {
         playSound("wrong");
       }
@@ -2389,11 +2389,11 @@
       const story = WRITING_STORIES.find(s => s.id === storyId);
       if (!story) return;
       if (!appState.storyTfAnswers[storyId]) appState.storyTfAnswers[storyId] = {};
-      appState.storyTfAnswers[storyId][qIdx] = choice;
+      appState.storyTfAnswers[storyId][qIdx] = choice; saveState();
       renderStoriesSection();
       if (choice === story.tfQuestions[qIdx].a) {
         playSound("correct");
-        addXp(10, "Trả lời đọc hiểu đúng!");
+        addXp(10, "Trả lời đọc hiểu đúng!", "stf_" + storyId + "_" + qIdx);
       } else {
         playSound("wrong");
       }
@@ -2431,19 +2431,19 @@
     function selectGrammarFix(idx, val) {
       const item = GRAMMAR_FIX_ITEMS[idx];
       if (!item) return;
-      appState.grammarAnswers[idx] = val;
+      appState.grammarAnswers[idx] = val; saveState();
       renderGrammarQuiz();
       if (val === item.right) {
         playSound("correct");
         speakText(item.right);
-        addXp(15, "Sửa lỗi ngữ pháp chính xác!");
+        addXp(15, "Sửa lỗi ngữ pháp chính xác!", "gr_" + idx);
       } else {
         playSound("wrong");
       }
     }
 
     function resetGrammarQuiz() {
-      appState.grammarAnswers = {};
+      appState.grammarAnswers = {}; saveState();
       renderGrammarQuiz();
       playSound("click");
     }
@@ -2537,7 +2537,7 @@
       renderSpeakingExchange();
       if (appState.revealedExchangeAnswers[key]) {
         speakText(answerText);
-        addXp(5, "Đã luyện câu trả lời Speaking!");
+        addXp(5, "Đã luyện câu trả lời Speaking!", "spe_" + key);
       }
     }
 
@@ -2625,7 +2625,7 @@
       renderSpeakingStories();
       if (appState.revealedModelStory[id]) {
         speakText(modelText);
-        addXp(15, "Đã hoàn thành bài luyện kể chuyện Speaking!");
+        addXp(15, "Đã hoàn thành bài luyện kể chuyện Speaking!", "sps_" + id);
       }
     }
 
@@ -2684,7 +2684,7 @@
                 const isCorrect = fillHex === t.expectedColor;
                 const strokeHex = sceneColors[t.id] ? (isCorrect ? "#34d399" : "#fb7185") : "#64748b";
                 return `
-                  <g onclick="colourSceneTarget('${scene.id}', '${t.id}')" class="cursor-pointer">
+                  <g onclick="colourSceneTarget('${scene.id}', '${t.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();colourSceneTarget('${scene.id}', '${t.id}');}" tabindex="0" role="button" aria-label="${t.label}" class="tv-focusable cursor-pointer">
                     <rect x="${t.x}" y="${t.y}" width="${t.w}" height="${t.h}" rx="14" fill="${fillHex}" stroke="${strokeHex}" stroke-width="3" />
                     <text x="${t.x + t.w / 2}" y="${t.y + t.h / 2 + 5}" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="bold">${t.icon}</text>
                   </g>
@@ -2730,7 +2730,7 @@
                   <div class="p-3 rounded-2xl bg-slate-950/80 border ${val ? (isMatch ? 'border-emerald-500/60' : 'border-amber-500/40') : 'border-slate-800'} space-y-1.5">
                     <div class="flex items-center justify-between">
                       <label class="text-xs font-bold text-slate-300">${i + 1}. ${q.label}:</label>
-                      <button onclick="speakText('${q.label}: ${q.ans}')" class="tv-focusable text-xs text-amber-300 hover:text-amber-200">
+                      <button onclick="speakText('${(q.label + ': ' + q.ans).replace(/'/g, "\\'")}')" class="tv-focusable text-xs text-amber-300 hover:text-amber-200">
                         <i class="fa-solid fa-volume-high mr-1"></i>Nghe câu
                       </button>
                     </div>
@@ -2767,11 +2767,11 @@
       const target = scene.targets.find(t => t.id === targetId);
       if (!target) return;
       if (!appState.colouredTargets[sceneId]) appState.colouredTargets[sceneId] = {};
-      appState.colouredTargets[sceneId][targetId] = appState.selectedBrushColor;
+      appState.colouredTargets[sceneId][targetId] = appState.selectedBrushColor; saveState();
       renderListeningStudio();
       if (appState.selectedBrushColor === target.expectedColor) {
         playSound("correct");
-        addXp(15, "Tô màu chính xác: " + target.label);
+        addXp(15, "Tô màu chính xác: " + target.label, "ls5_" + sceneId + "_" + targetId);
       } else {
         playSound("wrong");
         showToast("Màu chưa khớp với hướng dẫn nghe (" + target.expectedName + ")", "fa-palette");
@@ -2779,19 +2779,19 @@
     }
 
     function resetListeningScene(sceneId) {
-      appState.colouredTargets[sceneId] = {};
+      appState.colouredTargets[sceneId] = {}; saveState();
       renderListeningStudio();
       playSound("click");
     }
 
     function handlePart2Input(sceneId, idx, val) {
       const key = sceneId + "_p2_" + idx;
-      appState.part2Inputs[key] = val;
+      appState.part2Inputs[key] = val; saveState();
       const scene = LISTENING_SCENES.find(s => s.id === sceneId);
       if (scene && scene.part2Questions[idx]) {
         if (val.trim().toLowerCase() === scene.part2Questions[idx].ans.toLowerCase()) {
           playSound("correct");
-          addXp(10, "Điền đúng đáp án Listening Part 2!");
+          addXp(10, "Điền đúng đáp án Listening Part 2!", "ls2_" + key); if (document.activeElement && document.activeElement.parentElement) { document.activeElement.parentElement.classList.remove("border-slate-800", "border-amber-500/40"); document.activeElement.parentElement.classList.add("border-emerald-500/60"); } return;
           renderListeningStudio();
         }
       }
@@ -2811,12 +2811,12 @@
     // 9. SMART TV REMOTE & KEYBOARD NAVIGATION (D-PAD + NUMBER SHORTCUTS)
     // =========================================================================
 
-    function setupTvKeyboardNavigation() {
+    function setupTvKeyboardNavigation() { document.querySelectorAll("img").forEach(img => { img.onerror = function () { this.onerror = null; this.style.display = "none"; }; });
       window.addEventListener("keydown", (e) => {
         const tag = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : "";
         const isInput = tag === "input" || tag === "select" || tag === "textarea";
 
-        if (e.key === "Escape") {
+        if (e.key === "Escape" || e.key === "GoBack" || e.key === "XF86Back" || e.keyCode === 461) {
           closeUnitModal();
           return;
         }
@@ -2836,8 +2836,8 @@
 
         // Spatial D-Pad Arrow Navigation for Smart TV Remotes
         if (!isInput && ["ArrowRight", "ArrowLeft", "ArrowDown", "ArrowUp"].includes(e.key)) {
-          const focusables = Array.from(document.querySelectorAll(".tv-focusable")).filter(el => {
-            return el.offsetParent !== null && !el.disabled;
+          const modal = document.getElementById("unit-modal"); const scope = (modal && !modal.classList.contains("hidden")) ? modal : document; const focusables = Array.from(scope.querySelectorAll(".tv-focusable")).filter(el => {
+            return el.getClientRects().length > 0 && !el.disabled;
           });
           if (focusables.length === 0) return;
           const currentIdx = focusables.indexOf(document.activeElement);
@@ -2848,11 +2848,11 @@
           }
           if (e.key === "ArrowRight" || e.key === "ArrowDown") {
             const next = focusables[(currentIdx + 1) % focusables.length];
-            next.focus();
+            next.focus(); next.scrollIntoView({ block: "nearest", inline: "nearest" });
             e.preventDefault();
           } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
             const prev = focusables[(currentIdx - 1 + focusables.length) % focusables.length];
-            prev.focus();
+            prev.focus(); prev.scrollIntoView({ block: "nearest", inline: "nearest" });
             e.preventDefault();
           }
         }
