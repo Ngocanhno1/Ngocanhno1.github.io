@@ -9,6 +9,7 @@ on:
       - "games/sach-truyen/truyen/*.json"
       - "tools/doc_giong.py"
       - "tools/kiem_giong.py"
+      - "tools/chuan_hoa_van_noi.py"
   workflow_dispatch:
   schedule:
     - cron: "7 20 * * *"   # 3 giờ 07 sáng giờ Việt Nam: đọc nốt câu mới

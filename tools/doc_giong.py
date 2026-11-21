@@ -2,8 +2,11 @@
 - Lấy câu chữ từ mã các game có dùng giọng đọc (speechSynthesis), cắt thành từng câu ngắn.
 - Mỗi câu lưu thành games/anh-chung/giong/<mã>.mp3; câu đã có thì bỏ qua (chạy lại chỉ đọc câu mới).
 - games/anh-chung/giong/danh-sach.json: các mã đã có, để giong-noi.js trong game biết câu nào phát được.
-Cách cắt câu và tính mã PHẢI giống hệt giong-noi.js."""
+Cách cắt câu và tính mã PHẢI giống hệt giong-noi.js.
+Mỗi chuỗi đi qua chuan_hoa_van_noi() TRƯỚC khi cắt câu (×, ÷, =, km, °C, Lucie → Lu Xi...), như trình duyệt."""
 import glob, json, os, re, subprocess, sys, time, unicodedata
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from chuan_hoa_van_noi import chuan_hoa_van_noi   # PHẢI giống hệt games/anh-chung/chuan-hoa-van-noi.js
 
 GIONG = os.environ.get("GIONG", "Quỳnh Anh")
 # Giọng mặc định (lưu ở giong/) + các giọng phụ để game xáo trộn cho đỡ nhàm (lưu ở giong/<thư mục>/)
@@ -47,8 +50,9 @@ def cau_trong(f):
     tho = [y for x in tho + them for y in x.split("|")]
     ra = []
     for x in tho:
-        if not VN.search(x) or re.search(r"[{}<>=\\]|https?:|\.(js|css|png|webp|mp3)\b", x):
+        if not VN.search(x) or re.search(r"[{}\\]|<\/?[a-z]|https?:|\.(js|css|png|webp|mp3)\b", x):
             continue
+        x = chuan_hoa_van_noi(x)
         for p in CAT.split(x):
             k = chuan(p)
             if 1 < len(k) <= 220 and VN.search(k):
@@ -65,7 +69,7 @@ def cau_truyen(f):
         tho += [h.get("doc", "")] + h.get("doc_dap", [])
     ra = []
     for x in tho:
-        for p in CAT.split(x or ""):
+        for p in CAT.split(chuan_hoa_van_noi(x or "")):
             k = chuan(p)
             if 1 < len(k) <= 220 and re.search(r"[\w]", k):
                 ra.append(p.strip())
@@ -115,6 +119,7 @@ def cau_trong_json(f):
     for x in tho:
         if not VN.search(x) or re.search(r"https?:|\.(js|css|png|webp|mp3)\b", x):
             continue
+        x = chuan_hoa_van_noi(x)
         for p in CAT.split(x):
             k = chuan(p)
             if 1 < len(k) <= 220 and VN.search(k):
