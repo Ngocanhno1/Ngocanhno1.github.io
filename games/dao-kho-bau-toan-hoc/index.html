@@ -31,7 +31,7 @@
   .opt-btn.right{background:#22c55e!important;animation:pop .4s}
   .opt-btn.wrongb{background:#94a3b8!important;opacity:.55;animation:shake .4s}
   .opt-btn.used{background:#22c55e!important;opacity:.75}
-  .opt-btn:disabled{cursor:default}
+  .opt-btn:disabled{cursor:default} .opt-btn.med{font-size:clamp(16px,2.4vw,30px)} .opt-btn.long{font-size:clamp(14px,1.9vw,24px)}
   button:focus-visible,.card:focus-visible{outline:5px solid #facc15;outline-offset:3px}
   .card.kbd{outline:6px solid #facc15;outline-offset:4px}
   .qtext{font-size:clamp(26px,5vw,60px);line-height:1.15}
@@ -243,14 +243,14 @@ const Sound = {
     if (!this.ctx) return;
     const c = this.ctx, t = c.currentTime + Math.max(0, delay);
     const o = c.createOscillator(), g = c.createGain();
-    o.type = type; o.frequency.setValueAtTime(f, t);
+    if (!f || f <= 0 || !isFinite(f)) return; o.type = type; o.frequency.setValueAtTime(f, t);
     if (slide) o.frequency.exponentialRampToValueAtTime(slide, t + dur);
     g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.012); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
     o.connect(g); g.connect(dest || this.sfx); o.start(t); o.stop(t + dur + 0.05);
   },
   noise(dur, vol = 0.2, delay = 0, ftype = 'lowpass', freq = 1000, slideFreq = null){
     if (!this.ctx) return;
-    const c = this.ctx, t = c.currentTime + delay;
+    const c = this.ctx, t = c.currentTime + Math.max(0, delay);
     const s = c.createBufferSource(); s.buffer = this.noiseBuf;
     const f = c.createBiquadFilter(); f.type = ftype; f.frequency.setValueAtTime(freq, t);
     if (slideFreq) f.frequency.exponentialRampToValueAtTime(slideFreq, t + dur);
@@ -303,7 +303,7 @@ const Music = {
     const bass = ['C3','A2','F2','G2','C3','A2','F2','G2','A2','E3','F2','G2','C3','F2','G2','C3'];
     let next = ctx.currentTime + 0.1, i = 0;
     this.timer = setInterval(() => {
-      while (next < ctx.currentTime + 0.35) {
+      if (!Sound.musOn || ctx.state !== 'running') { next = ctx.currentTime + 0.1; return; } if (next < ctx.currentTime - 0.5) next = ctx.currentTime + 0.05; let guard = 0; while (next < ctx.currentTime + 0.35 && guard++ < 8) {
         const d = next - ctx.currentTime;
         const n = mel[i % mel.length];
         if (n !== '-') Sound.tone(noteFreq(n), spb * 0.9, 'triangle', 0.09, d, null, Sound.mus);
@@ -606,7 +606,7 @@ LV_MOI.forEach((m, k) => {
   TOPICS[3].push(m.chu.split('/')[0].replace(/\(L\d\)/g, '').trim());
   BADGES.push(m.e + ' Huy hiệu ' + m.ten);
   const genBank = () => { const ds = LV_CAU[G.grade][k] || []; const c = pick(ds);
-    return c ? mkChoice(c[0], c[1], c[2], { hint: c[3] }) : (G.grade === 1 ? G1_POOL : G3_POOL)[k % 5].step[0](); };
+    return c ? mkChoice(c[0], c[1], c[2], { hint: c[3], word: c[0].length > 26, board: c[0].length > 34 ? c[0].slice(0, 32) + '…' : c[0] }) : (G.grade === 1 ? G1_POOL : G3_POOL)[k % 5].step[0](); };
   G1_POOL.push({ step: [genBank], gate: [genBank] });
   G3_POOL.push({ step: [genBank], gate: [genBank] });
 });
@@ -647,7 +647,7 @@ dotTex.userData = { shared: true };
 const sunSprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: dotTex, color: 0xfff6c8, transparent: true, depthWrite: false, fog: false }));
 sunSprite.scale.set(70, 70, 1); scene.add(sunSprite);
 
-const oceanGeo = new THREE.PlaneGeometry(420, 420, 72, 72); oceanGeo.rotateX(-Math.PI / 2);
+const oceanGeo = new THREE.PlaneGeometry(420, 420, 36, 36); oceanGeo.rotateX(-Math.PI / 2);
 const oceanBase = Float32Array.from(oceanGeo.attributes.position.array);
 const oceanMat = new THREE.MeshPhongMaterial({ color: 0x16b3c9, flatShading: true, shininess: 90, specular: 0x9ff3ff, transparent: true, opacity: 0.9 });
 const ocean = new THREE.Mesh(oceanGeo, oceanMat); ocean.position.z = -30; ocean.receiveShadow = true; scene.add(ocean);
@@ -1126,7 +1126,7 @@ function burst(pos, colors, n = 40, speed = 5, life = 1.2, size = 0.3, gravity =
   }
   geo.setAttribute('position', new THREE.BufferAttribute(p, 3)); geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
   const mat = new THREE.PointsMaterial({ size, map: dotTex, vertexColors: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
-  const pts = new THREE.Points(geo, mat); scene.add(pts);
+  if (particles.length >= 20) { const old = particles.shift(); scene.remove(old.pts); old.pts.geometry.dispose(); old.pts.material.dispose(); } const pts = new THREE.Points(geo, mat); scene.add(pts);
   particles.push({ pts, vel, life, age: 0, gravity });
 }
 function updateParticles(dt){
@@ -1165,7 +1165,7 @@ async function heroTo(to, h = 1.3, dur = 0.55, compTo = null){
   const old = G.hero.root.position.clone();
   const p = jumpTo(G.hero, to, h, dur);
   const target = compTo || old;
-  compQueue = compQueue.then(() => sleep(140)).then(() => jumpTo(G.comp, target, h * 0.9, dur));
+  const comp = G.comp, rid = G.runId; compQueue = compQueue.then(() => sleep(140)).then(() => { if (rid === G.runId && comp && comp.root.parent) return jumpTo(comp, target, h * 0.9, dur); }).catch(() => {});
   await p;
 }
 async function hopInPlace(ch, n = 2, h = 0.7){
@@ -1179,7 +1179,7 @@ async function hopInPlace(ch, n = 2, h = 0.7){
 function faceCamera(ch){ const p = ch.root.position; ch.targetRot = Math.atan2(camera.position.x - p.x, camera.position.z - p.z); }
 async function celebrate(ch){ if (!ch) return; ch.cheer = 1.8; faceCamera(ch); await compQueue; hopInPlace(ch, 2, 0.75); }
 function sad(ch){ ch.headShake = 0.8; }
-function shakeObj(obj){ const bx = obj.position.x; return tween(0.45, k => { obj.position.x = bx + Math.sin(k * 30) * 0.18 * (1 - k); }); }
+function shakeObj(obj){ if (obj.userData.baseX === undefined) obj.userData.baseX = obj.position.x; const bx = obj.userData.baseX; return tween(0.45, k => { obj.position.x = bx + Math.sin(k * 30) * 0.18 * (1 - k); }); }
 function flash(mat, color, ms = 650, after = null){
   if (!mat || !mat.emissive) return;
   mat.emissive.setHex(color);
@@ -1248,7 +1248,7 @@ function say(ch, text, ms = 2600){
   if (!ch) return;
   let el = bubbles[ch.kind];
   if (!el) { el = document.createElement('div'); el.className = 'bubble'; el.style.setProperty('--bc', ch.kind === 'lucie' ? '#f472b6' : ch.kind === 'lucas' ? '#60a5fa' : '#1f2937'); $('bubbles').appendChild(el); bubbles[ch.kind] = el; }
-  el.innerHTML = text; el._until = performance.now() + ms; el._ch = ch;
+  el.innerHTML = text; el._until = performance.now() + ms; el._ch = ch; el._hw = Math.min((el.offsetWidth || 120) / 2, innerWidth / 2 - 4);
 }
 function updateBubbles(){
   const now = performance.now();
@@ -1258,7 +1258,7 @@ function updateBubbles(){
     const p = ch.root.position.clone().add(V(0, 2.95 * ch.root.scale.y, 0)).project(camera);
     if (p.z > 1) { el.style.opacity = 0; continue; }
     el.style.opacity = 1;
-    const hw = Math.min(el.offsetWidth / 2, innerWidth / 2 - 4);
+    const hw = el._hw || 60;
     el.style.left = Math.max(hw + 4, Math.min(innerWidth - hw - 4, (p.x + 1) / 2 * innerWidth)) + 'px';
     el.style.top = ((-p.y + 1) / 2 * innerHeight) + 'px';
   }
@@ -1293,7 +1293,7 @@ function avatarSVG(kind, size = 64){
 /* =========================================================
    10. TRẠNG THÁI GAME & HUD
    ========================================================= */
-const G = { hero: null, comp: null, max: null, heroKind: 'lucie', grade: 3, island: 0, stage: 0, stepQ: 0, hearts: 3, coins: 0, gems: 0, buoys: 2, stats: { correct: 0, total: 0, coins0: 0 }, badges: [], busy: true, active: false, q: null, sort: null, firstTry: true, rescues: 0 };
+const G = { hero: null, comp: null, max: null, heroKind: 'lucie', grade: 3, island: 0, stage: 0, stepQ: 0, hearts: 3, coins: 0, gems: 0, buoys: 2, stats: { correct: 0, total: 0, coins0: 0 }, badges: [], busy: true, active: false, q: null, sort: null, firstTry: true, rescues: 0, runId: 0, rescuing: false, finaleIv: null };
 const chars = {};
 const SAVE_KEY = 'daoKhoBauToanHoc_v1';
 function loadSave(){ try { return JSON.parse(localStorage.getItem(SAVE_KEY)) || {}; } catch (e) { return {}; } }
@@ -1303,7 +1303,7 @@ function ghiNhatKy(question, ok){ try { const k = 'giaDinh_nhatKy', a = JSON.par
 
 function updateHUD(popWhat){
   $('hudCoins').textContent = G.coins;
-  $('hudGems').textContent = G.gems;
+  $('hudGems').textContent = G.gems; if ($('hudGemsMax')) $('hudGemsMax').textContent = SO_DAO;
   $('hudHearts').textContent = '❤️'.repeat(G.hearts) + '🤍'.repeat(Math.max(0, 3 - G.hearts));
   $('buoyCount').textContent = G.buoys;
   $('btnBuoy').style.opacity = G.buoys > 0 ? 1 : 0.5;
@@ -1331,7 +1331,7 @@ const wrongLine = () => pick(G.heroKind === 'lucie' ? WRONG_L : WRONG_B);
    ========================================================= */
 function placeStartScreen(){
   buildLevel(0);
-  G.hero = null; G.comp = null;
+  G.runId++; G.rescuing = false; if (G.finaleIv) { clearInterval(G.finaleIv); G.finaleIv = null; } G.hero = null; G.comp = null;
   Object.values(chars).forEach(c => { if (c.root.parent) c.root.parent.remove(c.root); });
   chars.lucie.root.position.set(-1.05, STAND, 0.4); chars.lucas.root.position.set(1.05, STAND, 0.4);
   chars.lucie.root.rotation.y = 0.15; chars.lucas.root.rotation.y = -0.15;
@@ -1347,9 +1347,9 @@ function placeStartScreen(){
     const el = $(k === 'lucie' ? 'saveLucie' : 'saveLucas'); const d = s[k];
     el.innerHTML = d && d.island > 0 ? `⛵ Đang ở Đảo ${d.island + 1} · 🪙 ${d.coins || 0}` : d && d.wins ? `🏆 Đã tìm được kho báu ${d.wins} lần!` : '';
   });
-  $('start').classList.remove('hidden'); $('hud').classList.add('hidden'); showPanel(false); setShift();
+  $('start').classList.remove('hidden'); $('hud').classList.add('hidden'); showPanel(false); setShift(); $('cardLucie').classList.add('kbd'); $('cardLucas').classList.remove('kbd');
 }
-function openModal(html){ $('modalCard').innerHTML = html; $('modal').classList.remove('hidden'); }
+function openModal(html){ $('modalCard').innerHTML = html; $('modal').classList.remove('hidden'); const b = $('modalCard').querySelector('button'); if (b) setTimeout(() => b.focus(), 50); }
 function closeModal(){ $('modal').classList.add('hidden'); }
 
 async function chooseHero(kind){
@@ -1378,7 +1378,7 @@ async function chooseHero(kind){
 async function beginGame(kind, island, coins, badges){
   G.heroKind = kind; G.grade = kind === 'lucie' ? 3 : 1;
   G.hero = chars[kind]; G.comp = chars[kind === 'lucie' ? 'lucas' : 'lucie']; G.max = chars.max;
-  G.coins = coins; G.gems = island; G.badges = badges.slice(); G.rescues = 0;
+  G.runId++; G.rescuing = false; if (G.finaleIv) { clearInterval(G.finaleIv); G.finaleIv = null; } G.coins = coins; G.gems = island; G.badges = Array.isArray(badges) ? badges.slice() : []; G.rescues = 0;
   $('hudAvatar').innerHTML = avatarSVG(kind, 46);
   $('hudName').textContent = kind === 'lucie' ? 'Thuyền trưởng Lucie' : 'Thủy thủ Lucas';
   $('hudName').style.color = kind === 'lucie' ? '#db2777' : '#2563eb';
@@ -1387,7 +1387,7 @@ async function beginGame(kind, island, coins, badges){
   await sailTo(island, true);
 }
 async function sailTo(i, first = false){
-  G.busy = true; G.active = false;
+  const rid = ++G.runId; G.busy = true; G.active = false; G.rescuing = false;
   const T = THEMES[i];
   $('sailText').innerHTML = first ? `Dong buồm ra khơi! ⚓<br><span class="text-xl md:text-3xl">Điểm đến: ${T.emoji} ${T.name}</span>` : `Đang dong buồm sang<br>${T.emoji} ${T.name}...`;
   const s = $('sail'); s.style.opacity = 0; s.classList.remove('hidden'); await sleep(30); s.style.opacity = 1;
@@ -1395,7 +1395,7 @@ async function sailTo(i, first = false){
   await sleep(700);
   setupIsland(i);
   await sleep(1300);
-  s.style.opacity = 0; await sleep(500); s.classList.add('hidden');
+  s.style.opacity = 0; await sleep(500); s.classList.add('hidden'); if (rid !== G.runId) return;
   await runIsland();
 }
 function setupIsland(i){
@@ -1417,12 +1417,12 @@ async function runIsland(){
   await sleep(1200);
   say(G.comp, G.heroKind === 'lucie' ? `Chị Lucie ơi, mình cùng vượt ${T.name} nhé!` : `Lucas ơi, chị em mình cùng chinh phục ${T.name} nha!`, 2800);
   await sleep(1800);
-  await startSort();
+  if (!G.hero) return; await startSort();
 }
 
 /* ---------- THỬ THÁCH 1: CẦU SẮP XẾP SỐ ---------- */
 async function startSort(){
-  G.stage = 0; G.firstTry = true; G.active = false; updateHUD();
+  const rid = G.runId; G.stage = 0; G.firstTry = true; G.active = false; updateHUD();
   const s = genSort(); G.sort = s;
   const xs = [-4.8, -1.6, 1.6, 4.8];
   L.stones = s.nums.map((n, i) => {
@@ -1436,7 +1436,7 @@ async function startSort(){
   });
   Sound.splash();
   renderSortPanel(); showPanel(true);
-  await sleep(1100);
+  await sleep(1100); if (rid !== G.runId) return;
   say(G.comp, s.dir === 'asc' ? 'Tìm số BÉ NHẤT trước nhé! 🔍' : 'Tìm số LỚN NHẤT trước nhé! 🔍', 3000);
   G.busy = false; G.active = true;
 }
@@ -1451,7 +1451,7 @@ function renderSortPanel(){
     slots += `<div class="slot ${k < s.progress ? 'filled' : ''}">${k < s.progress ? fmt(s.order[k]) : '?'}</div>`;
   }
   $('pSlots').innerHTML = slots;
-  const box = $('pOpts'); box.className = 'grid grid-cols-4 gap-2 md:gap-4'; box.innerHTML = '';
+  const box = $('pOpts'); box.className = 'grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4'; box.innerHTML = '';
   s.nums.forEach((n, i) => {
     const used = L.stones[i] && L.stones[i].userData.used;
     const b = document.createElement('button'); b.className = 'opt-btn' + (used ? ' used' : '');
@@ -1525,7 +1525,7 @@ async function startStep(k){
     tween(0.75 + i * 0.08, kk => { p.position.y = -4.5 + (PED_Y + 4.5) * easeOutBack(kk); });
     return p;
   });
-  if (L.board) { L.group.remove(L.board); }
+  if (L.board) { L.group.remove(L.board); disposeTree(L.board); L.board = null; }
   L.board = makeLabel(q.board, { bg: '#fffbe8', fs: 84, scale: 1.05 }); L.board.position.set(0, 4.9, z - 0.5); L.group.add(L.board);
   Sound.splash();
   renderMC(q, `🪨 THỬ THÁCH 2 · BẬC ĐÁ PHÉP TÍNH · Câu ${k + 1}/3`);
@@ -1535,14 +1535,14 @@ async function startStep(k){
 }
 function renderMC(q, title){
   $('pTitle').innerHTML = title;
-  $('pText').className = 'qtext ' + (q.word ? 'word ' : '') + 'font-extrabold text-slate-800 text-center my-1 md:my-2';
+  $('pText').className = 'qtext ' + (q.word || (q.label && q.label.length > 26) ? 'word ' : '') + 'font-extrabold text-slate-800 text-center my-1 md:my-2';
   $('pText').innerHTML = q.html;
   $('pSlots').innerHTML = '';
   const box = $('pOpts');
   box.className = 'grid gap-2 md:gap-4 ' + (q.opts.length === 4 ? 'grid-cols-2 md:grid-cols-4' : q.opts.length === 3 ? 'grid-cols-3' : 'grid-cols-2');
   box.innerHTML = '';
   q.opts.forEach((o, i) => {
-    const b = document.createElement('button'); b.className = 'opt-btn';
+    const maxLen = Math.max(...q.opts.map(x => String(x).length)); const b = document.createElement('button'); b.className = 'opt-btn' + (maxLen > 12 ? ' long' : maxLen > 7 ? ' med' : '');
     b.style.setProperty('--c', OPT_COLORS[i]);
     b.innerHTML = `<span class="opt-letter">${'ABCD'[i]}</span><span>${o}</span>`;
     b.onclick = () => pickMC(i); box.appendChild(b);
@@ -1568,9 +1568,9 @@ async function pickMC(i){
       confetti(G.hero.root.position.clone().add(V(0, 1.4, 0)));
       celebrate(G.hero); celebrate(G.comp); say(G.comp, praise(), 2000);
       L.peds.forEach((p, k) => { if (k !== i) { const y0 = p.position.y; tween(0.8, kk => { p.position.y = y0 - 5 * kk; }); } });
-      if (L.board) { const b = L.board; tween(0.4, kk => b.material.opacity = 1 - kk).then(() => L.group.remove(b)); L.board = null; }
+      if (L.board) { const b = L.board; tween(0.4, kk => b.material.opacity = 1 - kk).then(() => { L.group.remove(b); disposeTree(b); }); L.board = null; }
       showPanel(false);
-      await sleep(1500);
+      await sleep(1500); if (!G.hero) return;
       if (G.stepQ < 2) await startStep(G.stepQ + 1);
       else await finishStep();
     } else {
@@ -1659,7 +1659,7 @@ async function gateSuccess(i){
   const target = V(0, 12.5, POS.gateZ);
   let tick = 0;
   await tween(0.95, k => { flare.position.lerpVectors(muzzle, target, k); flare.position.y += Math.sin(Math.PI * k) * 2; if ((tick++ % 2) === 0) burst(flare.position, ['#ffd166', '#ff9f1c'], 3, 0.6, 0.5, 0.3, -1); });
-  scene.remove(flare); flare.geometry.dispose();
+  scene.remove(flare); disposeTree(flare);
   fireworkAt(target, 0); fireworkAt(V(-4.5, 10.5, POS.gateZ - 1), 0.35); fireworkAt(V(4.5, 11.2, POS.gateZ - 1), 0.7);
   if (L.gateBoard) L.gateBoard.visible = false;
   L.gate.lock.visible = false;
@@ -1712,7 +1712,7 @@ function wrongPick(obj, mat, restore = 0x000000){
   flash(mat, 0xff1e1e, 650, restore); shakeObj(obj);
   G.hearts = Math.max(0, G.hearts - 1); updateHUD('heart'); sad(G.hero);
   floatText('💔 Mất 1 tim', '#ffe4e6');
-  if (G.hearts <= 0) setTimeout(rescue, 800);
+  if (G.hearts <= 0 && !G.rescuing) { G.rescuing = true; G.busy = true; const rid = G.runId; setTimeout(() => { if (rid === G.runId) rescue(); }, 800); }
 }
 async function rescue(){
   if (!G.hero) return;
@@ -1728,7 +1728,7 @@ async function rescue(){
   floatText('🛟 Phao cứu trợ! Hồi đầy 3 tim ❤️❤️❤️');
   await sleep(1300);
   await tween(0.4, k => buoy.scale.setScalar(1 - k * 0.99));
-  scene.remove(buoy); disposeTree(buoy);
+  scene.remove(buoy); disposeTree(buoy); G.rescuing = false;
   G.busy = false;
 }
 function useBuoy(){
@@ -1737,7 +1737,7 @@ function useBuoy(){
   if (G.stage === 0) {
     const s = G.sort, idx = s.nums.indexOf(s.order[s.progress]), st = L.stones[idx];
     st.userData.mat.emissive.setHex(0xffcc00); setTimeout(() => { if (!st.userData.used) st.userData.mat.emissive.setHex(0x000000); }, 3500);
-    const glow = glowSprite(0xffe066, 3.2); glow.position.y = 0.4; st.add(glow); setTimeout(() => st.remove(glow), 3500);
+    const glow = glowSprite(0xffe066, 3.2); glow.position.y = 0.4; st.add(glow); setTimeout(() => { st.remove(glow); glow.material.dispose(); }, 3500);
     say(G.comp, `🛟 Gợi ý: hãy nhảy lên tảng đá số <b>${fmt(s.order[s.progress])}</b> nhé!`, 3800);
   } else {
     const arr = G.stage === 1 ? L.peds : L.balls;
@@ -1781,16 +1781,16 @@ function showSummary(){
     <div class="grid grid-cols-2 gap-2 mt-3 text-left">
       <div class="bg-emerald-50 rounded-2xl p-2 md:p-3 font-extrabold text-emerald-700 text-base md:text-xl">✅ Đúng ngay lần đầu<br><span class="text-2xl md:text-3xl">${s.correct}/${s.total}</span></div>
       <div class="bg-amber-50 rounded-2xl p-2 md:p-3 font-extrabold text-amber-700 text-base md:text-xl">🪙 Xu vàng nhận được<br><span class="text-2xl md:text-3xl">+${G.coins - s.coins0}</span></div>
-      <div class="bg-purple-50 rounded-2xl p-2 md:p-3 font-extrabold text-purple-700 text-base md:text-xl">💎 Đá quý<br><span class="text-2xl md:text-3xl">${G.gems}/5</span> <span class="text-sm">(${T.gemName})</span></div>
+      <div class="bg-purple-50 rounded-2xl p-2 md:p-3 font-extrabold text-purple-700 text-base md:text-xl">💎 Đá quý<br><span class="text-2xl md:text-3xl">${G.gems}/${SO_DAO}</span> <span class="text-sm">(${T.gemName})</span></div>
       <div class="rounded-2xl p-2 md:p-3 font-extrabold text-base md:text-xl" style="background:#fff7ed;color:${tier[1]}">${tier[2]} Huy hiệu<br><span class="text-sm md:text-lg">${badge}</span></div>
     </div>
     <button id="mNext" class="chunky mt-4 w-full rounded-2xl py-3 text-xl md:text-2xl font-extrabold text-white" style="background:linear-gradient(90deg,#0ea5e9,#22c55e)">${last ? '🏆 Mở kho báu cuối cùng!' : '⛵ Dong buồm sang Đảo tiếp theo'}</button>`);
   for (let k = 0; k < 3; k++) fireworkAt(V((k - 1) * 4, 9 + k, -60), k * 0.4);
-  $('mNext').onclick = () => { Sound.click(); closeModal(); if (last) finale(); else sailTo(G.island + 1); };
+  $('mNext').onclick = () => { if ($('mNext').disabled) return; $('mNext').disabled = true; Sound.click(); closeModal(); if (last) finale(); else sailTo(G.island + 1); };
 }
 function finale(){
   Sound.victory(); setTimeout(() => Sound.fanfare(), 1300);
-  let n = 0; const iv = setInterval(() => { fireworkAt(V((Math.random() - .5) * 14, 9 + Math.random() * 5, -60 - Math.random() * 4), 0); if (++n > 10) clearInterval(iv); }, 450);
+  if (G.finaleIv) clearInterval(G.finaleIv); let n = 0; G.finaleIv = setInterval(() => { fireworkAt(V((Math.random() - .5) * 14, 9 + Math.random() * 5, -60 - Math.random() * 4), 0); if (++n > 10) { clearInterval(G.finaleIv); G.finaleIv = null; } }, 450);
   const gems = THEMES.map(t => `<span title="${t.gemName}" style="display:inline-block;width:42px;height:42px;line-height:42px;border-radius:12px;background:#${new THREE.Color(t.gem).getHexString()};box-shadow:0 0 14px #${new THREE.Color(t.gem).getHexString()};margin:3px;font-size:24px">💎</span>`).join('');
   openModal(`
     <div class="text-6xl" style="animation:bob 1.2s infinite">🏆</div>
@@ -1826,7 +1826,7 @@ function pickAt(ev){
   return null;
 }
 renderer.domElement.addEventListener('pointerdown', ev => { const o = pickAt(ev); if (o) { Sound.init(); o.userData.pick(); } });
-renderer.domElement.addEventListener('pointermove', ev => { renderer.domElement.style.cursor = pickAt(ev) ? 'pointer' : 'default'; });
+let lastMove = 0; renderer.domElement.addEventListener('pointermove', ev => { const now = performance.now(); if (now - lastMove < 80) return; lastMove = now; renderer.domElement.style.cursor = pickAt(ev) ? 'pointer' : 'default'; });
 $('cardLucie').onclick = () => chooseHero('lucie');
 $('cardLucas').onclick = () => chooseHero('lucas');
 $('cardLucie').onmouseenter = () => { chars.lucie && (chars.lucie.cheer = 1.2); };
@@ -1834,7 +1834,7 @@ $('cardLucas').onmouseenter = () => { chars.lucas && (chars.lucas.cheer = 1.2); 
 $('btnBuoy').onclick = () => { Sound.init(); useBuoy(); };
 $('btnRead').onclick = () => { Sound.init(); if (G.stage === 0 && G.sort) speak(G.sort.dir === 'asc' ? 'Bấm các tảng đá theo thứ tự từ bé đến lớn' : 'Bấm các tảng đá theo thứ tự từ lớn đến bé'); else if (G.q) speak(G.q.say); };
 $('btnSound').onclick = () => { Sound.init(); $('btnSound').textContent = Sound.toggleSfx() ? '🔊' : '🔇'; };
-$('btnMusic').onclick = () => { Sound.init(); const on = Sound.toggleMusic(); if (on) Music.start(); $('btnMusic').style.opacity = on ? 1 : 0.45; };
+$('btnMusic').onclick = () => { Sound.init(); const on = Sound.toggleMusic(); if (on) Music.start(); else Music.stop(); $('btnMusic').style.opacity = on ? 1 : 0.45; };
 $('btnHome').onclick = () => {
   if (G.busy) return;
   openModal(`<div class="text-5xl">🏠</div><div class="text-2xl font-extrabold text-slate-700 my-3">Về màn hình chọn nhân vật?</div>
@@ -1847,7 +1847,7 @@ $('btnHome').onclick = () => {
 window.addEventListener('keydown', e => {
   if (!$('modal').classList.contains('hidden')) {
     if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) { moveFocus(e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : -1); e.preventDefault(); return; }
-    if (e.key === 'Enter' && !document.activeElement.closest('#modalCard')) { const b = $('modalCard').querySelector('button'); if (b) b.click(); }
+    if (e.key === 'Enter' && (!document.activeElement || !document.activeElement.closest('#modalCard'))) { const b = $('modalCard').querySelector('button'); if (b) { b.click(); e.preventDefault(); } } else if (e.key === 'Escape' || e.key === 'GoBack') { const no = $('mNo'); if (no) { no.click(); e.preventDefault(); } }
     return;
   }
   if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) { moveFocus(e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : -1); e.preventDefault(); return; }
