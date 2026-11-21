@@ -25,7 +25,7 @@
   [hidden] { display: none !important; }
 
   /* ===== MÀN HÌNH 1: CHỌN NHÂN VẬT ===== */
-  #startScreen { flex-direction: column; align-items: center; justify-content: center; gap: 24px; background: linear-gradient(135deg, #ffdeeb 0%, #e3f8ff 50%, #d3f9d8 100%); padding: 20px; }
+  #startScreen { flex-direction: column; align-items: center; justify-content: safe center; gap: 24px; background: linear-gradient(135deg, #ffdeeb 0%, #e3f8ff 50%, #d3f9d8 100%); padding: 20px; overflow-y: auto; }
   #startScreen h1 { font-size: clamp(32px, 6vw, 58px); color: #ff6b6b; text-shadow: 3px 3px 0 #fff; text-align: center; }
   .hint { font-size: 24px; color: #355; text-align: center; }
   .chars { display: flex; gap: 40px; flex-wrap: wrap; justify-content: center; }
@@ -264,7 +264,7 @@
 <body>
 
 <!-- Trình duyệt / iPad chỉ cho phát tiếng sau lần chạm đầu tiên, nên có màn chạm để vào game -->
-<div id="tapStart" onclick="tapToStart()">
+<div id="tapStart" tabindex="0" role="button" onclick="tapToStart()">
   <div class="tapBox">
     <div class="tapTitle">🌈 Lucie &amp; Lucas phiêu lưu 🌈</div>
     <div class="tapHeroes"><div class="tapHero" data-hero="lucie"></div><div class="tapHero car" data-hero="lucas"></div></div>
@@ -277,11 +277,11 @@
   <h1>🌈 Lucie &amp; Lucas phiêu lưu 🌈</h1>
   <div class="hint">Mỗi bạn có 30 level 3D qua 6 vùng đất. Trả lời sai là bố mẹ đuổi theo đấy! Trả lời đúng để vượt chướng ngại vật nhé!<br>Hôm nay ai chơi nào?</div>
   <div class="chars">
-    <div class="charCard lucie" onclick="openLevels('lucie')">
+    <div class="charCard lucie" tabindex="0" role="button" onclick="openLevels('lucie')">
       <div class="heroWrap" data-hero="lucie"></div><h2>Lucie</h2><p><b data-hs="lucie.ten">Nguyễn Ngọc Tường San</b><br>Lớp <span data-hs="lucie.lop">3A6</span> • Công chúa phiêu lưu</p>
       <div class="prog" id="prog-lucie"></div>
     </div>
-    <div class="charCard lucas" onclick="openLevels('lucas')">
+    <div class="charCard lucas" tabindex="0" role="button" onclick="openLevels('lucas')">
       <div class="heroWrap" data-hero="lucas"></div><h2>Lucas</h2><p><b data-hs="lucas.ten">Nguyễn Ngọc Tường Minh</b><br>Lớp <span data-hs="lucas.lop">1A5</span> • Đua xe tốc độ</p>
       <div class="prog" id="prog-lucas"></div>
     </div>
@@ -2018,11 +2018,11 @@ const questionsData = {
     {"subject": "Tiếng Việt", "question": "Từ nào gần nghĩa với 'sáng dạ'?", "options": ["trung thực", "căn nhà", "thông minh", "ba"], "correctIndex": 2, "level": 2, "id": 74},
     {"subject": "Tiếng Việt", "question": "Câu 'Đi một ngày đàng, học một sàng khôn' khuyên ta điều gì?", "options": ["đi nhiều thì học được nhiều", "anh em phải yêu thương nhau", "giúp đỡ người khó khăn", "lễ phép với người lớn, nhường nhịn em nhỏ"], "correctIndex": 0, "level": 2, "id": 75},
     {"subject": "Tiếng Việt", "question": "Trong câu 'Đàn cò trắng bay qua cánh đồng.', từ chỉ hoạt động là:", "options": ["qua", "bay", "đàn cò", "trắng"], "correctIndex": 1, "level": 2, "id": 76},
-    {"subject": "Tiếng Việt", "question": "Trong câu 'Chú cún nhỏ vẫy cái đuôi ngắn.', từ chỉ đặc điểm là:", "options": ["ngắn", "nhỏ", "chú cún", "vẫy"], "correctIndex": 0, "level": 2, "id": 77},
+    {"subject": "Tiếng Việt", "question": "Trong câu 'Chú cún nhỏ vẫy cái đuôi ngắn.', từ chỉ đặc điểm là:", "options": ["ngắn", "cái đuôi", "chú cún", "vẫy"], "correctIndex": 0, "level": 2, "id": 77},
     {"subject": "Tiếng Việt", "question": "Từ nào gần nghĩa với 'im lặng'?", "options": ["to lớn", "thật thà", "lặng im", "thông minh"], "correctIndex": 2, "level": 2, "id": 78},
     {"subject": "Tiếng Việt", "question": "Câu 'Học thầy không tày học bạn' khuyên ta điều gì?", "options": ["tính nết quan trọng hơn vẻ ngoài", "biết ơn người đi trước", "học hỏi từ bạn bè", "lễ phép với người lớn, nhường nhịn em nhỏ"], "correctIndex": 2, "level": 2, "id": 79},
     {"subject": "Tiếng Việt", "question": "Từ nào là từ chỉ sự vật?", "options": ["giặt áo", "cô giáo", "chăm chỉ", "nhảy dây"], "correctIndex": 1, "level": 2, "id": 80},
-    {"subject": "Tiếng Việt", "question": "Trong câu 'Dòng sông xanh chảy hiền hòa.', từ chỉ đặc điểm là:", "options": ["chảy", "hiền hòa", "dòng sông", "xanh"], "correctIndex": 1, "level": 2, "id": 81},
+    {"subject": "Tiếng Việt", "question": "Trong câu 'Dòng sông xanh chảy hiền hòa.', từ chỉ đặc điểm là:", "options": ["chảy", "hiền hòa", "dòng sông", "con đò"], "correctIndex": 1, "level": 2, "id": 81},
     {"subject": "Tiếng Việt", "question": "Từ nào là từ chỉ sự vật?", "options": ["chạy nhảy", "dòng sông", "mềm mại", "đen nhánh"], "correctIndex": 1, "level": 2, "id": 82},
     {"subject": "Tiếng Việt", "question": "Từ nào là từ chỉ hoạt động?", "options": ["cây bàng", "con đường", "nhanh nhẹn", "bơi"], "correctIndex": 3, "level": 2, "id": 83},
     {"subject": "Tiếng Việt", "question": "Từ nào gần nghĩa với 'hiền lành'?", "options": ["hiền hậu", "săn sóc", "chăm chỉ", "dữ tợn"], "correctIndex": 0, "level": 2, "id": 84},
@@ -2510,7 +2510,7 @@ const questionsData = {
     {"subject": "Toán", "question": "Mỗi hộp có 6 cái bút. 7 hộp như thế có bao nhiêu cái bút?", "options": ["42 cái", "35 cái", "13 cái", "48 cái"], "correctIndex": 0, "level": 12, "id": 566},
     {"subject": "Toán", "question": "Giá trị của biểu thức (7 + 7) × 3 là:", "options": ["42", "17", "45", "28"], "correctIndex": 0, "level": 12, "id": 567},
     {"subject": "Toán", "question": "Tổ Một có 97 cây. Tổ Hai có ít hơn Tổ Một 24 cây. Tổ Hai có bao nhiêu cây?", "options": ["72", "121", "83", "73"], "correctIndex": 3, "level": 12, "id": 568},
-    {"subject": "Toán", "question": "Kim giờ chỉ số 12, kim phút chỉ số 12. Đồng hồ chỉ mấy giờ?", "options": ["12 giờ 0 phút", "12 giờ", "12 giờ 30 phút", "1 giờ"], "correctIndex": 1, "level": 12, "id": 569},
+    {"subject": "Toán", "question": "Kim giờ chỉ số 12, kim phút chỉ số 12. Đồng hồ chỉ mấy giờ?", "options": ["6 giờ", "12 giờ", "12 giờ 30 phút", "1 giờ"], "correctIndex": 1, "level": 12, "id": 569},
     {"subject": "Toán", "question": "1 l = ? ml", "options": ["10 000", "1 000", "2 000", "100"], "correctIndex": 1, "level": 12, "id": 570},
     {"subject": "Toán", "question": "Có 18 bông hoa chia đều cho 2 lọ. Mỗi lọ được mấy bông?", "options": ["10 bông", "9 bông", "11 bông", "6 bông"], "correctIndex": 1, "level": 12, "id": 571},
     {"subject": "Toán", "question": "1 kg = ? g", "options": ["2 000", "1 000", "100", "10 000"], "correctIndex": 1, "level": 12, "id": 572},
@@ -2766,7 +2766,7 @@ const questionsData = {
     {"subject": "Toán", "question": "3 × 10 = ?", "options": ["31", "36", "29", "30"], "correctIndex": 3, "level": 17, "id": 822},
     {"subject": "Toán", "question": "3 × 2 = ?", "options": ["6", "8", "2", "1"], "correctIndex": 0, "level": 17, "id": 823},
     {"subject": "Tiếng Việt", "question": "Từ nào trái nghĩa với 'cứng'?", "options": ["chăm chỉ", "nghèo", "sáng", "mềm"], "correctIndex": 3, "level": 17, "id": 824},
-    {"subject": "Tiếng Việt", "question": "Từ nào gần nghĩa với 'cần cù'?", "options": ["lấp lánh", "siêng năng", "to lớn", "chịu khó"], "correctIndex": 3, "level": 17, "id": 825},
+    {"subject": "Tiếng Việt", "question": "Từ nào gần nghĩa với 'cần cù'?", "options": ["lấp lánh", "nhút nhát", "to lớn", "chịu khó"], "correctIndex": 3, "level": 17, "id": 825},
     {"subject": "Tiếng Việt", "question": "Từ nào là từ chỉ hoạt động?", "options": ["ngọt lịm", "cái thước", "trắng tinh", "đá bóng"], "correctIndex": 3, "level": 17, "id": 826},
     {"subject": "Tiếng Việt", "question": "Từ nào gần nghĩa với 'mênh mông'?", "options": ["thông minh", "lanh lợi", "im lặng", "bao la"], "correctIndex": 3, "level": 17, "id": 827},
     {"subject": "Tiếng Việt", "question": "Từ nào là từ chỉ đặc điểm?", "options": ["leo núi", "hát", "rộng rãi", "cái bút"], "correctIndex": 2, "level": 17, "id": 828},
@@ -3129,7 +3129,7 @@ const questionsData = {
     {"subject": "Tiếng Việt", "question": "Từ nào trái nghĩa với 'ngọt'?", "options": ["đứng", "đắng", "dũng cảm", "hiền lành"], "correctIndex": 1, "level": 24, "id": 1185},
     {"subject": "Tiếng Việt", "question": "Từ nào là từ chỉ hoạt động?", "options": ["tròn xoe", "hiền lành", "chạy nhảy", "trắng tinh"], "correctIndex": 2, "level": 24, "id": 1186},
     {"subject": "Tiếng Anh", "question": "'Đạp xe' tiếng Anh là gì?", "options": ["Sing", "Jump", "Dance", "Ride a bike"], "correctIndex": 3, "level": 24, "id": 1187},
-    {"subject": "Tiếng Anh", "question": "Từ nào chỉ đồ ăn?", "options": ["Yo-yo", "Milk", "Orange", "Brother"], "correctIndex": 1, "level": 24, "id": 1188},
+    {"subject": "Tiếng Anh", "question": "Từ nào chỉ đồ ăn?", "options": ["Yo-yo", "Milk", "Purple", "Brother"], "correctIndex": 1, "level": 24, "id": 1188},
     {"subject": "Tiếng Anh", "question": "'Con hổ' tiếng Anh là gì?", "options": ["Dog", "Tiger", "Rabbit", "Cow"], "correctIndex": 1, "level": 24, "id": 1189},
     {"subject": "Tiếng Anh", "question": "Số 1 tiếng Anh là gì?", "options": ["Three", "One", "Four", "Two"], "correctIndex": 1, "level": 24, "id": 1190},
     {"subject": "Tiếng Anh", "question": "Chọn từ khác loại:", "options": ["Ice cream", "Snowy", "Sunny", "Windy"], "correctIndex": 0, "level": 24, "id": 1191},
@@ -3589,7 +3589,7 @@ const PLAYER_X = 110;              // vị trí nhân vật trên màn hình (kh
    PHẦN DƯỚI ĐÂY LÀ LOGIC GAME — KHÔNG CẦN SỬA
    ===================================================================== */
 const $ = id => document.getElementById(id);
-let state = { char: null, level: 1 };
+let state = { char: null, level: 1 }; let runId = 0;
 const streak = { lucas: 0, lucie: 0 };   // chuỗi đúng liên tiếp (tính xuyên suốt các level)
 let currentChar = null;
 
@@ -3605,7 +3605,7 @@ function badgeCount(char) { return Object.keys(loadProg(char).stars).length; }  
 /* ---------- VẼ NHÂN VẬT (ảnh mặt + thân vẽ bằng SVG) ---------- */
 function heroSVG(char, id) {
   const face = FACES[char];
-  id = char + id;   // mã riêng cho từng hình, tránh trùng nhau
+  id = char + id + "_" + (heroSVG._seq = (heroSVG._seq || 0) + 1);   // mã riêng cho từng hình, tránh trùng nhau
   if (char === "lucie") return `
 <svg class="hero" viewBox="-78 0 218 215" xmlns="http://www.w3.org/2000/svg">
   <defs>
@@ -3758,7 +3758,7 @@ function renderLevels() {
       grid.appendChild(h);
     }
     const t = document.createElement("div");
-    t.className = "lvTile" + (locked ? " locked" : "") + (!locked && lv === p.unlocked && !st ? " next" : "");
+    t.className = "lvTile" + (locked ? " locked" : "") + (!locked && lv === p.unlocked && !st ? " next" : ""); t.tabIndex = 0; t.setAttribute("role", "button");
     t.innerHTML = `<div class="num">Level ${lv}</div><div class="ico">${locked ? "🔒" : L.boss}</div>
       <div class="st">${"⭐".repeat(st)}${"☆".repeat(3 - st)}</div>`;
     t.onclick = () => {
@@ -3776,7 +3776,7 @@ function renderCarPicker() {
   const cur = getCarColor();
   box.innerHTML = `<div class="prev">${heroSVG("lucas", "k")}</div><div><div class="lbl">🎨 Chọn màu xe:</div>
     <div style="display:flex;gap:10px;margin-top:8px">${CAR_COLORS.map((c, i) =>
-      `<div class="sw${i === cur ? " on" : ""}" title="${c.name}" style="background:linear-gradient(${c.top},${c.bot})" onclick="pickColor(${i})"></div>`).join("")}</div>
+      `<div class="sw${i === cur ? " on" : ""}" tabindex="0" role="button" title="${c.name}" style="background:linear-gradient(${c.top},${c.bot})" onclick="pickColor(${i})"></div>`).join("")}</div>
     <div class="bdg">⭐ Huy hiệu trên xe: ${Math.min(10, Math.floor(badgeCount("lucas") / 3))}/10 (cứ qua 3 level được 1 sao)</div></div>`;
 }
 function pickColor(i) {
@@ -3800,7 +3800,7 @@ function resetAll() {
   wipe("lucie"); wipe("lucas"); showProgress(); toast("✅ Đã xóa hết. Cả 2 bạn chơi lại từ Level 1!");
 }
 function resetChar() {
-  const btn = event && event.currentTarget;
+  const btn = (typeof event !== "undefined" && event) ? event.currentTarget : null;
   if (!askTwice(currentChar, btn, "⚠️ Bấm thêm 1 lần nữa để " + CHARS[currentChar].name + " chơi lại từ đầu")) return;
   wipe(currentChar); renderLevels(); toast("✅ " + CHARS[currentChar].name + " chơi lại từ Level 1!");
 }
@@ -3810,7 +3810,7 @@ function unlockAll() {
   const p = loadProg(currentChar); p.unlocked = LEVELS[currentChar].length; saveProg(currentChar, p); renderLevels();
 }
 function backToLevels() {
-  state.running = false; if (typeof G !== "undefined") G.tickle = 0;
+  runId++; state.running = false; if (typeof G !== "undefined") G.tickle = 0; $("caught").classList.remove("show");
   stopTimer();
   $("quizOverlay").classList.remove("show");
   $("winOverlay").classList.remove("show");
@@ -3818,7 +3818,7 @@ function backToLevels() {
 }
 function goHome() {
   state.running = false;
-  setMusic("menu");
+  runId++; $("caught").classList.remove("show"); setMusic("menu");
   stopTimer();
   showProgress();
   showScreen("startScreen");
@@ -3837,7 +3837,7 @@ function startLevel(char, lv) {
   const questions = orderQuestions(char, pool).slice(0, CAU_MOI_LEVEL);
   state = { char, level: lv, questions, idx: 0, score: 0, combo: 0, maxCombo: 0, firstTry: 0, wrongThis: false, coins: 0,
             pos: 0, lane: 1, chase: CHASE_MIN, running: true, paused: false, answered: false, obstacles: [], coinList: [] };
-  $("collectIcon").textContent = C.collect;
+  runId++; $("caught").classList.remove("show"); $("collectIcon").textContent = C.collect;
   showScreen("gameScreen");
   initGL(); resizeGL();
   build3DLevel(char, L, questions.length);
@@ -3936,7 +3936,7 @@ function faceTex(src, ring, helmet) {
     t.needsUpdate = true;
   };
   img.src = src;
-  texCache[key] = t; return t;
+  img.onerror = () => { x.clearRect(0, 0, 256, 256); x.fillStyle = ring; x.beginPath(); x.arc(128, 128, 126, 0, Math.PI * 2); x.fill(); t.needsUpdate = true; }; texCache[key] = t; return t;
 }
 function faceSprite(src, ring, size, helmet) {
   const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: faceTex(src, ring, helmet), transparent: true }));
@@ -3988,8 +3988,8 @@ function resizeGL() {
 }
 function clearLevel() {
   G.level.traverse(o => {
-    if (o.geometry) o.geometry.dispose();
-    if (o.material && !o.material.map) o.material.dispose();
+    if (o.geometry && o.geometry !== G.smokeGeo) o.geometry.dispose();
+    if (o.material) { const mats = Array.isArray(o.material) ? o.material : [o.material]; mats.forEach(m => { if (m.map && !Object.values(texCache).includes(m.map)) m.map.dispose(); m.dispose(); }); }
   });
   G.level.clear();
   G.debris = []; G.flyers = []; G.smoke = [];
@@ -4018,7 +4018,7 @@ function faceTex3D(src, crop, skinMats) {
     const tx = tmp.getContext("2d"); tx.drawImage(img, 0, 0, 200, 200);
     let r = 0, g = 0, b = 0, n = 0;
     [[cx - rx * 0.5, cy + ry * 0.12], [cx + rx * 0.5, cy + ry * 0.12], [cx, cy - ry * 0.45]].forEach(([px, py]) => {
-      const d = tx.getImageData(px - 6, py - 6, 12, 12).data;
+      let d = []; try { d = tx.getImageData(px - 6, py - 6, 12, 12).data; } catch (e) {}
       for (let i = 0; i < d.length; i += 4) if (d[i + 3] > 200) { r += d[i]; g += d[i + 1]; b += d[i + 2]; n++; }
     });
     const skin = n ? `rgb(${r / n | 0},${g / n | 0},${b / n | 0})` : "#f1c9a5";
@@ -4464,7 +4464,7 @@ function chaseBack() {                         // trả lời đúng → bố m�
 }
 function caught() {                            // bị bắt → bị cù lét
   G.tickle = 2.9;
-  const wasQuiz = $("quizOverlay").classList.contains("show") && !state.answered;
+  const rid = runId, wasQuiz = $("quizOverlay").classList.contains("show") && !state.answered;
   stopTimer();
   $("quizOverlay").classList.remove("show");
   const banner = $("caught"); banner.textContent = "🤣 BỊ BẮT RỒI! CÙ LÉT NÀO!"; banner.classList.remove("show"); void banner.offsetWidth; banner.classList.add("show");
@@ -4473,7 +4473,7 @@ function caught() {                            // bị bắt → bị cù lét
   setTimeout(() => G.mom && bubble(G.mom, "Bắt được rồi nhé! 😝", 1800), 700);
   sfxGiggle(); confetti(120);
   setTimeout(() => {
-    state.chase = 2; updateChaseHud();
+    if (rid !== runId || !state.running) return; state.chase = 2; updateChaseHud();
     G.fall.dad = 1.4; G.fall.mom = 1.6; G.parentRel = -7;
     bubble(G.player, "Thoát rồi! 😎", 1500, "kid", 2.6);
     sfxBoing();
@@ -4554,7 +4554,7 @@ function animate3D(dt) {
     P.userData.steer.rotation.z = -lean * 3; P.userData.head.rotation.z = Math.sin(t * 6) * 0.05 - lean * 0.6;
     P.rotation.x = -lean; P.rotation.z = G.jumpT > 0 ? Math.sin((1 - G.jumpT / 0.7) * Math.PI * 2) * 0.3 : 0;
     if (moving && Math.random() < 0.5) {               // khói xe
-      const s = new THREE.Mesh(new THREE.SphereGeometry(0.16, 8, 6), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.7 }));
+      if (!G.smokeGeo) G.smokeGeo = new THREE.SphereGeometry(0.16, 8, 6); const s = new THREE.Mesh(G.smokeGeo, new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.7 }));
       s.position.set(state.pos - 1.2, 0.35, G.pz + rand(-0.3, 0.3)); G.level.add(s); G.smoke.push({ m: s, t: 0 });
     }
   } else {
