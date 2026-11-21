@@ -3,27 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>Giải Rubik 3D • Kociemba</title>
+  <title>Rubik 3D Solver</title>
 
-  <!-- iOS & Android PWA Support -->
+  <!-- iOS & Android PWA -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Giải Rubik" />
+  <meta name="apple-mobile-web-app-title" content="Rubik 3D" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="theme-color" content="#111118" />
+  <meta name="theme-color" content="#0d0d14" />
   <link rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAA9zQYyAAAFqUlEQVR4nO3dPY4cRRiH8d7VTrJagkmsDQyBJSCxfAKfgMwH4AYchxtwAGecwCdATgCJAHwDrybpYJ1Qq3bNR3101Vtv//f5HaDndfPodU9bTF3t9/eP0yC73e2oj0ZH83wY9tk3Vh9EvM/Hqf/WVpF3DZqIESxb6Bl3l6AJGZeEPnqE3TRoQkaJHmE3CZqQsUbLsK9bDQOs1aKlVUETM1pb21TVIwcho6c1jyDFG5qYYaWmtaKgiRnWSpvLDpqYMUpJe1lBEzNGy20wGTQxw4ucFle/hwY8uRg02xnepJo8GzQxw6tLbZ4Mmpjh3blGeYaGlKOg2c7YilOtsqEh5aug2c7YmrhZNjSkPAXNdsZWLdtlQ0MKQUPKzTSNf9z49Pvnrtd/+dM3za959/5t82suPbz70Pya/376q/k1l757+UPX61+y291O83yYrvb7+8dRQfcOOdYi7N4hx1qE3Tvk2KiwhwVtHXKsJmzrkGM1YVuHHLMOe54P9s/Qo2OumWF0zDUzjI551Ax8KYSUa8vHDQ/bOcidxcN2DnJn8bCdA8tZdrtbNjS0mAXtaTsHqZk8becgNZOn7RxYzsSGhhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSzoHv8pO1aqZl6/KTtWqmZRv6k7TmWM7GhIcU0aE9bOncWT1s6dxZPW9p6FjY0pJgH7WFLl87gYUuXzuBhS4+Y4erFi1eP5p/6P46kSONIijJDgw44NOgYhwbVcRE00ApfCiGFoCGFoCGFoCGFoCGFoCHlZvQA0zRN//380PX63/521/yaW3x3vsX7XGroe+jeNzjW4oZv8V83t3ifaw0J2voGx2pu+OhzFmvC3uJ9Xsv8GXr0Ta6ZYXTMNTNs8T63wJdCSDEN2sPWCHJn8bCdg9xZtnifW2FDQ4pZ0J62RpCaydN2DlIzbfE+t8SGhhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSChhSzoD381GosNZOHQ0JjqZm2eJ9bYkNDimnQnrZH7iyetnTuLFu8z62woSHFPGgP26N0Bg9bunSGLd7nFjiSohBHUqQ9uyMpYls8zIZDg455+FvBRdBAK3wphBSChhSChhSChhSChhSChhQXh9f/+eZV1+v/+Mc/za/5/S8fm19z6e9fXze/5t37t82vufTw7kPX6+cY+h66d8ixFmH3DjnWIuzeIcdGhj0kaOuQYzVhW4ccqwnbOuTYiLDNn6FHx1wzw+iYa2YYHfOoGfhSCCmmQXvYzkHuLB62c5A7i4ftHFjPwoaGFLOgPW3nIDWTp+0cpGbytJ0Dy5nY0JBC0JBC0JBC0JBC0JBC0JBC0JBC0JBC0JBC0JBC0JBC0JBC0JBC0JBC0JBC0JBC0JBC0JBC0JBC0JBC0JBC0JBC0JBiFnSPn7RdKzVTj5+0XSs1k4eftI1ZzsSGhpTreT6YfZinLZ07i6ctnTuLpy1tOcs8H9jQ0GIetIctXTqDhy1dOoOHLT1ihqv9/v5xt7s1/+Bp4kiKHBxJkW+eD2ODDjg06BiHBpV7Cnqapml01MAa4eUGXwohhaAh5Sloy/fRQEvLdtnQkPJV0GxpbE3cLBsaUo6CZktjK061yoaGlJNBs6Xh3blGz25oooZXl9q8+MhB1PAm1STP0JCSDJotDS9yWsza0ESN0XIbzH7kIGqMUtJe0TM0UcNaaXPFXwqJGlZqWrtZ80H8Xy7oYc3SXPXajm2N1tY2tfo9NFGjlRYtVT1yxHgEwRotl2KToAPCRokef7s3DTogbFzS8zG1S9DBcnDift6svmt1DXrp1B+IyDWNfFHwBQEa3fIqNd5JAAAAAElFTkSuQmCC" />
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <style>
     :root {
-      --bg: #111118;
-      --surface: #1b1b26;
-      --surface-2: #242433;
-      --border: rgba(255, 255, 255, 0.11);
+      --bg: #0d0d14;
+      --surface: #171722;
+      --surface-2: #222232;
+      --border: rgba(255, 255, 255, 0.1);
       --accent: #a78bfa;
-      --accent-strong: #8b5cf6;
-      --gold: #f59e0b;
+      --accent-strong: #7c3aed;
       --green: #22c55e;
+      --amber: #f59e0b;
       --red: #ef4444;
       --text: #f8fafc;
       --muted: #94a3b8;
@@ -37,43 +37,42 @@
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
       touch-action: manipulation;
     }
-    .app-shell {
+    .app {
       display: flex; flex-direction: column; width: 100%; height: 100dvh;
-      max-width: 540px; margin: 0 auto; padding-top: var(--safe-top);
+      max-width: 520px; margin: 0 auto; padding-top: var(--safe-top);
       background: var(--bg); position: relative;
     }
 
-    /* Top Nav */
-    .top-nav {
-      height: 48px; flex-shrink: 0; display: flex; align-items: center;
+    /* Top Bar */
+    .topbar {
+      height: 46px; flex-shrink: 0; display: flex; align-items: center;
       justify-content: space-between; padding: 0 10px;
-      background: #14141e; border-bottom: 1px solid var(--border); z-index: 600;
+      background: #12121b; border-bottom: 1px solid var(--border); z-index: 600;
     }
-    .nav-tabs { display: flex; gap: 4px; flex: 1; justify-content: center; }
+    .tabs { display: flex; flex: 1; justify-content: center; gap: 4px; }
     .tab-btn {
       background: transparent; border: none; color: var(--muted);
-      font-size: 13px; font-weight: 600; padding: 8px 10px;
-      border-bottom: 2px solid transparent; cursor: pointer;
-      display: flex; align-items: center; gap: 5px;
+      font-size: 13px; font-weight: 700; padding: 10px 14px;
+      border-bottom: 2px solid transparent; cursor: pointer; transition: color 0.15s;
     }
     .tab-btn.active { color: #fff; border-bottom-color: var(--accent); }
     .icon-btn {
       width: 34px; height: 34px; border-radius: 10px; border: 1px solid var(--border);
       background: var(--surface); color: var(--text); font-size: 16px;
-      display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
     }
-    .icon-btn:active { transform: scale(0.94); }
+    .icon-btn:active { transform: scale(0.92); }
 
     .panel { display: none; flex: 1; flex-direction: column; overflow: hidden; position: relative; }
     .panel.active { display: flex; }
 
-    /* ================= PANEL 1: CAMERA SCANNER ================= */
-    .cam-section {
-      height: 45%; min-height: 230px; flex-shrink: 0; display: flex; flex-direction: column;
-      background: #0a0a10; position: relative; border-bottom: 1px solid var(--border);
+    /* ================= TAB 1: CAMERA + 3D ================= */
+    .cam-half {
+      height: 46%; min-height: 225px; flex-shrink: 0; display: flex; flex-direction: column;
+      background: #06060a; position: relative; border-bottom: 1px solid var(--border);
     }
     .cam-stage {
-      flex: 1; position: relative; overflow: hidden; background: #07070c;
+      flex: 1; position: relative; overflow: hidden; background: #050509;
       display: flex; align-items: center; justify-content: center;
     }
     #liveVideo {
@@ -81,384 +80,310 @@
       object-fit: cover; z-index: 1; background: #000;
     }
     #liveVideo::-webkit-media-controls,
-    #liveVideo::-webkit-media-controls-start-playback-button {
-      display: none !important; -webkit-appearance: none;
-    }
-    #photoPreviewCanvas {
-      position: absolute; inset: 0; width: 100%; height: 100%;
-      object-fit: cover; z-index: 2; display: none;
-    }
-    .cam-top-hud {
-      position: absolute; top: 6px; left: 8px; right: 8px; z-index: 30;
-      background: rgba(17, 17, 26, 0.85); backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(245, 158, 11, 0.45); border-radius: 10px;
-      padding: 6px 10px; text-align: center; pointer-events: none;
-    }
-    .cam-hud-title { font-size: 12px; font-weight: 700; color: #fde68a; line-height: 1.25; }
-    .cam-hud-sub { font-size: 11px; color: #cbd5e1; margin-top: 2px; }
+    #liveVideo::-webkit-media-controls-start-playback-button { display: none !important; -webkit-appearance: none; }
 
-    .cam-start-overlay {
-      position: absolute; inset: 0; z-index: 25; display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      background: radial-gradient(circle at center, rgba(30,27,48,0.88), rgba(10,10,16,0.96));
-      gap: 10px; padding-top: 34px;
+    /* Capture Flash */
+    .cam-flash {
+      position: absolute; inset: 0; z-index: 40; background: #fff;
+      opacity: 0; pointer-events: none; transition: opacity 0.22s ease-out;
     }
-    .cam-start-overlay.hidden { display: none; }
-    .cam-big-btn {
+    .cam-flash.active { opacity: 0.75; transition: none; }
+
+    /* Start Camera Overlay */
+    .cam-overlay {
+      position: absolute; inset: 0; z-index: 30; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 10px;
+      background: radial-gradient(circle, rgba(24,24,38,0.9), rgba(8,8,14,0.98));
+    }
+    .cam-overlay.hidden { display: none; }
+    .btn-primary {
       background: linear-gradient(135deg, #8b5cf6, #6366f1); color: #fff; border: none;
-      border-radius: 14px; padding: 12px 20px; font-size: 14px; font-weight: 700;
-      box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4); cursor: pointer;
-      display: flex; align-items: center; gap: 8px;
+      border-radius: 14px; padding: 12px 22px; font-size: 14px; font-weight: 700;
+      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.45); cursor: pointer;
     }
-    .cam-start-hint { font-size: 11px; color: var(--muted); text-align: center; max-width: 260px; }
+    .btn-primary:active { transform: scale(0.95); }
 
-    .scan-grid-wrap {
-      position: absolute; top: 54%; left: 50%; transform: translate(-50%, -50%);
-      width: min(52vw, 178px); height: min(52vw, 178px); z-index: 20;
+    /* 3x3 Scanning Grid */
+    .scan-grid {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      width: min(50vw, 174px); height: min(50vw, 174px); z-index: 20;
       display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr);
-      gap: 5px; padding: 5px; border: 2px solid rgba(245, 158, 11, 0.85); border-radius: 12px;
-      box-shadow: 0 0 0 999px rgba(0, 0, 0, 0.36); pointer-events: none;
+      gap: 5px; padding: 5px; border: 2px solid rgba(255, 255, 255, 0.4); border-radius: 12px;
+      box-shadow: 0 0 0 999px rgba(0, 0, 0, 0.42); pointer-events: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .scan-grid.ready {
+      border-color: var(--green);
+      box-shadow: 0 0 0 999px rgba(0, 0, 0, 0.42), 0 0 18px rgba(34, 197, 94, 0.65);
     }
     .scan-cell {
-      border: 2px solid rgba(255, 255, 255, 0.55); border-radius: 7px; position: relative;
-      display: flex; align-items: flex-end; justify-content: center; padding-bottom: 3px;
-      cursor: pointer; pointer-events: auto; background: rgba(0,0,0,0.06);
-      transition: border-color 0.12s, transform 0.1s;
+      border: 2px solid rgba(255, 255, 255, 0.35); border-radius: 7px;
+      position: relative; display: flex; align-items: flex-end; justify-content: center;
+      padding-bottom: 2px; background: rgba(0,0,0,0.04); pointer-events: none;
     }
-    .scan-cell:active { transform: scale(0.93); }
     .scan-cell.locked::after {
       content: ""; position: absolute; top: 3px; right: 3px;
-      width: 6px; height: 6px; border-radius: 50%;
-      background: #22c55e; box-shadow: 0 0 4px #000;
+      width: 5px; height: 5px; border-radius: 50%; background: var(--green);
     }
-    .scan-cell-tag {
-      font-size: 9px; font-weight: 800; padding: 1px 4px; border-radius: 4px;
-      background: rgba(0, 0, 0, 0.75); color: #fff; line-height: 1.2;
+    .scan-tag {
+      font-size: 8.5px; font-weight: 800; padding: 1px 4px; border-radius: 4px;
+      background: rgba(0,0,0,0.72); color: #fff; line-height: 1.15;
     }
 
-    .cam-toolbar {
-      height: 42px; flex-shrink: 0; display: flex; align-items: center;
-      justify-content: center; gap: 6px; padding: 0 8px;
-      background: #14141e; border-top: 1px solid var(--border); z-index: 500;
+    /* Hold-steady circular/bar progress under grid */
+    .hold-bar-wrap {
+      position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+      width: min(50vw, 174px); height: 5px; border-radius: 99px;
+      background: rgba(255,255,255,0.16); overflow: hidden; z-index: 22; pointer-events: none;
     }
-    .tool-pill {
-      flex: 1; height: 30px; border-radius: 8px; border: 1px solid var(--border);
-      background: var(--surface-2); color: var(--text); font-size: 11px; font-weight: 600;
-      display: flex; align-items: center; justify-content: center; gap: 4px;
-      cursor: pointer; white-space: nowrap; padding: 0 6px;
+    .hold-bar-fill {
+      height: 100%; width: 0%; background: linear-gradient(90deg, #a78bfa, #22c55e);
+      transition: width 0.08s linear;
     }
-    .tool-pill.active-green { background: rgba(34, 197, 94, 0.18); border-color: rgba(34, 197, 94, 0.65); color: #86efac; }
-    .tool-pill.active-amber { background: rgba(245, 158, 11, 0.22); border-color: rgba(245, 158, 11, 0.75); color: #fde68a; }
 
-    /* Bottom Half */
-    .preview-section {
-      flex: 1; display: flex; flex-direction: column; background: var(--bg);
-      position: relative; overflow: hidden; padding-bottom: calc(10px + var(--safe-bottom));
+    /* Minimal floating cam controls */
+    .cam-fab-left, .cam-fab-right {
+      position: absolute; top: 10px; z-index: 25;
+      height: 32px; padding: 0 10px; border-radius: 99px;
+      border: 1px solid rgba(255,255,255,0.18); background: rgba(15,15,24,0.72);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      color: #fff; font-size: 11px; font-weight: 700; cursor: pointer;
+      display: flex; align-items: center; gap: 5px;
     }
-    .face-pills {
-      display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px;
-      padding: 6px 8px 4px; flex-shrink: 0; z-index: 50;
-    }
-    .face-pill {
-      height: 26px; border-radius: 7px; border: 1px solid var(--border);
-      background: var(--surface); color: var(--muted); font-size: 10px; font-weight: 700;
-      display: flex; align-items: center; justify-content: center; gap: 3px; cursor: pointer; padding: 0 2px;
-    }
-    .face-pill .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-    .face-pill.active { border-color: var(--accent); background: rgba(167, 139, 250, 0.18); color: #fff; }
-    .face-pill.done { border-color: rgba(34, 197, 94, 0.55); color: #bbf7d0; }
+    .cam-fab-left { left: 10px; }
+    .cam-fab-right { right: 10px; }
+    .cam-fab-left:active, .cam-fab-right:active { transform: scale(0.94); }
 
-    .guide-box {
-      margin: 2px 8px 0; padding: 7px 10px; border-radius: 10px;
-      background: var(--surface); border: 1px solid rgba(167, 139, 250, 0.35);
-      display: flex; align-items: center; gap: 8px; flex-shrink: 0; z-index: 50;
+    /* Bottom Half: Centerpiece 3D Cube */
+    .cube-half {
+      flex: 1; display: flex; flex-direction: column; position: relative;
+      background: radial-gradient(circle at 50% 42%, #1b1b2b 0%, #0d0d14 75%);
+      overflow: hidden; padding-bottom: var(--safe-bottom);
     }
-    .guide-arrow {
-      width: 32px; height: 32px; border-radius: 8px; background: rgba(139, 92, 246, 0.22);
-      display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;
+    .face-dots {
+      display: flex; justify-content: center; gap: 6px; padding: 10px 10px 0; z-index: 20;
     }
-    .guide-text-wrap { flex: 1; min-width: 0; }
-    .guide-main { font-size: 12px; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .guide-sub { font-size: 10.5px; color: var(--muted); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .fdot {
+      display: flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 99px;
+      background: rgba(255,255,255,0.06); border: 1px solid transparent;
+      font-size: 10px; font-weight: 700; color: var(--muted); cursor: pointer;
+    }
+    .fdot .c { width: 8px; height: 8px; border-radius: 50%; }
+    .fdot.active { border-color: var(--accent); color: #fff; background: rgba(167,139,250,0.16); }
+    .fdot.done { border-color: rgba(34,197,94,0.5); color: #86efac; }
 
-    .cube3d-wrap { flex: 1; position: relative; min-height: 110px; width: 100%; }
-    #scanCubeCanvas { width: 100%; height: 100%; display: block; }
+    .cube-stage {
+      flex: 1; position: relative; width: 100%; min-height: 180px;
+    }
+    #scanCanvas { width: 100%; height: 100%; display: block; }
 
-    .bottom-actions {
-      display: flex; align-items: center; gap: 8px; padding: 4px 10px 2px; flex-shrink: 0; z-index: 999;
+    /* Curved Arrow Overlay on 3D Cube */
+    .turn-arrow-overlay {
+      position: absolute; inset: 0; pointer-events: none; z-index: 15;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.2s;
     }
-    .btn-sec {
-      height: 40px; padding: 0 10px; border-radius: 12px; border: 1px solid var(--border);
-      background: var(--surface-2); color: var(--text); font-size: 12px; font-weight: 600;
-      cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; white-space: nowrap;
+    .turn-arrow-overlay.show { opacity: 1; }
+    .turn-arrow-svg {
+      width: 190px; height: 190px;
+      filter: drop-shadow(0 0 12px rgba(167, 139, 250, 0.85));
     }
-    .btn-next {
-      flex: 1; height: 42px; border-radius: 14px; border: none;
-      background: linear-gradient(135deg, #8b5cf6, #6366f1); color: #fff;
-      font-size: 14px; font-weight: 800; cursor: pointer;
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      box-shadow: 0 6px 20px rgba(139, 92, 246, 0.42);
-    }
-    .btn-next.finish { background: linear-gradient(135deg, #16a34a, #059669); box-shadow: 0 6px 20px rgba(22, 163, 74, 0.42); }
-    .btn-next:active, .btn-sec:active { transform: scale(0.96); }
 
-    /* ================= PANEL 2: 2D NET EDITOR ================= */
-    .net-panel-inner {
-      flex: 1; display: flex; flex-direction: column; padding: 10px; gap: 10px;
-      overflow-y: auto; padding-bottom: calc(16px + var(--safe-bottom));
+    .scan-status-pill {
+      position: absolute; bottom: calc(10px + var(--safe-bottom)); left: 50%; transform: translateX(-50%);
+      padding: 6px 14px; border-radius: 99px; background: rgba(20,20,32,0.85);
+      border: 1px solid var(--border); font-size: 12px; font-weight: 700; color: #e2e8f0;
+      white-space: nowrap; z-index: 20; pointer-events: none;
     }
-    .palette-bar {
-      display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px;
-      background: var(--surface); padding: 8px; border-radius: 12px; border: 1px solid var(--border);
+
+    /* ================= TAB 2: 3D INSPECT & TAP-TO-EDIT ================= */
+    .edit-cube-stage { flex: 1; position: relative; min-height: 220px; }
+    #editCanvas { width: 100%; height: 100%; display: block; }
+    .edit-status {
+      margin: 8px 12px 0; padding: 8px 12px; border-radius: 12px;
+      background: var(--surface); border: 1px solid var(--border);
+      font-size: 12px; font-weight: 600; text-align: center; color: #e2e8f0;
     }
+    .edit-status.err { border-color: rgba(239,68,68,0.6); color: #fca5a5; }
+    .edit-status.ok { border-color: rgba(34,197,94,0.6); color: #86efac; }
+    .palette-dock {
+      padding: 10px 12px calc(12px + var(--safe-bottom));
+      background: #12121b; border-top: 1px solid var(--border);
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .palette-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
     .pal-btn {
-      display: flex; flex-direction: column; align-items: center; gap: 3px;
-      padding: 6px 2px; border-radius: 8px; border: 2px solid transparent;
-      background: var(--surface-2); color: #fff; font-size: 10px; font-weight: 700; cursor: pointer;
+      height: 44px; border-radius: 10px; border: 2px solid transparent;
+      background: var(--surface-2); display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 2px; cursor: pointer;
     }
-    .pal-btn.selected { border-color: #fff; box-shadow: 0 0 10px rgba(255,255,255,0.28); }
-    .pal-swatch { width: 22px; height: 22px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.3); }
-    .net-grid-container {
-      display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(3, 1fr);
-      gap: 6px; max-width: 360px; width: 100%; margin: 0 auto;
+    .pal-btn.selected { border-color: #fff; transform: translateY(-2px); }
+    .pal-dot { width: 18px; height: 18px; border-radius: 5px; border: 1px solid rgba(0,0,0,0.3); }
+    .pal-cnt { font-size: 10px; font-weight: 800; color: #cbd5e1; }
+    .edit-actions { display: flex; gap: 8px; }
+    .btn-ghost {
+      flex: 1; height: 42px; border-radius: 12px; border: 1px solid var(--border);
+      background: var(--surface-2); color: #fff; font-size: 13px; font-weight: 700; cursor: pointer;
     }
-    .net-face {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
-      background: #0d0d14; padding: 3px; border-radius: 6px; border: 1px solid var(--border); position: relative;
-    }
-    .net-face-label {
-      position: absolute; top: -1px; left: 3px; font-size: 8px; font-weight: 800;
-      color: rgba(255,255,255,0.65); pointer-events: none;
-    }
-    .net-sticker { aspect-ratio: 1; border-radius: 3px; cursor: pointer; border: 1px solid rgba(0,0,0,0.35); position: relative; }
-    @keyframes pulseSuspect {
-      0%, 100% { box-shadow: 0 0 0 2px #ef4444, 0 0 10px #ef4444; transform: scale(1); }
-      50% { box-shadow: 0 0 0 3px #facc15, 0 0 14px #facc15; transform: scale(1.08); }
-    }
-    .net-sticker.suspect {
-      animation: pulseSuspect 0.9s infinite;
-      z-index: 10;
-    }
-    .net-status {
-      background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
-      padding: 10px; font-size: 12px; line-height: 1.45; color: #e2e8f0;
+    .btn-solve {
+      flex: 1.6; height: 42px; border-radius: 12px; border: none;
+      background: linear-gradient(135deg, #16a34a, #059669); color: #fff;
+      font-size: 14px; font-weight: 800; cursor: pointer;
     }
 
-    /* ================= PANEL 3: 3D SOLVER ================= */
-    .solver-header { padding: 8px 10px; background: var(--surface); border-bottom: 1px solid var(--border); flex-shrink: 0; }
-    .progress-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 700; margin-bottom: 5px; }
-    .progress-track { height: 6px; background: var(--surface-2); border-radius: 99px; overflow: hidden; }
-    .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #8b5cf6, #22c55e); transition: width 0.25s; }
-    .move-banner {
-      margin: 8px 10px 0; padding: 10px 12px; border-radius: 12px;
-      background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.14));
-      border: 1px solid rgba(167, 139, 250, 0.45); display: flex; align-items: center; gap: 12px; flex-shrink: 0;
+    /* ================= TAB 3: KOCIEMBA 3D SOLVER ================= */
+    .solve-top {
+      padding: 10px 14px 6px; display: flex; flex-direction: column; gap: 6px; flex-shrink: 0;
     }
-    .move-code-badge {
-      width: 52px; height: 52px; border-radius: 12px; background: var(--accent-strong);
-      color: #fff; font-size: 24px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    .solve-meta {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 12px; font-weight: 700; color: var(--muted);
     }
-    .move-desc-title { font-size: 14px; font-weight: 800; color: #fff; }
-    .move-desc-sub { font-size: 12px; color: #cbd5e1; margin-top: 2px; }
-    .solver-3d-stage { flex: 1; position: relative; min-height: 180px; }
-    #solverCubeCanvas { width: 100%; height: 100%; display: block; }
+    .prog-bar { height: 5px; background: var(--surface-2); border-radius: 99px; overflow: hidden; }
+    .prog-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #8b5cf6, #22c55e); transition: width 0.25s; }
+    .move-hero {
+      display: flex; align-items: center; justify-content: center; gap: 12px; padding: 4px 12px 0;
+    }
+    .move-badge {
+      min-width: 52px; height: 44px; padding: 0 12px; border-radius: 12px;
+      background: var(--accent-strong); color: #fff; font-size: 22px; font-weight: 900;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .move-text { font-size: 14px; font-weight: 700; color: #fff; }
+    .solver-stage { flex: 1; position: relative; min-height: 200px; }
+    #solverCanvas { width: 100%; height: 100%; display: block; }
     .moves-strip {
-      display: flex; gap: 5px; overflow-x: auto; padding: 6px 10px;
-      background: #14141e; border-top: 1px solid var(--border); flex-shrink: 0; scrollbar-width: none;
+      display: flex; gap: 6px; overflow-x: auto; padding: 8px 12px;
+      background: #12121b; border-top: 1px solid var(--border); scrollbar-width: none; flex-shrink: 0;
     }
     .moves-strip::-webkit-scrollbar { display: none; }
-    .move-chip {
-      padding: 5px 9px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--border);
-      color: var(--muted); font-size: 12px; font-weight: 700; flex-shrink: 0; cursor: pointer;
+    .mchip {
+      padding: 6px 10px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--border);
+      color: var(--muted); font-size: 12px; font-weight: 800; flex-shrink: 0; cursor: pointer;
     }
-    .move-chip.done { background: rgba(34, 197, 94, 0.18); border-color: rgba(34, 197, 94, 0.5); color: #86efac; }
-    .move-chip.current { background: var(--accent-strong); border-color: #fff; color: #fff; transform: scale(1.06); }
-    .solver-controls {
-      display: flex; flex-direction: column; gap: 6px; padding: 8px 10px calc(10px + var(--safe-bottom));
-      background: #14141e; border-top: 1px solid var(--border); flex-shrink: 0;
+    .mchip.done { background: rgba(34,197,94,0.18); border-color: rgba(34,197,94,0.5); color: #86efac; }
+    .mchip.cur { background: var(--accent-strong); border-color: #fff; color: #fff; }
+
+    .solver-dock {
+      padding: 8px 12px calc(12px + var(--safe-bottom));
+      background: #12121b; border-top: 1px solid var(--border);
+      display: flex; flex-direction: column; gap: 8px; flex-shrink: 0;
     }
-    .solver-btn-row { display: flex; gap: 6px; }
-    .speed-row { display: flex; align-items: center; justify-content: space-between; gap: 6px; font-size: 11px; color: var(--muted); }
-    .speed-pill {
-      flex: 1; height: 26px; border-radius: 7px; border: 1px solid var(--border);
-      background: var(--surface); color: var(--muted); font-size: 11px; font-weight: 600; cursor: pointer;
+    .ctrl-row { display: flex; gap: 8px; }
+    .speed-row { display: flex; gap: 6px; }
+    .sp-btn {
+      flex: 1; height: 28px; border-radius: 8px; border: 1px solid var(--border);
+      background: var(--surface); color: var(--muted); font-size: 11px; font-weight: 700; cursor: pointer;
     }
-    .speed-pill.active { background: rgba(167, 139, 250, 0.22); border-color: var(--accent); color: #fff; }
+    .sp-btn.active { background: rgba(167,139,250,0.22); border-color: var(--accent); color: #fff; }
 
     .toast {
-      position: fixed; top: calc(56px + var(--safe-top)); left: 50%;
-      transform: translateX(-50%) translateY(-16px);
-      background: rgba(20, 20, 32, 0.96); border: 1px solid var(--accent); color: #fff;
-      padding: 8px 14px; border-radius: 99px; font-size: 12px; font-weight: 700;
-      opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s;
-      z-index: 2000; white-space: nowrap; max-width: 92vw; overflow: hidden; text-overflow: ellipsis;
+      position: fixed; top: calc(54px + var(--safe-top)); left: 50%;
+      transform: translateX(-50%) translateY(-12px);
+      background: rgba(20,20,34,0.95); border: 1px solid var(--accent); color: #fff;
+      padding: 7px 14px; border-radius: 99px; font-size: 12px; font-weight: 700;
+      opacity: 0; pointer-events: none; transition: opacity 0.18s, transform 0.18s; z-index: 2000;
+      white-space: nowrap;
     }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-    .turn-modal {
-      position: fixed; inset: 0; z-index: 1500; background: rgba(8, 8, 14, 0.86);
-      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-      display: none; align-items: center; justify-content: center; padding: 20px;
-    }
-    .turn-modal.show { display: flex; }
-    .turn-card {
-      width: 100%; max-width: 330px; background: var(--surface);
-      border: 1px solid rgba(167, 139, 250, 0.55); border-radius: 20px;
-      padding: 18px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-    }
-    .turn-mini-grid {
-      width: 84px; height: 84px; margin: 0 auto 10px; display: grid;
-      grid-template-columns: repeat(3, 1fr); gap: 3px; background: #0b0b12; padding: 4px; border-radius: 8px;
-    }
-    .turn-mini-cell { border-radius: 3px; }
-    .turn-big-arrow { font-size: 46px; line-height: 1.1; margin: 6px 0; }
-    .turn-title { font-size: 16px; font-weight: 800; color: #fde68a; }
-    .turn-desc { font-size: 13px; color: #e2e8f0; margin: 6px 0 14px; line-height: 1.4; }
   </style>
 </head>
 <body>
-<div class="app-shell">
-  <header class="top-nav">
-    <button class="icon-btn" id="btnResetAll" title="Làm lại từ đầu">↺</button>
-    <div class="nav-tabs">
-      <button class="tab-btn active" data-tab="scan">📷 Máy ảnh</button>
-      <button class="tab-btn" data-tab="net">🎨 Sơ đồ 2D</button>
-      <button class="tab-btn" data-tab="solve">🧊 Giải 3D</button>
+<div class="app">
+  <header class="topbar">
+    <button class="icon-btn" id="btnReset" title="Làm mới">↺</button>
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="scan">Máy ảnh</button>
+      <button class="tab-btn" data-tab="edit">Khối 3D</button>
+      <button class="tab-btn" data-tab="solve">Giải</button>
     </div>
-    <button class="icon-btn" id="btnVoiceToggle" title="Bật/tắt giọng nói">🔊</button>
+    <button class="icon-btn" id="btnTest" title="Chạy thử">⚡</button>
   </header>
 
-  <!-- ==================== TAB 1: CAMERA SCAN ==================== -->
+  <!-- ==================== TAB 1: CAMERA + 3D ==================== -->
   <section class="panel active" id="panel-scan">
-    <div class="cam-section">
+    <div class="cam-half">
       <div class="cam-stage">
         <video id="liveVideo" autoplay playsinline webkit-playsinline muted></video>
-        <canvas id="photoPreviewCanvas"></canvas>
+        <div class="cam-flash" id="camFlash"></div>
 
-        <div class="cam-top-hud">
-          <div class="cam-hud-title" id="hudTitle">MẶT 1/6: MẶT TRƯỚC (TÂM XANH LÁ)</div>
-          <div class="cam-hud-sub" id="hudSub">Giữ mặt Trắng ở Trên • Chấm xanh = đã chốt ổn định 8 khung</div>
+        <button class="cam-fab-left" id="btnToggleCam">🎥 Bật</button>
+        <button class="cam-fab-right" id="btnFlipCam">🔄 Đổi cam</button>
+
+        <div class="cam-overlay" id="camOverlay">
+          <button class="btn-primary" id="btnStartCamBig">🎥 Bật Camera</button>
         </div>
 
-        <div class="cam-start-overlay" id="camStartOverlay">
-          <button class="cam-big-btn" id="btnBigStartCam">🎥 CHẠM ĐỂ BẬT CAMERA</button>
-          <div class="cam-start-hint">Hoặc bấm "Chụp mặt" để chụp bằng Camera gốc iPhone</div>
-        </div>
-
-        <div class="scan-grid-wrap" id="scanGrid"></div>
+        <div class="scan-grid" id="scanGrid"></div>
+        <div class="hold-bar-wrap"><div class="hold-bar-fill" id="holdBar"></div></div>
       </div>
-
-      <div class="cam-toolbar">
-        <button class="tool-pill" id="btnToggleCam">🎥 Bật Cam</button>
-        <button class="tool-pill" id="btnPhotoCapture">📸 Chụp mặt</button>
-        <button class="tool-pill" id="btnFreeze">❄️ Khoá màu</button>
-        <button class="tool-pill" id="btnFlipCam">🔄 Đổi cam</button>
-      </div>
-      <input type="file" id="nativeCameraInput" accept="image/*" capture="environment" style="display:none" />
     </div>
 
-    <div class="preview-section">
-      <div class="face-pills" id="facePills"></div>
-
-      <div class="guide-box" id="guideBox">
-        <div class="guide-arrow" id="guideArrow">🎯</div>
-        <div class="guide-text-wrap">
-          <div class="guide-main" id="guideMain">Đưa MẶT TRƯỚC (Tâm Xanh Lá) vào khung</div>
-          <div class="guide-sub" id="guideSub">CIELAB ΔE2000 + Tự hiệu chỉnh tâm • Đúng 9 màu bấm TIẾP TỤC ➔</div>
-        </div>
+    <div class="cube-half">
+      <div class="face-dots" id="faceDots"></div>
+      <div class="cube-stage">
+        <canvas id="scanCanvas"></canvas>
+        <div class="turn-arrow-overlay" id="turnArrowOverlay"></div>
       </div>
+      <div class="scan-status-pill" id="scanStatusPill">Đưa mặt Xanh Lá (Trắng ở trên)</div>
+    </div>
+  </section>
 
-      <div class="cube3d-wrap">
-        <canvas id="scanCubeCanvas"></canvas>
-      </div>
-
-      <div class="bottom-actions">
-        <button class="btn-sec" id="btnPrevFace">⬅️ Trước</button>
-        <button class="btn-next" id="btnNextFace">TIẾP TỤC (1/6) ➔</button>
-        <button class="btn-sec" id="btnQuickTest">⚡ Test</button>
+  <!-- ==================== TAB 2: 3D INSPECT & EDIT ==================== -->
+  <section class="panel" id="panel-edit">
+    <div class="edit-status" id="editStatus">Chạm ô trên khối 3D để sửa màu</div>
+    <div class="edit-cube-stage">
+      <canvas id="editCanvas"></canvas>
+    </div>
+    <div class="palette-dock">
+      <div class="palette-row" id="paletteRow"></div>
+      <div class="edit-actions">
+        <button class="btn-ghost" id="btnBackScan">Quét lại</button>
+        <button class="btn-solve" id="btnRunSolve">Giải Kociemba ➔</button>
       </div>
     </div>
   </section>
 
-  <!-- ==================== TAB 2: 2D NET EDITOR ==================== -->
-  <section class="panel" id="panel-net">
-    <div class="net-panel-inner">
-      <div style="font-size:12px;color:var(--muted);text-align:center;">
-        Chọn màu bên dưới rồi chạm vào ô trên sơ đồ 2D để sửa (ô nhấp nháy đỏ/vàng là ô nghi ngờ nhất)
-      </div>
-      <div class="palette-bar" id="paletteBar"></div>
-      <div class="net-grid-container" id="netGrid"></div>
-      <div class="net-status" id="netStatus">Đang kiểm tra 54 ô màu...</div>
-      <div style="display:flex;gap:8px;">
-        <button class="btn-sec" style="flex:1" id="btnBackToScan">📷 Quay lại quét</button>
-        <button class="btn-next finish" style="flex:1.5" id="btnSolveFromNet">🧊 PHÂN TÍCH & GIẢI ➔</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==================== TAB 3: 3D SOLVER ==================== -->
+  <!-- ==================== TAB 3: KOCIEMBA 3D SOLVER ==================== -->
   <section class="panel" id="panel-solve">
-    <div class="solver-header">
-      <div class="progress-row">
-        <span id="solveProgressLabel">Bước 0 / 0</span>
-        <span id="solvePctLabel">0%</span>
+    <div class="solve-top">
+      <div class="solve-meta">
+        <span id="solveStepText">0 / 0</span>
+        <span id="solvePctText">0%</span>
       </div>
-      <div class="progress-track">
-        <div class="progress-fill" id="solveProgressFill"></div>
-      </div>
-    </div>
-
-    <div class="move-banner">
-      <div class="move-code-badge" id="moveBadge">✓</div>
-      <div>
-        <div class="move-desc-title" id="moveTitle">Sẵn sàng giải Rubik</div>
-        <div class="move-desc-sub" id="moveSub">Giữ mặt Xanh Lá hướng về bạn, mặt Trắng ở Trên</div>
+      <div class="prog-bar"><div class="prog-fill" id="solveProgFill"></div></div>
+      <div class="move-hero">
+        <div class="move-badge" id="moveBadge">✓</div>
+        <div class="move-text" id="moveText">Sẵn sàng</div>
       </div>
     </div>
 
-    <div class="solver-3d-stage">
-      <canvas id="solverCubeCanvas"></canvas>
+    <div class="solver-stage">
+      <canvas id="solverCanvas"></canvas>
     </div>
 
     <div class="moves-strip" id="movesStrip"></div>
 
-    <div class="solver-controls">
-      <div class="solver-btn-row">
-        <button class="btn-sec" style="flex:1" id="btnStepPrev">◀ Lùi</button>
-        <button class="btn-next" style="flex:1.4" id="btnPlayPause">▶ Tự chạy</button>
-        <button class="btn-sec" style="flex:1" id="btnStepNext">Tiếp ▶</button>
+    <div class="solver-dock">
+      <div class="ctrl-row">
+        <button class="btn-ghost" id="btnPrevMove">◀ Lùi</button>
+        <button class="btn-primary" style="flex:1.4;padding:0;height:42px;border-radius:12px;" id="btnPlayPause">▶ Chạy</button>
+        <button class="btn-ghost" id="btnNextMove">Tiếp ▶</button>
       </div>
       <div class="speed-row">
-        <span>Tốc độ:</span>
-        <button class="speed-pill" data-speed="2400">Chậm 2.4s</button>
-        <button class="speed-pill active" data-speed="1400">Vừa 1.4s</button>
-        <button class="speed-pill" data-speed="800">Nhanh 0.8s</button>
+        <button class="sp-btn" data-ms="1300">Chậm</button>
+        <button class="sp-btn active" data-ms="750">Vừa</button>
+        <button class="sp-btn" data-ms="420">Nhanh</button>
       </div>
     </div>
   </section>
-</div>
-
-<!-- Turn Guidance Modal -->
-<div class="turn-modal" id="turnModal">
-  <div class="turn-card">
-    <div style="font-size:12px;color:#86efac;font-weight:700;margin-bottom:6px;" id="turnSavedLabel">✓ Đã lưu Mặt 1/6</div>
-    <div class="turn-mini-grid" id="turnMiniGrid"></div>
-    <div class="turn-big-arrow" id="turnBigArrow">⬅️</div>
-    <div class="turn-title" id="turnTitle">XOAY KHỐI SANG TRÁI 90°</div>
-    <div class="turn-desc" id="turnDesc">Đưa mặt Tâm Đỏ (bên phải) ra phía trước Camera, giữ nguyên mặt Trắng ở Trên.</div>
-    <div style="display:flex;gap:8px;">
-      <button class="btn-sec" style="flex:1" id="btnTurnRedo">Quét lại</button>
-      <button class="btn-next" style="flex:1.5" id="btnTurnOk">Đã xoay xong ➔</button>
-    </div>
-  </div>
 </div>
 
 <div class="toast" id="toast"></div>
 <canvas id="sampleCanvas" width="180" height="180" style="display:none"></canvas>
 
 <script>
-// ==================== CONSTANTS & COLOR DEFINITIONS ====================
+// ==================== CONSTANTS ====================
 const COLORS = {
   U: { name: 'Trắng',      short: 'Trắng',   hex: '#f8fafc', text: '#0f172a' },
   R: { name: 'Đỏ',         short: 'Đỏ',      hex: '#ef4444', text: '#ffffff' },
@@ -470,182 +395,22 @@ const COLORS = {
 const COLOR_KEYS = ['U', 'R', 'F', 'D', 'L', 'B'];
 const FACE_OFFSET = { U: 0, R: 9, F: 18, D: 27, L: 36, B: 45 };
 
-// Default CIELAB (D65) reference values for standard Rubik stickers
-const DEFAULT_LAB_REF = {
-  U: [92,   0,   2],   // White: high L*, low chroma
-  R: [45,  64,  34],   // Red: lower Lab hue (~28 deg)
-  L: [64,  46,  62],   // Orange: higher Lab hue (~53 deg)
-  D: [86,  -4,  78],   // Yellow: very high b*, high L*
-  F: [56, -54,  34],   // Green: negative a*
-  B: [36,  14, -56],   // Blue: strongly negative b*
-};
-
+// Scan order: F(Green) -> R(Red) -> B(Blue) -> L(Orange) -> U(White) -> D(Yellow)
+// Diagonal isometric-like tilt showing 3 faces around each target face
 const SCAN_ORDER = [
-  {
-    face: 'F', short: '1.Trước', title: 'MẶT 1/6: MẶT TRƯỚC (TÂM XANH LÁ)',
-    sub: 'Giữ mặt Trắng ở Trên • Chấm xanh = đã chốt 8 khung liên tiếp',
-    hold: 'Đưa mặt TÂM XANH LÁ vào khung, giữ Tâm Trắng ở Trên',
-    rotY: 0, rotX: 0.25, nextArrow: '⬅️',
-    nextTitle: 'XOAY KHỐI SANG TRÁI 90°',
-    nextDesc: 'Xoay cả khối sang trái để đưa mặt TÂM ĐỎ (bên phải) ra trước Camera. Giữ nguyên mặt Trắng ở Trên.'
-  },
-  {
-    face: 'R', short: '2.Phải', title: 'MẶT 2/6: MẶT PHẢI (TÂM ĐỎ)',
-    sub: 'Vẫn giữ mặt Trắng ở Trên • Tự hiệu chỉnh màu theo tâm Đỏ',
-    hold: 'Đưa mặt TÂM ĐỎ vào khung, giữ Tâm Trắng ở Trên',
-    rotY: -Math.PI/2, rotX: 0.25, nextArrow: '⬅️',
-    nextTitle: 'XOAY KHỐI SANG TRÁI 90°',
-    nextDesc: 'Tiếp tục xoay cả khối sang trái để đưa mặt TÂM XANH DƯƠNG ra trước Camera. Giữ mặt Trắng ở Trên.'
-  },
-  {
-    face: 'B', short: '3.Sau', title: 'MẶT 3/6: MẶT SAU (TÂM XANH DƯƠNG)',
-    sub: 'Vẫn giữ mặt Trắng ở Trên • Chạm ô bất kỳ nếu muốn sửa tay',
-    hold: 'Đưa mặt TÂM XANH DƯƠNG vào khung, giữ Tâm Trắng ở Trên',
-    rotY: -Math.PI, rotX: 0.25, nextArrow: '⬅️',
-    nextTitle: 'XOAY KHỐI SANG TRÁI 90°',
-    nextDesc: 'Xoay cả khối sang trái để đưa mặt TÂM CAM ra trước Camera. Giữ mặt Trắng ở Trên.'
-  },
-  {
-    face: 'L', short: '4.Trái', title: 'MẶT 4/6: MẶT TRÁI (TÂM CAM)',
-    sub: 'Vẫn giữ mặt Trắng ở Trên • Tự hiệu chỉnh góc Hue Cam/Đỏ',
-    hold: 'Đưa mặt TÂM CAM vào khung, giữ Tâm Trắng ở Trên',
-    rotY: Math.PI/2, rotX: 0.25, nextArrow: '⬇️',
-    nextTitle: 'QUAY VỀ MẶT XANH LÁ RỒI NGỬA XUỐNG 90°',
-    nextDesc: 'Đưa mặt Xanh Lá về phía bạn, sau đó gập mặt TRẮNG từ trên đỉnh xuống hướng vào Camera (Xanh Lá nằm dưới).'
-  },
-  {
-    face: 'U', short: '5.Trên', title: 'MẶT 5/6: MẶT TRÊN (TÂM TRẮNG)',
-    sub: 'Mặt Xanh Lá đang hướng xuống dưới • Tự cân bằng trắng theo tâm',
-    hold: 'Đưa mặt TÂM TRẮNG vào khung (Mặt Xanh Lá ở cạnh dưới)',
-    rotY: 0, rotX: Math.PI/2 + 0.15, nextArrow: '⬆️',
-    nextTitle: 'LẬT NGƯỢC 180° SANG MẶT VÀNG',
-    nextDesc: 'Lật dọc khối Rubik 180° để đưa mặt TÂM VÀNG (đáy) hướng vào Camera (Mặt Xanh Lá nằm ở cạnh trên).'
-  },
-  {
-    face: 'D', short: '6.Dưới', title: 'MẶT 6/6: MẶT DƯỚI (TÂM VÀNG)',
-    sub: 'Mặt cuối cùng • Xong bấm HOÀN TẤT & GIẢI KOCIEMBA',
-    hold: 'Đưa mặt TÂM VÀNG vào khung (Mặt Xanh Lá ở cạnh trên)',
-    rotY: 0, rotX: -Math.PI/2 + 0.15, nextArrow: '🎉',
-    nextTitle: 'HOÀN TẤT QUÉT 6 MẶT!',
-    nextDesc: 'Đang kiểm tra tính hợp lệ và tính lời giải Kociemba 2-Phase...'
-  }
+  { face: 'F', label: 'X.Lá',  rx: 0.34,  ry: -0.38, turnAxis: 'y', turnDir: -1, arrowType: 'left', hint: 'Đưa mặt Xanh Lá (Trắng ở trên)' },
+  { face: 'R', label: 'Đỏ',    rx: 0.34,  ry: -Math.PI/2 - 0.38, turnAxis: 'y', turnDir: -1, arrowType: 'left', hint: 'Xoay sang mặt Đỏ (Trắng ở trên)' },
+  { face: 'B', label: 'X.Dương', rx: 0.34, ry: -Math.PI - 0.38,  turnAxis: 'y', turnDir: -1, arrowType: 'left', hint: 'Xoay sang mặt Xanh Dương (Trắng ở trên)' },
+  { face: 'L', label: 'Cam',   rx: 0.34,  ry: Math.PI/2 - 0.38,  turnAxis: 'x', turnDir: 1,  arrowType: 'down', hint: 'Xoay sang mặt Cam (Trắng ở trên)' },
+  { face: 'U', label: 'Trắng', rx: Math.PI/2 - 0.25, ry: -0.32,  turnAxis: 'x', turnDir: -1, arrowType: 'up',   hint: 'Ngửa mặt Trắng (Xanh Lá ở dưới)' },
+  { face: 'D', label: 'Vàng',  rx: -Math.PI/2 + 0.25, ry: -0.32, turnAxis: null, turnDir: 0, arrowType: null,   hint: 'Lật sang mặt Vàng (Xanh Lá ở trên)' },
 ];
 
-// ==================== STATE ====================
-let scannedFaces = { U: Array(9).fill(null), R: Array(9).fill(null), F: Array(9).fill(null), D: Array(9).fill(null), L: Array(9).fill(null), B: Array(9).fill(null) };
-let scannedLab   = { U: Array(9).fill(null), R: Array(9).fill(null), F: Array(9).fill(null), D: Array(9).fill(null), L: Array(9).fill(null), B: Array(9).fill(null) };
-let scannedConf  = { U: Array(9).fill(99),   R: Array(9).fill(99),   F: Array(9).fill(99),   D: Array(9).fill(99),   L: Array(9).fill(99),   B: Array(9).fill(99)   };
-
-let calibratedLab = JSON.parse(JSON.stringify(DEFAULT_LAB_REF));
-let calibratedSet = new Set(); // Which face centers have been measured from this camera
-let whiteBalanceGain = [1, 1, 1];
-
-let liveColors = Array(9).fill('F');
-let liveLabs = Array(9).fill(null);
-let liveConfs = Array(9).fill(99);
-let frameStreaks = Array.from({ length: 9 }, () => ({ color: null, count: 0, locked: false }));
-let suspectIndices = new Set(); // 0..53 indices highlighted in 2D Net Editor
-
-let currentStepIdx = 0;
-let isCamOn = false;
-let isFrozen = false;
-let facingMode = 'environment';
-let mediaStream = null;
-let sampleTimer = null;
-let voiceEnabled = true;
-let selectedNetColor = 'U';
-
-// Solver state
-let initialSolveState = null;
-let solutionMoves = [];
-let solveStep = 0;
-let isPlaying = false;
-let playTimer = null;
-let playSpeed = 1400;
-
-// ==================== COLOR SCIENCE: RGB -> CIELAB -> CIEDE2000 ====================
-function rgbToLab(r, g, b) {
-  let sr = r / 255, sg = g / 255, sb = b / 255;
-  sr = sr > 0.04045 ? Math.pow((sr + 0.055) / 1.055, 2.4) : sr / 12.92;
-  sg = sg > 0.04045 ? Math.pow((sg + 0.055) / 1.055, 2.4) : sg / 12.92;
-  sb = sb > 0.04045 ? Math.pow((sb + 0.055) / 1.055, 2.4) : sb / 12.92;
-
-  // D65 illuminant
-  const x = (sr * 0.4124564 + sg * 0.3575761 + sb * 0.1804375) / 0.95047;
-  const y = (sr * 0.2126729 + sg * 0.7151522 + sb * 0.0721750) / 1.00000;
-  const z = (sr * 0.0193339 + sg * 0.1191920 + sb * 0.9503041) / 1.08883;
-
-  const f = (t) => t > 0.008856 ? Math.cbrt(t) : (7.787 * t + 16 / 116);
-  const fx = f(x), fy = f(y), fz = f(z);
-  return [116 * fy - 16, 500 * (fx - fy), 200 * (fy - fz)];
-}
-
-function deltaE2000(lab1, lab2) {
-  const [L1, a1, b1] = lab1;
-  const [L2, a2, b2] = lab2;
-  const rad = Math.PI / 180;
-  const deg = 180 / Math.PI;
-
-  const C1 = Math.hypot(a1, b1);
-  const C2 = Math.hypot(a2, b2);
-  const Cbar = (C1 + C2) / 2;
-  const Cbar7 = Math.pow(Cbar, 7);
-  const G = 0.5 * (1 - Math.sqrt(Cbar7 / (Cbar7 + 6103515625))); // 25^7
-
-  const a1p = (1 + G) * a1;
-  const a2p = (1 + G) * a2;
-  const C1p = Math.hypot(a1p, b1);
-  const C2p = Math.hypot(a2p, b2);
-
-  const h1p = (C1p === 0) ? 0 : (Math.atan2(b1, a1p) * deg + 360) % 360;
-  const h2p = (C2p === 0) ? 0 : (Math.atan2(b2, a2p) * deg + 360) % 360;
-
-  const dLp = L2 - L1;
-  const dCp = C2p - C1p;
-
-  let dhp = 0;
-  if (C1p * C2p !== 0) {
-    let diff = h2p - h1p;
-    if (Math.abs(diff) <= 180) dhp = diff;
-    else if (diff > 180) dhp = diff - 360;
-    else dhp = diff + 360;
-  }
-  const dHp = 2 * Math.sqrt(C1p * C2p) * Math.sin((dhp / 2) * rad);
-
-  const Lbarp = (L1 + L2) / 2;
-  const Cbarp = (C1p + C2p) / 2;
-
-  let hbarp = h1p + h2p;
-  if (C1p * C2p !== 0) {
-    if (Math.abs(h1p - h2p) <= 180) hbarp = (h1p + h2p) / 2;
-    else if (h1p + h2p < 360) hbarp = (h1p + h2p + 360) / 2;
-    else hbarp = (h1p + h2p - 360) / 2;
-  }
-
-  const T = 1
-    - 0.17 * Math.cos((hbarp - 30) * rad)
-    + 0.24 * Math.cos((2 * hbarp) * rad)
-    + 0.32 * Math.cos((3 * hbarp + 6) * rad)
-    - 0.20 * Math.cos((4 * hbarp - 63) * rad);
-
-  const dTheta = 30 * Math.exp(-Math.pow((hbarp - 275) / 25, 2));
-  const Cbarp7 = Math.pow(Cbarp, 7);
-  const RC = 2 * Math.sqrt(Cbarp7 / (Cbarp7 + 6103515625));
-  const L50sq = Math.pow(Lbarp - 50, 2);
-  const SL = 1 + (0.015 * L50sq) / Math.sqrt(20 + L50sq);
-  const SC = 1 + 0.045 * Cbarp;
-  const SH = 1 + 0.015 * Cbarp * T;
-  const RT = -Math.sin(2 * dTheta * rad) * RC;
-
-  const tL = dLp / SL;
-  const tC = dCp / SC;
-  const tH = dHp / SH;
-  return Math.sqrt(tL * tL + tC * tC + tH * tH + RT * tC * tH);
-}
-
-// ===== Phân loại màu theo HSV (đã kiểm chứng ổn định trên camera điện thoại) =====
-// Mẫu = [hue 0-360, sat 0-1, val 0-1]
+// ==================== PRESERVED HSV COLOR CLASSIFIER ====================
 const DEFAULT_HUE = { R: 355, L: 20, D: 55, F: 130, B: 220 };
+let calibratedLab = {}; // calibratedLab[face] = HSV of center when saved
+let calibratedSet = new Set();
+
 function rgbToHsv(r, g, b) {
   r /= 255; g /= 255; b /= 255;
   const mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn;
@@ -658,13 +423,8 @@ function rgbToHsv(r, g, b) {
   }
   return [hh, mx === 0 ? 0 : d / mx, mx];
 }
-function hueDist(a, b) { const d = Math.abs(a - b) % 360; return d > 180 ? 360 - d : d; }
-function refHue(k) {
-  const c = calibratedLab[k];
-  return (calibratedSet.has(k) && c && c[1] > 0.3) ? c[0] : DEFAULT_HUE[k];
-}
+
 function warmSplit() {
-  // Ranh giới Đỏ | Cam theo độ hue (đỏ lấy âm nếu > 300). Mặc định 12°, hiệu chỉnh theo 2 tâm nhưng kẹp 8°–15°
   let split = 12;
   if (calibratedSet.has('R') && calibratedSet.has('L')) {
     let hr = calibratedLab.R[0]; if (hr > 300) hr -= 360;
@@ -673,6 +433,7 @@ function warmSplit() {
   }
   return Math.max(8, Math.min(15, split));
 }
+
 function classifyLab(hsv) {
   const [hh, s, v] = hsv;
   let whiteSat = 0.30;
@@ -691,52 +452,91 @@ function classifyLab(hsv) {
 
 function medianOf(arr) {
   arr.sort((a, b) => a - b);
-  const mid = arr.length >> 1;
-  return arr.length % 2 ? arr[mid] : (arr[mid - 1] + arr[mid]) * 0.5;
+  const m = arr.length >> 1;
+  return arr.length % 2 ? arr[m] : (arr[m - 1] + arr[m]) * 0.5;
 }
 
-// ==================== CAMERA & MEDIAN + GRAY-WORLD SAMPLING ====================
-const videoEl = document.getElementById('liveVideo');
-const photoCanvas = document.getElementById('photoPreviewCanvas');
-const sampleCanvas = document.getElementById('sampleCanvas');
-const sampleCtx = sampleCanvas.getContext('2d', { willReadFrequently: true });
+// ==================== APP STATE ====================
+let scannedFaces = { U: Array(9).fill(null), R: Array(9).fill(null), F: Array(9).fill(null), D: Array(9).fill(null), L: Array(9).fill(null), B: Array(9).fill(null) };
+let scannedConf  = { U: Array(9).fill(99),   R: Array(9).fill(99),   F: Array(9).fill(99),   D: Array(9).fill(99),   L: Array(9).fill(99),   B: Array(9).fill(99)   };
+let liveColors = Array(9).fill(null);
+let liveHsvs = Array(9).fill(null);
+let liveConfs = Array(9).fill(99);
+let streaks = Array.from({ length: 9 }, () => ({ color: null, count: 0, locked: false }));
+let suspectSet = new Set();
 
+let currentStep = 0;
+let waitingForNewCenter = false;
+let isGuidingTurn = false;
+let holdStartTime = 0;
+const HOLD_MS = 1000;
+
+let isCamOn = false;
+let facingMode = 'environment';
+let mediaStream = null;
+let sampleTimer = null;
+let selectedEditColor = 'U';
+
+// Solver state
+let initialSolveState = null;
+let solutionMoves = [];
+let solveIndex = 0;
+let isPlaying = false;
+let isAnimatingMove = false;
+let moveAnimMs = 750;
+let playTimeout = null;
+
+// ==================== UI HELPERS ====================
 function showToast(msg) {
   const el = document.getElementById('toast');
   el.textContent = msg;
   el.classList.add('show');
   clearTimeout(el._t);
-  el._t = setTimeout(() => el.classList.remove('show'), 2400);
+  el._t = setTimeout(() => el.classList.remove('show'), 2200);
 }
 
-function speak(text) {
-  if (!voiceEnabled || !('speechSynthesis' in window)) return;
-  try {
-    window.speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'vi-VN'; u.rate = 1.05;
-    window.speechSynthesis.speak(u);
-  } catch (e) {}
+function resetStreaks() {
+  for (let i = 0; i < 9; i++) streaks[i] = { color: null, count: 0, locked: false };
+  holdStartTime = 0;
+  document.getElementById('holdBar').style.width = '0%';
+  document.getElementById('scanGrid').classList.remove('ready');
 }
 
-function resetFrameStreaks() {
-  autoStable = 0;
-  for (let i = 0; i < 9; i++) frameStreaks[i] = { color: null, count: 0, locked: false };
+function getArrowSVG(type) {
+  if (type === 'left') {
+    return `<svg class="turn-arrow-svg" viewBox="0 0 200 200" fill="none">
+      <path d="M 155 115 C 125 148, 75 148, 45 115" stroke="#a78bfa" stroke-width="10" stroke-linecap="round"/>
+      <path d="M 62 106 L 40 112 L 50 134" stroke="#a78bfa" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>`;
+  }
+  if (type === 'down') {
+    return `<svg class="turn-arrow-svg" viewBox="0 0 200 200" fill="none">
+      <path d="M 100 42 C 138 75, 138 125, 100 158" stroke="#a78bfa" stroke-width="10" stroke-linecap="round"/>
+      <path d="M 92 140 L 98 162 L 120 154" stroke="#a78bfa" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>`;
+  }
+  if (type === 'up') {
+    return `<svg class="turn-arrow-svg" viewBox="0 0 200 200" fill="none">
+      <path d="M 100 158 C 138 125, 138 75, 100 42" stroke="#a78bfa" stroke-width="10" stroke-linecap="round"/>
+      <path d="M 92 60 L 98 38 L 120 46" stroke="#a78bfa" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>`;
+  }
+  return '';
 }
+
+// ==================== CAMERA & PROCESS FRAME ====================
+const videoEl = document.getElementById('liveVideo');
+const sampleCanvas = document.getElementById('sampleCanvas');
+const sampleCtx = sampleCanvas.getContext('2d', { willReadFrequently: true });
 
 async function startCamera() {
   stopCamera(false);
-  const btn = document.getElementById('btnToggleCam');
-  btn.textContent = '⏳ Đang mở...';
-  photoCanvas.style.display = 'none';
-
+  document.getElementById('btnToggleCam').textContent = '⏳...';
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    showToast('Trình duyệt không hỗ trợ Live Cam — mở Chụp mặt');
-    btn.textContent = '🎥 Bật Cam';
-    document.getElementById('nativeCameraInput').click();
+    showToast('Trình duyệt không hỗ trợ Camera');
+    document.getElementById('btnToggleCam').textContent = '🎥 Bật';
     return;
   }
-
   try {
     mediaStream = await navigator.mediaDevices.getUserMedia({
       video: { facingMode: { ideal: facingMode }, width: { ideal: 720 }, height: { ideal: 720 } },
@@ -749,130 +549,77 @@ async function startCamera() {
     await videoEl.play();
 
     isCamOn = true;
-    isFrozen = false;
-    resetFrameStreaks();
-    document.getElementById('camStartOverlay').classList.add('hidden');
-    updateCamButtons();
-    startSamplingLoop();
-    showToast('Camera đã bật — giữ yên ~1 giây để chốt 8 khung');
-  } catch (err) {
-    btn.textContent = '🎥 Bật Cam';
-    showToast('Không mở được Live Cam — hãy dùng nút Chụp mặt');
+    document.getElementById('camOverlay').classList.add('hidden');
+    document.getElementById('btnToggleCam').textContent = '⏹ Tắt';
+    resetStreaks();
+    if (sampleTimer) clearInterval(sampleTimer);
+    sampleTimer = setInterval(processFrame, 85);
+  } catch (e) {
+    document.getElementById('btnToggleCam').textContent = '🎥 Bật';
+    showToast('Không mở được Camera — hãy cấp quyền trong Safari');
   }
 }
 
-function stopCamera(showOverlay = true) {
+function stopCamera(showOv = true) {
   if (sampleTimer) { clearInterval(sampleTimer); sampleTimer = null; }
   if (mediaStream) { mediaStream.getTracks().forEach(t => t.stop()); mediaStream = null; }
   videoEl.srcObject = null;
   isCamOn = false;
-  if (showOverlay && photoCanvas.style.display === 'none') {
-    document.getElementById('camStartOverlay').classList.remove('hidden');
-  }
-  updateCamButtons();
+  document.getElementById('btnToggleCam').textContent = '🎥 Bật';
+  if (showOv) document.getElementById('camOverlay').classList.remove('hidden');
 }
 
-function updateCamButtons() {
-  const btnCam = document.getElementById('btnToggleCam');
-  btnCam.textContent = isCamOn ? '⏹ Tắt Cam' : '🎥 Bật Cam';
-  btnCam.classList.toggle('active-green', isCamOn);
-  const btnFreeze = document.getElementById('btnFreeze');
-  btnFreeze.textContent = isFrozen ? '🔓 Mở khoá' : '❄️ Khoá màu';
-  btnFreeze.classList.toggle('active-amber', isFrozen);
-}
-
-function startSamplingLoop() {
-  if (sampleTimer) clearInterval(sampleTimer);
-  // 100ms interval -> 8 consecutive frames = 0.8s stability lock
-  sampleTimer = setInterval(() => {
-    if (!isCamOn || isFrozen || videoEl.readyState < 2) return;
-    processFrame(videoEl, videoEl.videoWidth, videoEl.videoHeight, false);
-  }, 100);
-}
-
-function processFrame(source, sw, sh, immediateLock) {
+function processFrame() {
+  if (!isCamOn || videoEl.readyState < 2) return;
+  const sw = videoEl.videoWidth, sh = videoEl.videoHeight;
   if (!sw || !sh) return;
-  // Lấy đúng vùng khung lưới đang hiển thị trên màn hình (video object-fit: cover)
+
+  // Exact object-fit: cover frame mapping (PRESERVED)
   const stageR = document.querySelector('.cam-stage').getBoundingClientRect();
   const gridR = document.getElementById('scanGrid').getBoundingClientRect();
   const scale = Math.max(stageR.width / sw, stageR.height / sh);
   const offX = (stageR.width - sw * scale) / 2, offY = (stageR.height - sh * scale) / 2;
-  const pad = 7; // viền + padding khung
+  const pad = 7;
   let sx = (gridR.left + pad - stageR.left - offX) / scale;
   let sy = (gridR.top + pad - stageR.top - offY) / scale;
   let cropSize = (gridR.width - pad * 2) / scale;
-  if (!(cropSize > 10)) { cropSize = Math.min(sw, sh) * 0.56; sx = (sw - cropSize) / 2; sy = (sh - cropSize) / 2; }
-  sampleCtx.drawImage(source, sx, sy, cropSize, cropSize, 0, 0, 180, 180);
+
+  sampleCtx.drawImage(videoEl, sx, sy, cropSize, cropSize, 0, 0, 180, 180);
   const data = sampleCtx.getImageData(0, 0, 180, 180).data;
 
-  // 1. Sample center 40% area of each 60x60 cell (~38x38 px, margin 11px each side)
-  // Filter glare (V > 0.97 && S < 0.1) and dark border pixels (V < 0.10), take MEDIAN
-  const rawMedians = [];
-  const lowSatCells = [];
+  const expectedFace = SCAN_ORDER[currentStep].face;
 
+  // Sample center 40% of each cell -> median RGB -> rgbToHsv (NO white balance)
   for (let row = 0; row < 3; row++) {
     for (let col = 0; col < 3; col++) {
+      const i = row * 3 + col;
       const x0 = col * 60 + 11, x1 = col * 60 + 49;
       const y0 = row * 60 + 11, y1 = row * 60 + 49;
       const rs = [], gs = [], bs = [];
-      const fbR = [], fbG = [], fbB = [];
-
       for (let y = y0; y < y1; y += 2) {
         for (let x = x0; x < x1; x += 2) {
           const idx = (y * 180 + x) * 4;
           const r = data[idx], g = data[idx + 1], b = data[idx + 2];
           const mx = Math.max(r, g, b) / 255;
           const mn = Math.min(r, g, b) / 255;
-          const v = mx;
-          const s = mx === 0 ? 0 : (mx - mn) / mx;
-
-          if (v < 0.10) continue; // ignore black sticker gaps / shadows
-          fbR.push(r); fbG.push(g); fbB.push(b);
-          if (v > 0.97 && s < 0.10) continue; // ignore specular glare
+          const v = mx, s = mx === 0 ? 0 : (mx - mn) / mx;
+          if (v < 0.08) continue;
+          if (v > 0.97 && s < 0.10) continue;
           rs.push(r); gs.push(g); bs.push(b);
         }
       }
+      const mr = rs.length ? medianOf(rs) : 128;
+      const mg = gs.length ? medianOf(gs) : 128;
+      const mb = bs.length ? medianOf(bs) : 128;
 
-      let mr, mg, mb;
-      if (rs.length >= 12) {
-        mr = medianOf(rs); mg = medianOf(gs); mb = medianOf(bs);
-      } else if (fbR.length > 0) {
-        mr = medianOf(fbR); mg = medianOf(fbG); mb = medianOf(fbB);
-      } else {
-        mr = 128; mg = 128; mb = 128;
-      }
-      rawMedians.push([mr, mg, mb]);
+      const hsv = rgbToHsv(mr, mg, mb);
+      liveHsvs[i] = hsv;
+      const res = classifyLab(hsv);
 
-      const mx = Math.max(mr, mg, mb) / 255;
-      const mn = Math.min(mr, mg, mb) / 255;
-      const sat = mx === 0 ? 0 : (mx - mn) / mx;
-      if (sat < 0.22 && mx > 0.45) lowSatCells.push([mr, mg, mb]);
-    }
-  }
-
-  const expectedFace = SCAN_ORDER[currentStepIdx].face;
-
-  // 3. Normalize RGB -> CIELAB -> Classify with DeltaE 2000 + 8-frame stability
-  for (let i = 0; i < 9; i++) {
-    const lab = rgbToHsv(rawMedians[i][0], rawMedians[i][1], rawMedians[i][2]);
-    liveLabs[i] = lab;
-
-    if (i === 4) {
-      liveColors[4] = expectedFace;
-      liveConfs[4] = 99;
-      frameStreaks[4] = { color: expectedFace, count: 8, locked: true };
-      continue;
-    }
-
-    const res = classifyLab(lab);
-    if (immediateLock) {
-      liveColors[i] = res.color;
-      liveConfs[i] = res.conf;
-      frameStreaks[i] = { color: res.color, count: 8, locked: true };
-    } else {
-      const st = frameStreaks[i];
+      // Lock after 3 consecutive identical frames
+      const st = streaks[i];
       if (st.color === res.color) {
-        st.count = Math.min(8, st.count + 1);
+        st.count = Math.min(3, st.count + 1);
       } else {
         st.color = res.color;
         st.count = 1;
@@ -886,211 +633,265 @@ function processFrame(source, sw, sh, immediateLock) {
     }
   }
 
-  // ===== Tự chuyển mặt: đủ 9 ô đã chốt + tâm đúng màu mặt cần quét + giữ yên ~1 giây =====
-  if (!immediateLock) {
-    const centerOk = classifyLab(liveLabs[4]).color === expectedFace;
-    const allLocked = frameStreaks.every(st => st.locked);
-    const modalOpen = document.getElementById('turnModal').classList.contains('show');
-    if (centerOk && allLocked && !modalOpen && !isFrozen) {
-      autoStable++;
-      if (autoStable >= AUTO_FRAMES) { autoStable = 0; document.getElementById('btnNextFace').click(); }
-    } else autoStable = 0;
-  }
   renderScanGrid();
+
+  // Requirement 5: Only start capturing next face once center changes to expected color
+  if (waitingForNewCenter) {
+    if (streaks[4].locked && liveColors[4] === expectedFace) {
+      waitingForNewCenter = false;
+      isGuidingTurn = false;
+      document.getElementById('turnArrowOverlay').classList.remove('show');
+      document.getElementById('scanStatusPill').textContent = `Giữ yên mặt ${COLORS[expectedFace].name}...`;
+      resetStreaks();
+    }
+    return;
+  }
+
+  if (isGuidingTurn) return;
+
+  // Live update 3D cube with current detected colors
   syncScanCube3D();
+
+  // Requirement 3: All 9 cells locked + center matches expectedFace -> hold ~1s -> auto-capture
+  const allLocked = streaks.every(s => s.locked) && liveColors[4] === expectedFace;
+  const gridEl = document.getElementById('scanGrid');
+  const holdBar = document.getElementById('holdBar');
+
+  if (allLocked) {
+    gridEl.classList.add('ready');
+    if (!holdStartTime) holdStartTime = performance.now();
+    const elapsed = performance.now() - holdStartTime;
+    const pct = Math.min(100, (elapsed / HOLD_MS) * 100);
+    holdBar.style.width = pct + '%';
+    if (elapsed >= HOLD_MS) {
+      autoCaptureCurrentFace();
+    }
+  } else {
+    gridEl.classList.remove('ready');
+    holdStartTime = 0;
+    holdBar.style.width = '0%';
+  }
 }
-let autoStable = 0;
-const AUTO_FRAMES = 10;
 
-// Native iOS photo fallback
-document.getElementById('nativeCameraInput').addEventListener('change', (e) => {
-  const file = e.target.files && e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = (ev) => {
-    const img = new Image();
-    img.onload = () => {
-      stopCamera(false);
-      document.getElementById('camStartOverlay').classList.add('hidden');
-      photoCanvas.style.display = 'block';
-      const stage = document.querySelector('.cam-stage');
-      photoCanvas.width = stage.clientWidth * 2;
-      photoCanvas.height = stage.clientHeight * 2;
-      const ctx = photoCanvas.getContext('2d');
-      const scale = Math.max(photoCanvas.width / img.width, photoCanvas.height / img.height);
-      const w = img.width * scale, h = img.height * scale;
-      ctx.drawImage(img, (photoCanvas.width - w) / 2, (photoCanvas.height - h) / 2, w, h);
-      processFrame(img, img.width, img.height, true);
-      isFrozen = true;
-      updateCamButtons();
-      showToast('Đã phân tích ảnh (CIELAB ΔE2000) — bấm TIẾP TỤC ➔');
-    };
-    img.src = ev.target.result;
-  };
-  reader.readAsDataURL(file);
-  e.target.value = '';
-});
+function autoCaptureCurrentFace() {
+  const info = SCAN_ORDER[currentStep];
+  scannedFaces[info.face] = [...liveColors];
+  scannedConf[info.face] = [...liveConfs];
 
-// ==================== SCAN GRID & UI SYNC ====================
-function initScanGrid() {
-  const grid = document.getElementById('scanGrid');
-  grid.innerHTML = '';
-  for (let i = 0; i < 9; i++) {
-    const cell = document.createElement('div');
-    cell.className = 'scan-cell';
-    cell.dataset.idx = i;
-    cell.innerHTML = '<span class="scan-cell-tag"></span>';
-    cell.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (i === 4) { showToast('Ô tâm cố định theo mặt đang quét'); return; }
-      isFrozen = true;
-      updateCamButtons();
-      const curIdx = COLOR_KEYS.indexOf(liveColors[i]);
-      liveColors[i] = COLOR_KEYS[(curIdx + 1) % COLOR_KEYS.length];
-      liveConfs[i] = 99;
-      frameStreaks[i] = { color: liveColors[i], count: 8, locked: true };
-      renderScanGrid();
-      syncScanCube3D();
+  // Calibrate center HSV
+  if (liveHsvs[4]) {
+    calibratedLab[info.face] = [...liveHsvs[4]];
+    calibratedSet.add(info.face);
+  }
+
+  // Flash + Vibrate
+  const fl = document.getElementById('camFlash');
+  fl.classList.add('active');
+  setTimeout(() => fl.classList.remove('active'), 120);
+  if (navigator.vibrate) navigator.vibrate(45);
+
+  resetStreaks();
+  renderFaceDots();
+  syncScanCube3D();
+
+  if (currentStep < 5) {
+    const nextIdx = currentStep + 1;
+    const nextInfo = SCAN_ORDER[nextIdx];
+    currentStep = nextIdx;
+    waitingForNewCenter = true;
+    isGuidingTurn = true;
+    renderFaceDots();
+    scanCube.setActiveFace(nextInfo.face);
+
+    document.getElementById('scanStatusPill').textContent = nextInfo.hint;
+    const arrowOv = document.getElementById('turnArrowOverlay');
+    arrowOv.innerHTML = getArrowSVG(info.arrowType);
+    arrowOv.classList.add('show');
+
+    // Animate 3D cube rotating smoothly (~1s easing), repeating 2 times
+    scanCube.playGuidanceTurn(info.rx, info.ry, nextInfo.rx, nextInfo.ry, 2, () => {
+      // Keep arrow visible until user actually turns real cube to new center
+      if (!waitingForNewCenter) arrowOv.classList.remove('show');
     });
-    grid.appendChild(cell);
-  }
-}
-
-function renderScanGrid() {
-  const cells = document.querySelectorAll('#scanGrid .scan-cell');
-  cells.forEach((cell, i) => {
-    const k = liveColors[i] || SCAN_ORDER[currentStepIdx].face;
-    const c = COLORS[k];
-    cell.style.borderColor = c.hex;
-    cell.classList.toggle('locked', frameStreaks[i].locked);
-    const tag = cell.querySelector('.scan-cell-tag');
-    tag.textContent = c.short;
-    tag.style.background = c.hex;
-    tag.style.color = c.text;
-  });
-}
-
-function renderFacePills() {
-  const wrap = document.getElementById('facePills');
-  wrap.innerHTML = '';
-  SCAN_ORDER.forEach((item, idx) => {
-    const btn = document.createElement('button');
-    const isDone = scannedFaces[item.face].every(x => x !== null);
-    btn.className = 'face-pill' + (idx === currentStepIdx ? ' active' : '') + (isDone ? ' done' : '');
-    btn.innerHTML = `<span class="dot" style="background:${COLORS[item.face].hex}"></span>${item.short}`;
-    btn.addEventListener('click', () => selectScanStep(idx));
-    wrap.appendChild(btn);
-  });
-}
-
-function selectScanStep(idx) {
-  currentStepIdx = idx;
-  const info = SCAN_ORDER[idx];
-  document.getElementById('hudTitle').textContent = info.title;
-  document.getElementById('hudSub').textContent = info.sub;
-  document.getElementById('guideArrow').textContent = '🎯';
-  document.getElementById('guideMain').textContent = info.hold;
-  document.getElementById('guideSub').textContent = 'CIELAB ΔE2000 + Chốt 8 khung • Đúng 9 màu bấm TIẾP TỤC ➔';
-
-  const nextBtn = document.getElementById('btnNextFace');
-  if (idx === 5) {
-    nextBtn.textContent = 'HOÀN TẤT & GIẢI RUBIK ➔';
-    nextBtn.classList.add('finish');
   } else {
-    nextBtn.textContent = `TIẾP TỤC (${idx + 1}/6) ➔`;
-    nextBtn.classList.remove('finish');
-  }
-
-  resetFrameStreaks();
-  if (scannedFaces[info.face].every(x => x !== null)) {
-    liveColors = [...scannedFaces[info.face]];
-  } else {
-    liveColors = Array(9).fill(info.face);
-  }
-  isFrozen = false;
-  updateCamButtons();
-  renderFacePills();
-  renderScanGrid();
-  rotateScanCubeTo(info.rotX, info.rotY);
-  syncScanCube3D();
-}
-
-// Re-classify all previously scanned non-center stickers whenever all 6 centers are calibrated
-function recalibrateAllScannedStickers() {
-  if (calibratedSet.size < 6) return;
-  for (const f of COLOR_KEYS) {
-    for (let i = 0; i < 9; i++) {
-      if (i === 4 || !scannedLab[f][i]) continue;
-      // Only re-classify if user didn't manually override (conf < 90)
-      if (scannedConf[f][i] < 90) {
-        const res = classifyLab(scannedLab[f][i]);
-        scannedFaces[f][i] = res.color;
-        scannedConf[f][i] = res.conf;
-      }
+    // All 6 faces scanned -> validate -> solve or edit on 3D cube
+    stopCamera(true);
+    const state54 = getState54();
+    const val = validateCube54(state54);
+    if (val.ok) {
+      startKociembaSolve(state54);
+    } else {
+      switchTab('edit');
+      showToast('Chạm ô nhấp nháy trên khối 3D để sửa');
     }
   }
 }
 
-// ==================== 3D CUBE RENDERER ====================
-function createCubeEngine(canvasId) {
+// ==================== THREE.JS RUBIK 3D ENGINE ====================
+function createRubik3D(canvasId, opts = {}) {
   const canvas = document.getElementById(canvasId);
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(36, 1, 0.1, 100);
-  camera.position.set(0, 0, 7.6);
-  scene.add(new THREE.AmbientLight(0xffffff, 0.85));
-  const dir = new THREE.DirectionalLight(0xffffff, 0.45);
-  dir.position.set(4, 6, 8);
+  const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
+  camera.position.set(0, 0, 8.2);
+  scene.add(new THREE.AmbientLight(0xffffff, 0.88));
+  const dir = new THREE.DirectionalLight(0xffffff, 0.42);
+  dir.position.set(5, 7, 9);
   scene.add(dir);
 
-  const rootGroup = new THREE.Group();
-  scene.add(rootGroup);
+  const root = new THREE.Group();
+  scene.add(root);
 
-  const stickerMeshes = [];
-  const baseGeo = new THREE.BoxGeometry(0.94, 0.94, 0.94);
-  const baseMat = new THREE.MeshLambertMaterial({ color: 0x16161e });
-  const stickerGeo = new THREE.PlaneGeometry(0.80, 0.80);
+  const pivot = new THREE.Group();
+  root.add(pivot);
 
-  for (let x = -1; x <= 1; x++)
-    for (let y = -1; y <= 1; y++)
+  // Build 27 cubies & 54 sticker meshes attached to their respective cubies
+  const cubies = [];
+  const stickerMeshes = new Array(54);
+  const baseGeo = new THREE.BoxGeometry(0.95, 0.95, 0.95);
+  const baseMat = new THREE.MeshLambertMaterial({ color: 0x15151e });
+  const stickerGeo = new THREE.PlaneGeometry(0.81, 0.81);
+
+  const cubieMap = {};
+  for (let x = -1; x <= 1; x++) {
+    for (let y = -1; y <= 1; y++) {
       for (let z = -1; z <= 1; z++) {
-        const cubie = new THREE.Mesh(baseGeo, baseMat);
-        cubie.position.set(x, y, z);
-        rootGroup.add(cubie);
+        const g = new THREE.Group();
+        g.position.set(x, y, z);
+        g.userData = { gx: x, gy: y, gz: z };
+        g.add(new THREE.Mesh(baseGeo, baseMat));
+        root.add(g);
+        cubies.push(g);
+        cubieMap[`${x},${y},${z}`] = g;
       }
-
-  function addSticker(idx, pos, rot) {
-    const m = new THREE.Mesh(stickerGeo, new THREE.MeshBasicMaterial({ color: 0x2a2a35 }));
-    m.position.set(pos[0], pos[1], pos[2]);
-    m.rotation.set(rot[0], rot[1], rot[2]);
-    rootGroup.add(m);
-    stickerMeshes[idx] = m;
-  }
-  const eps = 1.48;
-  for (let r = 0; r < 3; r++) {
-    for (let c = 0; c < 3; c++) {
-      const i = r * 3 + c;
-      addSticker(0 + i,  [c - 1, eps, r - 1],  [-Math.PI/2, 0, 0]);
-      addSticker(9 + i,  [eps, 1 - r, 1 - c],  [0, Math.PI/2, 0]);
-      addSticker(18 + i, [c - 1, 1 - r, eps],  [0, 0, 0]);
-      addSticker(27 + i, [c - 1, -eps, 1 - r], [Math.PI/2, 0, 0]);
-      addSticker(36 + i, [-eps, 1 - r, c - 1], [0, -Math.PI/2, 0]);
-      addSticker(45 + i, [1 - c, 1 - r, -eps], [0, Math.PI, 0]);
     }
   }
 
-  let targetRotX = 0.35, targetRotY = -0.45, curRotX = 0.35, curRotY = -0.45;
-  let dragging = false, lastX = 0, lastY = 0;
-  canvas.addEventListener('pointerdown', e => { dragging = true; lastX = e.clientX; lastY = e.clientY; });
-  window.addEventListener('pointermove', e => {
-    if (!dragging) return;
-    targetRotY += (e.clientX - lastX) * 0.012;
-    targetRotX = Math.max(-1.4, Math.min(1.4, targetRotX + (e.clientY - lastY) * 0.012));
-    lastX = e.clientX; lastY = e.clientY;
+  function attachSticker(idx, cx, cy, cz, lx, ly, lz, rx, ry, rz) {
+    const mat = new THREE.MeshBasicMaterial({ color: 0x2a2a38 });
+    const mesh = new THREE.Mesh(stickerGeo, mat);
+    mesh.position.set(lx, ly, lz);
+    mesh.rotation.set(rx, ry, rz);
+    mesh.userData = { stickerIdx: idx };
+    cubieMap[`${cx},${cy},${cz}`].add(mesh);
+    stickerMeshes[idx] = mesh;
+  }
+
+  const e = 0.482;
+  for (let r = 0; r < 3; r++) {
+    for (let c = 0; c < 3; c++) {
+      const i = r * 3 + c;
+      attachSticker(0  + i, c - 1,  1, r - 1,   0,  e,  0, -Math.PI/2, 0, 0); // U
+      attachSticker(9  + i,  1, 1 - r, 1 - c,   e,  0,  0,  0, Math.PI/2, 0); // R
+      attachSticker(18 + i, c - 1, 1 - r,  1,   0,  0,  e,  0, 0, 0);         // F
+      attachSticker(27 + i, c - 1, -1, 1 - r,   0, -e,  0,  Math.PI/2, 0, 0); // D
+      attachSticker(36 + i, -1, 1 - r, c - 1,  -e,  0,  0,  0, -Math.PI/2, 0);// L
+      attachSticker(45 + i, 1 - c, 1 - r, -1,   0,  0, -e,  0, Math.PI, 0);   // B
+    }
+  }
+
+  // Glowing active face border (for scanner)
+  const borderGeo = new THREE.EdgesGeometry(new THREE.BoxGeometry(3.04, 3.04, 0.04));
+  const borderMat = new THREE.LineBasicMaterial({ color: 0x22c55e, transparent: true, opacity: 0.95 });
+  const activeBorder = new THREE.LineSegments(borderGeo, borderMat);
+  activeBorder.visible = !!opts.showActiveBorder;
+  root.add(activeBorder);
+
+  function setActiveFace(face) {
+    if (!opts.showActiveBorder) return;
+    activeBorder.visible = true;
+    const d = 1.52;
+    if (face === 'F') { activeBorder.position.set(0, 0, d);  activeBorder.rotation.set(0, 0, 0); }
+    if (face === 'B') { activeBorder.position.set(0, 0, -d); activeBorder.rotation.set(0, 0, 0); }
+    if (face === 'R') { activeBorder.position.set(d, 0, 0);  activeBorder.rotation.set(0, Math.PI/2, 0); }
+    if (face === 'L') { activeBorder.position.set(-d, 0, 0); activeBorder.rotation.set(0, Math.PI/2, 0); }
+    if (face === 'U') { activeBorder.position.set(0, d, 0);  activeBorder.rotation.set(Math.PI/2, 0, 0); }
+    if (face === 'D') { activeBorder.position.set(0, -d, 0); activeBorder.rotation.set(Math.PI/2, 0, 0); }
+  }
+
+  // Rotation & interaction
+  let targetRX = 0.34, targetRY = -0.38, curRX = 0.34, curRY = -0.38;
+  let dragging = false, downX = 0, downY = 0, lastX = 0, lastY = 0, movedDist = 0;
+  let guideAnim = null;
+  let layerAnim = null;
+  let blinkingIndices = new Set();
+  const raycaster = new THREE.Raycaster();
+  const pointer = new THREE.Vector2();
+
+  canvas.addEventListener('pointerdown', ev => {
+    dragging = true; downX = lastX = ev.clientX; downY = lastY = ev.clientY; movedDist = 0;
   });
-  window.addEventListener('pointerup', () => { dragging = false; });
+  window.addEventListener('pointermove', ev => {
+    if (!dragging) return;
+    const dx = ev.clientX - lastX, dy = ev.clientY - lastY;
+    movedDist += Math.hypot(dx, dy);
+    targetRY += dx * 0.011;
+    targetRX = Math.max(-1.45, Math.min(1.45, targetRX + dy * 0.011));
+    lastX = ev.clientX; lastY = ev.clientY;
+  });
+  window.addEventListener('pointerup', ev => {
+    if (!dragging) return;
+    dragging = false;
+    if (opts.onStickerTap && movedDist < 8) {
+      const rect = canvas.getBoundingClientRect();
+      pointer.x = ((ev.clientX - rect.left) / rect.width) * 2 - 1;
+      pointer.y = -((ev.clientY - rect.top) / rect.height) * 2 + 1;
+      raycaster.setFromCamera(pointer, camera);
+      const hits = raycaster.intersectObjects(stickerMeshes, false);
+      if (hits.length > 0) opts.onStickerTap(hits[0].object.userData.stickerIdx);
+    }
+  });
+
+  function setTargetRot(rx, ry) {
+    guideAnim = null;
+    targetRX = rx; targetRY = ry;
+  }
+
+  // Smooth guidance animation repeating `reps` times
+  function playGuidanceTurn(fromRX, fromRY, toRX, toRY, reps, onDone) {
+    guideAnim = {
+      fromRX, fromRY, toRX, toRY,
+      reps, curRep: 0, start: performance.now(), dur: 1000, pause: 260, onDone
+    };
+  }
+
+  function setStickers(arr54) {
+    for (let i = 0; i < 54; i++) {
+      const k = arr54[i];
+      stickerMeshes[i].userData.baseHex = k ? COLORS[k].hex : '#2a2a38';
+      stickerMeshes[i].material.color.set(stickerMeshes[i].userData.baseHex);
+    }
+  }
+
+  function setBlinking(idxSet) { blinkingIndices = idxSet; }
+
+  // Real 3D layer turn animation
+  function animateLayerMove(move, durationMs, onComplete) {
+    const f = move[0];
+    const mult = move.length === 1 ? 1 : (move[1] === "'" ? -1 : 2);
+    let axis = 'y', layerVal = 1, baseAngle = -Math.PI / 2;
+    if (f === 'U') { axis = 'y'; layerVal = 1;  baseAngle = -Math.PI / 2; }
+    if (f === 'D') { axis = 'y'; layerVal = -1; baseAngle =  Math.PI / 2; }
+    if (f === 'R') { axis = 'x'; layerVal = 1;  baseAngle = -Math.PI / 2; }
+    if (f === 'L') { axis = 'x'; layerVal = -1; baseAngle =  Math.PI / 2; }
+    if (f === 'F') { axis = 'z'; layerVal = 1;  baseAngle = -Math.PI / 2; }
+    if (f === 'B') { axis = 'z'; layerVal = -1; baseAngle =  Math.PI / 2; }
+
+    const activeCubies = cubies.filter(c => {
+      if (axis === 'x') return c.userData.gx === layerVal;
+      if (axis === 'y') return c.userData.gy === layerVal;
+      return c.userData.gz === layerVal;
+    });
+
+    pivot.rotation.set(0, 0, 0);
+    activeCubies.forEach(c => pivot.attach(c));
+    layerAnim = {
+      axis, targetAngle: baseAngle * mult,
+      start: performance.now(), dur: durationMs, activeCubies, onComplete
+    };
+  }
 
   function resize() {
     const p = canvas.parentElement;
@@ -1099,171 +900,147 @@ function createCubeEngine(canvasId) {
     camera.aspect = p.clientWidth / p.clientHeight;
     camera.updateProjectionMatrix();
   }
-  function setTargetRot(rx, ry) { targetRotX = rx; targetRotY = ry; }
-  function setStickers(arr54) {
-    for (let i = 0; i < 54; i++) stickerMeshes[i].material.color.set(arr54[i] ? COLORS[arr54[i]].hex : '#2a2a35');
-  }
-  (function animate() {
-    requestAnimationFrame(animate);
-    curRotX += (targetRotX - curRotX) * 0.14;
-    curRotY += (targetRotY - curRotY) * 0.14;
-    rootGroup.rotation.x = curRotX;
-    rootGroup.rotation.y = curRotY;
+
+  function easeInOutCubic(t) { return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2; }
+
+  function loop(now) {
+    requestAnimationFrame(loop);
+
+    if (guideAnim) {
+      const elapsed = now - guideAnim.start;
+      const cycle = guideAnim.dur + guideAnim.pause;
+      if (elapsed >= cycle) {
+        guideAnim.curRep++;
+        if (guideAnim.curRep >= guideAnim.reps) {
+          curRX = targetRX = guideAnim.toRX;
+          curRY = targetRY = guideAnim.toRY;
+          const cb = guideAnim.onDone;
+          guideAnim = null;
+          if (cb) cb();
+        } else {
+          guideAnim.start = now;
+        }
+      } else {
+        const t = Math.min(1, elapsed / guideAnim.dur);
+        const e = easeInOutCubic(t);
+        curRX = targetRX = guideAnim.fromRX + (guideAnim.toRX - guideAnim.fromRX) * e;
+        curRY = targetRY = guideAnim.fromRY + (guideAnim.toRY - guideAnim.fromRY) * e;
+      }
+    } else {
+      curRX += (targetRX - curRX) * 0.14;
+      curRY += (targetRY - curRY) * 0.14;
+    }
+
+    root.rotation.x = curRX;
+    root.rotation.y = curRY;
+
+    // Layer turn animation
+    if (layerAnim) {
+      const t = Math.min(1, (now - layerAnim.start) / layerAnim.dur);
+      const e = easeInOutCubic(t);
+      pivot.rotation[layerAnim.axis] = layerAnim.targetAngle * e;
+      if (t >= 1) {
+        const { activeCubies, onComplete } = layerAnim;
+        layerAnim = null;
+        // Detach back to root and reset cubie transforms cleanly
+        activeCubies.forEach(c => {
+          root.attach(c);
+          c.position.set(c.userData.gx, c.userData.gy, c.userData.gz);
+          c.rotation.set(0, 0, 0);
+        });
+        pivot.rotation.set(0, 0, 0);
+        if (onComplete) onComplete();
+      }
+    }
+
+    // Blink suspect stickers on Edit 3D Cube
+    if (blinkingIndices.size > 0) {
+      const blink = Math.sin(now * 0.012) > 0;
+      blinkingIndices.forEach(idx => {
+        stickerMeshes[idx].material.color.set(blink ? '#ef4444' : '#facc15');
+      });
+    }
+
     renderer.render(scene, camera);
-  })();
+  }
   resize();
+  requestAnimationFrame(loop);
   window.addEventListener('resize', resize);
-  return { resize, setTargetRot, setStickers };
+
+  return { resize, setTargetRot, playGuidanceTurn, setStickers, setActiveFace, setBlinking, animateLayerMove };
 }
 
-let scanCubeEngine, solverCubeEngine;
-function rotateScanCubeTo(rx, ry) { if (scanCubeEngine) scanCubeEngine.setTargetRot(rx + 0.42, ry - 0.62); }
+let scanCube, editCube, solverCube;
+
 function syncScanCube3D() {
-  if (!scanCubeEngine) return;
+  if (!scanCube) return;
   const arr = Array(54).fill(null);
   for (const f of COLOR_KEYS) {
     const off = FACE_OFFSET[f];
-    const src = (f === SCAN_ORDER[currentStepIdx].face) ? liveColors : scannedFaces[f];
+    const src = (f === SCAN_ORDER[currentStep].face && !waitingForNewCenter && !isGuidingTurn) ? liveColors : scannedFaces[f];
     for (let i = 0; i < 9; i++) arr[off + i] = src[i];
   }
-  scanCubeEngine.setStickers(arr);
+  scanCube.setStickers(arr);
 }
 
-// ==================== STRICT CUBE VALIDATION & SUSPECT HIGHLIGHTING ====================
-const CORNER_POS = [
-  [8, 9, 20],  [6, 18, 38], [0, 36, 47], [2, 45, 11],
-  [29, 26, 15],[27, 44, 24],[33, 53, 42],[35, 17, 51]
-];
-const CORNER_COLORS = [
-  ['U','R','F'], ['U','F','L'], ['U','L','B'], ['U','B','R'],
-  ['D','F','R'], ['D','L','F'], ['D','B','L'], ['D','R','B']
-];
-const EDGE_POS = [
-  [5,10], [7,19], [3,37], [1,46],
-  [32,16],[28,25],[30,43],[34,52],
-  [23,12],[21,41],[50,39],[48,14]
-];
-const EDGE_COLORS = [
-  ['U','R'], ['U','F'], ['U','L'], ['U','B'],
-  ['D','R'], ['D','F'], ['D','L'], ['D','B'],
-  ['F','R'], ['F','L'], ['B','L'], ['B','R']
-];
-
-function validateCube54(state54) {
-  suspectIndices.clear();
-  const counts = { U:0, R:0, F:0, D:0, L:0, B:0 };
-  for (let i = 0; i < 54; i++) if (state54[i]) counts[state54[i]]++;
-
-  const countIssues = COLOR_KEYS.filter(k => counts[k] !== 9);
-  if (countIssues.length > 0) {
-    // Highlight lowest-confidence stickers belonging to over-counted colors
-    const overColors = new Set(COLOR_KEYS.filter(k => counts[k] > 9));
-    const candidates = [];
-    for (const f of COLOR_KEYS) {
-      for (let i = 0; i < 9; i++) {
-        if (i === 4) continue;
-        const col = scannedFaces[f][i];
-        if (overColors.has(col)) {
-          candidates.push({ idx54: FACE_OFFSET[f] + i, conf: scannedConf[f][i] });
-        }
-      }
-    }
-    candidates.sort((a, b) => a.conf - b.conf);
-    candidates.slice(0, 3).forEach(c => suspectIndices.add(c.idx54));
-    const detail = countIssues.map(k => `${COLORS[k].name}: ${counts[k]}/9`).join(' • ');
-    return { ok: false, msg: `Số ô chưa đủ 9 mỗi màu (${detail}). Các ô nhấp nháy là ô nghi ngờ nhận diện nhầm nhất — hãy chạm sửa!` };
+// ==================== SCAN UI ====================
+function initScanGrid() {
+  const g = document.getElementById('scanGrid');
+  g.innerHTML = '';
+  for (let i = 0; i < 9; i++) {
+    const d = document.createElement('div');
+    d.className = 'scan-cell';
+    d.innerHTML = '<span class="scan-tag"></span>';
+    g.appendChild(d);
   }
-
-  // Validate 8 corners + orientation + permutation
-  const cPerm = [], cOri = [];
-  for (let p = 0; p < 8; p++) {
-    const cols = CORNER_POS[p].map(idx => state54[idx]);
-    let found = -1, ori = 0;
-    for (let k = 0; k < 8; k++) {
-      const ref = CORNER_COLORS[k];
-      for (let o = 0; o < 3; o++) {
-        if (cols[0] === ref[o] && cols[1] === ref[(o+1)%3] && cols[2] === ref[(o+2)%3]) {
-          found = k; ori = (3 - o) % 3; break;
-        }
-      }
-      if (found !== -1) break;
-    }
-    if (found === -1 || cPerm.includes(found)) {
-      CORNER_POS[p].forEach(idx => suspectIndices.add(idx));
-      return { ok: false, msg: 'Phát hiện 1 viên GÓC không hợp lệ (nhấp nháy trên sơ đồ). Hãy kiểm tra và chạm sửa 3 ô của góc đó!' };
-    }
-    cPerm.push(found); cOri.push(ori);
-  }
-  if (cOri.reduce((a, b) => a + b, 0) % 3 !== 0) {
-    highlightLowestConf(2);
-    return { ok: false, msg: 'Lỗi xoắn góc (Corner Twist). Hãy kiểm tra các ô đang nhấp nháy trên sơ đồ 2D!' };
-  }
-
-  // Validate 12 edges + orientation + permutation
-  const ePerm = [], eOri = [];
-  for (let p = 0; p < 12; p++) {
-    const [c0, c1] = EDGE_POS[p].map(idx => state54[idx]);
-    let found = -1, ori = 0;
-    for (let k = 0; k < 12; k++) {
-      const [r0, r1] = EDGE_COLORS[k];
-      if (c0 === r0 && c1 === r1) { found = k; ori = 0; break; }
-      if (c0 === r1 && c1 === r0) { found = k; ori = 1; break; }
-    }
-    if (found === -1 || ePerm.includes(found)) {
-      EDGE_POS[p].forEach(idx => suspectIndices.add(idx));
-      return { ok: false, msg: 'Phát hiện 1 viên CẠNH không hợp lệ (nhấp nháy trên sơ đồ). Hãy kiểm tra và chạm sửa 2 ô của cạnh đó!' };
-    }
-    ePerm.push(found); eOri.push(ori);
-  }
-  if (eOri.reduce((a, b) => a + b, 0) % 2 !== 0) {
-    highlightLowestConf(2);
-    return { ok: false, msg: 'Lỗi lật cạnh (Edge Flip). Hãy kiểm tra các ô đang nhấp nháy trên sơ đồ 2D!' };
-  }
-
-  // Parity check
-  const parity = (arr) => {
-    let inv = 0;
-    for (let i = 0; i < arr.length; i++)
-      for (let j = i + 1; j < arr.length; j++)
-        if (arr[i] > arr[j]) inv++;
-    return inv % 2;
-  };
-  if (parity(cPerm) !== parity(ePerm)) {
-    highlightLowestConf(2);
-    return { ok: false, msg: 'Lỗi chẵn lẻ hoán vị (Parity). Có 2 viên bị quét nhầm — hãy kiểm tra các ô nhấp nháy!' };
-  }
-
-  return { ok: true, msg: '✓ Khối Rubik hợp lệ 100% (đủ 54 ô, góc/cạnh/parity chuẩn)!' };
 }
 
-function highlightLowestConf(n) {
-  const list = [];
-  for (const f of COLOR_KEYS) {
-    for (let i = 0; i < 9; i++) {
-      if (i === 4) continue;
-      list.push({ idx54: FACE_OFFSET[f] + i, conf: scannedConf[f][i] });
+function renderScanGrid() {
+  document.querySelectorAll('#scanGrid .scan-cell').forEach((cell, i) => {
+    const k = liveColors[i];
+    const tag = cell.querySelector('.scan-tag');
+    cell.classList.toggle('locked', streaks[i].locked);
+    if (k) {
+      cell.style.borderColor = COLORS[k].hex;
+      tag.textContent = COLORS[k].short;
+      tag.style.background = COLORS[k].hex;
+      tag.style.color = COLORS[k].text;
+    } else {
+      cell.style.borderColor = 'rgba(255,255,255,0.35)';
+      tag.textContent = '';
     }
-  }
-  list.sort((a, b) => a.conf - b.conf);
-  list.slice(0, n).forEach(x => suspectIndices.add(x.idx54));
-}
-
-// ==================== 2D NET EDITOR ====================
-function initNetEditor() {
-  const pal = document.getElementById('paletteBar');
-  pal.innerHTML = '';
-  COLOR_KEYS.forEach(k => {
-    const btn = document.createElement('button');
-    btn.className = 'pal-btn' + (k === selectedNetColor ? ' selected' : '');
-    btn.dataset.color = k;
-    btn.innerHTML = `<div class="pal-swatch" style="background:${COLORS[k].hex}"></div><span class="pal-cnt">${COLORS[k].short}</span>`;
-    btn.addEventListener('click', () => {
-      selectedNetColor = k;
-      document.querySelectorAll('.pal-btn').forEach(b => b.classList.toggle('selected', b.dataset.color === k));
-    });
-    pal.appendChild(btn);
   });
 }
+
+function renderFaceDots() {
+  const wrap = document.getElementById('faceDots');
+  wrap.innerHTML = '';
+  SCAN_ORDER.forEach((item, idx) => {
+    const btn = document.createElement('button');
+    const done = scannedFaces[item.face].every(x => x !== null);
+    btn.className = 'fdot' + (idx === currentStep ? ' active' : '') + (done ? ' done' : '');
+    btn.innerHTML = `<span class="c" style="background:${COLORS[item.face].hex}"></span>${idx + 1}`;
+    btn.addEventListener('click', () => {
+      currentStep = idx;
+      waitingForNewCenter = false;
+      isGuidingTurn = false;
+      document.getElementById('turnArrowOverlay').classList.remove('show');
+      resetStreaks();
+      renderFaceDots();
+      scanCube.setActiveFace(item.face);
+      scanCube.setTargetRot(item.rx, item.ry);
+      document.getElementById('scanStatusPill').textContent = item.hint;
+      syncScanCube3D();
+    });
+    wrap.appendChild(btn);
+  });
+}
+
+// ==================== VALIDATION & 3D EDIT ====================
+const CORNER_POS = [[8,9,20],[6,18,38],[0,36,47],[2,45,11],[29,26,15],[27,44,24],[33,53,42],[35,17,51]];
+const CORNER_COL = [['U','R','F'],['U','F','L'],['U','L','B'],['U','B','R'],['D','F','R'],['D','L','F'],['D','B','L'],['D','R','B']];
+const EDGE_POS   = [[5,10],[7,19],[3,37],[1,46],[32,16],[28,25],[30,43],[34,52],[23,12],[21,41],[50,39],[48,14]];
+const EDGE_COL   = [['U','R'],['U','F'],['U','L'],['U','B'],['D','R'],['D','F'],['D','L'],['D','B'],['F','R'],['F','L'],['B','L'],['B','R']];
 
 function getState54() {
   const arr = [];
@@ -1271,61 +1048,112 @@ function getState54() {
   return arr;
 }
 
-function renderNetEditor() {
-  const grid = document.getElementById('netGrid');
-  grid.innerHTML = '';
-  const layout = [null, 'U', null, null, 'L', 'F', 'R', 'B', null, 'D', null, null];
+function validateCube54(s) {
+  suspectSet.clear();
   const counts = { U:0, R:0, F:0, D:0, L:0, B:0 };
-  const state54 = getState54();
-  const val = validateCube54(state54);
+  for (let i = 0; i < 54; i++) counts[s[i]]++;
+  const badCnt = COLOR_KEYS.filter(k => counts[k] !== 9);
+  if (badCnt.length) {
+    const over = new Set(COLOR_KEYS.filter(k => counts[k] > 9));
+    const list = [];
+    for (const f of COLOR_KEYS) for (let i = 0; i < 9; i++) if (i !== 4 && over.has(scannedFaces[f][i])) list.push({ idx: FACE_OFFSET[f]+i, conf: scannedConf[f][i] });
+    list.sort((a,b) => a.conf - b.conf);
+    list.slice(0, 3).forEach(x => suspectSet.add(x.idx));
+    return { ok: false, msg: 'Chưa đủ 9 ô mỗi màu — chạm ô nhấp nháy trên khối 3D để sửa' };
+  }
 
-  layout.forEach(face => {
-    if (!face) { grid.appendChild(document.createElement('div')); return; }
-    const box = document.createElement('div');
-    box.className = 'net-face';
-    const lbl = document.createElement('div');
-    lbl.className = 'net-face-label';
-    lbl.textContent = face;
-    box.appendChild(lbl);
-
-    for (let i = 0; i < 9; i++) {
-      const k = scannedFaces[face][i] || (i === 4 ? face : null);
-      if (k) counts[k]++;
-      const idx54 = FACE_OFFSET[face] + i;
-      const st = document.createElement('div');
-      st.className = 'net-sticker' + (suspectIndices.has(idx54) ? ' suspect' : '');
-      st.style.background = k ? COLORS[k].hex : '#2a2a35';
-      if (i === 4) st.style.outline = '2px solid rgba(255,255,255,0.65)';
-      st.addEventListener('click', () => {
-        if (i === 4) { showToast('Ô tâm cố định màu ' + COLORS[face].name); return; }
-        scannedFaces[face][i] = selectedNetColor;
-        scannedConf[face][i] = 99;
-        renderNetEditor();
-        renderFacePills();
-        syncScanCube3D();
-      });
-      box.appendChild(st);
+  const cPerm = [], cOri = [];
+  for (let p = 0; p < 8; p++) {
+    const cols = CORNER_POS[p].map(i => s[i]);
+    let found = -1, ori = 0;
+    for (let k = 0; k < 8; k++) {
+      const ref = CORNER_COL[k];
+      for (let o = 0; o < 3; o++) if (cols[0]===ref[o] && cols[1]===ref[(o+1)%3] && cols[2]===ref[(o+2)%3]) { found = k; ori = (3-o)%3; break; }
+      if (found !== -1) break;
     }
-    grid.appendChild(box);
-  });
+    if (found === -1 || cPerm.includes(found)) {
+      CORNER_POS[p].forEach(i => suspectSet.add(i));
+      return { ok: false, msg: 'Viên góc không hợp lệ — chạm ô nhấp nháy để sửa' };
+    }
+    cPerm.push(found); cOri.push(ori);
+  }
+  if (cOri.reduce((a,b)=>a+b,0) % 3 !== 0) {
+    highlightLowestConf(2);
+    return { ok: false, msg: 'Lỗi xoắn góc — chạm ô nhấp nháy để sửa' };
+  }
 
+  const ePerm = [], eOri = [];
+  for (let p = 0; p < 12; p++) {
+    const [c0, c1] = EDGE_POS[p].map(i => s[i]);
+    let found = -1, ori = 0;
+    for (let k = 0; k < 12; k++) {
+      const [r0, r1] = EDGE_COL[k];
+      if (c0===r0 && c1===r1) { found=k; ori=0; break; }
+      if (c0===r1 && c1===r0) { found=k; ori=1; break; }
+    }
+    if (found === -1 || ePerm.includes(found)) {
+      EDGE_POS[p].forEach(i => suspectSet.add(i));
+      return { ok: false, msg: 'Viên cạnh không hợp lệ — chạm ô nhấp nháy để sửa' };
+    }
+    ePerm.push(found); eOri.push(ori);
+  }
+  if (eOri.reduce((a,b)=>a+b,0) % 2 !== 0) {
+    highlightLowestConf(2);
+    return { ok: false, msg: 'Lỗi lật cạnh — chạm ô nhấp nháy để sửa' };
+  }
+  const par = arr => { let inv=0; for (let i=0;i<arr.length;i++) for (let j=i+1;j<arr.length;j++) if (arr[i]>arr[j]) inv++; return inv%2; };
+  if (par(cPerm) !== par(ePerm)) {
+    highlightLowestConf(2);
+    return { ok: false, msg: 'Lỗi chẵn lẻ (Parity) — chạm ô nhấp nháy để sửa' };
+  }
+  return { ok: true, msg: 'Khối Rubik hợp lệ 100% — sẵn sàng giải!' };
+}
+
+function highlightLowestConf(n) {
+  const list = [];
+  for (const f of COLOR_KEYS) for (let i = 0; i < 9; i++) if (i !== 4) list.push({ idx: FACE_OFFSET[f]+i, conf: scannedConf[f][i] });
+  list.sort((a,b) => a.conf - b.conf);
+  list.slice(0, n).forEach(x => suspectSet.add(x.idx));
+}
+
+function initPalette() {
+  const row = document.getElementById('paletteRow');
+  row.innerHTML = '';
+  COLOR_KEYS.forEach(k => {
+    const b = document.createElement('button');
+    b.className = 'pal-btn' + (k === selectedEditColor ? ' selected' : '');
+    b.dataset.c = k;
+    b.innerHTML = `<span class="pal-dot" style="background:${COLORS[k].hex}"></span><span class="pal-cnt">0</span>`;
+    b.addEventListener('click', () => {
+      selectedEditColor = k;
+      document.querySelectorAll('.pal-btn').forEach(x => x.classList.toggle('selected', x.dataset.c === k));
+    });
+    row.appendChild(b);
+  });
+}
+
+function refreshEditTab() {
+  const s = getState54();
+  const val = validateCube54(s);
+  const st = document.getElementById('editStatus');
+  st.textContent = val.msg;
+  st.className = 'edit-status ' + (val.ok ? 'ok' : 'err');
+
+  const counts = { U:0, R:0, F:0, D:0, L:0, B:0 };
+  s.forEach(k => counts[k]++);
   document.querySelectorAll('.pal-btn').forEach(b => {
-    const k = b.dataset.color;
-    b.querySelector('.pal-cnt').textContent = `${COLORS[k].short} (${counts[k]})`;
+    b.querySelector('.pal-cnt').textContent = counts[b.dataset.c] + '/9';
   });
 
-  const statusEl = document.getElementById('netStatus');
-  if (val.ok) {
-    statusEl.innerHTML = `<span style="color:#86efac;font-weight:700;">${val.msg}</span>`;
-  } else {
-    statusEl.innerHTML = `<span style="color:#fca5a5;font-weight:700;">⚠️ ${val.msg}</span>`;
+  if (editCube) {
+    editCube.setStickers(s);
+    editCube.setBlinking(suspectSet);
   }
 }
 
 // ==================== KOCIEMBA 2-PHASE WEB WORKER ====================
-const workerCode = `
-  let ready = false;
-  let loadError = null;
+const workerSrc = `
+  let ready = false, err = null;
   try {
     importScripts(
       'https://cdn.jsdelivr.net/npm/cubejs@1.3.2/lib/cube.js',
@@ -1335,20 +1163,16 @@ const workerCode = `
     ready = true;
     postMessage({ type: 'ready' });
   } catch (e) {
-    loadError = String(e);
-    postMessage({ type: 'error', error: loadError });
+    err = String(e);
+    postMessage({ type: 'error', error: err });
   }
-
   onmessage = function(ev) {
     const { id, facelets } = ev.data;
-    if (!ready) {
-      postMessage({ type: 'result', id, ok: false, error: loadError || 'not_ready' });
-      return;
-    }
+    if (!ready) { postMessage({ type: 'result', id, ok: false, error: err || 'loading' }); return; }
     try {
-      const cube = Cube.fromString(facelets);
-      const solStr = cube.solve();
-      const moves = solStr ? solStr.trim().split(/\\s+/).filter(Boolean) : [];
+      const c = Cube.fromString(facelets);
+      const sol = c.solve();
+      const moves = sol ? sol.trim().split(/\\s+/).filter(Boolean) : [];
       postMessage({ type: 'result', id, ok: true, moves });
     } catch (e) {
       postMessage({ type: 'result', id, ok: false, error: String(e) });
@@ -1356,279 +1180,212 @@ const workerCode = `
   };
 `;
 
-let kociembaWorker = null;
-let kociembaReady = false;
-let solveReqId = 0;
-const pendingSolves = new Map();
-
-function initKociembaWorker() {
+let kWorker = null, reqId = 0;
+const pending = new Map();
+function initWorker() {
   try {
-    const blob = new Blob([workerCode], { type: 'application/javascript' });
-    kociembaWorker = new Worker(URL.createObjectURL(blob));
-    kociembaWorker.onmessage = (ev) => {
-      const d = ev.data;
-      if (d.type === 'ready') {
-        kociembaReady = true;
-      } else if (d.type === 'result') {
-        const cb = pendingSolves.get(d.id);
-        if (cb) { pendingSolves.delete(d.id); cb(d); }
+    kWorker = new Worker(URL.createObjectURL(new Blob([workerSrc], { type: 'application/javascript' })));
+    kWorker.onmessage = ev => {
+      if (ev.data.type === 'result') {
+        const cb = pending.get(ev.data.id);
+        if (cb) { pending.delete(ev.data.id); cb(ev.data); }
       }
     };
-  } catch (e) {
-    kociembaWorker = null;
-  }
+  } catch (e) { kWorker = null; }
 }
 
-// Cube move application for 3D playback
+// Logical move application for 3D state sync
 function makeSolved() { return 'UUUUUUUUURRRRRRRRRFFFFFFFFFDDDDDDDDDLLLLLLLLLBBBBBBBBB'.split(''); }
-function rotateFaceCW(c, o) {
-  const t0=c[o], t1=c[o+1], t2=c[o+2], t3=c[o+3], t5=c[o+5], t6=c[o+6], t7=c[o+7], t8=c[o+8];
-  c[o]=t6; c[o+1]=t3; c[o+2]=t0; c[o+3]=t7; c[o+5]=t1; c[o+6]=t8; c[o+7]=t5; c[o+8]=t2;
+function rotCW(c, o) {
+  const t0=c[o],t1=c[o+1],t2=c[o+2],t3=c[o+3],t5=c[o+5],t6=c[o+6],t7=c[o+7],t8=c[o+8];
+  c[o]=t6;c[o+1]=t3;c[o+2]=t0;c[o+3]=t7;c[o+5]=t1;c[o+6]=t8;c[o+7]=t5;c[o+8]=t2;
 }
-function applyBasicMove(c, m) {
-  if (m === 'U') {
-    rotateFaceCW(c, 0); const t = [c[18], c[19], c[20]];
-    c[18]=c[9]; c[19]=c[10]; c[20]=c[11]; c[9]=c[45]; c[10]=c[46]; c[11]=c[47];
-    c[45]=c[36]; c[46]=c[37]; c[47]=c[38]; c[36]=t[0]; c[37]=t[1]; c[38]=t[2];
-  } else if (m === 'D') {
-    rotateFaceCW(c, 27); const t = [c[24], c[25], c[26]];
-    c[24]=c[42]; c[25]=c[43]; c[26]=c[44]; c[42]=c[51]; c[43]=c[52]; c[44]=c[53];
-    c[51]=c[15]; c[52]=c[16]; c[53]=c[17]; c[15]=t[0]; c[16]=t[1]; c[17]=t[2];
-  } else if (m === 'F') {
-    rotateFaceCW(c, 18); const t = [c[6], c[7], c[8]];
-    c[6]=c[44]; c[7]=c[41]; c[8]=c[38]; c[44]=c[29]; c[41]=c[28]; c[38]=c[27];
-    c[29]=c[9]; c[28]=c[12]; c[27]=c[15]; c[9]=t[0]; c[12]=t[1]; c[15]=t[2];
-  } else if (m === 'B') {
-    rotateFaceCW(c, 45); const t = [c[2], c[1], c[0]];
-    c[2]=c[17]; c[1]=c[14]; c[0]=c[11]; c[17]=c[33]; c[14]=c[34]; c[11]=c[35];
-    c[33]=c[36]; c[34]=c[39]; c[35]=c[42]; c[36]=t[0]; c[39]=t[1]; c[42]=t[2];
-  } else if (m === 'R') {
-    rotateFaceCW(c, 9); const t = [c[8], c[5], c[2]];
-    c[8]=c[26]; c[5]=c[23]; c[2]=c[20]; c[26]=c[35]; c[23]=c[32]; c[20]=c[29];
-    c[35]=c[45]; c[32]=c[48]; c[29]=c[51]; c[45]=t[0]; c[48]=t[1]; c[51]=t[2];
-  } else if (m === 'L') {
-    rotateFaceCW(c, 36); const t = [c[0], c[3], c[6]];
-    c[0]=c[53]; c[3]=c[50]; c[6]=c[47]; c[53]=c[27]; c[50]=c[30]; c[47]=c[33];
-    c[27]=c[18]; c[30]=c[21]; c[33]=c[24]; c[18]=t[0]; c[21]=t[1]; c[24]=t[2];
-  }
+function applyBasic(c, m) {
+  if (m==='U'){rotCW(c,0);const t=[c[18],c[19],c[20]];c[18]=c[9];c[19]=c[10];c[20]=c[11];c[9]=c[45];c[10]=c[46];c[11]=c[47];c[45]=c[36];c[46]=c[37];c[47]=c[38];c[36]=t[0];c[37]=t[1];c[38]=t[2];}
+  else if (m==='D'){rotCW(c,27);const t=[c[24],c[25],c[26]];c[24]=c[42];c[25]=c[43];c[26]=c[44];c[42]=c[51];c[43]=c[52];c[44]=c[53];c[51]=c[15];c[52]=c[16];c[53]=c[17];c[15]=t[0];c[16]=t[1];c[17]=t[2];}
+  else if (m==='F'){rotCW(c,18);const t=[c[6],c[7],c[8]];c[6]=c[44];c[7]=c[41];c[8]=c[38];c[44]=c[29];c[41]=c[28];c[38]=c[27];c[29]=c[9];c[28]=c[12];c[27]=c[15];c[9]=t[0];c[12]=t[1];c[15]=t[2];}
+  else if (m==='B'){rotCW(c,45);const t=[c[2],c[1],c[0]];c[2]=c[17];c[1]=c[14];c[0]=c[11];c[17]=c[33];c[14]=c[34];c[11]=c[35];c[33]=c[36];c[34]=c[39];c[35]=c[42];c[36]=t[0];c[39]=t[1];c[42]=t[2];}
+  else if (m==='R'){rotCW(c,9);const t=[c[8],c[5],c[2]];c[8]=c[26];c[5]=c[23];c[2]=c[20];c[26]=c[35];c[23]=c[32];c[20]=c[29];c[35]=c[45];c[32]=c[48];c[29]=c[51];c[45]=t[0];c[48]=t[1];c[51]=t[2];}
+  else if (m==='L'){rotCW(c,36);const t=[c[0],c[3],c[6]];c[0]=c[53];c[3]=c[50];c[6]=c[47];c[53]=c[27];c[50]=c[30];c[47]=c[33];c[27]=c[18];c[30]=c[21];c[33]=c[24];c[18]=t[0];c[21]=t[1];c[24]=t[2];}
 }
-function applyMove(c, move) {
-  const base = move[0];
-  const times = move.length === 1 ? 1 : (move[1] === "'" ? 3 : 2);
-  for (let i = 0; i < times; i++) applyBasicMove(c, base);
+function applyMove(c, m) {
+  const n = m.length === 1 ? 1 : (m[1] === "'" ? 3 : 2);
+  for (let i = 0; i < n; i++) applyBasic(c, m[0]);
 }
-
+function invertMove(m) {
+  if (m.length === 1) return m + "'";
+  if (m[1] === "'") return m[0];
+  return m;
+}
 function describeMove(m) {
-  const faceMap = { U: 'Tầng TRÊN (Trắng)', D: 'Tầng DƯỚI (Vàng)', F: 'Mặt TRƯỚC (Xanh Lá)', B: 'Mặt SAU (Xanh Dương)', R: 'Mặt PHẢI (Đỏ)', L: 'Mặt TRÁI (Cam)' };
-  const f = m[0];
-  const dir = m.length === 1 ? 'thuận chiều kim đồng hồ 90°' : (m[1] === "'" ? 'ngược chiều kim đồng hồ 90°' : 'xoay nửa vòng 180°');
-  return { title: `Xoay ${faceMap[f]}`, sub: `Vặn ${dir} (ký hiệu ${m})` };
+  const f = { U:'Trên (Trắng)', D:'Dưới (Vàng)', F:'Trước (Xanh Lá)', B:'Sau (Xanh Dương)', R:'Phải (Đỏ)', L:'Trái (Cam)' }[m[0]];
+  const d = m.length === 1 ? 'xuôi 90°' : (m[1] === "'" ? 'ngược 90°' : '180°');
+  return `${f} • ${d}`;
 }
 
-function startSolving(state54) {
+function getCubeAtStep(step) {
+  const c = [...(initialSolveState || makeSolved())];
+  for (let i = 0; i < step; i++) applyMove(c, solutionMoves[i]);
+  return c;
+}
+
+function startKociembaSolve(state54) {
   stopCamera(true);
-  stopAutoPlay();
-
-  const val = validateCube54(state54);
-  if (!val.ok) {
-    showToast('Phát hiện ô sai — đã đánh dấu nhấp nháy ở Sơ đồ 2D!');
-    switchTab('net');
-    return;
-  }
-
+  stopPlay();
   initialSolveState = [...state54];
   switchTab('solve');
   document.getElementById('moveBadge').textContent = '⏳';
-  document.getElementById('moveTitle').textContent = 'Đang giải bằng Kociemba 2-Phase...';
-  document.getElementById('moveSub').textContent = 'Đang chạy ngầm trong Web Worker (không đơ máy)';
-  if (solverCubeEngine) solverCubeEngine.setStickers(state54);
+  document.getElementById('moveText').textContent = 'Đang giải Kociemba...';
+  if (solverCube) solverCube.setStickers(state54);
 
-  if (!kociembaWorker) {
-    showToast('Không thể khởi chạy Web Worker trên trình duyệt này');
-    return;
-  }
-
-  const reqId = ++solveReqId;
-  pendingSolves.set(reqId, (res) => {
+  if (!kWorker) { showToast('Lỗi Web Worker'); return; }
+  const id = ++reqId;
+  pending.set(id, res => {
     if (!res.ok) {
-      showToast('Kociemba chưa sẵn sàng hoặc mất mạng — hãy thử lại!');
       document.getElementById('moveBadge').textContent = '⚠️';
-      document.getElementById('moveTitle').textContent = 'Chưa tải được bộ giải Kociemba';
-      document.getElementById('moveSub').textContent = 'Hãy kiểm tra kết nối mạng rồi bấm Giải lại';
+      document.getElementById('moveText').textContent = 'Đang tải bộ giải, thử lại sau 2 giây';
       return;
     }
     solutionMoves = res.moves;
-    solveStep = 0;
+    solveIndex = 0;
     renderMovesStrip();
-    updateSolverView();
-    if (solutionMoves.length === 0) speak('Khối Rubik của bạn đã được giải hoàn chỉnh!');
-    else speak(`Đã tìm thấy lời giải tối ưu Kociemba gồm ${solutionMoves.length} bước.`);
+    updateSolverUI();
   });
-
-  kociembaWorker.postMessage({ id: reqId, facelets: state54.join('') });
+  kWorker.postMessage({ id, facelets: state54.join('') });
 }
 
 function renderMovesStrip() {
   const strip = document.getElementById('movesStrip');
   strip.innerHTML = '';
   solutionMoves.forEach((m, idx) => {
-    const chip = document.createElement('button');
-    chip.className = 'move-chip';
-    chip.textContent = `${idx + 1}.${m}`;
-    chip.addEventListener('click', () => { stopAutoPlay(); solveStep = idx + 1; updateSolverView(); });
-    strip.appendChild(chip);
+    const b = document.createElement('button');
+    b.className = 'mchip';
+    b.textContent = `${idx + 1}.${m}`;
+    b.addEventListener('click', () => {
+      if (isAnimatingMove) return;
+      stopPlay();
+      solveIndex = idx + 1;
+      solverCube.setStickers(getCubeAtStep(solveIndex));
+      updateSolverUI();
+    });
+    strip.appendChild(b);
   });
 }
 
-function updateSolverView() {
+function updateSolverUI() {
   const total = solutionMoves.length;
-  const pct = total === 0 ? 100 : Math.round((solveStep / total) * 100);
-  document.getElementById('solveProgressLabel').textContent = `Bước ${solveStep} / ${total}`;
-  document.getElementById('solvePctLabel').textContent = `${pct}%`;
-  document.getElementById('solveProgressFill').style.width = `${pct}%`;
-
-  const c = [...(initialSolveState || makeSolved())];
-  for (let i = 0; i < solveStep; i++) applyMove(c, solutionMoves[i]);
-  if (solverCubeEngine) solverCubeEngine.setStickers(c);
+  const pct = total ? Math.round((solveIndex / total) * 100) : 100;
+  document.getElementById('solveStepText').textContent = `${solveIndex} / ${total}`;
+  document.getElementById('solvePctText').textContent = `${pct}%`;
+  document.getElementById('solveProgFill').style.width = `${pct}%`;
 
   const badge = document.getElementById('moveBadge');
-  const title = document.getElementById('moveTitle');
-  const sub = document.getElementById('moveSub');
-
-  if (total === 0 || solveStep >= total) {
+  const text = document.getElementById('moveText');
+  if (total === 0 || solveIndex >= total) {
     badge.textContent = '🎉';
-    title.textContent = 'HOÀN THÀNH GIẢI RUBIK 100%!';
-    sub.textContent = 'Chúc mừng bạn đã đưa khối Rubik về 6 mặt đồng màu!';
-    stopAutoPlay();
+    text.textContent = 'Đã giải hoàn chỉnh!';
+    stopPlay();
   } else {
-    const nextMove = solutionMoves[solveStep];
-    const info = describeMove(nextMove);
-    badge.textContent = nextMove;
-    title.textContent = info.title;
-    sub.textContent = info.sub;
+    const m = solutionMoves[solveIndex];
+    badge.textContent = m;
+    text.textContent = describeMove(m);
   }
-
-  document.querySelectorAll('#movesStrip .move-chip').forEach((ch, idx) => {
-    ch.classList.toggle('done', idx < solveStep);
-    ch.classList.toggle('current', idx === solveStep);
-    if (idx === solveStep) ch.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  document.querySelectorAll('.mchip').forEach((c, idx) => {
+    c.classList.toggle('done', idx < solveIndex);
+    c.classList.toggle('cur', idx === solveIndex);
+    if (idx === solveIndex) c.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
   });
 }
 
-function stepForward() {
-  if (solveStep < solutionMoves.length) {
-    const m = solutionMoves[solveStep];
-    solveStep++;
-    updateSolverView();
-    const info = describeMove(m);
-    speak(`${info.title}, ${info.sub}`);
-    if (solveStep === solutionMoves.length) setTimeout(() => speak('Chúc mừng! Bạn đã giải xong Rubik!'), 600);
-  }
+function stepForward(autoContinue = false) {
+  if (isAnimatingMove || solveIndex >= solutionMoves.length) return;
+  const move = solutionMoves[solveIndex];
+  isAnimatingMove = true;
+  solverCube.animateLayerMove(move, Math.max(240, moveAnimMs * 0.72), () => {
+    solveIndex++;
+    solverCube.setStickers(getCubeAtStep(solveIndex));
+    updateSolverUI();
+    isAnimatingMove = false;
+    if (autoContinue && isPlaying && solveIndex < solutionMoves.length) {
+      playTimeout = setTimeout(() => stepForward(true), Math.max(120, moveAnimMs * 0.28));
+    } else if (solveIndex >= solutionMoves.length) {
+      stopPlay();
+    }
+  });
 }
-function stepBackward() { if (solveStep > 0) { solveStep--; updateSolverView(); } }
-function stopAutoPlay() {
+
+function stepBackward() {
+  if (isAnimatingMove || solveIndex <= 0) return;
+  stopPlay();
+  const inv = invertMove(solutionMoves[solveIndex - 1]);
+  isAnimatingMove = true;
+  solverCube.animateLayerMove(inv, Math.max(240, moveAnimMs * 0.65), () => {
+    solveIndex--;
+    solverCube.setStickers(getCubeAtStep(solveIndex));
+    updateSolverUI();
+    isAnimatingMove = false;
+  });
+}
+
+function stopPlay() {
   isPlaying = false;
-  if (playTimer) { clearInterval(playTimer); playTimer = null; }
-  document.getElementById('btnPlayPause').textContent = '▶ Tự chạy';
+  if (playTimeout) { clearTimeout(playTimeout); playTimeout = null; }
+  document.getElementById('btnPlayPause').textContent = '▶ Chạy';
 }
-function toggleAutoPlay() {
-  if (isPlaying) stopAutoPlay();
-  else {
-    if (solveStep >= solutionMoves.length) solveStep = 0;
-    isPlaying = true;
-    document.getElementById('btnPlayPause').textContent = '⏸ Tạm dừng';
-    stepForward();
-    playTimer = setInterval(() => { if (solveStep >= solutionMoves.length) stopAutoPlay(); else stepForward(); }, playSpeed);
+
+function togglePlay() {
+  if (isPlaying) { stopPlay(); return; }
+  if (solveIndex >= solutionMoves.length) {
+    solveIndex = 0;
+    solverCube.setStickers(getCubeAtStep(0));
+    updateSolverUI();
   }
+  isPlaying = true;
+  document.getElementById('btnPlayPause').textContent = '⏸ Tạm dừng';
+  stepForward(true);
 }
 
 // ==================== NAVIGATION & EVENTS ====================
 function switchTab(tab) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
   document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + tab));
-  if (tab === 'net') { stopCamera(true); renderNetEditor(); }
-  else if (tab === 'solve') { stopCamera(true); setTimeout(() => solverCubeEngine && solverCubeEngine.resize(), 40); }
-  else { setTimeout(() => scanCubeEngine && scanCubeEngine.resize(), 40); }
+  if (tab === 'edit') {
+    stopCamera(true);
+    refreshEditTab();
+    setTimeout(() => editCube && editCube.resize(), 40);
+  } else if (tab === 'solve') {
+    stopCamera(true);
+    setTimeout(() => solverCube && solverCube.resize(), 40);
+  } else {
+    setTimeout(() => scanCube && scanCube.resize(), 40);
+  }
 }
 
 document.querySelectorAll('.tab-btn').forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
-document.getElementById('btnBigStartCam').addEventListener('click', startCamera);
+document.getElementById('btnStartCamBig').addEventListener('click', startCamera);
 document.getElementById('btnToggleCam').addEventListener('click', () => isCamOn ? stopCamera(true) : startCamera());
-document.getElementById('btnPhotoCapture').addEventListener('click', () => document.getElementById('nativeCameraInput').click());
-document.getElementById('btnFreeze').addEventListener('click', () => {
-  isFrozen = !isFrozen;
-  updateCamButtons();
-  showToast(isFrozen ? 'Đã khoá màu — chạm từng ô để chỉnh tay' : 'Đã mở khoá nhận diện màu');
-});
 document.getElementById('btnFlipCam').addEventListener('click', () => {
-  facingMode = (facingMode === 'environment') ? 'user' : 'environment';
+  facingMode = facingMode === 'environment' ? 'user' : 'environment';
   startCamera();
 });
-document.getElementById('btnVoiceToggle').addEventListener('click', () => {
-  voiceEnabled = !voiceEnabled;
-  document.getElementById('btnVoiceToggle').textContent = voiceEnabled ? '🔊' : '🔇';
-  showToast(voiceEnabled ? 'Đã bật giọng nói hướng dẫn' : 'Đã tắt giọng nói');
-});
-document.getElementById('btnResetAll').addEventListener('click', () => {
-  stopAutoPlay();
-  for (const f of COLOR_KEYS) {
-    scannedFaces[f] = Array(9).fill(null);
-    scannedLab[f] = Array(9).fill(null);
-    scannedConf[f] = Array(9).fill(99);
-  }
-  calibratedLab = JSON.parse(JSON.stringify(DEFAULT_LAB_REF));
-  calibratedSet.clear();
-  whiteBalanceGain = [1, 1, 1];
-  photoCanvas.style.display = 'none';
-  selectScanStep(0);
+
+document.getElementById('btnReset').addEventListener('click', () => {
+  stopPlay();
+  for (const f of COLOR_KEYS) { scannedFaces[f] = Array(9).fill(null); scannedConf[f] = Array(9).fill(99); }
+  calibratedLab = {}; calibratedSet.clear();
+  currentStep = 0; waitingForNewCenter = false; isGuidingTurn = false;
+  document.getElementById('turnArrowOverlay').classList.remove('show');
+  resetStreaks();
+  renderFaceDots();
+  scanCube.setActiveFace('F');
+  scanCube.setTargetRot(SCAN_ORDER[0].rx, SCAN_ORDER[0].ry);
+  document.getElementById('scanStatusPill').textContent = SCAN_ORDER[0].hint;
+  syncScanCube3D();
   switchTab('scan');
-  showToast('Đã làm mới toàn bộ 6 mặt & bảng hiệu chỉnh màu');
-});
-document.getElementById('btnPrevFace').addEventListener('click', () => { if (currentStepIdx > 0) selectScanStep(currentStepIdx - 1); });
-
-document.getElementById('btnNextFace').addEventListener('click', () => {
-  const info = SCAN_ORDER[currentStepIdx];
-  scannedFaces[info.face] = [...liveColors];
-  scannedLab[info.face] = [...liveLabs];
-  scannedConf[info.face] = [...liveConfs];
-
-  // Auto-calibrate reference Lab color for this face using its measured center sticker
-  if (liveLabs[4]) {
-    calibratedLab[info.face] = [...liveLabs[4]];
-    calibratedSet.add(info.face);
-  }
-  renderFacePills();
-
-  if (currentStepIdx < 5) {
-    document.getElementById('turnSavedLabel').textContent = `✓ Đã lưu & hiệu chỉnh ${info.short} (${currentStepIdx + 1}/6)`;
-    const mini = document.getElementById('turnMiniGrid');
-    mini.innerHTML = '';
-    liveColors.forEach(k => {
-      const d = document.createElement('div');
-      d.className = 'turn-mini-cell';
-      d.style.background = COLORS[k].hex;
-      mini.appendChild(d);
-    });
-    document.getElementById('turnBigArrow').textContent = info.nextArrow;
-    document.getElementById('turnTitle').textContent = info.nextTitle;
-    document.getElementById('turnDesc').textContent = info.nextDesc;
-    document.getElementById('turnModal').classList.add('show');
-    clearTimeout(window.__autoTurn); window.__autoTurn = setTimeout(() => { if (document.getElementById('turnModal').classList.contains('show')) document.getElementById('btnTurnOk').click(); }, 3500);
-    speak(`Đã lưu xong mặt ${currentStepIdx + 1}. ${info.nextTitle}. ${info.nextDesc}`);
-  } else {
-    recalibrateAllScannedStickers();
-    startSolving(getState54());
-  }
+  showToast('Đã làm mới');
 });
 
-document.getElementById('btnTurnOk').addEventListener('click', () => {
-  document.getElementById('turnModal').classList.remove('show');
-  photoCanvas.style.display = 'none';
-  selectScanStep(currentStepIdx + 1);
-});
-document.getElementById('btnTurnRedo').addEventListener('click', () => document.getElementById('turnModal').classList.remove('show'));
-
-document.getElementById('btnQuickTest').addEventListener('click', () => {
+document.getElementById('btnTest').addEventListener('click', () => {
   const c = makeSolved();
   const pool = ["U","U'","U2","D","D'","F","F'","B","B'","L","L'","R","R'"];
   for (let i = 0; i < 20; i++) applyMove(c, pool[Math.floor(Math.random() * pool.length)]);
@@ -1637,33 +1394,54 @@ document.getElementById('btnQuickTest').addEventListener('click', () => {
     scannedFaces[f] = c.slice(off, off + 9);
     scannedConf[f] = Array(9).fill(99);
   }
-  renderFacePills();
+  renderFaceDots();
   syncScanCube3D();
-  showToast('Đã tạo khối xáo trộn mẫu — đang giải Kociemba 2-Phase!');
-  startSolving(c);
+  startKociembaSolve(c);
 });
 
-document.getElementById('btnBackToScan').addEventListener('click', () => switchTab('scan'));
-document.getElementById('btnSolveFromNet').addEventListener('click', () => startSolving(getState54()));
-document.getElementById('btnStepNext').addEventListener('click', () => { stopAutoPlay(); stepForward(); });
-document.getElementById('btnStepPrev').addEventListener('click', () => { stopAutoPlay(); stepBackward(); });
-document.getElementById('btnPlayPause').addEventListener('click', toggleAutoPlay);
-
-document.querySelectorAll('.speed-pill').forEach(btn => {
-  btn.addEventListener('click', () => {
-    playSpeed = parseInt(btn.dataset.speed, 10);
-    document.querySelectorAll('.speed-pill').forEach(b => b.classList.toggle('active', b === btn));
-    if (isPlaying) { stopAutoPlay(); toggleAutoPlay(); }
-  });
+document.getElementById('btnBackScan').addEventListener('click', () => switchTab('scan'));
+document.getElementById('btnRunSolve').addEventListener('click', () => {
+  const s = getState54();
+  const val = validateCube54(s);
+  if (!val.ok) { refreshEditTab(); showToast(val.msg); return; }
+  startKociembaSolve(s);
 });
 
+document.getElementById('btnNextMove').addEventListener('click', () => { stopPlay(); stepForward(false); });
+document.getElementById('btnPrevMove').addEventListener('click', stepBackward);
+document.getElementById('btnPlayPause').addEventListener('click', togglePlay);
+document.querySelectorAll('.sp-btn').forEach(b => b.addEventListener('click', () => {
+  moveAnimMs = parseInt(b.dataset.ms, 10);
+  document.querySelectorAll('.sp-btn').forEach(x => x.classList.toggle('active', x === b));
+}));
+
+// ==================== INIT ====================
 window.addEventListener('DOMContentLoaded', () => {
   initScanGrid();
-  initNetEditor();
-  initKociembaWorker();
-  scanCubeEngine = createCubeEngine('scanCubeCanvas');
-  solverCubeEngine = createCubeEngine('solverCubeCanvas');
-  selectScanStep(0);
+  initPalette();
+  initWorker();
+
+  scanCube = createRubik3D('scanCanvas', { showActiveBorder: true });
+  scanCube.setActiveFace('F');
+  scanCube.setTargetRot(SCAN_ORDER[0].rx, SCAN_ORDER[0].ry);
+
+  editCube = createRubik3D('editCanvas', {
+    onStickerTap: (idx54) => {
+      const faceIdx = Math.floor(idx54 / 9);
+      const localIdx = idx54 % 9;
+      if (localIdx === 4) { showToast('Ô tâm cố định'); return; }
+      const f = COLOR_KEYS[faceIdx];
+      scannedFaces[f][localIdx] = selectedEditColor;
+      scannedConf[f][localIdx] = 99;
+      refreshEditTab();
+      renderFaceDots();
+    }
+  });
+
+  solverCube = createRubik3D('solverCanvas', {});
+
+  renderFaceDots();
+  syncScanCube3D();
 });
 </script>
 </body>
