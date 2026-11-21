@@ -26,8 +26,8 @@ button{font-family:inherit;cursor:pointer;border:0}
 /* Sông */
 #song{position:fixed;left:0;right:0;top:0;height:31vh;overflow:hidden;
   background:linear-gradient(#8fd8ff 0,#c9f0ff 30%,#3fb4e8 30%,#1e8ed1 100%)}
-#song .song-ve{position:absolute;inset:30% 0 0 0;background:repeating-linear-gradient(100deg,rgba(255,255,255,.18) 0 18px,transparent 18px 70px);animation:troi 3s linear infinite}
-@keyframes troi{to{background-position:-140px 0}}
+#song .song-ve{position:absolute;top:30%;bottom:0;left:-140px;right:-140px;background:repeating-linear-gradient(100deg,rgba(255,255,255,.18) 0 18px,transparent 18px 70px);animation:troi 3s linear infinite;will-change:transform}
+@keyframes troi{to{transform:translate3d(-140px,0,0)}}
 #song .lan{position:absolute;left:0;right:0;height:33%;border-top:3px dashed rgba(255,255,255,.35)}
 #lan1{top:33%}#lan2{top:66%}
 .thuyen{position:absolute;left:2%;width:clamp(70px,9vw,130px);height:clamp(46px,6vw,84px);transition:left .9s cubic-bezier(.3,1.4,.5,1);transform:translateY(-50%)}
@@ -71,23 +71,23 @@ button{font-family:inherit;cursor:pointer;border:0}
 .nhay{animation:nhay .45s}
 @keyframes nhay{40%{transform:scale(1.04)}}
 /* Màn đầu & cuối */
-.man{position:fixed;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.2vh;padding:3vh 3vw;text-align:center;
+.man{position:fixed;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.4vh;padding:1.8vh 3vw;text-align:center;
   background:radial-gradient(circle at 50% 110%,#ffe066 0,transparent 45%),linear-gradient(170deg,#74c0fc,#9775fa 70%,#f783ac)}
-.man h1{font-size:clamp(40px,6.8vw,104px);line-height:.95;color:#fff;text-shadow:0 5px 0 #5f3dc4,0 10px 18px rgba(0,0,0,.25)}
+.man h1{font-size:clamp(32px,5.2vw,80px);line-height:.95;color:#fff;text-shadow:0 5px 0 #5f3dc4,0 10px 18px rgba(0,0,0,.25)}
 .man h1 small{display:block;font-size:.38em;text-shadow:0 3px 0 #5f3dc4}
-.man p{font-size:clamp(17px,2vw,28px);color:#fff;max-width:1100px;text-shadow:0 2px 0 rgba(0,0,0,.25)}
-.hai{display:flex;gap:4vw;justify-content:center;flex-wrap:wrap}
-.the{width:clamp(180px,22vw,320px);border-radius:26px;padding:1.6vh 1vw;color:#fff;font-weight:800;font-size:clamp(20px,2.3vw,34px);border:5px solid #fff;display:flex;flex-direction:column;align-items:center;gap:.5vh}
-.the img{width:62%;aspect-ratio:1;border-radius:50%;object-fit:cover;border:5px solid #fff}
+.man p{font-size:clamp(15px,1.6vw,23px);color:#fff;max-width:1100px;text-shadow:0 2px 0 rgba(0,0,0,.25)}
+.hai{display:flex;gap:3vw;justify-content:center;flex-wrap:wrap}
+.the{width:clamp(150px,18vw,250px);border-radius:22px;padding:1vh .8vw;color:#fff;font-weight:800;font-size:clamp(17px,1.9vw,27px);border:4px solid #fff;display:flex;flex-direction:column;align-items:center;gap:.3vh}
+.the img{width:46%;aspect-ratio:1;border-radius:50%;object-fit:cover;border:4px solid #fff}
 .the small{font-size:.6em;font-weight:700;line-height:1.15}
 .the.lucie{background:linear-gradient(#ff8fc7,#d6337f)}.the.lucas{background:linear-gradient(#74c0fc,#1971c2)}
 .the .phimgoi{font-size:.55em;background:rgba(0,0,0,.2);border-radius:12px;padding:.1em .6em}
 .nutRow{display:flex;gap:1.5vw;flex-wrap:wrap;justify-content:center}
-#tayCam{background:rgba(255,255,255,.92);color:#22163d;border-radius:22px;padding:1.2vh 1.6vw;font-size:clamp(14px,1.4vw,20px);max-width:900px}
-#tayCam .qr2{display:flex;gap:3vw;justify-content:center;margin:.8vh 0}
-#tayCam figure{display:flex;flex-direction:column;align-items:center;font-weight:800}
-#tayCam figure div{width:clamp(96px,10vw,150px);aspect-ratio:1;background:#fff}
-#tayCam figure div svg,#tayCam figure div img{width:100%;height:100%}
+#tayCam{position:relative;z-index:30;background:#fff;color:#22163d;border-radius:22px;padding:1.2vh 2vw;font-size:clamp(14px,1.4vw,20px);max-width:1050px;box-shadow:0 8px 24px rgba(0,0,0,.22)}
+#tayCam .qr2{display:flex;gap:4vw;justify-content:center;margin:.8vh 0}
+#tayCam figure{display:flex;flex-direction:column;align-items:center;font-weight:800;gap:.4vh}
+#tayCam figure div{width:clamp(180px,28vh,320px);height:clamp(180px,28vh,320px);background:#fff;padding:6px;border-radius:12px;box-shadow:0 0 0 2px #000}
+#tayCam figure div svg,#tayCam figure div img{width:100%;height:100%;display:block;shape-rendering:crispEdges;image-rendering:pixelated}
 #tayCam #maPhong{font-size:1.4em;letter-spacing:.15em;color:#d6337f}
 .dt-noi{position:absolute;right:1.6vw;top:5.6vh;font-size:clamp(12px,1.2vw,16px);font-weight:800;color:#2b8a3e;background:#d3f9d8;border-radius:999px;padding:0 .7em}
 .cup{font-size:clamp(20px,2.4vw,34px);color:#fff;font-weight:800;background:rgba(0,0,0,.18);border-radius:18px;padding:.3em 1em}
@@ -129,7 +129,8 @@ button{font-family:inherit;cursor:pointer;border:0}
 </div>
 
 <script src="../anh-chung/thong-tin.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script src="../anh-chung/qrcode.js"></script>
+<script>if(!window.qrcode){var _q=document.createElement("script");_q.src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js";_q.onload=function(){if(window.veQR)veQR()};document.head.appendChild(_q)}</script>
 <script>
 /*KB*/
 const KB = {
@@ -349,7 +350,7 @@ const tiengAnh = s => /[a-z]{3,}/i.test(s) && !/[ăâđêôơưáàảãạéè�
 
 // Âm thanh
 let AC = null;
-function am(f, d, kieu, to) { try { AC = AC || new (window.AudioContext || window.webkitAudioContext)(); const o = AC.createOscillator(), g = AC.createGain(); o.type = kieu || "sine"; o.frequency.value = f; g.gain.setValueAtTime(to || .18, AC.currentTime); g.gain.exponentialRampToValueAtTime(.001, AC.currentTime + d); o.connect(g).connect(AC.destination); o.start(); o.stop(AC.currentTime + d); } catch (e) {} }
+function am(f, d, kieu, to) { try { AC = AC || new (window.AudioContext || window.webkitAudioContext)(); if (AC.state === "suspended") AC.resume(); const o = AC.createOscillator(), g = AC.createGain(); o.type = kieu || "sine"; o.frequency.value = f; g.gain.setValueAtTime(to || .18, AC.currentTime); g.gain.exponentialRampToValueAtTime(.001, AC.currentTime + d); o.connect(g); g.connect(AC.destination); o.onended = () => { try { o.disconnect(); g.disconnect(); } catch (e) {} }; o.start(); o.stop(AC.currentTime + d); } catch (e) {} }
 const amDung = () => { am(660, .15, "triangle"); setTimeout(() => am(990, .25, "triangle"), 110); };
 const amSai = () => am(180, .35, "sawtooth", .08);
 const amDich = () => [523, 659, 784, 1046].forEach((f, i) => setTimeout(() => am(f, .3, "triangle"), i * 140));
@@ -494,8 +495,11 @@ function phat(c, them) {
     cau: q ? q.cau : "", mon: q ? q.mon : "", da: s.xong ? [] : (s.daHien || []) }, them || {});
   fetch(GOC + "/" + c + ".json", { method: "PUT", body: JSON.stringify(o) }).catch(() => {});
 }
+let esHienTai = null, henNghe = null;
 function nghe() {
-  let es; try { es = new EventSource(GOC + "/bam.json"); } catch (e) { return; }
+  if (henNghe) { clearTimeout(henNghe); henNghe = null; }
+  if (esHienTai) { try { esHienTai.close(); } catch (e) {} esHienTai = null; }
+  let es; try { es = new EventSource(GOC + "/bam.json"); esHienTai = es; } catch (e) { return; }
   const xu = (c, d) => {
     if (!d || !BEN.includes(c)) return;
     if (d.chao && d.t > Date.now() - 60000) { coDT[c] = 1; danhDauDT(c); if (V) phat(c); }
@@ -505,8 +509,9 @@ function nghe() {
     if (m.path === "/") { if (m.data) BEN.forEach(c => xu(c, m.data[c])); }
     else { const c = m.path.split("/")[1]; if (m.path.split("/").length === 2) xu(c, m.data); else fetch(GOC + "/bam/" + c + ".json").then(r => r.json()).then(d => xu(c, d)).catch(() => {}); } } catch (x) {} };
   es.addEventListener("put", nhan); es.addEventListener("patch", nhan);
-  es.onerror = () => { es.close(); setTimeout(nghe, 3000); };
+  es.onerror = () => { try { es.close(); } catch (e) {} if (esHienTai === es) esHienTai = null; if (!henNghe) henNghe = setTimeout(nghe, 3000); };
 }
+addEventListener("pagehide", () => { if (henNghe) clearTimeout(henNghe); if (esHienTai) try { esHienTai.close(); } catch (e) {} });
 function danhDauDT(c) {
   const el = document.getElementById(c === "lucie" ? "nLucie" : "nLucas"); if (!el) return;
   let b = el.querySelector(".dt-noi"); if (!b) { b = document.createElement("span"); b.className = "dt-noi"; el.appendChild(b); }
@@ -514,10 +519,16 @@ function danhDauDT(c) {
 }
 function veQR() {
   document.getElementById("maPhong").textContent = MA;
-  if (!window.qrcode) return;
-  BEN.forEach(c => { const q = qrcode(0, "M"); q.addData("https://ngocanhno1.github.io/tc/?p=" + MA + "&c=" + c); q.make();
-    document.getElementById(c === "lucie" ? "qrLucie" : "qrLucas").innerHTML = q.createSvgTag({ cellSize: 4, margin: 2, scalable: true }); });
+  if (!window.qrcode) { setTimeout(veQR, 250); return; }
+  BEN.forEach(c => {
+    const el = document.getElementById(c === "lucie" ? "qrLucie" : "qrLucas");
+    if (!el || el.dataset.daVe === MA) return;
+    const q = qrcode(0, "L"); q.addData("https://ngocanhno1.github.io/tc/?p=" + MA + "&c=" + c); q.make();
+    el.innerHTML = q.createSvgTag({ cellSize: 8, margin: 4, scalable: true });
+    el.dataset.daVe = MA;
+  });
 }
+veQR();
 fetch(GOC + "/bam.json", { method: "PUT", body: "{}" }).catch(() => {}).then(nghe);
 window.__dt = { V: () => V, chon, KHO, MA: () => MA };
 </script>
