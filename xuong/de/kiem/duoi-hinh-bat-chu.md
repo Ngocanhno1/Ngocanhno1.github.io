@@ -1,0 +1,1034 @@
+Em là lập trình viên game web giàu kinh nghiệm. Dưới đây là TOÀN BỘ mã game "duoi-hinh-bat-chu" (games/duoi-hinh-bat-chu/index.html) — game học tập cho hai bé Lucie (lớp 3) và Lucas (lớp 1), chơi trên TV LG webOS (phím mũi tên/OK, phím 1-4) và iPad/điện thoại (chạm). Anh (bố) báo: các con chơi vẫn còn NHIỀU LỖI.
+
+NHIỆM VỤ: đọc kỹ toàn bộ mã như một người kiểm thử, tìm và SỬA mọi lỗi thật: kẹt màn/không sang câu tiếp, nút không bấm được trên TV hoặc iPad, đếm điểm/cúp/CIECAS sai, đáp án sai hoặc trùng, câu hỏi lặp, lưu ván dở lỗi, âm thanh/giọng đọc chồng nhau, giật/rò bộ nhớ (setInterval, requestAnimationFrame, listener, phần tử tạo mới không xóa), lỗi khi tải ảnh thất bại, lỗi giao diện tràn màn hình TV 1920x1080 và iPad dọc. Không đổi luật chơi, nội dung câu hỏi đúng, mặt thật hai bé, các tệp dùng chung (../anh-chung/*.js).
+
+CÁCH TRẢ LỜI (bắt buộc): MỘT khối ```json là mảng [{"cu": "đoạn mã gốc copy NGUYÊN VĂN, đủ dài để duy nhất trong tệp", "moi": "đoạn thay"}]. Nếu không có lỗi thì trả về []. Sau khối json, liệt kê ngắn từng lỗi đã sửa (1 dòng/lỗi).
+
+===== MÃ GỐC =====
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<script src="/games/anh-chung/dong-bo.js"></script>
+<script src="../anh-chung/che-do-tv.js"></script>
+<script src="/games/anh-chung/dem-gio.js" defer></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Đuổi hình bắt chữ 3D – Vương quốc hình ảnh của Lucie &amp; Lucas</title>
+<meta name="author" content="Nguyễn Hoàng Ngọc Anh">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root { --ink:#2b2140; --gold:#ffc83d; --focus:#ffe14d; --tile:120px; }
+* { box-sizing:border-box; }
+html,body { margin:0; height:100%; overflow:hidden; font-family:"Baloo 2",system-ui,sans-serif; color:var(--ink);
+  background:radial-gradient(ellipse at 50% 0%,#ffd6f2 0,#b388ff 38%,#4a2a9a 75%,#22124f 100%); }
+#c3d { position:fixed; inset:0; width:100%; height:100%; display:block; }
+button { font-family:inherit; cursor:pointer; border:0; }
+button:focus-visible, a:focus-visible { outline:6px solid var(--focus); outline-offset:3px; }
+.hidden { display:none !important; }
+img.emoji { height:1em; width:1em; vertical-align:-0.1em; }
+img.ph { height:1.1em; width:1.1em; vertical-align:-0.22em; object-fit:contain; }
+.tile img.ph { height:1em; width:1em; vertical-align:middle; }
+img.ph.real { object-fit:cover; border-radius:16%; border:4px solid #fff; box-shadow:0 4px 10px rgba(0,0,0,.3); background:#eee; }
+.tile img.ph.real { border-width:.05em; height:1.25em; width:1.25em; }
+
+/* ---------- MÀN HÌNH MỞ ĐẦU ---------- */
+#menu { position:fixed; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2vh; padding:2vh 3vw; z-index:20;
+  background:linear-gradient(180deg,rgba(40,15,90,.55),rgba(40,15,90,.25) 45%,rgba(40,15,90,.65)); }
+#menu h1 { margin:0; text-align:center; color:#fff; font-size:clamp(30px,6vw,76px); line-height:1; letter-spacing:1px;
+  text-shadow:0 4px 0 #b4207a,0 8px 18px rgba(0,0,0,.45); }
+#menu h1 small { display:block; font-size:.36em; color:var(--gold); text-shadow:0 3px 0 #6b2c00; margin-top:.6vh; }
+.modes { display:flex; gap:2.2vw; flex-wrap:wrap; justify-content:center; }
+.mode { width:clamp(220px,26vw,340px); background:#fff; border-radius:28px; padding:16px 16px 14px; text-align:center; position:relative;
+  box-shadow:0 10px 0 rgba(0,0,0,.18),0 18px 40px rgba(0,0,0,.35); border:6px solid transparent; transition:transform .15s; }
+.mode:hover,.mode:focus-visible { transform:translateY(-6px) scale(1.03); border-color:var(--focus); outline:none; }
+.mode .faces { display:flex; justify-content:center; gap:8px; margin-bottom:6px; }
+.mode .faces img { width:clamp(64px,7vw,96px); height:clamp(64px,7vw,96px); border-radius:50%; object-fit:cover; border:5px solid #ff8fc8; background:#ffe3f1; }
+.mode .faces img.blue { border-color:#5ab0ff; background:#dbeeff; }
+.mode b { display:block; font-size:clamp(20px,2.1vw,28px); line-height:1.1; }
+.mode span { display:block; font-size:clamp(14px,1.3vw,18px); color:#6b5a86; line-height:1.25; margin-top:4px; }
+.mode .prog { margin-top:8px; font-weight:800; color:#b4207a; font-size:clamp(14px,1.3vw,18px); }
+.mode.lucie { background:linear-gradient(180deg,#fff,#ffe6f3); }
+.mode.lucas { background:linear-gradient(180deg,#fff,#e2f1ff); }
+.mode.duo { background:linear-gradient(180deg,#fff,#fff4cf); }
+.reset { position:absolute; right:10px; top:10px; background:#f1eaff; color:#6b4fa0; border-radius:14px; padding:2px 10px; font-size:14px; font-weight:700; }
+.menuBar { display:flex; gap:14px; }
+.pill { background:rgba(255,255,255,.92); color:var(--ink); border-radius:999px; padding:8px 20px; font-weight:800; font-size:clamp(16px,1.6vw,22px); text-decoration:none;
+  box-shadow:0 5px 0 rgba(0,0,0,.2); display:inline-flex; align-items:center; gap:6px; }
+
+/* ---------- MÀN CHƠI ---------- */
+#game { position:fixed; inset:0; z-index:10; pointer-events:none; }
+#game > * { pointer-events:auto; }
+#top { position:absolute; left:1.5vw; right:1.5vw; top:1.5vh; display:flex; align-items:center; gap:1vw; }
+.ib { background:rgba(255,255,255,.92); border-radius:18px; min-width:clamp(44px,4.4vw,64px); height:clamp(44px,4.4vw,64px); font-size:clamp(20px,2.2vw,32px);
+  box-shadow:0 5px 0 rgba(0,0,0,.22); display:inline-flex; align-items:center; justify-content:center; padding:0 10px; color:var(--ink); font-weight:800; }
+.ib:active { transform:translateY(3px); box-shadow:0 2px 0 rgba(0,0,0,.22); }
+#who { display:flex; align-items:center; gap:8px; background:rgba(255,255,255,.92); border-radius:999px; padding:4px 16px 4px 4px; box-shadow:0 5px 0 rgba(0,0,0,.22);
+  font-weight:800; font-size:clamp(16px,1.8vw,26px); }
+#who img { width:clamp(40px,4vw,56px); height:clamp(40px,4vw,56px); border-radius:50%; object-fit:cover; border:4px solid #ff8fc8; }
+#who.lucas img { border-color:#5ab0ff; }
+#bar { flex:1; height:clamp(30px,3.2vw,44px); background:rgba(255,255,255,.35); border-radius:999px; position:relative; overflow:hidden; border:3px solid rgba(255,255,255,.85); }
+#barFill { position:absolute; left:0; top:0; bottom:0; width:0; background:linear-gradient(90deg,#ffd93d,#ff8fc8,#7ad1ff); transition:width .6s; }
+#barTxt { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-weight:800; color:#fff; text-shadow:0 2px 3px rgba(0,0,0,.6); font-size:clamp(15px,1.6vw,22px); }
+#starBox { background:#fff3c4; color:#8a5200; }
+
+#puzzle { position:absolute; left:30%; top:16%; width:40%; height:36%; display:flex; align-items:center; justify-content:center; gap:2%;
+  border-radius:12px; transition:opacity .35s; pointer-events:none; }
+#puzzle.off { opacity:0; }
+#puzzle.shake { animation:shake .45s; }
+.tile { font-size:var(--tile); line-height:1; display:inline-block; animation:bob 1.6s ease-in-out infinite; filter:drop-shadow(0 6px 6px rgba(0,0,0,.25)); white-space:nowrap; }
+.tile:nth-child(3) { animation-delay:.4s; } .tile:nth-child(5) { animation-delay:.8s; }
+.plus { font-size:calc(var(--tile)*.55); font-weight:800; color:#ff4f9a; text-shadow:0 3px 0 #fff; }
+@keyframes bob { 0%,100% { transform:translateY(0) rotate(-4deg) scale(1); } 50% { transform:translateY(-10%) rotate(4deg) scale(1.06); } }
+@keyframes shake { 0%,100% { transform:translateX(0); } 20% { transform:translateX(-18px); } 40% { transform:translateX(16px); } 60% { transform:translateX(-10px); } 80% { transform:translateX(8px); } }
+
+#bottom { position:absolute; left:2vw; right:2vw; bottom:1.8vh; display:flex; flex-direction:column; gap:1.2vh; }
+#hintRow { display:flex; gap:1vw; align-items:center; justify-content:center; flex-wrap:wrap; }
+#hintTxt { background:rgba(255,255,255,.95); border-radius:18px; padding:6px 20px; font-weight:800; font-size:clamp(17px,2vw,30px); box-shadow:0 5px 0 rgba(0,0,0,.2); letter-spacing:1px; white-space:pre; }
+.help { background:linear-gradient(180deg,#fff7d6,#ffd75e); border-radius:18px; padding:6px 16px; font-weight:800; font-size:clamp(15px,1.6vw,22px); box-shadow:0 5px 0 #b98400; color:#5a3a00; }
+.help:disabled { opacity:.45; }
+#answers { display:grid; grid-template-columns:1fr 1fr; gap:1.4vh 1.6vw; }
+.ans { position:relative; border-radius:22px; min-height:clamp(58px,9vh,96px); padding:8px 16px 8px clamp(58px,5.6vw,84px); color:#fff; text-align:left;
+  font-weight:800; font-size:clamp(17px,2.3vw,34px); line-height:1.1; text-shadow:0 2px 2px rgba(0,0,0,.35); transition:transform .12s,opacity .25s; }
+.ans .k { position:absolute; left:10px; top:50%; transform:translateY(-50%); width:clamp(40px,4vw,60px); height:clamp(40px,4vw,60px); border-radius:50%;
+  background:rgba(255,255,255,.95); display:flex; align-items:center; justify-content:center; color:var(--ink); text-shadow:none; }
+.ans:nth-child(1) { background:linear-gradient(180deg,#ff8a7a,#e8434d); box-shadow:0 8px 0 #a3222b,inset 0 3px 0 rgba(255,255,255,.4); }
+.ans:nth-child(2) { background:linear-gradient(180deg,#6ee59a,#25a85a); box-shadow:0 8px 0 #157039,inset 0 3px 0 rgba(255,255,255,.4); }
+.ans:nth-child(3) { background:linear-gradient(180deg,#7cc4ff,#2f7fe0); box-shadow:0 8px 0 #1b4f99,inset 0 3px 0 rgba(255,255,255,.4); }
+.ans:nth-child(4) { background:linear-gradient(180deg,#c49bff,#8048e0); box-shadow:0 8px 0 #4f2696,inset 0 3px 0 rgba(255,255,255,.4); }
+.ans:hover:not(:disabled), .ans:focus-visible { transform:translateY(-4px) scale(1.02); }
+.ans:disabled { opacity:.28; filter:grayscale(.7); cursor:default; }
+.ans.wrong { animation:shake .45s; }
+.ans.right { outline:6px solid #fff; animation:pop .5s; }
+@keyframes pop { 50% { transform:scale(1.08); } }
+
+/* thẻ giải thích khi trả lời đúng */
+#card, #endCard { position:fixed; inset:0; z-index:30; display:flex; align-items:flex-end; justify-content:center; padding-bottom:4vh; background:rgba(30,10,70,.25); }
+#endCard { align-items:center; background:rgba(30,10,70,.55); }
+.cardIn { width:min(92vw,880px); background:#fff; border-radius:30px; padding:2.4vh 3vw; text-align:center; box-shadow:0 12px 0 rgba(0,0,0,.18),0 30px 60px rgba(0,0,0,.4);
+  border:6px solid var(--gold); animation:rise .4s cubic-bezier(.2,1.4,.5,1); }
+@keyframes rise { from { transform:translateY(60px) scale(.9); opacity:0; } }
+.cardIn .t { font-size:clamp(22px,2.6vw,38px); font-weight:800; color:#e0367e; }
+.cardIn .a { font-size:clamp(28px,4vw,60px); font-weight:800; line-height:1.05; margin:.4vh 0; color:#3b1f8c; }
+.cardIn .p { font-size:clamp(20px,3vw,44px); }
+.cardIn .e { font-size:clamp(17px,2vw,28px); color:#4b3a66; margin:.6vh 0 1.4vh; }
+.cardIn .stars { font-size:clamp(26px,3vw,44px); letter-spacing:4px; }
+.btnRow { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+.big { background:linear-gradient(180deg,#ffe066,#ffb703); color:#5a3a00; border-radius:20px; padding:10px 30px; font-weight:800; font-size:clamp(20px,2.2vw,32px); box-shadow:0 7px 0 #b06f00; }
+.big.alt { background:linear-gradient(180deg,#e9e2ff,#c6b6ff); color:#3b1f8c; box-shadow:0 7px 0 #7b62c9; }
+#toast { position:fixed; left:50%; top:13vh; transform:translateX(-50%); z-index:40; background:#fff; border-radius:20px; padding:8px 26px; font-weight:800;
+  font-size:clamp(18px,2.2vw,32px); box-shadow:0 8px 24px rgba(0,0,0,.3); transition:opacity .3s; opacity:0; pointer-events:none; }
+#toast.on { opacity:1; }
+#turn { position:fixed; left:50%; top:45%; transform:translate(-50%,-50%); z-index:35; font-size:clamp(34px,6vw,90px); font-weight:800; color:#fff; pointer-events:none;
+  text-shadow:0 5px 0 #b4207a,0 10px 30px rgba(0,0,0,.5); opacity:0; transition:opacity .3s; white-space:nowrap; }
+#turn.on { opacity:1; }
+@media (max-width:640px) { #top { flex-wrap:wrap; } #bar { order:9; flex-basis:100%; } }
+@media (max-aspect-ratio:1/1) { #answers { grid-template-columns:1fr; } .ans { min-height:52px; } }
+</style>
+<link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#7c4dff"><link rel="apple-touch-icon" href="/img/icon-192.png"><script>if("serviceWorker" in navigator)addEventListener("load",function(){navigator.serviceWorker.register("/sw.js").catch(function(){})});</script>
+<script src="../anh-chung/thong-tin.js"></script>
+<script src="../anh-chung/giong-noi.js"></script>
+</head>
+<body>
+<canvas id="c3d"></canvas>
+
+<!-- MÀN HÌNH MỞ ĐẦU -->
+<section id="menu">
+  <h1>ĐUỔI HÌNH BẮT CHỮ 3D<small>Vương quốc hình ảnh của Lucie &amp; Lucas</small></h1>
+  <div class="modes">
+    <button class="mode lucas" data-mode="lucas">
+      <div class="faces"><img class="blue" src="../../img/lucas.webp" alt=""></div>
+      <b>EM LUCAS</b><span><span data-hs="lucas.goi">Tường Minh</span> · <span data-hs="lucas.lop">1A5</span> · 50 câu<br>Con vật, đồ vật, thiên nhiên</span><div class="prog"></div>
+    </button>
+    <button class="mode lucie" data-mode="lucie">
+      <div class="faces"><img src="../../img/lucie.webp" alt=""></div>
+      <b>CHỊ LUCIE</b><span><span data-hs="lucie.goi">Tường San</span> · <span data-hs="lucie.lop">3A6</span> · 50 câu<br>Thành ngữ, tục ngữ, cổ tích</span><div class="prog"></div>
+    </button>
+    <button class="mode duo" data-mode="duo">
+      <div class="faces"><img src="../../img/lucie.webp" alt=""><img class="blue" src="../../img/lucas.webp" alt=""></div>
+      <b>HAI CHỊ EM</b><span>Trộn 100 câu<br>Đổi lượt sau mỗi câu</span><div class="prog"></div>
+    </button>
+  </div>
+  <div class="menuBar">
+    <a class="pill" href="../../">🏠 Trang chủ</a>
+    <button class="pill sndBtn">🔊 Âm thanh</button>
+  </div>
+</section>
+
+<!-- MÀN CHƠI -->
+<section id="game" class="hidden">
+  <div id="top">
+    <button class="ib" id="btnHome" title="Về màn chọn chế độ">🏠</button>
+    <div id="who"><img src="../../img/lucie.webp" alt=""><span>Lucie</span></div>
+    <div id="bar"><div id="barFill"></div><div id="barTxt">Câu 1/50</div></div>
+    <div class="ib" id="starBox">⭐ <span id="starN">0</span></div>
+    <button class="ib sndBtn" title="Bật/tắt âm thanh">🔊</button>
+    <button class="ib" id="btnPrev" title="Câu trước">◀</button>
+    <button class="ib" id="btnNext" title="Câu sau">▶</button>
+  </div>
+  <div id="puzzle" class="off"></div>
+  <div id="bottom">
+    <div id="hintRow">
+      <div id="hintTxt">Đáp án có 2 tiếng</div>
+      <button class="help" id="btnHint">🦉 Bật gợi ý của thông thái</button>
+      <button class="help" id="btnHelp">🤝 Trợ giúp của Hai Chị Em</button>
+    </div>
+    <div id="answers"></div>
+  </div>
+</section>
+
+<div id="card" class="hidden"><div class="cardIn">
+  <div class="t">🎉 ĐÚNG RỒI! <span class="stars" id="cStars"></span></div>
+  <div class="p" id="cPuz"></div>
+  <div class="a" id="cAns"></div>
+  <div class="e" id="cExp"></div>
+  <div class="btnRow"><button class="big alt hidden" id="btnSay">🔈 Nghe đọc</button><button class="big" id="btnGo">Câu tiếp ▶</button></div>
+</div></div>
+
+<div id="endCard" class="hidden"><div class="cardIn">
+  <div class="p" style="font-size:clamp(60px,9vw,130px)">🏆</div>
+  <div class="a" id="eTitle">HOÀN THÀNH!</div>
+  <div class="e" id="eText"></div>
+  <div class="btnRow"><button class="big" id="btnAgain">↺ Chơi lại</button><button class="big alt" id="btnMenu">🏠 Chọn chế độ</button></div>
+</div></div>
+
+<div id="toast"></div>
+<div id="turn"></div>
+
+<script>
+/* =========================================================
+   NGÂN HÀNG 100 CÂU — "hình gợi ý | ĐÁP ÁN | giải thích"
+   Thêm câu: thêm một dòng đúng mẫu vào đúng nhóm.
+   ========================================================= */
+const LUCAS_RAW = `
+🍯 + 🐝|MẬT ONG|Giọt mật ngọt ngào của chú ong chăm chỉ
+☀️ + 🌻|HOA HƯỚNG DƯƠNG|Loài hoa luôn quay về phía mặt trời
+🌧️ + 🌈|CẦU VỒNG|Xuất hiện rực rỡ trên bầu trời sau cơn mưa
+🐴 + 🦓|NGỰA VẰN|Chú ngựa có bộ lông sọc đen trắng
+🐟 + ⭐|SAO BIỂN|Sinh vật sống dưới biển có hình ngôi sao
+🌊 + 🐴|CÁ NGỰA|Loài cá sống dưới biển có đầu giống chú ngựa
+🥖 + 🥛|BÁNH SỮA|Chiếc bánh thơm ngon làm từ sữa
+❄️ + ⛄|NGƯỜI TUYẾT|Chú người tròn trịa được nặn bằng tuyết trắng
+🔥 + 🚂|TÀU HỎA|Đoàn tàu chạy xình xịch trên đường ray
+🦷 + 🪥|BÀN CHẢI|Dụng cụ giúp đánh răng trắng sạch mỗi ngày
+🌙 + ⭐|TRĂNG SAO|Tỏa sáng lấp lánh trên bầu trời đêm
+🐷 + 🏠|CHUỒNG LỢN|Ngôi nhà nhỏ của chú heo hồng
+🐓 + ⏰|GÀ TRỐNG|Chú gà gáy ò ó o đánh thức mọi người mỗi sáng
+🐢 + 🐇|RÙA VÀ THỎ|Hai nhân vật chạy thi trong câu chuyện cổ tích
+🍎 + 🪱|SÂU TÁO|Chú sâu nhỏ thích ăn quả ngọt
+🕶️ + ☀️|KÍNH RÂM|Chiếc kính đeo giúp bảo vệ mắt khi trời nắng
+☔ + 🧥|ÁO MƯA|Chiếc áo mặc để không bị ướt khi trời mưa
+🏫 + 🔔|TRƯỜNG HỌC|Nơi có tiếng trống trường và thầy cô, bạn bè
+🎂 + 🕯️|SINH NHẬT|Ngày vui có bánh kem và thổi nến ước nguyện
+⚽ + 🥅|BÓNG ĐÁ|Môn thể thao sút bóng vào khung thành
+🐱 + 🐟|MÈO CÂU CÁ|Chú mèo con rất thích ăn cá
+🐘 + 🚿|VOI PHUN NƯỚC|Chú voi dùng cái vòi dài để phun nước tắm mát
+🍉 + 🟥|DƯA HẤU|Quả vỏ xanh, ruột đỏ, hạt đen ăn rất mát
+🍌 + 🐒|KHỈ ĂN CHUỐI|Món ăn yêu thích nhất của chú khỉ con
+🥛 + 🐄|SỮA BÒ|Thức uống bổ dưỡng lấy từ cô bò sữa
+🌲 + 🎅|CÂY THÔNG|Loài cây xanh trang trí đẹp mắt vào dịp Giáng sinh
+✈️ + ☁️|MÁY BAY|Phương tiện bay vút lên cao trên những đám mây
+🚢 + 🌊|TÀU THỦY|Con tàu lớn lướt sóng trên mặt biển
+👑 + 👸|CÔNG CHÚA|Nhân vật xinh đẹp đội vương miện trong truyện cổ tích
+🐸 + 🪷|ẾCH XANH|Chú ếch ngồi trên lá sen kêu ộp ộp
+📖 + ✏️|HỌC BÀI|Mở sách vở và cầm bút chì viết chữ đẹp
+🧹 + 🏠|QUÉT NHÀ|Việc làm giúp nhà cửa luôn sạch sẽ, gọn gàng
+🚦 + 🛑|ĐÈN ĐỎ|Tín hiệu giao thông báo các xe phải dừng lại
+🚥 + 🟢|ĐÈN XANH|Tín hiệu giao thông báo được phép đi qua đường
+🧤 + ❄️|GĂNG TAY|Đeo vào đôi bàn tay cho ấm khi trời lạnh
+🧦 + 👟|ĐÔI GIÀY|Đi tất và xỏ giày trước khi đi học
+🐔 + 🥚|GÀ ĐẺ TRỨNG|Cô gà mái cục tác đẻ ra quả trứng tròn
+🐛 + 🦋|BƯỚM HOA|Chú sâu nhỏ hóa thành bướm xinh bay lượn
+🥥 + 🏝️|QUẢ DỪA|Quả có nước ngọt mát mọc nhiều ở bờ biển
+🥕 + 🐰|CÀ RỐT|Củ màu cam giòn ngọt mà thỏ trắng mê tít
+🥁 + 🏫|TRỐNG TRƯỜNG|Đánh vang tùng tùng báo giờ vào lớp và ra chơi
+🪁 + 🌬️|THẢ DIỀU|Cánh diều no gió bay cao trên bầu trời
+🏮 + 🌕|ĐÈN LỒNG|Rước đèn sáng lung linh vào đêm rằm Trung thu
+🦁 + 👑|SƯ TỬ|Chúa tể dũng mãnh của rừng xanh
+🐼 + 🎋|GẤU TRÚC|Chú gấu mắt thâm đen thích ăn trúc
+🦉 + 🌙|CÚ MÈO|Loài chim có đôi mắt to thức canh ban đêm
+🚒 + 💦|XE CỨU HỎA|Chiếc xe màu đỏ hú còi đi dập lửa
+🚑 + 🏥|XE CỨU THƯƠNG|Chiếc xe chở người bệnh tới bệnh viện
+🕰️ + 🔔|ĐỒNG HỒ BÁO THỨC|Kêu reng reng đúng giờ mỗi buổi sáng
+👧 + 👦|HAI CHỊ EM|Chị Lucie và em Lucas yêu thương nhau!`;
+
+const LUCIE_RAW = `
+🐉 + 🧚‍♀️|CON RỒNG CHÁU TIÊN|Nguồn gốc tự hào của dân tộc Việt Nam
+👨 + ⛰️|CÔNG CHA NHƯ NÚI THÁI SƠN|Ca ngợi công lao to lớn của cha mẹ
+💧 + 🏞️|UỐNG NƯỚC NHỚ NGUỒN|Lòng biết ơn với người làm ra thành quả
+🍎 + 🌳|ĂN QUẢ NHỚ KẺ TRỒNG CÂY|Hưởng quả ngọt nhớ người vun trồng
+🐜 + 🏠|KIẾN THA LÂU CŨNG ĐẦY TỔ|Kiên trì gom góp sẽ thành công lớn
+🔨 + 🪡|CÓ CÔNG MÀI SẮT CÓ NGÀY NÊN KIM|Kiên nhẫn rèn luyện sẽ thành tài
+🌳 + ⛰️|MỘT CÂY LÀM CHẲNG NÊN NON|Sức mạnh của tinh thần đoàn kết: ba cây chụm lại nên hòn núi cao
+🐎 + 🏆|MÃ ĐÁO THÀNH CÔNG|Lời chúc may mắn và thắng lợi
+⛵ + 🌬️|THUẬN BUỒM XUÔI GIÓ|Mọi công việc đều trôi chảy, suôn sẻ
+🐸 + 🕳️|ẾCH NGỒI ĐÁY GIẾNG|Hiểu biết ít nhưng hay chủ quan
+🐃 + 🎸|ĐÀN GẢY TAI TRÂU|Nói điều hay cho người không chịu lắng nghe
+🐓 + 🐣|GÀ CÙNG MỘT MẸ|Gà cùng một mẹ chớ hoài đá nhau: anh chị em một nhà phải yêu thương nhau
+🐘 + 🐕|LÊN VOI XUỐNG CHÓ|Cuộc sống lúc vinh hoa, lúc khó khăn
+☀️ + 🌫️|MỘT NẮNG HAI SƯƠNG|Sự vất vả sớm hôm của người nông dân
+🌳🪙 + 🌊🥈|RỪNG VÀNG BIỂN BẠC|Thiên nhiên đất nước giàu đẹp
+🐢 + 🗡️|HỒ HOÀN KIẾM|Truyền thuyết Rùa Vàng nhận lại gươm báu ở Hà Nội
+🍉 + 🏝️|MAI AN TIÊM|Nhân vật cổ tích trồng dưa hấu đỏ ngoài đảo hoang
+🐎 + 🎋|THÁNH GIÓNG|Cậu bé cưỡi ngựa sắt, nhổ tre làng đánh giặc Ân
+🎋 + 💯|CÂY TRE TRĂM ĐỐT|Câu thần chú "Khắc nhập, khắc xuất"
+🟩 + ⚪|BÁNH CHƯNG BÁNH GIẦY|Sự tích món bánh ngày Tết của Lang Liêu
+❤️ + 🤝|TỐT BỤNG|Tấm lòng nhân hậu hay giúp đỡ mọi người
+👀 + 🍍|MẮT DỨA|Những cái mắt xếp đều trên vỏ quả dứa
+🌽 + 🍿|BỎNG NGÔ|Món ăn giòn tan, nổ lốp bốp từ hạt ngô
+👂 + 🍄|MỘC NHĨ|Loài nấm có hình dáng giống cái tai
+🐉 + 🌵|THANH LONG|Quả vỏ đỏ có tai xanh, ruột trắng hạt đen
+✋ + 🍌|NẢI CHUỐI|Các quả chuối xếp cong cong như bàn tay úp
+🧭 + ⬆️|KIM LA BÀN|Vật dụng luôn chỉ hướng Bắc – Nam
+🌏 + 🔄|TRÁI ĐẤT QUAY|Chuyển động tạo ra ngày và đêm
+☀️ + 🪐|HỆ MẶT TRỜI|Mặt trời và các hành tinh quay xung quanh
+🌡️ + ❄️|NHIỆT KẾ|Dụng cụ dùng để đo nhiệt độ nóng hay lạnh
+🎵 + 🦗|DẾ MÈN|Nhân vật nổi tiếng trong truyện của nhà văn Tô Hoài
+🦢 + ❄️|THIÊN NGA|Loài chim trắng muốt, cổ dài bơi trên mặt hồ
+🦚 + 💃|CHIM CÔNG|Loài chim có bộ đuôi xòe quạt rực rỡ khi múa
+🐪 + 🏜️|LẠC ĐÀ|Con vật có bướu trên lưng đi giỏi qua sa mạc
+🦘 + 👶|CHUỘT TÚI|Loài vật nuôi con trong chiếc túi trước bụng
+🐧 + 🧊|CHIM CÁNH CỤT|Loài chim không biết bay nhưng bơi giỏi ở Nam Cực
+🐋 + 🌊|CÁ VOI XANH|Động vật lớn nhất thế giới sống dưới đại dương
+🐙 + 8️⃣|BẠCH TUỘC|Sinh vật biển thông minh có 8 chiếc xúc tu
+🐝 + 👑|ONG CHÚA|Con ong đứng đầu cả đàn ong trong tổ
+🐜 + 💪|KIẾN THỢ|Loài côn trùng nhỏ bé nhưng khiêng được vật rất nặng
+📚 + 💡|TRI THỨC|Kho tàng hiểu biết có được nhờ chăm chỉ đọc sách
+🤝 + 🫂|ĐOÀN KẾT|Cùng chung tay giúp đỡ nhau vượt qua thử thách
+🏅 + 🏃|KIÊN TRÌ|Không bỏ cuộc dù đường đua có xa và khó
+🗣️ + 💎|LỜI NÓI CHẲNG MẤT TIỀN MUA|Lựa lời mà nói cho vừa lòng nhau: lễ phép khi giao tiếp
+👩‍🏫 + ⛴️|NGƯỜI LÁI ĐÒ|Hình ảnh ẩn dụ đẹp đẽ về thầy cô giáo
+🕊️ + 🌿|CHIM BỒ CÂU|Biểu tượng của hòa bình và thân thiện
+🇻🇳 + ⭐|CỜ ĐỎ SAO VÀNG|Quốc kỳ thiêng liêng của Tổ quốc Việt Nam
+🌸 + 🧧|HOA ĐÀO|Loài hoa nở hồng thắm báo hiệu Tết miền Bắc
+🌼 + 🧧|HOA MAI|Loài hoa năm cánh vàng rực rỡ ngày Tết miền Nam
+🏆 + 🔔|NHÀ VÔ ĐỊCH|Danh hiệu cao quý dành cho Lucie và Lucas!`;
+
+const parse = (raw, kid, start) => raw.trim().split("\n").map((l, i) => {
+  const [p, a, e] = l.split("|"); return { id: start + i, kid, p: p.trim(), a: a.trim(), e: e.trim() };
+});
+const LUCAS_MOI = `
+🐱|CON MÈO|Hình 🐱 là Con mèo.
+🐶|CON CHÓ|Hình 🐶 là Con chó.
+🦆|CON VỊT|Hình 🦆 là Con vịt.
+🐷|CON LỢN|Hình 🐷 là Con lợn.
+🐮|CON BÒ|Hình 🐮 là Con bò.
+🐓|CON GÀ TRỐNG|Hình 🐓 là Con gà trống.
+🐰|CON THỎ|Hình 🐰 là Con thỏ.
+🐸|CON ẾCH|Hình 🐸 là Con ếch.
+🐟|CON CÁ|Hình 🐟 là Con cá.
+🐦|CON CHIM|Hình 🐦 là Con chim.
+🍎|QUẢ TÁO|Hình 🍎 là Quả táo.
+🍌|QUẢ CHUỐI|Hình 🍌 là Quả chuối.
+🍊|QUẢ CAM|Hình 🍊 là Quả cam.
+🍉|QUẢ DƯA HẤU|Hình 🍉 là Quả dưa hấu.
+🍇|CHÙM NHO|Hình 🍇 là Chùm nho.
+🍓|QUẢ DÂU TÂY|Hình 🍓 là Quả dâu tây.
+🍍|QUẢ DỨA|Hình 🍍 là Quả dứa.
+🥭|QUẢ XOÀI|Hình 🥭 là Quả xoài.
+🍐|QUẢ LÊ|Hình 🍐 là Quả lê.
+🍒|QUẢ ANH ĐÀO|Hình 🍒 là Quả anh đào.
+✏️|BÚT CHÌ|Hình ✏️ là Bút chì.
+📖|QUYỂN SÁCH|Hình 📖 là Quyển sách.
+📏|THƯỚC KẺ|Hình 📏 là Thước kẻ.
+🎒|CẶP SÁCH|Hình 🎒 là Cặp sách.
+✂️|CÁI KÉO|Hình ✂️ là Cái kéo.
+🖍️|BÚT SÁP MÀU|Hình 🖍️ là Bút sáp màu.
+📓|QUYỂN VỞ|Hình 📓 là Quyển vở.
+🪑|CÁI GHẾ|Hình 🪑 là Cái ghế.
+⏰|ĐỒNG HỒ|Hình ⏰ là Đồng hồ.
+🔔|CÁI CHUÔNG|Hình 🔔 là Cái chuông.
+☀️|MẶT TRỜI|Hình ☀️ là Mặt trời.
+🌙|MẶT TRĂNG|Hình 🌙 là Mặt trăng.
+⭐|NGÔI SAO|Hình ⭐ là Ngôi sao.
+☁️|ĐÁM MÂY|Hình ☁️ là Đám mây.
+🌧️|CƠN MƯA|Hình 🌧️ là Cơn mưa.
+❄️|BÔNG TUYẾT|Hình ❄️ là Bông tuyết.
+💨|CƠN GIÓ|Hình 💨 là Cơn gió.
+🔥|NGỌN LỬA|Hình 🔥 là Ngọn lửa.
+💧|GIỌT NƯỚC|Hình 💧 là Giọt nước.
+🚗|XE Ô TÔ|Hình 🚗 là Xe ô tô.
+🚌|XE BUÝT|Hình 🚌 là Xe buýt.
+🚲|XE ĐẠP|Hình 🚲 là Xe đạp.
+⛵|THUYỀN BUỒM|Hình ⛵ là Thuyền buồm.
+🚀|TÊN LỬA|Hình 🚀 là Tên lửa.
+🐯|CON HỔ|Hình 🐯 là Con hổ.
+🐘|CON VOI|Hình 🐘 là Con voi.
+🐻|CON GẤU|Hình 🐻 là Con gấu.
+🐒|CON KHỈ|Hình 🐒 là Con khỉ.
+🦒|HƯƠU CAO CỔ|Hình 🦒 là Hươu cao cổ.
+🦊|CON CÁO|Hình 🦊 là Con cáo.
+🦌|CON HƯƠU|Hình 🦌 là Con hươu.
+🌹|HOA HỒNG|Hình 🌹 là Hoa hồng.
+🌷|HOA TUY-LÍP|Hình 🌷 là Hoa tuy-líp.
+🌼|HOA CÚC|Hình 🌼 là Hoa cúc.
+🍀|CỎ BỐN LÁ|Hình 🍀 là Cỏ bốn lá.
+🌳|CÂY XANH|Hình 🌳 là Cây xanh.
+🌴|CÂY DỪA|Hình 🌴 là Cây dừa.
+🌵|XƯƠNG RỒNG|Hình 🌵 là Xương rồng.
+🍄|CÂY NẤM|Hình 🍄 là Cây nấm.
+🍚|BÁT CƠM|Hình 🍚 là Bát cơm.
+🥚|QUẢ TRỨNG|Hình 🥚 là Quả trứng.
+🥛|CỐC SỮA|Hình 🥛 là Cốc sữa.
+🍰|BÁNH KEM|Hình 🍰 là Bánh kem.
+🍦|QUE KEM|Hình 🍦 là Que kem.
+🍪|BÁNH QUY|Hình 🍪 là Bánh quy.
+🍜|BÁT PHỞ|Hình 🍜 là Bát phở.
+🍬|VIÊN KẸO|Hình 🍬 là Viên kẹo.
+🏠|NGÔI NHÀ|Hình 🏠 là Ngôi nhà.
+🛏️|CÁI GIƯỜNG|Hình 🛏️ là Cái giường.
+🛋️|GHẾ SÔ-PHA|Hình 🛋️ là Ghế sô-pha.
+🚪|CÁNH CỬA|Hình 🚪 là Cánh cửa.
+🪟|CỬA SỔ|Hình 🪟 là Cửa sổ.
+💡|BÓNG ĐÈN|Hình 💡 là Bóng đèn.
+📺|CÁI TI VI|Hình 📺 là Cái ti vi.
+🍽️|CÁI ĐĨA|Hình 🍽️ là Cái đĩa.
+🥄|CÁI THÌA|Hình 🥄 là Cái thìa.
+👕|ÁO PHÔNG|Hình 👕 là Áo phông.
+👗|CÁI VÁY|Hình 👗 là Cái váy.
+🩳|QUẦN ĐÙI|Hình 🩳 là Quần đùi.
+🧦|ĐÔI TẤT|Hình 🧦 là Đôi tất.
+👟|GIÀY THỂ THAO|Hình 👟 là Giày thể thao.
+🧢|MŨ LƯỠI TRAI|Hình 🧢 là Mũ lưỡi trai.
+👓|CÁI KÍNH|Hình 👓 là Cái kính.
+🧣|KHĂN QUÀNG|Hình 🧣 là Khăn quàng.
+☂️|CÁI Ô|Hình ☂️ là Cái ô.
+👀|ĐÔI MẮT|Hình 👀 là Đôi mắt.
+👂|CÁI TAI|Hình 👂 là Cái tai.
+👃|CÁI MŨI|Hình 👃 là Cái mũi.
+👄|CÁI MIỆNG|Hình 👄 là Cái miệng.
+🖐️|BÀN TAY|Hình 🖐️ là Bàn tay.
+🦶|BÀN CHÂN|Hình 🦶 là Bàn chân.
+🦷|CHIẾC RĂNG|Hình 🦷 là Chiếc răng.
+❤️|TRÁI TIM|Hình ❤️ là Trái tim.
+💪|CÁNH TAY|Hình 💪 là Cánh tay.
+😊|NỤ CƯỜI|Hình 😊 là Nụ cười.
+🐝|CON ONG|Hình 🐝 là Con ong.
+🦋|CON BƯỚM|Hình 🦋 là Con bướm.
+🐜|CON KIẾN|Hình 🐜 là Con kiến.
+🐞|BỌ RÙA|Hình 🐞 là Bọ rùa.
+🐌|ỐC SÊN|Hình 🐌 là Ốc sên.
+🕷️|CON NHỆN|Hình 🕷️ là Con nhện.
+🦀|CON CUA|Hình 🦀 là Con cua.
+🐢|CON RÙA|Hình 🐢 là Con rùa.
+⚽|QUẢ BÓNG ĐÁ|Hình ⚽ là Quả bóng đá.
+🏀|QUẢ BÓNG RỔ|Hình 🏀 là Quả bóng rổ.
+🎈|QUẢ BÓNG BAY|Hình 🎈 là Quả bóng bay.
+🪁|CÁI DIỀU|Hình 🪁 là Cái diều.
+🧸|GẤU BÔNG|Hình 🧸 là Gấu bông.
+🤖|NGƯỜI MÁY|Hình 🤖 là Người máy.
+🪀|CON QUAY|Hình 🪀 là Con quay.
+🧩|GHÉP HÌNH|Hình 🧩 là Ghép hình.
+🥁|CÁI TRỐNG|Hình 🥁 là Cái trống.
+🎁|HỘP QUÀ|Hình 🎁 là Hộp quà.
+🥕|CỦ CÀ RỐT|Hình 🥕 là Củ cà rốt.
+🌽|BẮP NGÔ|Hình 🌽 là Bắp ngô.
+🍅|QUẢ CÀ CHUA|Hình 🍅 là Quả cà chua.
+🥔|CỦ KHOAI TÂY|Hình 🥔 là Củ khoai tây.
+🥒|QUẢ DƯA CHUỘT|Hình 🥒 là Quả dưa chuột.
+🥦|SÚP LƠ XANH|Hình 🥦 là Súp lơ xanh.
+🍆|QUẢ CÀ TÍM|Hình 🍆 là Quả cà tím.
+🧅|CỦ HÀNH|Hình 🧅 là Củ hành.
+🧄|CỦ TỎI|Hình 🧄 là Củ tỏi.
+🌶️|QUẢ ỚT|Hình 🌶️ là Quả ớt.
+🏥|BỆNH VIỆN|Hình 🏥 là Bệnh viện.
+🏞️|CÔNG VIÊN|Hình 🏞️ là Công viên.
+🏖️|BÃI BIỂN|Hình 🏖️ là Bãi biển.
+⛰️|NGỌN NÚI|Hình ⛰️ là Ngọn núi.
+🏝️|HÒN ĐẢO|Hình 🏝️ là Hòn đảo.
+🌉|CÂY CẦU|Hình 🌉 là Cây cầu.
+🏰|LÂU ĐÀI|Hình 🏰 là Lâu đài.
+🎪|RẠP XIẾC|Hình 🎪 là Rạp xiếc.
+🛒|SIÊU THỊ|Hình 🛒 là Siêu thị.
+👨‍👩‍👧‍👦|GIA ĐÌNH|Hình 👨‍👩‍👧‍👦 là Gia đình.
+👴|ÔNG NỘI|Hình 👴 là Ông nội.
+👵|BÀ NGOẠI|Hình 👵 là Bà ngoại.
+👩‍🏫|CÔ GIÁO|Hình 👩‍🏫 là Cô giáo.
+👮|CHÚ CẢNH SÁT|Hình 👮 là Chú cảnh sát.
+👨‍🌾|BÁC NÔNG DÂN|Hình 👨‍🌾 là Bác nông dân.
+🦸|SIÊU ANH HÙNG|Hình 🦸 là Siêu anh hùng.
+🔴|HÌNH TRÒN ĐỎ|Hình 🔴 là Hình tròn đỏ.
+🟦|HÌNH VUÔNG XANH|Hình 🟦 là Hình vuông xanh.
+🔺|HÌNH TAM GIÁC|Hình 🔺 là Hình tam giác.
+⭐|HÌNH NGÔI SAO|Hình ⭐ là Hình ngôi sao.
+💛|TRÁI TIM VÀNG|Hình 💛 là Trái tim vàng.
+➕|DẤU CỘNG|Hình ➕ là Dấu cộng.
+➖|DẤU TRỪ|Hình ➖ là Dấu trừ.
+1️⃣|SỐ MỘT|Hình 1️⃣ là Số một.
+5️⃣|SỐ NĂM|Hình 5️⃣ là Số năm.
+🔟|SỐ MƯỜI|Hình 🔟 là Số mười.
+🧧|BAO LÌ XÌ|Hình 🧧 là Bao lì xì.
+🎂|BÁNH SINH NHẬT|Hình 🎂 là Bánh sinh nhật.
+🎆|PHÁO HOA|Hình 🎆 là Pháo hoa.
+🎉|PHÁO GIẤY|Hình 🎉 là Pháo giấy.
+👑|VƯƠNG MIỆN|Hình 👑 là Vương miện.
+🏆|CHIẾC CÚP|Hình 🏆 là Chiếc cúp.
+🥇|HUY CHƯƠNG VÀNG|Hình 🥇 là Huy chương vàng.
+🎀|CHIẾC NƠ|Hình 🎀 là Chiếc nơ.
+🌊|SÓNG BIỂN|Hình 🌊 là Sóng biển.
+🪵|KHÚC GỖ|Hình 🪵 là Khúc gỗ.
+🪨|HÒN ĐÁ|Hình 🪨 là Hòn đá.
+🐚|VỎ ỐC|Hình 🐚 là Vỏ ốc.
+🪶|LÔNG CHIM|Hình 🪶 là Lông chim.
+🪺|TỔ CHIM|Hình 🪺 là Tổ chim.
+🕸️|MẠNG NHỆN|Hình 🕸️ là Mạng nhện.
+🌱|MẦM CÂY|Hình 🌱 là Mầm cây.
+🍂|LÁ MÙA THU|Hình 🍂 là Lá mùa thu.
+🔒|Ổ KHÓA|Hình 🔒 là Ổ khóa.
+🔦|ĐÈN PIN|Hình 🔦 là Đèn pin.
+📷|MÁY ẢNH|Hình 📷 là Máy ảnh.
+☎️|ĐIỆN THOẠI|Hình ☎️ là Điện thoại.
+💻|MÁY TÍNH|Hình 💻 là Máy tính.
+🎨|BẢNG VẼ|Hình 🎨 là Bảng vẽ.
+💎|VIÊN KIM CƯƠNG|Hình 💎 là Viên kim cương.`;
+const LUCIE_MOI = `
+☀️ + 🌻|HƯỚNG DƯƠNG|Loài hoa luôn quay về phía mặt trời.
+🌊 + 🐚|BIỂN CẢ|Vùng nước mặn rộng lớn bao quanh lục địa.
+⛰️ + 🔥|NÚI LỬA|Ngọn núi có dung nham nóng phun trào.
+❄️ + ⛄|TUYẾT RƠI|Hiện tượng thời tiết lạnh giá có bông tuyết trắng.
+💧 + 🏞️|THÁC NƯỚC|Dòng nước đổ từ vách núi cao xuống.
+🍃 + 💨|GIÓ THU|Làn gió mát mẻ dịu nhẹ của mùa thu.
+⚡ + 🌩️|SẤM CHỚP|Âm thanh và ánh sáng trong cơn dông.
+🌅 + 🐦|BÌNH MINH|Khoảnh khắc mặt trời vừa mọc buổi sáng sớm.
+📚 + 🏛️|THƯ VIỆN|Nơi lưu giữ và cho mượn rất nhiều sách hay.
+✏️ + 📏|HỌC CỤ|Các đồ dùng phục vụ cho việc học tập.
+🎒 + 🚶|ĐẾN TRƯỜNG|Hoạt động đi học mỗi sáng của học sinh.
+🧑‍🏫 + 📖|GIẢNG BÀI|Công việc dạy kiến thức của thầy cô giáo.
+🏅 + 📜|GIẤY KHEN|Phần thưởng dành cho học sinh chăm ngoan.
+🖍️ + 🎨|MỸ THUẬT|Môn học vẽ tranh và sáng tạo màu sắc.
+🎵 + 🎤|ÂM NHẠC|Môn học hát và làm quen với giai điệu.
+🌍 + 🗺️|ĐỊA LÝ|Môn tìm hiểu về đất nước, sông núi, bản đồ.
+🧪 + 🔬|KHOA HỌC|Môn khám phá các hiện tượng tự nhiên quanh ta.
+👴 + 👵|ÔNG BÀ|Người sinh ra bố mẹ, luôn yêu thương con cháu.
+👧 + 👦|CHỊ EM|Mối quan hệ thân thiết giữa Lucie và Lucas.
+🏠 + ❤️|TỔ ẤM|Ngôi nhà ngập tràn tình yêu thương gia đình.
+🍲 + 🍚|CƠM NHÀ|Bữa ăn ấm cúng cả gia đình quây quần.
+🙏 + 💐|BIẾT ƠN|Lòng trân trọng công lao của người giúp mình.
+💬 + ❤️|LỜI HAY|Những câu nói lễ phép, dịu dàng, tử tế.
+🤲 + 🧸|CHIA SẺ|Biết san sẻ niềm vui và đồ dùng với người khác.
+🛡️ + 💛|CHĂM SÓC|Quan tâm, lo lắng cho sức khỏe người thân.
+👧 + 🤝|CHỊ NGÃ EM NÂNG|Anh chị em trong nhà yêu thương đùm bọc nhau.
+🐜 + 🍚|KIẾN THA LÂU ĐẦY TỔ|Kiên trì tích góp từng chút sẽ có kết quả lớn.
+🔥 + 💎|LỬA THỬ VÀNG|Gian khó giúp rèn luyện ý chí và bản lĩnh.
+🌱 + 🍎|GIEO GIÓ GẶT BÃO|Làm điều xấu sẽ nhận lại hậu quả tương xứng.
+📖 + 💡|HỌC MỘT BIẾT MƯỜI|Khen người thông minh, hiểu sâu rộng.
+🐎 + 🛤️|ĐƯỜNG DÀI BIẾT NGỰA HAY|Thời gian dài mới thấy rõ người giỏi, kiên trì.
+🐝 + 🍯|CHĂM CHỈ NHƯ ONG|Khen người siêng năng làm việc không ngừng.
+🐢 + 🐇|CHẬM MÀ CHẮC|Làm cẩn thận từng bước sẽ đạt kết quả tốt.
+🌕 + 🏮|TRĂNG RẰM SÁNG TỎ|Đêm rằm ánh trăng tròn vành vạnh sáng ngời.
+🦁 + 💪|KHỎE NHƯ VOI|Khen người có sức khỏe dẻo dai, cường tráng.
+🐓 + 🌅|THỨC KHUYA DẬY SỚM|Chỉ sự chịu khó, cần mẫn làm việc.
+🌊 + 🪨|NƯỚC CHẢY ĐÁ MÒN|Kiên nhẫn lâu ngày sẽ vượt qua việc khó.
+🧵 + 🪡|CÓ CÔNG MÀI SẮT|Chăm chỉ rèn luyện ắt sẽ thành công.
+🏡 + 🌿|AN CƯ LẠC NGHIỆP|Có chỗ ở ổn định thì yên tâm làm việc.
+🌞 + 🌧️|NẮNG MƯA LÀ CHUYỆN TRỜI|Thiên nhiên biến đổi là quy luật tự nhiên.
+🕊️ + 🌿|HÒA BÌNH ẤM NO|Cuộc sống yên vui, đầy đủ và hạnh phúc.
+🍉 + 🏝️|SỰ TÍCH DƯA HẤU|Truyện Mai An Tiêm chăm chỉ trồng dưa trên đảo hoang.
+⭐ + 🐦|ĂN KHẾ TRẢ VÀNG|Chú chim phượng hoàng chở người em ra đảo lấy vàng.
+👠 + 🐟|TẤM CÁM|Truyện cô Tấm hiền lành và chú cá bống.
+🏔️ + 🌊|SƠN TINH THỦY TINH|Truyền thuyết giải thích hiện tượng lũ lụt hằng năm.
+🐢 + 🗡️|SỰ TÍCH HỒ GƯƠM|Cụ Rùa Vàng nhận lại thanh gươm báu từ vua Lê Lợi.
+🌕 + 🌳|CHÚ CUỘI CUNG TRĂNG|Truyện cây đa thần bay lên mặt trăng đêm Trung Thu.
+🥥 + 🎵|SỌ DỪA|Chàng trai tốt bụng tài giỏi ẩn mình trong vỏ dừa.
+🍜 + 🐄|PHỞ BÒ|Món nước nổi tiếng của ẩm thực Hà Nội.
+🥖 + 🥬|BÁNH MÌ|Món ăn giòn rụm quen thuộc mỗi buổi sáng.
+🟩 + 🍃|BÁNH CHƯNG|Chiếc bánh vuông xanh gói lá dong ngày Tết.
+🥟 + 🦐|NEM RÁN|Món cuốn giòn rụm thơm ngon trong mâm cỗ.
+🍚 + 🍗|CƠM TẤM|Món cơm ngon nổi tiếng của miền Nam.
+🥣 + 🌽|CHÈ NGÔ|Món ngọt mát nấu từ hạt ngô nếp thơm.
+🍡 + ⚪|BÁNH TRÔI|Món bánh ngọt nhân đường phên dịp Tết Hàn Thực.
+🥮 + 🏮|BÁNH TRUNG THU|Món bánh nướng, bánh dẻo phá cỗ đêm rằm.
+🥣 + 🦆|CHÁO VỊT|Món cháo nóng hổi bổ dưỡng.
+🥬 + 🍲|CANH CHUA|Món canh thanh mát vị chua ngọt dịu nhẹ.
+🐉 + 🏝️|VỊNH HẠ LONG|Di sản thiên nhiên thế giới với hàng nghìn đảo đá.
+🌉 + 🐉|CẦU RỒNG|Cây cầu phun lửa, phun nước nổi tiếng ở Đà Nẵng.
+🏮 + 🏘️|PHỐ CỔ HỘI AN|Khu phố cổ lung linh đèn lồng ở Quảng Nam.
+⛰️ + ☁️|ĐỈNH PHAN XI PĂNG|Nóc nhà Đông Dương cao nhất Việt Nam.
+🏯 + 🌺|CỐ ĐÔ HUẾ|Vùng đất kinh đô xưa bên dòng sông Hương.
+🏝️ + 🌴|ĐẢO PHÚ QUỐC|Hòn đảo ngọc xinh đẹp ở miền Tây Nam.
+🏛️ + 📜|VĂN MIẾU QUỐC TỬ GIÁM|Trường đại học đầu tiên của nước Việt Nam.
+🌸 + 🌲|ĐÀ LẠT|Thành phố ngàn hoa khí hậu mát mẻ quanh năm.
+🚤 + 🍉|CHỢ NỔI CÁI RĂNG|Khu chợ họp trên sông đặc sắc của miền Tây.
+🩺 + 🏥|BÁC SĨ|Người khám và chữa bệnh cứu giúp mọi người.
+🚒 + 🔥|LÍNH CỨU HỎA|Người dũng cảm dập lửa cứu người khi có cháy.
+✈️ + 👨‍✈️|PHI CÔNG|Người điều khiển máy bay trên bầu trời.
+🌾 + 🚜|NÔNG DÂN|Người trồng lúa, rau củ nuôi sống xã hội.
+🚀 + 🌌|PHI HÀNH GIA|Người bay vào vũ trụ khám phá các hành tinh.
+👷 + 🏗️|KỸ SƯ XÂY DỰNG|Người thiết kế và xây dựng cầu đường, nhà cửa.
+🍳 + 👨‍🍳|ĐẦU BẾP|Người nấu những món ăn ngon và bổ dưỡng.
+📚 + 👩‍🏫|GIÁO VIÊN|Người truyền đạt tri thức và dạy dỗ học sinh.
+🎨 + 🖼️|HỌA SĨ|Người sáng tạo nên những bức tranh đẹp.
+👮 + 🚦|CẢNH SÁT GIAO THÔNG|Người giữ trật tự an toàn trên đường phố.
+🐬 + 🌊|CÁ HEO|Loài vật thông minh, thân thiện sống ở đại dương.
+🐘 + 💦|VOI CHÂU Á|Loài vật to lớn, thông minh có chiếc vòi dài.
+🐢 + ⏳|RÙA BIỂN|Loài bò sát có mai cứng sống rất thọ dưới biển.
+🌸 + 🧧|TẾT NGUYÊN ĐÁN|Dịp lễ lớn nhất mừng năm mới sum vầy.
+🏮 + 🌕|TẾT TRUNG THU|Ngày hội rước đèn phá cỗ của thiếu nhi.
+💐 + 👩‍🏫|NGÀY NHÀ GIÁO|Ngày 20/11 tri ân các thầy cô giáo.
+🎈 + 🧒|QUỐC TẾ THIẾU NHI|Ngày 1/6 vui chơi của trẻ em toàn cầu.
+🥁 + 🦁|MÚA LÂN|Tiết mục rộn ràng mang lại niềm vui lễ hội.
+🚣 + 🏁|ĐUA THUYỀN RỒNG|Lễ hội sông nước thể hiện tinh thần đồng đội.
+🎄 + 🎅|LỄ GIÁNG SINH|Ngày lễ mùa đông ấm áp với cây thông và quà.
+🇻🇳 + 🎆|QUỐC KHÁNH|Ngày 2/9 trọng đại của dân tộc Việt Nam.
+🌳 + 🧤|TẾT TRỒNG CÂY|Hoạt động trồng thêm cây xanh đầu mùa xuân.
+🔭 + ✨|KÍNH THIÊN VĂN|Dụng cụ giúp quan sát các vì sao ở xa.
+🧭 + ⬆️|LA BÀN|Dụng cụ có kim chỉ phương Bắc giúp định hướng.
+🧲 + 📎|NAM CHÂM|Vật có lực hút các đồ vật bằng sắt.
+⚡ + 💡|ĐIỆN NĂNG|Nguồn năng lượng giúp đèn sáng, quạt quay.
+🌱 + 💧|QUANG HỢP|Quá trình lá cây tạo chất dinh dưỡng từ nắng.
+🛰️ + 🌍|VỆ TINH|Thiết bị bay quanh Trái Đất truyền tín hiệu.
+🤖 + 💻|TRÍ TUỆ NHÂN TẠO|Công nghệ giúp máy tính học hỏi và hỗ trợ người.
+♻️ + 🌍|TÁI CHẾ|Biến rác giấy, nhựa cũ thành đồ dùng mới có ích.
+🪖 + 🛵|MŨ BẢO HIỂM|Vật bảo vệ đầu an toàn khi đi xe máy, xe đạp.
+🚦 + 🚶|VẠCH QUA ĐƯỜNG|Lối kẻ trắng dành cho người đi bộ sang đường.
+🧼 + 🖐️|RỬA TAY SẠCH|Thói quen tốt diệt vi khuẩn trước khi ăn.
+🦷 + 🪥|ĐÁNH RĂNG|Giữ hàm răng trắng khỏe sáng và tối.
+🧯 + 🔥|BÌNH CHỮA CHÁY|Thiết bị dập lửa khẩn cấp khi có cháy nhỏ.
+☎️ + 1️⃣1️⃣4️⃣|CỨU HỎA|Số điện thoại khẩn cấp gọi khi có hỏa hoạn.
+🐷 + 💰|LỢN ĐẤT TIẾT KIỆM|Thói quen để dành tiền cho việc có ích.
+🗑️ + ♻️|PHÂN LOẠI RÁC|Chia rác tái chế và rác hữu cơ đúng thùng.
+⏰ + 📅|ĐÚNG GIỜ|Thói quen quý trọng thời gian của mọi người.
+🙇 + 💬|LỄ PHÉP|Cư xử kính trọng với ông bà, bố mẹ, thầy cô.
+🏸 + 🪶|CẦU LÔNG|Môn đánh quả cầu lông qua lưới bằng vợt.
+🏓 + 🎾|BÓNG BÀN|Môn đánh bóng nhỏ nhanh nhẹn trên mặt bàn.
+🏊 + 💧|BƠI LỘI|Kỹ năng vận động dưới nước rất tốt cho sức khỏe.
+🚴 + 🛣️|ĐẠP XE|Hoạt động thể thao rèn đôi chân khỏe mạnh.
+♟️ + 👑|CỜ VUA|Môn thể thao trí tuệ rèn tư duy chiến thuật.
+🏀 + 🧺|BÓNG RỔ|Môn ném bóng vào rổ trên cao theo đồng đội.
+🤸 + 🪢|NHẢY DÂY|Trò chơi vận động vui nhộn giờ ra chơi.
+🏃 + 🏁|CHẠY TIẾP SỨC|Cuộc đua đồng đội chuyền gậy về đích.
+🥋 + 🥋|VÕ THUẬT|Môn rèn luyện sức khỏe, kỷ luật và tự vệ.
+🚁 + ☁️|TRỰC THĂNG|Máy bay có cánh quạt lớn trên đỉnh bay thẳng đứng.
+🚌 + 🏫|XE BUÝT HỌC SINH|Xe đưa đón các bạn nhỏ đến trường an toàn.
+🚇 + 🏙️|TÀU ĐIỆN TRÊN CAO|Phương tiện công cộng hiện đại, nhanh và xanh.
+🚠 + ⛰️|CÁP TREO|Phương tiện đưa du khách lên đỉnh núi cao.
+🎹 + 🎶|ĐÀN PIANO|Nhạc cụ có hàng phím trắng đen âm thanh du dương.
+🎸 + 🎵|ĐÀN GHI-TA|Nhạc cụ sáu dây quen thuộc trong các buổi ca hát.
+🥁 + 🎉|TRỐNG HỘI|Nhạc cụ tạo nhịp rộn rã trong ngày hội làng.
+🎻 + 🎼|ĐÀN VI-Ô-LÔNG|Nhạc cụ kéo vĩ có âm thanh trong trẻo.
+🎭 + 🎪|MÚA RỐI NƯỚC|Nghệ thuật sân khấu dân gian độc đáo của Việt Nam.
+🖌️ + 📜|THƯ PHÁP|Nghệ thuật viết chữ đẹp bằng bút lông ngày Tết.
+📷 + 🖼️|NHIẾP ẢNH|Nghệ thuật ghi lại khoảnh khắc đẹp bằng máy ảnh.
+💃 + 🎶|MÚA DÂN GIAN|Những điệu múa uyển chuyển mang bản sắc quê hương.
+📖 + ✍️|LÀM THƠ|Sáng tác những vần thơ giàu cảm xúc và nhạc điệu.
+🏺 + 👐|NGHỀ GỐM|Tạo hình bát đĩa, bình hoa từ đất sét nung.
+✨ + ⭐|LẤP LÁNH|Từ láy tả ánh sáng phản chiếu lung linh đẹp mắt.
+🌧️ + 💧|TÍ TÁCH|Từ láy mô phỏng tiếng giọt mưa rơi nhẹ nhàng.
+🐦 + 🎶|LÍU LO|Từ láy tả tiếng chim hót vui tai trên cành.
+🌊 + 💨|RÌ RÀO|Từ láy tả tiếng gió thổi qua hàng cây hoặc sóng biển.
+😀 + 🎉|RỘN RÀNG|Từ láy tả không khí vui tươi, nhộn nhịp.
+🐢 + 🚶|CHẬM RÃI|Từ láy tả dáng đi từ tốn, khoan thai.
+🌸 + 🌬️|THOANG THOẢNG|Từ láy tả mùi hương hoa nhẹ nhàng dễ chịu.
+🍃 + 🌬️|ĐUNG ĐƯA|Từ láy tả cành lá khẽ lay động trong gió.
+☀️ + 🌻|RỰC RỠ|Từ láy tả màu sắc và ánh sáng tươi tắn nổi bật.
+😴 + 🌙|ÊM ĐỀM|Từ láy tả không gian yên bình, dịu nhẹ.
+🌳 + 🫁|LÁ PHỔI XANH|Tên gọi ví von của rừng cây đối với Trái Đất.
+💡 + ❌|TIẾT KIỆM ĐIỆN|Tắt thiết bị khi không dùng để giảm lãng phí.
+🚰 + 💧|TIẾT KIỆM NƯỚC|Khóa vòi nước ngay sau khi rửa tay xong.
+🛍️ + 🌿|TÚI VẢI|Loại túi dùng nhiều lần thay cho túi ni-lông.
+☀️ + ⚡|NĂNG LƯỢNG MẶT TRỜI|Nguồn điện sạch lấy từ ánh nắng tự nhiên.
+🌬️ + ⚡|ĐIỆN GIÓ|Nguồn năng lượng sạch tạo ra nhờ cánh quạt gió.
+🚮 + 🏞️|GIỮ SẠCH CÔNG VIÊN|Bỏ rác đúng nơi quy định khi đi chơi ngoài trời.
+🚲 + 🌍|SỐNG XANH|Lối sống thân thiện, giảm rác thải và khí thải.
+🌱 + 🪴|ƯƠM MẦM XANH|Trồng và chăm sóc cây non mỗi ngày.
+🌊 + 🐠|BẢO VỆ ĐẠI DƯƠNG|Không xả rác nhựa xuống biển để cứu sinh vật biển.
+⏰ + 🏃|CHIẾC ĐỒNG HỒ|Không chân mà chạy suốt ngày đêm, giúp ta xem giờ.
+✏️ + 📉|CÂY BÚT CHÌ|Càng viết càng ngắn lại, giúp bé vẽ và làm toán.
+🪞 + 😀|CÁI GƯƠNG|Em cười nó cười theo, em khóc nó cũng khóc.
+🕯️ + 🔥|NGỌN NẾN|Thân trắng tỏa sáng trong đêm, càng cháy càng thấp.
+🧭 + 🚢|CHIẾC LA BÀN|Giúp thuyền trưởng luôn biết hướng Bắc trên biển.
+🧼 + 🫧|BÁNH XÀ PHÒNG|Càng giúp tay sạch thơm thì thân mình càng nhỏ đi.
+🗝️ + 🔒|CHÌA KHÓA|Nhỏ xíu nhưng mở được cánh cửa lớn.
+🏆 + 👧👦|QUÁN QUÂN|Danh hiệu dành cho người xuất sắc nhất cuộc thi.
+🌟 + 💡|THÔNG THÁI|Hiểu biết sâu rộng và suy luận sắc bén.
+🤝 + 🌍|TÌNH HỮU NGHỊ|Tình bạn thân thiết giữa các dân tộc trên thế giới.
+📚 + 🏔️|BIỂN HỌC VÔ BỜ|Kiến thức rộng lớn, cần học hỏi suốt đời.
+🌈 + ✨|ƯỚC MƠ BAY CAO|Khát vọng đẹp đẽ vươn tới tương lai.
+❤️ + 🇻🇳|YÊU TỔ QUỐC|Tình yêu thiêng liêng với quê hương đất nước.
+🎯 + 💪|QUYẾT TÂM|Ý chí bền bỉ không bỏ cuộc trước khó khăn.
+🧠 + ⚡|NHANH TRÍ|Phản ứng thông minh, tìm ra cách giải quyết nhanh.
+🌻 + 😊|LẠC QUAN|Luôn nhìn đời bằng ánh mắt vui tươi, tích cực.
+🎉 + 🥇|CHIẾN THẮNG|Niềm vui trọn vẹn khi chinh phục đủ 30 màn chơi!`;
+const QS = [...parse(LUCAS_RAW, "lucas", 1), ...parse(LUCIE_RAW, "lucie", 51), ...parse(LUCAS_MOI, "lucas", 1001), ...parse(LUCIE_MOI, "lucie", 2001)];
+const byId = Object.fromEntries(QS.map(q => [q.id, q]));
+const KIDS = { lucie: { name: "Lucie", img: "../../img/lucie.webp" }, lucas: { name: "Lucas", img: "../../img/lucas.webp" } };
+
+/* ---------- tiện ích ---------- */
+const $ = id => document.getElementById(id);
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.random() * (i + 1) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const readJSON = k => { try { return JSON.parse(localStorage.getItem(k) || "null"); } catch (e) { return null; } };
+const saveJSON = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+const words = s => s.split(/\s+/).filter(Boolean);
+function emojify(el) { try { if (window.twemoji) twemoji.parse(el, { base: "https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/", folder: "svg", ext: ".svg" }); } catch (e) {} }
+function toast(msg, ms = 1600) { const t = $("toast"); t.textContent = msg; emojify(t); t.classList.add("on"); clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove("on"), ms); }
+const stage = () => window.stage3D || null;
+/* Hình 3D (bộ Fluent Emoji của Microsoft, giấy phép MIT) lưu sẵn trong thư mục hinh/ — biểu tượng nào không có hình thì giữ kiểu cũ */
+const HINH = new Set("1f308 1f30a 1f30f 1f315 1f319 1f321 1f327 1f32b 1f32c 1f332 1f333 1f335 1f338 1f33b 1f33c 1f33d 1f33f 1f344 1f349 1f34c 1f34d 1f34e 1f36f 1f37f 1f382 1f385 1f38b 1f3b5 1f3b8 1f3c3 1f3c5 1f3c6 1f3dc 1f3dd 1f3de 1f3e0 1f3e5 1f3eb 1f3ee 1f403 1f404 1f407 1f409 1f40b 1f40e 1f412 1f413 1f414 1f415 1f418 1f419 1f41b 1f41c 1f41d 1f41f 1f422 1f423 1f427 1f42a 1f430 1f431 1f434 1f437 1f438 1f43c 1f440 1f442 1f451 1f45f 1f466 1f467 1f468 1f469-200d-1f3eb 1f476 1f478 1f483 1f48e 1f4a1 1f4a6 1f4a7 1f4aa 1f4af 1f4d6 1f4da 1f504 1f514 1f525 1f528 1f54a 1f56f 1f570 1f573 1f576 1f5e1 1f5e3 1f682 1f691 1f692 1f6a2 1f6a5 1f6a6 1f6bf 1f6d1 1f7e2 1f7e5 1f7e9 1f91d 1f941 1f945 1f948 1f955 1f956 1f95a 1f95b 1f965 1f981 1f989 1f98b 1f993 1f997 1f998 1f99a 1f9a2 1f9b7 1f9ca 1f9da-200d-2640 1f9e4 1f9e5 1f9e6 1f9e7 1f9ed 1f9f9 1fa81 1fa90 1fa99 1faa1 1faa5 1fab1 1fab7 1fac2 23f0 2600 2601 2614 26aa 26bd 26c4 26f0 26f4 26f5 2708 270b 270f 2744 2764 2b06 2b50 38-20e3".split(" "));
+/* Ảnh chụp thật (Wikipedia/Commons) do máy chủ GitHub tự tải về thư mục anh/ — xem tools/lay_anh.py. Ảnh nào chưa có thì dùng hình 3D */
+const ANH = new Set("1f36f 1f41d 2600 1f33b 1f308 1f434 1f993 1f41f 1f956 1f95b 2744 1f525 1f682 1f319 1f437 1f413 23f0 1f422 1f407 1f34e 1fab1 1f576 2614 1f3eb 1f514 1f382 1f945 1f431 1f418 1f349 1f34c 1f412 1f404 1f332 2601 1f6a2 1f9e4 1f95a 1f98b 1f965 1f955 1f430 1f941 1f3ee 1f315 1f981 1f43c 1f38b 1f989 1f691 26f0 1f4a7 1f3de 1f3b8 1f423 1f415 1f5e1 1f34d 1f33d 1f37f 1f344 1f335 1f30f 1fa90 1f997 1f9a2 1f99a 1f42a 1f998 1f427 1f419 1f4a1 1f48e 26f4 1f30a 26c4 1f9b7 1faa5 1f3e0 1f56f 26bd 2708 1f451 1f438 1fab7 1f4d6 270f 1f9f9 1f6a6 1f6d1 1f6a5 1f9e6 1f45f 1f414 1f41b 1f3dd 1fa81 1f692 1f3e5 1f570 1f409 1f333 1f41c 1f528 1faa1 1f40e 1f3c6 26f5 1f573 1f403 1f32b 1fa99 1f948 1f9ed 1f3dc 1f9ca 1f40b 1f4da 1f3c5 1f54a 1f33f 1f1fb-1f1f3 1f338 1f9e7 1f33c 1f327 1f385 1f442 270b 1f440 1f32c 1f4a6 1f7e5 1f7e9 26aa".split(" "));
+const NHA = { "1f467": "../../img/lucie.webp", "1f466": "../../img/lucas.webp" };   // 👧 👦 = ảnh thật của hai bé
+const seg = window.Intl && Intl.Segmenter ? new Intl.Segmenter("vi", { granularity: "grapheme" }) : null;
+const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+function picHTML(t) {
+  const parts = seg ? [...seg.segment(t)].map(x => x.segment) : [...t];
+  return parts.map(e => { const k = [...e].filter(c => c !== "\ufe0f").map(c => c.codePointAt(0).toString(16)).join("-");
+    if (NHA[k]) return `<img class="ph real" src="${NHA[k]}" alt="${esc(e)}" draggable="false">`;
+    if (ANH.has(k)) return `<img class="ph real" src="anh/${k}.webp" alt="${esc(e)}" draggable="false"${HINH.has(k) ? ` onerror="this.onerror=null;this.className='ph';this.src='hinh/${k}.webp'"` : ""}>`;
+    return HINH.has(k) ? `<img class="ph" src="hinh/${k}.webp" alt="${esc(e)}" draggable="false">` : esc(e); }).join("");
+}
+
+/* ---------- ÂM THANH (Web Audio, không cần file) ---------- */
+let soundOn = readJSON("dhbc_sound") !== false, AC = null;
+function ac() { if (!AC) { try { AC = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {} } if (AC && AC.state === "suspended") AC.resume(); return AC; }
+function tone(f, d = .15, type = "sine", v = .18, delay = 0, f2) {
+  if (!soundOn) return; const a = ac(); if (!a) return; const t = a.currentTime + delay, o = a.createOscillator(), g = a.createGain();
+  o.type = type; o.frequency.setValueAtTime(f, t); if (f2) o.frequency.exponentialRampToValueAtTime(f2, t + d);
+  g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(v, t + .02); g.gain.exponentialRampToValueAtTime(0.0001, t + d);
+  o.connect(g).connect(a.destination); o.start(t); o.stop(t + d + .05);
+}
+const SFX = {
+  click: () => tone(660, .07, "triangle", .12),
+  flip: () => { tone(300, .35, "sine", .12, 0, 900); tone(1200, .25, "triangle", .06, .3); },
+  right: () => [523, 659, 784, 1047].forEach((f, i) => tone(f, .22, "triangle", .2, i * .09)),
+  wrong: () => { tone(220, .25, "sawtooth", .09, 0, 140); tone(180, .3, "square", .05, .12, 110); },
+  star: () => tone(1320, .12, "sine", .12),
+  boom: () => { tone(160, .5, "sawtooth", .08, 0, 40); [1500, 1800, 2100].forEach((f, i) => tone(f, .3, "sine", .05, .15 + i * .05, f * .6)); },
+  fanfare: () => [392, 523, 659, 784, 659, 784, 1047].forEach((f, i) => tone(f, .25, "triangle", .18, i * .13))
+};
+function setSound(on) { soundOn = on; saveJSON("dhbc_sound", on); document.querySelectorAll(".sndBtn").forEach(b => b.innerHTML = b.classList.contains("pill") ? (on ? "🔊 Âm thanh" : "🔇 Tắt tiếng") : (on ? "🔊" : "🔇")); if (!on && window.speechSynthesis) speechSynthesis.cancel(); }
+
+/* ---------- ĐỌC TO (nếu máy có giọng tiếng Việt) ---------- */
+let viVoice = null;
+function findVoice() { if (!window.speechSynthesis) return; viVoice = speechSynthesis.getVoices().find(v => /^vi/i.test(v.lang)) || null; $("btnSay").classList.toggle("hidden", !viVoice); }
+if (window.speechSynthesis) { findVoice(); speechSynthesis.onvoiceschanged = findVoice; }
+function say(text) { if (!soundOn || !viVoice) return; try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.voice = viVoice; u.lang = viVoice.lang; u.rate = .9; speechSynthesis.speak(u); } catch (e) {} }
+
+/* ---------- LƯU TIẾN ĐỘ ---------- */
+const MODES = { lucas: "Em Lucas", lucie: "Chị Lucie", duo: "Hai chị em" };
+function newOrder(mode) {
+  const ds = kid => { const da = (readJSON("dhbc_" + kid) || { giai: [] }).giai || [], all = QS.filter(q => q.kid === kid).map(q => q.id);
+    return shuffle(all.filter(id => !da.includes(id))).concat(shuffle(all.filter(id => da.includes(id)))); };
+  const L = ds("lucas"), C = ds("lucie");
+  if (mode === "lucas") return L.slice(0, 20); if (mode === "lucie") return C.slice(0, 20);
+  const o = []; for (let i = 0; i < 10; i++) o.push(C[i], L[i]); return o;     // chị trước, em sau, xen kẽ
+}
+function loadProg(mode) { const p = readJSON("dhbc_tienDo_" + mode); return p && p.order && p.order.length ? p : { order: newOrder(mode), i: 0, kq: {} }; }
+function kidStats(kid) { return readJSON("dhbc_" + kid) || { stars: 0, giai: [] }; }
+function addKidStars(kid, id, n) { const s = kidStats(kid); s.stars += n; if (!s.giai.includes(id)) s.giai.push(id); saveJSON("dhbc_" + kid, s); }
+function ghiNhatKy(child, question, ok) { try { const k = "giaDinh_nhatKy", a = JSON.parse(localStorage.getItem(k) || "[]"); a.push({ t: Date.now(), g: "duoihinh", c: child, s: "Tiếng Việt", q: String(question).slice(0, 140), ok: !!ok }); if (a.length > 6000) a.splice(0, a.length - 6000); localStorage.setItem(k, JSON.stringify(a)); } catch (e) {} }
+
+/* ---------- TRẠNG THÁI CHƠI ---------- */
+let MODE = null, P = null, Q = null, opts = [], tries = 0, usedHint = false, usedHelp = false, solved = false, busy = false;
+
+function renderMenu() {
+  document.querySelectorAll(".mode").forEach(b => {
+    const m = b.dataset.mode, p = readJSON("dhbc_tienDo_" + m), n = p ? Object.keys(p.kq || {}).length : 0, tot = m === "duo" ? 100 : 50;
+    const st = p ? Object.values(p.kq).reduce((s, r) => s + r, 0) : 0;
+    b.querySelector(".prog").textContent = n ? `Đã giải ${n}/${tot} · ⭐${st} — bấm để chơi tiếp` : "Bấm để bắt đầu";
+    let r = b.querySelector(".reset");
+    if (n && !r) { r = document.createElement("span"); r.className = "reset"; r.textContent = "↺ Làm lại"; r.setAttribute("role", "button");
+      r.onclick = ev => { ev.stopPropagation(); localStorage.removeItem("dhbc_tienDo_" + m); SFX.click(); renderMenu(); }; b.appendChild(r); }
+    if (!n && r) r.remove();
+  });
+  emojify($("menu"));
+}
+
+function startMode(mode) {
+  ac(); MODE = mode; P = loadProg(mode); if (P.i >= P.order.length) P.i = 0;
+  $("menu").classList.add("hidden"); $("game").classList.remove("hidden"); $("endCard").classList.add("hidden");
+  stage()?.setMode(mode); showQ(true);
+}
+function goMenu() { if (window.speechSynthesis) speechSynthesis.cancel(); $("game").classList.add("hidden"); $("card").classList.add("hidden"); $("endCard").classList.add("hidden");
+  $("menu").classList.remove("hidden"); stage()?.setMode(null); renderMenu(); setTimeout(() => document.querySelector(".mode")?.focus(), 50); }
+
+function makeOptions(q) {
+  const n = words(q.a).length, pool = QS.filter(x => x.kid === q.kid && x.a !== q.a);
+  const same = shuffle(pool.filter(x => words(x.a).length === n)), near = shuffle(pool.filter(x => Math.abs(words(x.a).length - n) === 1)), rest = shuffle(pool);
+  const picks = []; for (const x of [...same, ...near, ...rest]) { if (!picks.includes(x.a)) picks.push(x.a); if (picks.length === 3) break; }
+  return shuffle([q.a, ...picks]);
+}
+function hintText(q, full) {
+  const w = words(q.a);
+  if (!full) return `Đáp án có ${w.length} tiếng`;
+  return "🦉 " + w.map(x => { const ch = [...x.normalize("NFC")]; return ch[0] + " " + ch.slice(1).map(() => "_").join(" "); }).join("   ");
+}
+
+function updateTop() {
+  const kid = Q.kid, k = KIDS[kid], tot = P.order.length, done = Object.keys(P.kq).length;
+  $("who").className = kid; $("who").querySelector("img").src = k.img; $("who").querySelector("span").textContent = MODE === "duo" ? "Lượt " + k.name : k.name;
+  $("barFill").style.width = (done / tot * 100) + "%"; $("barTxt").textContent = `Câu ${P.i + 1}/${tot} · đã giải ${done}`;
+  $("starN").textContent = Object.values(P.kq).reduce((s, r) => s + r, 0);
+}
+
+function showQ(first) {
+  Q = byId[P.order[P.i]]; tries = 0; usedHint = false; usedHelp = false; solved = P.kq[Q.id] != null; busy = true;
+  saveJSON("dhbc_tienDo_" + MODE, P); updateTop();
+  const pz = $("puzzle"); pz.classList.add("off");
+  pz.innerHTML = Q.p.split("+").map(s => `<span class="tile">${picHTML(s.trim())}</span>`).join('<span class="plus">+</span>'); emojify(pz); fitTiles();
+  $("hintTxt").textContent = hintText(Q, false); $("btnHint").disabled = false; $("btnHelp").disabled = false;
+  opts = makeOptions(Q);
+  $("answers").innerHTML = opts.map((a, i) => `<button class="ans" data-a="${a}"><span class="k">${"ABCD"[i]}</span>${a}</button>`).join("");
+  $("answers").querySelectorAll(".ans").forEach(b => b.onclick = () => choose(b));
+  if (solved) { const b = [...$("answers").children].find(x => x.dataset.a === Q.a); b.classList.add("right"); $("hintTxt").textContent = "✅ Đã giải: " + Q.a; }
+  if (MODE === "duo" && !first) { const t = $("turn"); t.textContent = "Lượt của " + (Q.kid === "lucie" ? "Chị Lucie 👧" : "Em Lucas 👦"); emojify(t); t.classList.add("on"); setTimeout(() => t.classList.remove("on"), 1100); }
+  stage()?.setActive(Q.kid);
+  SFX.flip();
+  const reveal = () => { pz.classList.remove("off"); busy = false; $("answers").querySelector(".ans:not(:disabled)")?.focus(); };
+  if (stage()) stage().flip(reveal); else setTimeout(reveal, 500);
+}
+
+function fitTiles() {
+  const pz = $("puzzle"), r = pz.getBoundingClientRect(), n = pz.querySelectorAll(".tile").length || 1;
+  const maxChars = Math.max(...Q.p.split("+").map(s => [...s.trim()].filter(c => /\p{Extended_Pictographic}/u.test(c)).length || 1));
+  const w = r.width / (n * maxChars + (n - 1) * .7 + .6), h = r.height * .62;
+  pz.style.setProperty("--tile", Math.max(36, Math.min(w, h)) + "px");
+}
+window.addEventListener("resize", () => { if (Q) fitTiles(); });
+window.onPuzzleRect = (x, y, w, h) => { const pz = $("puzzle"); Object.assign(pz.style, { left: x + "px", top: y + "px", width: w + "px", height: h + "px" }); if (Q && !fitTiles.t) { fitTiles.t = 1; requestAnimationFrame(() => { fitTiles(); fitTiles.t = 0; }); } };
+
+function choose(btn) {
+  if (busy || btn.disabled) return;
+  if (solved) { next(); return; }
+  if (btn.dataset.a === Q.a) {
+    solved = true; btn.classList.add("right"); SFX.right();
+    const stars = Math.max(1, 3 - tries - (usedHint ? 1 : 0) - (usedHelp ? 1 : 0));
+    P.kq[Q.id] = stars; saveJSON("dhbc_tienDo_" + MODE, P); addKidStars(Q.kid, Q.id, stars);
+    ghiNhatKy(Q.kid, Q.p + " = " + Q.a, tries === 0 && !usedHelp);
+    for (let i = 0; i < stars; i++) setTimeout(SFX.star, 450 + i * 160);
+    stage()?.celebrate(Q.kid); updateTop();
+    const done = Object.keys(P.kq).length, milestone = done % 10 === 0;
+    if (milestone) { setTimeout(() => { stage()?.fireworks(); SFX.fanfare(); setTimeout(SFX.boom, 400); toast(`🎆 Tuyệt vời! Đã giải ${done} câu!`, 2400); }, 500); }
+    setTimeout(() => showCard(stars), 700);
+  } else {
+    tries++; btn.disabled = true; btn.classList.add("wrong"); SFX.wrong();
+    const pz = $("puzzle"); pz.classList.remove("shake"); void pz.offsetWidth; pz.classList.add("shake"); stage()?.shake();
+    toast(tries === 1 ? "Chưa đúng rồi, thử lại nhé! 💪" : "Gần được rồi! Bấm 🤝 để được trợ giúp nhé");
+    $("answers").querySelector(".ans:not(:disabled)")?.focus();
+  }
+}
+function showCard(stars) {
+  $("cStars").textContent = "⭐".repeat(stars); $("cPuz").innerHTML = Q.p.split("+").map(x => picHTML(x.trim())).join(" + "); $("cAns").textContent = Q.a; $("cExp").textContent = Q.e;
+  $("btnGo").textContent = P.i + 1 >= P.order.length ? "Xem kết quả 🏆" : "Câu tiếp ▶";
+  emojify($("card")); $("card").classList.remove("hidden"); setTimeout(() => $("btnGo").focus(), 60);
+  say(Q.a + ". " + Q.e);
+}
+function next() {
+  $("card").classList.add("hidden"); if (window.speechSynthesis) speechSynthesis.cancel();
+  if (P.i + 1 >= P.order.length) { endGame(); return; }
+  P.i++; showQ(false);
+}
+function prev() { if (busy || P.i === 0) return; SFX.click(); P.i--; showQ(false); }
+function endGame() {
+  const done = Object.keys(P.kq).length, tot = P.order.length, st = Object.values(P.kq).reduce((s, r) => s + r, 0);
+  $("eTitle").textContent = done === tot ? "HOÀN THÀNH TẤT CẢ!" : "HẾT CÂU HỎI!";
+  $("eText").textContent = `${MODES[MODE]}: giải được ${done}/${tot} câu, thu về ${st} ⭐.` + (done < tot ? " Còn vài câu bỏ qua, bấm ◀ để quay lại giải nốt nhé!" : " Hai chị em thật là thông thái!");
+  emojify($("endCard")); $("endCard").classList.remove("hidden"); stage()?.fireworks(); stage()?.celebrate("both"); SFX.fanfare(); setTimeout(() => $("btnAgain").focus(), 60);
+}
+
+/* ---------- NÚT ---------- */
+document.querySelectorAll(".mode").forEach(b => b.onclick = () => { SFX.click(); startMode(b.dataset.mode); });
+document.querySelectorAll(".sndBtn").forEach(b => b.onclick = () => { setSound(!soundOn); SFX.click(); });
+$("btnHome").onclick = () => { SFX.click(); goMenu(); };
+$("btnNext").onclick = () => { if (busy) return; SFX.click(); next(); };
+$("btnPrev").onclick = prev;
+$("btnGo").onclick = () => { SFX.click(); next(); };
+$("btnSay").onclick = () => say(Q.a + ". " + Q.e);
+$("btnHint").onclick = () => { if (solved) return; usedHint = true; $("hintTxt").textContent = hintText(Q, true); $("btnHint").disabled = true; SFX.star(); say("Gợi ý: đáp án bắt đầu bằng chữ " + [...Q.a][0]); };
+$("btnHelp").onclick = () => {
+  if (solved) return; usedHelp = true; $("btnHelp").disabled = true; SFX.flip();
+  const wrong = shuffle([...$("answers").children].filter(b => b.dataset.a !== Q.a && !b.disabled));
+  wrong.slice(0, Math.max(0, wrong.length - 1)).slice(0, 2).forEach(b => b.disabled = true);
+  stage()?.celebrate("both", true); toast("🤝 Hai chị em đã loại bớt đáp án sai!");
+  $("answers").querySelector(".ans:not(:disabled)")?.focus();
+};
+$("btnAgain").onclick = () => { localStorage.removeItem("dhbc_tienDo_" + MODE); startMode(MODE); };
+$("btnMenu").onclick = goMenu;
+
+/* ---------- ĐIỀU KHIỂN BẰNG REMOTE TV / BÀN PHÍM ---------- */
+function focusables() { return [...document.querySelectorAll("button,a.pill,[role=button]")].filter(e => !e.disabled && e.offsetParent !== null && getComputedStyle(e).visibility !== "hidden"); }
+function topLayer(list) { for (const id of ["endCard", "card"]) { const L = $(id); if (!L.classList.contains("hidden")) return list.filter(e => L.contains(e)); } return list; }
+document.addEventListener("keydown", e => {
+  const k = e.key;
+  if (!$("game").classList.contains("hidden") && $("card").classList.contains("hidden") && $("endCard").classList.contains("hidden")) {
+    const idx = "1234".indexOf(k) >= 0 ? "1234".indexOf(k) : "abcd".indexOf(k.toLowerCase());
+    if (idx >= 0 && k.length === 1) { const b = $("answers").children[idx]; if (b) { e.preventDefault(); choose(b); } return; }
+  }
+  if (k === "Escape" || k === "Backspace" || k === "BrowserBack") { if (!$("game").classList.contains("hidden")) { e.preventDefault(); goMenu(); } return; }
+  const dir = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[k]; if (!dir) return;
+  e.preventDefault(); const list = topLayer(focusables()), cur = document.activeElement;
+  if (!list.includes(cur)) { list[0]?.focus(); return; }
+  const r = cur.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2; let best = null, bd = 1e9;
+  for (const el of list) { if (el === cur) continue; const q = el.getBoundingClientRect(), dx = q.left + q.width / 2 - cx, dy = q.top + q.height / 2 - cy;
+    const along = dx * dir[0] + dy * dir[1]; if (along <= 4) continue; const across = Math.abs(dx * dir[1]) + Math.abs(dy * dir[0]); const d = along + across * 2.2; if (d < bd) { bd = d; best = el; } }
+  if (best) { best.focus(); SFX.click(); }
+});
+
+setSound(soundOn); renderMenu();
+setTimeout(() => document.querySelector(".mode")?.focus(), 100);
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@twemoji/api@15.1.0/dist/twemoji.min.js" crossorigin="anonymous" onload="renderMenu()"></script>
+
+<!-- =================== SÂN KHẤU 3D (Three.js) =================== -->
+<script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js" } }</script>
+<script type="module">
+import * as THREE from "three";
+const canvas = document.getElementById("c3d");
+const R = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+R.setPixelRatio(Math.min(devicePixelRatio, 1.5));
+const scene = new THREE.Scene(), cam = new THREE.PerspectiveCamera(42, 1, .1, 100);
+scene.add(new THREE.HemisphereLight(0xfff2ff, 0x5a3a9a, 1.5));
+const sun = new THREE.DirectionalLight(0xffffff, 1.6); sun.position.set(3, 8, 6); scene.add(sun);
+const glow = new THREE.PointLight(0xffd76b, 0, 12); glow.position.set(0, 2.6, 2.5); scene.add(glow);
+const M = (c, o = {}) => new THREE.MeshStandardMaterial({ color: c, roughness: .55, ...o });
+
+/* sân khấu */
+const floor = new THREE.Mesh(new THREE.CylinderGeometry(7.2, 7.6, .5, 64), M(0x7c4dff)); floor.position.y = -.25; scene.add(floor);
+const rim = new THREE.Mesh(new THREE.TorusGeometry(7.25, .1, 12, 96), M(0xffc83d, { metalness: .7, roughness: .3, emissive: 0x7a5200, emissiveIntensity: .4 }));
+rim.rotation.x = Math.PI / 2; scene.add(rim);
+for (const s of [-1, 1]) {                                      // màn nhung hai bên
+  for (let i = 0; i < 5; i++) { const f = new THREE.Mesh(new THREE.CylinderGeometry(.32, .38, 9, 16), M(0xc2185b, { roughness: .8 }));
+    f.position.set(s * (7.2 + i * .5), 4, -1.5 - i * .25); scene.add(f); }
+}
+const val = new THREE.Mesh(new THREE.BoxGeometry(22, .9, .5), M(0xc2185b, { roughness: .8 })); val.position.set(0, 7.2, -2); scene.add(val);
+for (let i = -10; i <= 10; i++) { const b = new THREE.Mesh(new THREE.SphereGeometry(.12, 10, 10), M(0xffc83d, { emissive: 0xffa000, emissiveIntensity: .6 })); b.position.set(i, 6.7, -1.7); scene.add(b); }
+
+/* khung tranh ma thuật */
+const frame = new THREE.Group(); frame.position.set(0, 3.25, 0); scene.add(frame);
+const FW = 4.6, FH = 2.9, gold = M(0xffd34d, { metalness: .25, roughness: .35, emissive: 0xc98a00, emissiveIntensity: .45 });
+const bar = (w, h, x, y) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, .28), gold); m.position.set(x, y, 0); frame.add(m); };
+bar(FW + .5, .3, 0, FH / 2 + .1); bar(FW + .5, .3, 0, -FH / 2 - .1); bar(.3, FH + .5, -FW / 2 - .1, 0); bar(.3, FH + .5, FW / 2 + .1, 0);
+const panel = new THREE.Mesh(new THREE.PlaneGeometry(FW, FH), new THREE.MeshStandardMaterial({ color: 0xfff8ec, roughness: .9, side: THREE.DoubleSide })); panel.position.z = -.02; frame.add(panel);
+const gems = [];
+for (const [x, y] of [[-1, -1], [-1, 1], [1, -1], [1, 1]]) { const g = new THREE.Mesh(new THREE.OctahedronGeometry(.26), M(0xff5fa8, { emissive: 0xff2d8a, emissiveIntensity: .7, metalness: .3 }));
+  g.position.set(x * (FW / 2 + .1), y * (FH / 2 + .1), .2); frame.add(g); gems.push(g); }
+const crown = new THREE.Mesh(new THREE.OctahedronGeometry(.4), M(0x7ad1ff, { emissive: 0x2a9dff, emissiveIntensity: .7 })); crown.position.set(0, FH / 2 + .65, 0); crown.scale.y = 1.4; frame.add(crown);
+
+/* ngôi sao 3D */
+const starShape = new THREE.Shape(); for (let i = 0; i < 10; i++) { const r = i % 2 ? .22 : .5, a = i / 10 * Math.PI * 2 + Math.PI / 2; i ? starShape.lineTo(Math.cos(a) * r, Math.sin(a) * r) : starShape.moveTo(Math.cos(a) * r, Math.sin(a) * r); }
+const starGeo = new THREE.ExtrudeGeometry(starShape, { depth: .14, bevelEnabled: true, bevelSize: .04, bevelThickness: .04, bevelSegments: 1 }); starGeo.center();
+const stars = [];
+for (let i = 0; i < 9; i++) { const s = new THREE.Mesh(starGeo, M([0xffd93d, 0xff8fc8, 0x7ad1ff][i % 3], { emissive: [0xb88a00, 0xb4207a, 0x1f6fb0][i % 3], emissiveIntensity: .5, metalness: .4 }));
+  s.position.set(-6 + i * 1.5, 5.4 + Math.sin(i) * .5, -1 - (i % 3) * .5); s.scale.setScalar(.6 + (i % 3) * .2); s.userData.ph = i; scene.add(s); stars.push(s); }
+
+/* pháo giấy rơi */
+const CONF = 140, conf = new THREE.InstancedMesh(new THREE.PlaneGeometry(.1, .18), new THREE.MeshBasicMaterial({ side: THREE.DoubleSide }), CONF);
+const cData = [], dummy = new THREE.Object3D(), pal = [0xff5fa8, 0xffd93d, 0x7ad1ff, 0x6ee59a, 0xc49bff, 0xff8a3d];
+for (let i = 0; i < CONF; i++) { cData.push({ x: (Math.random() - .5) * 16, y: Math.random() * 9, z: -2 + Math.random() * 4, v: .4 + Math.random() * .7, r: Math.random() * 6, s: 1 + Math.random() * 3 });
+  conf.setColorAt(i, new THREE.Color(pal[i % pal.length])); }
+scene.add(conf);
+
+/* nhân vật */
+const SKIN = 0xffd9b8;
+function kid(type) {
+  const g = new THREE.Group(), pink = type === "lucie";
+  for (const s of [-1, 1]) { const leg = new THREE.Mesh(new THREE.CylinderGeometry(.09, .09, .62, 12), M(pink ? SKIN : 0x1e3a8a)); leg.position.set(s * .16, .31, 0); g.add(leg);
+    const shoe = new THREE.Mesh(new THREE.SphereGeometry(.13, 12, 10), M(pink ? 0xff4f9a : 0xffffff)); shoe.scale.set(1, .6, 1.4); shoe.position.set(s * .16, .05, .05); g.add(shoe); }
+  if (pink) { const dress = new THREE.Mesh(new THREE.ConeGeometry(.62, 1.0, 28), M(0xffa6d2)); dress.position.y = 1.0; g.add(dress);
+    const top = new THREE.Mesh(new THREE.CylinderGeometry(.25, .32, .3, 20), M(0xffa6d2)); top.position.y = 1.45; g.add(top);
+    const hem = new THREE.Mesh(new THREE.TorusGeometry(.6, .04, 8, 40), M(0xffffff)); hem.rotation.x = Math.PI / 2; hem.position.y = .52; g.add(hem); }
+  else { const shirt = new THREE.Mesh(new THREE.CylinderGeometry(.33, .38, .75, 20), M(0x3b82f6)); shirt.position.y = 1.15; g.add(shirt);
+    const shorts = new THREE.Mesh(new THREE.CylinderGeometry(.38, .36, .28, 20), M(0x1e3a8a)); shorts.position.y = .7; g.add(shorts);
+    const star = new THREE.Mesh(starGeo, M(0xffd93d)); star.scale.setScalar(.35); star.position.set(0, 1.2, .37); g.add(star); }
+  const head = new THREE.Group(); head.position.y = 1.95; g.add(head);
+  head.add(new THREE.Mesh(new THREE.SphereGeometry(.4, 24, 20), M(SKIN)));
+  for (const s of [-1, 1]) { const eye = new THREE.Mesh(new THREE.SphereGeometry(.055, 10, 10), M(0x2b2140)); eye.position.set(s * .14, .04, .36); head.add(eye);
+    const hl = new THREE.Mesh(new THREE.SphereGeometry(.018, 6, 6), new THREE.MeshBasicMaterial({ color: 0xffffff })); hl.position.set(s * .14 + .02, .06, .41); head.add(hl);
+    const ch = new THREE.Mesh(new THREE.SphereGeometry(.06, 10, 10), M(0xff9db8)); ch.position.set(s * .23, -.08, .31); ch.scale.z = .4; head.add(ch); }
+  const mouth = new THREE.Mesh(new THREE.TorusGeometry(.08, .018, 6, 16, Math.PI), M(0xc2185b)); mouth.rotation.z = Math.PI; mouth.position.set(0, -.1, .37); head.add(mouth);
+  const hairM = M(pink ? 0x5a3220 : 0x3a2414);
+  const hair = new THREE.Mesh(new THREE.SphereGeometry(.43, 24, 16, 0, Math.PI * 2, 0, Math.PI * .55), hairM); hair.rotation.x = -.35; hair.position.set(0, .04, -.03); head.add(hair);
+  if (pink) { for (const s of [-1, 1]) { const tail = new THREE.Mesh(new THREE.SphereGeometry(.16, 12, 10), hairM); tail.scale.y = 1.8; tail.position.set(s * .42, -.18, -.08); head.add(tail);
+      const bow = new THREE.Mesh(new THREE.ConeGeometry(.13, .26, 12), M(0xff2d8a)); bow.rotation.z = s * Math.PI / 2; bow.position.set(s * .13, .45, .05); head.add(bow); }
+    const knot = new THREE.Mesh(new THREE.SphereGeometry(.07, 10, 10), M(0xff2d8a)); knot.position.set(0, .45, .05); head.add(knot); }
+  else { const cap = new THREE.Mesh(new THREE.SphereGeometry(.44, 24, 12, 0, Math.PI * 2, 0, Math.PI / 2), M(0x2563eb)); cap.position.y = .06; head.add(cap);
+    const brim = new THREE.Mesh(new THREE.CylinderGeometry(.3, .3, .04, 20, 1, false, -Math.PI / 2, Math.PI), M(0x1d4ed8)); brim.position.set(0, .1, .3); brim.rotation.y = Math.PI; head.add(brim);
+    const btn = new THREE.Mesh(new THREE.SphereGeometry(.05, 8, 8), M(0xffd93d)); btn.position.y = .5; head.add(btn); }
+  const arms = [];
+  for (const s of [-1, 1]) { const pivot = new THREE.Group(); pivot.position.set(s * (pink ? .3 : .38), 1.5, 0); g.add(pivot);
+    const arm = new THREE.Mesh(new THREE.CylinderGeometry(.075, .075, .6, 10), M(pink ? 0xffa6d2 : 0x3b82f6)); arm.position.y = -.3; pivot.add(arm);
+    const hand = new THREE.Mesh(new THREE.SphereGeometry(.1, 10, 10), M(SKIN)); hand.position.y = -.62; pivot.add(hand);
+    pivot.rotation.z = s * .22; pivot.userData.s = s; arms.push(pivot); }
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(.8, .07, 10, 40), new THREE.MeshBasicMaterial({ color: pink ? 0xff5fa8 : 0x5ab0ff, transparent: true, opacity: 0 }));
+  ring.rotation.x = Math.PI / 2; ring.position.y = .03; g.add(ring);
+  g.userData = { arms, head, ring, jump: 0, active: false };
+  return g;
+}
+const lucie = kid("lucie"), lucas = kid("lucas");
+lucie.position.set(-4.1, 0, .6); lucie.rotation.y = .35; lucas.position.set(4.1, 0, .6); lucas.rotation.y = -.35;
+scene.add(lucie, lucas);
+
+/* pháo hoa */
+const bursts = [];
+function burst(x, y, z, color) {
+  const N = 90, pos = new Float32Array(N * 3), vel = [];
+  for (let i = 0; i < N; i++) { pos.set([x, y, z], i * 3); const th = Math.random() * Math.PI * 2, ph = Math.acos(2 * Math.random() - 1), sp = 2.2 + Math.random() * 1.6;
+    vel.push(new THREE.Vector3(Math.sin(ph) * Math.cos(th), Math.cos(ph), Math.sin(ph) * Math.sin(th)).multiplyScalar(sp)); }
+  const geo = new THREE.BufferGeometry(); geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+  const pts = new THREE.Points(geo, new THREE.PointsMaterial({ color, size: .16, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+  scene.add(pts); bursts.push({ pts, vel, t: 0 });
+}
+
+/* ---------- giao tiếp với phần trò chơi ---------- */
+let flipT = -1, flipCb = null, shakeT = 0, cheer = 0;
+window.stage3D = {
+  flip(cb) { flipT = 0; flipCb = cb; glow.intensity = 30; },
+  shake() { shakeT = .45; },
+  setActive(k) { lucie.userData.active = k === "lucie"; lucas.userData.active = k === "lucas"; },
+  setMode(m) { lucie.userData.active = m === "lucie" || m === "duo"; lucas.userData.active = m === "lucas" || m === "duo"; },
+  celebrate(k, small) { for (const c of [lucie, lucas]) if (k === "both" || k === "lucie" || k === "lucas") c.userData.jump = small ? .7 : 1.4; cheer = 1.4; },
+  fireworks() { const cols = [0xff5fa8, 0xffd93d, 0x7ad1ff, 0x6ee59a, 0xff8a3d]; for (let i = 0; i < 6; i++) setTimeout(() => burst((Math.random() - .5) * 10, 4.5 + Math.random() * 2, -1 + Math.random(), cols[i % cols.length]), i * 260); }
+};
+window.stage3D.setMode(null);
+
+function resize() {
+  const w = innerWidth, h = innerHeight, asp = w / h; R.setSize(w, h, false); cam.aspect = asp;
+  const t = Math.tan(THREE.MathUtils.degToRad(cam.fov / 2)), needW = asp < 1 ? 3.0 : 5.3;
+  const d = Math.max(9.2, needW / (t * asp)); cam.position.set(0, 3.0, d); cam.lookAt(0, 2.5, 0); cam.updateProjectionMatrix();
+}
+addEventListener("resize", resize); resize();
+
+const clock = new THREE.Clock(), v = new THREE.Vector3();
+function puzzleRect() {
+  frame.updateMatrixWorld(); let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
+  for (const [x, y] of [[-FW / 2, -FH / 2], [FW / 2, -FH / 2], [-FW / 2, FH / 2], [FW / 2, FH / 2]]) {
+    v.set(x, y, 0).applyMatrix4(frame.matrixWorld).project(cam); const sx = (v.x + 1) / 2 * innerWidth, sy = (1 - v.y) / 2 * innerHeight;
+    x0 = Math.min(x0, sx); x1 = Math.max(x1, sx); y0 = Math.min(y0, sy); y1 = Math.max(y1, sy); }
+  window.onPuzzleRect?.(x0 + 6, y0 + 6, x1 - x0 - 12, y1 - y0 - 12);
+}
+let lastRect = 0;
+R.setAnimationLoop(() => {
+  const dt = Math.min(clock.getDelta(), .05), t = clock.elapsedTime;
+  // khung tranh: bay lơ lửng, xoay nhẹ, lật khi sang câu mới
+  frame.position.y = 3.25 + Math.sin(t * 1.3) * .08;
+  if (flipT >= 0) { flipT += dt / .9; const e = flipT < 1 ? (1 - Math.cos(flipT * Math.PI)) / 2 : 1; frame.rotation.y = e * Math.PI * 2;
+    if (flipT >= 1) { flipT = -1; frame.rotation.y = 0; const cb = flipCb; flipCb = null; puzzleRect(); cb && cb(); } }
+  else frame.rotation.y = Math.sin(t * .7) * .05;
+  frame.position.x = shakeT > 0 ? Math.sin(t * 60) * .12 * (shakeT / .45) : 0; shakeT = Math.max(0, shakeT - dt);
+  glow.intensity = Math.max(cheer > 0 ? 12 : 0, glow.intensity - dt * 30);
+  gems.forEach((g, i) => { g.rotation.y = t * 2 + i; g.material.emissiveIntensity = .5 + Math.sin(t * 4 + i) * .4; });
+  crown.rotation.y = t * 1.5; cheer = Math.max(0, cheer - dt);
+  stars.forEach(s => { s.rotation.y = t * (1 + s.userData.ph % 3 * .3); s.position.y += Math.sin(t * 1.5 + s.userData.ph) * .004; });
+  for (let i = 0; i < CONF; i++) { const c = cData[i]; c.y -= c.v * dt; if (c.y < 0) { c.y = 9; c.x = (Math.random() - .5) * 16; } c.r += c.s * dt;
+    dummy.position.set(c.x + Math.sin(t + i) * .3, c.y, c.z); dummy.rotation.set(c.r, c.r * .7, 0); dummy.updateMatrix(); conf.setMatrixAt(i, dummy.matrix); }
+  conf.instanceMatrix.needsUpdate = true;
+  for (const c of [lucie, lucas]) { const u = c.userData;
+    if (u.jump > 0) { u.jump = Math.max(0, u.jump - dt); const p = u.jump; c.position.y = Math.abs(Math.sin(p * Math.PI * 3)) * .7;
+      u.arms.forEach(a => a.rotation.z = a.userData.s * (2.5 + Math.sin(t * 20) * .35)); }
+    else { c.position.y = Math.abs(Math.sin(t * 2 + (c === lucas ? 1 : 0))) * (u.active ? .06 : .02);
+      u.arms.forEach(a => a.rotation.z += (a.userData.s * (u.active ? .4 + Math.sin(t * 3) * .15 : .22) - a.rotation.z) * .15); }
+    u.head.rotation.z = Math.sin(t * 1.6 + (c === lucas ? 2 : 0)) * .08;
+    const sc = u.active ? 1.12 : .95; c.scale.setScalar(c.scale.x + (sc - c.scale.x) * .1);
+    u.ring.material.opacity += ((u.active ? .85 : 0) - u.ring.material.opacity) * .1; u.ring.rotation.z = t; }
+  for (let i = bursts.length - 1; i >= 0; i--) { const b = bursts[i]; b.t += dt; const a = b.pts.geometry.attributes.position;
+    for (let j = 0; j < b.vel.length; j++) { b.vel[j].y -= 2.2 * dt; b.vel[j].multiplyScalar(.985); a.array[j * 3] += b.vel[j].x * dt; a.array[j * 3 + 1] += b.vel[j].y * dt; a.array[j * 3 + 2] += b.vel[j].z * dt; }
+    a.needsUpdate = true; b.pts.material.opacity = Math.max(0, 1 - b.t / 1.8);
+    if (b.t > 1.8) { scene.remove(b.pts); b.pts.geometry.dispose(); b.pts.material.dispose(); bursts.splice(i, 1); } }
+  if (flipT < 0 && t - lastRect > .25) { lastRect = t; puzzleRect(); }
+  R.render(scene, cam);
+});
+</script>
+<script src="../anh-chung/anh-that.js" defer></script>
+<script src="../anh-chung/nhac-nen.js" data-ten="Đuổi Hình Bắt Chữ" data-bpm="108" data-goc="C" data-kieu="kalimba" data-vitri="top:92px;right:22px" data-not="C5 D5 E5 G5 E5 D5 C5 A4 D5 E5 G5 A5 G5 E5 D5 C5"></script>
+</body>
+</html>

@@ -1,0 +1,1542 @@
+Em là lập trình viên game web giàu kinh nghiệm. Dưới đây là TOÀN BỘ mã game "tho-mo-nhi" (games/tho-mo-nhi/index.html) — game học tập cho hai bé Lucie (lớp 3) và Lucas (lớp 1), chơi trên TV LG webOS (phím mũi tên/OK, phím 1-4) và iPad/điện thoại (chạm). Anh (bố) báo: các con chơi vẫn còn NHIỀU LỖI.
+
+NHIỆM VỤ: đọc kỹ toàn bộ mã như một người kiểm thử, tìm và SỬA mọi lỗi thật: kẹt màn/không sang câu tiếp, nút không bấm được trên TV hoặc iPad, đếm điểm/cúp/CIECAS sai, đáp án sai hoặc trùng, câu hỏi lặp, lưu ván dở lỗi, âm thanh/giọng đọc chồng nhau, giật/rò bộ nhớ (setInterval, requestAnimationFrame, listener, phần tử tạo mới không xóa), lỗi khi tải ảnh thất bại, lỗi giao diện tràn màn hình TV 1920x1080 và iPad dọc. Không đổi luật chơi, nội dung câu hỏi đúng, mặt thật hai bé, các tệp dùng chung (../anh-chung/*.js).
+
+CÁCH TRẢ LỜI (bắt buộc): MỘT khối ```json là mảng [{"cu": "đoạn mã gốc copy NGUYÊN VĂN, đủ dài để duy nhất trong tệp", "moi": "đoạn thay"}]. Nếu không có lỗi thì trả về []. Sau khối json, liệt kê ngắn từng lỗi đã sửa (1 dòng/lỗi).
+
+===== MÃ GỐC =====
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<script src="/games/anh-chung/dong-bo.js"></script>
+<link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#7c4dff">
+<script>if("serviceWorker" in navigator)addEventListener("load",function(){navigator.serviceWorker.register("/sw.js").catch(function(){})});</script>
+<script src="/games/anh-chung/dem-gio.js" defer></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="author" content="Nguyễn Hoàng Ngọc Anh">
+<meta name="keywords" content="Ban Tuyên giáo Trung ương">
+<title>Thợ Mỏ Nhí Lucie & Lucas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#111;font-family:'Baloo 2',system-ui,sans-serif;color:#fff;-webkit-tap-highlight-color:transparent;user-select:none}
+canvas#cv{position:fixed;inset:0;width:100vw;height:100vh;display:block}
+button{font-family:inherit;cursor:pointer}
+.px{image-rendering:pixelated}
+/* khung kiểu khối vuông */
+.panel{background:#3b2a1a;border:5px solid #1b120a;box-shadow:inset 0 0 0 4px #7a5530,inset 0 0 0 8px #2a1c0e,0 12px 30px rgba(0,0,0,.6);border-radius:6px}
+.btn{border:4px solid #1b120a;background:linear-gradient(#9a9a9a,#6b6b6b);box-shadow:inset 0 4px 0 #c9c9c9,inset 0 -5px 0 #4a4a4a;color:#fff;text-shadow:2px 2px 0 #333;font-weight:800;border-radius:4px;outline:none;transition:transform .08s}
+.btn:focus-visible,.btn.foc{outline:5px solid #ffe066;outline-offset:3px;transform:scale(1.04)}
+.btn:active{transform:scale(.97)}
+.hide{display:none!important}
+
+/* Màn chọn nhân vật */
+#start{position:fixed;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.2vh;
+  background:linear-gradient(rgba(10,20,40,.35),rgba(10,10,20,.75)),repeating-linear-gradient(0deg,#5a3d22 0 6vh,#4d331c 6vh 12vh);padding:3vh 3vw}
+#start h1{font-size:clamp(34px,6.2vw,92px);line-height:1;color:#ffe066;text-shadow:5px 5px 0 #7a3a00,10px 10px 0 rgba(0,0,0,.4);letter-spacing:1px;text-align:center}
+#start .sub{font-size:clamp(17px,2.2vw,30px);text-align:center;max-width:1100px;text-shadow:2px 2px 0 #000}
+.chars{display:flex;gap:4vw;flex-wrap:wrap;justify-content:center}
+.char{width:clamp(200px,24vw,330px);padding:2.2vh 1vw 2vh;display:flex;flex-direction:column;align-items:center;gap:1vh;font-size:clamp(22px,2.6vw,38px)}
+.char img{width:72%;aspect-ratio:1;object-fit:cover;border-radius:10px;border:5px solid #1b120a;background:#ddd}
+.char.lucie{background:linear-gradient(#ff8fc7,#d6337f);box-shadow:inset 0 5px 0 #ffc2e2,inset 0 -6px 0 #9c1f5b}
+.char.lucas{background:linear-gradient(#6fc3ff,#2463d6);box-shadow:inset 0 5px 0 #b9e2ff,inset 0 -6px 0 #163f91}
+.char small{font-size:.6em;opacity:.95}
+.keys{font-size:clamp(14px,1.6vw,22px);opacity:.9;text-align:center;text-shadow:1px 1px 0 #000}
+#homeBtn{position:fixed;right:14px;top:12px;z-index:60;padding:6px 14px;font-size:clamp(14px,1.5vw,20px)}
+
+/* Bảng trên cùng */
+#hud{position:fixed;left:0;right:0;top:0;z-index:10;display:flex;align-items:center;gap:1.2vw;padding:1vh 1.2vw;pointer-events:none;flex-wrap:wrap}
+#hud .me{display:flex;align-items:center;gap:10px;padding:6px 14px 6px 6px}
+#hud .me img{width:clamp(44px,5vw,74px);height:clamp(44px,5vw,74px);border-radius:8px;object-fit:cover;border:3px solid #1b120a}
+#hud .me b{font-size:clamp(18px,2vw,30px);display:block;line-height:1}
+#hud .me span{font-size:clamp(13px,1.35vw,20px);color:#ffe9a8}
+#hud .score{padding:6px 16px;font-size:clamp(20px,2.3vw,36px);font-weight:800;color:#ffe066;text-shadow:2px 2px 0 #000}
+#inv{display:flex;gap:8px;padding:6px 10px}
+#inv .it{display:flex;align-items:center;gap:4px;font-size:clamp(15px,1.7vw,26px);font-weight:800;text-shadow:2px 2px 0 #000}
+#inv .it img{width:clamp(28px,3vw,46px);height:clamp(28px,3vw,46px);border-radius:6px;object-fit:cover;border:2px solid #1b120a;background:#555}
+#depth{position:fixed;right:1.2vw;top:50%;transform:translateY(-50%);z-index:10;width:clamp(26px,2.4vw,40px);height:58vh;padding:5px;display:flex;flex-direction:column;gap:3px;pointer-events:none}
+#depth div{flex:1;border:2px solid #1b120a;border-radius:3px;opacity:.55;position:relative}
+#depth div.on{opacity:1;outline:3px solid #ffe066}
+#hint{position:fixed;left:50%;bottom:3vh;transform:translateX(-50%);z-index:12;padding:8px 22px;font-size:clamp(16px,1.9vw,28px);font-weight:700;text-align:center;pointer-events:none;transition:opacity .3s;max-width:92vw}
+#banner{position:fixed;left:50%;top:26%;transform:translate(-50%,-50%) scale(.6);z-index:30;padding:2vh 4vw;font-size:clamp(30px,5vw,76px);font-weight:800;color:#ffe066;text-shadow:4px 4px 0 #7a3a00;opacity:0;transition:all .45s cubic-bezier(.2,1.6,.4,1);pointer-events:none;text-align:center;white-space:nowrap}
+#banner small{display:block;font-size:.42em;color:#fff;text-shadow:2px 2px 0 #000}
+#banner.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+
+/* Bàn phím cảm ứng */
+#pad{position:fixed;left:2vw;bottom:2.5vh;z-index:11;display:grid;grid-template-columns:repeat(3,clamp(56px,6.4vw,86px));grid-template-rows:repeat(2,clamp(56px,6.4vw,86px));gap:6px}
+#pad button{font-size:clamp(24px,3vw,40px);touch-action:none}
+#pad .u{grid-column:2;grid-row:1}#pad .l{grid-column:1;grid-row:2}#pad .d{grid-column:2;grid-row:2}#pad .r{grid-column:3;grid-row:2}
+#pad svg{width:60%;height:60%;fill:#fff;filter:drop-shadow(2px 2px 0 #333)}
+
+/* Câu hỏi mở rương */
+#qwrap{position:fixed;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.55);padding:2vh 2vw}
+#qbox{width:min(1250px,96vw);max-height:96vh;display:grid;grid-template-columns:minmax(0,30%) 1fr;gap:2vw;padding:2.4vh 2.2vw;align-items:center;animation:pop .35s cubic-bezier(.2,1.5,.4,1)}
+@keyframes pop{from{transform:scale(.6);opacity:0}}
+#qimg{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;border:5px solid #1b120a;background:#2a1c0e}
+#qimgBox{position:relative}
+#qimgBox .tag{position:absolute;left:50%;bottom:-14px;transform:translateX(-50%);white-space:nowrap;padding:2px 14px;font-size:clamp(15px,1.6vw,24px);font-weight:800}
+#qside{display:flex;flex-direction:column;gap:1.6vh;min-width:0}
+#qmeta{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:clamp(15px,1.6vw,24px)}
+#qmeta .mon{padding:2px 12px;border-radius:4px;border:3px solid #1b120a;font-weight:800}
+#qtext{font-size:clamp(22px,2.9vw,46px);font-weight:800;line-height:1.22;text-shadow:2px 2px 0 #000;word-break:break-word}
+#qans{display:grid;grid-template-columns:1fr 1fr;gap:1.4vh 1.2vw}
+#qans .btn{display:flex;align-items:center;gap:12px;text-align:left;padding:1.3vh 1vw;font-size:clamp(19px,2.3vw,36px);min-height:clamp(56px,9vh,96px);line-height:1.15}
+#qans .btn i{font-style:normal;flex:none;width:1.55em;height:1.55em;display:grid;place-items:center;background:#1b120a;border-radius:4px;color:#ffe066}
+#qans .btn.ok{background:linear-gradient(#5be36a,#1f9d34);box-shadow:inset 0 4px 0 #a5f5ad,inset 0 -5px 0 #10611f}
+#qans .btn.no{background:linear-gradient(#ff7b7b,#c22727);box-shadow:inset 0 4px 0 #ffc0c0,inset 0 -5px 0 #7d1010}
+#qans .btn.dim{opacity:.45}
+#qfb{min-height:1.4em;font-size:clamp(18px,2.1vw,32px);font-weight:800;text-shadow:2px 2px 0 #000}
+#qfb.ok{color:#8dff8d}#qfb.no{color:#ffb4b4}
+#qtools{display:flex;gap:10px;flex-wrap:wrap}
+#qtools .btn{padding:6px 16px;font-size:clamp(15px,1.6vw,24px)}
+#qnext{background:linear-gradient(#ffd34d,#e08a00);box-shadow:inset 0 4px 0 #ffeaa0,inset 0 -5px 0 #9a5a00}
+
+/* Kho báu bay ra */
+#reward{position:fixed;inset:0;z-index:45;display:flex;align-items:center;justify-content:center;pointer-events:none}
+#reward .card{display:flex;flex-direction:column;align-items:center;gap:1vh;padding:2vh 3vw;animation:pop .4s cubic-bezier(.2,1.5,.4,1)}
+#reward{background:radial-gradient(circle,rgba(255,214,102,.35),rgba(0,0,0,.55) 70%)}
+#reward .card{max-width:96vw}
+#reward .top{display:flex;align-items:center;gap:2vw}
+#reward .top>div{display:flex;flex-direction:column}
+#rwImg{width:clamp(120px,15vw,230px);aspect-ratio:1;object-fit:cover;border-radius:12px;border:5px solid #1b120a}
+#reward b{font-size:clamp(28px,4vw,60px);color:#ffe066;text-shadow:3px 3px 0 #7a3a00;line-height:1.05}
+#reward span{font-size:clamp(18px,2.1vw,32px)}
+#rwBadges{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+#rwBadges .bd{padding:2px 16px;border-radius:6px;border:3px solid #1b120a;font-weight:800;font-size:clamp(18px,2.2vw,32px);animation:wob .5s infinite alternate}
+@keyframes wob{to{transform:rotate(-4deg) scale(1.08)}}
+#rwItems{display:flex;gap:1.6vw;flex-wrap:wrap;justify-content:center;margin-top:1vh}
+#rwItems .it{display:flex;flex-direction:column;align-items:center;opacity:0;transform:scale(.3);transition:all .35s cubic-bezier(.2,1.8,.4,1)}
+#rwItems .it.on{opacity:1;transform:scale(1)}
+#rwItems img{width:clamp(70px,8vw,120px);aspect-ratio:1;object-fit:cover;border-radius:10px;border:4px solid #1b120a}
+#rwItems .it b{font-size:clamp(24px,3vw,46px)}
+#rwItems .it small{font-size:clamp(14px,1.5vw,22px)}
+#flyLayer{position:fixed;inset:0;z-index:48;pointer-events:none}
+#flyLayer img{position:fixed;width:clamp(34px,3.6vw,56px);height:clamp(34px,3.6vw,56px);border-radius:8px;object-fit:cover;border:2px solid #1b120a;transition:transform .9s cubic-bezier(.5,-0.3,.6,1),opacity .9s}
+#inv .it.bump span{color:#ffe066;transform:scale(1.4)}
+#inv .it span{display:inline-block;transition:transform .2s}
+#hud .cupHud{display:flex;align-items:center;gap:8px;padding:4px 12px 4px 4px;font-size:clamp(16px,1.8vw,28px);font-weight:800;color:#ffe066;text-shadow:2px 2px 0 #000}
+#hud .cupHud img{width:clamp(34px,3.6vw,54px);height:clamp(34px,3.6vw,54px);border-radius:6px;object-fit:cover;border:2px solid #1b120a}
+#hud .streak{padding:4px 14px;font-size:clamp(15px,1.7vw,26px);font-weight:800;color:#fff;text-shadow:2px 2px 0 #000}
+#hud .streak.hot{background:linear-gradient(#ff8a3c,#d9420f);color:#fff7cc}
+
+/* Cúp mới */
+#trophy{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle,rgba(255,236,140,.55),rgba(10,5,30,.85) 70%)}
+#trophy .card{display:flex;flex-direction:column;align-items:center;gap:1vh;padding:3vh 4vw;text-align:center;animation:pop .5s cubic-bezier(.2,1.6,.4,1);max-width:94vw}
+#trophy .new{font-size:clamp(26px,3.6vw,54px);font-weight:800;color:#fff;background:linear-gradient(#ff5fa8,#c2185b);padding:0 22px;border-radius:8px;border:4px solid #1b120a;animation:wob .4s infinite alternate}
+#tpImg{width:clamp(170px,22vw,320px);aspect-ratio:1;object-fit:cover;border-radius:14px;border:6px solid #1b120a;animation:spin 1.6s ease-in-out infinite alternate}
+@keyframes spin{from{transform:rotate(-6deg)}to{transform:rotate(6deg) scale(1.06)}}
+#trophy b{font-size:clamp(30px,4.6vw,70px);color:#ffe066;text-shadow:4px 4px 0 #7a3a00;line-height:1.05}
+#trophy span{font-size:clamp(18px,2.2vw,32px)}
+
+/* Tủ cúp */
+#shelf{position:fixed;inset:0;z-index:65;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.7);padding:2vh 2vw}
+#shelf .box{width:min(1400px,96vw);max-height:94vh;display:flex;flex-direction:column;gap:1.5vh;padding:2vh 2vw}
+#shelf .head{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+#shelf .head img{width:clamp(50px,5vw,80px);aspect-ratio:1;border-radius:10px;object-fit:cover;border:3px solid #1b120a}
+#shelf .head b{display:block;font-size:clamp(24px,3vw,46px);color:#ffe066;text-shadow:3px 3px 0 #7a3a00;line-height:1}
+#shelf .head span{font-size:clamp(16px,1.8vw,26px)}
+#shelf .sw{margin-left:auto;display:flex;gap:10px}
+#shelf .sw .btn{padding:6px 18px;font-size:clamp(16px,1.8vw,26px)}
+#shelf .sw .btn.act{background:linear-gradient(#ffd34d,#e08a00)}
+#shGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(110px,10.5vw,170px),1fr));gap:1.2vw;overflow:auto;padding:4px}
+#shGrid .tc{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;padding:10px 6px;border:3px solid #1b120a;border-radius:8px;background:#2a1c0e}
+#shGrid .tc img{width:min(60%,9vh);aspect-ratio:1;object-fit:cover;border-radius:8px;border:3px solid #1b120a}
+#shGrid .tc b{font-size:clamp(15px,1.5vw,22px);line-height:1.1}
+#shGrid .tc small{font-size:clamp(12px,1.15vw,17px);opacity:.85;line-height:1.15}
+#shGrid .tc.lock img{filter:grayscale(1) brightness(.45)}
+#shGrid .tc.lock{opacity:.6}
+#shGrid .tc.h0{box-shadow:inset 0 0 0 3px #c97c3a}#shGrid .tc.h1{box-shadow:inset 0 0 0 3px #cfd8e3}#shGrid .tc.h2{box-shadow:inset 0 0 0 3px #f2c230}#shGrid .tc.h3{box-shadow:inset 0 0 0 3px #4fe0ee}
+/* Cửa hàng */
+#shop{position:fixed;inset:0;z-index:62;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.7);padding:2vh 2vw}
+#shop .box{width:min(1500px,97vw);max-height:96vh;overflow:auto;display:flex;flex-direction:column;gap:1.2vh;padding:2vh 2vw}
+#shop .head{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+#shop .head img{width:clamp(50px,5vw,80px);aspect-ratio:1;border-radius:10px;object-fit:cover;border:3px solid #1b120a}
+#shop .head b{display:block;font-size:clamp(24px,3vw,46px);color:#ffe066;text-shadow:3px 3px 0 #7a3a00;line-height:1}
+#spBank{display:flex;gap:16px;font-size:clamp(18px,2vw,30px);font-weight:800;align-items:center;flex-wrap:wrap}
+#spBank i,.price i{font-style:normal;display:inline-flex;align-items:center;gap:4px}
+#spBank img,.price img{width:1.5em;height:1.5em;border-radius:5px;object-fit:cover;border:2px solid #1b120a}
+#shop .sw{margin-left:auto;display:flex;gap:10px}
+#shop .sw .btn{padding:6px 18px;font-size:clamp(16px,1.8vw,26px)}
+#shop .sw .btn.act{background:linear-gradient(#ffd34d,#e08a00)}
+#shop .sec{font-size:clamp(18px,2vw,30px);font-weight:800;color:#ffe9a8;text-shadow:2px 2px 0 #000}
+#shop .row{display:grid;grid-template-columns:repeat(5,1fr);gap:1vw}
+.sc{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:10px 8px;border:3px solid #1b120a;border-radius:8px;background:#2a1c0e}
+.sc img.pic{width:min(52%,15vh);aspect-ratio:1;object-fit:cover;border-radius:8px;border:3px solid #1b120a}
+.sc b{font-size:clamp(16px,1.7vw,26px);line-height:1.1}
+.sc small{font-size:clamp(13px,1.25vw,19px);opacity:.9;line-height:1.15}
+.price{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;font-size:clamp(15px,1.5vw,22px);font-weight:800}
+.sc .btn{width:100%;padding:6px 4px;font-size:clamp(16px,1.6vw,24px)}
+.sc .btn.buy{background:linear-gradient(#5be36a,#1f9d34);box-shadow:inset 0 4px 0 #a5f5ad,inset 0 -5px 0 #10611f}
+.sc .btn.use{background:linear-gradient(#ffd34d,#e08a00);box-shadow:inset 0 4px 0 #ffeaa0,inset 0 -5px 0 #9a5a00}
+.sc .btn[disabled]{opacity:.5;cursor:default}
+.sc.cur{outline:4px solid #ffe066}
+@media (max-width:760px){#shop .row{grid-template-columns:repeat(2,1fr)}}
+.startRow{display:flex;gap:2vw;align-items:center;flex-wrap:wrap;justify-content:center}
+.startRow .btn{padding:8px 24px;font-size:clamp(18px,2vw,30px)}
+#endCups{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+#endCups img{width:clamp(36px,3.6vw,58px);aspect-ratio:1;object-fit:cover;border-radius:8px;border:3px solid #1b120a}
+
+/* Kết thúc */
+#end{position:fixed;inset:0;z-index:55;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 40%,rgba(93,236,245,.35),rgba(5,10,30,.92) 70%);padding:2vh}
+#end .panel{display:flex;flex-direction:column;align-items:center;gap:1.2vh;padding:2.4vh 4vw;text-align:center;max-width:94vw;max-height:97vh;overflow:auto}
+#end h2{font-size:clamp(30px,4.6vw,70px);color:#ffe066;text-shadow:4px 4px 0 #7a3a00;line-height:1.05}
+#end .row{display:flex;gap:2vw;align-items:center;justify-content:center;flex-wrap:wrap}
+#end img.big{width:clamp(110px,15vh,240px);aspect-ratio:1;object-fit:cover;border-radius:12px;border:5px solid #1b120a}
+#end img.face{width:clamp(90px,12vh,170px);aspect-ratio:1;object-fit:cover;border-radius:12px;border:5px solid #1b120a}
+#end .stats{font-size:clamp(18px,2.2vw,32px);line-height:1.4}
+#end .stars{font-size:clamp(40px,6vw,90px);color:#ffe066;letter-spacing:8px;text-shadow:3px 3px 0 #7a3a00}
+#end .btns{display:flex;gap:2vw;flex-wrap:wrap;justify-content:center}
+#end .btns .btn{padding:1vh 2.4vw;font-size:clamp(20px,2.4vw,36px)}
+#toast{position:fixed;left:50%;top:16%;transform:translateX(-50%);z-index:70;padding:8px 20px;font-size:clamp(16px,1.9vw,28px);font-weight:700;opacity:0;transition:opacity .3s;pointer-events:none;text-align:center}
+@media (max-width:760px){
+  #qbox{grid-template-columns:1fr;gap:1.4vh}
+  #qimgBox{width:38%;margin:0 auto}
+  #qans{grid-template-columns:1fr}
+  #hud{gap:6px;padding:6px}
+  #depth{display:none}
+  #pad{grid-template-columns:repeat(3,64px);grid-template-rows:repeat(2,64px)}
+  #homeBtn{top:auto;bottom:76px;right:14px}
+}
+</style>
+<script src="../anh-chung/giong-noi.js"></script>
+</head>
+<body>
+<canvas id="cv"></canvas>
+
+<div id="start">
+  <h1>Thợ Mỏ Nhí</h1>
+  <div class="sub">Cầm cuốc đào xuống lòng đất, tìm than, sắt, vàng, ngọc lục bảo và kim cương. Gặp rương kho báu thì trả lời đúng câu hỏi để mở rương nhé!</div>
+  <div class="chars">
+    <button class="btn char lucie" id="pickLucie" data-c="lucie"><img alt="Lucie"><span>Lucie</span><small>Lớp 3 · bấm 1</small></button>
+    <button class="btn char lucas" id="pickLucas" data-c="lucas"><img alt="Lucas"><span>Lucas</span><small>Lớp 1 · bấm 2</small></button>
+  </div>
+  <div class="startRow"><button class="btn" id="shelfBtn">Tủ cúp · bấm 3</button><button class="btn" id="shopBtn">Cửa hàng · bấm 4</button></div>
+  <div class="keys">Phím mũi tên để đi và đào · Phím 1, 2, 3, 4 hoặc OK để chọn đáp án</div>
+</div>
+<button class="btn" id="homeBtn" onclick="location.href='../../'">Trang chủ</button>
+
+<div id="hud" class="hide">
+  <div class="me panel"><img id="hudFace" alt=""><div><b id="hudName">Lucie</b><span id="hudLayer">Tầng 1</span><span id="hudPick" style="display:block"></span></div></div>
+  <div class="score panel" id="hudScore">0 điểm</div>
+  <div id="inv" class="panel"></div>
+  <div class="cupHud panel"><img id="cupHudImg" alt="Cúp"><span id="cupHudN">0</span></div>
+  <div class="streak panel" id="hudStreak">Chuỗi đúng: 0</div>
+</div>
+<div id="depth" class="panel hide"></div>
+<div id="hint" class="panel hide"></div>
+<div id="banner" class="panel"></div>
+<div id="toast" class="panel"></div>
+
+<div id="pad" class="hide">
+  <button class="btn u" data-k="ArrowUp" aria-label="Lên"><svg viewBox="0 0 24 24"><path d="M12 5l8 10H4z"/></svg></button>
+  <button class="btn l" data-k="ArrowLeft" aria-label="Trái"><svg viewBox="0 0 24 24"><path d="M5 12l10-8v16z"/></svg></button>
+  <button class="btn d" data-k="ArrowDown" aria-label="Xuống"><svg viewBox="0 0 24 24"><path d="M12 19L4 9h16z"/></svg></button>
+  <button class="btn r" data-k="ArrowRight" aria-label="Phải"><svg viewBox="0 0 24 24"><path d="M19 12L9 20V4z"/></svg></button>
+</div>
+
+<div id="qwrap" class="hide">
+  <div id="qbox" class="panel">
+    <div id="qimgBox"><img id="qimg" alt=""><div class="tag panel" id="qtag">Rương gỗ</div></div>
+    <div id="qside">
+      <div id="qmeta"><span class="mon" id="qmon">Toán</span><span id="qinfo"></span></div>
+      <div id="qtext"></div>
+      <div id="qans"></div>
+      <div id="qfb"></div>
+      <div id="qtools"><button class="btn" id="qread">Đọc lại câu hỏi</button><button class="btn hide" id="qnext">Đào tiếp</button></div>
+    </div>
+  </div>
+</div>
+
+<div id="reward" class="hide"><div class="card panel">
+  <div id="rwBadges"></div>
+  <div class="top"><img id="rwImg" alt=""><div><b id="rwTitle"></b><span id="rwSub"></span></div></div>
+  <div id="rwItems"></div>
+</div></div>
+
+<div id="trophy" class="hide"><div class="card panel">
+  <div class="new">CÚP MỚI!</div>
+  <img id="tpImg" alt="">
+  <b id="tpName"></b><span id="tpDesc"></span>
+</div></div>
+
+<div id="shelf" class="hide"><div class="panel box">
+  <div class="head"><img id="shFace" alt=""><div><b id="shTitle">Tủ cúp</b><span id="shCount"></span></div>
+    <div class="sw"><button class="btn" id="shLucie">Lucie</button><button class="btn" id="shLucas">Lucas</button><button class="btn" id="shClose">Đóng</button></div></div>
+  <div id="shGrid"></div>
+</div></div>
+<div id="shop" class="hide"><div class="panel box">
+  <div class="head"><img id="spFace" alt=""><div><b>Cửa hàng thợ mỏ</b><span id="spBank"></span></div>
+    <div class="sw"><button class="btn" id="spLucie">Lucie</button><button class="btn" id="spLucas">Lucas</button><button class="btn" id="spClose">Đóng</button></div></div>
+  <div class="sec">Nâng cấp cuốc: cuốc càng xịn đập đá càng nhanh</div><div class="row" id="spPicks"></div>
+  <div class="sec">Trang phục</div><div class="row" id="spSkins"></div>
+</div></div>
+<div id="flyLayer"></div>
+
+<div id="end" class="hide">
+  <div class="panel">
+    <h2 id="endTitle">Con đã tìm ra Kho Báu Kim Cương!</h2>
+    <div class="row"><img class="face" id="endFace" alt=""><img class="big" id="endImg" alt=""></div>
+    <div class="stars" id="endStars"></div>
+    <div class="stats" id="endStats"></div>
+    <div id="endCups"></div>
+    <div class="btns"><button class="btn" id="againBtn">Chơi lại</button><button class="btn" id="otherBtn">Đổi nhân vật</button><button class="btn" id="endShelf">Tủ cúp</button><button class="btn" id="endShop">Cửa hàng</button><button class="btn" onclick="location.href='../../'">Trang chủ</button></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="../anh-chung/che-do-tv.js"></script>
+<script src="../anh-chung/mat-that.js"></script>
+<script>
+"use strict";
+/* ============================================================
+   NỘI DUNG — kịch bản và câu hỏi do Gemini 4 Argon soạn, Claude kiểm tra
+   Mỗi câu: [môn, mức 1-3, câu hỏi, đáp án đúng, sai 1, sai 2, sai 3, giải thích]
+   ============================================================ */
+const KB = /*KB*/{
+ "chao": "Chào mừng con đến với thế giới lòng đất kỳ diệu của Thợ Mỏ Nhí! Hãy cầm chắc chiếc cuốc để cùng nhau đào tìm kho báu kim cương nhé!",
+ "tang": [
+  [
+   "Đất Cỏ Xanh Tươi",
+   "#5dbb3c"
+  ],
+  [
+   "Vách Đá Xám Kiên Cố",
+   "#8a8a8a"
+  ],
+  [
+   "Mỏ Than và Sắt",
+   "#3d3d3d"
+  ],
+  [
+   "Mỏ Vàng Lấp Lánh",
+   "#e3b21b"
+  ],
+  [
+   "Hang Dung Nham Nóng Bỏng",
+   "#e2541b"
+  ],
+  [
+   "Động Kim Cương Huyền Diệu",
+   "#3fd6e8"
+  ]
+ ],
+ "khen": [
+  "Tuyệt vời quá, con mở được rương kho báu rồi!",
+  "Con giỏi lắm, đá quý đang bay ra kìa!",
+  "Xuất sắc! Con thông minh sáng như kim cương!",
+  "Đúng rồi, phần thưởng xứng đáng cho thợ mỏ nhí!",
+  "Hoan hô, trả lời quá chuẩn xác!"
+ ],
+ "dongvien": [
+  "Tiếc quá, con xem lời giải rồi đào tiếp nhé!",
+  "Không sao đâu, sai một chút giúp con nhớ bài lâu hơn!",
+  "Cố lên thợ mỏ nhí, chiếc rương tiếp theo đang chờ con!",
+  "Gần đúng rồi, lần sau con sẽ mở được!",
+  "Đừng buồn nhé, mình vung cuốc tìm rương mới nào!"
+ ],
+ "chucmung": "Chúc mừng con đã chinh phục tầng sâu nhất và tìm thấy Đại Kho Báu Kim Cương! Con chính là Siêu Thợ Mỏ Thông Thái!"
+}/*END_KB*/;
+const NHAC = /*NHAC*/{"bpm": 120, "goc": "C", "not": "C5 G4 E5 C5 D5 G4 F5 D5 E5 C5 G5 E5 F5 D5 G5 C5"}/*END_NHAC*/;
+const DATA = /*DATA*/{
+"lucie":[
+["Toán", 1, "Kết quả của phép tính 6 x 4 là bao nhiêu?", "24", "20", "28", "18", "Bảng nhân 6: 6 nhân 4 bằng 24."],
+["Toán", 1, "Phép chia 35 : 5 có kết quả là mấy?", "7", "6", "8", "5", "Vì 5 nhân 7 bằng 35."],
+["Toán", 1, "Số liền sau của số 999 là số nào?", "1000", "998", "990", "1001", "Thêm 1 vào 999 được 1000."],
+["Toán", 1, "Một giờ có bao nhiêu phút?", "60 phút", "30 phút", "100 phút", "24 phút", "Một giờ luôn có 60 phút."],
+["Toán", 1, "Tính nhẩm: 400 + 300 bằng bao nhiêu?", "700", "600", "800", "100", "4 trăm cộng 3 trăm bằng 7 trăm."],
+["Toán", 1, "Tờ tiền 2000 đồng và tờ 5000 đồng gộp lại được bao nhiêu tiền?", "7000 đồng", "6000 đồng", "8000 đồng", "3000 đồng", "2000 cộng 5000 bằng 7000 đồng."],
+["Toán", 1, "Kết quả của phép tính 8 x 3 là bao nhiêu?", "24", "21", "27", "16", "Bảng nhân 8: 8 nhân 3 bằng 24."],
+["Toán", 2, "Tính: 2345 + 1234 bằng bao nhiêu?", "3579", "3569", "3479", "3589", "Cộng lần lượt từ hàng đơn vị."],
+["Toán", 2, "Tính: 6850 - 2430 bằng bao nhiêu?", "4420", "4430", "4220", "4410", "Trừ các hàng tương ứng từ phải sang."],
+["Toán", 2, "Hình vuông có cạnh dài 5 cm thì chu vi là bao nhiêu?", "20 cm", "25 cm", "10 cm", "15 cm", "Chu vi hình vuông bằng cạnh nhân 4."],
+["Toán", 2, "Một tuần lễ có 7 ngày. Hỏi 4 tuần lễ có bao nhiêu ngày?", "28 ngày", "21 ngày", "24 ngày", "30 ngày", "Lấy 7 ngày nhân 4 tuần bằng 28."],
+["Toán", 2, "Phép chia 42 : 6 có kết quả bằng bao nhiêu?", "7", "8", "6", "9", "Vì 6 nhân 7 bằng 42."],
+["Toán", 2, "Kim ngắn chỉ qua số 3, kim dài chỉ số 6 là mấy giờ?", "3 giờ 30 phút", "3 giờ 6 phút", "6 giờ 15 phút", "3 giờ 15 phút", "Kim dài chỉ số 6 là 30 phút."],
+["Toán", 2, "Gấp 9 lên 6 lần ta được số nào?", "54", "45", "63", "15", "Lấy 9 nhân 6 bằng 54."],
+["Toán", 3, "Hình chữ nhật có chiều dài 8 cm, chiều rộng 4 cm. Chu vi là?", "24 cm", "32 cm", "12 cm", "16 cm", "Dài cộng rộng bằng 12, nhân 2 bằng 24."],
+["Toán", 3, "Tìm số bị chia, biết thương là 8 và số chia là 7?", "56", "49", "64", "15", "Số bị chia bằng thương nhân số chia."],
+["Toán", 3, "Có 45 quả táo xếp đều vào 5 rổ. Mỗi rổ có mấy quả?", "9 quả", "8 quả", "7 quả", "10 quả", "Lấy 45 chia 5 bằng 9 quả."],
+["Toán", 3, "Tính giá trị biểu thức: 20 + 5 x 4 bằng bao nhiêu?", "40", "100", "29", "80", "Nhân trước cộng sau: 5 x 4 = 20, 20 + 20 = 40."],
+["Toán", 3, "Lucie có 10000 đồng, mua bút hết 6000 đồng. Hỏi còn lại bao nhiêu?", "4000 đồng", "5000 đồng", "3000 đồng", "6000 đồng", "Lấy 10000 trừ 6000 bằng 4000 đồng."],
+["Toán", 3, "Phép chia 50 : 6 có số dư là bao nhiêu?", "2", "1", "3", "4", "6 nhân 8 bằng 48, 50 trừ 48 dư 2."],
+["Tiếng Việt", 1, "Từ nào dưới đây là từ chỉ sự vật?", "Cái cuốc", "Đào đất", "Chăm chỉ", "Lấp lánh", "Cái cuốc là đồ vật (sự vật)."],
+["Tiếng Việt", 1, "Từ nào dưới đây chỉ hoạt động của người thợ mỏ?", "Đào bới", "Hòn đá", "Rất sâu", "Vàng óng", "Đào bới là việc làm, hoạt động."],
+["Tiếng Việt", 1, "Từ chỉ đặc điểm trong câu \"Viên kim cương sáng lấp lánh\" là?", "Sáng lấp lánh", "Viên", "Kim cương", "Câu không có", "Sáng lấp lánh tả đặc điểm viên kim cương."],
+["Tiếng Việt", 1, "Chọn từ viết đúng chính tả: \"...inh đẹp\"?", "Xinh đẹp", "Sinh đẹp", "Sinh đệp", "Xinh đệp", "Viết đúng là xinh đẹp (âm x)."],
+["Tiếng Việt", 1, "Từ nào dưới đây viết đúng chính tả?", "Bầu trời", "Bầu chời", "Bầu trơi", "Bâu trời", "Bầu trời viết bằng âm tr."],
+["Tiếng Việt", 1, "Cuối câu kể dùng dấu câu nào?", "Dấu chấm", "Dấu chấm hỏi", "Dấu chấm than", "Dấu phẩy", "Câu kể kết thúc bằng dấu chấm."],
+["Tiếng Việt", 1, "Từ nào cùng nghĩa với từ \"chăm chỉ\"?", "Siêng năng", "Lười biếng", "Nhút nhát", "Vui vẻ", "Siêng năng và chăm chỉ cùng nghĩa."],
+["Tiếng Việt", 2, "Khi viết câu hỏi, cuối câu con phải đặt dấu gì?", "Dấu chấm hỏi", "Dấu chấm", "Dấu phẩy", "Dấu hai chấm", "Câu hỏi dùng dấu chấm hỏi."],
+["Tiếng Việt", 2, "Trong câu \"Trăng tròn như quả bóng\", sự vật nào được so sánh với nhau?", "Trăng và quả bóng", "Trăng và tròn", "Tròn và bóng", "Như và quả", "So sánh trăng tròn với quả bóng."],
+["Tiếng Việt", 2, "Điền từ đúng chính tả: \"Con ...ẻ đậu trên cành ...e\"?", "Sẻ - tre", "Xẻ - che", "Sẻ - che", "Xẻ - tre", "Chim sẻ (âm s) và cây tre (âm tr)."],
+["Tiếng Việt", 2, "Từ nào trái nghĩa với từ \"dũng cảm\"?", "Hèn nhát", "Gan dạ", "Mạnh mẽ", "Hiền lành", "Hèn nhát trái ngược với dũng cảm."],
+["Tiếng Việt", 2, "Câu \"Ôi, viên ngọc đẹp quá!\" thuộc kiểu câu gì?", "Câu cảm", "Câu hỏi", "Câu kể", "Câu khiến", "Bộc lộ cảm xúc là câu cảm."],
+["Tiếng Việt", 2, "Điền vào câu thành ngữ: \"Học một biết ...\"?", "mười", "hai", "chín", "trăm", "Thành ngữ đúng: Học một biết mười."],
+["Tiếng Việt", 2, "Dấu phẩy trong câu \"Trong mỏ có than, sắt và vàng.\" dùng để làm gì?", "Ngăn cách các từ cùng loại", "Kết thúc câu hỏi", "Bộc lộ cảm xúc", "Báo hiệu lời nói", "Ngăn cách các từ chỉ sự vật."],
+["Tiếng Việt", 3, "Hoàn thành câu: \"Có công mài sắt, có ngày nên ...\"?", "kim", "vàng", "đá", "cuốc", "Kiên trì mài sắt sẽ thành cây kim."],
+["Tiếng Việt", 3, "Câu nào dưới đây có hình ảnh so sánh?", "Mỏ vàng sáng như sao", "Mỏ vàng rất sâu", "Em thích đào vàng", "Vàng có màu tươi", "Từ \"như\" tạo nên phép so sánh."],
+["Tiếng Việt", 3, "Từ nào viết SAI chính tả trong các từ sau?", "Cây xồi", "Cây thông", "Cây tre", "Cây sung", "Phải viết là cây sồi (âm s)."],
+["Tiếng Việt", 3, "Bộ phận trả lời câu hỏi \"Làm gì?\" trong câu \"Lucas mở rương kho báu\" là?", "mở rương kho báu", "Lucas", "kho báu", "rương", "\"Mở rương kho báu\" chỉ hoạt động của Lucas."],
+["Tiếng Việt", 3, "Thành ngữ \"Chân lấm tay bùn\" nói về sự vất vả của nghề nào?", "Nghề nông", "Nghề y", "Nghề giáo", "Nghề mộc", "Người nông dân làm ruộng lấm bùn đất."],
+["Tiếng Việt", 3, "Câu \"Hãy cầm lấy chiếc cuốc này!\" thuộc kiểu câu gì?", "Câu khiến", "Câu hỏi", "Câu kể", "Câu cảm", "Câu nêu yêu cầu, đề nghị là câu khiến."],
+["Tiếng Anh", 1, "Khi gặp bạn, con chào \"Xin chào\" bằng tiếng Anh như thế nào?", "Hello", "Goodbye", "Thank you", "Sorry", "Hello nghĩa là Xin chào."],
+["Tiếng Anh", 1, "\"What's your name?\" dùng để hỏi điều gì?", "Bạn tên là gì", "Bạn mấy tuổi", "Bạn khỏe không", "Đây là cái gì", "Name nghĩa là tên."],
+["Tiếng Anh", 1, "\"A pen\" là đồ vật nào?", "Cây bút mực", "Cục tẩy", "Thước kẻ", "Cặp sách", "Pen là cây bút mực."],
+["Tiếng Anh", 1, "Màu vàng trong tiếng Anh là gì?", "Yellow", "Red", "Blue", "Green", "Yellow là màu vàng."],
+["Tiếng Anh", 1, "Số 8 trong tiếng Anh viết như thế nào?", "Eight", "Seven", "Nine", "Six", "Eight là số 8."],
+["Tiếng Anh", 1, "Từ \"Mother\" có nghĩa là ai trong gia đình?", "Mẹ", "Bố", "Anh trai", "Chị gái", "Mother nghĩa là mẹ."],
+["Tiếng Anh", 1, "Bộ phận dùng để nhìn, \"an eye\", là gì?", "Con mắt", "Cái mũi", "Cái tai", "Cái miệng", "Eye là con mắt."],
+["Tiếng Anh", 2, "Trả lời cho câu hỏi \"How old are you?\" là câu nào?", "I'm eight years old.", "I'm fine, thank you.", "My name is Lucie.", "It's a ruler.", "Hỏi tuổi trả lời bằng years old."],
+["Tiếng Anh", 2, "\"A green emerald\" nghĩa là viên ngọc có màu gì?", "Xanh lá cây", "Xanh da trời", "Màu đỏ", "Màu cam", "Green là màu xanh lá cây."],
+["Tiếng Anh", 2, "Đồ dùng nào dùng để xóa vết bút chì?", "An eraser", "A book", "A pencil case", "A school bag", "Eraser là cục tẩy."],
+["Tiếng Anh", 2, "\"What's this?\" - \"It's a ...\" (đây là con chó)", "dog", "cat", "bird", "rabbit", "Dog là con chó."],
+["Tiếng Anh", 2, "\"Đoàn tàu đồ chơi\" trong tiếng Anh là từ nào?", "Train", "Car", "Kite", "Teddy bear", "Train là đoàn tàu."],
+["Tiếng Anh", 2, "Muốn nói \"Hãy chạm vào mũi của bạn\", ta nói câu nào?", "Touch your nose.", "Open your mouth.", "Close your eyes.", "Clap your hands.", "Nose là cái mũi, touch là chạm."],
+["Tiếng Anh", 2, "Từ \"Grandfather\" chỉ người nào trong gia đình?", "Ông", "Bà", "Chú", "Bác gái", "Grandfather là ông nội hoặc ông ngoại."],
+["Tiếng Anh", 3, "Câu nào nghĩa là \"Đây là hộp bút của tớ\"?", "This is my pencil case.", "That is a classroom.", "It is a blue pen.", "This is my friend.", "Pencil case là hộp bút."],
+["Tiếng Anh", 3, "\"Do you have any parrots?\" - Con vẹt là từ nào?", "parrots", "goldfish", "rabbits", "cats", "Parrot nghĩa là con vẹt."],
+["Tiếng Anh", 3, "Sắp xếp các chữ cái R - U - L - E - R thành từ đúng?", "RULER", "RELUR", "LURER", "URLER", "Ruler nghĩa là cây thước kẻ."],
+["Tiếng Anh", 3, "Trả lời \"Is this our school?\" khi đúng là trường mình?", "Yes, it is.", "No, it isn't.", "Yes, I do.", "It's a school.", "Câu hỏi Is this trả lời Yes, it is."],
+["Tiếng Anh", 3, "\"I have two trucks and three kites.\" Có tất cả mấy món đồ chơi?", "Five", "Four", "Six", "Three", "2 xe tải cộng 3 cái diều bằng 5."],
+["Tiếng Anh", 3, "Câu \"What colour are your pens?\" hỏi về điều gì?", "Màu của những cây bút", "Số lượng cây bút", "Tên của cây bút", "Chỗ để cây bút", "What colour dùng để hỏi màu sắc."],
+["Toán", 1, "Kết quả của phép tính 7 x 6 là bao nhiêu?", "42", "36", "48", "49", "Theo bảng nhân 7: 7 x 6 = 42."],
+["Toán", 1, "Kết quả của phép tính 8 x 7 là bao nhiêu?", "56", "54", "64", "48", "Theo bảng nhân 8: 8 x 7 = 56."],
+["Toán", 1, "Kết quả của phép tính 9 x 8 là bao nhiêu?", "72", "63", "81", "64", "Theo bảng nhân 9: 9 x 8 = 72."],
+["Toán", 1, "Kết quả của phép tính 63 : 7 là bao nhiêu?", "9", "8", "7", "6", "Vì 7 x 9 = 63 nên 63 : 7 = 9."],
+["Toán", 1, "Kết quả của phép tính 72 : 8 là bao nhiêu?", "9", "8", "7", "6", "Vì 8 x 9 = 72 nên 72 : 8 = 9."],
+["Toán", 1, "Kết quả của phép tính 81 : 9 là bao nhiêu?", "9", "8", "7", "10", "Vì 9 x 9 = 81 nên 81 : 9 = 9."],
+["Toán", 2, "Gấp 12 lên 4 lần ta được số nào?", "48", "16", "36", "52", "Muốn gấp một số lên nhiều lần, ta lấy số đó nhân với số lần: 12 x 4 = 48."],
+["Toán", 2, "Giảm 54 đi 6 lần ta được số nào?", "9", "48", "8", "7", "Muốn giảm một số đi nhiều lần, ta chia số đó cho số lần: 54 : 6 = 9."],
+["Toán", 2, "Giá trị của biểu thức 25 + 15 x 2 là bao nhiêu?", "55", "80", "50", "45", "Tính nhân trước, cộng sau: 15 x 2 = 30; 25 + 30 = 55."],
+["Toán", 2, "Giá trị của biểu thức (40 - 16) : 3 là bao nhiêu?", "8", "12", "6", "9", "Tính trong ngoặc trước: 40 - 16 = 24; 24 : 3 = 8."],
+["Toán", 2, "1 m bằng bao nhiêu mi-li-mét (mm)?", "1000 mm", "100 mm", "10 mm", "10000 mm", "1 m = 10 dm = 100 cm = 1000 mm."],
+["Toán", 2, "Chu vi hình vuông có cạnh dài 9 cm là bao nhiêu?", "36 cm", "18 cm", "81 cm", "27 cm", "Chu vi hình vuông bằng độ dài một cạnh nhân 4: 9 x 4 = 36 cm."],
+["Toán", 2, "Chu vi hình chữ nhật có chiều dài 12 cm, chiều rộng 8 cm là bao nhiêu?", "40 cm", "20 cm", "96 cm", "32 cm", "Chu vi hình chữ nhật = (12 + 8) x 2 = 40 cm."],
+["Toán", 3, "Số dư của phép chia 38 : 5 là bao nhiêu?", "3", "2", "4", "1", "38 : 5 = 7 dư 3 (vì 5 x 7 = 35, 38 - 35 = 3)."],
+["Tiếng Việt", 1, "Trong câu “Trăng tròn như chiếc đĩa bạc”, hình ảnh so sánh là gì?", "Trăng với chiếc đĩa bạc", "Trăng với bầu trời", "Chiếc đĩa với ngôi sao", "Tròn với màu trắng", "Từ 'như' dùng để so sánh trăng tròn với chiếc đĩa bạc."],
+["Tiếng Việt", 1, "Từ nào dưới đây là từ chỉ hoạt động?", "Chạy nhảy", "Xanh biếc", "Quyển vở", "Ngọt ngào", "Chạy nhảy là từ chỉ hoạt động."],
+["Tiếng Việt", 1, "Từ nào dưới đây là từ chỉ đặc điểm?", "Dịu dàng", "Đọc sách", "Bàn học", "Quét nhà", "Dịu dàng là từ chỉ đặc điểm tính nết."],
+["Tiếng Việt", 2, "Cuối câu hỏi phải đặt dấu câu nào?", "Dấu chấm hỏi (?)", "Dấu chấm (.)", "Dấu phẩy (,)", "Dấu hai chấm (:)", "Câu hỏi kết thúc bằng dấu chấm hỏi (?)."],
+["Tiếng Việt", 2, "Từ nào viết đúng chính tả?", "Trống trường", "Chống trường", "Trống chường", "Chống chường", "Viết đúng chính tả là 'trống trường'."],
+["Tiếng Việt", 2, "Từ nào viết đúng chính tả?", "Sạch sẽ", "Xạch xẽ", "Sạch xẽ", "Xạch sẽ", "Viết đúng chính tả là 'sạch sẽ'."],
+["Tiếng Việt", 2, "Từ nào cùng nghĩa với từ “chăm chỉ”?", "Siêng năng", "Lười biếng", "Vội vàng", "Nhút nhát", "Siêng năng cùng nghĩa với chăm chỉ."],
+["Tiếng Việt", 2, "Từ nào trái nghĩa với từ “dũng cảm”?", "Nhút nhát", "Gan dạ", "Kiên cường", "Tự tin", "Nhút nhát trái nghĩa với dũng cảm."],
+["Tiếng Anh", 1, "Câu “Open your book, please!” nghĩa là gì?", "Hãy mở sách của bạn ra!", "Hãy gấp sách lại!", "Hãy đứng lên!", "Hãy ngồi xuống!", "Open your book = mở sách của bạn ra."],
+["Tiếng Anh", 1, "Đồ dùng học tập “pencil case” là gì?", "Hộp bút", "Cục tẩy", "Thước kẻ", "Cặp sách", "Pencil case là hộp đựng bút."],
+["Tiếng Anh", 1, "Từ tiếng Anh nào có nghĩa là “cục tẩy”?", "eraser", "ruler", "notebook", "school bag", "Eraser (hoặc rubber) là cục tẩy."],
+["Tiếng Anh", 1, "Hỏi màu sắc của nhiều đồ vật, em dùng câu nào?", "What colour are they?", "What colour is it?", "How old are you?", "Who is that?", "Số nhiều dùng 'What colour are they?'."],
+["Tiếng Anh", 2, "Hoạt động giờ ra chơi “play badminton” là chơi môn gì?", "Chơi cầu lông", "Chơi bóng đá", "Chơi cờ vua", "Nhảy dây", "Badminton là môn cầu lông."],
+["Tiếng Anh", 2, "Trò chơi “skipping” trong giờ ra chơi là gì?", "Nhảy dây", "Chơi trốn tìm", "Đá cầu", "Chơi bóng rổ", "Skipping là nhảy dây."],
+["Tiếng Anh", 2, "Trả lời cho câu hỏi “Do you have a ruler?” (Có), em nói thế nào?", "Yes, I do.", "Yes, I am.", "No, I do.", "Yes, it is.", "Câu hỏi bắt đầu bằng 'Do you...' trả lời 'Yes, I do.'."],
+["Tiếng Anh", 2, "Từ “white” là màu gì?", "Màu trắng", "Màu đen", "Màu cam", "Màu nâu", "White là màu trắng."]
+],
+"lucas":[
+["Toán", 1, "Có 3 viên đá, thêm 2 viên đá là mấy viên?", "5 viên", "4 viên", "6 viên", "3 viên", "3 thêm 2 bằng 5."],
+["Toán", 1, "Số nào lớn hơn: số 7 hay số 4?", "7", "4", "Bằng nhau", "0", "Số 7 đứng sau nên lớn hơn 4."],
+["Toán", 1, "Tính nhẩm: 2 + 2 bằng mấy?", "4", "3", "5", "2", "2 cộng 2 bằng 4."],
+["Toán", 1, "Tính nhẩm: 6 - 1 bằng mấy?", "5", "4", "7", "6", "6 bớt 1 còn 5."],
+["Toán", 1, "Bánh xe đạp có hình gì?", "Hình tròn", "Hình vuông", "Hình tam giác", "Hình chữ nhật", "Bánh xe có hình tròn để lăn."],
+["Toán", 1, "Số liền sau của số 8 là số mấy?", "9", "7", "10", "6", "Đếm 8 rồi đến 9."],
+["Toán", 1, "Tính: 5 + 0 bằng mấy?", "5", "0", "6", "4", "Số nào cộng với 0 cũng bằng chính nó."],
+["Toán", 1, "Số nào bé nhất trong các số: 9, 2, 5, 7?", "2", "5", "7", "9", "Số 2 nhỏ nhất trong dãy số."],
+["Toán", 1, "Tính: 9 - 4 bằng mấy?", "5", "4", "6", "3", "9 bớt 4 còn 5."],
+["Toán", 2, "Tính: 10 + 5 bằng bao nhiêu?", "15", "14", "16", "50", "1 chục cộng 5 đơn vị là 15."],
+["Toán", 2, "Tính: 18 - 3 bằng bao nhiêu?", "15", "14", "16", "12", "8 trừ 3 bằng 5, viết 15."],
+["Toán", 2, "Hình nào có 3 cạnh?", "Hình tam giác", "Hình tròn", "Hình vuông", "Hình chữ nhật", "Hình tam giác có 3 cạnh."],
+["Toán", 2, "Kim ngắn chỉ số 8, kim dài chỉ số 12 là mấy giờ?", "8 giờ", "12 giờ", "9 giờ", "7 giờ", "Kim dài chỉ 12 là giờ đúng."],
+["Toán", 2, "Tính: 4 + 3 + 2 bằng mấy?", "9", "8", "10", "7", "4 cộng 3 bằng 7, cộng 2 bằng 9."],
+["Toán", 2, "Có 10 quả bóng, bay mất 3 quả. Còn lại mấy quả?", "7 quả", "6 quả", "8 quả", "5 quả", "Lấy 10 trừ 3 còn 7."],
+["Toán", 2, "Số gồm 2 chục và 0 đơn vị là số nào?", "20", "02", "12", "2", "2 chục viết là 20."],
+["Toán", 2, "Tính nhẩm: 30 + 20 bằng bao nhiêu?", "50", "40", "60", "10", "3 chục cộng 2 chục bằng 5 chục."],
+["Toán", 3, "Tính: 70 - 40 bằng bao nhiêu?", "30", "20", "40", "50", "7 chục trừ 4 chục còn 3 chục."],
+["Toán", 3, "Tính: 24 + 13 bằng bao nhiêu?", "37", "36", "27", "47", "4 + 3 = 7, 2 + 1 = 3, kết quả 37."],
+["Toán", 3, "Tính: 56 - 21 bằng bao nhiêu?", "35", "34", "25", "36", "6 - 1 = 5, 5 - 2 = 3, kết quả 35."],
+["Toán", 3, "Số lớn nhất có một chữ số là số nào?", "9", "10", "8", "1", "Số 9 lớn nhất có 1 chữ số."],
+["Toán", 3, "Lucas đào được 12 viên than và 5 viên sắt. Có tất cả mấy viên?", "17 viên", "16 viên", "18 viên", "15 viên", "Lấy 12 cộng 5 bằng 17."],
+["Toán", 3, "Số 45 gồm mấy chục và mấy đơn vị?", "4 chục và 5 đơn vị", "5 chục và 4 đơn vị", "4 chục và 0 đơn vị", "40 chục và 5 đơn vị", "Chữ số 4 ở hàng chục, 5 ở hàng đơn vị."],
+["Toán", 3, "Điền số còn thiếu: 10, 20, 30, ..., 50?", "40", "35", "45", "60", "Đếm thêm từng chục: 30 rồi đến 40."],
+["Toán", 3, "Hôm nay là thứ Hai thì ngày mai là thứ mấy?", "Thứ Ba", "Thứ Tư", "Chủ nhật", "Thứ Năm", "Sau thứ Hai là thứ Ba."],
+["Tiếng Việt", 1, "Chữ cái đầu tiên trong bảng chữ cái tiếng Việt là chữ gì?", "a", "b", "c", "d", "Chữ a đứng đầu bảng chữ cái."],
+["Tiếng Việt", 1, "Ghép \"b\" với \"a\", thêm dấu sắc ta được tiếng gì?", "bá", "ba", "bà", "bả", "Bờ a ba sắc bá."],
+["Tiếng Việt", 1, "Tiếng \"mỏ\" có âm đầu là âm nào?", "m", "o", "b", "n", "Mờ o mo hỏi mỏ, âm đầu là m."],
+["Tiếng Việt", 1, "Trong từ \"cá vàng\", tiếng nào có dấu huyền?", "vàng", "cá", "cả hai tiếng", "không có", "Tiếng vàng có dấu huyền."],
+["Tiếng Việt", 1, "Con vật nào kêu \"meo meo\"?", "Con mèo", "Con chó", "Con gà", "Con vịt", "Con mèo kêu meo meo."],
+["Tiếng Việt", 1, "Chọn chữ đúng điền vào chỗ trống: \"...on kiến\"?", "c", "k", "q", "g", "Trước âm o dùng chữ c (con kiến)."],
+["Tiếng Việt", 1, "Ai là người sinh ra mình?", "Mẹ", "Bạn", "Thầy", "Em", "Mẹ là người sinh ra con."],
+["Tiếng Việt", 1, "Tiếng \"đá\" có dấu thanh gì?", "Dấu sắc", "Dấu huyền", "Dấu hỏi", "Dấu ngã", "Đờ a đa sắc đá."],
+["Tiếng Việt", 1, "Quả gì vỏ màu vàng, ăn rất ngọt, khỉ rất thích?", "Quả chuối", "Quả ớt", "Quả chanh", "Quả bầu", "Khỉ rất thích ăn chuối."],
+["Tiếng Việt", 2, "Điền \"c\" hay \"k\": \"...im cương\"?", "k", "c", "q", "ch", "Trước âm i phải viết chữ k."],
+["Tiếng Việt", 2, "Điền \"g\" hay \"gh\": \"cái ...ế\"?", "gh", "g", "ng", "ngh", "Trước âm ê phải dùng chữ gh."],
+["Tiếng Việt", 2, "Tiếng \"than\" có vần gì?", "Vần an", "Vần am", "Vần ăn", "Vần ân", "Thờ an than, có vần an."],
+["Tiếng Việt", 2, "Từ nào dưới đây viết đúng chính tả?", "Củ nghệ", "Củ ngệ", "Kủ nghệ", "Củ nghẹ", "Trước âm ê viết ngh (củ nghệ)."],
+["Tiếng Việt", 2, "Ghép hai tiếng \"thợ\" và \"mỏ\" ta được từ gì?", "Thợ mỏ", "Mỏ thợ", "Thờ mo", "Thợ mở", "Ghép lại thành từ thợ mỏ."],
+["Tiếng Việt", 2, "Trong câu \"Bé đào đất\", tiếng nào có vần \"ao\"?", "đào", "bé", "đất", "không có", "Đờ ao đao huyền đào."],
+["Tiếng Việt", 2, "Điền \"ng\" hay \"ngh\": \"con ...ựa\"?", "ng", "ngh", "g", "gh", "Trước âm ư dùng chữ ng (con ngựa)."],
+["Tiếng Việt", 2, "Đồ vật nào dùng để học bài?", "Quyển vở", "Cái chổi", "Cái nồi", "Đôi dép", "Quyển vở dùng để học bài."],
+["Tiếng Việt", 3, "Từ nào viết ĐÚNG chính tả?", "Kể chuyện", "Cể chuyện", "Kể truyên", "Gể chuyện", "Trước ê viết chữ k (kể chuyện)."],
+["Tiếng Việt", 3, "Chọn chữ đúng: \"cái ...ương\" (đựng kho báu)?", "rương", "dương", "giương", "lương", "Rương kho báu viết bằng chữ r."],
+["Tiếng Việt", 3, "Tiếng \"vàng\" có vần nào?", "ang", "an", "ac", "anh", "Vờ ang vang huyền vàng."],
+["Tiếng Việt", 3, "Câu \"Chị Lucie rất chăm chỉ.\" có mấy tiếng?", "5 tiếng", "4 tiếng", "6 tiếng", "3 tiếng", "Chị, Lucie, rất, chăm, chỉ: 5 tiếng."],
+["Tiếng Việt", 3, "Con vật là chúa sơn lâm: \"con h...\"?", "ổ", "ô", "ơ", "o", "Hờ ô hô hỏi hổ: con hổ."],
+["Tiếng Việt", 3, "Từ nào viết SAI chính tả?", "Ghà trống", "Ghế gỗ", "Gà mái", "Gói quà", "Trước âm a phải viết chữ g (gà trống)."],
+["Tiếng Việt", 3, "Trái ngược với \"to lớn\" là từ nào?", "Nhỏ bé", "Cao ráo", "Rộng rãi", "Dài ngoẵng", "Nhỏ bé trái nghĩa với to lớn."],
+["Tiếng Việt", 3, "Xếp các tiếng \"em, yêu, trường, lớp\" thành câu đúng?", "Em yêu trường lớp.", "Trường yêu lớp em.", "Lớp em trường yêu.", "Yêu trường em lớp.", "Câu đúng: Em yêu trường lớp."],
+["Tiếng Anh", 1, "Màu đỏ trong tiếng Anh là gì?", "Red", "Blue", "Green", "Pink", "Red là màu đỏ."],
+["Tiếng Anh", 1, "Con mèo trong tiếng Anh là từ nào?", "Cat", "Dog", "Pig", "Duck", "Cat nghĩa là con mèo."],
+["Tiếng Anh", 1, "Số 1 trong tiếng Anh là từ nào?", "One", "Two", "Three", "Four", "One là số 1."],
+["Tiếng Anh", 1, "Khi tạm biệt bạn, con nói gì?", "Goodbye", "Hello", "Hi", "Yes", "Goodbye nghĩa là tạm biệt."],
+["Tiếng Anh", 2, "One, two, ... Tiếp theo là số nào?", "Three", "Four", "Five", "One", "1, 2 rồi đến 3 (Three)."],
+["Tiếng Anh", 2, "Con cá trong tiếng Anh là gì?", "Fish", "Bird", "Cat", "Monkey", "Fish là con cá."],
+["Tiếng Anh", 2, "\"Blue\" là màu gì?", "Xanh da trời", "Màu đỏ", "Màu đen", "Màu trắng", "Blue là màu xanh da trời."],
+["Tiếng Anh", 3, "Một bàn tay có 5 ngón. Số 5 tiếng Anh là gì?", "Five", "Four", "Six", "Ten", "Five nghĩa là số 5."],
+["Tiếng Anh", 3, "Con khỉ trong tiếng Anh là gì?", "Monkey", "Tiger", "Lion", "Bear", "Monkey là con khỉ."],
+["Tiếng Anh", 3, "Hai bàn tay có 10 ngón. Số 10 tiếng Anh là gì?", "Ten", "Nine", "Eight", "Seven", "Ten nghĩa là số 10."],
+["Toán", 1, "4 + 5 bằng mấy?", "9", "8", "10", "7", "4 thêm 5 bằng 9."],
+["Toán", 1, "3 + 7 bằng mấy?", "10", "9", "8", "6", "3 cộng 7 bằng 10."],
+["Toán", 1, "6 + 2 bằng mấy?", "8", "7", "9", "5", "6 thêm 2 bằng 8."],
+["Toán", 1, "9 - 4 bằng mấy?", "5", "4", "6", "3", "9 bớt 4 còn 5."],
+["Toán", 1, "10 - 3 bằng mấy?", "7", "6", "8", "5", "10 bớt 3 còn 7."],
+["Toán", 1, "8 - 5 bằng mấy?", "3", "2", "4", "5", "8 bớt 5 còn 3."],
+["Toán", 1, "7 + 0 bằng mấy?", "7", "0", "8", "6", "Số nào cộng với 0 cũng bằng chính số đó."],
+["Toán", 1, "6 - 6 bằng mấy?", "0", "1", "6", "12", "Hai số giống nhau trừ cho nhau bằng 0."],
+["Toán", 2, "Số nào lớn nhất trong các số: 4, 9, 2, 7?", "9", "7", "4", "2", "Trong 4 số đã cho, 9 là số lớn nhất."],
+["Toán", 2, "Số nào bé nhất trong các số: 8, 3, 6, 5?", "3", "5", "6", "8", "Trong 4 số đã cho, 3 là số bé nhất."],
+["Toán", 2, "Số liền trước của số 6 là số mấy?", "5", "7", "4", "8", "Đếm ngược: trước 6 là 5."],
+["Toán", 2, "Hình tam giác có mấy cạnh?", "3 cạnh", "4 cạnh", "2 cạnh", "5 cạnh", "Hình tam giác có 3 cạnh và 3 góc."],
+["Toán", 2, "Có 5 quả táo, thêm 4 quả nữa. Có tất cả mấy quả?", "9 quả", "8 quả", "10 quả", "7 quả", "5 + 4 = 9 quả táo."],
+["Tiếng Việt", 1, "Điền c hay k vào chỗ trống: “...on cá”?", "c", "k", "g", "d", "Trước o dùng chữ c: con cá."],
+["Tiếng Việt", 1, "Điền c hay k vào chỗ trống: “cái ...éo”?", "k", "c", "t", "n", "Trước e, ê, i dùng chữ k: cái kéo."],
+["Tiếng Việt", 1, "Điền g hay gh vào chỗ trống: “cái ...ế”?", "gh", "g", "ng", "c", "Trước e, ê, i dùng chữ gh: cái ghế."],
+["Tiếng Việt", 1, "Điền g hay gh vào chỗ trống: “con ...à”?", "g", "gh", "k", "ngh", "Trước a dùng chữ g: con gà."],
+["Tiếng Việt", 2, "Điền ng hay ngh vào chỗ trống: “lắng ...e”?", "ngh", "ng", "g", "gh", "Trước e, ê, i dùng chữ ngh: lắng nghe."],
+["Tiếng Việt", 2, "Từ nào viết đúng chính tả?", "Mặt trời", "Mặt chời", "Mặc trời", "Mặc chời", "Viết đúng là 'mặt trời'."],
+["Tiếng Việt", 2, "Từ nào viết đúng chính tả?", "Bông hoa", "Bông hoan", "Pông hoa", "Bông hỏa", "Viết đúng là 'bông hoa'."],
+["Tiếng Việt", 2, "Con vật nào biết gáy “ò ó o” buổi sáng?", "Con gà trống", "Con mèo", "Con cá", "Con rùa", "Gà trống gáy ò ó o gọi trời sáng."],
+["Tiếng Anh", 1, "Số 5 tiếng Anh là gì?", "five", "four", "six", "two", "Five là số 5."],
+["Tiếng Anh", 1, "Số 8 tiếng Anh là gì?", "eight", "seven", "nine", "ten", "Eight là số 8."],
+["Tiếng Anh", 1, "Màu vàng tiếng Anh là gì?", "yellow", "blue", "red", "green", "Yellow là màu vàng."],
+["Tiếng Anh", 1, "Màu xanh lá tiếng Anh là gì?", "green", "pink", "black", "white", "Green là màu xanh lá cây."],
+["Tiếng Anh", 1, "Con mèo tiếng Anh là gì?", "cat", "dog", "bird", "fish", "Cat là con mèo."],
+["Tiếng Anh", 1, "Con chó tiếng Anh là gì?", "dog", "cat", "duck", "pig", "Dog là con chó."],
+["Tiếng Anh", 1, "Quyển sách tiếng Anh là gì?", "book", "pen", "bag", "desk", "Book là quyển sách."],
+["Tiếng Anh", 1, "Quả táo tiếng Anh là gì?", "apple", "banana", "orange", "milk", "Apple là quả táo."]
+]}/*END_DATA*/;
+
+/* ============================================================
+   ẢNH THẬT: anh/<mã>.webp (máy chủ GitHub tải sẵn) -> vẽ AI trực tiếp -> tranh tự vẽ
+   ============================================================ */
+const AI_NGUON = {
+  "ruong-go": "cute voxel cube style open wooden treasure chest overflowing with shiny gold coins, cave background",
+  "ruong-sat": "cute voxel cube style open iron treasure chest with silver ingots and gems, stone cave",
+  "ruong-vang": "cute voxel cube style open golden treasure chest full of gold bars and coins, glowing",
+  "ruong-kc": "cute voxel cube style open treasure chest full of sparkling blue diamonds, glowing cave",
+  "cua": "magic glowing stone trapdoor with golden keyhole in underground voxel cave",
+  "kho-bau": "giant pile of sparkling blue diamonds and gold treasure in a glowing voxel cave",
+  "cup-0": "shiny bronze trophy cup with a star on a pedestal, confetti",
+  "cup-1": "shiny silver trophy cup with a star on a pedestal, confetti",
+  "cup-2": "shiny golden trophy cup with a star on a pedestal, sparkles and confetti",
+  "cup-3": "sparkling diamond crystal trophy cup glowing blue on a pedestal, sparkles",
+  "cuoc-0": "voxel cube style wooden pickaxe, simple background",
+  "cuoc-1": "voxel cube style stone pickaxe, simple background",
+  "cuoc-2": "voxel cube style shiny iron pickaxe, simple background",
+  "cuoc-3": "voxel cube style shiny golden pickaxe with sparkles, simple background",
+  "cuoc-4": "voxel cube style glowing blue diamond pickaxe with sparkles, simple background",
+  "skin-thomo": "cute voxel cube style kid miner with yellow helmet and headlamp",
+  "skin-oto": "cute voxel cube style red toy race car with a drill on the front",
+  "skin-sieunhan": "cute voxel cube style kid superhero in green suit with orange cape and yellow star emblem, original character",
+  "skin-ninja": "cute voxel cube style kid ninja in black suit with red headband climbing a wall",
+  "skin-robot": "cute voxel cube style friendly silver robot miner with antenna"
+};
+const AI_STYLE = ", Cute Pixar 3D Disney style vibrant illustration for kids, high quality, clear subject";
+function setImg(img, ma, fallbackCanvas) {
+  const chain = ["anh/" + ma + ".webp"];
+  if (AI_NGUON[ma]) chain.push("https://image.pollinations.ai/prompt/" + encodeURIComponent(AI_NGUON[ma] + AI_STYLE) + "?width=512&height=512&nologo=true&seed=7");
+  if (fallbackCanvas) chain.push(typeof fallbackCanvas === "string" ? fallbackCanvas : fallbackCanvas.toDataURL());
+  let i = 0;
+  img.style.imageRendering = "";
+  img.onerror = () => { i++; if (i < chain.length) { if (fallbackCanvas && i === chain.length - 1) img.style.imageRendering = "pixelated"; img.src = chain[i]; } else img.onerror = null; };
+  img.src = chain[0];
+}
+
+/* ============================================================
+   TIỆN ÍCH
+   ============================================================ */
+const $ = id => document.getElementById(id);
+const rnd = (a, b) => a + Math.random() * (b - a);
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const now = () => performance.now();
+let toastT = 0;
+function toast(s, ms) { const t = $("toast"); t.textContent = s; t.style.opacity = 1; clearTimeout(toastT); toastT = setTimeout(() => t.style.opacity = 0, ms || 2200); }
+function hint(s) { const h = $("hint"); if (!s) { h.classList.add("hide"); return; } h.textContent = s; h.classList.remove("hide"); }
+
+/* Giọng đọc tiếng Việt */
+const Voice = {
+  v: null, warned: false,
+  pick() { try { this.v = speechSynthesis.getVoices().find(x => /^vi/i.test(x.lang)) || null; } catch (e) {} },
+  say(text) {
+    if (!("speechSynthesis" in window)) return;
+    if (!this.v) this.pick();
+    if (!this.v && !this.warned && !window.__giongNoi) { this.warned = true; toast("Máy này chưa có giọng đọc tiếng Việt", 3500); }
+    try {
+      speechSynthesis.cancel();
+      setTimeout(() => { const u = new SpeechSynthesisUtterance(text); u.lang = "vi-VN"; if (this.v) u.voice = this.v; u.rate = 0.88; u.pitch = 1.08; speechSynthesis.speak(u); }, 80);
+    } catch (e) {}
+  },
+  sayEn(text) {
+    try { const v = speechSynthesis.getVoices().find(x => /^en/i.test(x.lang)); const u = new SpeechSynthesisUtterance(text); u.lang = "en-US"; if (v) u.voice = v; u.rate = 0.85; speechSynthesis.speak(u); } catch (e) {}
+  },
+  stop() { try { speechSynthesis.cancel(); } catch (e) {} }
+};
+if ("speechSynthesis" in window) { Voice.pick(); speechSynthesis.onvoiceschanged = () => Voice.pick(); }
+
+/* Âm thanh tự tổng hợp — khởi tạo sau cú bấm đầu tiên */
+const SFX = {
+  ctx: null, out: null,
+  init() { if (this.ctx) { if (this.ctx.state === "suspended") this.ctx.resume(); return; } const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return; this.ctx = new AC(); this.out = this.ctx.createGain(); this.out.gain.value = 0.5; this.out.connect(this.ctx.destination); },
+  tone(f, d, type, vol, t0, slide) { const c = this.ctx; if (!c) return; const t = c.currentTime + (t0 || 0), o = c.createOscillator(), g = c.createGain(); o.type = type || "square"; o.frequency.setValueAtTime(f, t); if (slide) o.frequency.exponentialRampToValueAtTime(slide, t + d); g.gain.setValueAtTime(vol || 0.2, t); g.gain.exponentialRampToValueAtTime(0.0001, t + d); o.connect(g); g.connect(this.out); o.start(t); o.stop(t + d + 0.02); },
+  noise(d, freq, vol) { const c = this.ctx; if (!c) return; const b = c.createBuffer(1, c.sampleRate * d, c.sampleRate), a = b.getChannelData(0); for (let i = 0; i < a.length; i++) a[i] = (Math.random() * 2 - 1) * (1 - i / a.length); const s = c.createBufferSource(), f = c.createBiquadFilter(), g = c.createGain(); s.buffer = b; f.type = "lowpass"; f.frequency.value = freq; g.gain.value = vol; s.connect(f); f.connect(g); g.connect(this.out); s.start(); },
+  dig() { this.noise(0.12, 900, 0.5); this.tone(120, 0.08, "square", 0.08); },
+  brk() { this.noise(0.22, 1600, 0.55); },
+  step() { this.tone(200, 0.04, "triangle", 0.06); },
+  ore() { this.tone(880, 0.08, "square", 0.1); this.tone(1320, 0.12, "square", 0.1, 0.07); },
+  gem() { [1046, 1318, 1568, 2093].forEach((f, i) => this.tone(f, 0.18, "triangle", 0.14, i * 0.06)); },
+  open() { [523, 659, 784, 1046, 1318].forEach((f, i) => this.tone(f, 0.22, "square", 0.1, i * 0.08)); },
+  wrong() { this.tone(220, 0.25, "sawtooth", 0.12, 0, 110); },
+  door() { this.noise(0.6, 400, 0.4); [262, 392, 523].forEach((f, i) => this.tone(f, 0.6, "triangle", 0.12, i * 0.1)); },
+  bump() { this.tone(90, 0.12, "square", 0.1); },
+  win() { [523, 659, 784, 1046, 784, 1046, 1318, 1568].forEach((f, i) => this.tone(f, 0.25, "square", 0.1, i * 0.13)); }
+};
+
+/* ============================================================
+   KẾT CẤU KHỐI VUÔNG 16x16 (vẽ bằng code)
+   ============================================================ */
+function seeded(s) { return () => { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; }; }
+function shade(hex, k) { const n = parseInt(hex.slice(1), 16); let r = n >> 16, g = (n >> 8) & 255, b = n & 255; r = Math.max(0, Math.min(255, r * k)); g = Math.max(0, Math.min(255, g * k)); b = Math.max(0, Math.min(255, b * k)); return "rgb(" + (r | 0) + "," + (g | 0) + "," + (b | 0) + ")"; }
+function canvas16() { const c = document.createElement("canvas"); c.width = c.height = 16; return c; }
+function noiseFill(g, base, amt, R) { for (let y = 0; y < 16; y++) for (let x = 0; x < 16; x++) { g.fillStyle = shade(base, 1 + (R() - 0.5) * amt); g.fillRect(x, y, 1, 1); } }
+function oreSpots(g, col, R, n) {
+  for (let k = 0; k < (n || 5); k++) { const cx = 2 + Math.floor(R() * 11), cy = 2 + Math.floor(R() * 11);
+    [[0, 0], [1, 0], [0, 1], [1, 1], [2, 0], [0, -1]].forEach(([dx, dy], i) => { if (i > 3 && R() < 0.5) return; g.fillStyle = shade(col, 0.85 + R() * 0.35); g.fillRect(cx + dx, cy + dy, 1, 1); });
+    g.fillStyle = "rgba(255,255,255,.55)"; g.fillRect(cx, cy, 1, 1); }
+}
+const BASE = { dirt: "#8b5a2b", stone: "#8c8c8c", deep: "#4b4b58", bedrock: "#3a3a3a" };
+const TEX = {};
+function makeTex(type) {
+  const c = canvas16(), g = c.getContext("2d"), R = seeded(type.split("").reduce((a, ch) => a * 31 + ch.charCodeAt(0), 7) % 99991 + 1);
+  const chest = (body, edge, latch) => {
+    g.fillStyle = edge; g.fillRect(0, 0, 16, 16);
+    noiseFill(g, body, 0.18, R); g.fillStyle = edge; g.fillRect(0, 0, 16, 1); g.fillRect(0, 15, 16, 1); g.fillRect(0, 0, 1, 16); g.fillRect(15, 0, 1, 16); g.fillRect(0, 6, 16, 1);
+    for (let x = 1; x < 15; x++) { g.fillStyle = shade(body, 0.78); g.fillRect(x, 5, 1, 1); }
+    g.fillStyle = latch; g.fillRect(7, 5, 2, 4); g.fillStyle = "#222"; g.fillRect(7, 7, 2, 1);
+  };
+  switch (type) {
+    case "dirt": noiseFill(g, BASE.dirt, 0.35, R); break;
+    case "grassTop": noiseFill(g, "#5dbb3c", 0.3, R); break;
+    case "grass": noiseFill(g, BASE.dirt, 0.35, R); for (let x = 0; x < 16; x++) { const h = 3 + Math.floor(R() * 3); for (let y = 0; y < h; y++) { g.fillStyle = shade("#5dbb3c", 0.85 + R() * 0.3); g.fillRect(x, y, 1, 1); } } break;
+    case "stone": noiseFill(g, BASE.stone, 0.28, R); for (let k = 0; k < 6; k++) { g.fillStyle = shade(BASE.stone, 0.7); g.fillRect(Math.floor(R() * 14), Math.floor(R() * 16), 2 + Math.floor(R() * 3), 1); } break;
+    case "deep": noiseFill(g, BASE.deep, 0.3, R); for (let y = 0; y < 16; y += 4) { g.fillStyle = shade(BASE.deep, 0.7); g.fillRect(0, y, 16, 1); } break;
+    case "coal": noiseFill(g, BASE.stone, 0.28, R); oreSpots(g, "#1d1d1d", R); break;
+    case "iron": noiseFill(g, BASE.stone, 0.28, R); oreSpots(g, "#d8af93", R); break;
+    case "gold": noiseFill(g, BASE.stone, 0.28, R); oreSpots(g, "#fcee4b", R); break;
+    case "silver": noiseFill(g, BASE.stone, 0.28, R); oreSpots(g, "#f1f5fb", R); break;
+    case "cup0": case "cup1": case "cup2": case "cup3": { const col = ["#c97c3a", "#cfd8e3", "#f2c230", "#4fe0ee"][+type[3]]; g.fillStyle = "#2a1c0e"; g.fillRect(0, 0, 16, 16);
+      g.fillStyle = col; g.fillRect(4, 2, 8, 6); g.fillRect(2, 3, 2, 3); g.fillRect(12, 3, 2, 3); g.fillRect(7, 8, 2, 3); g.fillRect(5, 11, 6, 2); g.fillRect(4, 13, 8, 1);
+      g.fillStyle = "rgba(255,255,255,.7)"; g.fillRect(5, 3, 1, 4); g.fillStyle = "#fff6b0"; g.fillRect(7, 4, 2, 2); break; }
+    case "pick0": case "pick1": case "pick2": case "pick3": case "pick4": { const col = ["#9a6a3a", "#9a9a9a", "#e6e6e6", "#fcd34d", "#5decf5"][+type[4]]; g.fillStyle = "#2a1c0e"; g.fillRect(0, 0, 16, 16);
+      g.fillStyle = "#7a5230"; for (let i = 0; i < 10; i++) g.fillRect(3 + i, 12 - i, 2, 2);
+      g.fillStyle = col; for (let i = 0; i < 6; i++) { g.fillRect(4 + i, 2 + Math.floor(i / 2), 2, 2); g.fillRect(12 - Math.floor(i / 2), 4 + i, 2, 2); } g.fillRect(10, 3, 3, 3); break; }
+    case "emerald": noiseFill(g, BASE.deep, 0.3, R); oreSpots(g, "#17dd62", R, 4); break;
+    case "diamond": noiseFill(g, BASE.deep, 0.3, R); oreSpots(g, "#5decf5", R, 5); break;
+    case "lava": for (let y = 0; y < 16; y++) for (let x = 0; x < 16; x++) { const v = Math.sin(x * 0.8 + y * 0.5) + R(); g.fillStyle = v > 1.2 ? "#ffd23c" : v > 0.5 ? "#ff8a1c" : "#d9420f"; g.fillRect(x, y, 1, 1); } break;
+    case "bedrock": for (let y = 0; y < 16; y++) for (let x = 0; x < 16; x++) { const v = R(); g.fillStyle = v < 0.3 ? "#1c1c1c" : v < 0.65 ? "#4a4a4a" : "#6e6e6e"; g.fillRect(x, y, 1, 1); } break;
+    case "log": noiseFill(g, "#6b4a2b", 0.2, R); for (let x = 1; x < 16; x += 4) { g.fillStyle = "#4e331b"; g.fillRect(x, 0, 1, 16); } break;
+    case "leaves": for (let y = 0; y < 16; y++) for (let x = 0; x < 16; x++) { const v = R(); g.fillStyle = v < 0.15 ? "#1f5e1a" : shade("#3f9b32", 0.8 + v * 0.4); g.fillRect(x, y, 1, 1); } break;
+    case "chest0": chest("#a8722f", "#3b240e", "#c9c9c9"); break;
+    case "chest1": chest("#a9a9b3", "#3d3d46", "#e6e6e6"); break;
+    case "chest2": chest("#f2c230", "#7a4d00", "#fff6b0"); break;
+    case "chest3": chest("#4fe0ee", "#11586a", "#ffffff"); break;
+    case "door": noiseFill(g, "#2c1f4a", 0.35, R); g.fillStyle = "#f2c230"; g.fillRect(0, 0, 16, 2); g.fillRect(0, 14, 16, 2); g.fillRect(0, 0, 2, 16); g.fillRect(14, 0, 2, 16);
+      g.fillStyle = "#f2c230"; g.fillRect(6, 4, 4, 4); g.fillRect(7, 8, 2, 4); g.fillStyle = "#120a22"; g.fillRect(7, 5, 2, 2); g.fillRect(7.5, 7, 1, 4); break;
+    case "crack1": case "crack2": { g.clearRect(0, 0, 16, 16); g.fillStyle = "rgba(0,0,0,.75)"; const n = type === "crack1" ? 8 : 18; let x = 8, y = 8; for (let k = 0; k < n; k++) { x = Math.max(0, Math.min(15, x + Math.floor(R() * 3) - 1)); y = Math.max(0, Math.min(15, y + Math.floor(R() * 3) - 1)); g.fillRect(x, y, 1, 1); if (k % 5 === 4) { x = 8; y = 8; } } break; }
+    default: noiseFill(g, "#777", 0.2, R);
+  }
+  return c;
+}
+function getTex(t) { return TEX[t] || (TEX[t] = makeTex(t)); }
+function wallCanvas(type) { const src = getTex(type), c = canvas16(), g = c.getContext("2d"); g.drawImage(src, 0, 0); g.fillStyle = "rgba(0,0,0,.58)"; g.fillRect(0, 0, 16, 16); return c; }
+
+/* ============================================================
+   BẢN ĐỒ MỎ
+   ============================================================ */
+const COLS = 13, LROWS = 8, NL = 6;
+const ORE = {
+  coal: { ten: "Than", diem: 1, anh: "coal" }, iron: { ten: "Sắt", diem: 2, anh: "iron" }, silver: { ten: "Bạc", diem: 3, anh: "silver" }, gold: { ten: "Vàng", diem: 5, anh: "gold" },
+  emerald: { ten: "Ngọc lục bảo", diem: 8, anh: "emerald" }, diamond: { ten: "Kim cương", diem: 10, anh: "diamond" }
+};
+const CHEST = [
+  { ten: "Rương gỗ", diem: 10, anh: "ruong-go" }, { ten: "Rương sắt", diem: 20, anh: "ruong-sat" },
+  { ten: "Rương vàng", diem: 30, anh: "ruong-vang" }, { ten: "Rương kim cương", diem: 50, anh: "ruong-kc" }
+];
+const HARD = { grass: 1, dirt: 1, stone: 2, deep: 3, coal: 2, iron: 2, silver: 2, gold: 3, emerald: 3, diamond: 4, log: 1, leaves: 1 };
+const LAYER_BASE = ["dirt", "stone", "stone", "stone", "deep", "deep"];
+const LAYER_ORE = [
+  [["coal", 0.06]], [["coal", 0.12], ["iron", 0.05], ["silver", 0.04]], [["coal", 0.14], ["iron", 0.12], ["silver", 0.06]],
+  [["iron", 0.08], ["silver", 0.06], ["gold", 0.13]], [["gold", 0.1], ["emerald", 0.07], ["lava", 0.07]], [["emerald", 0.08], ["diamond", 0.14], ["lava", 0.04]]
+];
+const CHEST_OF_LAYER = [0, 0, 1, 2, 2, 3];
+const rowOfLayer = L => 2 + L * (LROWS + 1);        // hàng đầu tiên của tầng L (hàng 0 là trời, hàng 1 là mặt cỏ thuộc tầng 0)
+const TOTAL_ROWS = rowOfLayer(NL) + 1;
+function layerOfRow(r) { if (r <= 1) return 0; return Math.min(NL - 1, Math.floor((r - 2) / (LROWS + 1))); }
+function isDivider(r) { return r >= 2 && (r - 2) % (LROWS + 1) === LROWS; }
+
+let G = null;   // trạng thái ván chơi
+function buildWorld(child) {
+  const grid = [];
+  for (let r = 0; r < TOTAL_ROWS; r++) { grid.push([]); for (let c = 0; c < COLS; c++) grid[r].push({ t: "air", hp: 0 }); }
+  const startC = Math.floor(COLS / 2);
+  for (let c = 0; c < COLS; c++) grid[1][c] = { t: "grass", hp: 1 };
+  const doors = [];
+  for (let L = 0; L < NL; L++) {
+    const r0 = rowOfLayer(L), doorC = 1 + Math.floor(Math.random() * (COLS - 2));
+    doors.push(doorC);
+    for (let r = r0; r < r0 + LROWS; r++) for (let c = 0; c < COLS; c++) {
+      let t = LAYER_BASE[L];
+      for (const [o, p] of LAYER_ORE[L]) if (Math.random() < p) { t = o; break; }
+      if (t === "lava" && (Math.abs(c - doorC) <= 1 || r === r0 || r >= r0 + LROWS - 1 || Math.abs(c - startC) <= 1)) t = LAYER_BASE[L];
+      grid[r][c] = { t, hp: HARD[t] || 0 };
+    }
+    const dr = r0 + LROWS;
+    for (let c = 0; c < COLS; c++) grid[dr][c] = { t: "bedrock", hp: 0 };
+    grid[dr][doorC] = { t: "door", hp: 0, L };
+    // rương kho báu: rải đều trong tầng
+    const nChest = child === "lucas" ? 2 : 3, used = new Set();
+    for (let k = 0; k < nChest; k++) {
+      for (let tries = 0; tries < 60; tries++) {
+        const r = r0 + 1 + Math.floor(Math.random() * (LROWS - 2)), c = Math.floor(Math.random() * COLS), key = r + "," + c;
+        const near = [...used].some(u => { const [ur, uc] = u.split(",").map(Number); return Math.abs(ur - r) + Math.abs(uc - c) < 4; });
+        if (used.has(key) || near || grid[r][c].t === "lava") continue;
+        used.add(key); grid[r][c] = { t: "chest", hp: 0, kind: CHEST_OF_LAYER[L], L }; break;
+      }
+    }
+  }
+  // tầng 0 hàng trên cùng (ngay dưới cỏ) không có rương để bé dễ bắt đầu
+  // cây trang trí trên mặt đất
+  const trees = [1, COLS - 3];
+  return { grid, doors, startC, trees };
+}
+
+/* ============================================================
+   CÂU HỎI
+   ============================================================ */
+const MO_TMN = [{"ten": "Tầng Đất Mềm Khởi Đầu", "lucie": [], "lucas": []}, {"ten": "Tầng Than Đá Đen", "lucie": [], "lucas": []}, {"ten": "Tầng Quặng Sắt Bạc", "lucie": [], "lucas": []}, {"ten": "Tầng Mỏ Vàng Lấp Lánh", "lucie": [], "lucas": []}, {"ten": "Tầng Ngọc Lục Bảo", "lucie": [], "lucas": []}, {"ten": "Tầng Kim Cương Sâu Thẳm", "lucie": [], "lucas": []}, {"ten": "Hang Đá Thạch Anh Hồng", "lucie": [["Toán", 2, "Tính tổng: 264 + 231 = ?", "495", "505", "485", "496", "264 + 231 = 495."], ["Toán", 2, "Tính hiệu: 772 - 274 = ?", "498", "508", "488", "500", "772 - 274 = 498."], ["Toán", 2, "Tính tích: 23 x 8 = ?", "184", "192", "176", "194", "23 x 8 = 184."], ["Toán", 2, "Tính thương: 162 : 9 = ?", "18", "19", "17", "20", "Vì 9 x 18 = 162 nên 162 : 9 = 18."], ["Toán", 2, "Giá trị biểu thức 32 + 3 x 6 là bao nhiêu?", "50", "60", "40", "56", "3 x 6 = 18; 32 + 18 = 50."], ["Toán", 2, "Chu vi hình chữ nhật dài 18 cm, rộng 4 cm là bao nhiêu?", "44 cm", "46 cm", "42 cm", "48 cm", "Chu vi = (18 + 4) x 2 = 44 cm."], ["Tiếng Việt", 2, "Câu 'Con hãy sắp xếp góc học tập gọn gàng nhé!' là kiểu câu gì?", "Câu khiến", "Câu hỏi", "Câu kể", "Câu cảm", "Câu nêu yêu cầu, đề nghị là câu khiến."], ["Tiếng Việt", 2, "Câu 'Bức tranh này đẹp tuyệt vời!' là kiểu câu gì?", "Câu cảm", "Câu hỏi", "Câu kể", "Câu khiến", "Câu bộc lộ cảm xúc kết thúc bằng dấu (!) là câu cảm."], ["Tiếng Anh", 2, "Phòng 'bathroom' là phòng nào trong nhà?", "Phòng tắm", "Phòng bếp", "Phòng ngủ", "Phòng khách", "Bathroom là phòng tắm."], ["Tiếng Anh", 2, "Phòng 'dining room' là phòng nào?", "Phòng ăn", "Phòng ngủ", "Phòng tắm", "Sân vườn", "Dining room là phòng ăn."]], "lucas": [["Toán", 2, "Tính: 22 + 3 = ?", "25", "26", "24", "27", "22 + 3 = 25."], ["Toán", 2, "Tính: 29 - 3 = ?", "26", "27", "25", "28", "29 - 3 = 26."], ["Toán", 2, "Số liền sau của số 21 là số mấy?", "22", "23", "21", "24", "Sau số 21 là số 22."], ["Toán", 2, "Số gồm 2 chục và 3 đơn vị là số mấy?", "23", "33", "13", "24", "2 chục và 3 đơn vị là 23."], ["Toán", 2, "Tính nhẩm: 17 + 30 = ?", "47", "57", "37", "48", "17 + 30 = 47."], ["Toán", 2, "Trong rổ có 11 quả táo, thêm 4 quả nữa. Có tất cả mấy quả táo?", "15 quả táo", "16 quả táo", "14 quả táo", "17 quả táo", "11 + 4 = 15 quả táo."], ["Tiếng Việt", 2, "Từ nào trái nghĩa với 'dài'?", "Ngắn", "Cao", "To", "Rộng", "Ngắn trái nghĩa với dài."], ["Tiếng Việt", 2, "Từ nào trái nghĩa với 'vui'?", "Buồn", "Cười", "Đẹp", "Sáng", "Buồn trái nghĩa với vui."], ["Tiếng Anh", 2, "Từ 'book' là đồ vật gì?", "Quyển sách", "Cây bút", "Cái bàn", "Quả bóng", "Book là quyển sách."], ["Tiếng Anh", 2, "Từ 'ball' là đồ vật gì?", "Quả bóng", "Cái mũ", "Cái cặp", "Ô tô", "Ball là quả bóng."]]}, {"ten": "Hầm Mỏ Hổ Phách Vàng", "lucie": [["Toán", 2, "Tính tổng: 281 + 244 = ?", "525", "535", "515", "526", "281 + 244 = 525."], ["Toán", 2, "Tính hiệu: 791 - 286 = ?", "505", "515", "495", "507", "791 - 286 = 505."], ["Toán", 2, "Tính tích: 24 x 2 = ?", "48", "50", "46", "58", "24 x 2 = 48."], ["Toán", 2, "Tính thương: 57 : 3 = ?", "19", "20", "18", "21", "Vì 3 x 19 = 57 nên 57 : 3 = 19."], ["Toán", 2, "Giá trị biểu thức 35 + 4 x 7 là bao nhiêu?", "63", "73", "53", "70", "4 x 7 = 28; 35 + 28 = 63."], ["Toán", 2, "Chu vi hình chữ nhật dài 19 cm, rộng 5 cm là bao nhiêu?", "48 cm", "50 cm", "46 cm", "52 cm", "Chu vi = (19 + 5) x 2 = 48 cm."], ["Tiếng Việt", 2, "Dấu câu nào dùng để kết thúc câu hỏi?", "Dấu chấm hỏi (?)", "Dấu chấm (.)", "Dấu phẩy (,)", "Dấu chấm than (!)", "Câu hỏi kết thúc bằng dấu chấm hỏi (?)."], ["Tiếng Việt", 2, "Trong câu 'Tàu lướt nhanh như mũi tên', từ so sánh là từ nào?", "như", "lướt", "nhanh", "mũi tên", "Từ 'như' là từ chỉ sự so sánh."], ["Tiếng Anh", 2, "Món ăn 'bread' là món gì?", "Bánh mì", "Cơm", "Thịt gà", "Trứng", "Bread là bánh mì."], ["Tiếng Anh", 2, "Món ăn 'noodles' là món gì?", "Mì / phở / bún", "Bánh ngọt", "Sữa", "Nước cam", "Noodles là các món mì, bún, phở."]], "lucas": [["Toán", 2, "Tính: 24 + 4 = ?", "28", "29", "27", "30", "24 + 4 = 28."], ["Toán", 2, "Tính: 35 - 4 = ?", "31", "32", "30", "33", "35 - 4 = 31."], ["Toán", 2, "Số liền trước của số 24 là số mấy?", "23", "24", "22", "25", "Trước số 24 là số 23."], ["Toán", 2, "Số gồm 2 chục và 5 đơn vị là số mấy?", "25", "35", "15", "26", "2 chục và 5 đơn vị là 25."], ["Toán", 2, "Tính nhẩm: 18 + 40 = ?", "58", "68", "48", "59", "18 + 40 = 58."], ["Toán", 2, "Trên đĩa có 18 chiếc bánh, ăn bớt 5 chiếc. Còn lại mấy chiếc bánh?", "13 chiếc bánh", "14 chiếc bánh", "12 chiếc bánh", "15 chiếc bánh", "18 - 5 = 13 chiếc bánh."], ["Tiếng Việt", 2, "Từ nào trái nghĩa với 'nặng'?", "Nhẹ", "To", "Cao", "Dài", "Nhẹ trái nghĩa với nặng."], ["Tiếng Việt", 2, "Đồ vật nào dùng để cắt giấy thủ công?", "Cái kéo", "Cục tẩy", "Quyển vở", "Cái bát", "Cái kéo dùng để cắt giấy."], ["Tiếng Anh", 2, "Từ 'car' là phương tiện gì?", "Ô tô", "Máy bay", "Tàu thủy", "Xe đạp", "Car là xe ô tô."], ["Tiếng Anh", 2, "Từ 'sun' nghĩa là gì?", "Mặt trời", "Mặt trăng", "Ngôi sao", "Đám mây", "Sun là mặt trời."]]}, {"ten": "Suối Ngầm Ngọc Lam", "lucie": [["Toán", 2, "Tính tổng: 298 + 257 = ?", "555", "565", "545", "556", "298 + 257 = 555."], ["Toán", 2, "Tính hiệu: 810 - 298 = ?", "512", "522", "502", "514", "810 - 298 = 512."], ["Toán", 2, "Tính tích: 25 x 3 = ?", "75", "78", "72", "85", "25 x 3 = 75."], ["Toán", 2, "Tính thương: 80 : 4 = ?", "20", "21", "19", "22", "Vì 4 x 20 = 80 nên 80 : 4 = 20."], ["Toán", 2, "Giá trị biểu thức 38 + 5 x 8 là bao nhiêu?", "78", "88", "68", "86", "5 x 8 = 40; 38 + 40 = 78."], ["Toán", 2, "Chu vi hình chữ nhật dài 20 cm, rộng 6 cm là bao nhiêu?", "52 cm", "54 cm", "50 cm", "56 cm", "Chu vi = (20 + 6) x 2 = 52 cm."], ["Tiếng Việt", 2, "Trong câu 'Chú chim nhỏ hót vang chào bình minh', biện pháp nào được dùng?", "Nhân hóa", "So sánh", "Liệt kê", "Câu hỏi", "Gọi chim là 'chú' và biết 'chào bình minh' là nhân hóa."], ["Tiếng Việt", 2, "Từ nào chỉ người làm việc trong bệnh viện?", "Y tá", "Kỹ sư cầu đường", "Thợ mộc", "Thủ thư", "Y tá làm việc chăm sóc bệnh nhân."], ["Tiếng Anh", 2, "Con vật 'goldfish' là con gì?", "Cá vàng", "Con thỏ", "Con vẹt", "Con mèo", "Goldfish là cá vàng."], ["Tiếng Anh", 2, "Con vật 'tiger' là con gì?", "Con hổ", "Con voi", "Con khỉ", "Con công", "Tiger là con hổ."]], "lucas": [["Toán", 2, "Tính: 26 + 1 = ?", "27", "28", "26", "29", "26 + 1 = 27."], ["Toán", 2, "Tính: 33 - 1 = ?", "32", "33", "31", "34", "33 - 1 = 32."], ["Toán", 2, "Số liền sau của số 27 là số mấy?", "28", "29", "27", "30", "Sau số 27 là số 28."], ["Toán", 2, "Số gồm 2 chục và 7 đơn vị là số mấy?", "27", "37", "17", "28", "2 chục và 7 đơn vị là 27."], ["Toán", 2, "Tính nhẩm: 19 + 10 = ?", "29", "39", "19", "30", "19 + 10 = 29."], ["Toán", 2, "Trong rổ có 13 quả táo, thêm 2 quả nữa. Có tất cả mấy quả táo?", "15 quả táo", "16 quả táo", "14 quả táo", "17 quả táo", "13 + 2 = 15 quả táo."], ["Tiếng Việt", 2, "Đồ vật nào dùng để che đầu khi đi nắng?", "Cái mũ", "Đôi tất", "Cái bút", "Cái thìa", "Cái mũ dùng để đội đầu."], ["Tiếng Việt", 2, "Từ nào có vần 'oa'?", "Bông hoa", "Con cá", "Cái bàn", "Cây tre", "Tiếng 'hoa' có vần oa."], ["Tiếng Anh", 2, "Từ 'moon' nghĩa là gì?", "Mặt trăng", "Mặt trời", "Cái cây", "Bông hoa", "Moon là mặt trăng."], ["Tiếng Anh", 2, "Từ 'star' nghĩa là gì?", "Ngôi sao", "Mặt trời", "Mặt trăng", "Cơn mưa", "Star là ngôi sao."]]}, {"ten": "Tầng Hóa Thạch Khủng Long", "lucie": [["Toán", 2, "Tính tổng: 315 + 270 = ?", "585", "595", "575", "586", "315 + 270 = 585."], ["Toán", 2, "Tính hiệu: 829 - 310 = ?", "519", "529", "509", "521", "829 - 310 = 519."], ["Toán", 2, "Tính tích: 26 x 4 = ?", "104", "108", "100", "114", "26 x 4 = 104."], ["Toán", 2, "Tính thương: 105 : 5 = ?", "21", "22", "20", "23", "Vì 5 x 21 = 105 nên 105 : 5 = 21."], ["Toán", 2, "Giá trị biểu thức 41 + 6 x 4 là bao nhiêu?", "65", "75", "55", "69", "6 x 4 = 24; 41 + 24 = 65."], ["Toán", 2, "Chu vi hình chữ nhật dài 21 cm, rộng 7 cm là bao nhiêu?", "56 cm", "58 cm", "54 cm", "60 cm", "Chu vi = (21 + 7) x 2 = 56 cm."], ["Tiếng Việt", 2, "Từ nào chỉ đồ dùng đo đạc trong môn Toán?", "Thước ê ke", "Bút lông vẽ", "Cái chổi", "Quả cầu", "Thước ê ke dùng đo góc vuông trong môn Toán."], ["Tiếng Việt", 2, "Tục ngữ 'Có công mài sắt, có ngày nên kim' khuyên điều gì?", "Kiên trì cố gắng sẽ đạt được thành công", "Phải rèn sắt mỗi ngày", "Nên tiết kiệm tiền", "Giữ gìn kim chỉ cẩn thận", "Câu tục ngữ khuyên ta kiên trì, bền bỉ."], ["Tiếng Anh", 2, "Đồ chơi 'plane' là món gì?", "Máy bay đồ chơi", "Ô tô", "Tàu thủy", "Cái diều", "Plane là máy bay."], ["Tiếng Anh", 2, "Đồ chơi 'train' là món gì?", "Tàu hỏa đồ chơi", "Xe buýt", "Xe đạp", "Thuyền buồm", "Train là tàu hỏa."]], "lucas": [["Toán", 2, "Tính: 27 + 2 = ?", "29", "30", "28", "31", "27 + 2 = 29."], ["Toán", 2, "Tính: 35 - 2 = ?", "33", "34", "32", "35", "35 - 2 = 33."], ["Toán", 2, "Số liền trước của số 30 là số mấy?", "29", "30", "28", "31", "Trước số 30 là số 29."], ["Toán", 2, "Số gồm 2 chục và 9 đơn vị là số mấy?", "29", "39", "19", "30", "2 chục và 9 đơn vị là 29."], ["Toán", 2, "Tính nhẩm: 20 + 20 = ?", "40", "50", "30", "41", "20 + 20 = 40."], ["Toán", 2, "Trên đĩa có 18 chiếc bánh, ăn bớt 3 chiếc. Còn lại mấy chiếc bánh?", "15 chiếc bánh", "16 chiếc bánh", "14 chiếc bánh", "17 chiếc bánh", "18 - 3 = 15 chiếc bánh."], ["Tiếng Việt", 2, "Từ nào có vần 'au'?", "Cây cau", "Con mèo", "Quả cam", "Bút chì", "Tiếng 'cau' có vần au."], ["Tiếng Việt", 2, "Từ nào có vần 'iên'?", "Biển xanh", "Con gà", "Cái cốc", "Quả lê", "Tiếng 'biển' có vần iên."], ["Tiếng Anh", 2, "Từ 'five' là số mấy?", "5", "4", "6", "7", "Five là số 5."], ["Tiếng Anh", 2, "Từ 'ten' là số mấy?", "10", "8", "9", "2", "Ten là số 10."]]}, {"ten": "Hang Nấm Phát Sáng", "lucie": [["Toán", 2, "Tính tổng: 332 + 283 = ?", "615", "625", "605", "616", "332 + 283 = 615."], ["Toán", 2, "Tính hiệu: 848 - 322 = ?", "526", "536", "516", "528", "848 - 322 = 526."], ["Toán", 2, "Tính tích: 27 x 5 = ?", "135", "140", "130", "145", "27 x 5 = 135."], ["Toán", 2, "Tính thương: 132 : 6 = ?", "22", "23", "21", "24", "Vì 6 x 22 = 132 nên 132 : 6 = 22."], ["Toán", 2, "Giá trị biểu thức 44 + 7 x 5 là bao nhiêu?", "79", "89", "69", "84", "7 x 5 = 35; 44 + 35 = 79."], ["Toán", 2, "Chu vi hình chữ nhật dài 22 cm, rộng 8 cm là bao nhiêu?", "60 cm", "62 cm", "58 cm", "64 cm", "Chu vi = (22 + 8) x 2 = 60 cm."], ["Tiếng Việt", 2, "Thành ngữ 'Đi một ngày đàng, học một sàng khôn' khuyên điều gì?", "Chịu khó đi đây đi đó, quan sát để mở mang hiểu biết", "Mỗi ngày nên đi bộ thật xa", "Phải mang theo cái sàng", "Chỉ học vào ban ngày", "Đi nhiều và trải nghiệm giúp ta học hỏi thêm nhiều điều hay."], ["Tiếng Việt", 2, "Chọn từ viết đúng chính tả (nhóm ch/tr):", "Chăm chút", "Trăm trút", "Chăm trút", "Trăm chút", "Viết đúng là 'chăm chút'."], ["Tiếng Anh", 2, "Hoạt động 'swimming' nghĩa là gì?", "Đang bơi lội", "Đang chạy bộ", "Đang vẽ tranh", "Đang đọc sách", "Swimming là bơi lội."], ["Tiếng Anh", 2, "Hoạt động 'reading' nghĩa là gì?", "Đang đọc sách", "Đang viết bài", "Đang hát", "Đang nấu ăn", "Reading là đang đọc."]], "lucas": [["Toán", 2, "Tính: 30 + 3 = ?", "33", "34", "32", "35", "30 + 3 = 33."], ["Toán", 2, "Tính: 37 - 3 = ?", "34", "35", "33", "36", "37 - 3 = 34."], ["Toán", 2, "Số liền sau của số 33 là số mấy?", "34", "35", "33", "36", "Sau số 33 là số 34."], ["Toán", 2, "Số gồm 3 chục và 1 đơn vị là số mấy?", "31", "41", "21", "32", "3 chục và 1 đơn vị là 31."], ["Toán", 2, "Tính nhẩm: 21 + 30 = ?", "51", "61", "41", "52", "21 + 30 = 51."], ["Toán", 2, "Trong rổ có 15 quả táo, thêm 4 quả nữa. Có tất cả mấy quả táo?", "19 quả táo", "20 quả táo", "18 quả táo", "21 quả táo", "15 + 4 = 19 quả táo."], ["Tiếng Việt", 2, "Điền c hay k: 'con ...iến'?", "k", "c", "g", "b", "Trước i dùng chữ k: con kiến."], ["Tiếng Việt", 2, "Điền c hay k: 'quả ...am'?", "c", "k", "g", "m", "Trước a dùng chữ c: quả cam."], ["Tiếng Anh", 2, "Từ 'one' là số mấy?", "1", "2", "3", "4", "One là số 1."], ["Tiếng Anh", 2, "Từ 'two' là số mấy?", "2", "1", "3", "5", "Two là số 2."]]}, {"ten": "Mỏ Đồng Đỏ Cổ Xưa", "lucie": [["Toán", 2, "Tính tổng: 349 + 296 = ?", "645", "655", "635", "646", "349 + 296 = 645."], ["Toán", 2, "Tính hiệu: 867 - 334 = ?", "533", "543", "523", "535", "867 - 334 = 533."], ["Toán", 2, "Tính tích: 28 x 6 = ?", "168", "174", "162", "178", "28 x 6 = 168."], ["Toán", 2, "Tính thương: 161 : 7 = ?", "23", "24", "22", "25", "Vì 7 x 23 = 161 nên 161 : 7 = 23."], ["Toán", 2, "Giá trị biểu thức 47 + 8 x 6 là bao nhiêu?", "95", "105", "85", "101", "8 x 6 = 48; 47 + 48 = 95."], ["Toán", 2, "Chu vi hình chữ nhật dài 23 cm, rộng 9 cm là bao nhiêu?", "64 cm", "66 cm", "62 cm", "68 cm", "Chu vi = (23 + 9) x 2 = 64 cm."], ["Tiếng Việt", 2, "Chọn từ viết đúng chính tả (nhóm x/s):", "Xôn xao", "Sôn sao", "Xôn sao", "Sôn xao", "Viết đúng là 'xôn xao'."], ["Tiếng Việt", 2, "Chọn từ viết đúng chính tả (nhóm gi/d/r):", "Giản dị", "Dản dị", "Rản rị", "Giản rị", "Viết đúng là 'giản dị'."], ["Tiếng Anh", 2, "Từ 'fourteen' là số mấy?", "14", "4", "40", "15", "Fourteen là số 14."], ["Tiếng Anh", 2, "Từ 'nineteen' là số mấy?", "19", "9", "90", "18", "Nineteen là số 19."]], "lucas": [["Toán", 2, "Tính: 32 + 4 = ?", "36", "37", "35", "38", "32 + 4 = 36."], ["Toán", 2, "Tính: 39 - 4 = ?", "35", "36", "34", "37", "39 - 4 = 35."], ["Toán", 2, "Số liền trước của số 36 là số mấy?", "35", "36", "34", "37", "Trước số 36 là số 35."], ["Toán", 2, "Số gồm 3 chục và 3 đơn vị là số mấy?", "33", "43", "23", "34", "3 chục và 3 đơn vị là 33."], ["Toán", 2, "Tính nhẩm: 22 + 40 = ?", "62", "72", "52", "63", "22 + 40 = 62."], ["Toán", 2, "Trên đĩa có 22 chiếc bánh, ăn bớt 5 chiếc. Còn lại mấy chiếc bánh?", "17 chiếc bánh", "18 chiếc bánh", "16 chiếc bánh", "19 chiếc bánh", "22 - 5 = 17 chiếc bánh."], ["Tiếng Việt", 2, "Điền g hay gh: '...i bài'?", "gh", "g", "k", "ng", "Trước i dùng chữ gh: ghi bài."], ["Tiếng Việt", 2, "Điền g hay gh: 'hạt ...ạo'?", "g", "gh", "c", "k", "Trước a dùng chữ g: hạt gạo."], ["Tiếng Anh", 2, "Từ 'three' là số mấy?", "3", "2", "4", "6", "Three là số 3."], ["Tiếng Anh", 2, "Từ 'four' là số mấy?", "4", "1", "3", "5", "Four là số 4."]]}, {"ten": "Động Pha Lê Tím", "lucie": [["Toán", 3, "Tính tổng: 366 + 309 = ?", "675", "685", "665", "676", "366 + 309 = 675."], ["Toán", 3, "Tính hiệu: 886 - 346 = ?", "540", "550", "530", "542", "886 - 346 = 540."], ["Toán", 3, "Tính tích: 29 x 7 = ?", "203", "210", "196", "213", "29 x 7 = 203."], ["Toán", 3, "Tính thương: 192 : 8 = ?", "24", "25", "23", "26", "Vì 8 x 24 = 192 nên 192 : 8 = 24."], ["Toán", 3, "Giá trị biểu thức 50 + 3 x 7 là bao nhiêu?", "71", "81", "61", "78", "3 x 7 = 21; 50 + 21 = 71."], ["Toán", 3, "Chu vi hình chữ nhật dài 24 cm, rộng 4 cm là bao nhiêu?", "56 cm", "58 cm", "54 cm", "60 cm", "Chu vi = (24 + 4) x 2 = 56 cm."], ["Tiếng Việt", 3, "Từ nào chỉ phẩm chất tốt đẹp của học sinh?", "Trung thực", "Vội vàng", "Màu xanh", "Bàn ghế", "Trung thực là đức tính tốt đẹp."], ["Tiếng Việt", 3, "Trong câu 'Mùa xuân, hoa đào nở hồng rực khắp vườn', bộ phận trả lời 'Khi nào?' là gì?", "Mùa xuân", "Hoa đào", "Nở hồng rực", "Khắp vườn", "'Mùa xuân' chỉ thời gian (Khi nào?)."], ["Tiếng Anh", 3, "Thời tiết 'windy' nghĩa là trời thế nào?", "Trời có gió", "Trời nắng gắt", "Trời mưa to", "Trời tuyết", "Windy là trời có gió."], ["Tiếng Anh", 3, "Thời tiết 'cloudy' nghĩa là trời thế nào?", "Trời nhiều mây", "Trời mưa rào", "Trời nắng", "Trời bão", "Cloudy là trời nhiều mây."]], "lucas": [["Toán", 3, "Tính: 34 + 1 = ?", "35", "36", "34", "37", "34 + 1 = 35."], ["Toán", 3, "Tính: 41 - 1 = ?", "40", "41", "39", "42", "41 - 1 = 40."], ["Toán", 3, "Số liền sau của số 39 là số mấy?", "40", "41", "39", "42", "Sau số 39 là số 40."], ["Toán", 3, "Số gồm 3 chục và 5 đơn vị là số mấy?", "35", "45", "25", "36", "3 chục và 5 đơn vị là 35."], ["Toán", 3, "Tính nhẩm: 23 + 10 = ?", "33", "43", "23", "34", "23 + 10 = 33."], ["Toán", 3, "Trong rổ có 17 quả táo, thêm 2 quả nữa. Có tất cả mấy quả táo?", "19 quả táo", "20 quả táo", "18 quả táo", "21 quả táo", "17 + 2 = 19 quả táo."], ["Tiếng Việt", 3, "Điền ng hay ngh: '...ỉ hè'?", "ngh", "ng", "g", "gh", "Trước i dùng chữ ngh: nghỉ hè."], ["Tiếng Việt", 3, "Điền ng hay ngh: 'quả ...ọt'?", "ng", "ngh", "gh", "g", "Trước o dùng chữ ng: quả ngọt."], ["Tiếng Anh", 3, "Từ 'six' là số mấy?", "6", "5", "7", "8", "Six là số 6."], ["Tiếng Anh", 3, "Từ 'seven' là số mấy?", "7", "6", "8", "9", "Seven là số 7."]]}, {"ten": "Hầm Băng Vĩnh Cửu", "lucie": [["Toán", 3, "Tính tổng: 383 + 322 = ?", "705", "715", "695", "706", "383 + 322 = 705."], ["Toán", 3, "Tính hiệu: 905 - 358 = ?", "547", "557", "537", "549", "905 - 358 = 547."], ["Toán", 3, "Tính tích: 30 x 8 = ?", "240", "248", "232", "250", "30 x 8 = 240."], ["Toán", 3, "Tính thương: 225 : 9 = ?", "25", "26", "24", "27", "Vì 9 x 25 = 225 nên 225 : 9 = 25."], ["Toán", 3, "Giá trị biểu thức 53 + 4 x 8 là bao nhiêu?", "85", "95", "75", "93", "4 x 8 = 32; 53 + 32 = 85."], ["Toán", 3, "Chu vi hình chữ nhật dài 25 cm, rộng 5 cm là bao nhiêu?", "60 cm", "62 cm", "58 cm", "64 cm", "Chu vi = (25 + 5) x 2 = 60 cm."], ["Tiếng Việt", 3, "Trong câu 'Trên sân trường, các bạn đang nhảy dây', bộ phận trả lời 'Ở đâu?' là gì?", "Trên sân trường", "Các bạn", "Đang nhảy dây", "Nhảy dây", "'Trên sân trường' chỉ địa điểm (Ở đâu?)."], ["Tiếng Việt", 3, "Từ nào không cùng nhóm: xe đạp, ô tô, tàu hỏa, quyển truyện?", "Quyển truyện", "Xe đạp", "Ô tô", "Tàu hỏa", "Quyển truyện không phải phương tiện giao thông."], ["Tiếng Anh", 3, "Chọn từ đúng: 'There ___ three books on the desk.'", "are", "is", "am", "be", "Số nhiều (three books) dùng 'There are'."], ["Tiếng Anh", 3, "Chọn từ đúng: 'She ___ playing badminton.'", "is", "are", "am", "do", "Chủ ngữ 'She' đi với 'is'."]], "lucas": [["Toán", 3, "Tính: 36 + 2 = ?", "38", "39", "37", "40", "36 + 2 = 38."], ["Toán", 3, "Tính: 43 - 2 = ?", "41", "42", "40", "43", "43 - 2 = 41."], ["Toán", 3, "Số liền trước của số 42 là số mấy?", "41", "42", "40", "43", "Trước số 42 là số 41."], ["Toán", 3, "Số gồm 3 chục và 7 đơn vị là số mấy?", "37", "47", "27", "38", "3 chục và 7 đơn vị là 37."], ["Toán", 3, "Tính nhẩm: 24 + 20 = ?", "44", "54", "34", "45", "24 + 20 = 44."], ["Toán", 3, "Trên đĩa có 22 chiếc bánh, ăn bớt 3 chiếc. Còn lại mấy chiếc bánh?", "19 chiếc bánh", "20 chiếc bánh", "18 chiếc bánh", "21 chiếc bánh", "22 - 3 = 19 chiếc bánh."], ["Tiếng Việt", 3, "Từ nào viết đúng: 'mặt trời' hay 'mặt chời'?", "mặt trời", "mặt chời", "mặc trời", "mặc chời", "Viết đúng là 'mặt trời'."], ["Tiếng Việt", 3, "Từ nào viết đúng: 'trường học' hay 'chường học'?", "trường học", "chường học", "trường hộc", "chường hộc", "Viết đúng là 'trường học'."], ["Tiếng Anh", 3, "Từ 'eight' là số mấy?", "8", "7", "9", "10", "Eight là số 8."], ["Tiếng Anh", 3, "Từ 'nine' là số mấy?", "9", "8", "10", "6", "Nine là số 9."]]}, {"ten": "Đường Hầm Bạc Nguyên Chất", "lucie": [["Toán", 3, "Tính tổng: 400 + 335 = ?", "735", "745", "725", "736", "400 + 335 = 735."], ["Toán", 3, "Tính hiệu: 924 - 370 = ?", "554", "564", "544", "556", "924 - 370 = 554."], ["Toán", 3, "Tính tích: 31 x 2 = ?", "62", "64", "60", "72", "31 x 2 = 62."], ["Toán", 3, "Tính thương: 78 : 3 = ?", "26", "27", "25", "28", "Vì 3 x 26 = 78 nên 78 : 3 = 26."], ["Toán", 3, "Giá trị biểu thức 56 + 5 x 4 là bao nhiêu?", "76", "86", "66", "80", "5 x 4 = 20; 56 + 20 = 76."], ["Toán", 3, "Chu vi hình chữ nhật dài 26 cm, rộng 6 cm là bao nhiêu?", "64 cm", "66 cm", "62 cm", "68 cm", "Chu vi = (26 + 6) x 2 = 64 cm."], ["Tiếng Việt", 3, "Từ nào không cùng nhóm: cam, bưởi, xoài, cái thước?", "Cái thước", "Cam", "Bưởi", "Xoài", "Cái thước là đồ dùng học tập, không phải trái cây."], ["Tiếng Việt", 3, "Từ nào cùng nghĩa với 'vui vẻ'?", "Hớn hở", "Buồn rầu", "Lo lắng", "Mệt mỏi", "Hớn hở cùng nghĩa với vui vẻ."], ["Tiếng Anh", 3, "Từ 'summer' chỉ mùa nào trong năm?", "Mùa hè", "Mùa đông", "Mùa thu", "Mùa xuân", "Summer là mùa hè."], ["Tiếng Anh", 3, "Từ 'dinner' là bữa ăn nào trong ngày?", "Bữa tối", "Bữa sáng", "Bữa trưa", "Bữa phụ", "Dinner là bữa tối."]], "lucas": [["Toán", 3, "Tính: 36 + 3 = ?", "39", "40", "38", "41", "36 + 3 = 39."], ["Toán", 3, "Tính: 45 - 3 = ?", "42", "43", "41", "44", "45 - 3 = 42."], ["Toán", 3, "Số liền sau của số 45 là số mấy?", "46", "47", "45", "48", "Sau số 45 là số 46."], ["Toán", 3, "Số gồm 3 chục và 9 đơn vị là số mấy?", "39", "49", "29", "40", "3 chục và 9 đơn vị là 39."], ["Toán", 3, "Tính nhẩm: 25 + 30 = ?", "55", "65", "45", "56", "25 + 30 = 55."], ["Toán", 3, "Trong rổ có 19 quả táo, thêm 4 quả nữa. Có tất cả mấy quả táo?", "23 quả táo", "24 quả táo", "22 quả táo", "25 quả táo", "19 + 4 = 23 quả táo."], ["Tiếng Việt", 3, "Từ nào viết đúng: 'ngôi sao' hay 'ngôi xao'?", "ngôi sao", "ngôi xao", "gôi sao", "ngôi sảo", "Viết đúng là 'ngôi sao'."], ["Tiếng Việt", 3, "Từ nào viết đúng: 'bông hoa' hay 'pông hoa'?", "bông hoa", "pông hoa", "bông hỏa", "pông hỏa", "Viết đúng là 'bông hoa'."], ["Tiếng Anh", 3, "Từ 'orange' là màu gì?", "Màu cam", "Màu xanh", "Màu đen", "Màu trắng", "Orange là màu cam."], ["Tiếng Anh", 3, "Từ 'black' là màu gì?", "Màu đen", "Màu trắng", "Màu đỏ", "Màu vàng", "Black là màu đen."]]}, {"ten": "Vườn Đá Quý Cầu Vồng", "lucie": [["Toán", 3, "Tính tổng: 417 + 348 = ?", "765", "775", "755", "766", "417 + 348 = 765."], ["Toán", 3, "Tính hiệu: 943 - 382 = ?", "561", "571", "551", "563", "943 - 382 = 561."], ["Toán", 3, "Tính tích: 32 x 3 = ?", "96", "99", "93", "106", "32 x 3 = 96."], ["Toán", 3, "Tính thương: 108 : 4 = ?", "27", "28", "26", "29", "Vì 4 x 27 = 108 nên 108 : 4 = 27."], ["Toán", 3, "Giá trị biểu thức 59 + 6 x 5 là bao nhiêu?", "89", "99", "79", "94", "6 x 5 = 30; 59 + 30 = 89."], ["Toán", 3, "Chu vi hình chữ nhật dài 27 cm, rộng 7 cm là bao nhiêu?", "68 cm", "70 cm", "66 cm", "72 cm", "Chu vi = (27 + 7) x 2 = 68 cm."], ["Tiếng Việt", 3, "Từ nào chỉ hoạt động thể thao?", "Bơi lội", "Quả bóng", "Sân vận động", "Khỏe mạnh", "Bơi lội là từ chỉ hoạt động."], ["Tiếng Việt", 3, "Từ nào chỉ đặc điểm âm thanh?", "Trong trẻo", "Đàn piano", "Ca hát", "Người nghe", "Trong trẻo tả đặc điểm của âm thanh."], ["Tiếng Anh", 3, "Từ 'music room' có nghĩa là gì?", "Phòng âm nhạc", "Phòng tin học", "Thư viện", "Sân chơi", "Music room là phòng âm nhạc."], ["Tiếng Anh", 3, "Từ 'gym' ở trường học là nơi nào?", "Nhà thể chất", "Phòng y tế", "Cổng trường", "Phòng học", "Gym là phòng tập thể chất."]], "lucas": [["Toán", 3, "Tính: 40 + 4 = ?", "44", "45", "43", "46", "40 + 4 = 44."], ["Toán", 3, "Tính: 47 - 4 = ?", "43", "44", "42", "45", "47 - 4 = 43."], ["Toán", 3, "Số liền trước của số 48 là số mấy?", "47", "48", "46", "49", "Trước số 48 là số 47."], ["Toán", 3, "Số gồm 4 chục và 1 đơn vị là số mấy?", "41", "51", "31", "42", "4 chục và 1 đơn vị là 41."], ["Toán", 3, "Tính nhẩm: 26 + 40 = ?", "66", "76", "56", "67", "26 + 40 = 66."], ["Toán", 3, "Trên đĩa có 26 chiếc bánh, ăn bớt 5 chiếc. Còn lại mấy chiếc bánh?", "21 chiếc bánh", "22 chiếc bánh", "20 chiếc bánh", "23 chiếc bánh", "26 - 5 = 21 chiếc bánh."], ["Tiếng Việt", 3, "Con vật nào kêu 'meo meo'?", "Con mèo", "Con chó", "Con vịt", "Con cá", "Con mèo kêu meo meo."], ["Tiếng Việt", 3, "Con vật nào kêu 'gâu gâu'?", "Con chó", "Con mèo", "Con gà", "Con thỏ", "Con chó kêu gâu gâu."], ["Tiếng Anh", 3, "Từ 'white' là màu gì?", "Màu trắng", "Màu đen", "Màu xanh", "Màu hồng", "White là màu trắng."], ["Tiếng Anh", 3, "Từ 'brown' là màu gì?", "Màu nâu", "Màu hồng", "Màu vàng", "Màu xanh", "Brown là màu nâu."]]}, {"ten": "Tầng Ngọc Bích Rồng Xanh", "lucie": [["Toán", 3, "Tính tổng: 434 + 361 = ?", "795", "805", "785", "796", "434 + 361 = 795."], ["Toán", 3, "Tính hiệu: 962 - 394 = ?", "568", "578", "558", "570", "962 - 394 = 568."], ["Toán", 3, "Tính tích: 33 x 4 = ?", "132", "136", "128", "142", "33 x 4 = 132."], ["Toán", 3, "Tính thương: 140 : 5 = ?", "28", "29", "27", "30", "Vì 5 x 28 = 140 nên 140 : 5 = 28."], ["Toán", 3, "Giá trị biểu thức 62 + 7 x 6 là bao nhiêu?", "104", "114", "94", "110", "7 x 6 = 42; 62 + 42 = 104."], ["Toán", 3, "Chu vi hình chữ nhật dài 28 cm, rộng 8 cm là bao nhiêu?", "72 cm", "74 cm", "70 cm", "76 cm", "Chu vi = (28 + 8) x 2 = 72 cm."], ["Tiếng Việt", 3, "Từ nào chỉ sự vật trên bầu trời?", "Đám mây", "Bay lượn", "Trắng muốt", "Nhẹ nhàng", "Đám mây là từ chỉ sự vật."], ["Tiếng Việt", 3, "Chọn từ viết đúng chính tả (nhóm s/x):", "Sắp xếp", "Xắp xép", "Sắp xép", "Xắp xếp", "Viết đúng là 'sắp xếp'."], ["Tiếng Anh", 3, "Câu 'Close your book, please!' nghĩa là gì?", "Hãy gấp sách lại!", "Hãy mở sách ra!", "Hãy viết vào vở!", "Hãy đọc to lên!", "Close your book = gấp sách lại."], ["Tiếng Anh", 3, "Câu 'Be quiet, please!' nghĩa là gì?", "Hãy giữ trật tự!", "Hãy nói to lên!", "Hãy đứng lên!", "Hãy chạy nhanh!", "Be quiet = hãy giữ yên lặng."]], "lucas": [["Toán", 3, "Tính: 42 + 1 = ?", "43", "44", "42", "45", "42 + 1 = 43."], ["Toán", 3, "Tính: 49 - 1 = ?", "48", "49", "47", "50", "49 - 1 = 48."], ["Toán", 3, "Số liền sau của số 51 là số mấy?", "52", "53", "51", "54", "Sau số 51 là số 52."], ["Toán", 3, "Số gồm 4 chục và 3 đơn vị là số mấy?", "43", "53", "33", "44", "4 chục và 3 đơn vị là 43."], ["Toán", 3, "Tính nhẩm: 27 + 10 = ?", "37", "47", "27", "38", "27 + 10 = 37."], ["Toán", 3, "Trong rổ có 21 quả táo, thêm 2 quả nữa. Có tất cả mấy quả táo?", "23 quả táo", "24 quả táo", "22 quả táo", "25 quả táo", "21 + 2 = 23 quả táo."], ["Tiếng Việt", 3, "Con vật nào gáy 'ò ó o' mỗi sáng?", "Con gà trống", "Con vịt", "Con lợn", "Con bò", "Gà trống gáy sáng."], ["Tiếng Việt", 3, "Con vật nào có tai dài thích ăn cà rốt?", "Con thỏ", "Con cá", "Con rùa", "Con chim", "Con thỏ rất thích cà rốt."], ["Tiếng Anh", 3, "Từ 'purple' là màu gì?", "Màu tím", "Màu cam", "Màu đỏ", "Màu trắng", "Purple là màu tím."], ["Tiếng Anh", 3, "Từ 'pig' là con gì?", "Con lợn", "Con bò", "Con gà", "Con mèo", "Pig là con lợn."]]}, {"ten": "Hang Đá Mặt Trăng", "lucie": [["Toán", 3, "Tính tổng: 451 + 374 = ?", "825", "835", "815", "826", "451 + 374 = 825."], ["Toán", 3, "Tính hiệu: 981 - 406 = ?", "575", "585", "565", "577", "981 - 406 = 575."], ["Toán", 3, "Tính tích: 34 x 5 = ?", "170", "175", "165", "180", "34 x 5 = 170."], ["Toán", 3, "Tính thương: 174 : 6 = ?", "29", "30", "28", "31", "Vì 6 x 29 = 174 nên 174 : 6 = 29."], ["Toán", 3, "Giá trị biểu thức 65 + 8 x 7 là bao nhiêu?", "121", "131", "111", "128", "8 x 7 = 56; 65 + 56 = 121."], ["Toán", 3, "Chu vi hình chữ nhật dài 29 cm, rộng 9 cm là bao nhiêu?", "76 cm", "78 cm", "74 cm", "80 cm", "Chu vi = (29 + 9) x 2 = 76 cm."], ["Tiếng Việt", 3, "Chọn từ viết đúng chính tả (nhóm tr/ch):", "Trung thu", "Chung thu", "Trung chu", "Chung chu", "Viết đúng là 'Trung thu'."], ["Tiếng Việt", 3, "Chọn từ viết đúng chính tả (nhóm r/d/gi):", "Rì rào", "Dì dào", "Gì giao", "Rì dào", "Viết đúng là 'rì rào'."], ["Tiếng Anh", 3, "Đồ dùng 'school bag' là gì?", "Cặp sách đi học", "Hộp bút", "Thước kẻ", "Bàn học", "School bag là cặp sách."], ["Tiếng Anh", 3, "Từ 'notebook' là đồ dùng gì?", "Quyển vở ghi", "Quyển từ điển", "Cục tẩy", "Bút chì", "Notebook là quyển vở."]], "lucas": [["Toán", 3, "Tính: 44 + 2 = ?", "46", "47", "45", "48", "44 + 2 = 46."], ["Toán", 3, "Tính: 53 - 2 = ?", "51", "52", "50", "53", "53 - 2 = 51."], ["Toán", 3, "Số liền trước của số 54 là số mấy?", "53", "54", "52", "55", "Trước số 54 là số 53."], ["Toán", 3, "Số gồm 4 chục và 5 đơn vị là số mấy?", "45", "55", "35", "46", "4 chục và 5 đơn vị là 45."], ["Toán", 3, "Tính nhẩm: 28 + 20 = ?", "48", "58", "38", "49", "28 + 20 = 48."], ["Toán", 3, "Trên đĩa có 26 chiếc bánh, ăn bớt 3 chiếc. Còn lại mấy chiếc bánh?", "23 chiếc bánh", "24 chiếc bánh", "22 chiếc bánh", "25 chiếc bánh", "26 - 3 = 23 chiếc bánh."], ["Tiếng Việt", 3, "Con vật nào có vòi dài và đôi tai to?", "Con voi", "Con chuột", "Con mèo", "Con gà", "Con voi có chiếc vòi dài."], ["Tiếng Việt", 3, "Con vật nào có cổ rất cao ăn lá cây?", "Hươu cao cổ", "Con vịt", "Con lợn", "Con thỏ", "Hươu cao cổ có chiếc cổ rất dài."], ["Tiếng Anh", 3, "Từ 'cow' là con gì?", "Con bò", "Con lợn", "Con chó", "Con vịt", "Cow là con bò."], ["Tiếng Anh", 3, "Từ 'bee' là con gì?", "Con ong", "Con cá", "Con chim", "Con mèo", "Bee là con ong."]]}, {"ten": "Mỏ Hồng Ngọc Ruby", "lucie": [["Toán", 4, "Tính tổng: 2468 + 1387 = ?", "3855", "3865", "3845", "3856", "2468 + 1387 = 3855."], ["Toán", 4, "Tính hiệu: 6000 - 2418 = ?", "3582", "3592", "3572", "3584", "6000 - 2418 = 3582."], ["Toán", 4, "Tính tích: 35 x 6 = ?", "210", "216", "204", "220", "35 x 6 = 210."], ["Toán", 4, "Tính thương: 210 : 7 = ?", "30", "31", "29", "32", "Vì 7 x 30 = 210 nên 210 : 7 = 30."], ["Toán", 4, "Giá trị biểu thức 68 + 3 x 8 là bao nhiêu?", "92", "102", "82", "100", "3 x 8 = 24; 68 + 24 = 92."], ["Toán", 4, "Diện tích hình chữ nhật dài 30 cm, rộng 4 cm là bao nhiêu?", "120 cm²", "150 cm²", "90 cm²", "122 cm²", "Diện tích = 30 x 4 = 120 cm²."], ["Tiếng Việt", 4, "Chọn từ viết đúng chính tả (nhóm l/n):", "Lấp ló", "Nấp nó", "Lấp nó", "Nấp ló", "Viết đúng là 'lấp ló'."], ["Tiếng Việt", 4, "Từ cùng nghĩa với 'siêng năng' là từ nào?", "Cần cù", "Lười biếng", "Vội vã", "Chậm trễ", "Cần cù cùng nghĩa với siêng năng."], ["Tiếng Anh", 4, "Môn thể thao 'volleyball' là môn gì?", "Bóng chuyền", "Bóng đá", "Bóng rổ", "Cầu lông", "Volleyball là môn bóng chuyền."], ["Tiếng Anh", 4, "Hoạt động 'flying a kite' nghĩa là gì?", "Thả diều", "Đạp xe", "Bơi lội", "Nhảy dây", "Flying a kite là thả diều."]], "lucas": [["Toán", 4, "Tính: 46 + 3 = ?", "49", "50", "48", "51", "46 + 3 = 49."], ["Toán", 4, "Tính: 53 - 3 = ?", "50", "51", "49", "52", "53 - 3 = 50."], ["Toán", 4, "Số liền sau của số 57 là số mấy?", "58", "59", "57", "60", "Sau số 57 là số 58."], ["Toán", 4, "Số gồm 4 chục và 7 đơn vị là số mấy?", "47", "57", "37", "48", "4 chục và 7 đơn vị là 47."], ["Toán", 4, "Tính nhẩm: 29 + 30 = ?", "59", "69", "49", "60", "29 + 30 = 59."], ["Toán", 4, "Trong rổ có 23 quả táo, thêm 4 quả nữa. Có tất cả mấy quả táo?", "27 quả táo", "28 quả táo", "26 quả táo", "29 quả táo", "23 + 4 = 27 quả táo."], ["Tiếng Việt", 4, "Từ nào trái nghĩa với 'cao'?", "Thấp", "Dài", "To", "Rộng", "Thấp trái nghĩa với cao."], ["Tiếng Việt", 4, "Từ nào trái nghĩa với 'nóng'?", "Lạnh", "Ấm", "Đỏ", "Sáng", "Lạnh trái nghĩa với nóng."], ["Tiếng Anh", 4, "Từ 'frog' là con gì?", "Con ếch", "Con thỏ", "Con gà", "Con chó", "Frog là con ếch."], ["Tiếng Anh", 4, "Từ 'lion' là con gì?", "Sư tử", "Con mèo", "Con cá", "Con vịt", "Lion là sư tử."]]}, {"ten": "Động Lam Ngọc Sapphire", "lucie": [["Toán", 4, "Tính tổng: 2485 + 1400 = ?", "3885", "3895", "3875", "3886", "2485 + 1400 = 3885."], ["Toán", 4, "Tính hiệu: 6019 - 2430 = ?", "3589", "3599", "3579", "3591", "6019 - 2430 = 3589."], ["Toán", 4, "Tính tích: 36 x 7 = ?", "252", "259", "245", "262", "36 x 7 = 252."], ["Toán", 4, "Tính thương: 248 : 8 = ?", "31", "32", "30", "33", "Vì 8 x 31 = 248 nên 248 : 8 = 31."], ["Toán", 4, "Giá trị biểu thức 71 + 4 x 4 là bao nhiêu?", "87", "97", "77", "91", "4 x 4 = 16; 71 + 16 = 87."], ["Toán", 4, "Diện tích hình chữ nhật dài 31 cm, rộng 5 cm là bao nhiêu?", "155 cm²", "186 cm²", "124 cm²", "157 cm²", "Diện tích = 31 x 5 = 155 cm²."], ["Tiếng Việt", 4, "Từ cùng nghĩa với 'tốt bụng' là từ nào?", "Nhân hậu", "Ích kỷ", "Nóng tính", "Lạnh lùng", "Nhân hậu cùng nghĩa với tốt bụng."], ["Tiếng Việt", 4, "Từ trái nghĩa với 'gọn gàng' là từ nào?", "Bừa bộn", "Ngăn nắp", "Sạch sẽ", "Ngay ngắn", "Bừa bộn trái nghĩa với gọn gàng."], ["Tiếng Anh", 4, "Từ 'uncle' chỉ ai trong gia đình?", "Chú / bác / cậu", "Cô / dì", "Ông", "Anh họ", "Uncle là chú, bác hoặc cậu."], ["Tiếng Anh", 4, "Từ 'aunt' chỉ ai trong gia đình?", "Cô / dì / mợ", "Chú / bác", "Bà", "Em trai", "Aunt là cô, dì hoặc mợ."]], "lucas": [["Toán", 4, "Tính: 45 + 4 = ?", "49", "50", "48", "51", "45 + 4 = 49."], ["Toán", 4, "Tính: 55 - 4 = ?", "51", "52", "50", "53", "55 - 4 = 51."], ["Toán", 4, "Số liền trước của số 60 là số mấy?", "59", "60", "58", "61", "Trước số 60 là số 59."], ["Toán", 4, "Số gồm 4 chục và 9 đơn vị là số mấy?", "49", "59", "39", "50", "4 chục và 9 đơn vị là 49."], ["Toán", 4, "Tính nhẩm: 30 + 40 = ?", "70", "80", "60", "71", "30 + 40 = 70."], ["Toán", 4, "Trên đĩa có 30 chiếc bánh, ăn bớt 5 chiếc. Còn lại mấy chiếc bánh?", "25 chiếc bánh", "26 chiếc bánh", "24 chiếc bánh", "27 chiếc bánh", "30 - 5 = 25 chiếc bánh."], ["Tiếng Việt", 4, "Từ nào trái nghĩa với 'nhanh'?", "Chậm", "Vui", "To", "Cao", "Chậm trái nghĩa với nhanh."], ["Tiếng Việt", 4, "Từ nào trái nghĩa với 'sáng'?", "Tối", "Đẹp", "Mới", "Sạch", "Tối trái nghĩa với sáng."], ["Tiếng Anh", 4, "Từ 'bear' là con gì?", "Con gấu", "Con chim", "Con ong", "Con gà", "Bear là con gấu."], ["Tiếng Anh", 4, "Từ 'egg' là món gì?", "Quả trứng", "Sữa", "Bánh mì", "Quả táo", "Egg là quả trứng."]]}, {"ten": "Tầng Đá Bazan Núi Lửa", "lucie": [["Toán", 4, "Tính tổng: 2502 + 1413 = ?", "3915", "3925", "3905", "3916", "2502 + 1413 = 3915."], ["Toán", 4, "Tính hiệu: 6038 - 2442 = ?", "3596", "3606", "3586", "3598", "6038 - 2442 = 3596."], ["Toán", 4, "Tính tích: 37 x 8 = ?", "296", "304", "288", "306", "37 x 8 = 296."], ["Toán", 4, "Tính thương: 288 : 9 = ?", "32", "33", "31", "34", "Vì 9 x 32 = 288 nên 288 : 9 = 32."], ["Toán", 4, "Giá trị biểu thức 74 + 5 x 5 là bao nhiêu?", "99", "109", "89", "104", "5 x 5 = 25; 74 + 25 = 99."], ["Toán", 4, "Diện tích hình chữ nhật dài 32 cm, rộng 6 cm là bao nhiêu?", "192 cm²", "224 cm²", "160 cm²", "194 cm²", "Diện tích = 32 x 6 = 192 cm²."], ["Tiếng Việt", 4, "Từ trái nghĩa với 'mạnh mẽ' là từ nào?", "Yếu ớt", "Khỏe khoắn", "Cường tráng", "Dẻo dai", "Yếu ớt trái nghĩa với mạnh mẽ."], ["Tiếng Việt", 4, "Từ trái nghĩa với 'rộng rãi' là từ nào?", "Chật hẹp", "Mênh mông", "Bao la", "Thoáng đãng", "Chật hẹp trái nghĩa với rộng rãi."], ["Tiếng Anh", 4, "Nghề nghiệp 'nurse' là nghề gì?", "Y tá", "Bác sĩ", "Tài xế", "Đầu bếp", "Nurse là y tá."], ["Tiếng Anh", 4, "Nghề nghiệp 'cook' là nghề gì?", "Đầu bếp", "Ca sĩ", "Họa sĩ", "Nông dân", "Cook là đầu bếp."]], "lucas": [["Toán", 4, "Tính: 50 + 1 = ?", "51", "52", "50", "53", "50 + 1 = 51."], ["Toán", 4, "Tính: 57 - 1 = ?", "56", "57", "55", "58", "57 - 1 = 56."], ["Toán", 4, "Số liền sau của số 63 là số mấy?", "64", "65", "63", "66", "Sau số 63 là số 64."], ["Toán", 4, "Số gồm 5 chục và 1 đơn vị là số mấy?", "51", "61", "41", "52", "5 chục và 1 đơn vị là 51."], ["Toán", 4, "Tính nhẩm: 31 + 10 = ?", "41", "51", "31", "42", "31 + 10 = 41."], ["Toán", 4, "Trong rổ có 25 quả táo, thêm 2 quả nữa. Có tất cả mấy quả táo?", "27 quả táo", "28 quả táo", "26 quả táo", "29 quả táo", "25 + 2 = 27 quả táo."], ["Tiếng Việt", 4, "Từ nào trái nghĩa với 'to'?", "Nhỏ", "Cao", "Nặng", "Dài", "Nhỏ trái nghĩa với to."], ["Tiếng Việt", 4, "Từ nào trái nghĩa với 'mới'?", "Cũ", "Đẹp", "Sạch", "Tươi", "Cũ trái nghĩa với mới."], ["Tiếng Anh", 4, "Từ 'milk' là đồ uống gì?", "Sữa", "Nước lọc", "Trà", "Nước cam", "Milk là sữa."], ["Tiếng Anh", 4, "Từ 'water' là đồ uống gì?", "Nước lọc", "Sữa", "Bánh ngọt", "Quả trứng", "Water là nước."]]}, {"ten": "Hầm Dòng Nham Thạch Ấm", "lucie": [["Toán", 4, "Tính tổng: 2519 + 1426 = ?", "3945", "3955", "3935", "3946", "2519 + 1426 = 3945."], ["Toán", 4, "Tính hiệu: 6057 - 2454 = ?", "3603", "3613", "3593", "3605", "6057 - 2454 = 3603."], ["Toán", 4, "Tính tích: 38 x 2 = ?", "76", "78", "74", "86", "38 x 2 = 76."], ["Toán", 4, "Tính thương: 99 : 3 = ?", "33", "34", "32", "35", "Vì 3 x 33 = 99 nên 99 : 3 = 33."], ["Toán", 4, "Giá trị biểu thức 77 + 6 x 6 là bao nhiêu?", "113", "123", "103", "119", "6 x 6 = 36; 77 + 36 = 113."], ["Toán", 4, "Diện tích hình chữ nhật dài 33 cm, rộng 7 cm là bao nhiêu?", "231 cm²", "264 cm²", "198 cm²", "233 cm²", "Diện tích = 33 x 7 = 231 cm²."], ["Tiếng Việt", 4, "Trong câu 'Hôm qua, lớp em đi tham quan bảo tàng', bộ phận trả lời 'Khi nào?' là gì?", "Hôm qua", "Lớp em", "Đi tham quan", "Bảo tàng", "'Hôm qua' chỉ thời gian."], ["Tiếng Việt", 4, "Trong câu 'Ngoài công viên, các bạn nhỏ đang thả diều', bộ phận trả lời 'Ở đâu?' là gì?", "Ngoài công viên", "Các bạn nhỏ", "Đang thả diều", "Thả diều", "'Ngoài công viên' chỉ địa điểm."], ["Tiếng Anh", 4, "Phòng 'living room' là phòng nào?", "Phòng khách", "Phòng bếp", "Phòng ngủ", "Phòng tắm", "Living room là phòng khách."], ["Tiếng Anh", 4, "Nơi 'garden' trong nhà là gì?", "Khu vườn", "Mái nhà", "Ban công", "Cầu thang", "Garden là khu vườn."]], "lucas": [["Toán", 4, "Tính: 52 + 2 = ?", "54", "55", "53", "56", "52 + 2 = 54."], ["Toán", 4, "Tính: 59 - 2 = ?", "57", "58", "56", "59", "59 - 2 = 57."], ["Toán", 4, "Số liền trước của số 66 là số mấy?", "65", "66", "64", "67", "Trước số 66 là số 65."], ["Toán", 4, "Số gồm 5 chục và 3 đơn vị là số mấy?", "53", "63", "43", "54", "5 chục và 3 đơn vị là 53."], ["Toán", 4, "Tính nhẩm: 32 + 20 = ?", "52", "62", "42", "53", "32 + 20 = 52."], ["Toán", 4, "Trên đĩa có 30 chiếc bánh, ăn bớt 3 chiếc. Còn lại mấy chiếc bánh?", "27 chiếc bánh", "28 chiếc bánh", "26 chiếc bánh", "29 chiếc bánh", "30 - 3 = 27 chiếc bánh."], ["Tiếng Việt", 4, "Đồ vật nào dùng để tẩy nét bút chì?", "Cục tẩy", "Thước kẻ", "Cái thìa", "Cái kéo", "Cục tẩy dùng để xóa nét bút chì."], ["Tiếng Việt", 4, "Đồ vật nào dùng để kẻ đường thẳng?", "Thước kẻ", "Cục tẩy", "Cái cốc", "Cái gối", "Thước kẻ dùng kẻ đường thẳng."], ["Tiếng Anh", 4, "Từ 'cake' là món gì?", "Bánh ngọt", "Cơm", "Quả táo", "Cá", "Cake là bánh ngọt."], ["Tiếng Anh", 4, "Từ 'pen' là đồ vật gì?", "Bút mực", "Quyển sách", "Cái bàn", "Quả bóng", "Pen là bút mực."]]}, {"ten": "Mỏ Bạch Kim Quý Hiếm", "lucie": [["Toán", 4, "Tính tổng: 2536 + 1439 = ?", "3975", "3985", "3965", "3976", "2536 + 1439 = 3975."], ["Toán", 4, "Tính hiệu: 6076 - 2466 = ?", "3610", "3620", "3600", "3612", "6076 - 2466 = 3610."], ["Toán", 4, "Tính tích: 39 x 3 = ?", "117", "120", "114", "127", "39 x 3 = 117."], ["Toán", 4, "Tính thương: 136 : 4 = ?", "34", "35", "33", "36", "Vì 4 x 34 = 136 nên 136 : 4 = 34."], ["Toán", 4, "Giá trị biểu thức 80 + 7 x 7 là bao nhiêu?", "129", "139", "119", "136", "7 x 7 = 49; 80 + 49 = 129."], ["Toán", 4, "Diện tích hình chữ nhật dài 34 cm, rộng 8 cm là bao nhiêu?", "272 cm²", "306 cm²", "238 cm²", "274 cm²", "Diện tích = 34 x 8 = 272 cm²."], ["Tiếng Việt", 4, "Trong câu 'Ông mặt trời mỉm cười tỏa nắng ấm', biện pháp nghệ thuật nào được dùng?", "Nhân hóa", "So sánh", "Câu hỏi", "Liệt kê", "Gọi mặt trời là 'ông' và biết 'mỉm cười' là nhân hóa."], ["Tiếng Việt", 4, "Trong câu 'Dòng sông uốn lượn như dải lụa mềm', dòng sông được so sánh với gì?", "Dải lụa mềm", "Cánh đồng lúa", "Con đường lớn", "Bầu trời xanh", "Từ 'như' so sánh dòng sông với dải lụa mềm."], ["Tiếng Anh", 4, "Món ăn 'fish' là món gì?", "Cá", "Thịt gà", "Trứng", "Bánh mì", "Fish là cá."], ["Tiếng Anh", 4, "Đồ uống 'lemonade' là gì?", "Nước chanh", "Sữa tươi", "Nước cam", "Trà sữa", "Lemonade là nước chanh."]], "lucas": [["Toán", 4, "Tính: 54 + 3 = ?", "57", "58", "56", "59", "54 + 3 = 57."], ["Toán", 4, "Tính: 64 - 3 = ?", "61", "62", "60", "63", "64 - 3 = 61."], ["Toán", 4, "Số liền sau của số 69 là số mấy?", "70", "71", "69", "72", "Sau số 69 là số 70."], ["Toán", 4, "Số gồm 5 chục và 5 đơn vị là số mấy?", "55", "65", "45", "56", "5 chục và 5 đơn vị là 55."], ["Toán", 4, "Tính nhẩm: 33 + 30 = ?", "63", "73", "53", "64", "33 + 30 = 63."], ["Toán", 4, "Trong rổ có 27 quả táo, thêm 4 quả nữa. Có tất cả mấy quả táo?", "31 quả táo", "32 quả táo", "30 quả táo", "33 quả táo", "27 + 4 = 31 quả táo."], ["Tiếng Việt", 4, "Đồ vật nào dùng để xem giờ?", "Đồng hồ", "Cái quạt", "Cái bàn", "Đôi dép", "Đồng hồ giúp xem giờ."], ["Tiếng Việt", 4, "Đồ vật nào dùng để che mưa che nắng?", "Cái ô", "Cái lược", "Cái bát", "Cái bút", "Cái ô dùng che mưa nắng."], ["Tiếng Anh", 4, "Từ 'pencil' là đồ vật gì?", "Bút chì", "Cái ghế", "Cái mũ", "Cái cốc", "Pencil là bút chì."], ["Tiếng Anh", 4, "Từ 'bag' là đồ vật gì?", "Cái cặp / túi", "Quả bóng", "Ô tô", "Cái giường", "Bag là cặp sách / túi."]]}, {"ten": "Hang Thiên Thạch Cổ Đại", "lucie": [["Toán", 4, "Tính tổng: 2553 + 1452 = ?", "4005", "4015", "3995", "4006", "2553 + 1452 = 4005."], ["Toán", 4, "Tính hiệu: 6095 - 2478 = ?", "3617", "3627", "3607", "3619", "6095 - 2478 = 3617."], ["Toán", 4, "Tính tích: 40 x 4 = ?", "160", "164", "156", "170", "40 x 4 = 160."], ["Toán", 4, "Tính thương: 175 : 5 = ?", "35", "36", "34", "37", "Vì 5 x 35 = 175 nên 175 : 5 = 35."], ["Toán", 4, "Giá trị biểu thức 83 + 8 x 8 là bao nhiêu?", "147", "157", "137", "155", "8 x 8 = 64; 83 + 64 = 147."], ["Toán", 4, "Diện tích hình chữ nhật dài 35 cm, rộng 9 cm là bao nhiêu?", "315 cm²", "350 cm²", "280 cm²", "317 cm²", "Diện tích = 35 x 9 = 315 cm²."], ["Tiếng Việt", 4, "Từ nào chỉ nghề nghiệp bảo vệ rừng và cây xanh?", "Kiểm lâm", "Phi công", "Nhạc sĩ", "Họa sĩ", "Kiểm lâm là người bảo vệ rừng."], ["Tiếng Việt", 4, "Từ nào chỉ dụng cụ trong phòng thí nghiệm?", "Kính hiển vi", "Cái chổi", "Chiếc gối", "Cái bát", "Kính hiển vi dùng quan sát vật rất nhỏ."], ["Tiếng Anh", 4, "Con vật 'peacock' là con gì?", "Con công", "Con vẹt", "Con thỏ", "Con hổ", "Peacock là con công."], ["Tiếng Anh", 4, "Con vật 'horse' là con gì?", "Con ngựa", "Con voi", "Con khỉ", "Con gấu", "Horse là con ngựa."]], "lucas": [["Toán", 4, "Tính: 55 + 4 = ?", "59", "60", "58", "61", "55 + 4 = 59."], ["Toán", 4, "Tính: 65 - 4 = ?", "61", "62", "60", "63", "65 - 4 = 61."], ["Toán", 4, "Số liền trước của số 72 là số mấy?", "71", "72", "70", "73", "Trước số 72 là số 71."], ["Toán", 4, "Số gồm 5 chục và 7 đơn vị là số mấy?", "57", "67", "47", "58", "5 chục và 7 đơn vị là 57."], ["Toán", 4, "Tính nhẩm: 34 + 40 = ?", "74", "84", "64", "75", "34 + 40 = 74."], ["Toán", 4, "Trên đĩa có 34 chiếc bánh, ăn bớt 5 chiếc. Còn lại mấy chiếc bánh?", "29 chiếc bánh", "30 chiếc bánh", "28 chiếc bánh", "31 chiếc bánh", "34 - 5 = 29 chiếc bánh."], ["Tiếng Việt", 4, "Từ nào có vần 'an'?", "Bàn học", "Cái cốc", "Con mèo", "Cây tre", "Tiếng 'bàn' có vần an."], ["Tiếng Việt", 4, "Từ nào có vần 'ông'?", "Cầu vồng", "Quả cam", "Cái bút", "Con cá", "Tiếng 'vồng' có vần ông."], ["Tiếng Anh", 4, "Từ 'hat' là đồ vật gì?", "Cái mũ", "Cái áo", "Đôi giày", "Cái bàn", "Hat là cái mũ."], ["Tiếng Anh", 4, "Từ 'desk' là đồ vật gì?", "Cái bàn học", "Cái giường", "Cánh cửa", "Cái cốc", "Desk là bàn học."]]}, {"ten": "Đền Ngầm Kho Báu Cổ", "lucie": [["Toán", 5, "Tính tổng: 2570 + 1465 = ?", "4035", "4045", "4025", "4036", "2570 + 1465 = 4035."], ["Toán", 5, "Tính hiệu: 6114 - 2490 = ?", "3624", "3634", "3614", "3626", "6114 - 2490 = 3624."], ["Toán", 5, "Tính tích: 41 x 5 = ?", "205", "210", "200", "215", "41 x 5 = 205."], ["Toán", 5, "Tính thương: 216 : 6 = ?", "36", "37", "35", "38", "Vì 6 x 36 = 216 nên 216 : 6 = 36."], ["Toán", 5, "Giá trị biểu thức 86 + 3 x 4 là bao nhiêu?", "98", "108", "88", "102", "3 x 4 = 12; 86 + 12 = 98."], ["Toán", 5, "Diện tích hình chữ nhật dài 36 cm, rộng 4 cm là bao nhiêu?", "144 cm²", "180 cm²", "108 cm²", "146 cm²", "Diện tích = 36 x 4 = 144 cm²."], ["Tiếng Việt", 5, "Dấu ngoặc kép trong văn bản thường dùng để làm gì?", "Dẫn lời nói trực tiếp của nhân vật", "Kết thúc câu hỏi", "Ngăn cách các vế liệt kê", "Thay cho dấu chấm", "Dấu ngoặc kép dùng trích dẫn lời nói trực tiếp."], ["Tiếng Việt", 5, "Câu 'Em rất thích đọc truyện cổ tích Việt Nam.' thuộc kiểu câu gì?", "Câu kể", "Câu hỏi", "Câu cảm", "Câu khiến", "Câu kể lại sở thích kết thúc bằng dấu chấm là câu kể."], ["Tiếng Anh", 5, "Đồ chơi 'teddy bear' là gì?", "Gấu bông", "Búp bê", "Ô tô", "Tàu hỏa", "Teddy bear là gấu bông."], ["Tiếng Anh", 5, "Đồ chơi 'truck' là món gì?", "Xe tải đồ chơi", "Máy bay", "Thuyền buồm", "Xe đạp", "Truck là xe tải."]], "lucas": [["Toán", 5, "Tính: 58 + 1 = ?", "59", "60", "58", "61", "58 + 1 = 59."], ["Toán", 5, "Tính: 65 - 1 = ?", "64", "65", "63", "66", "65 - 1 = 64."], ["Toán", 5, "Số liền sau của số 75 là số mấy?", "76", "77", "75", "78", "Sau số 75 là số 76."], ["Toán", 5, "Số gồm 5 chục và 9 đơn vị là số mấy?", "59", "69", "49", "60", "5 chục và 9 đơn vị là 59."], ["Toán", 5, "Tính nhẩm: 35 + 10 = ?", "45", "55", "35", "46", "35 + 10 = 45."], ["Toán", 5, "Trong rổ có 29 quả táo, thêm 2 quả nữa. Có tất cả mấy quả táo?", "31 quả táo", "32 quả táo", "30 quả táo", "33 quả táo", "29 + 2 = 31 quả táo."], ["Tiếng Việt", 5, "Từ nào có vần 'anh'?", "Bánh chưng", "Cái bát", "Con gà", "Quyển vở", "Tiếng 'bánh' có vần anh."], ["Tiếng Việt", 5, "Từ nào có vần 'oi'?", "Con voi", "Con mèo", "Con cá", "Con vịt", "Tiếng 'voi' có vần oi."], ["Tiếng Anh", 5, "Từ 'chair' là đồ vật gì?", "Cái ghế", "Cái bàn", "Quyển sách", "Cái mũ", "Chair là cái ghế."], ["Tiếng Anh", 5, "Từ 'bed' là đồ vật gì?", "Cái giường", "Cái túi", "Cái hộp", "Xe buýt", "Bed là cái giường."]]}, {"ten": "Tầng Kim Cương Hồng", "lucie": [["Toán", 5, "Tính tổng: 2587 + 1478 = ?", "4065", "4075", "4055", "4066", "2587 + 1478 = 4065."], ["Toán", 5, "Tính hiệu: 6133 - 2502 = ?", "3631", "3641", "3621", "3633", "6133 - 2502 = 3631."], ["Toán", 5, "Tính tích: 42 x 6 = ?", "252", "258", "246", "262", "42 x 6 = 252."], ["Toán", 5, "Tính thương: 259 : 7 = ?", "37", "38", "36", "39", "Vì 7 x 37 = 259 nên 259 : 7 = 37."], ["Toán", 5, "Giá trị biểu thức 89 + 4 x 5 là bao nhiêu?", "109", "119", "99", "114", "4 x 5 = 20; 89 + 20 = 109."], ["Toán", 5, "Diện tích hình chữ nhật dài 37 cm, rộng 5 cm là bao nhiêu?", "185 cm²", "222 cm²", "148 cm²", "187 cm²", "Diện tích = 37 x 5 = 185 cm²."], ["Tiếng Việt", 5, "Chọn từ viết đúng chính tả (nhóm hỏi/ngã):", "Suy nghĩ", "Suy nghỉ", "Xuy nghĩ", "Xuy nghỉ", "Viết đúng là 'suy nghĩ'."], ["Tiếng Anh", 5, "Hoạt động 'dancing' nghĩa là gì?", "Đang nhảy múa", "Đang hát", "Đang bơi", "Đang vẽ", "Dancing là đang nhảy múa."], ["Tiếng Anh", 5, "Hoạt động 'listening to music' nghĩa là gì?", "Đang nghe nhạc", "Đang xem phim", "Đang đọc sách", "Đang viết bài", "Listening to music là nghe nhạc."]], "lucas": [["Toán", 5, "Tính: 60 + 2 = ?", "62", "63", "61", "64", "60 + 2 = 62."], ["Toán", 5, "Tính: 67 - 2 = ?", "65", "66", "64", "67", "67 - 2 = 65."], ["Toán", 5, "Số liền trước của số 78 là số mấy?", "77", "78", "76", "79", "Trước số 78 là số 77."], ["Toán", 5, "Số gồm 6 chục và 1 đơn vị là số mấy?", "61", "71", "51", "62", "6 chục và 1 đơn vị là 61."], ["Toán", 5, "Tính nhẩm: 36 + 20 = ?", "56", "66", "46", "57", "36 + 20 = 56."], ["Toán", 5, "Trên đĩa có 34 chiếc bánh, ăn bớt 3 chiếc. Còn lại mấy chiếc bánh?", "31 chiếc bánh", "32 chiếc bánh", "30 chiếc bánh", "33 chiếc bánh", "34 - 3 = 31 chiếc bánh."], ["Tiếng Việt", 5, "Từ nào có vần 'ao'?", "Quả táo", "Cái bàn", "Quả cam", "Đôi dép", "Tiếng 'táo' có vần ao."], ["Tiếng Việt", 5, "Từ nào có vần 'em'?", "Cây kem", "Quả lê", "Con gà", "Cái bát", "Tiếng 'kem' có vần em."], ["Tiếng Anh", 5, "Từ 'cup' là đồ vật gì?", "Cái cốc", "Cái mũ", "Con mèo", "Ô tô", "Cup là cái cốc."], ["Tiếng Anh", 5, "Từ 'bus' là phương tiện gì?", "Xe buýt", "Xe đạp", "Máy bay", "Tàu thủy", "Bus là xe buýt."]]}, {"ten": "Tầng Kim Cương Xanh", "lucie": [["Toán", 5, "Tính tổng: 2604 + 1491 = ?", "4095", "4105", "4085", "4096", "2604 + 1491 = 4095."], ["Toán", 5, "Tính hiệu: 6152 - 2514 = ?", "3638", "3648", "3628", "3640", "6152 - 2514 = 3638."], ["Toán", 5, "Tính tích: 43 x 7 = ?", "301", "308", "294", "311", "43 x 7 = 301."], ["Toán", 5, "Tính thương: 304 : 8 = ?", "38", "39", "37", "40", "Vì 8 x 38 = 304 nên 304 : 8 = 38."], ["Toán", 5, "Giá trị biểu thức 92 + 5 x 6 là bao nhiêu?", "122", "132", "112", "128", "5 x 6 = 30; 92 + 30 = 122."], ["Toán", 5, "Diện tích hình chữ nhật dài 38 cm, rộng 6 cm là bao nhiêu?", "228 cm²", "266 cm²", "190 cm²", "230 cm²", "Diện tích = 38 x 6 = 228 cm²."], ["Tiếng Việt", 5, "Chọn từ viết đúng chính tả (nhóm hỏi/ngã):", "Mạnh mẽ", "Mạnh mẻ", "Mạng mẽ", "Mạng mẻ", "Viết đúng là 'mạnh mẽ'."], ["Tiếng Việt", 5, "Từ nào không cùng nhóm: hoa đào, hoa mai, hoa cúc, cái quạt?", "Cái quạt", "Hoa đào", "Hoa mai", "Hoa cúc", "Cái quạt là đồ vật, không phải loài hoa."], ["Tiếng Anh", 5, "Từ 'thirteen' là số mấy?", "13", "3", "30", "14", "Thirteen là số 13."], ["Tiếng Anh", 5, "Từ 'seventeen' là số mấy?", "17", "7", "70", "16", "Seventeen là số 17."]], "lucas": [["Toán", 5, "Tính: 62 + 3 = ?", "65", "66", "64", "67", "62 + 3 = 65."], ["Toán", 5, "Tính: 69 - 3 = ?", "66", "67", "65", "68", "69 - 3 = 66."], ["Toán", 5, "Số liền sau của số 81 là số mấy?", "82", "83", "81", "84", "Sau số 81 là số 82."], ["Toán", 5, "Số gồm 6 chục và 3 đơn vị là số mấy?", "63", "73", "53", "64", "6 chục và 3 đơn vị là 63."], ["Toán", 5, "Tính nhẩm: 37 + 30 = ?", "67", "77", "57", "68", "37 + 30 = 67."], ["Toán", 5, "Trong rổ có 31 quả táo, thêm 4 quả nữa. Có tất cả mấy quả táo?", "35 quả táo", "36 quả táo", "34 quả táo", "37 quả táo", "31 + 4 = 35 quả táo."], ["Tiếng Việt", 5, "Từ nào có thanh sắc (´)?", "Con cá", "Con gà", "Con thỏ", "Con mèo", "Tiếng 'cá' có thanh sắc."], ["Tiếng Việt", 5, "Từ nào có thanh huyền (`)?", "Con mèo", "Con cá", "Con khỉ", "Con ngựa", "Tiếng 'mèo' có thanh huyền."], ["Tiếng Anh", 5, "Từ 'bike' là phương tiện gì?", "Xe đạp", "Ô tô", "Xe buýt", "Tàu hỏa", "Bike là xe đạp."], ["Tiếng Anh", 5, "Từ 'tree' nghĩa là gì?", "Cái cây", "Bông hoa", "Mặt trời", "Ngôi sao", "Tree là cái cây."]]}, {"ten": "Lõi Pha Lê Ngân Hà", "lucie": [["Toán", 5, "Tính tổng: 2621 + 1504 = ?", "4125", "4135", "4115", "4126", "2621 + 1504 = 4125."], ["Toán", 5, "Tính hiệu: 6171 - 2526 = ?", "3645", "3655", "3635", "3647", "6171 - 2526 = 3645."], ["Toán", 5, "Tính tích: 44 x 8 = ?", "352", "360", "344", "362", "44 x 8 = 352."], ["Toán", 5, "Tính thương: 351 : 9 = ?", "39", "40", "38", "41", "Vì 9 x 39 = 351 nên 351 : 9 = 39."], ["Toán", 5, "Giá trị biểu thức 95 + 6 x 7 là bao nhiêu?", "137", "147", "127", "144", "6 x 7 = 42; 95 + 42 = 137."], ["Toán", 5, "Diện tích hình chữ nhật dài 39 cm, rộng 7 cm là bao nhiêu?", "273 cm²", "312 cm²", "234 cm²", "275 cm²", "Diện tích = 39 x 7 = 273 cm²."], ["Tiếng Việt", 5, "Từ nào không cùng nhóm: bác sĩ, y tá, giáo viên, bệnh viện?", "Bệnh viện", "Bác sĩ", "Y tá", "Giáo viên", "Bệnh viện là địa điểm, không phải nghề nghiệp."], ["Tiếng Việt", 5, "Từ nào chỉ cảm xúc hồi hộp, mong chờ?", "Háo hức", "Buồn bã", "Giận dỗi", "Chán nản", "Háo hức tả cảm xúc mong chờ đầy vui vẻ."], ["Tiếng Anh", 5, "Thời tiết 'snowy' nghĩa là trời thế nào?", "Trời có tuyết rơi", "Trời nắng", "Trời có gió", "Trời nóng", "Snowy là có tuyết."], ["Tiếng Anh", 5, "Thời tiết 'hot' nghĩa là trời thế nào?", "Trời nóng", "Trời lạnh", "Trời mát", "Trời mưa", "Hot là nóng."]], "lucas": [["Toán", 5, "Tính: 64 + 4 = ?", "68", "69", "67", "70", "64 + 4 = 68."], ["Toán", 5, "Tính: 75 - 4 = ?", "71", "72", "70", "73", "75 - 4 = 71."], ["Toán", 5, "Số liền trước của số 84 là số mấy?", "83", "84", "82", "85", "Trước số 84 là số 83."], ["Toán", 5, "Số gồm 6 chục và 5 đơn vị là số mấy?", "65", "75", "55", "66", "6 chục và 5 đơn vị là 65."], ["Toán", 5, "Tính nhẩm: 38 + 40 = ?", "78", "88", "68", "79", "38 + 40 = 78."], ["Toán", 5, "Trên đĩa có 38 chiếc bánh, ăn bớt 5 chiếc. Còn lại mấy chiếc bánh?", "33 chiếc bánh", "34 chiếc bánh", "32 chiếc bánh", "35 chiếc bánh", "38 - 5 = 33 chiếc bánh."], ["Tiếng Việt", 5, "Từ nào có thanh hỏi (̉)?", "Con thỏ", "Con cá", "Con gà", "Con voi", "Tiếng 'thỏ' có thanh hỏi."], ["Tiếng Việt", 5, "Từ nào có thanh nặng (.)?", "Con ngựa", "Con mèo", "Con cá", "Con thỏ", "Tiếng 'ngựa' có thanh nặng."], ["Tiếng Anh", 5, "Từ 'flower' nghĩa là gì?", "Bông hoa", "Cái cây", "Đám mây", "Cơn mưa", "Flower là bông hoa."], ["Tiếng Anh", 5, "Từ 'dad' chỉ ai?", "Bố", "Mẹ", "Bà", "Bạn", "Dad là bố."]]}, {"ten": "Cổng Lõi Trái Đất", "lucie": [["Toán", 5, "Tính tổng: 2638 + 1517 = ?", "4155", "4165", "4145", "4156", "2638 + 1517 = 4155."], ["Toán", 5, "Tính hiệu: 6190 - 2538 = ?", "3652", "3662", "3642", "3654", "6190 - 2538 = 3652."], ["Toán", 5, "Tính tích: 45 x 2 = ?", "90", "92", "88", "100", "45 x 2 = 90."], ["Toán", 5, "Tính thương: 120 : 3 = ?", "40", "41", "39", "42", "Vì 3 x 40 = 120 nên 120 : 3 = 40."], ["Toán", 5, "Giá trị biểu thức 98 + 7 x 8 là bao nhiêu?", "154", "164", "144", "162", "7 x 8 = 56; 98 + 56 = 154."], ["Toán", 5, "Diện tích hình chữ nhật dài 40 cm, rộng 8 cm là bao nhiêu?", "320 cm²", "360 cm²", "280 cm²", "322 cm²", "Diện tích = 40 x 8 = 320 cm²."], ["Tiếng Việt", 5, "Từ láy nào tả tiếng gió thổi nhẹ qua hàng cây?", "Xào xạc", "Ầm ầm", "Lạch bạch", "Líu lo", "Xào xạc tả tiếng lá cây lay động trong gió."], ["Tiếng Việt", 5, "Từ láy nào tả ánh nắng tươi sáng rực rỡ?", "Chói chang", "Âm u", "Mờ mịt", "Lành lạnh", "Chói chang tả ánh nắng mạnh và rực rỡ."], ["Tiếng Anh", 5, "Chọn từ đúng: 'I ___ a student in Class 3A6.'", "am", "is", "are", "be", "Chủ ngữ 'I' đi với 'am'."], ["Tiếng Anh", 5, "Chọn từ đúng: 'They ___ playing football in the yard.'", "are", "is", "am", "does", "Chủ ngữ số nhiều 'They' đi với 'are'."]], "lucas": [["Toán", 5, "Tính: 66 + 1 = ?", "67", "68", "66", "69", "66 + 1 = 67."], ["Toán", 5, "Tính: 73 - 1 = ?", "72", "73", "71", "74", "73 - 1 = 72."], ["Toán", 5, "Số liền sau của số 87 là số mấy?", "88", "89", "87", "90", "Sau số 87 là số 88."], ["Toán", 5, "Số gồm 6 chục và 7 đơn vị là số mấy?", "67", "77", "57", "68", "6 chục và 7 đơn vị là 67."], ["Toán", 5, "Tính nhẩm: 39 + 10 = ?", "49", "59", "39", "50", "39 + 10 = 49."], ["Toán", 5, "Trong rổ có 33 quả táo, thêm 2 quả nữa. Có tất cả mấy quả táo?", "35 quả táo", "36 quả táo", "34 quả táo", "37 quả táo", "33 + 2 = 35 quả táo."], ["Tiếng Việt", 5, "Quả nào vỏ xanh ruột đỏ nhiều hạt đen?", "Quả dưa hấu", "Quả chuối", "Quả chanh", "Quả lê", "Dưa hấu vỏ xanh ruột đỏ ngọt mát."], ["Tiếng Việt", 5, "Quả nào vỏ vàng hình cong ăn thơm ngọt?", "Quả chuối", "Quả cà chua", "Củ cải", "Quả ớt", "Quả chuối chín có vỏ vàng thơm ngọt."], ["Tiếng Anh", 5, "Từ 'mom' chỉ ai?", "Mẹ", "Bố", "Ông", "Anh", "Mom là mẹ."], ["Tiếng Anh", 5, "Từ 'eyes' là bộ phận nào?", "Đôi mắt", "Đôi tai", "Cái mũi", "Bàn tay", "Eyes là đôi mắt."]]}, {"ten": "Kho Báu Lõi Hoàng Kim", "lucie": [["Toán", 5, "Tính tổng: 2655 + 1530 = ?", "4185", "4195", "4175", "4186", "2655 + 1530 = 4185."], ["Toán", 5, "Tính hiệu: 6209 - 2550 = ?", "3659", "3669", "3649", "3661", "6209 - 2550 = 3659."], ["Toán", 5, "Tính tích: 46 x 3 = ?", "138", "141", "135", "148", "46 x 3 = 138."], ["Toán", 5, "Tính thương: 164 : 4 = ?", "41", "42", "40", "43", "Vì 4 x 41 = 164 nên 164 : 4 = 41."], ["Toán", 5, "Giá trị biểu thức 101 + 8 x 4 là bao nhiêu?", "133", "143", "123", "137", "8 x 4 = 32; 101 + 32 = 133."], ["Toán", 5, "Diện tích hình chữ nhật dài 41 cm, rộng 9 cm là bao nhiêu?", "369 cm²", "410 cm²", "328 cm²", "371 cm²", "Diện tích = 41 x 9 = 369 cm²."], ["Tiếng Việt", 5, "Tục ngữ 'Uống nước nhớ nguồn' khuyên chúng ta sống thế nào?", "Biết ơn những người đã giúp đỡ, sinh thành ra mình", "Phải uống đủ nước mỗi ngày", "Tìm nguồn nước sạch", "Không lãng phí nước", "Uống nước nhớ nguồn nhấn mạnh lòng biết ơn."], ["Tiếng Việt", 5, "Thành ngữ 'Đồng tâm hiệp lực' có nghĩa là gì?", "Cùng chung suy nghĩ và sức mạnh để hoàn thành việc lớn", "Làm việc một mình", "Chạy thật nhanh", "Học thuộc lòng", "Đồng tâm hiệp lực nói về tinh thần đoàn kết cao."], ["Tiếng Anh", 5, "Từ 'weekend' có nghĩa là gì?", "Cuối tuần", "Đầu tuần", "Buổi sáng", "Ngày mai", "Weekend là dịp cuối tuần."], ["Tiếng Anh", 5, "Từ 'birthday' có nghĩa là gì?", "Ngày sinh nhật", "Ngày lễ", "Kỳ nghỉ hè", "Ngày khai giảng", "Birthday là ngày sinh nhật."]], "lucas": [["Toán", 5, "Tính: 67 + 2 = ?", "69", "70", "68", "71", "67 + 2 = 69."], ["Toán", 5, "Tính: 75 - 2 = ?", "73", "74", "72", "75", "75 - 2 = 73."], ["Toán", 5, "Số liền trước của số 90 là số mấy?", "89", "90", "88", "91", "Trước số 90 là số 89."], ["Toán", 5, "Số gồm 6 chục và 9 đơn vị là số mấy?", "69", "79", "59", "70", "6 chục và 9 đơn vị là 69."], ["Toán", 5, "Tính nhẩm: 40 + 20 = ?", "60", "70", "50", "61", "40 + 20 = 60."], ["Toán", 5, "Trên đĩa có 38 chiếc bánh, ăn bớt 3 chiếc. Còn lại mấy chiếc bánh?", "35 chiếc bánh", "36 chiếc bánh", "34 chiếc bánh", "37 chiếc bánh", "38 - 3 = 35 chiếc bánh."], ["Tiếng Việt", 5, "Khi gặp ông bà, bé nên làm gì?", "Khoanh tay chào lễ phép", "Chạy đi ngay", "Quay mặt đi", "Không nói gì", "Bé ngoan luôn chào hỏi lễ phép."], ["Tiếng Việt", 5, "Trước khi ăn cơm, bé cần làm gì?", "Rửa tay sạch bằng xà phòng", "Chạy nhảy quanh bàn", "Bốc thức ăn ngay", "Đi ngủ", "Rửa tay sạch giúp bảo vệ sức khỏe."], ["Tiếng Anh", 5, "Từ 'nose' là bộ phận nào?", "Cái mũi", "Đôi mắt", "Đôi tai", "Bàn chân", "Nose là cái mũi."], ["Tiếng Anh", 5, "Từ 'hand' là bộ phận nào?", "Bàn tay", "Cái đầu", "Đôi mắt", "Đôi tai", "Hand là bàn tay."]]}];
+function moTMN(c) { try { return Math.min(25, Math.max(1, +localStorage.getItem("thoMo_mo_" + c) || 1)); } catch (e) { return 1; } }
+function questionPool(child) {
+  const n = moTMN(child), rieng = n > 1 ? ((MO_TMN[Math.min(29, n + 4)] || {})[child] || []) : [];
+  if (rieng.length >= 8) return rieng.map((a, i) => ({ id: 100000 + i, mon: a[0], muc: +a[1] || 1, q: a[2], dung: a[3], sai: [a[4], a[5], a[6]].filter(Boolean), giai: a[7] || "" })).concat((DATA[child] || []).map((a, i) => ({ id: i, mon: a[0], muc: +a[1] || 1, q: a[2], dung: a[3], sai: [a[4], a[5], a[6]].filter(Boolean), giai: a[7] || "" })).filter(() => Math.random() < 0.15));
+  const arr = (DATA[child] || []).map((a, i) => ({ id: i, mon: a[0], muc: +a[1] || 1, q: a[2], dung: a[3], sai: [a[4], a[5], a[6]].filter(Boolean), giai: a[7] || "" }));
+  return arr;
+}
+function nextQuestion(level) {
+  const P = G.pool;
+  const order = ["Toán", "Tiếng Việt", "Tiếng Anh"];
+  for (let tries = 0; tries < 3; tries++) {
+    const mon = order[(G.monIdx + tries) % 3];
+    for (const lv of [level, level - 1, level + 1, level - 2, level + 2]) {
+      const cand = P.filter(q => q.muc === lv && q.mon === mon && !G.used.has(q.id));
+      if (cand.length) { G.monIdx = (G.monIdx + tries + 1) % 3; const q = pick(cand); G.used.add(q.id); return q; }
+    }
+  }
+  const rest = P.filter(q => !G.used.has(q.id));
+  if (rest.length) { const q = pick(rest); G.used.add(q.id); return q; }
+  G.used.clear(); return pick(P);
+}
+
+/* ============================================================
+   VẼ: Three.js (3D khối vuông), lui về canvas 2D nếu máy không có WebGL
+   ============================================================ */
+const cv = $("cv");
+let R3 = null, R2 = null;
+function hasGL() { try { const c = document.createElement("canvas"); return !!(window.WebGLRenderingContext && (c.getContext("webgl") || c.getContext("experimental-webgl"))); } catch (e) { return false; } }
+const cellX = c => c - (COLS - 1) / 2, cellY = r => -r;
+
+function makeR3() {
+  const T = THREE;
+  const renderer = new T.WebGLRenderer({ canvas: cv, antialias: true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.75));
+  const scene = new T.Scene();
+  const camera = new T.PerspectiveCamera(48, 1, 0.1, 200);
+  const amb = new T.AmbientLight(0xffffff, 0.75); scene.add(amb);
+  const sun = new T.DirectionalLight(0xffffff, 0.6); sun.position.set(4, 8, 10); scene.add(sun);
+  const torch = new T.PointLight(0xffc37a, 1.1, 7, 1.6); scene.add(torch);
+  const box = new T.BoxGeometry(1, 1, 1);
+  const texCache = {}, matCache = {};
+  const tex = t => { if (texCache[t]) return texCache[t]; const x = new T.CanvasTexture(getTex(t)); x.magFilter = T.NearestFilter; x.minFilter = T.NearestFilter; return texCache[t] = x; };
+  const mat = (t, emissive) => { const k = t + (emissive ? "!" : ""); if (matCache[k]) return matCache[k];
+    if (emissive) return matCache[k] = new T.MeshBasicMaterial({ map: tex(t) });
+    return matCache[k] = new T.MeshLambertMaterial({ map: tex(t) }); };
+  const matsFor = cell => {
+    const t = cell.t;
+    if (t === "grass") { const s = mat("grass"), top = mat("grassTop"), bot = mat("dirt"); return [s, s, top, bot, s, s]; }
+    if (t === "chest") return mat("chest" + cell.kind);
+    if (t === "lava") return mat("lava", true);
+    if (t === "door") return mat("door", true);
+    return mat(t);
+  };
+  const meshes = [];
+  const world = new T.Group(); scene.add(world);
+  function rebuild() {
+    while (world.children.length) world.remove(world.children[0]);
+    meshes.length = 0;
+    const g = G.world.grid;
+    for (let r = 0; r < TOTAL_ROWS; r++) { meshes.push([]); for (let c = 0; c < COLS; c++) {
+      const cell = g[r][c]; let m = null;
+      if (cell.t !== "air") { m = new T.Mesh(box, matsFor(cell)); m.position.set(cellX(c), cellY(r), 0); world.add(m); }
+      meshes[r].push(m);
+    } }
+    // tường hang phía sau cho từng tầng
+    for (let L = 0; L < NL; L++) {
+      const r0 = rowOfLayer(L) - (L === 0 ? 1 : 0), h = LROWS + (L === 0 ? 1 : 0);
+      const wt = new T.CanvasTexture(wallCanvas(LAYER_BASE[L])); wt.magFilter = wt.minFilter = T.NearestFilter; wt.wrapS = wt.wrapT = T.RepeatWrapping; wt.repeat.set(COLS + 6, h + 1);
+      const p = new T.Mesh(new T.PlaneGeometry(COLS + 6, h + 1), new T.MeshLambertMaterial({ map: wt }));
+      p.position.set(0, cellY(r0 + (h - 1) / 2), -0.55); world.add(p);
+    }
+    // bên ngoài hai mép: tường đá cứng cho khỏi trống
+    const sideMat = mat("bedrock");
+    for (const sx of [-1, COLS]) for (let r = 1; r < TOTAL_ROWS; r++) { const m = new T.Mesh(box, r === 1 ? matsFor({ t: "grass" }) : sideMat); m.position.set(cellX(sx), cellY(r), 0); world.add(m); }
+    // cây trên mặt đất
+    for (const tc of G.world.trees) {
+      for (let k = 0; k < 2; k++) { const m = new T.Mesh(box, mat("log")); m.position.set(cellX(tc), cellY(-k), -1.2); world.add(m); }
+      for (let dx = -1; dx <= 1; dx++) for (let dy = 2; dy <= 3; dy++) { if (dy === 3 && dx !== 0) continue; const m = new T.Mesh(box, mat("leaves")); m.position.set(cellX(tc + dx), cellY(-dy), -1.2); world.add(m); }
+    }
+    // cỏ trải xa hai bên trời
+    const ground = new T.Mesh(new T.PlaneGeometry(80, 40), new T.MeshLambertMaterial({ color: 0x4f9e35 })); ground.rotation.x = -Math.PI / 2; ground.position.set(0, cellY(1) + 0.5, -20); world.add(ground);
+    buildPlayer();
+  }
+  // Nhân vật khối vuông với mặt thật
+  let player = null, armR = null, head = null;
+  function buildPlayer() {
+    if (player) scene.remove(player);
+    player = new T.Group();
+    const K = G.kho, skin = K.skin, pk = PICKS[K.cuoc] || PICKS[0], lucie = G.child === "lucie";
+    const L = c => new T.MeshLambertMaterial({ color: c });
+    const part = (w, h, d, c, x, y, z, par) => { const m = new T.Mesh(new T.BoxGeometry(w, h, d), L(c)); m.position.set(x, y, z); (par || player).add(m); return m; };
+    const ud = player.userData = { skin, wheels: [], cape: null, tool: null };
+    if (skin === "oto") {
+      // Ô tô đua có mũi khoan ở đầu xe
+      const body = lucie ? 0xff4f9a : 0xef4444;
+      part(1.0, 0.3, 0.52, body, 0, -0.3, 0); part(0.98, 0.06, 0.54, 0xffffff, 0, -0.2, 0);
+      const cabin = new T.Group(); cabin.position.set(-0.08, 0.0, 0); player.add(cabin);
+      cabin.position.y = 0.06;
+      part(0.56, 0.42, 0.46, 0x1f2937, 0, 0, 0, cabin); part(0.6, 0.05, 0.5, body, 0, 0.23, 0, cabin);
+      if (window.MatThat) { MatThat.dan(cabin, G.child, { r: 0.19, z: 0.235 }); const b = MatThat.dan(cabin, G.child, { r: 0.19, z: -0.235 }); if (b) b.rotation.y = Math.PI; }
+      part(0.06, 0.08, 0.12, 0xfff6b0, 0.5, -0.28, 0.16); part(0.06, 0.08, 0.12, 0xfff6b0, 0.5, -0.28, -0.16);
+      part(0.04, 0.22, 0.04, 0x111111, -0.42, -0.05, 0); part(0.2, 0.04, 0.5, 0x111111, -0.44, 0.06, 0);
+      const wg = new T.CylinderGeometry(0.13, 0.13, 0.1, 14);
+      [[0.3, 0.27], [-0.3, 0.27], [0.3, -0.27], [-0.3, -0.27]].forEach(([x, z]) => { const w = new T.Mesh(wg, L(0x111111)); w.rotation.x = Math.PI / 2; w.position.set(x, -0.45, z); player.add(w); ud.wheels.push(w); });
+      armR = new T.Group(); armR.position.set(0.56, -0.3, 0); player.add(armR);
+      const drill = new T.Mesh(new T.ConeGeometry(0.14, 0.38, 8), L(pk.mau)); drill.rotation.z = -Math.PI / 2; drill.position.x = 0.17; armR.add(drill); ud.tool = armR;
+      head = cabin;
+      player.scale.setScalar(1.05);
+    } else {
+      const C = {
+        thomo: { ao: lucie ? 0xff5fa8 : 0x3b82f6, quan: lucie ? 0x7c3aed : 0x1e3a8a, tay: 0xf1c27d, toc: lucie ? 0x3b2314 : 0x2a1a10 },
+        sieunhan: { ao: lucie ? 0x9333ea : 0x16a34a, quan: lucie ? 0x9333ea : 0x16a34a, tay: lucie ? 0x9333ea : 0x16a34a, toc: lucie ? 0x3b2314 : 0x2a1a10 },
+        ninja: { ao: 0x1f2937, quan: 0x111827, tay: 0x1f2937, toc: 0x111827 },
+        robot: { ao: 0xb8c2cc, quan: 0x8a96a3, tay: 0x9aa6b2, toc: 0x6b7785 }
+      }[skin] || {};
+      part(0.16, 0.3, 0.18, C.quan, -0.1, -0.33, 0); part(0.16, 0.3, 0.18, C.quan, 0.1, -0.33, 0);
+      part(0.42, 0.34, 0.22, C.ao, 0, -0.02, 0);
+      part(0.12, 0.3, 0.14, C.tay, -0.28, -0.03, 0);
+      armR = new T.Group(); armR.position.set(0.28, 0.12, 0); player.add(armR);
+      const arm = new T.Mesh(new T.BoxGeometry(0.12, 0.3, 0.14), L(C.tay)); arm.position.y = -0.14; armR.add(arm);
+      const handle = new T.Mesh(new T.BoxGeometry(0.05, 0.42, 0.05), L(0x7a5230)); handle.position.set(0, -0.3, 0.12); handle.rotation.x = Math.PI / 2.4; armR.add(handle);
+      const headP = new T.Mesh(new T.BoxGeometry(0.42, 0.08, 0.08), L(pk.mau)); headP.position.set(0, -0.32, 0.32); armR.add(headP);
+      if (K.cuoc >= 3) { const glow = new T.Mesh(new T.BoxGeometry(0.46, 0.12, 0.12), new T.MeshBasicMaterial({ color: pk.mau, transparent: true, opacity: 0.35 })); glow.position.copy(headP.position); armR.add(glow); }
+      head = new T.Group(); head.position.set(0, 0.36, 0); player.add(head);
+      head.add(new T.Mesh(new T.BoxGeometry(0.46, 0.46, 0.42), L(C.toc)));
+      if (window.MatThat) MatThat.dan(head, G.child, { r: 0.2, y: -0.01, z: 0.215 });
+      if (skin === "thomo") {
+        const hat = new T.Mesh(new T.BoxGeometry(0.5, 0.12, 0.46), L(0xfacc15)); hat.position.y = 0.26; head.add(hat);
+        const lamp = new T.Mesh(new T.BoxGeometry(0.12, 0.08, 0.04), new T.MeshBasicMaterial({ color: 0xfffbcc })); lamp.position.set(0, 0.26, 0.25); head.add(lamp);
+      } else if (skin === "sieunhan") {
+        part(0.44, 0.05, 0.24, 0xfacc15, 0, -0.17, 0);                  // thắt lưng vàng
+        const star = new T.Mesh(new T.CircleGeometry(0.08, 5), new T.MeshBasicMaterial({ color: 0xfacc15 })); star.position.set(0, 0.02, 0.112); star.rotation.z = Math.PI / 2; player.add(star);
+        const capeG = new T.Group(); capeG.position.set(0, 0.14, -0.13); player.add(capeG);
+        const cape = new T.Mesh(new T.BoxGeometry(0.46, 0.62, 0.03), L(0xf97316)); cape.position.y = -0.3; capeG.add(cape); ud.cape = capeG;
+        const band = new T.Mesh(new T.BoxGeometry(0.48, 0.06, 0.44), L(0xf97316)); band.position.y = 0.17; head.add(band);
+      } else if (skin === "ninja") {
+        const band = new T.Mesh(new T.BoxGeometry(0.48, 0.07, 0.44), L(0xdc2626)); band.position.y = 0.16; head.add(band);
+        const tail = new T.Mesh(new T.BoxGeometry(0.05, 0.05, 0.3), L(0xdc2626)); tail.position.set(0.1, 0.16, -0.32); tail.rotation.x = 0.4; head.add(tail); ud.cape = tail;
+        part(0.44, 0.06, 0.24, 0xdc2626, 0, -0.17, 0);
+      } else if (skin === "robot") {
+        const ant = new T.Mesh(new T.BoxGeometry(0.03, 0.18, 0.03), L(0x6b7785)); ant.position.y = 0.32; head.add(ant);
+        const ball = new T.Mesh(new T.SphereGeometry(0.05, 10, 8), new T.MeshBasicMaterial({ color: 0xff3b3b })); ball.position.y = 0.43; head.add(ball);
+        part(0.2, 0.12, 0.02, 0x22d3ee, 0, 0.02, 0.115);
+      }
+      player.scale.setScalar(1.25);
+    }
+    scene.add(player);
+  }
+  // hạt vỡ khối
+  const parts = [], pGeo = new T.BoxGeometry(0.14, 0.14, 0.14);
+  function burst(c, r, color, n, up) {
+    for (let i = 0; i < (n || 10); i++) { const m = new T.Mesh(pGeo, new T.MeshBasicMaterial({ color })); m.position.set(cellX(c) + rnd(-0.3, 0.3), cellY(r) + rnd(-0.3, 0.3), rnd(0, 0.5)); m.userData = { vx: rnd(-2.5, 2.5), vy: rnd(1, 4) + (up || 0), vz: rnd(0, 2), life: 0.9 }; scene.add(m); parts.push(m); }
+  }
+  let crack = null;
+  function setCrack(c, r, lvl) {
+    if (crack) { scene.remove(crack); crack = null; }
+    if (!lvl) return;
+    crack = new T.Mesh(new T.PlaneGeometry(1.002, 1.002), new T.MeshBasicMaterial({ map: tex("crack" + lvl), transparent: true, depthWrite: false }));
+    crack.position.set(cellX(c), cellY(r), 0.505); scene.add(crack);
+  }
+  function setCell(c, r) {
+    const old = meshes[r][c]; if (old) { world.remove(old); meshes[r][c] = null; }
+    const cell = G.world.grid[r][c]; if (cell.t !== "air") { const m = new T.Mesh(box, matsFor(cell)); m.position.set(cellX(c), cellY(r), 0); world.add(m); meshes[r][c] = m; }
+  }
+  function shake(c, r) { const m = meshes[r][c]; if (m) m.userData.shake = 0.35; }
+  const doorLights = [];
+  function placeDoorLight() { doorLights.forEach(l => scene.remove(l)); doorLights.length = 0;
+    const L = G.layer; if (L >= NL) return; const r = rowOfLayer(L) + LROWS, c = G.world.doors[L];
+    const l = new T.PointLight(0xc084fc, 1.4, 4.5, 1.5); l.position.set(cellX(c), cellY(r) + 0.2, 1); scene.add(l); doorLights.push(l); }
+  const camPos = new T.Vector3(0, 2, 12), camLook = new T.Vector3(0, 0, 0);
+  function resize() { const w = innerWidth, h = innerHeight; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); }
+  function frame(dt, t) {
+    const px = cellX(G.pc), py = cellY(G.pr);
+    G.vx += (px - G.vx) * Math.min(1, dt * 14); G.vy += (py - G.vy) * Math.min(1, dt * 14);
+    player.position.set(G.vx, G.vy - 0.05 + Math.abs(Math.sin(t * 9)) * (G.walkT > t ? 0.06 : 0), 0.15);
+    const ud = player.userData, sw = G.swingT > t;
+    if (ud.skin === "oto") {
+      player.rotation.y = G.face < 0 ? Math.PI - 0.35 : 0.35;
+      armR.rotation.x += sw ? dt * 40 : 0;
+      armR.rotation.z = G.dir === "down" && sw ? -1.2 : G.dir === "up" && sw ? 1.2 : 0;
+      ud.wheels.forEach(w => w.rotation.y += G.walkT > t ? dt * 18 : 0);
+    } else {
+      player.rotation.y = G.face * 0.5;
+      armR.rotation.x = sw ? -Math.sin((G.swingT - t) / 0.18 * Math.PI) * 1.6 : 0;
+      armR.rotation.z = G.dir === "down" && sw ? 0.6 : 0;
+      if (ud.cape) ud.cape.rotation.x = 0.25 + Math.sin(t * 7) * 0.15 + (G.walkT > t ? 0.3 : 0);
+    }
+    torch.position.set(G.vx, G.vy + 0.4, 1.4);
+    const depthK = Math.min(1, Math.max(0, (G.pr - 1) / (TOTAL_ROWS - 4)));
+    amb.intensity = 0.8 - depthK * 0.38; sun.intensity = 0.6 - depthK * 0.4;
+    const sky = new T.Color(0x8fd3ff).lerp(new T.Color(0x140d22), Math.min(1, G.pr / 6));
+    scene.background = sky;
+    const aspect = camera.aspect, dist = Math.max(10.5, 8 / aspect);
+    camPos.lerp(new T.Vector3(G.vx * 0.55, G.vy + 1.6, dist), Math.min(1, dt * 4));
+    camLook.lerp(new T.Vector3(G.vx * 0.55, G.vy - 0.6, 0), Math.min(1, dt * 4));
+    camera.position.copy(camPos); camera.lookAt(camLook);
+    for (let i = parts.length - 1; i >= 0; i--) { const p = parts[i], u = p.userData; u.vy -= 9 * dt; p.position.x += u.vx * dt; p.position.y += u.vy * dt; p.position.z += u.vz * dt; u.life -= dt; p.rotation.x += dt * 5; if (u.life <= 0) { scene.remove(p); parts.splice(i, 1); } }
+    world.children.forEach(m => { if (m.userData && m.userData.shake > 0) { m.userData.shake -= dt; m.position.x = m.userData.bx === undefined ? (m.userData.bx = m.position.x) : m.userData.bx; m.position.x += Math.sin(t * 60) * 0.06; if (m.userData.shake <= 0) m.position.x = m.userData.bx; } });
+    doorLights.forEach(l => l.intensity = 1.1 + Math.sin(t * 4) * 0.5);
+    renderer.render(scene, camera);
+  }
+  return { rebuild, frame, resize, setCell, burst, setCrack, shake, placeDoorLight };
+}
+
+function makeR2() {
+  const g = cv.getContext("2d"); let W = 0, H = 0, S = 64;
+  const face = new Image();
+  const parts = [];
+  let crack = null;
+  function resize() { W = cv.width = innerWidth; H = cv.height = innerHeight; S = Math.floor(Math.min(W / (COLS + 2), H / 9)); g.imageSmoothingEnabled = false; }
+  function rebuild() { face.src = window.MatThat ? MatThat.url(G.child) : "../../img/" + G.child + ".webp"; }
+  function frame(dt, t) {
+    G.vx += (G.pc - G.vx) * Math.min(1, dt * 14); G.vy += (G.pr - G.vy) * Math.min(1, dt * 14);
+    const ox = W / 2 - (COLS / 2) * S, oy = H * 0.5 - G.vy * S;
+    const sky = G.pr < 3 ? "#8fd3ff" : "#140d22"; g.fillStyle = sky; g.fillRect(0, 0, W, H);
+    g.imageSmoothingEnabled = false;
+    const r0 = Math.max(0, Math.floor(G.vy - H / S / 2) - 1), r1 = Math.min(TOTAL_ROWS - 1, Math.ceil(G.vy + H / S / 2) + 1);
+    for (let r = r0; r <= r1; r++) for (let c = -1; c <= COLS; c++) {
+      const x = ox + c * S, y = oy + r * S;
+      if (c < 0 || c >= COLS) { if (r >= 1) g.drawImage(getTex(r === 1 ? "grass" : "bedrock"), x, y, S, S); continue; }
+      const cell = G.world.grid[r][c];
+      if (cell.t === "air") { if (r >= 2) { g.drawImage(getTex(LAYER_BASE[layerOfRow(r)]), x, y, S, S); g.fillStyle = "rgba(0,0,0,.6)"; g.fillRect(x, y, S, S); } continue; }
+      const tt = cell.t === "chest" ? "chest" + cell.kind : cell.t;
+      g.drawImage(getTex(tt), x, y, S, S);
+    }
+    if (crack) g.drawImage(getTex("crack" + crack.l), ox + crack.c * S, oy + crack.r * S, S, S);
+    const px = ox + G.vx * S, py = oy + G.vy * S;
+    g.fillStyle = ({ oto: "#ef4444", sieunhan: "#16a34a", ninja: "#1f2937", robot: "#b8c2cc" })[G.kho.skin] || (G.child === "lucie" ? "#ff5fa8" : "#3b82f6"); g.fillRect(px + S * 0.25, py + S * 0.45, S * 0.5, S * 0.5);
+    g.fillStyle = "#facc15"; g.fillRect(px + S * 0.18, py - S * 0.02, S * 0.64, S * 0.12);
+    if (face.complete && face.naturalWidth) { g.save(); g.beginPath(); g.arc(px + S / 2, py + S * 0.3, S * 0.24, 0, Math.PI * 2); g.clip(); g.drawImage(face, px + S * 0.26, py + S * 0.06, S * 0.48, S * 0.48); g.restore(); }
+    for (let i = parts.length - 1; i >= 0; i--) { const p = parts[i]; p.vy += 9 * dt; p.x += p.vx * dt; p.y += p.vy * dt; p.life -= dt; g.fillStyle = p.col; g.fillRect(ox + p.x * S, oy + p.y * S, S * 0.14, S * 0.14); if (p.life <= 0) parts.splice(i, 1); }
+  }
+  function burst(c, r, color, n) { for (let i = 0; i < (n || 10); i++) parts.push({ x: c + 0.5, y: r + 0.5, vx: rnd(-2.5, 2.5), vy: -rnd(1, 4), life: 0.8, col: "#" + color.toString(16).padStart(6, "0") }); }
+  return { rebuild, frame, resize, setCell() {}, burst, setCrack(c, r, l) { crack = l ? { c, r, l } : null; }, shake() {}, placeDoorLight() {} };
+}
+
+/* ============================================================
+   KHO BÁU CỦA CON, CUỐC VÀ TRANG PHỤC (lưu trên máy, mỗi con một kho)
+   ============================================================ */
+const PICKS = [
+  { ten: "Cuốc gỗ", mau: 0x9a6a3a, luc: 1, nhanh: 0, mo: "Cuốc khởi đầu", gia: null },
+  { ten: "Cuốc đá", mau: 0x9a9a9a, luc: 1.5, nhanh: 10, mo: "Đập đá nhanh hơn", gia: { silver: 60 } },
+  { ten: "Cuốc sắt", mau: 0xe6e6e6, luc: 2, nhanh: 20, mo: "Đá xám 1 nhát là vỡ", gia: { silver: 120, gold: 40 } },
+  { ten: "Cuốc vàng", mau: 0xfcd34d, luc: 3, nhanh: 35, mo: "Đào vèo vèo, phát sáng", gia: { gold: 150, diamond: 40 } },
+  { ten: "Cuốc kim cương", mau: 0x5decf5, luc: 4, nhanh: 50, mo: "Mọi khối 1 nhát là vỡ", gia: { gold: 250, diamond: 120 } }
+];
+const SKINS = [
+  { id: "thomo", ten: "Thợ mỏ", mo: "Mũ vàng có đèn", gia: null },
+  { id: "oto", ten: "Ô tô đua", mo: "Xe đua có mũi khoan", gia: { gold: 150 } },
+  { id: "sieunhan", ten: "Siêu anh hùng", mo: "Áo choàng bay phấp phới", gia: { diamond: 80 } },
+  { id: "ninja", ten: "Ninja leo tường", mo: "Băng đô đỏ, nhanh nhẹn", gia: { gold: 100, diamond: 50 } },
+  { id: "robot", ten: "Robot thợ mỏ", mo: "Ăng-ten đèn đỏ", gia: { diamond: 150 } }
+];
+const TIEN = ["silver", "gold", "diamond"];
+function loadKho(c) {
+  let o = {}; try { o = JSON.parse(localStorage.getItem("thomo_kho_" + c) || "{}"); } catch (e) {}
+  return Object.assign({ coal: 0, iron: 0, silver: 0, gold: 0, emerald: 0, diamond: 0, kcTong: 0, ve: 0, cuoc: 0, skins: ["thomo"], skin: "thomo" }, o);
+}
+function saveKho(c, k) { try { localStorage.setItem("thomo_kho_" + c, JSON.stringify(k)); } catch (e) {} }
+function addInv(k, n) {
+  if (!n) return;
+  G.inv[k] = (G.inv[k] || 0) + n; G.kho[k] = (G.kho[k] || 0) + n;
+  if (k === "diamond") G.kho.kcTong += n;
+  saveKho(G.child, G.kho);
+}
+function oreImg(k) { const im = document.createElement("img"); im.alt = ORE[k].ten; setImg(im, ORE[k].anh, getTex(k)); return im; }
+
+/* ============================================================
+   CÚP — 30 chiếc, lưu mãi trong tủ cúp của từng con
+   ============================================================ */
+const HANG = ["Cúp đồng", "Cúp bạc", "Cúp vàng", "Cúp kim cương"];
+const TROPHIES = [
+  ["ruong1", "Rương đầu tiên", "Mở được 1 rương kho báu", 0, g => g.chests >= 1],
+  ["ruong5", "Thợ săn rương", "Mở 5 rương trong một lượt", 1, g => g.chests >= 5],
+  ["ruong10", "Vua mở rương", "Mở 10 rương trong một lượt", 2, g => g.chests >= 10],
+  ["ruongAll", "Không sót rương nào", "Mở hết rương của cả 6 tầng", 3, g => g.won && g.chests >= g.totalChests],
+  ["mayman", "Rương may mắn", "Gặp rương may mắn thưởng gấp đôi", 0, g => g.lucky >= 1],
+  ["mayman3", "Thần may mắn", "Gặp 3 rương may mắn trong một lượt", 2, g => g.lucky >= 3],
+  ["chuoi3", "Chuỗi 3 câu đúng", "Đúng liền 3 câu", 0, g => g.bestStreak >= 3],
+  ["chuoi5", "Chuỗi 5 câu đúng", "Đúng liền 5 câu", 1, g => g.bestStreak >= 5],
+  ["chuoi10", "Chuỗi 10 câu đúng", "Đúng liền 10 câu", 2, g => g.bestStreak >= 10],
+  ["kc1", "Viên kim cương đầu tiên", "Tìm được 1 viên kim cương", 0, g => g.inv.diamond >= 1],
+  ["kc30", "Túi kim cương", "Có 30 viên kim cương trong một lượt", 1, g => g.inv.diamond >= 30],
+  ["kc80", "Triệu phú kim cương", "Có 80 viên kim cương trong một lượt", 2, g => g.inv.diamond >= 80],
+  ["vang50", "Núi vàng", "Có 50 cục vàng trong một lượt", 1, g => g.inv.gold >= 50],
+  ["bac60", "Kho bạc lấp lánh", "Có 60 thỏi bạc trong một lượt", 1, g => g.inv.silver >= 60],
+  ["ngoc10", "Bộ sưu tập ngọc", "Có 10 viên ngọc lục bảo", 1, g => g.inv.emerald >= 10],
+  ["tron", "Đủ bộ báu vật", "Có đủ than, sắt, bạc, vàng, ngọc, kim cương", 0, g => Object.keys(ORE).every(k => g.inv[k] > 0)],
+  ["tang3", "Thợ mỏ dũng cảm", "Xuống tới tầng 3", 0, g => g.maxLayer >= 2],
+  ["tang5", "Vượt hang dung nham", "Xuống tới tầng 5", 1, g => g.maxLayer >= 4],
+  ["khobau", "Kho báu kim cương", "Tìm ra kho báu ở tầng sâu nhất", 2, g => g.won],
+  ["hoanhao", "Không sai câu nào", "Về đích mà không sai câu nào", 3, g => g.won && g.asked > 0 && g.right === g.asked],
+  ["diem1000", "1000 điểm", "Đạt 1000 điểm trong một lượt", 1, g => g.score >= 1000],
+  ["diem3000", "3000 điểm", "Đạt 3000 điểm trong một lượt", 2, g => g.score >= 3000],
+  ["diem6000", "6000 điểm", "Đạt 6000 điểm trong một lượt", 3, g => g.score >= 6000],
+  ["toan5", "Thần đồng Toán", "Đúng 5 câu Toán trong một lượt", 1, g => g.monRight["Toán"] >= 5],
+  ["tv5", "Giỏi Tiếng Việt", "Đúng 5 câu Tiếng Việt trong một lượt", 1, g => g.monRight["Tiếng Việt"] >= 5],
+  ["ta4", "Giỏi Tiếng Anh", "Đúng 4 câu Tiếng Anh trong một lượt", 1, g => g.monRight["Tiếng Anh"] >= 4],
+  ["cham3", "Chăm chỉ", "Tìm ra kho báu 3 lần", 2, (g, k) => k.ve >= 3],
+  ["kc500", "Đại gia mỏ", "Tổng cộng 500 viên kim cương", 3, (g, k) => k.kcTong >= 500],
+  ["cuocVang", "Cuốc vàng", "Nâng cấp lên cuốc vàng", 1, (g, k) => k.cuoc >= 3],
+  ["cuocKc", "Cuốc kim cương", "Nâng cấp lên cuốc kim cương", 3, (g, k) => k.cuoc >= 4],
+  ["doSkin", "Tủ đồ sành điệu", "Có 3 bộ trang phục", 1, (g, k) => k.skins.length >= 3]
+];
+function loadCups(c) { try { return JSON.parse(localStorage.getItem("thomo_cup_" + c) || "{}"); } catch (e) { return {}; } }
+function saveCups(c, o) { try { localStorage.setItem("thomo_cup_" + c, JSON.stringify(o)); } catch (e) {} }
+const cupQueue = [];
+function checkTrophies(child, g, k) {
+  const have = loadCups(child); let added = false;
+  const gg = g || { chests: 0, lucky: 0, bestStreak: 0, inv: {}, maxLayer: 0, won: false, asked: 0, right: 0, score: 0, monRight: {}, totalChests: 99 };
+  for (const t of TROPHIES) {
+    if (have[t[0]]) continue;
+    let ok = false; try { ok = t[4](gg, k); } catch (e) {}
+    if (ok) { have[t[0]] = Date.now(); cupQueue.push(t); if (g) g.newCups.push(t); added = true; }
+  }
+  if (added) saveCups(child, have);
+  updateCupHud();
+}
+function cupImg(t, im) { setImg(im, "cup-" + t[3], getTex("cup" + t[3])); }
+let trophyShowing = null;
+function showTrophies(cb) {
+  if (!cupQueue.length) { cb && cb(); return; }
+  const t = cupQueue.shift();
+  cupImg(t, $("tpImg"));
+  $("tpName").textContent = t[1];
+  $("tpDesc").textContent = HANG[t[3]] + " · " + t[2];
+  $("trophy").classList.remove("hide");
+  SFX.win();
+  Voice.say("Cúp mới! " + t[1] + ".");
+  let done = false;
+  const next = () => { if (done) return; done = true; clearTimeout(tm); trophyShowing = null; $("trophy").classList.add("hide"); setTimeout(() => showTrophies(cb), 200); };
+  const tm = setTimeout(next, 3000);
+  trophyShowing = next;
+}
+function updateCupHud() {
+  if (!G) return;
+  const n = Object.keys(loadCups(G.child)).length;
+  $("cupHudN").textContent = n + "/" + TROPHIES.length;
+}
+
+/* ============================================================
+   VÒNG CHƠI
+   ============================================================ */
+const R = { get: () => R3 || R2 };
+/* ---------- Tự lưu hầm đang đào: thoát ra vào lại là đứng đúng chỗ cũ ---------- */
+const KHOA_HAM = c => "thomo_ham_" + c;
+const LUU_TRUONG = ["pc", "pr", "layer", "maxLayer", "score", "inv", "asked", "right", "chests", "totalChests", "lucky", "streak", "bestStreak", "monRight", "doorsOpen", "t0", "monIdx", "face", "dir"];
+function luuHam() {
+  if (!G || G.over) return;
+  try { const o = { world: G.world, used: [...G.used], visited: [...G.visited] }; LUU_TRUONG.forEach(k => o[k] = G[k]); localStorage.setItem(KHOA_HAM(G.child), JSON.stringify(o)); } catch (e) {}
+}
+function docHam(c) { try { const o = JSON.parse(localStorage.getItem(KHOA_HAM(c)) || "null"); return o && o.world && o.world.grid ? o : null; } catch (e) { return null; } }
+function xoaHam(c) { try { localStorage.removeItem(KHOA_HAM(c)); } catch (e) {} }
+setInterval(luuHam, 3000);
+addEventListener("pagehide", luuHam);
+document.addEventListener("visibilitychange", () => { if (document.hidden) luuHam(); });
+
+function startGame(child) {
+  SFX.init(); PANEL_CHILD = child;
+  closeOverlays();
+  const pool = questionPool(child);
+  const cu = docHam(child);
+  const world = cu ? cu.world : buildWorld(child);
+  let total = 0; world.grid.forEach(row => row.forEach(x => { if (x.t === "chest") total++; }));
+  G = { child, world, pool, kho: loadKho(child), used: new Set(), monIdx: 0, pc: world.startC, pr: 0, vx: world.startC, vy: 0, face: 0, dir: "down",
+        swingT: 0, walkT: 0, lastAct: 0, layer: 0, maxLayer: 0, score: 0, inv: { coal: 0, iron: 0, silver: 0, gold: 0, emerald: 0, diamond: 0 },
+        asked: 0, right: 0, chests: 0, totalChests: total, lucky: 0, streak: 0, bestStreak: 0, monRight: { "Toán": 0, "Tiếng Việt": 0, "Tiếng Anh": 0 },
+        newCups: [], won: false, doorsOpen: 0, busy: false, over: false, t0: Date.now(), digHits: null, visited: new Set([0]) };
+  if (cu) {   // hầm đang đào dở: khôi phục đúng chỗ cũ
+    LUU_TRUONG.forEach(k => { if (cu[k] !== undefined) G[k] = cu[k]; });
+    G.used = new Set(cu.used || []); G.visited = new Set(cu.visited || [0]);
+    G.vx = G.pc; G.vy = G.pr;
+  }
+  if (R3) { G.vx = cellX(G.pc); G.vy = cellY(G.pr); }
+  R.get().rebuild(); R.get().resize(); R.get().placeDoorLight();
+  $("start").classList.add("hide"); $("end").classList.add("hide"); $("homeBtn").classList.remove("hide");
+  ["hud", "depth"].forEach(id => $(id).classList.remove("hide"));
+  $("pad").classList.toggle("hide", !("ontouchstart" in window) && !matchMedia("(pointer:coarse)").matches);
+  $("hudFace").src = window.MatThat ? MatThat.url(child) : "../../img/" + child + ".webp";
+  $("hudName").textContent = child === "lucie" ? "Lucie" : "Lucas";
+  $("hudPick").textContent = PICKS[G.kho.cuoc].ten + " · " + SKINS.find(s => s.id === G.kho.skin).ten;
+  cupImg(TROPHIES[18], $("cupHudImg"));
+  hintStage = 0;
+  buildDepth(); updateHUD(); updateStreak(); updateCupHud();
+  hint("Bấm phím mũi tên xuống để đào xuống lòng đất!");
+  setTimeout(() => Voice.say(cu ? "Chào mừng con quay lại! Mình đào tiếp tầng " + (G.layer + 1) + " nhé!" : KB.chao), 300);
+  if (cu) hint("Đào tiếp từ chỗ cũ nhé! Tầng " + (G.layer + 1));
+}
+function buildDepth() {
+  const d = $("depth"); d.innerHTML = "";
+  KB.tang.forEach((t, i) => { const x = document.createElement("div"); x.style.background = t[1]; x.title = t[0]; d.appendChild(x); });
+}
+function updateHUD() {
+  $("hudScore").textContent = G.score + " điểm";
+  const L = layerOfRow(G.pr);
+  $("hudLayer").textContent = "Mỏ " + moTMN(G.child) + "/25 · Tầng " + (L + 1) + ": " + KB.tang[L][0];
+  [...$("depth").children].forEach((x, i) => x.classList.toggle("on", i === L));
+  const inv = $("inv");
+  if (!inv.children.length) for (const k in ORE) { const it = document.createElement("div"); it.className = "it"; it.id = "invit-" + k; const im = oreImg(k); im.title = ORE[k].ten; const b = document.createElement("span"); b.id = "inv-" + k; it.append(im, b); inv.appendChild(it); }
+  for (const k in ORE) $("inv-" + k).textContent = G.inv[k];
+}
+function updateStreak() {
+  const s = $("hudStreak"); s.textContent = G.streak >= 3 ? "Chuỗi đúng " + G.streak + " · thưởng x2" : "Chuỗi đúng: " + G.streak;
+  s.classList.toggle("hot", G.streak >= 3);
+}
+function showBanner(a, b) { const x = $("banner"); x.innerHTML = ""; x.append(a); if (b) { const s = document.createElement("small"); s.textContent = b; x.appendChild(s); } x.classList.add("show"); clearTimeout(x._t); x._t = setTimeout(() => x.classList.remove("show"), 2300); }
+
+function act(dir) {
+  if (!G || G.busy || G.over) return;
+  const t = now(), pk = PICKS[G.kho.cuoc] || PICKS[0];
+  if (t - G.lastAct < 150 - pk.nhanh) return;
+  G.lastAct = t;
+  const d = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[dir]; if (!d) return;
+  G.dir = dir === "ArrowDown" ? "down" : dir === "ArrowUp" ? "up" : "side";
+  if (d[0]) G.face = d[0];
+  const nc = G.pc + d[0], nr = G.pr + d[1];
+  if (nc < 0 || nc >= COLS || nr < 0 || nr >= TOTAL_ROWS) { SFX.bump(); return; }
+  const cell = G.world.grid[nr][nc];
+  const sec = t / 1000;
+  if (cell.t === "air") {
+    G.pc = nc; G.pr = nr; G.walkT = sec + 0.15; SFX.step(); G.digHits = null; R.get().setCrack(0, 0, 0);
+    onEnter(); return;
+  }
+  G.swingT = sec + 0.18;
+  if (cell.t === "bedrock") { SFX.bump(); R.get().shake(nc, nr); toast("Đá cứng quá! Hãy tìm Cánh cửa phát sáng màu tím nhé"); return; }
+  if (cell.t === "lava") { SFX.bump(); toast("Nóng quá! Dung nham không đào được, đi đường khác nhé"); return; }
+  if (cell.t === "chest") { SFX.dig(); R.get().shake(nc, nr); openQuestion("chest", nc, nr, cell); return; }
+  if (cell.t === "door") { SFX.dig(); openQuestion("door", nc, nr, cell); return; }
+  // đào khối: cuốc càng xịn càng ít nhát
+  const key = nc + "," + nr;
+  if (!G.digHits || G.digHits.key !== key) G.digHits = { key, n: 0 };
+  G.digHits.n++;
+  SFX.dig(); R.get().shake(nc, nr);
+  const need = Math.max(1, Math.ceil((HARD[cell.t] || 1) / pk.luc));
+  if (G.digHits.n < need) { R.get().setCrack(nc, nr, G.digHits.n / need > 0.5 ? 2 : 1); return; }
+  R.get().setCrack(0, 0, 0); G.digHits = null;
+  breakBlock(nc, nr, cell);
+}
+const COLOR = { grass: 0x6b8e23, dirt: 0x8b5a2b, stone: 0x8c8c8c, deep: 0x4b4b58, coal: 0x222222, iron: 0xd8af93, silver: 0xf1f5fb, gold: 0xfcee4b, emerald: 0x17dd62, diamond: 0x5decf5, log: 0x6b4a2b, leaves: 0x3f9b32 };
+function breakBlock(c, r, cell) {
+  const t = cell.t;
+  G.world.grid[r][c] = { t: "air", hp: 0 };
+  R.get().setCell(c, r); R.get().burst(c, r, COLOR[t] || 0x888888, 10);
+  SFX.brk();
+  if (ORE[t]) {
+    addInv(t, 1); G.score += ORE[t].diem;
+    if (t === "diamond" || t === "emerald") SFX.gem(); else SFX.ore();
+    toast("+" + ORE[t].diem + " · " + ORE[t].ten, 1200);
+    if (t === "diamond" && G.inv.diamond === 1) Voice.say("Oa! Kim cương đầu tiên!");
+    celebrate();
+  }
+  if (hintStage === 0) { hintStage = 1; hint("Đào tiếp sang trái, sang phải để tìm rương kho báu!"); setTimeout(() => { if (hintStage === 1) hint(""); }, 5000); }
+  updateHUD();
+}
+function celebrate(cb) {
+  checkTrophies(G.child, G, G.kho);
+  if (!cupQueue.length) { cb && cb(); return; }
+  G.busy = true;
+  showTrophies(() => { G.busy = false; cb && cb(); });
+}
+let hintStage = 0;
+function onEnter() {
+  const L = layerOfRow(G.pr);
+  if (!G.visited.has(L)) { G.visited.add(L); G.maxLayer = Math.max(G.maxLayer, L); showBanner(document.createTextNode("Tầng " + (L + 1)), KB.tang[L][0]); Voice.say("Tầng " + (L + 1) + ". " + KB.tang[L][0]); celebrate(); }
+  updateHUD();
+}
+
+/* ---------- Mở rương / cửa: câu hỏi ---------- */
+let Q = null;
+function openQuestion(kind, c, r, cell) {
+  G.busy = true;
+  const L = cell.L !== undefined ? cell.L : layerOfRow(r);
+  const base = L <= 1 ? 1 : L <= 3 ? 2 : 3;
+  const level = kind === "door" ? Math.min(3, base + 1) : base;
+  const q = nextQuestion(level);
+  const opts = shuffle([q.dung, ...q.sai]);
+  Q = { kind, c, r, cell, q, opts, done: false, focus: 0 };
+  const isDoor = kind === "door", ch = isDoor ? null : CHEST[cell.kind];
+  setImg($("qimg"), isDoor ? (L === NL - 1 ? "kho-bau" : "cua") : ch.anh, getTex(isDoor ? "door" : "chest" + cell.kind));
+  $("qtag").textContent = isDoor ? (L === NL - 1 ? "Cửa kho báu cuối cùng" : "Cửa xuống tầng " + (L + 2)) : ch.ten;
+  const mon = $("qmon"); mon.textContent = q.mon;
+  mon.style.background = q.mon === "Toán" ? "#2563eb" : q.mon === "Tiếng Việt" ? "#dc2626" : "#16a34a";
+  $("qinfo").textContent = isDoor ? "Trả lời đúng để mở cửa, có thưởng vàng và kim cương" : "Trả lời đúng để lấy hết bạc, vàng, kim cương trong rương!";
+  $("qtext").textContent = q.q;
+  const box = $("qans"); box.innerHTML = "";
+  opts.forEach((o, i) => { const b = document.createElement("button"); b.className = "btn"; b.innerHTML = "<i>" + (i + 1) + "</i><span></span>"; b.querySelector("span").textContent = o; b.onclick = () => answer(i); box.appendChild(b); });
+  $("qfb").textContent = ""; $("qfb").className = "";
+  $("qnext").classList.add("hide"); $("qread").classList.remove("hide");
+  $("qwrap").classList.remove("hide");
+  setFocus(0);
+  readQuestion();
+}
+function readQuestion() {
+  if (!Q) return;
+  const parts = Q.q.q + ". " + Q.opts.map((o, i) => "Số " + (i + 1) + ": " + o).join(". ");
+  Voice.say(parts);
+}
+function setFocus(i) {
+  const bs = [...$("qans").children]; if (!bs.length) return;
+  Q.focus = (i + bs.length) % bs.length;
+  bs.forEach((b, k) => b.classList.toggle("foc", k === Q.focus));
+  bs[Q.focus].focus({ preventScroll: true });
+}
+function logResult(q, ok) {
+  try { const k = "giaDinh_nhatKy", a = JSON.parse(localStorage.getItem(k) || "[]");
+    a.push({ t: Date.now(), g: "thomo", c: G.child, s: q.mon, q: q.q.slice(0, 140), ok: !!ok }); if (a.length > 6000) a.splice(0, a.length - 6000); localStorage.setItem(k, JSON.stringify(a)); } catch (e) {}
+}
+function answer(i) {
+  if (!Q || Q.done) return;
+  Q.done = true;
+  const ok = Q.opts[i] === Q.q.dung;
+  G.asked++;
+  if (ok) { G.right++; G.streak++; G.bestStreak = Math.max(G.bestStreak, G.streak); G.monRight[Q.q.mon] = (G.monRight[Q.q.mon] || 0) + 1; }
+  else G.streak = 0;
+  updateStreak();
+  logResult(Q.q, ok);
+  const bs = [...$("qans").children];
+  bs.forEach((b, k) => { b.classList.remove("foc"); if (Q.opts[k] === Q.q.dung) b.classList.add("ok"); else if (k === i) b.classList.add("no"); else b.classList.add("dim"); });
+  const fb = $("qfb");
+  if (ok) {
+    const s = pick(KB.khen); fb.textContent = s; fb.className = "ok"; SFX.open(); Voice.say(s);
+    setTimeout(() => success(), 1100);
+  } else {
+    const s = pick(KB.dongvien); fb.textContent = s + (Q.q.giai ? " " + Q.q.giai : " Đáp án đúng: " + Q.q.dung);
+    fb.className = "no"; SFX.wrong(); Voice.say(s + ". Đáp án đúng là " + Q.q.dung + ". " + (Q.q.giai || ""));
+    $("qread").classList.add("hide");
+    const nx = $("qnext"); nx.classList.remove("hide"); nx.textContent = Q.kind === "door" ? "Thử câu khác" : "Đào tiếp"; setTimeout(() => nx.focus({ preventScroll: true }), 50);
+  }
+}
+function closeQuestion() { $("qwrap").classList.add("hide"); Voice.stop(); Q = null; G.busy = false; }
+function afterWrong() {
+  const kind = Q.kind, c = Q.c, r = Q.r, cell = Q.cell;
+  closeQuestion();
+  if (kind === "door") { setTimeout(() => openQuestion("door", c, r, cell), 250); }
+  else toast("Rương vẫn khóa. Lát nữa quay lại thử câu khác nhé!", 2600);
+}
+/* Rương càng quý càng nhiều bạc, vàng, kim cương */
+const LOOT = [
+  { silver: [5, 8], gold: [2, 4], diamond: [1, 2] },
+  { silver: [8, 12], gold: [4, 7], diamond: [2, 4], emerald: [1, 1] },
+  { silver: [10, 15], gold: [8, 12], diamond: [4, 6], emerald: [1, 2] },
+  { silver: [12, 18], gold: [12, 18], diamond: [9, 14], emerald: [2, 4] }
+];
+const ri = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+function success() {
+  const { kind, c, r, cell } = Q;
+  closeQuestion();
+  G.busy = true;
+  const L = cell.L;
+  G.world.grid[r][c] = { t: "air", hp: 0 };
+  R.get().setCell(c, r);
+  const badges = [];
+  let mult = 1;
+  if (G.streak >= 3) { mult *= 2; badges.push(["Chuỗi đúng " + G.streak + " câu · x2", "#ff8a3c"]); }
+  if (kind === "chest") {
+    const ch = CHEST[cell.kind];
+    const lucky = Math.random() < 0.22;
+    if (lucky) { mult *= 2; G.lucky++; badges.unshift(["Rương may mắn · x2", "#ff5fa8"]); }
+    const loot = {}; for (const k in LOOT[cell.kind]) { const [a, b] = LOOT[cell.kind][k]; loot[k] = ri(a, b) * mult; }
+    let pts = ch.diem; for (const k in loot) pts += loot[k] * ORE[k].diem;
+    G.score += pts; G.chests++;
+    R.get().burst(c, r, 0xfcee4b, 30, 2); R.get().burst(c, r, 0xf1f5fb, 14, 2); R.get().burst(c, r, 0x5decf5, 14, 2);
+    if (lucky) Voice.say("Rương may mắn! Phần thưởng gấp đôi!");
+    showLoot(ch.anh, "chest" + cell.kind, "+" + pts + " điểm", ch.ten + " đã mở!", loot, badges, () => celebrate(() => { G.busy = false; }));
+  } else {
+    const loot = { gold: (3 + L) * mult, diamond: (1 + Math.floor(L / 2)) * mult };
+    let pts = 20; for (const k in loot) pts += loot[k] * ORE[k].diem;
+    G.score += pts; G.doorsOpen++; SFX.door(); R.get().burst(c, r, 0xc084fc, 24, 1);
+    const last = L === NL - 1;
+    if (!last) { G.layer = L + 1; R.get().placeDoorLight(); }
+    showLoot(last ? "kho-bau" : "cua", "door", "+" + pts + " điểm", last ? "Cửa kho báu đã mở!" : "Cửa xuống tầng " + (L + 2) + " đã mở!", loot, badges, () => {
+      if (last) { finish(); return; }
+      toast("Đi xuống tầng " + (L + 2) + " nào!", 2000);
+      celebrate(() => { G.busy = false; });
+    });
+  }
+}
+function showLoot(ma, texName, title, sub, loot, badges, cb) {
+  setImg($("rwImg"), ma, getTex(texName));
+  $("rwTitle").textContent = title; $("rwSub").textContent = sub;
+  const bd = $("rwBadges"); bd.innerHTML = "";
+  badges.forEach(([s, col]) => { const x = document.createElement("div"); x.className = "bd"; x.textContent = s; x.style.background = col; bd.appendChild(x); });
+  const box = $("rwItems"); box.innerHTML = "";
+  const keys = ["silver", "gold", "emerald", "diamond"].filter(k => loot[k] > 0);
+  keys.forEach(k => { const it = document.createElement("div"); it.className = "it"; it.dataset.k = k; const b = document.createElement("b"); b.textContent = "x" + loot[k]; const s = document.createElement("small"); s.textContent = ORE[k].ten; it.append(oreImg(k), b, s); box.appendChild(it); });
+  $("reward").classList.remove("hide");
+  [...box.children].forEach((it, i) => setTimeout(() => { it.classList.add("on"); SFX.gem(); }, 300 + i * 280));
+  setTimeout(() => {
+    // kho báu bay về túi đồ phía trên
+    const layer = $("flyLayer");
+    [...box.children].forEach((it, i) => {
+      const k = it.dataset.k, from = it.querySelector("img").getBoundingClientRect(), tgt = $("invit-" + k), to = tgt ? tgt.getBoundingClientRect() : { left: 20, top: 20 };
+      const n = Math.min(8, loot[k]);
+      for (let j = 0; j < n; j++) setTimeout(() => {
+        const im = oreImg(k); im.style.left = (from.left + rnd(-20, 20)) + "px"; im.style.top = (from.top + rnd(-20, 20)) + "px"; layer.appendChild(im);
+        requestAnimationFrame(() => requestAnimationFrame(() => { im.style.transform = "translate(" + (to.left - from.left) + "px," + (to.top - from.top) + "px) scale(.6)"; im.style.opacity = ".2"; }));
+        setTimeout(() => im.remove(), 950);
+      }, i * 120 + j * 55);
+    });
+    setTimeout(() => $("reward").classList.add("hide"), 250);
+    setTimeout(() => {
+      for (const k of keys) { addInv(k, loot[k]); const it = $("invit-" + k); if (it) { it.classList.add("bump"); setTimeout(() => it.classList.remove("bump"), 400); } }
+      SFX.ore(); updateHUD(); cb && cb();
+    }, 1250);
+  }, 300 + keys.length * 280 + 1300);
+}
+function finish() {
+  G.over = true; G.busy = true; G.won = true; xoaHam(G.child); SFX.win(); try { localStorage.setItem("thoMo_mo_" + G.child, Math.min(25, moTMN(G.child) + 1)); } catch (e) {}
+  G.kho.ve++; saveKho(G.child, G.kho);
+  const pct = G.asked ? G.right / G.asked : 0, stars = pct >= 0.85 ? 3 : pct >= 0.6 ? 2 : 1;
+  try { const k = "thomo_" + G.child, o = JSON.parse(localStorage.getItem(k) || "{}"); o.luot = (o.luot || 0) + 1; if (stars === 3) o.cup = (o.cup || 0) + 1; o.best = Math.max(o.best || 0, G.score); o.kc = (o.kc || 0) + G.inv.diamond; o.lanCuoi = Date.now(); localStorage.setItem(k, JSON.stringify(o)); } catch (e) {}
+  checkTrophies(G.child, G, G.kho);
+  showTrophies(() => showEnd(stars));
+}
+function showEnd(stars) {
+  $("endFace").src = $("hudFace").src;
+  setImg($("endImg"), "kho-bau", getTex("diamond"));
+  $("endTitle").textContent = (G.child === "lucie" ? "Lucie" : "Lucas") + " đã tìm ra Kho Báu Kim Cương!";
+  $("endStars").textContent = "★".repeat(stars) + "☆".repeat(3 - stars);
+  $("endStats").innerHTML = "";
+  [["Điểm", G.score], ["Rương đã mở", G.chests + "/" + G.totalChests + (G.lucky ? " · " + G.lucky + " rương may mắn" : "")], ["Trả lời đúng", G.right + "/" + G.asked + " câu · chuỗi dài nhất " + G.bestStreak],
+   ["Lượt này nhặt được", G.inv.diamond + " kim cương · " + G.inv.gold + " vàng · " + G.inv.silver + " bạc"],
+   ["Cúp mới", G.newCups.length ? G.newCups.length + " chiếc" : "chưa có, lượt sau cố lên nhé"]]
+    .forEach(([a, b]) => { const d = document.createElement("div"); d.textContent = a + ": " + b; $("endStats").appendChild(d); });
+  const ec = $("endCups"); ec.innerHTML = "";
+  G.newCups.forEach(t => { const im = document.createElement("img"); cupImg(t, im); im.title = t[1]; ec.appendChild(im); });
+  $("end").classList.remove("hide"); $("homeBtn").classList.add("hide");
+  setTimeout(() => $("againBtn").focus({ preventScroll: true }), 80);
+  Voice.say(KB.chucmung);
+}
+
+/* ---------- Tủ cúp và cửa hàng ---------- */
+let PANEL_CHILD = "lucie";
+function faceUrl(c) { return window.MatThat ? MatThat.url(c) : "../../img/" + c + ".webp"; }
+function openShelf(c) {
+  PANEL_CHILD = c || PANEL_CHILD;
+  const have = loadCups(PANEL_CHILD), n = Object.keys(have).length;
+  $("shFace").src = faceUrl(PANEL_CHILD);
+  $("shTitle").textContent = "Tủ cúp của " + (PANEL_CHILD === "lucie" ? "Lucie" : "Lucas");
+  $("shCount").textContent = "Đã có " + n + "/" + TROPHIES.length + " cúp";
+  $("shLucie").classList.toggle("act", PANEL_CHILD === "lucie"); $("shLucas").classList.toggle("act", PANEL_CHILD === "lucas");
+  const grid = $("shGrid"); grid.innerHTML = "";
+  TROPHIES.slice().sort((a, b) => (!!have[b[0]] - !!have[a[0]]) || a[3] - b[3]).forEach(t => {
+    const d = document.createElement("div"); d.className = "tc h" + t[3] + (have[t[0]] ? "" : " lock");
+    const im = document.createElement("img"); cupImg(t, im);
+    const b = document.createElement("b"); b.textContent = t[1];
+    const s = document.createElement("small"); s.textContent = HANG[t[3]] + " · " + t[2];
+    d.append(im, b, s); grid.appendChild(d);
+  });
+  $("shelf").classList.remove("hide");
+  setTimeout(() => $("shClose").focus({ preventScroll: true }), 50);
+}
+function priceEl(gia) {
+  const p = document.createElement("div"); p.className = "price";
+  if (gia === "own") { p.textContent = "Của con rồi"; return p; }
+  if (!gia) { p.textContent = "Miễn phí"; return p; }
+  for (const k of TIEN) if (gia[k]) { const i = document.createElement("i"); i.append(oreImg(k), document.createTextNode(gia[k])); p.appendChild(i); }
+  return p;
+}
+const enough = (K, gia) => !gia || TIEN.every(k => (K[k] || 0) >= (gia[k] || 0));
+function pay(K, gia) { if (gia) TIEN.forEach(k => K[k] -= gia[k] || 0); }
+function openShop(c) {
+  PANEL_CHILD = c || PANEL_CHILD;
+  const K = loadKho(PANEL_CHILD);
+  $("spFace").src = faceUrl(PANEL_CHILD);
+  $("spLucie").classList.toggle("act", PANEL_CHILD === "lucie"); $("spLucas").classList.toggle("act", PANEL_CHILD === "lucas");
+  const bank = $("spBank"); bank.innerHTML = "";
+  bank.append(document.createTextNode("Kho báu của " + (PANEL_CHILD === "lucie" ? "Lucie" : "Lucas") + ":"));
+  TIEN.forEach(k => { const i = document.createElement("i"); i.append(oreImg(k), document.createTextNode(K[k] || 0)); bank.appendChild(i); });
+  const card = (ma, tex, ten, mo, gia, btnText, cls, dis, onClick, cur) => {
+    const d = document.createElement("div"); d.className = "sc" + (cur ? " cur" : "");
+    const im = document.createElement("img"); im.className = "pic"; setImg(im, ma, tex);
+    const b = document.createElement("b"); b.textContent = ten; const s = document.createElement("small"); s.textContent = mo;
+    const bt = document.createElement("button"); bt.className = "btn " + cls; bt.textContent = btnText; bt.disabled = dis; if (!dis) bt.onclick = onClick;
+    d.append(im, b, s, priceEl(gia), bt); return d;
+  };
+  const pr = $("spPicks"); pr.innerHTML = "";
+  PICKS.forEach((p, i) => {
+    let txt, cls = "", dis = true;
+    if (i <= K.cuoc) txt = i === K.cuoc ? "Đang dùng" : "Đã có";
+    else if (i === K.cuoc + 1) { if (enough(K, p.gia)) { txt = "Mua"; cls = "buy"; dis = false; } else txt = "Chưa đủ kho báu"; }
+    else txt = "Mua cuốc trước đã";
+    pr.appendChild(card("cuoc-" + i, getTex("pick" + i), p.ten, p.mo, i <= K.cuoc ? (i ? "own" : null) : p.gia, txt, cls, dis, () => buy("cuoc", i), i === K.cuoc));
+  });
+  const sk = $("spSkins"); sk.innerHTML = "";
+  SKINS.forEach(s => {
+    const own = K.skins.includes(s.id); let txt, cls = "", dis = true;
+    if (K.skin === s.id) txt = "Đang mặc";
+    else if (own) { txt = "Mặc bộ này"; cls = "use"; dis = false; }
+    else if (enough(K, s.gia)) { txt = "Mua"; cls = "buy"; dis = false; }
+    else txt = "Chưa đủ kho báu";
+    sk.appendChild(card("skin-" + s.id, skinTex(s.id), s.ten, s.mo, own ? (s.gia ? "own" : null) : s.gia, txt, cls, dis, () => buy("skin", s.id), K.skin === s.id));
+  });
+  $("shop").classList.remove("hide");
+  setTimeout(() => { const b = $("shop").querySelector(".sc .btn:not([disabled])") || $("spClose"); b.focus({ preventScroll: true }); }, 50);
+}
+function skinTex(id) {
+  const c = document.createElement("canvas"); c.width = c.height = 16; const g = c.getContext("2d");
+  g.fillStyle = "#2a1c0e"; g.fillRect(0, 0, 16, 16);
+  if (id === "oto") { g.fillStyle = "#ef4444"; g.fillRect(1, 8, 14, 4); g.fillStyle = "#1f2937"; g.fillRect(4, 5, 6, 3); g.fillStyle = "#111"; g.fillRect(3, 12, 3, 3); g.fillRect(10, 12, 3, 3); g.fillStyle = "#5decf5"; g.fillRect(14, 9, 2, 2); }
+  else { const col = { thomo: ["#3b82f6", "#facc15"], sieunhan: ["#16a34a", "#f97316"], ninja: ["#1f2937", "#dc2626"], robot: ["#b8c2cc", "#ff3b3b"] }[id];
+    g.fillStyle = "#f1c27d"; g.fillRect(5, 2, 6, 5); g.fillStyle = col[1]; g.fillRect(4, 1, 8, 2); g.fillStyle = col[0]; g.fillRect(4, 7, 8, 5); g.fillRect(5, 12, 2, 3); g.fillRect(9, 12, 2, 3);
+    if (id === "sieunhan") { g.fillStyle = col[1]; g.fillRect(3, 7, 1, 7); g.fillRect(12, 7, 1, 7); } }
+  return c.toDataURL();
+}
+function buy(type, v) {
+  const c = PANEL_CHILD, K = loadKho(c);
+  if (type === "cuoc") { const p = PICKS[v]; if (!p || v !== K.cuoc + 1 || !enough(K, p.gia)) return; pay(K, p.gia); K.cuoc = v; }
+  else { const s = SKINS.find(x => x.id === v); if (!K.skins.includes(v)) { if (!enough(K, s.gia)) return; pay(K, s.gia); K.skins.push(v); } K.skin = v; }
+  saveKho(c, K);
+  SFX.open();
+  Voice.say(type === "cuoc" ? "Nâng cấp cuốc thành công!" : "Đã thay trang phục mới!");
+  checkTrophies(c, null, K);
+  showTrophies(() => openShop(c));
+}
+function closeOverlays() { ["shelf", "shop"].forEach(id => $(id).classList.add("hide")); }
+function overlayOpen() { return ["shelf", "shop"].find(id => !$(id).classList.contains("hide")); }
+function backFocus() { const e = !$("end").classList.contains("hide") ? $("againBtn") : $("pickLucie"); setTimeout(() => e.focus({ preventScroll: true }), 30); }
+/* Điều khiển TV: mũi tên nhảy sang nút gần nhất theo hướng bấm */
+function navMove(root, key) {
+  const bs = [...root.querySelectorAll("button")].filter(b => !b.disabled && b.offsetParent);
+  if (!bs.length) return;
+  const cur = document.activeElement;
+  if (!bs.includes(cur)) { bs[0].focus(); return; }
+  const a = cur.getBoundingClientRect(), ax = a.left + a.width / 2, ay = a.top + a.height / 2;
+  let best = null, bd = 1e9;
+  for (const b of bs) { if (b === cur) continue; const r = b.getBoundingClientRect(), dx = r.left + r.width / 2 - ax, dy = r.top + r.height / 2 - ay;
+    const ok = key === "ArrowRight" ? dx > 5 : key === "ArrowLeft" ? dx < -5 : key === "ArrowDown" ? dy > 5 : dy < -5; if (!ok) continue;
+    const d = (key === "ArrowRight" || key === "ArrowLeft") ? Math.abs(dx) + Math.abs(dy) * 3 : Math.abs(dy) + Math.abs(dx) * 3;
+    if (d < bd) { bd = d; best = b; } }
+  if (best) best.focus({ preventScroll: true });
+}
+
+/* ---------- Điều khiển ---------- */
+document.addEventListener("keydown", e => {
+  const k = e.key;
+  if (trophyShowing && (k === "Enter" || k === " " || k === "Escape")) { e.preventDefault(); trophyShowing(); return; }
+  if (!$("trophy").classList.contains("hide")) { e.preventDefault(); return; }
+  const ov = overlayOpen();
+  if (ov) {
+    if (k === "Escape" || k === "Backspace") { e.preventDefault(); closeOverlays(); backFocus(); }
+    else if (ov === "shelf" && (k === "ArrowDown" || k === "ArrowUp")) { e.preventDefault(); $("shGrid").scrollBy({ top: k === "ArrowDown" ? 240 : -240, behavior: "smooth" }); }
+    else if (/^Arrow/.test(k)) { e.preventDefault(); navMove($(ov), k); }
+    return;
+  }
+  if (!$("start").classList.contains("hide")) {
+    if (k === "1") startGame("lucie"); else if (k === "2") startGame("lucas");
+    else if (k === "3") openShelf(document.activeElement === $("pickLucas") ? "lucas" : "lucie");
+    else if (k === "4") openShop(document.activeElement === $("pickLucas") ? "lucas" : "lucie");
+    else if (/^Arrow/.test(k)) { e.preventDefault(); navMove($("start"), k); }
+    return;
+  }
+  if (!$("end").classList.contains("hide")) { if (/^Arrow/.test(k)) { e.preventDefault(); navMove($("end"), k); } return; }
+  if (Q) {
+    if (!Q.done) {
+      if (/^[1-4]$/.test(k)) { e.preventDefault(); answer(+k - 1); return; }
+      const cols = innerWidth > 760 ? 2 : 1;
+      if (k === "ArrowRight") { e.preventDefault(); setFocus(Q.focus + 1); }
+      else if (k === "ArrowLeft") { e.preventDefault(); setFocus(Q.focus - 1); }
+      else if (k === "ArrowDown") { e.preventDefault(); setFocus(Q.focus + cols); }
+      else if (k === "ArrowUp") { e.preventDefault(); setFocus(Q.focus - cols); }
+      else if (k === "Enter" || k === " ") { e.preventDefault(); answer(Q.focus); }
+    } else if (k === "Enter" || k === " " || /^Arrow/.test(k)) { e.preventDefault(); if (!$("qnext").classList.contains("hide")) afterWrong(); }
+    return;
+  }
+  if (/^Arrow/.test(k)) { e.preventDefault(); SFX.init(); act(k); }
+});
+let padTimer = null;
+document.querySelectorAll("#pad button").forEach(b => {
+  const go = e => { e.preventDefault(); SFX.init(); act(b.dataset.k); clearInterval(padTimer); padTimer = setInterval(() => act(b.dataset.k), 170); };
+  const stop = () => clearInterval(padTimer);
+  b.addEventListener("pointerdown", go); b.addEventListener("pointerup", stop); b.addEventListener("pointerleave", stop); b.addEventListener("pointercancel", stop);
+});
+$("trophy").addEventListener("click", () => trophyShowing && trophyShowing());
+$("qread").onclick = readQuestion;
+$("qnext").onclick = afterWrong;
+$("pickLucie").onclick = () => startGame("lucie");
+$("pickLucas").onclick = () => startGame("lucas");
+$("againBtn").onclick = () => startGame(G.child);
+$("otherBtn").onclick = () => { $("end").classList.add("hide"); $("homeBtn").classList.remove("hide"); ["hud", "depth", "pad"].forEach(id => $(id).classList.add("hide")); hint(""); $("start").classList.remove("hide"); $("pickLucie").focus(); };
+$("shelfBtn").onclick = () => openShelf(PANEL_CHILD);
+$("shopBtn").onclick = () => openShop(PANEL_CHILD);
+$("endShelf").onclick = () => openShelf(G.child);
+$("endShop").onclick = () => openShop(G.child);
+$("shLucie").onclick = () => openShelf("lucie"); $("shLucas").onclick = () => openShelf("lucas");
+$("spLucie").onclick = () => openShop("lucie"); $("spLucas").onclick = () => openShop("lucas");
+$("shClose").onclick = $("spClose").onclick = () => { closeOverlays(); backFocus(); };
+["lucie", "lucas"].forEach(c => { const im = document.querySelector("#pick" + (c === "lucie" ? "Lucie" : "Lucas") + " img"); im.src = faceUrl(c); });
+setTimeout(() => $("pickLucie").focus({ preventScroll: true }), 100);
+
+/* ---------- Khởi động máy vẽ ---------- */
+try { if (window.THREE && hasGL()) R3 = makeR3(); } catch (e) { R3 = null; }
+if (!R3) R2 = makeR2();
+addEventListener("resize", () => R.get().resize());
+let lastT = now();
+function loop() {
+  const t = now(), dt = Math.min(0.05, (t - lastT) / 1000); lastT = t;
+  if (G) R.get().frame(dt, t / 1000);
+  requestAnimationFrame(loop);
+}
+R.get().resize(); requestAnimationFrame(loop);
+
+/* Móc cho máy tự kiểm tra (không ảnh hưởng người chơi) */
+window.__tm = { get G() { return G; }, get Q() { return Q; }, act, answer, layerOfRow, rowOfLayer, COLS, TOTAL_ROWS, NL, LROWS, renderer: () => (R3 ? "3d" : "2d"), buy, openShop, openShelf, loadKho, saveKho, loadCups };
+</script>
+<script src="../anh-chung/nhac-nen.js" data-ten="Thợ Mỏ Nhí Lucie & Lucas" data-vitri="right:14px;bottom:14px" data-bpm="120" data-goc="C" data-kieu="xylophone" data-not="C5 G4 E5 C5 D5 G4 F5 D5 E5 C5 G5 E5 F5 D5 G5 C5"></script>
+</body>
+</html>

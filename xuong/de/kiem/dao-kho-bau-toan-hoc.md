@@ -1,0 +1,1934 @@
+Em là lập trình viên game web giàu kinh nghiệm. Dưới đây là TOÀN BỘ mã game "dao-kho-bau-toan-hoc" (games/dao-kho-bau-toan-hoc/index.html) — game học tập cho hai bé Lucie (lớp 3) và Lucas (lớp 1), chơi trên TV LG webOS (phím mũi tên/OK, phím 1-4) và iPad/điện thoại (chạm). Anh (bố) báo: các con chơi vẫn còn NHIỀU LỖI.
+
+KIỂM THỬ TỰ ĐỘNG CỦA CLAUDE: mở trang rồi bấm phím/chạm liên tục như trẻ chơi thì trang BỊ TREO (trình duyệt không phản hồi sau ~90 giây). Tìm vòng lặp vô hạn, đệ quy, hoặc việc nặng chạy mỗi khung hình.
+
+NHIỆM VỤ: đọc kỹ toàn bộ mã như một người kiểm thử, tìm và SỬA mọi lỗi thật: kẹt màn/không sang câu tiếp, nút không bấm được trên TV hoặc iPad, đếm điểm/cúp/CIECAS sai, đáp án sai hoặc trùng, câu hỏi lặp, lưu ván dở lỗi, âm thanh/giọng đọc chồng nhau, giật/rò bộ nhớ (setInterval, requestAnimationFrame, listener, phần tử tạo mới không xóa), lỗi khi tải ảnh thất bại, lỗi giao diện tràn màn hình TV 1920x1080 và iPad dọc. Không đổi luật chơi, nội dung câu hỏi đúng, mặt thật hai bé, các tệp dùng chung (../anh-chung/*.js).
+
+CÁCH TRẢ LỜI (bắt buộc): MỘT khối ```json là mảng [{"cu": "đoạn mã gốc copy NGUYÊN VĂN, đủ dài để duy nhất trong tệp", "moi": "đoạn thay"}]. Nếu không có lỗi thì trả về []. Sau khối json, liệt kê ngắn từng lỗi đã sửa (1 dòng/lỗi).
+
+===== MÃ GỐC =====
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<script src="/games/anh-chung/dong-bo.js"></script>
+<script src="/games/anh-chung/dem-gio.js" defer></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Đảo Kho Báu Toán Học – Lucie &amp; Lucas</title>
+<meta name="author" content="Nguyễn Hoàng Ngọc Anh">
+<meta name="keywords" content="Ban Tuyên giáo Trung ương">
+<meta name="title" content="Ban Tuyên giáo Trung ương">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="../anh-chung/che-do-tv.js"></script>
+<script src="../anh-chung/mat-that.js"></script>
+<style>
+  html,body{margin:0;height:100%;overflow:hidden;background:#7fd3f7;font-family:"Baloo 2",system-ui,sans-serif;-webkit-tap-highlight-color:transparent;user-select:none}
+  #three canvas{display:block}
+  .hud-pill{background:rgba(255,255,255,.92);border:3px solid #fff;box-shadow:0 4px 0 rgba(0,0,0,.15),0 6px 18px rgba(0,0,0,.12);border-radius:999px;padding:4px 12px;display:flex;align-items:center;gap:6px;font-weight:800;color:#334155}
+  .hud-btn{pointer-events:auto;cursor:pointer;transition:transform .1s}
+  .hud-btn:active{transform:scale(.92)}
+  .chunky{box-shadow:0 6px 0 rgba(0,0,0,.22);transition:transform .08s, box-shadow .08s}
+  .chunky:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(0,0,0,.22)}
+  .opt-btn{position:relative;background:var(--c);color:#fff;border:4px solid #fff;border-radius:22px;padding:8px 10px;font-weight:800;font-size:clamp(20px,3.6vw,44px);line-height:1.1;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 6px 0 rgba(0,0,0,.25);cursor:pointer;transition:transform .08s,opacity .3s,filter .3s;min-height:64px}
+  .opt-btn:hover{filter:brightness(1.08)}
+  .opt-btn:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(0,0,0,.25)}
+  .opt-letter{background:rgba(255,255,255,.95);color:var(--c);border-radius:999px;width:1.4em;height:1.4em;display:inline-flex;align-items:center;justify-content:center;font-size:.7em;flex:none}
+  .opt-btn.right{background:#22c55e!important;animation:pop .4s}
+  .opt-btn.wrongb{background:#94a3b8!important;opacity:.55;animation:shake .4s}
+  .opt-btn.used{background:#22c55e!important;opacity:.75}
+  .opt-btn:disabled{cursor:default}
+  button:focus-visible,.card:focus-visible{outline:5px solid #facc15;outline-offset:3px}
+  .card.kbd{outline:6px solid #facc15;outline-offset:4px}
+  .qtext{font-size:clamp(26px,5vw,60px);line-height:1.15}
+  .qtext.small{font-size:clamp(18px,3vw,34px)}
+  .qtext.word{font-size:clamp(18px,2.9vw,34px)}
+  .qbox{display:inline-flex;align-items:center;justify-content:center;min-width:1.4em;height:1.25em;border:4px dashed #f59e0b;border-radius:14px;background:#fff7d6;color:#f59e0b;margin:0 .1em;animation:pulse 1.2s infinite}
+  .slot{min-width:2.6em;height:1.8em;border-radius:14px;border:3px dashed #94a3b8;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:clamp(16px,2.6vw,30px);color:#94a3b8;background:#f8fafc;padding:0 .3em}
+  .slot.filled{border:3px solid #22c55e;background:#dcfce7;color:#15803d}
+  .slot-sign{font-weight:800;font-size:clamp(16px,2.6vw,30px);color:#64748b;align-self:center}
+  .bubble{position:fixed;left:0;top:0;transform:translate(-50%,-100%);background:#fff;border:4px solid var(--bc,#f472b6);border-radius:18px;padding:6px 12px;font-weight:800;max-width:min(340px,70vw);text-align:center;pointer-events:none;transition:opacity .3s;z-index:15;box-shadow:0 6px 16px rgba(0,0,0,.18);font-size:clamp(14px,1.9vw,22px);color:#334155;opacity:0;line-height:1.2}
+  .bubble:after{content:'';position:absolute;left:50%;bottom:-18px;transform:translateX(-50%);border:9px solid transparent;border-top-color:var(--bc,#f472b6)}
+  .float-text{position:fixed;left:50%;top:38%;transform:translate(-50%,-50%);font-weight:800;font-size:clamp(28px,5vw,64px);color:#fff;text-shadow:0 4px 0 rgba(0,0,0,.25),0 0 18px rgba(0,0,0,.25);pointer-events:none;z-index:35;animation:floatUp 1.5s ease-out forwards;white-space:nowrap}
+  .card{background:rgba(255,255,255,.94);border:5px solid #fff;border-radius:30px;box-shadow:0 10px 0 rgba(0,0,0,.15),0 16px 40px rgba(0,0,0,.18);transition:transform .15s}
+  .card:hover{transform:translateY(-6px) scale(1.02)}
+  .chip{display:inline-block;border-radius:999px;padding:2px 10px;font-weight:700;font-size:clamp(12px,1.4vw,16px);margin:2px}
+  .title-3d{color:#fff;text-shadow:0 4px 0 #f59e0b,0 8px 0 #c2410c,0 12px 22px rgba(0,0,0,.3);letter-spacing:1px}
+  .modal-card{animation:popIn .45s cubic-bezier(.2,1.6,.4,1)}
+  .stage-chip{border-radius:999px;padding:1px 8px;font-size:clamp(11px,1.3vw,15px);background:#e2e8f0;color:#64748b}
+  .stage-chip.on{background:#fbbf24;color:#fff}
+  .stage-chip.done{background:#22c55e;color:#fff}
+  .isl-dot{width:22px;height:22px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:12px;background:#e2e8f0;border:2px solid #fff}
+  .isl-dot.on{background:#fde68a;transform:scale(1.2)}
+  .isl-dot.done{background:#86efac}
+  .bounce{animation:pop .5s}
+  #sail{background:linear-gradient(#5ec8f2,#1fb5c9)}
+  .wave{position:absolute;left:-10%;right:-10%;height:90px;border-radius:50%;background:rgba(255,255,255,.25)}
+  @media (max-width:700px){
+    .hud-pill{padding:2px 8px;font-size:13px;border-width:2px;gap:3px}
+    #hudIslands,#stagePill,#hudGrade,.buoyText{display:none!important}
+    #hudAvatar{width:30px!important;height:30px!important}
+    #hud .text-lg{font-size:14px}
+    .hud-btn.text-lg{padding:2px 6px}
+    .opt-btn{min-height:52px}
+  }
+  @keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.25)}100%{transform:scale(1)}}
+  @keyframes popIn{0%{transform:scale(.4);opacity:0}100%{transform:scale(1);opacity:1}}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+  @keyframes floatUp{0%{opacity:0;transform:translate(-50%,-20%) scale(.6)}15%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}70%{opacity:1;transform:translate(-50%,-80%) scale(1)}100%{opacity:0;transform:translate(-50%,-130%) scale(.95)}}
+  @keyframes boat{0%{transform:translateX(-60vw) rotate(-6deg)}50%{transform:translateX(0) rotate(6deg)}100%{transform:translateX(60vw) rotate(-6deg)}}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+  @keyframes waveMove{0%{transform:translateX(0)}100%{transform:translateX(-80px)}}
+  @keyframes spinSlow{to{transform:rotate(360deg)}}
+</style>
+<link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#7c4dff"><link rel="apple-touch-icon" href="/img/icon-192.png"><script>if("serviceWorker" in navigator)addEventListener("load",function(){navigator.serviceWorker.register("/sw.js").catch(function(){})});</script>
+<script src="../anh-chung/thong-tin.js"></script>
+<script src="../anh-chung/giong-noi.js"></script>
+</head>
+<body>
+<div id="three" class="fixed inset-0"></div>
+<div id="bubbles"></div>
+<div id="floats"></div>
+
+<!-- ===== HUD ===== -->
+<div id="hud" class="hidden fixed top-0 left-0 right-0 z-20 p-2 md:p-3 pointer-events-none">
+  <div class="flex flex-wrap items-center justify-center md:justify-between gap-2">
+    <div class="hud-pill" style="padding:3px 12px 3px 3px">
+      <div id="hudAvatar" class="rounded-full overflow-hidden" style="width:46px;height:46px"></div>
+      <div class="leading-none">
+        <div id="hudName" class="text-base md:text-lg"></div>
+        <div id="hudGrade" class="text-xs text-slate-500"></div>
+      </div>
+    </div>
+    <div class="hud-pill flex-col" style="border-radius:20px;gap:2px;padding:4px 12px">
+      <div id="hudIsland" class="text-sm md:text-base leading-none"></div>
+      <div id="hudIslands" class="flex gap-1"></div>
+    </div>
+    <div id="stagePill" class="hud-pill" style="gap:4px">
+      <span id="st0" class="stage-chip">🌉 Cầu số</span>
+      <span id="st1" class="stage-chip">🪨 Bậc đá</span>
+      <span id="st2" class="stage-chip">🏰 Cổng báu</span>
+    </div>
+    <div class="hud-pill text-lg md:text-xl">🪙 <span id="hudCoins">0</span></div>
+    <div class="hud-pill text-lg md:text-xl">💎 <span id="hudGems">0</span>/<span id="hudGemsMax">30</span></div>
+    <div class="hud-pill text-lg md:text-xl" id="hudHearts">❤️❤️❤️</div>
+    <button id="btnBuoy" class="hud-btn hud-pill chunky text-sm md:text-base" style="background:#fff1f2;border-color:#fda4af" title="Phao cứu trợ của hai chị em">🛟<span class="buoyText"> Phao cứu trợ</span> <span id="buoyCount" class="bg-rose-500 text-white rounded-full px-2">2</span></button>
+    <div class="flex gap-1">
+      <button id="btnRead" class="hud-btn hud-pill chunky text-lg" title="Đọc đề">📢</button>
+      <button id="btnSound" class="hud-btn hud-pill chunky text-lg" title="Âm thanh">🔊</button>
+      <button id="btnMusic" class="hud-btn hud-pill chunky text-lg" title="Nhạc nền">🎵</button>
+      <button id="btnHome" class="hud-btn hud-pill chunky text-lg" title="Về màn hình chính">🏠</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== QUESTION PANEL ===== -->
+<div id="panel" class="hidden fixed bottom-0 left-0 right-0 z-20 p-2 md:p-4">
+  <div class="max-w-5xl mx-auto rounded-3xl p-3 md:p-5" style="background:rgba(255,255,255,.95);border:5px solid #fcd34d;box-shadow:0 10px 30px rgba(0,0,0,.25)">
+    <div id="pTitle" class="text-xs md:text-base font-extrabold text-amber-600 text-center tracking-wide"></div>
+    <div id="pText" class="qtext font-extrabold text-slate-800 text-center my-1 md:my-2"></div>
+    <div id="pSlots" class="flex justify-center flex-wrap gap-2 mb-2"></div>
+    <div id="pOpts" class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4"></div>
+  </div>
+</div>
+
+<!-- ===== START SCREEN ===== -->
+<div id="start" class="fixed inset-0 z-30 flex flex-col items-center justify-between p-3 md:p-6 overflow-y-auto">
+  <div class="text-center mt-1 md:mt-3">
+    <h1 class="title-3d text-4xl md:text-7xl font-extrabold">🏝️ ĐẢO KHO BÁU TOÁN HỌC</h1>
+    <a id="siteHome" href="../../" class="hidden absolute left-3 top-3 bg-white/90 rounded-full px-4 py-1 font-extrabold text-sky-700 shadow">🏠 Trang chọn game</a>
+    <p class="mt-3 inline-block bg-white/90 rounded-full px-5 py-1 text-base md:text-2xl font-extrabold text-sky-700 shadow">Cuộc phiêu lưu của hai chị em <span class="text-pink-500">Lucie</span> &amp; <span class="text-blue-500">Lucas</span> ⛵</p>
+  </div>
+  <div class="w-full max-w-5xl">
+    <div class="flex flex-col md:flex-row gap-3 md:gap-8 justify-center items-stretch">
+      <div id="cardLucie" class="card flex-1 p-3 md:p-5 cursor-pointer" style="border-color:#f9a8d4">
+        <div class="flex items-center gap-3">
+          <div id="avLucie" class="flex-none"></div>
+          <div>
+            <div class="text-lg md:text-2xl font-extrabold text-pink-600 leading-tight">THUYỀN TRƯỞNG<br>CHỊ LUCIE <span class="text-slate-500 text-base md:text-xl">(<span data-hs="lucie.goi">Tường San</span> · <span data-hs="lucie.lop">3A6</span>)</span></div>
+            <div class="mt-1">
+              <span class="chip bg-pink-100 text-pink-700">➕➖ Số có 3 chữ số</span>
+              <span class="chip bg-pink-100 text-pink-700">✖️➗ Bảng nhân – chia</span>
+              <span class="chip bg-pink-100 text-pink-700">🔢 Sắp xếp số</span>
+              <span class="chip bg-pink-100 text-pink-700">🌡️ Nhiệt độ</span>
+            </div>
+          </div>
+        </div>
+        <div id="saveLucie" class="text-sm text-slate-500 font-bold mt-1"></div>
+        <button class="chunky w-full mt-2 rounded-2xl py-2 md:py-3 text-xl md:text-2xl font-extrabold text-white" style="background:#ec4899">Chọn chị Lucie ⚓</button>
+      </div>
+      <div id="cardLucas" class="card flex-1 p-3 md:p-5 cursor-pointer" style="border-color:#93c5fd">
+        <div class="flex items-center gap-3">
+          <div id="avLucas" class="flex-none"></div>
+          <div>
+            <div class="text-lg md:text-2xl font-extrabold text-blue-600 leading-tight">THỦY THỦ<br>EM LUCAS <span class="text-slate-500 text-base md:text-xl">(<span data-hs="lucas.goi">Tường Minh</span> · <span data-hs="lucas.lop">1A5</span>)</span></div>
+            <div class="mt-1">
+              <span class="chip bg-blue-100 text-blue-700">➕➖ Phạm vi 10 – 20</span>
+              <span class="chip bg-blue-100 text-blue-700">🐟 Đếm số</span>
+              <span class="chip bg-blue-100 text-blue-700">⚖️ So sánh</span>
+              <span class="chip bg-blue-100 text-blue-700">🔢 Sắp xếp số</span>
+            </div>
+          </div>
+        </div>
+        <div id="saveLucas" class="text-sm text-slate-500 font-bold mt-1"></div>
+        <button class="chunky w-full mt-2 rounded-2xl py-2 md:py-3 text-xl md:text-2xl font-extrabold text-white" style="background:#3b82f6">Chọn em Lucas ⚓</button>
+      </div>
+    </div>
+    <p class="text-center mt-2 text-sm md:text-lg font-bold text-white" style="text-shadow:0 2px 4px rgba(0,0,0,.35)">✨ Người còn lại sẽ làm <b>Bạn đồng hành</b>: cùng nhảy mừng và gợi ý khi cần!</p>
+  </div>
+</div>
+
+<!-- ===== MODAL ===== -->
+<div id="modal" class="hidden fixed inset-0 z-40 flex items-center justify-center p-3" style="background:rgba(15,23,42,.45)">
+  <div id="modalCard" class="modal-card bg-white rounded-3xl p-4 md:p-8 max-w-xl w-full text-center max-h-full overflow-y-auto" style="border:6px solid #fcd34d;box-shadow:0 20px 50px rgba(0,0,0,.35)"></div>
+</div>
+
+<!-- ===== SAILING TRANSITION ===== -->
+<div id="sail" class="hidden fixed inset-0 z-50 flex flex-col items-center justify-center overflow-hidden" style="transition:opacity .5s">
+  <div class="wave" style="bottom:22%;animation:waveMove 2s linear infinite"></div>
+  <div class="wave" style="bottom:12%;animation:waveMove 1.5s linear infinite reverse"></div>
+  <div style="font-size:110px;animation:boat 2.6s ease-in-out infinite">⛵</div>
+  <div id="sailText" class="mt-4 text-2xl md:text-5xl font-extrabold text-white text-center px-4" style="text-shadow:0 4px 0 rgba(0,0,0,.2)"></div>
+</div>
+
+<!-- ===== ISLAND BANNER ===== -->
+<div id="banner" class="fixed left-0 right-0 z-30 flex justify-center pointer-events-none" style="top:22%;opacity:0;transition:opacity .5s, transform .5s;transform:translateY(-20px)">
+  <div class="text-center rounded-3xl px-6 py-3 md:px-10 md:py-5" style="background:rgba(255,255,255,.93);border:6px solid #fcd34d;box-shadow:0 12px 30px rgba(0,0,0,.25)">
+    <div id="bannerTitle" class="text-3xl md:text-6xl font-extrabold text-amber-500"></div>
+    <div id="bannerSub" class="text-base md:text-2xl font-extrabold text-slate-600"></div>
+  </div>
+</div>
+
+<div id="loadErr" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-sky-300 text-center p-6 text-2xl font-extrabold text-slate-700">
+  Không tải được thư viện 3D (Three.js). Anh kiểm tra kết nối mạng rồi tải lại trang nhé!
+</div>
+
+<script>
+if (typeof THREE === 'undefined') { document.getElementById('loadErr').classList.remove('hidden'); throw new Error('Three.js not loaded'); }
+
+/* =========================================================
+   1. TIỆN ÍCH
+   ========================================================= */
+const $ = id => document.getElementById(id);
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const R = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
+const pick = a => a[Math.floor(Math.random() * a.length)];
+function shuffle(a){ a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+const V = (x, y, z) => new THREE.Vector3(x, y, z);
+const MINUS = '\u2212';
+function fmt(n){
+  const neg = n < 0; n = Math.abs(n);
+  let s = String(n);
+  if (n >= 1000) s = s.replace(/\B(?=(\d{3})+(?!\d))/g, '\u00A0');
+  return (neg ? MINUS : '') + s;
+}
+const easeOutBack = k => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(k - 1, 3) + c1 * Math.pow(k - 1, 2); };
+const easeInOut = k => k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+const easeOut = k => 1 - Math.pow(1 - k, 3);
+function distinct(n, gen, guard = 200){ const s = new Set(); while (s.size < n && guard-- > 0) s.add(gen()); return [...s]; }
+
+/* =========================================================
+   2. ÂM THANH (Web Audio API)
+   ========================================================= */
+const Sound = {
+  ctx: null, master: null, sfx: null, mus: null, sfxOn: true, musOn: true, noiseBuf: null,
+  init(){
+    if (this.ctx) { if (this.ctx.state === 'suspended') this.ctx.resume(); return; }
+    try {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      this.ctx = new AC();
+      this.master = this.ctx.createGain(); this.master.gain.value = 0.85; this.master.connect(this.ctx.destination);
+      this.sfx = this.ctx.createGain(); this.sfx.gain.value = 1; this.sfx.connect(this.master);
+      this.mus = this.ctx.createGain(); this.mus.gain.value = 0.32; this.mus.connect(this.master);
+      const len = this.ctx.sampleRate * 2; this.noiseBuf = this.ctx.createBuffer(1, len, this.ctx.sampleRate);
+      const d = this.noiseBuf.getChannelData(0); for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+    } catch (e) { this.ctx = null; }
+  },
+  tone(f, dur, type = 'sine', vol = 0.2, delay = 0, slide = null, dest = null){
+    if (!this.ctx) return;
+    const c = this.ctx, t = c.currentTime + Math.max(0, delay);
+    const o = c.createOscillator(), g = c.createGain();
+    o.type = type; o.frequency.setValueAtTime(f, t);
+    if (slide) o.frequency.exponentialRampToValueAtTime(slide, t + dur);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.012); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(dest || this.sfx); o.start(t); o.stop(t + dur + 0.05);
+  },
+  noise(dur, vol = 0.2, delay = 0, ftype = 'lowpass', freq = 1000, slideFreq = null){
+    if (!this.ctx) return;
+    const c = this.ctx, t = c.currentTime + delay;
+    const s = c.createBufferSource(); s.buffer = this.noiseBuf;
+    const f = c.createBiquadFilter(); f.type = ftype; f.frequency.setValueAtTime(freq, t);
+    if (slideFreq) f.frequency.exponentialRampToValueAtTime(slideFreq, t + dur);
+    const g = c.createGain(); g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    s.connect(f); f.connect(g); g.connect(this.sfx); s.start(t, Math.random()); s.stop(t + dur + 0.05);
+  },
+  jump(){ this.tone(320, 0.18, 'square', 0.06, 0, 820); this.tone(480, 0.14, 'sine', 0.06, 0.02, 1100); },
+  land(){ this.noise(0.09, 0.12, 0, 'lowpass', 500); },
+  coin(){ this.tone(988, 0.09, 'square', 0.06); this.tone(1319, 0.32, 'square', 0.06, 0.08); },
+  step(){ this.tone(660, 0.1, 'triangle', 0.12); this.tone(990, 0.14, 'triangle', 0.1, 0.06); },
+  correct(){ [523, 659, 784, 1047].forEach((f, i) => this.tone(f, 0.2, 'triangle', 0.13, i * 0.07)); },
+  wrong(){ this.tone(240, 0.22, 'sawtooth', 0.06, 0, 170); this.tone(170, 0.32, 'sawtooth', 0.06, 0.18, 110); },
+  click(){ this.tone(720, 0.05, 'sine', 0.07); },
+  plank(){ this.tone(200 + Math.random() * 60, 0.06, 'square', 0.04); this.noise(0.05, 0.08, 0, 'bandpass', 900); },
+  splash(){ this.noise(0.5, 0.12, 0, 'bandpass', 1200, 300); },
+  cannon(){ this.noise(0.9, 0.55, 0, 'lowpass', 900, 60); this.tone(110, 0.5, 'sine', 0.4, 0, 35); },
+  whoosh(){ this.noise(0.5, 0.1, 0, 'bandpass', 400, 2400); },
+  firework(d = 0){ this.tone(300, 0.45, 'sine', 0.04, d, 1500); this.noise(0.7, 0.28, d + 0.45, 'highpass', 1800);
+    for (let i = 0; i < 6; i++) this.noise(0.06, 0.08, d + 0.6 + i * 0.07 + Math.random() * 0.05, 'highpass', 4000); },
+  creak(){ this.tone(120, 1.1, 'sawtooth', 0.035, 0, 70); this.tone(150, 0.9, 'sawtooth', 0.02, 0.15, 95); },
+  chest(){ this.creak(); [784, 988, 1175, 1568, 1976, 2349].forEach((f, i) => this.tone(f, 0.35, 'triangle', 0.08, 0.5 + i * 0.08)); },
+  help(){ this.tone(600, 0.15, 'sine', 0.12); this.tone(900, 0.25, 'sine', 0.12, 0.12); },
+  victory(){
+    const m = [[523,0],[659,.15],[784,.3],[1047,.45],[784,.75],[1047,.9]];
+    m.forEach(([f, d]) => { this.tone(f, 0.28, 'square', 0.06, d); this.tone(f / 2, 0.28, 'triangle', 0.08, d); });
+    this.tone(1319, 0.7, 'triangle', 0.1, 1.05);
+  },
+  fanfare(){
+    const m = [[392,0],[523,.18],[659,.36],[784,.54],[659,.8],[784,.98],[1047,1.2],[988,1.5],[1047,1.65],[1319,1.85]];
+    m.forEach(([f, d]) => { this.tone(f, 0.3, 'square', 0.055, d); this.tone(f / 2, 0.3, 'triangle', 0.08, d); });
+  },
+  toggleSfx(){ this.sfxOn = !this.sfxOn; if (this.sfx) this.sfx.gain.value = this.sfxOn ? 1 : 0; return this.sfxOn; },
+  toggleMusic(){ this.musOn = !this.musOn; if (this.mus) this.mus.gain.value = this.musOn ? 0.32 : 0; return this.musOn; }
+};
+function noteFreq(n){
+  const map = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 };
+  const m = /^([A-G])(#?)(\d)$/.exec(n); if (!m) return 0;
+  const midi = 12 * (+m[3] + 1) + map[m[1]] + (m[2] ? 1 : 0);
+  return 440 * Math.pow(2, (midi - 69) / 12);
+}
+const Music = {
+  timer: null,
+  start(){
+    if (this.timer || !Sound.ctx) return;
+    const ctx = Sound.ctx, spb = 60 / 116 / 2;
+    const mel = ['E5','G5','A5','G5','E5','D5','C5','D5','E5','-','G5','E5','D5','-','C5','-',
+                 'A4','C5','D5','E5','G5','A5','G5','E5','D5','E5','D5','C5','A4','-','G4','-',
+                 'C5','E5','G5','E5','A5','G5','E5','C5','D5','-','E5','D5','C5','-','D5','-',
+                 'E5','G5','A5','C6','A5','G5','E5','D5','C5','D5','E5','G5','C5','-','-','-'];
+    const bass = ['C3','A2','F2','G2','C3','A2','F2','G2','A2','E3','F2','G2','C3','F2','G2','C3'];
+    let next = ctx.currentTime + 0.1, i = 0;
+    this.timer = setInterval(() => {
+      while (next < ctx.currentTime + 0.35) {
+        const d = next - ctx.currentTime;
+        const n = mel[i % mel.length];
+        if (n !== '-') Sound.tone(noteFreq(n), spb * 0.9, 'triangle', 0.09, d, null, Sound.mus);
+        if (i % 4 === 0) { const b = bass[(i / 4) % bass.length]; Sound.tone(noteFreq(b), spb * 3.6, 'sine', 0.16, d, null, Sound.mus); }
+        if (i % 2 === 1) Sound.tone(noteFreq(bass[Math.floor(i / 4) % bass.length]) * 2, spb * 0.5, 'square', 0.015, d, null, Sound.mus);
+        next += spb; i++;
+      }
+    }, 80);
+  },
+  stop(){ clearInterval(this.timer); this.timer = null; }
+};
+function speakify(t){
+  return String(t).replace(/<[^>]+>/g, ' ')
+    .replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}]/gu, ' ')
+    .replace(new RegExp(MINUS + '(\\d)', 'g'), 'âm $1')
+    .replace(/°C/g, ' độ C').replace(/\s\+\s/g, ' cộng ').replace(new RegExp('\\s' + MINUS + '\\s', 'g'), ' trừ ')
+    .replace(/×/g, ' nhân ').replace(/\s:\s/g, ' chia ').replace(/=/g, ' bằng ').replace(/\?/g, ' mấy ')
+    .replace(/>/g, ' lớn hơn ').replace(/</g, ' bé hơn ').replace(/\u00A0/g, '');
+}
+function speak(text){
+  try {
+    if (!('speechSynthesis' in window) || !text) return;
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(speakify(text));
+    u.lang = 'vi-VN'; u.rate = 0.9;
+    const v = speechSynthesis.getVoices().find(v => /^vi/i.test(v.lang));
+    if (v) u.voice = v;
+    speechSynthesis.speak(u);
+  } catch (e) {}
+}
+
+/* =========================================================
+   3. HỆ THỐNG SINH CÂU HỎI TOÁN TỰ ĐỘNG
+   ========================================================= */
+const EMO = ['🥥', '🐚', '⭐', '🐟', '🦀', '🍎', '🐢'];
+const EMO_NAME = { '🥥': 'quả dừa', '🐚': 'vỏ sò', '⭐': 'ngôi sao', '🐟': 'con cá', '🦀': 'con cua', '🍎': 'quả táo', '🐢': 'con rùa' };
+const BOX = '<span class="qbox">?</span>';
+
+function numOptions(ans, o = {}){
+  const neg = !!o.neg;
+  let c = o.cands ? o.cands.slice() : [ans + 1, ans - 1, ans + 2, ans - 2, ans + 3, ans - 3];
+  c = shuffle(c).filter(v => v !== ans && (neg || v >= 0) && Number.isInteger(v));
+  const set = [ans];
+  for (const v of c) { if (set.length >= 4) break; if (!set.includes(v)) set.push(v); }
+  let k = 1;
+  while (set.length < 4 && k < 100) { const v = ans + (Math.random() < .5 ? -1 : 1) * (k++); if ((neg || v >= 0) && !set.includes(v)) set.push(v); }
+  const arr = shuffle(set);
+  return { opts: arr.map(v => fmt(v) + (o.unit || '')), correct: arr.indexOf(ans) };
+}
+// Tạo câu hỏi trắc nghiệm có đáp án là số
+function mkQ(html, ans, o = {}){
+  const r = numOptions(ans, o);
+  const label = o.label || html.replace(/<span class="qbox">\?<\/span>/g, '?').replace(/<[^>]+>/g, '');
+  return { html, label, board: o.board || label, say: o.say || label, opts: r.opts, correct: r.correct, hint: o.hint || '', word: !!o.word };
+}
+// Tạo câu hỏi có lựa chọn tuỳ ý (dấu, số lớn nhất...)
+function mkChoice(html, options, correctValue, o = {}){
+  const arr = o.keepOrder ? options.slice() : shuffle(options);
+  const label = o.label || html.replace(/<span class="qbox">\?<\/span>/g, '?').replace(/<[^>]+>/g, '');
+  return { html, label, board: o.board || label, say: o.say || label, opts: arr.map(String), correct: arr.indexOf(correctValue), hint: o.hint || '', word: !!o.word };
+}
+function noCarrySum(a, b){ let r = 0, p = 1; while (a > 0 || b > 0) { r += ((a % 10 + b % 10) % 10) * p; a = Math.floor(a / 10); b = Math.floor(b / 10); p *= 10; } return r; }
+function noBorrowDiff(a, b){ let r = 0, p = 1; while (a > 0 || b > 0) { r += Math.abs(a % 10 - b % 10) * p; a = Math.floor(a / 10); b = Math.floor(b / 10); p *= 10; } return r; }
+
+/* ---------- LỚP 1 (LUCAS) ---------- */
+const G1 = {
+  add10(){
+    const a = R(1, 9), b = R(1, 10 - a);
+    if (a <= 5 && b <= 5 && Math.random() < .4) {
+      const e = pick(EMO);
+      return mkQ(`${e.repeat(a)} + ${e.repeat(b)} = ?`, a + b, { board: `${e.repeat(a)} + ${e.repeat(b)} = ?`, say: `${a} ${EMO_NAME[e]} thêm ${b} ${EMO_NAME[e]} là mấy ${EMO_NAME[e]}`, hint: `Đếm hết tất cả các hình ${e} nhé: 1, 2, 3...` });
+    }
+    return mkQ(`${a} + ${b} = ?`, a + b, { hint: `Bắt đầu từ ${a}, đếm thêm ${b} bước nữa nhé!` });
+  },
+  sub10(){
+    const a = R(2, 10), b = R(1, a);
+    return mkQ(`${a} ${MINUS} ${b} = ?`, a - b, { hint: `Từ ${a} đếm lùi ${b} bước nhé!` });
+  },
+  count(){
+    const n = R(3, 10), e = pick(EMO);
+    return mkQ(`Có bao nhiêu ${EMO_NAME[e]}?<br>${e.repeat(n)}`, n, { board: e.repeat(n), label: `Có bao nhiêu ${EMO_NAME[e]}?`, hint: `Chỉ tay vào từng ${EMO_NAME[e]} và đếm thật chậm nha!`, word: true });
+  },
+  wordAdd(){
+    const a = R(1, 7), b = R(1, 10 - a), e = pick(['🐚', '🐟', '⭐', '🥥']);
+    return mkQ(`Lucas có ${a} ${EMO_NAME[e]} ${e}, chị Lucie cho thêm ${b} ${EMO_NAME[e]}. Lucas có tất cả mấy ${EMO_NAME[e]}?`, a + b,
+      { board: `${a} ${e} + ${b} ${e} = ?`, hint: `"Có tất cả" là làm phép cộng: ${a} + ${b}`, word: true });
+  },
+  wordSub(){
+    const a = R(4, 10), b = R(1, a - 1);
+    return mkQ(`Có ${a} con cá 🐟 bơi quanh đảo, ${b} con bơi đi mất. Còn lại mấy con cá?`, a - b,
+      { board: `${a} 🐟 ${MINUS} ${b} 🐟 = ?`, hint: `"Bơi đi mất" là bớt đi, làm phép trừ: ${a} ${MINUS} ${b}`, word: true });
+  },
+  add20(){
+    if (Math.random() < .25) { const b = R(1, 9); return mkQ(`10 + ${b} = ?`, 10 + b, { hint: `1 chục và ${b} đơn vị là số mấy nhỉ?` }); }
+    const x = R(0, 8), a = 10 + x, b = R(1, 9 - x);
+    const [p, q] = Math.random() < .3 ? [b, a] : [a, b];
+    return mkQ(`${p} + ${q} = ?`, a + b, { cands: [a + b + 1, a + b - 1, a + b + 10, a + b - 10, a + b + 2], hint: `Cộng hàng đơn vị: ${x} + ${b} = ${x + b}, giữ nguyên 1 chục!` });
+  },
+  sub20(){
+    const x = R(1, 9), a = 10 + x;
+    if (Math.random() < .25) return mkQ(`${a} ${MINUS} ${x} = ?`, 10, { hint: `${a} gồm 1 chục và ${x} đơn vị. Bớt ${x} đơn vị thì còn...` });
+    const b = R(1, x);
+    return mkQ(`${a} ${MINUS} ${b} = ?`, a - b, { cands: [a - b + 1, a - b - 1, a - b - 10, a + b, a - b + 2], hint: `Trừ hàng đơn vị: ${x} ${MINUS} ${b} = ${x - b}, giữ nguyên 1 chục!` });
+  },
+  missAdd(lim = 10){
+    let a, ans, c;
+    if (lim <= 10) { c = R(3, 10); a = R(1, c - 1); ans = c - a; }
+    else { c = R(12, 19); const x = R(0, c - 11); a = 10 + x; ans = c - a; }
+    const html = Math.random() < .5 ? `${a} + ${BOX} = ${c}` : `${BOX} + ${a} = ${c}`;
+    return mkQ(html, ans, { hint: `Lấy ${c} ${MINUS} ${a} là ra số cần tìm đó!` });
+  },
+  missSub(){
+    if (Math.random() < .5) { const a = R(3, 10), ans = R(1, a - 1); return mkQ(`${a} ${MINUS} ${BOX} = ${a - ans}`, ans, { hint: `${a} bớt đi mấy thì còn ${a - ans}? Đếm lùi thử xem!` }); }
+    const b = R(1, 5), c = R(1, 10 - b);
+    return mkQ(`${BOX} ${MINUS} ${b} = ${c}`, b + c, { hint: `Lấy ${c} + ${b} là ra số cần tìm!` });
+  },
+  extreme(){
+    const lim = 20, nums = distinct(4, () => R(0, lim)), big = Math.random() < .5;
+    const ans = big ? Math.max(...nums) : Math.min(...nums);
+    return mkChoice(`Số nào <span class="${big ? 'text-rose-600' : 'text-emerald-600'}">${big ? 'LỚN NHẤT' : 'BÉ NHẤT'}</span>?`, nums, ans,
+      { keepOrder: true, label: `Số nào ${big ? 'lớn nhất' : 'bé nhất'}?`, hint: big ? 'Số có chục thì lớn hơn số chỉ có đơn vị nhé!' : 'Tìm số đứng gần số 0 nhất nha!' });
+  },
+  cmpSign(){
+    let a = R(0, 20), b = Math.random() < .2 ? a : R(0, 20);
+    const s = a > b ? '>' : a < b ? '<' : '=';
+    return mkChoice(`${a} ${BOX} ${b}`, ['>', '<', '='], s, { keepOrder: true, hint: 'Miệng cá sấu 🐊 luôn há về phía số LỚN hơn!' });
+  }
+};
+const G1_POOL = [
+  { step: [G1.add10, G1.add10, G1.count, G1.wordAdd], gate: [() => G1.missAdd(10)] },
+  { step: [G1.sub10, G1.sub10, G1.wordSub, G1.count], gate: [G1.missSub] },
+  { step: [G1.add20, G1.sub20, G1.add10, G1.sub10], gate: [() => G1.missAdd(20), () => G1.missAdd(10)] },
+  { step: [() => G1.missAdd(10), G1.extreme, G1.cmpSign, () => G1.missAdd(20)], gate: [() => G1.missAdd(20), G1.missSub] },
+  { step: [G1.add10, G1.sub10, G1.add20, G1.sub20, G1.extreme, G1.cmpSign, G1.count, G1.wordAdd, G1.wordSub], gate: [() => G1.missAdd(20), G1.missSub, G1.cmpSign] }
+];
+
+/* ---------- LỚP 3 (LUCIE) ---------- */
+const G3 = {
+  add3(){
+    let a, b;
+    if (Math.random() < .3) { a = R(15, 99); b = R(15, 99); } else { a = R(100, 850); b = R(12, Math.min(999 - a, 499)); }
+    const s = a + b;
+    return mkQ(`${fmt(a)} + ${fmt(b)} = ?`, s, { cands: [s + 10, s - 10, s + 100, s - 100, noCarrySum(a, b), s + 1, s - 1], hint: 'Đặt tính thẳng cột: cộng từ hàng đơn vị, được 10 trở lên thì nhớ 1 sang hàng bên trái!' });
+  },
+  sub3(){
+    const a = R(150, 999), b = R(12, a - 30), d = a - b;
+    return mkQ(`${fmt(a)} ${MINUS} ${fmt(b)} = ?`, d, { cands: [d + 10, d - 10, d + 100, noBorrowDiff(a, b), d + 1, d - 1], hint: 'Trừ từ hàng đơn vị. Số trên bé hơn số dưới thì mượn 1 chục, rồi nhớ trả ở hàng bên trái!' });
+  },
+  wordAS(){
+    if (Math.random() < .5) {
+      const a = R(120, 480), b = R(110, 450);
+      return mkQ(`Lucie nhặt được ${a} vỏ sò, Lucas nhặt được ${b} vỏ sò. Cả hai chị em nhặt được bao nhiêu vỏ sò?`, a + b,
+        { board: '🐚 Bài toán vỏ sò', cands: [a + b + 10, a + b - 10, a + b + 100, noCarrySum(a, b), Math.abs(a - b)], hint: `"Cả hai" là gộp lại: ${a} + ${b}`, word: true });
+    }
+    const a = R(300, 900), b = R(100, a - 50);
+    return mkQ(`Tàu chở ${a} thùng hàng, đã dỡ xuống ${b} thùng. Trên tàu còn lại bao nhiêu thùng hàng?`, a - b,
+      { board: '📦 Bài toán tàu hàng', cands: [a - b + 10, a - b - 10, a - b + 100, a + b, noBorrowDiff(a, b)], hint: `"Còn lại" là bớt đi: ${a} ${MINUS} ${b}`, word: true });
+  },
+  mul(){
+    const a = R(2, 9), b = R(1, 10), p = a * b;
+    const cands = [a * (b + 1), a * (b - 1), (a + 1) * b, (a - 1) * b, p + 1, p - 1, p + 10, a + b];
+    const hint = b === 1 ? 'Số nào nhân với 1 cũng bằng chính số đó!' : `${a} × ${b} là ${a} được lấy ${b} lần. Gợi ý: ${a} × ${b - 1} = ${a * (b - 1)}, cộng thêm ${a} nữa!`;
+    if (Math.random() < .3) {
+      return mkQ(`Mỗi chiếc thuyền có ${a} thủy thủ. Hỏi ${b} chiếc thuyền như thế có bao nhiêu thủy thủ?`, p,
+        { board: `⛵ ${a} thủy thủ × ${b} thuyền`, cands, hint: `${b} thuyền, mỗi thuyền ${a} người: làm phép nhân ${a} × ${b}`, word: true });
+    }
+    return mkQ(`${a} × ${b} = ?`, p, { cands, hint });
+  },
+  div(){
+    const b = R(2, 9), q = R(1, 10), a = b * q;
+    const cands = [q + 1, q - 1, q + 2, b, a - b, q * 2];
+    if (Math.random() < .3) {
+      return mkQ(`Có ${a} viên ngọc chia đều vào ${b} chiếc rương. Hỏi mỗi rương có mấy viên ngọc?`, q,
+        { board: `💎 ${a} viên chia đều ${b} rương`, cands, hint: `Chia đều là làm phép chia: ${a} : ${b}. Nhớ bảng nhân ${b} nhé!`, word: true });
+    }
+    return mkQ(`${a} : ${b} = ?`, q, { cands, hint: `Nhớ bảng nhân ${b}: ${b} × mấy = ${a}?` });
+  },
+  negTemp(){
+    const t = Math.random();
+    if (t < .4) {
+      const a = R(15, 35), d = R(3, Math.min(14, a - 2)), ans = a - d;
+      return mkQ(`Buổi chiều trên Đảo Băng Giá nhiệt độ là ${a}°C. Ban đêm nhiệt độ giảm ${d}°C. Ban đêm nhiệt độ là bao nhiêu?`, ans,
+        { unit: '°C', board: `🌡️ ${a}°C giảm ${d}°C = ?`, cands: [a + d, ans - 1, ans + 1, ans + 10, ans - 10], hint: `Giảm thì làm phép trừ: ${a} − ${d}`, word: true });
+    }
+    if (t < .7) {
+      const a = R(5, 20), u = R(3, 15), ans = a + u;
+      return mkQ(`Buổi sáng nhiệt độ là ${a}°C. Đến trưa nhiệt độ tăng thêm ${u}°C. Buổi trưa nhiệt độ là bao nhiêu?`, ans,
+        { unit: '°C', board: `🌡️ ${a}°C tăng ${u}°C = ?`, cands: [Math.abs(a - u), ans + 1, ans - 1, ans + 10], hint: `Tăng thì làm phép cộng: ${a} + ${u}`, word: true });
+    }
+    const dep = R(12, 60), up = Math.random() < .5, m = R(3, Math.min(11, dep - 2));
+    const ans = up ? dep - m : dep + m;
+    return mkQ(`Chú cá heo 🐬 đang ở dưới mặt biển ${dep} m. Cá heo ${up ? 'bơi lên' : 'lặn sâu thêm'} ${m} m. Lúc này cá heo ở dưới mặt biển bao nhiêu mét?`, ans,
+      { unit: ' m', board: `🐬 ${dep} m ${up ? 'bơi lên' : 'lặn thêm'} ${m} m`, cands: [up ? dep + m : dep - m, ans + 1, ans - 1, ans + 10], hint: up ? 'Bơi lên thì gần mặt nước hơn: làm phép trừ!' : 'Lặn sâu thêm thì xa mặt nước hơn: làm phép cộng!', word: true });
+  },
+  negCmp(){
+    const nums = distinct(4, () => R(5, 39));
+    const cold = Math.random() < .5;
+    const ans = cold ? Math.min(...nums) : Math.max(...nums);
+    return mkChoice(cold ? 'Nhiệt độ nào <span class="text-sky-600">LẠNH NHẤT</span>? 🥶' : 'Nhiệt độ nào <span class="text-rose-600">NÓNG NHẤT</span>? 🥵',
+      nums.map(n => n + '°C'), ans + '°C', { keepOrder: true, label: cold ? 'Nhiệt độ nào lạnh nhất?' : 'Nhiệt độ nào nóng nhất?', hint: 'Số độ càng bé thì càng lạnh, càng lớn thì càng nóng!' });
+  },
+  sign(){
+    for (let g = 0; g < 50; g++) {
+      const op = pick(['+', MINUS, '×', ':']);
+      let a, b, c;
+      if (op === '+') { a = R(2, 60); b = R(2, 40); c = a + b; }
+      else if (op === MINUS) { a = R(20, 90); b = R(2, a - 5); c = a - b; }
+      else if (op === '×') { a = R(2, 9); b = R(2, 9); c = a * b; }
+      else { b = R(2, 9); c = R(2, 9); a = b * c; }
+      const ok = ['+', MINUS, '×', ':'].filter(o => o === '+' ? a + b === c : o === MINUS ? a - b === c : o === '×' ? a * b === c : (a % b === 0 && a / b === c));
+      if (ok.length === 1) return mkChoice(`${a} ${BOX} ${b} = ${c}`, ['+', MINUS, '×', ':'], op, { keepOrder: true, hint: 'Thử lần lượt từng dấu xem dấu nào cho kết quả đúng nhé!' });
+    }
+    return G3.mul();
+  },
+  missAS(){
+    if (Math.random() < .5) { const b = R(110, 450), ans = R(105, 499), c = ans + b; return mkQ(`${BOX} + ${b} = ${c}`, ans, { cands: [c + b, ans + 10, ans - 10, ans + 100], hint: `Số hạng chưa biết = Tổng ${MINUS} số hạng kia: ${c} ${MINUS} ${b}` }); }
+    const a = R(400, 999), ans = R(100, a - 100), c = a - ans;
+    return mkQ(`${a} ${MINUS} ${BOX} = ${c}`, ans, { cands: [a + c, ans + 10, ans - 10, ans + 100], hint: `Số trừ = Số bị trừ ${MINUS} Hiệu: ${a} ${MINUS} ${c}` });
+  },
+  missMul(){
+    const a = R(2, 9), b = R(2, 10), c = a * b;
+    if (Math.random() < .5) return mkQ(`${a} × ${BOX} = ${c}`, b, { cands: [b + 1, b - 1, a, c - a], hint: `Nhẩm bảng nhân ${a}: ${a} × mấy = ${c}?` });
+    return mkQ(`${BOX} × ${b} = ${c}`, a, { cands: [a + 1, a - 1, b, c - b], hint: `Lấy ${c} : ${b} là ra số cần tìm!` });
+  },
+  missDiv(){
+    const b = R(2, 9), q = R(2, 10), a = b * q;
+    if (Math.random() < .5) return mkQ(`${BOX} : ${b} = ${q}`, a, { cands: [a + b, a - b, q + b, a + 1], hint: `Số bị chia = Thương × Số chia: ${q} × ${b}` });
+    return mkQ(`${a} : ${BOX} = ${q}`, b, { cands: [b + 1, b - 1, q, b + 2], hint: `Số chia = Số bị chia : Thương: ${a} : ${q}` });
+  },
+  tempGate(){
+    const a = R(20, 38), d = R(3, 15), ans = a - d;
+    if (Math.random() < .6) return mkQ(`${a}°C giảm ${d}°C = ${BOX}`, ans, { unit: '°C', cands: [a + d, ans - 1, ans + 1, ans + 10], hint: `Làm phép trừ: ${a} − ${d}` });
+    return mkQ(`${a}°C giảm ${BOX} = ${ans}°C`, d, { unit: '°C', cands: [d + 1, d - 1, d + 10, a], hint: `Lấy ${a} − ${ans}` });
+  }
+};
+const G3_POOL = [
+  { step: [G3.add3, G3.sub3, G3.wordAS], gate: [G3.missAS] },
+  { step: [G3.mul, G3.mul, G3.mul], gate: [G3.missMul] },
+  { step: [G3.div, G3.div, G3.div], gate: [G3.missDiv] },
+  { step: [G3.negTemp, G3.negTemp, G3.negCmp], gate: [G3.tempGate] },
+  { step: [G3.add3, G3.sub3, G3.mul, G3.div, G3.negTemp, G3.negCmp, G3.sign, G3.wordAS], gate: [G3.sign, G3.missMul, G3.missDiv, G3.tempGate, G3.missAS] }
+];
+
+const recentQ = [];
+function genQ(kind){
+  const pool = (G.grade === 1 ? G1_POOL : G3_POOL)[G.island][kind];
+  for (let i = 0; i < 25; i++) {
+    const q = pick(pool)();
+    if (q.correct >= 0 && !recentQ.includes(q.label)) { recentQ.push(q.label); if (recentQ.length > 12) recentQ.shift(); return q; }
+  }
+  return pick(pool)();
+}
+function genSort(){
+  let nums, dir; const i = G.island;
+  if (G.grade === 1) {
+    const max = i <= 1 ? 10 : i < 5 ? 20 : 100;
+    nums = distinct(4, () => R(0, max));
+    dir = i === 0 ? 'asc' : i === 1 ? 'desc' : pick(['asc', 'desc']);
+  } else {
+    if (i === 0) { nums = distinct(4, () => R(100, 999)); dir = 'asc'; }
+    else if (i === 1) {
+      const d = distinct(3, () => R(1, 9));
+      const perms = [[0,1,2],[0,2,1],[1,0,2],[1,2,0],[2,0,1],[2,1,0]].map(p => d[p[0]] * 100 + d[p[1]] * 10 + d[p[2]]);
+      nums = shuffle(perms).slice(0, 4); dir = 'desc';
+    }
+    else if (i === 2) { const h = R(1, 8) * 100; nums = distinct(4, () => h + R(0, 199)); dir = pick(['asc', 'desc']); }
+    else { const h = R(1, 9) * 100; nums = distinct(4, () => h + R(0, 99) + (i > 5 ? R(0, 8) * 1000 : 0)); dir = pick(['asc', 'desc']); }
+  }
+  const order = nums.slice().sort((a, b) => dir === 'asc' ? a - b : b - a);
+  if (nums.every((n, k) => n === order[k])) nums = shuffle(nums);
+  if (nums.every((n, k) => n === order[k])) nums.reverse();
+  return { nums, dir, order, progress: 0 };
+}
+
+/* =========================================================
+   4. DỮ LIỆU ĐẢO
+   ========================================================= */
+const STAND = 1.1, STONE_Y = 0.62, PED_Y = 0.95;
+const POS = { start: V(0, STAND, -3), sortZ: -10.5, bridgeEnd: V(0, STAND, -16.4), mid: V(0, STAND, -22.5), stepZ0: -29.5, stepDZ: 6.5, gateFrontZ: -48.8, gateZ: -56.5, chestZ: -60.4 };
+const THEMES = [
+  { name: 'Đảo Dừa Xanh', emoji: '🌴', skyTop: 0x3fa9f5, skyBot: 0xcff2ff, fog: 0xbfe9ff, water: 0x16b3c9, sand: 0xf6dc9e, grass: 0x5fd35a, stone: 0x9aa3ad, deco: 'palm', gem: 0x2ee86b, gemName: 'Ngọc Lục Bảo' },
+  { name: 'Đảo Sao Biển', emoji: '⭐', skyTop: 0x5cb8ff, skyBot: 0xffe1f0, fog: 0xffe6f2, water: 0x22b8d8, sand: 0xffdcb8, grass: 0xffc9a8, stone: 0xb7a6a0, deco: 'star', gem: 0xff5fa2, gemName: 'Thạch Anh Hồng' },
+  { name: 'Đảo Núi Lửa', emoji: '🌋', skyTop: 0xff7b54, skyBot: 0xffd7a6, fog: 0xffcfa0, water: 0x23889f, sand: 0x6e5649, grass: 0x8f7058, stone: 0x6b6461, deco: 'lava', gem: 0xff3030, gemName: 'Hồng Ngọc Lửa' },
+  { name: 'Đảo Băng Giá', emoji: '❄️', skyTop: 0x86c9ff, skyBot: 0xf0f8ff, fog: 0xe6f4ff, water: 0x3c9fd6, sand: 0xd9ecff, grass: 0xfafdff, stone: 0xa9c4dc, deco: 'ice', gem: 0x4fd8ff, gemName: 'Kim Cương Băng' },
+  { name: 'Đảo Kho Báu', emoji: '💎', skyTop: 0x7c6cff, skyBot: 0xffd59a, fog: 0xffd9b0, water: 0x1a98c2, sand: 0xf7d774, grass: 0x7fdc5a, stone: 0xb59f7a, deco: 'gold', gem: 0xb36bff, gemName: 'Thạch Anh Tím' }
+];
+const TOPICS = {
+  1: ['Phép cộng trong phạm vi 10', 'Phép trừ trong phạm vi 10', 'Cộng, trừ trong phạm vi 20', 'Sắp xếp số & tìm số chưa biết', 'Tổng hợp – Thách đấu Cướp biển Max'],
+  3: ['Cộng, trừ số có 2 – 3 chữ số', 'Bảng nhân 2 đến 9', 'Bảng chia 2 đến 9', 'Nhiệt độ & so sánh số', 'Tổng hợp – Thách đấu Cướp biển Max']
+};
+const BADGES = ['🌴 Huy hiệu Dừa Xanh', '⭐ Huy hiệu Sao Biển', '🌋 Huy hiệu Núi Lửa', '❄️ Huy hiệu Băng Giá', '👑 Huy hiệu Vua Kho Báu'];
+const LV_MOI = [{"ten": "Đảo Rừng Dừa Xanh", "chu": "Cộng trong phạm vi 1000 (L3) / Cộng phạm vi 10 (L1)", "e": "🥥"}, {"ten": "Vịnh San Hô Đỏ", "chu": "Trừ có nhớ phạm vi 1000 (L3) / Trừ phạm vi 10 (L1)", "e": "🪸"}, {"ten": "Đảo Vẹt Biết Đếm", "chu": "Bảng nhân 6 & 7 (L3) / Số 0 kỳ diệu (L1)", "e": "🦜"}, {"ten": "Hòn Đá Sóng Vỗ", "chu": "Bảng nhân 8 & 9 (L3) / So sánh số phạm vi 20 (L1)", "e": "🌊"}, {"ten": "Đầm Phá Ngọc Bích", "chu": "Bảng chia 6 & 7 (L3) / Chục và đơn vị 11–20 (L1)", "e": "🐢"}, {"ten": "Hang Dơi Ánh Sao", "chu": "Bảng chia 8 & 9 (L3) / Cộng không nhớ phạm vi 20 (L1)", "e": "🐬"}, {"ten": "Bãi Biển Tìm Ẩn Số", "chu": "Tìm thành phần chưa biết x (L3) / Trừ không nhớ phạm vi 20 (L1)", "e": "🦀"}, {"ten": "Thung Lũng Gấp Đôi", "chu": "Gấp lên & Giảm đi nhiều lần (L3) / Tính 2 phép tính liên tiếp (L1)", "e": "🐙"}, {"ten": "Đảo Khỉ Lắp Ghép", "chu": "Nhân số có 2 chữ số (L3) / Nhận biết hình & khối (L1)", "e": "🏝️"}, {"ten": "Eo Biển Phép Chia", "chu": "Chia hết & Chia có dư (L3) / Dãy số quy luật (L1)", "e": "🌺"}, {"ten": "Núi Lửa Biểu Thức", "chu": "Giá trị biểu thức nhân chia trước (L3) / Cộng trừ số tròn chục (L1)", "e": "🐠"}, {"ten": "Cầu Treo Dấu Ngoặc", "chu": "Biểu thức có dấu ngoặc (L3) / Đọc viết số đến 100 (L1)", "e": "🦩"}, {"ten": "Ngọn Hải Đăng Đo Đạc", "chu": "Đơn vị đo độ dài mm–km (L3) / Đo độ dài cm (L1)", "e": "🍍"}, {"ten": "Cảng Cân Vàng Bạc", "chu": "Khối lượng g–kg & Dung tích ml–l (L3) / So sánh số đến 100 (L1)", "e": "🌈"}, {"ten": "Tháp Đồng Hồ Cát", "chu": "Xem đồng hồ, giờ–phút & lịch (L3) / Giờ đúng & ngày trong tuần (L1)", "e": "⚓"}, {"ten": "Đảo La Bàn Hình Học", "chu": "Góc vuông, hình tròn, trung điểm (L3) / Cộng dạng ab + c (L1)", "e": "🐳"}, {"ten": "Pháo Đài Chu Vi", "chu": "Chu vi hình tam giác, vuông, chữ nhật (L3) / Trừ dạng ab - c (L1)", "e": "🦑"}, {"ten": "Vương Quốc Diện Tích", "chu": "Diện tích hình vuông, chữ nhật cm² (L3) / Cộng số 2 chữ số với tròn chục (L1)", "e": "🌙"}, {"ten": "Đảo Cổ Ngàn Năm", "chu": "Số có 4 chữ số & làm tròn (L3) / Trừ số 2 chữ số cho tròn chục (L1)", "e": "🔥"}, {"ten": "Đền Thờ La Mã", "chu": "Chữ số La Mã I–XX (L3) / Cộng không nhớ phạm vi 100 (L1)", "e": "🍀"}, {"ten": "Biển Lớn Vạn Dặm", "chu": "Cộng trừ phạm vi 10 000 (L3) / Trừ không nhớ phạm vi 100 (L1)", "e": "🏔️"}, {"ten": "Xưởng Đóng Tàu Thần Tốc", "chu": "Nhân chia số 3–4 chữ số (L3) / Điền số thích hợp vào ô trống (L1)", "e": "🌸"}, {"ten": "Chợ Nổi Kho Báu", "chu": "Tiền Việt Nam & mua bán (L3) / Toán lời văn thêm vào (L1)", "e": "🐚"}, {"ten": "Mê Cung Hai Bước", "chu": "Giải toán có lời văn 2 bước tính (L3) / Toán lời văn bớt đi (L1)", "e": "☀️"}, {"ten": "Đảo Kho Báu Hoàng Kim", "chu": "Thử thách tổng hợp cuối cùng (L3 & L1)", "e": "🏆"}];
+const LV_CAU = {"1": [[["Tính: 2 + 3 = ?", ["5", "6", "4", "7"], "5", "2 thêm 3 bằng 5."], ["Tính: 3 + 4 = ?", ["8", "7", "6", "9"], "7", "3 thêm 4 bằng 7."], ["Tính: 4 + 5 = ?", ["10", "8", "9", "11"], "9", "4 thêm 5 bằng 9."], ["Tính: 5 + 3 = ?", ["9", "7", "10", "8"], "8", "5 thêm 3 bằng 8."], ["Tính: 6 + 2 = ?", ["8", "9", "7", "10"], "8", "6 thêm 2 bằng 8."], ["Tính: 7 + 3 = ?", ["11", "10", "9", "12"], "10", "7 thêm 3 bằng 10."], ["Tính: 4 + 6 = ?", ["11", "9", "10", "12"], "10", "4 thêm 6 bằng 10."], ["Tính: 2 + 7 = ?", ["10", "8", "11", "9"], "9", "2 thêm 7 bằng 9."], ["Tính: 5 + 5 = ?", ["10", "11", "9", "12"], "10", "5 thêm 5 bằng 10."], ["Tính: 3 + 6 = ?", ["10", "9", "8", "11"], "9", "3 thêm 6 bằng 9."]], [["Tính: 5 - 2 = ?", ["3", "4", "2", "5"], "3", "5 bớt 2 còn 3."], ["Tính: 6 - 3 = ?", ["4", "3", "2", "5"], "3", "6 bớt 3 còn 3."], ["Tính: 7 - 4 = ?", ["4", "2", "3", "5"], "3", "7 bớt 4 còn 3."], ["Tính: 8 - 3 = ?", ["6", "4", "7", "5"], "5", "8 bớt 3 còn 5."], ["Tính: 9 - 5 = ?", ["4", "5", "3", "6"], "4", "9 bớt 5 còn 4."], ["Tính: 10 - 4 = ?", ["7", "6", "5", "8"], "6", "10 bớt 4 còn 6."], ["Tính: 10 - 7 = ?", ["4", "2", "3", "5"], "3", "10 bớt 7 còn 3."], ["Tính: 8 - 6 = ?", ["3", "1", "4", "2"], "2", "8 bớt 6 còn 2."], ["Tính: 9 - 2 = ?", ["7", "8", "6", "9"], "7", "9 bớt 2 còn 7."], ["Tính: 7 - 5 = ?", ["3", "2", "1", "4"], "2", "7 bớt 5 còn 2."]], [["4 + 0 = ?", ["4", "5", "6", "3"], "4", "Kết quả đúng là 4."], ["0 + 7 = ?", ["8", "7", "9", "6"], "7", "Kết quả đúng là 7."], ["9 + 0 = ?", ["10", "11", "9", "8"], "9", "Kết quả đúng là 9."], ["0 + 10 = ?", ["11", "12", "9", "10"], "10", "Kết quả đúng là 10."], ["6 - 0 = ?", ["6", "7", "8", "5"], "6", "Kết quả đúng là 6."], ["8 - 0 = ?", ["9", "8", "10", "7"], "8", "Kết quả đúng là 8."], ["5 - 5 = ?", ["1", "2", "0", "3"], "0", "Kết quả đúng là 0."], ["9 - 9 = ?", ["1", "2", "3", "0"], "0", "Kết quả đúng là 0."], ["7 - 7 = ?", ["0", "1", "2", "3"], "0", "Kết quả đúng là 0."], ["10 - 0 = ?", ["11", "10", "12", "9"], "10", "Kết quả đúng là 10."]], [["Số nào lớn nhất: 8, 14, 11, 6?", ["14", "15", "13", "16"], "14", "Đáp án đúng là 14."], ["Số nào bé nhất: 15, 9, 12, 18?", ["10", "9", "8", "11"], "9", "Đáp án đúng là 9."], ["Số nào lớn nhất: 17, 13, 19, 10?", ["20", "18", "19", "21"], "19", "Đáp án đúng là 19."], ["Số nào bé nhất: 20, 16, 11, 14?", ["12", "10", "13", "11"], "11", "Đáp án đúng là 11."], ["Số nào lớn nhất: 12, 15, 9, 16?", ["16", "17", "15", "18"], "16", "Đáp án đúng là 16."], ["Số nào bé nhất: 7, 13, 5, 10?", ["6", "5", "4", "7"], "5", "Đáp án đúng là 5."], ["Số liền sau của số 14 là số mấy?", ["16", "14", "15", "17"], "15", "Đáp án đúng là 15."], ["Số liền trước của số 18 là số mấy?", ["18", "16", "19", "17"], "17", "Đáp án đúng là 17."], ["Số liền sau của số 19 là số mấy?", ["20", "21", "19", "22"], "20", "Đáp án đúng là 20."], ["Số liền trước của số 11 là số mấy?", ["11", "10", "9", "12"], "10", "Đáp án đúng là 10."]], [["Số gồm 1 chục và 1 đơn vị là số mấy?", ["11", "12", "10", "13"], "11", "1 chục và 1 đơn vị là số 11."], ["Số 12 có mấy đơn vị?", ["3", "2", "1", "4"], "2", "Số 12 gồm 1 chục và 2 đơn vị."], ["Số gồm 1 chục và 3 đơn vị là số mấy?", ["14", "12", "13", "15"], "13", "1 chục và 3 đơn vị là số 13."], ["Số 14 có mấy đơn vị?", ["5", "3", "6", "4"], "4", "Số 14 gồm 1 chục và 4 đơn vị."], ["Số gồm 1 chục và 5 đơn vị là số mấy?", ["15", "16", "14", "17"], "15", "1 chục và 5 đơn vị là số 15."], ["Số 16 có mấy đơn vị?", ["7", "6", "5", "8"], "6", "Số 16 gồm 1 chục và 6 đơn vị."], ["Số gồm 1 chục và 7 đơn vị là số mấy?", ["18", "16", "17", "19"], "17", "1 chục và 7 đơn vị là số 17."], ["Số 18 có mấy đơn vị?", ["9", "7", "10", "8"], "8", "Số 18 gồm 1 chục và 8 đơn vị."], ["Số gồm 1 chục và 9 đơn vị là số mấy?", ["19", "20", "18", "21"], "19", "1 chục và 9 đơn vị là số 19."], ["Số 20 có mấy đơn vị?", ["1", "0", "2", "3"], "0", "Số 20 gồm 2 chục và 0 đơn vị."]], [["Tính: 10 + 4 = ?", ["14", "15", "13", "16"], "14", "10 + 4 = 14."], ["Tính: 10 + 8 = ?", ["19", "18", "17", "20"], "18", "10 + 8 = 18."], ["Tính: 11 + 3 = ?", ["15", "13", "14", "16"], "14", "11 + 3 = 14."], ["Tính: 12 + 5 = ?", ["18", "16", "19", "17"], "17", "12 + 5 = 17."], ["Tính: 13 + 4 = ?", ["17", "18", "16", "19"], "17", "13 + 4 = 17."], ["Tính: 14 + 5 = ?", ["20", "19", "18", "21"], "19", "14 + 5 = 19."], ["Tính: 12 + 6 = ?", ["19", "17", "18", "20"], "18", "12 + 6 = 18."], ["Tính: 15 + 3 = ?", ["19", "17", "20", "18"], "18", "15 + 3 = 18."], ["Tính: 11 + 7 = ?", ["18", "19", "17", "20"], "18", "11 + 7 = 18."], ["Tính: 16 + 3 = ?", ["20", "19", "18", "21"], "19", "16 + 3 = 19."]], [["Tính: 15 - 2 = ?", ["13", "14", "12", "15"], "13", "15 - 2 = 13."], ["Tính: 16 - 4 = ?", ["13", "12", "11", "14"], "12", "16 - 4 = 12."], ["Tính: 18 - 5 = ?", ["14", "12", "13", "15"], "13", "18 - 5 = 13."], ["Tính: 19 - 6 = ?", ["14", "12", "15", "13"], "13", "19 - 6 = 13."], ["Tính: 17 - 3 = ?", ["14", "15", "13", "16"], "14", "17 - 3 = 14."], ["Tính: 14 - 4 = ?", ["11", "10", "9", "12"], "10", "14 - 4 = 10."], ["Tính: 18 - 8 = ?", ["11", "9", "10", "12"], "10", "18 - 8 = 10."], ["Tính: 19 - 4 = ?", ["16", "14", "17", "15"], "15", "19 - 4 = 15."], ["Tính: 16 - 5 = ?", ["11", "12", "10", "13"], "11", "16 - 5 = 11."], ["Tính: 17 - 6 = ?", ["12", "11", "10", "13"], "11", "17 - 6 = 11."]], [["Tính: 3 + 2 + 4 = ?", ["9", "10", "8", "11"], "9", "Tính từ trái sang phải: 3 + 2 + 4 = 9."], ["Tính: 5 + 3 - 2 = ?", ["7", "6", "5", "8"], "6", "Tính từ trái sang phải: 5 + 3 - 2 = 6."], ["Tính: 9 - 4 + 3 = ?", ["9", "7", "8", "10"], "8", "Tính từ trái sang phải: 9 - 4 + 3 = 8."], ["Tính: 10 - 3 - 2 = ?", ["6", "4", "7", "5"], "5", "Tính từ trái sang phải: 10 - 3 - 2 = 5."], ["Tính: 6 + 4 - 5 = ?", ["5", "6", "4", "7"], "5", "Tính từ trái sang phải: 6 + 4 - 5 = 5."], ["Tính: 12 + 3 + 2 = ?", ["18", "17", "16", "19"], "17", "Tính từ trái sang phải: 12 + 3 + 2 = 17."], ["Tính: 15 - 3 + 2 = ?", ["15", "13", "14", "16"], "14", "Tính từ trái sang phải: 15 - 3 + 2 = 14."], ["Tính: 18 - 4 - 2 = ?", ["13", "11", "14", "12"], "12", "Tính từ trái sang phải: 18 - 4 - 2 = 12."], ["Tính: 11 + 5 - 4 = ?", ["12", "13", "11", "14"], "12", "Tính từ trái sang phải: 11 + 5 - 4 = 12."], ["Tính: 14 + 4 - 6 = ?", ["13", "12", "11", "14"], "12", "Tính từ trái sang phải: 14 + 4 - 6 = 12."]], [["Hình tam giác có mấy cạnh?", ["3 cạnh", "4 cạnh", "2 cạnh", "5 cạnh"], "3 cạnh", "Hình tam giác có 3 cạnh."], ["Hình vuông có mấy cạnh bằng nhau?", ["3 cạnh", "4 cạnh", "2 cạnh", "5 cạnh"], "4 cạnh", "Hình vuông có 4 cạnh bằng nhau."], ["Mặt đồng hồ tròn có dạng hình gì?", ["Hình vuông", "Hình tam giác", "Hình tròn", "Hình chữ nhật"], "Hình tròn", "Mặt đồng hồ tròn có dạng hình tròn."], ["Quyển vở học sinh thường có dạng hình gì?", ["Hình tròn", "Hình tam giác", "Hình ngôi sao", "Hình chữ nhật"], "Hình chữ nhật", "Quyển vở có dạng hình chữ nhật."], ["Viên xúc xắc có dạng khối gì?", ["Khối lập phương", "Khối cầu", "Hình tròn", "Hình tam giác"], "Khối lập phương", "Viên xúc xắc có dạng khối lập phương."], ["Chiếc khăn quàng đỏ trải phẳng có dạng hình gì?", ["Hình tròn", "Hình tam giác", "Hình vuông", "Hình chữ nhật"], "Hình tam giác", "Khăn quàng đỏ có dạng hình tam giác."], ["Bánh chưng ngày Tết có mặt trên dạng hình gì?", ["Hình tròn", "Hình tam giác", "Hình vuông", "Hình bầu dục"], "Hình vuông", "Bánh chưng có dạng hình vuông."], ["Hộp phấn viết bảng có dạng khối gì?", ["Hình tròn", "Hình tam giác", "Đoạn thẳng", "Khối hộp chữ nhật"], "Khối hộp chữ nhật", "Hộp phấn có dạng khối hộp chữ nhật."], ["Hình nào không có góc nhọn nào?", ["Hình tròn", "Hình tam giác", "Hình vuông", "Hình chữ nhật"], "Hình tròn", "Hình tròn cong đều, không có góc."], ["Cửa ra vào lớp học thường có dạng hình gì?", ["Hình tròn", "Hình chữ nhật", "Hình tam giác", "Hình thoi"], "Hình chữ nhật", "Cửa ra vào có dạng hình chữ nhật."]], [["Điền số tiếp theo: 2, 4, 6, 8, ...", ["10", "11", "9", "12"], "10", "Đếm thêm 2: 8 + 2 = 10."], ["Điền số tiếp theo: 1, 3, 5, 7, ...", ["10", "9", "8", "11"], "9", "Đếm thêm 2: 7 + 2 = 9."], ["Điền số tiếp theo: 5, 10, 15, ...", ["30", "10", "20", "25"], "20", "Đếm thêm 5: 15 + 5 = 20."], ["Điền số tiếp theo: 10, 20, 30, ...", ["50", "30", "45", "40"], "40", "Đếm tròn chục: 30 + 10 = 40."], ["Điền số tiếp theo: 12, 14, 16, ...", ["18", "19", "17", "20"], "18", "Đếm thêm 2: 16 + 2 = 18."], ["Điền số tiếp theo: 10, 9, 8, 7, ...", ["7", "6", "5", "8"], "6", "Đếm lùi 1: trước 7 là 6."], ["Điền số tiếp theo: 20, 19, 18, ...", ["18", "16", "17", "19"], "17", "Đếm lùi 1: trước 18 là 17."], ["Điền số tiếp theo: 50, 40, 30, ...", ["30", "10", "25", "20"], "20", "Đếm lùi 10: 30 - 10 = 20."], ["Điền số tiếp theo: 4, 6, 8, 10, ...", ["12", "13", "11", "14"], "12", "Đếm thêm 2: 10 + 2 = 12."], ["Điền số tiếp theo: 15, 20, 25, ...", ["40", "30", "20", "35"], "30", "Đếm thêm 5: 25 + 5 = 30."]], [["Tính nhẩm: 20 + 10 = ?", ["30", "40", "20", "50"], "30", "20 + 10 = 30."], ["Tính nhẩm: 30 + 20 = ?", ["60", "50", "40", "70"], "50", "30 + 20 = 50."], ["Tính nhẩm: 40 + 30 = ?", ["80", "60", "70", "90"], "70", "40 + 30 = 70."], ["Tính nhẩm: 50 + 20 = ?", ["80", "60", "90", "70"], "70", "50 + 20 = 70."], ["Tính nhẩm: 60 + 30 = ?", ["90", "100", "80", "110"], "90", "60 + 30 = 90."], ["Tính nhẩm: 50 - 20 = ?", ["40", "30", "20", "50"], "30", "50 - 20 = 30."], ["Tính nhẩm: 70 - 30 = ?", ["50", "30", "40", "60"], "40", "70 - 30 = 40."], ["Tính nhẩm: 80 - 40 = ?", ["50", "30", "60", "40"], "40", "80 - 40 = 40."], ["Tính nhẩm: 90 - 50 = ?", ["40", "50", "30", "60"], "40", "90 - 50 = 40."], ["Tính nhẩm: 60 - 20 = ?", ["50", "40", "30", "60"], "40", "60 - 20 = 40."]], [["Số gồm 2 chục và 4 đơn vị là số nào?", ["24", "34", "14", "25"], "24", "2 chục và 4 đơn vị là 24."], ["Chữ số hàng chục của số 37 là mấy?", ["4", "3", "2", "5"], "3", "Số 37 có chữ số hàng chục là 3."], ["Số gồm 4 chục và 5 đơn vị là số nào?", ["55", "35", "45", "46"], "45", "4 chục và 5 đơn vị là 45."], ["Chữ số hàng chục của số 58 là mấy?", ["6", "4", "7", "5"], "5", "Số 58 có chữ số hàng chục là 5."], ["Số gồm 6 chục và 3 đơn vị là số nào?", ["63", "73", "53", "64"], "63", "6 chục và 3 đơn vị là 63."], ["Chữ số hàng chục của số 72 là mấy?", ["8", "7", "6", "9"], "7", "Số 72 có chữ số hàng chục là 7."], ["Số gồm 8 chục và 6 đơn vị là số nào?", ["96", "76", "86", "87"], "86", "8 chục và 6 đơn vị là 86."], ["Chữ số hàng chục của số 91 là mấy?", ["10", "8", "11", "9"], "9", "Số 91 có chữ số hàng chục là 9."], ["Số gồm 4 chục và 0 đơn vị là số nào?", ["40", "50", "30", "41"], "40", "4 chục và 0 đơn vị là 40."], ["Chữ số hàng chục của số 75 là mấy?", ["8", "7", "6", "9"], "7", "Số 75 có chữ số hàng chục là 7."]], [["Bút chì dài 12 cm, cục tẩy dài 3 cm. Cả hai dài bao nhiêu cm?", ["15 cm", "14 cm", "16 cm", "9 cm"], "15 cm", "12 + 3 = 15 cm."], ["Băng giấy dài 18 cm, cắt đi 5 cm. Băng giấy còn dài bao nhiêu cm?", ["12 cm", "13 cm", "14 cm", "15 cm"], "13 cm", "18 - 5 = 13 cm."], ["Đoạn thẳng dài 7 cm nối thêm 3 cm thì dài bao nhiêu cm?", ["9 cm", "11 cm", "10 cm", "4 cm"], "10 cm", "7 + 3 = 10 cm."], ["10 cm + 5 cm bằng bao nhiêu cm?", ["14 cm", "16 cm", "5 cm", "15 cm"], "15 cm", "10 + 5 = 15 cm."], ["20 cm - 10 cm bằng bao nhiêu cm?", ["10 cm", "5 cm", "15 cm", "30 cm"], "10 cm", "20 - 10 = 10 cm."], ["Chiếc thước dài 15 cm, chiếc bút dài 11 cm. Thước dài hơn bút mấy cm?", ["3 cm", "4 cm", "5 cm", "6 cm"], "4 cm", "15 - 11 = 4 cm."], ["Con kiến bò 6 cm rồi bò tiếp 4 cm nữa. Con kiến đã bò tất cả mấy cm?", ["8 cm", "9 cm", "10 cm", "12 cm"], "10 cm", "6 + 4 = 10 cm."], ["Sợi dây dài 19 cm, cắt bỏ 6 cm thì còn mấy cm?", ["12 cm", "14 cm", "11 cm", "13 cm"], "13 cm", "19 - 6 = 13 cm."], ["8 cm + 10 cm bằng bao nhiêu cm?", ["18 cm", "16 cm", "19 cm", "17 cm"], "18 cm", "8 + 10 = 18 cm."], ["16 cm - 4 cm bằng bao nhiêu cm?", ["11 cm", "12 cm", "13 cm", "10 cm"], "12 cm", "16 - 4 = 12 cm."]], [["Số nào lớn nhất: 34, 52, 29, 48?", ["52", "53", "51", "62"], "52", "Đáp án đúng là 52."], ["Số nào bé nhất: 67, 45, 72, 59?", ["46", "45", "44", "55"], "45", "Đáp án đúng là 45."], ["Số nào lớn nhất: 81, 79, 85, 68?", ["86", "84", "85", "95"], "85", "Đáp án đúng là 85."], ["Số nào bé nhất: 32, 28, 41, 35?", ["29", "27", "38", "28"], "28", "Đáp án đúng là 28."], ["Số liền sau của số 39 là số mấy?", ["40", "41", "39", "50"], "40", "Đáp án đúng là 40."], ["Số liền trước của số 50 là số mấy?", ["50", "49", "48", "59"], "49", "Đáp án đúng là 49."], ["Số liền sau của số 69 là số mấy?", ["71", "69", "70", "80"], "70", "Đáp án đúng là 70."], ["Số liền trước của số 80 là số mấy?", ["80", "78", "89", "79"], "79", "Đáp án đúng là 79."], ["Số lớn nhất có 2 chữ số là số nào?", ["99", "100", "98", "109"], "99", "Đáp án đúng là 99."], ["Số bé nhất có 2 chữ số là số nào?", ["11", "10", "9", "20"], "10", "Đáp án đúng là 10."]], [["Kim ngắn chỉ số 7, kim dài chỉ số 12 là mấy giờ?", ["7 giờ", "12 giờ", "6 giờ", "8 giờ"], "7 giờ", "Kim dài chỉ 12 là giờ đúng → 7 giờ."], ["Kim ngắn chỉ số 9, kim dài chỉ số 12 là mấy giờ?", ["12 giờ", "9 giờ", "8 giờ", "10 giờ"], "9 giờ", "Kim ngắn chỉ 9, kim dài chỉ 12 là 9 giờ."], ["Kim ngắn chỉ số 3, kim dài chỉ số 12 là mấy giờ?", ["12 giờ", "4 giờ", "3 giờ", "2 giờ"], "3 giờ", "Đó là 3 giờ đúng."], ["1 tuần lễ có mấy ngày?", ["5 ngày", "6 ngày", "8 ngày", "7 ngày"], "7 ngày", "Một tuần lễ có 7 ngày."], ["Sau thứ Hai là thứ mấy?", ["Thứ Ba", "Chủ nhật", "Thứ Tư", "Thứ Năm"], "Thứ Ba", "Thứ Hai rồi đến Thứ Ba."], ["Trước thứ Sáu là thứ mấy?", ["Thứ Bảy", "Thứ Năm", "Thứ Tư", "Thứ Ba"], "Thứ Năm", "Trước thứ Sáu là thứ Năm."], ["Hai ngày nghỉ cuối tuần là những ngày nào?", ["Thứ Hai và Thứ Ba", "Thứ Tư và Thứ Năm", "Thứ Bảy và Chủ nhật", "Thứ Sáu và Thứ Bảy"], "Thứ Bảy và Chủ nhật", "Cuối tuần là Thứ Bảy và Chủ nhật."], ["Em đi học từ thứ Hai đến thứ Sáu, tổng cộng mấy ngày?", ["4 ngày", "6 ngày", "7 ngày", "5 ngày"], "5 ngày", "Thứ 2, 3, 4, 5, 6 là 5 ngày."], ["Kim ngắn chỉ số 11, kim dài chỉ số 12 là mấy giờ?", ["11 giờ", "10 giờ", "12 giờ", "1 giờ"], "11 giờ", "Đó là 11 giờ đúng."], ["Hôm nay là thứ Tư, vậy ngày mai là thứ mấy?", ["Thứ Ba", "Thứ Năm", "Thứ Sáu", "Chủ nhật"], "Thứ Năm", "Sau thứ Tư là thứ Năm."]], [["Tính: 21 + 4 = ?", ["25", "26", "24", "35"], "25", "21 + 4 = 25."], ["Tính: 32 + 5 = ?", ["38", "37", "36", "47"], "37", "32 + 5 = 37."], ["Tính: 43 + 6 = ?", ["50", "48", "49", "59"], "49", "43 + 6 = 49."], ["Tính: 51 + 7 = ?", ["59", "57", "68", "58"], "58", "51 + 7 = 58."], ["Tính: 64 + 5 = ?", ["69", "70", "68", "79"], "69", "64 + 5 = 69."], ["Tính: 72 + 6 = ?", ["79", "78", "77", "88"], "78", "72 + 6 = 78."], ["Tính: 81 + 8 = ?", ["90", "88", "89", "99"], "89", "81 + 8 = 89."], ["Tính: 35 + 4 = ?", ["40", "38", "49", "39"], "39", "35 + 4 = 39."], ["Tính: 46 + 3 = ?", ["49", "50", "48", "59"], "49", "46 + 3 = 49."], ["Tính: 52 + 7 = ?", ["60", "59", "58", "69"], "59", "52 + 7 = 59."]], [["Tính: 28 - 3 = ?", ["25", "26", "24", "35"], "25", "28 - 3 = 25."], ["Tính: 39 - 5 = ?", ["35", "34", "33", "44"], "34", "39 - 5 = 34."], ["Tính: 47 - 4 = ?", ["44", "42", "43", "53"], "43", "47 - 4 = 43."], ["Tính: 56 - 2 = ?", ["55", "53", "64", "54"], "54", "56 - 2 = 54."], ["Tính: 68 - 6 = ?", ["62", "63", "61", "72"], "62", "68 - 6 = 62."], ["Tính: 79 - 7 = ?", ["73", "72", "71", "82"], "72", "79 - 7 = 72."], ["Tính: 85 - 4 = ?", ["82", "80", "81", "91"], "81", "85 - 4 = 81."], ["Tính: 97 - 5 = ?", ["93", "91", "102", "92"], "92", "97 - 5 = 92."], ["Tính: 64 - 3 = ?", ["61", "62", "60", "71"], "61", "64 - 3 = 61."], ["Tính: 49 - 8 = ?", ["42", "41", "40", "51"], "41", "49 - 8 = 41."]], [["Tính: 25 + 10 = ?", ["35", "45", "25", "36"], "35", "25 + 10 = 35."], ["Tính: 34 + 20 = ?", ["64", "54", "44", "55"], "54", "34 + 20 = 54."], ["Tính: 42 + 30 = ?", ["82", "62", "72", "73"], "72", "42 + 30 = 72."], ["Tính: 56 + 20 = ?", ["86", "66", "77", "76"], "76", "56 + 20 = 76."], ["Tính: 61 + 30 = ?", ["91", "101", "81", "92"], "91", "61 + 30 = 91."], ["Tính: 28 + 40 = ?", ["78", "68", "58", "69"], "68", "28 + 40 = 68."], ["Tính: 37 + 50 = ?", ["97", "77", "87", "88"], "87", "37 + 50 = 87."], ["Tính: 19 + 60 = ?", ["89", "69", "80", "79"], "79", "19 + 60 = 79."], ["Tính: 45 + 40 = ?", ["85", "95", "75", "86"], "85", "45 + 40 = 85."], ["Tính: 33 + 30 = ?", ["73", "63", "53", "64"], "63", "33 + 30 = 63."]], [["Tính: 45 - 10 = ?", ["35", "45", "25", "36"], "35", "45 - 10 = 35."], ["Tính: 58 - 20 = ?", ["48", "38", "28", "39"], "38", "58 - 20 = 38."], ["Tính: 64 - 30 = ?", ["44", "24", "34", "35"], "34", "64 - 30 = 34."], ["Tính: 79 - 40 = ?", ["49", "29", "40", "39"], "39", "79 - 40 = 39."], ["Tính: 83 - 50 = ?", ["33", "43", "23", "34"], "33", "83 - 50 = 33."], ["Tính: 96 - 30 = ?", ["76", "66", "56", "67"], "66", "96 - 30 = 66."], ["Tính: 72 - 20 = ?", ["62", "42", "52", "53"], "52", "72 - 20 = 52."], ["Tính: 68 - 40 = ?", ["38", "18", "29", "28"], "28", "68 - 40 = 28."], ["Tính: 85 - 60 = ?", ["25", "35", "15", "26"], "25", "85 - 60 = 25."], ["Tính: 94 - 50 = ?", ["54", "44", "34", "45"], "44", "94 - 50 = 44."]], [["Tính: 21 + 14 = ?", ["35", "45", "25", "36"], "35", "21 + 14 = 35."], ["Tính: 32 + 25 = ?", ["67", "57", "47", "58"], "57", "32 + 25 = 57."], ["Tính: 43 + 15 = ?", ["68", "48", "58", "59"], "58", "43 + 15 = 58."], ["Tính: 51 + 27 = ?", ["88", "68", "79", "78"], "78", "51 + 27 = 78."], ["Tính: 34 + 42 = ?", ["76", "86", "66", "77"], "76", "34 + 42 = 76."], ["Tính: 26 + 33 = ?", ["69", "59", "49", "60"], "59", "26 + 33 = 59."], ["Tính: 41 + 38 = ?", ["89", "69", "79", "80"], "79", "41 + 38 = 79."], ["Tính: 52 + 44 = ?", ["106", "86", "97", "96"], "96", "52 + 44 = 96."], ["Tính: 63 + 25 = ?", ["88", "98", "78", "89"], "88", "63 + 25 = 88."], ["Tính: 71 + 28 = ?", ["109", "99", "89", "100"], "99", "71 + 28 = 99."]], [["Tính: 48 - 12 = ?", ["36", "46", "26", "37"], "36", "48 - 12 = 36."], ["Tính: 57 - 24 = ?", ["43", "33", "23", "34"], "33", "57 - 24 = 33."], ["Tính: 69 - 35 = ?", ["44", "24", "34", "35"], "34", "69 - 35 = 34."], ["Tính: 78 - 43 = ?", ["45", "25", "36", "35"], "35", "78 - 43 = 35."], ["Tính: 86 - 52 = ?", ["34", "44", "24", "35"], "34", "86 - 52 = 34."], ["Tính: 95 - 41 = ?", ["64", "54", "44", "55"], "54", "95 - 41 = 54."], ["Tính: 67 - 25 = ?", ["52", "32", "42", "43"], "42", "67 - 25 = 42."], ["Tính: 89 - 36 = ?", ["63", "43", "54", "53"], "53", "89 - 36 = 53."], ["Tính: 74 - 23 = ?", ["51", "61", "41", "52"], "51", "74 - 23 = 51."], ["Tính: 98 - 65 = ?", ["43", "33", "23", "34"], "33", "98 - 65 = 33."]], [["Điền số đúng vào dấu ?: 4 + ? = 9", ["5", "6", "4", "7"], "5", "Số cần điền là 5."], ["Điền số đúng vào dấu ?: ? + 3 = 10", ["8", "7", "6", "9"], "7", "Số cần điền là 7."], ["Điền số đúng vào dấu ?: 8 - ? = 3", ["6", "4", "5", "7"], "5", "Số cần điền là 5."], ["Điền số đúng vào dấu ?: ? - 2 = 6", ["9", "7", "10", "8"], "8", "Số cần điền là 8."], ["Điền số đúng vào dấu ?: 10 + ? = 16", ["6", "7", "5", "8"], "6", "Số cần điền là 6."], ["Điền số đúng vào dấu ?: 15 - ? = 11", ["5", "4", "3", "6"], "4", "Số cần điền là 4."], ["Điền số đúng vào dấu ?: 20 + ? = 50", ["40", "20", "30", "50"], "30", "Số cần điền là 30."], ["Điền số đúng vào dấu ?: 60 - ? = 40", ["30", "10", "40", "20"], "20", "Số cần điền là 20."], ["Điền số đúng vào dấu ?: 12 + ? = 18", ["6", "7", "5", "8"], "6", "Số cần điền là 6."], ["Điền số đúng vào dấu ?: 19 - ? = 14", ["6", "5", "4", "7"], "5", "Số cần điền là 5."]], [["Lucas có 5 viên bi, chị Lucie cho thêm 4 viên bi. Lucas có tất cả mấy viên bi?", ["9 viên bi", "8 viên bi", "10 viên bi", "7 viên bi"], "9 viên bi", "5 + 4 = 9 viên bi."], ["Trên cành có 6 con chim, bay tới thêm 3 con nữa. Có tất cả mấy con chim?", ["8 con chim", "9 con chim", "10 con chim", "7 con chim"], "9 con chim", "6 + 3 = 9 con chim."], ["Trong giỏ có 12 quả cam, mẹ bỏ thêm 5 quả nữa. Trong giỏ có mấy quả cam?", ["16 quả cam", "18 quả cam", "17 quả cam", "15 quả cam"], "17 quả cam", "12 + 5 = 17 quả cam."], ["Lớp 1A5 có 20 bạn nam và 15 bạn nữ. Lớp có tất cả bao nhiêu bạn?", ["30 bạn", "40 bạn", "25 bạn", "35 bạn"], "35 bạn", "20 + 15 = 35 bạn."], ["Vườn nhà có 11 cây hoa hồng và 7 cây hoa cúc. Có tất cả mấy cây hoa?", ["18 cây hoa", "17 cây hoa", "19 cây hoa", "16 cây hoa"], "18 cây hoa", "11 + 7 = 18 cây hoa."], ["Bé gấp được 14 chiếc thuyền giấy, gấp thêm 5 chiếc nữa. Bé có mấy chiếc thuyền?", ["18 chiếc", "19 chiếc", "20 chiếc", "17 chiếc"], "19 chiếc", "14 + 5 = 19 chiếc."], ["Hộp bút có 10 cây bút màu, thêm 8 cây nữa là mấy cây?", ["16 cây", "17 cây", "18 cây", "19 cây"], "18 cây", "10 + 8 = 18 cây."], ["Trên bàn có 22 quyển vở và 13 quyển truyện. Có tất cả mấy quyển?", ["34 quyển", "36 quyển", "33 quyển", "35 quyển"], "35 quyển", "22 + 13 = 35 quyển."], ["Bà nuôi 30 con gà và 10 con vịt. Bà nuôi tất cả mấy con?", ["40 con", "20 con", "35 con", "50 con"], "40 con", "30 + 10 = 40 con."], ["Lucas nhặt được 24 vỏ ốc, chị Lucie nhặt được 15 vỏ ốc. Hai chị em có mấy vỏ ốc?", ["38 vỏ ốc", "39 vỏ ốc", "40 vỏ ốc", "37 vỏ ốc"], "39 vỏ ốc", "24 + 15 = 39 vỏ ốc."]], [["Có 10 quả bóng bay, bay mất 3 quả. Còn lại mấy quả bóng?", ["7 quả", "6 quả", "8 quả", "5 quả"], "7 quả", "10 - 3 = 7 quả."], ["Trên đĩa có 16 chiếc bánh, cả nhà ăn 5 chiếc. Còn lại mấy chiếc bánh?", ["10 chiếc", "11 chiếc", "12 chiếc", "9 chiếc"], "11 chiếc", "16 - 5 = 11 chiếc."], ["Lucas có 18 nhãn vở, tặng bạn 6 nhãn vở. Lucas còn mấy nhãn vở?", ["11 nhãn vở", "13 nhãn vở", "12 nhãn vở", "14 nhãn vở"], "12 nhãn vở", "18 - 6 = 12 nhãn vở."], ["Trong ao có 25 con cá, vớt ra 12 con. Còn lại mấy con cá?", ["12 con", "14 con", "15 con", "13 con"], "13 con", "25 - 12 = 13 con."], ["Cửa hàng có 40 quả dưa, đã bán 10 quả. Còn lại mấy quả dưa?", ["30 quả", "20 quả", "35 quả", "50 quả"], "30 quả", "40 - 10 = 30 quả."], ["Hộp kẹo có 28 viên, bé chia cho bạn 15 viên. Còn lại mấy viên kẹo?", ["12 viên", "13 viên", "14 viên", "15 viên"], "13 viên", "28 - 15 = 13 viên."], ["Đàn gà có 37 con, chạy vào chuồng 14 con. Ngoài sân còn mấy con gà?", ["22 con", "24 con", "23 con", "21 con"], "23 con", "37 - 14 = 23 con."], ["Quyển sách có 48 trang, bé đã đọc 23 trang. Còn lại mấy trang chưa đọc?", ["24 trang", "26 trang", "23 trang", "25 trang"], "25 trang", "48 - 23 = 25 trang."], ["Bó hoa có 19 bông, tặng cô giáo 9 bông. Còn lại mấy bông hoa?", ["10 bông", "9 bông", "11 bông", "8 bông"], "10 bông", "19 - 9 = 10 bông."], ["Rổ trứng có 36 quả, mẹ dùng 12 quả làm bánh. Còn lại mấy quả trứng?", ["23 quả", "24 quả", "25 quả", "22 quả"], "24 quả", "36 - 12 = 24 quả."]], [["Tính nhanh: 24 + 35 = ?", ["59", "58", "60", "49"], "59", "24 + 35 = 59."], ["Tính nhanh: 68 - 25 = ?", ["42", "43", "44", "33"], "43", "68 - 25 = 43."], ["Số gồm 7 chục và 8 đơn vị là số mấy?", ["87", "70", "78", "79"], "78", "7 chục và 8 đơn vị là 78."], ["Số lớn nhất trong các số 49, 73, 68, 81 là số nào?", ["73", "68", "49", "81"], "81", "81 là số lớn nhất."], ["Tính: 15 + 4 - 6 = ?", ["13", "12", "14", "11"], "13", "15 + 4 = 19; 19 - 6 = 13."], ["Khối lập phương có mấy mặt hình vuông?", ["4 mặt", "6 mặt", "5 mặt", "8 mặt"], "6 mặt", "Khối lập phương có 6 mặt đều là hình vuông."], ["Kim ngắn chỉ số 8, kim dài chỉ số 12 là mấy giờ?", ["12 giờ", "7 giờ", "8 giờ", "9 giờ"], "8 giờ", "Đó là 8 giờ đúng."], ["Băng giấy dài 14 cm cộng thêm 5 cm dài bao nhiêu cm?", ["18 cm", "20 cm", "17 cm", "19 cm"], "19 cm", "14 + 5 = 19 cm."], ["Rương có 35 đồng xu vàng, Lucas tìm thêm 14 đồng nữa. Có tất cả mấy đồng xu?", ["49 đồng xu", "48 đồng xu", "50 đồng xu", "39 đồng xu"], "49 đồng xu", "35 + 14 = 49 đồng xu."], ["Điền số đúng: 50 + ? = 80", ["20", "30", "40", "10"], "30", "50 + 30 = 80."]]], "3": [[["Tính tổng: 234 + 152 = ?", ["386", "396", "376", "387"], "386", "234 + 152 = 386."], ["Tính tổng: 345 + 241 = ?", ["596", "586", "576", "587"], "586", "345 + 241 = 586."], ["Tính tổng: 418 + 265 = ?", ["693", "673", "683", "684"], "683", "418 + 265 = 683."], ["Tính tổng: 527 + 184 = ?", ["721", "701", "712", "711"], "711", "527 + 184 = 711."], ["Tính tổng: 369 + 256 = ?", ["625", "635", "615", "626"], "625", "369 + 256 = 625."], ["Tính tổng: 485 + 327 = ?", ["822", "812", "802", "813"], "812", "485 + 327 = 812."], ["Tính tổng: 618 + 294 = ?", ["922", "902", "912", "913"], "912", "618 + 294 = 912."], ["Tính tổng: 276 + 458 = ?", ["744", "724", "735", "734"], "734", "276 + 458 = 734."], ["Tính tổng: 539 + 372 = ?", ["911", "921", "901", "912"], "911", "539 + 372 = 911."], ["Tính tổng: 648 + 285 = ?", ["943", "933", "923", "934"], "933", "648 + 285 = 933."]], [["Tính hiệu: 542 - 218 = ?", ["324", "334", "314", "325"], "324", "542 - 218 = 324."], ["Tính hiệu: 635 - 247 = ?", ["398", "388", "378", "389"], "388", "635 - 247 = 388."], ["Tính hiệu: 724 - 356 = ?", ["378", "358", "368", "369"], "368", "724 - 356 = 368."], ["Tính hiệu: 813 - 429 = ?", ["394", "374", "385", "384"], "384", "813 - 429 = 384."], ["Tính hiệu: 905 - 348 = ?", ["557", "567", "547", "558"], "557", "905 - 348 = 557."], ["Tính hiệu: 651 - 274 = ?", ["387", "377", "367", "378"], "377", "651 - 274 = 377."], ["Tính hiệu: 740 - 365 = ?", ["385", "365", "375", "376"], "375", "740 - 365 = 375."], ["Tính hiệu: 832 - 457 = ?", ["385", "365", "376", "375"], "375", "832 - 457 = 375."], ["Tính hiệu: 916 - 528 = ?", ["388", "398", "378", "389"], "388", "916 - 528 = 388."], ["Tính hiệu: 804 - 319 = ?", ["495", "485", "475", "486"], "485", "804 - 319 = 485."]], [["Tính tích: 6 x 4 = ?", ["24", "30", "18", "28"], "24", "Theo bảng nhân 6: 6 x 4 = 24."], ["Tính tích: 6 x 7 = ?", ["48", "42", "36", "49"], "42", "Theo bảng nhân 6: 6 x 7 = 42."], ["Tính tích: 6 x 8 = ?", ["54", "42", "48", "56"], "48", "Theo bảng nhân 6: 6 x 8 = 48."], ["Tính tích: 6 x 9 = ?", ["60", "48", "63", "54"], "54", "Theo bảng nhân 6: 6 x 9 = 54."], ["Tính tích: 7 x 3 = ?", ["21", "28", "14", "24"], "21", "Theo bảng nhân 7: 7 x 3 = 21."], ["Tính tích: 7 x 5 = ?", ["42", "35", "28", "40"], "35", "Theo bảng nhân 7: 7 x 5 = 35."], ["Tính tích: 7 x 6 = ?", ["49", "35", "42", "48"], "42", "Theo bảng nhân 7: 7 x 6 = 42."], ["Tính tích: 7 x 8 = ?", ["63", "49", "64", "56"], "56", "Theo bảng nhân 7: 7 x 8 = 56."], ["Tính tích: 7 x 9 = ?", ["63", "70", "56", "72"], "63", "Theo bảng nhân 7: 7 x 9 = 63."], ["Tính tích: 6 x 6 = ?", ["42", "36", "30", "38"], "36", "Theo bảng nhân 6: 6 x 6 = 36."]], [["Tính tích: 8 x 3 = ?", ["24", "32", "16", "26"], "24", "Theo bảng nhân 8: 8 x 3 = 24."], ["Tính tích: 8 x 4 = ?", ["40", "32", "24", "34"], "32", "Theo bảng nhân 8: 8 x 4 = 32."], ["Tính tích: 8 x 6 = ?", ["56", "40", "48", "50"], "48", "Theo bảng nhân 8: 8 x 6 = 48."], ["Tính tích: 8 x 7 = ?", ["64", "48", "58", "56"], "56", "Theo bảng nhân 8: 8 x 7 = 56."], ["Tính tích: 8 x 9 = ?", ["72", "80", "64", "74"], "72", "Theo bảng nhân 8: 8 x 9 = 72."], ["Tính tích: 9 x 3 = ?", ["36", "27", "18", "29"], "27", "Theo bảng nhân 9: 9 x 3 = 27."], ["Tính tích: 9 x 5 = ?", ["54", "36", "45", "47"], "45", "Theo bảng nhân 9: 9 x 5 = 45."], ["Tính tích: 9 x 6 = ?", ["63", "45", "56", "54"], "54", "Theo bảng nhân 9: 9 x 6 = 54."], ["Tính tích: 9 x 7 = ?", ["63", "72", "54", "65"], "63", "Theo bảng nhân 9: 9 x 7 = 63."], ["Tính tích: 9 x 8 = ?", ["81", "72", "63", "74"], "72", "Theo bảng nhân 9: 9 x 8 = 72."]], [["Tính thương: 24 : 6 = ?", ["4", "5", "3", "6"], "4", "Vì 6 x 4 = 24 nên 24 : 6 = 4."], ["Tính thương: 42 : 6 = ?", ["8", "7", "6", "9"], "7", "Vì 6 x 7 = 42 nên 42 : 6 = 7."], ["Tính thương: 48 : 6 = ?", ["9", "7", "8", "10"], "8", "Vì 6 x 8 = 48 nên 48 : 6 = 8."], ["Tính thương: 54 : 6 = ?", ["10", "8", "11", "9"], "9", "Vì 6 x 9 = 54 nên 54 : 6 = 9."], ["Tính thương: 36 : 6 = ?", ["6", "7", "5", "8"], "6", "Vì 6 x 6 = 36 nên 36 : 6 = 6."], ["Tính thương: 28 : 7 = ?", ["5", "4", "3", "6"], "4", "Vì 7 x 4 = 28 nên 28 : 7 = 4."], ["Tính thương: 35 : 7 = ?", ["6", "4", "5", "7"], "5", "Vì 7 x 5 = 35 nên 35 : 7 = 5."], ["Tính thương: 49 : 7 = ?", ["8", "6", "9", "7"], "7", "Vì 7 x 7 = 49 nên 49 : 7 = 7."], ["Tính thương: 56 : 7 = ?", ["8", "9", "7", "10"], "8", "Vì 7 x 8 = 56 nên 56 : 7 = 8."], ["Tính thương: 63 : 7 = ?", ["10", "9", "8", "11"], "9", "Vì 7 x 9 = 63 nên 63 : 7 = 9."]], [["Tính thương: 24 : 8 = ?", ["3", "4", "2", "5"], "3", "Vì 8 x 3 = 24 nên 24 : 8 = 3."], ["Tính thương: 32 : 8 = ?", ["5", "4", "3", "6"], "4", "Vì 8 x 4 = 32 nên 32 : 8 = 4."], ["Tính thương: 48 : 8 = ?", ["7", "5", "6", "8"], "6", "Vì 8 x 6 = 48 nên 48 : 8 = 6."], ["Tính thương: 56 : 8 = ?", ["8", "6", "9", "7"], "7", "Vì 8 x 7 = 56 nên 56 : 8 = 7."], ["Tính thương: 72 : 8 = ?", ["9", "10", "8", "11"], "9", "Vì 8 x 9 = 72 nên 72 : 8 = 9."], ["Tính thương: 27 : 9 = ?", ["4", "3", "2", "5"], "3", "Vì 9 x 3 = 27 nên 27 : 9 = 3."], ["Tính thương: 45 : 9 = ?", ["6", "4", "5", "7"], "5", "Vì 9 x 5 = 45 nên 45 : 9 = 5."], ["Tính thương: 54 : 9 = ?", ["7", "5", "8", "6"], "6", "Vì 9 x 6 = 54 nên 54 : 9 = 6."], ["Tính thương: 63 : 9 = ?", ["7", "8", "6", "9"], "7", "Vì 9 x 7 = 63 nên 63 : 9 = 7."], ["Tính thương: 81 : 9 = ?", ["10", "9", "8", "11"], "9", "Vì 9 x 9 = 81 nên 81 : 9 = 9."]], [["Tìm x biết: x + 125 = 360", ["235", "245", "225", "240"], "235", "x = 360 - 125 = 235."], ["Tìm x biết: 248 + x = 500", ["262", "252", "242", "257"], "252", "x = 500 - 248 = 252."], ["Tìm x biết: x - 145 = 215", ["370", "350", "360", "365"], "360", "x = 215 + 145 = 360."], ["Tìm x biết: 420 - x = 165", ["265", "245", "260", "255"], "255", "x = 420 - 165 = 255."], ["Tìm x biết: x x 6 = 54", ["9", "10", "8", "11"], "9", "x = 54 : 6 = 9."], ["Tìm x biết: 7 x x = 56", ["9", "8", "7", "10"], "8", "x = 56 : 7 = 8."], ["Tìm x biết: x : 8 = 7", ["66", "46", "56", "61"], "56", "x = 7 x 8 = 56."], ["Tìm x biết: 72 : x = 9", ["9", "7", "10", "8"], "8", "x = 72 : 9 = 8."], ["Tìm x biết: x x 9 = 63", ["7", "8", "6", "9"], "7", "x = 63 : 9 = 7."], ["Tìm x biết: x : 6 = 9", ["64", "54", "44", "59"], "54", "x = 9 x 6 = 54."]], [["Gấp 14 lên 3 lần ta được số nào?", ["42", "46", "38", "48"], "42", "14 x 3 = 42."], ["Gấp 18 lên 4 lần ta được số nào?", ["76", "72", "68", "78"], "72", "18 x 4 = 72."], ["Gấp 25 lên 5 lần ta được số nào?", ["129", "121", "125", "131"], "125", "25 x 5 = 125."], ["Gấp 32 lên 3 lần ta được số nào?", ["100", "92", "102", "96"], "96", "32 x 3 = 96."], ["Gấp 16 lên 6 lần ta được số nào?", ["96", "100", "92", "102"], "96", "16 x 6 = 96."], ["Giảm 48 đi 6 lần ta được số nào?", ["9", "8", "7", "10"], "8", "48 : 6 = 8."], ["Giảm 63 đi 7 lần ta được số nào?", ["10", "8", "9", "11"], "9", "63 : 7 = 9."], ["Giảm 72 đi 8 lần ta được số nào?", ["10", "8", "11", "9"], "9", "72 : 8 = 9."], ["Giảm 81 đi 9 lần ta được số nào?", ["9", "10", "8", "11"], "9", "81 : 9 = 9."], ["Giảm 56 đi 7 lần ta được số nào?", ["9", "8", "7", "10"], "8", "56 : 7 = 8."]], [["Tính: 12 x 4 = ?", ["48", "58", "38", "52"], "48", "12 x 4 = 48."], ["Tính: 15 x 3 = ?", ["55", "45", "35", "48"], "45", "15 x 3 = 45."], ["Tính: 21 x 4 = ?", ["94", "74", "84", "88"], "84", "21 x 4 = 84."], ["Tính: 24 x 3 = ?", ["82", "62", "75", "72"], "72", "24 x 3 = 72."], ["Tính: 18 x 5 = ?", ["90", "100", "80", "95"], "90", "18 x 5 = 90."], ["Tính: 27 x 3 = ?", ["91", "81", "71", "84"], "81", "27 x 3 = 81."], ["Tính: 34 x 2 = ?", ["78", "58", "68", "70"], "68", "34 x 2 = 68."], ["Tính: 26 x 4 = ?", ["114", "94", "108", "104"], "104", "26 x 4 = 104."], ["Tính: 35 x 3 = ?", ["105", "115", "95", "108"], "105", "35 x 3 = 105."], ["Tính: 42 x 4 = ?", ["178", "168", "158", "172"], "168", "42 x 4 = 168."]], [["Tính thương: 48 : 4 = ?", ["12", "14", "10", "22"], "12", "48 : 4 = 12."], ["Tính thương: 69 : 3 = ?", ["25", "23", "21", "33"], "23", "69 : 3 = 23."], ["Tính thương: 84 : 4 = ?", ["23", "19", "21", "31"], "21", "84 : 4 = 21."], ["Tính thương: 96 : 3 = ?", ["34", "30", "42", "32"], "32", "96 : 3 = 32."], ["Tính thương: 75 : 5 = ?", ["15", "17", "13", "25"], "15", "75 : 5 = 15."], ["Số dư của phép chia 29 : 4 là bao nhiêu?", ["2", "1", "0", "3"], "1", "29 : 4 = 7 dư 1 (4 x 7 = 28)."], ["Số dư của phép chia 39 : 5 là bao nhiêu?", ["5", "3", "4", "6"], "4", "39 : 5 = 7 dư 4 (5 x 7 = 35)."], ["Số dư của phép chia 45 : 6 là bao nhiêu?", ["4", "2", "5", "3"], "3", "45 : 6 = 7 dư 3 (6 x 7 = 42)."], ["Số dư của phép chia 52 : 7 là bao nhiêu?", ["3", "4", "2", "5"], "3", "52 : 7 = 7 dư 3 (7 x 7 = 49)."], ["Số dư của phép chia 67 : 8 là bao nhiêu?", ["4", "3", "2", "5"], "3", "67 : 8 = 8 dư 3 (8 x 8 = 64)."]], [["Tính giá trị biểu thức: 20 + 6 x 5 = ?", ["50", "60", "40", "54"], "50", "Nhân trước: 6 x 5 = 30; 20 + 30 = 50."], ["Tính giá trị biểu thức: 45 - 8 x 4 = ?", ["23", "13", "3", "17"], "13", "Nhân trước: 8 x 4 = 32; 45 - 32 = 13."], ["Tính giá trị biểu thức: 18 + 36 : 6 = ?", ["34", "14", "24", "28"], "24", "Chia trước: 36 : 6 = 6; 18 + 6 = 24."], ["Tính giá trị biểu thức: 60 - 42 : 7 = ?", ["64", "44", "58", "54"], "54", "Chia trước: 42 : 7 = 6; 60 - 6 = 54."], ["Tính giá trị biểu thức: 9 x 7 + 17 = ?", ["80", "90", "70", "84"], "80", "9 x 7 = 63; 63 + 17 = 80."], ["Tính giá trị biểu thức: 8 x 9 - 22 = ?", ["60", "50", "40", "54"], "50", "8 x 9 = 72; 72 - 22 = 50."], ["Tính giá trị biểu thức: 54 : 6 + 31 = ?", ["50", "30", "40", "44"], "40", "54 : 6 = 9; 9 + 31 = 40."], ["Tính giá trị biểu thức: 81 : 9 + 45 = ?", ["64", "44", "58", "54"], "54", "81 : 9 = 9; 9 + 45 = 54."], ["Tính giá trị biểu thức: 100 - 7 x 8 = ?", ["44", "54", "34", "48"], "44", "7 x 8 = 56; 100 - 56 = 44."], ["Tính giá trị biểu thức: 35 + 48 : 8 = ?", ["51", "41", "31", "45"], "41", "48 : 8 = 6; 35 + 6 = 41."]], [["Tính giá trị biểu thức: (15 + 25) : 5 = ?", ["8", "9", "7", "10"], "8", "Trong ngoặc trước: 15 + 25 = 40; 40 : 5 = 8."], ["Tính giá trị biểu thức: (50 - 14) : 6 = ?", ["7", "6", "5", "8"], "6", "50 - 14 = 36; 36 : 6 = 6."], ["Tính giá trị biểu thức: (12 + 8) x 4 = ?", ["90", "70", "80", "85"], "80", "12 + 8 = 20; 20 x 4 = 80."], ["Tính giá trị biểu thức: (30 - 18) x 5 = ?", ["70", "50", "65", "60"], "60", "30 - 18 = 12; 12 x 5 = 60."], ["Tính giá trị biểu thức: 7 x (15 - 6) = ?", ["63", "73", "53", "68"], "63", "15 - 6 = 9; 7 x 9 = 63."], ["Tính giá trị biểu thức: 8 x (4 + 5) = ?", ["82", "72", "62", "77"], "72", "4 + 5 = 9; 8 x 9 = 72."], ["Tính giá trị biểu thức: (45 + 18) : 7 = ?", ["10", "8", "9", "11"], "9", "45 + 18 = 63; 63 : 7 = 9."], ["Tính giá trị biểu thức: (70 - 16) : 9 = ?", ["7", "5", "8", "6"], "6", "70 - 16 = 54; 54 : 9 = 6."], ["Tính giá trị biểu thức: 9 x (20 - 12) = ?", ["72", "82", "62", "77"], "72", "20 - 12 = 8; 9 x 8 = 72."], ["Tính giá trị biểu thức: (24 + 32) : 8 = ?", ["8", "7", "6", "9"], "7", "24 + 32 = 56; 56 : 8 = 7."]], [["1 cm bằng bao nhiêu mi-li-mét (mm)?", ["10 mm", "100 mm", "1000 mm", "5 mm"], "10 mm", "1 cm = 10 mm."], ["5 cm bằng bao nhiêu mi-li-mét (mm)?", ["500 mm", "50 mm", "15 mm", "5 mm"], "50 mm", "5 cm = 5 x 10 = 50 mm."], ["1 dm bằng bao nhiêu mi-li-mét (mm)?", ["10 mm", "1000 mm", "100 mm", "50 mm"], "100 mm", "1 dm = 10 cm = 100 mm."], ["1 m bằng bao nhiêu xăng-ti-mét (cm)?", ["10 cm", "1000 cm", "50 cm", "100 cm"], "100 cm", "1 m = 100 cm."], ["3 m bằng bao nhiêu đề-xi-mét (dm)?", ["30 dm", "300 dm", "3 dm", "13 dm"], "30 dm", "1 m = 10 dm nên 3 m = 30 dm."], ["1 km bằng bao nhiêu mét (m)?", ["100 m", "1000 m", "10 m", "500 m"], "1000 m", "1 km = 1000 m."], ["2 m 35 cm bằng bao nhiêu cm?", ["253 cm", "55 cm", "235 cm", "2035 cm"], "235 cm", "2 m = 200 cm; 200 + 35 = 235 cm."], ["40 mm bằng bao nhiêu cm?", ["40 cm", "400 cm", "2 cm", "4 cm"], "4 cm", "10 mm = 1 cm nên 40 mm = 4 cm."], ["Đoạn đường dài 150 m cộng thêm 250 m dài bao nhiêu mét?", ["400 m", "300 m", "350 m", "450 m"], "400 m", "150 + 250 = 400 m."], ["Sợi dây dài 1 m, cắt đi 30 cm thì còn lại bao nhiêu cm?", ["80 cm", "70 cm", "60 cm", "30 cm"], "70 cm", "1 m = 100 cm; 100 - 30 = 70 cm."]], [["1 kg bằng bao nhiêu gam (g)?", ["1000 g", "100 g", "10 g", "500 g"], "1000 g", "1 kg = 1000 g."], ["1 lít (l) bằng bao nhiêu mi-li-lít (ml)?", ["100 ml", "1000 ml", "10 ml", "500 ml"], "1000 ml", "1 l = 1000 ml."], ["Túi cam nặng 450 g và túi táo nặng 350 g. Cả hai túi nặng bao nhiêu gam?", ["700 g", "750 g", "800 g", "850 g"], "800 g", "450 + 350 = 800 g."], ["Gói đường nặng 1 kg, mẹ dùng hết 400 g. Còn lại bao nhiêu gam đường?", ["500 g", "700 g", "400 g", "600 g"], "600 g", "1 kg = 1000 g; 1000 - 400 = 600 g."], ["Chai nước chứa 750 ml, rót ra cốc 250 ml thì trong chai còn bao nhiêu ml?", ["500 ml", "450 ml", "550 ml", "400 ml"], "500 ml", "750 - 250 = 500 ml."], ["Hai hộp sữa mỗi hộp 200 ml có tổng cộng bao nhiêu ml sữa?", ["300 ml", "400 ml", "500 ml", "200 ml"], "400 ml", "200 x 2 = 400 ml."], ["5 gói bánh mỗi gói nặng 100 g có tổng khối lượng là bao nhiêu?", ["400 g", "600 g", "500 g", "150 g"], "500 g", "100 x 5 = 500 g."], ["1 bình nước 1 l rót đều vào 2 cốc bằng nhau, mỗi cốc chứa bao nhiêu ml?", ["250 ml", "400 ml", "200 ml", "500 ml"], "500 ml", "1000 : 2 = 500 ml."], ["Quả dưa hấu nặng 2 kg 300 g bằng bao nhiêu gam?", ["2300 g", "2030 g", "500 g", "230 g"], "2300 g", "2 kg = 2000 g; 2000 + 300 = 2300 g."], ["350 ml + 650 ml bằng bao nhiêu lít?", ["2 lít", "1 lít", "10 lít", "5 lít"], "1 lít", "350 + 650 = 1000 ml = 1 lít."]], [["1 giờ có bao nhiêu phút?", ["60 phút", "30 phút", "100 phút", "24 phút"], "60 phút", "1 giờ = 60 phút."], ["1 ngày có bao nhiêu giờ?", ["12 giờ", "24 giờ", "60 giờ", "30 giờ"], "24 giờ", "1 ngày = 24 giờ."], ["Kim ngắn chỉ quá số 8, kim dài chỉ số 3 là mấy giờ?", ["8 giờ 3 phút", "8 giờ 30 phút", "8 giờ 15 phút", "3 giờ 40 phút"], "8 giờ 15 phút", "Kim dài chỉ số 3 là 15 phút → 8 giờ 15 phút."], ["Kim ngắn ở giữa số 4 và 5, kim dài chỉ số 6 là mấy giờ?", ["4 giờ 6 phút", "5 giờ 30 phút", "4 giờ 15 phút", "4 giờ 30 phút"], "4 giờ 30 phút", "Kim dài chỉ số 6 là 30 phút → 4 giờ 30 phút."], ["9 giờ kém 15 phút còn gọi là mấy giờ?", ["8 giờ 45 phút", "9 giờ 15 phút", "8 giờ 15 phút", "8 giờ 35 phút"], "8 giờ 45 phút", "9 giờ kém 15 phút = 8 giờ 45 phút."], ["Lucie bắt đầu học lúc 7 giờ 15 phút và học xong lúc 7 giờ 45 phút. Chị học trong bao lâu?", ["20 phút", "30 phút", "40 phút", "45 phút"], "30 phút", "45 - 15 = 30 phút."], ["Tháng nào trong năm có 31 ngày?", ["Tháng 4", "Tháng 6", "Tháng 1", "Tháng 9"], "Tháng 1", "Tháng 1 có 31 ngày; tháng 4, 6, 9 có 30 ngày."], ["Tháng 4 có bao nhiêu ngày?", ["31 ngày", "28 ngày", "29 ngày", "30 ngày"], "30 ngày", "Tháng 4 có 30 ngày."], ["1 tuần lễ có 7 ngày. Vậy 4 tuần lễ có bao nhiêu ngày?", ["28 ngày", "21 ngày", "30 ngày", "35 ngày"], "28 ngày", "7 x 4 = 28 ngày."], ["Hôm nay là thứ Hai ngày 5. Vậy thứ Hai tuần sau là ngày mấy?", ["Ngày 11", "Ngày 12", "Ngày 13", "Ngày 10"], "Ngày 12", "5 + 7 = 12."]], [["Hình vuông có mấy góc vuông?", ["4 góc vuông", "2 góc vuông", "3 góc vuông", "1 góc vuông"], "4 góc vuông", "Hình vuông có 4 góc vuông và 4 cạnh bằng nhau."], ["Hình chữ nhật có mấy cạnh dài bằng nhau và mấy cạnh ngắn bằng nhau?", ["4 cạnh bằng nhau", "2 cạnh dài và 2 cạnh ngắn", "3 cạnh dài và 1 cạnh ngắn", "1 cạnh dài và 3 cạnh ngắn"], "2 cạnh dài và 2 cạnh ngắn", "Hình chữ nhật có 2 cạnh dài bằng nhau và 2 cạnh ngắn bằng nhau."], ["Đường kính của hình tròn gấp mấy lần bán kính?", ["Gấp 3 lần", "Gấp 4 lần", "Gấp 2 lần", "Bằng nhau"], "Gấp 2 lần", "Đường kính luôn dài gấp 2 lần bán kính."], ["Hình tròn có bán kính 6 cm thì đường kính dài bao nhiêu cm?", ["3 cm", "18 cm", "8 cm", "12 cm"], "12 cm", "Đường kính = 6 x 2 = 12 cm."], ["Hình tròn có đường kính 16 cm thì bán kính dài bao nhiêu cm?", ["8 cm", "32 cm", "4 cm", "10 cm"], "8 cm", "Bán kính = 16 : 2 = 8 cm."], ["Điểm nằm chính giữa hai đầu đoạn thẳng và chia đoạn thẳng thành hai phần bằng nhau gọi là gì?", ["Đỉnh góc", "Trung điểm", "Đường kính", "Cạnh bên"], "Trung điểm", "Trung điểm là điểm ở chính giữa hai đầu đoạn thẳng."], ["M là trung điểm của đoạn thẳng AB dài 18 cm. Độ dài đoạn AM là bao nhiêu?", ["36 cm", "6 cm", "9 cm", "10 cm"], "9 cm", "AM = 18 : 2 = 9 cm."], ["Khối lập phương có bao nhiêu mặt?", ["4 mặt", "8 mặt", "12 mặt", "6 mặt"], "6 mặt", "Khối lập phương có 6 mặt đều là hình vuông."], ["Khối hộp chữ nhật có bao nhiêu đỉnh?", ["8 đỉnh", "6 đỉnh", "4 đỉnh", "12 đỉnh"], "8 đỉnh", "Khối hộp chữ nhật có 8 đỉnh, 6 mặt và 12 cạnh."], ["Để kiểm tra một góc có phải góc vuông hay không, ta dùng dụng cụ nào?", ["Compa", "Ê ke", "Cân đĩa", "Nhiệt kế"], "Ê ke", "Dùng thước ê ke để kiểm tra góc vuông."]], [["Chu vi hình vuông có cạnh 7 cm là bao nhiêu?", ["28 cm", "14 cm", "49 cm", "21 cm"], "28 cm", "Chu vi hình vuông = 7 x 4 = 28 cm."], ["Chu vi hình vuông có cạnh 12 cm là bao nhiêu?", ["24 cm", "48 cm", "36 cm", "60 cm"], "48 cm", "12 x 4 = 48 cm."], ["Chu vi hình chữ nhật dài 10 cm, rộng 6 cm là bao nhiêu?", ["16 cm", "60 cm", "32 cm", "26 cm"], "32 cm", "(10 + 6) x 2 = 32 cm."], ["Chu vi hình chữ nhật dài 15 m, rộng 8 m là bao nhiêu?", ["23 m", "120 m", "38 m", "46 m"], "46 m", "(15 + 8) x 2 = 46 m."], ["Chu vi hình tam giác có 3 cạnh dài 8 cm, 9 cm, 10 cm là bao nhiêu?", ["27 cm", "26 cm", "28 cm", "19 cm"], "27 cm", "8 + 9 + 10 = 27 cm."], ["Chu vi hình tứ giác có 4 cạnh dài 5 cm, 6 cm, 7 cm, 8 cm là bao nhiêu?", ["24 cm", "26 cm", "28 cm", "25 cm"], "26 cm", "5 + 6 + 7 + 8 = 26 cm."], ["Một hình vuông có chu vi 36 cm. Độ dài một cạnh của hình vuông là bao nhiêu?", ["6 cm", "12 cm", "9 cm", "18 cm"], "9 cm", "Cạnh = 36 : 4 = 9 cm."], ["Một sân bóng hình chữ nhật dài 20 m, rộng 10 m. Chu vi sân là bao nhiêu?", ["30 m", "200 m", "50 m", "60 m"], "60 m", "(20 + 10) x 2 = 60 m."], ["Nửa chu vi hình chữ nhật là 25 cm. Chu vi hình chữ nhật đó là bao nhiêu?", ["50 cm", "100 cm", "25 cm", "45 cm"], "50 cm", "Chu vi = nửa chu vi x 2 = 25 x 2 = 50 cm."], ["Chu vi hình vuông có cạnh 15 cm là bao nhiêu?", ["30 cm", "60 cm", "45 cm", "75 cm"], "60 cm", "15 x 4 = 60 cm."]], [["Diện tích hình chữ nhật dài 8 cm, rộng 5 cm là bao nhiêu?", ["40 cm²", "26 cm²", "13 cm²", "45 cm²"], "40 cm²", "Diện tích = 8 x 5 = 40 cm²."], ["Diện tích hình chữ nhật dài 9 cm, rộng 4 cm là bao nhiêu?", ["26 cm²", "36 cm²", "13 cm²", "32 cm²"], "36 cm²", "9 x 4 = 36 cm²."], ["Diện tích hình chữ nhật dài 12 cm, rộng 5 cm là bao nhiêu?", ["34 cm²", "17 cm²", "60 cm²", "50 cm²"], "60 cm²", "12 x 5 = 60 cm²."], ["Diện tích hình vuông có cạnh 6 cm là bao nhiêu?", ["24 cm²", "12 cm²", "30 cm²", "36 cm²"], "36 cm²", "Diện tích hình vuông = 6 x 6 = 36 cm²."], ["Diện tích hình vuông có cạnh 7 cm là bao nhiêu?", ["49 cm²", "28 cm²", "14 cm²", "42 cm²"], "49 cm²", "7 x 7 = 49 cm²."], ["Diện tích hình vuông có cạnh 8 cm là bao nhiêu?", ["32 cm²", "64 cm²", "16 cm²", "56 cm²"], "64 cm²", "8 x 8 = 64 cm²."], ["Diện tích hình vuông có cạnh 9 cm là bao nhiêu?", ["36 cm²", "18 cm²", "81 cm²", "72 cm²"], "81 cm²", "9 x 9 = 81 cm²."], ["Tờ giấy hình chữ nhật dài 10 cm, rộng 7 cm có diện tích là bao nhiêu?", ["34 cm²", "17 cm²", "60 cm²", "70 cm²"], "70 cm²", "10 x 7 = 70 cm²."], ["Một tấm thẻ hình vuông có cạnh 5 cm. Diện tích tấm thẻ là bao nhiêu?", ["25 cm²", "20 cm²", "10 cm²", "15 cm²"], "25 cm²", "5 x 5 = 25 cm²."], ["Hình chữ nhật dài 11 cm, rộng 6 cm có diện tích là bao nhiêu?", ["34 cm²", "66 cm²", "17 cm²", "60 cm²"], "66 cm²", "11 x 6 = 66 cm²."]], [["Số gồm 3 nghìn, 5 trăm, 2 chục và 7 đơn vị viết là gì?", ["3527", "3257", "3572", "5327"], "3527", "Viết lần lượt từng hàng: 3527."], ["Giá trị của chữ số 6 trong số 4628 là bao nhiêu?", ["60", "600", "6", "6000"], "600", "Chữ số 6 ở hàng trăm nên có giá trị là 600."], ["Số liền sau của số 2999 là số nào?", ["2998", "3001", "3000", "2990"], "3000", "2999 + 1 = 3000."], ["Số liền trước của số 5000 là số nào?", ["5001", "4990", "4900", "4999"], "4999", "5000 - 1 = 4999."], ["Làm tròn số 2438 đến hàng chục ta được số nào?", ["2440", "2430", "2400", "2500"], "2440", "Hàng đơn vị là 8 (>= 5) nên làm tròn lên 2440."], ["Làm tròn số 3642 đến hàng trăm ta được số nào?", ["3700", "3600", "3640", "4000"], "3600", "Hàng chục là 4 (< 5) nên làm tròn xuống 3600."], ["Làm tròn số 5870 đến hàng nghìn ta được số nào?", ["5000", "5900", "6000", "5800"], "6000", "Hàng trăm là 8 (>= 5) nên làm tròn lên 6000."], ["Số lớn nhất trong các số 4512, 4521, 4152, 4251 là số nào?", ["4512", "4251", "4152", "4521"], "4521", "So sánh hàng trăm và hàng chục: 4521 lớn nhất."], ["Tính nhẩm: 4000 + 3000 = ?", ["7000", "700", "6000", "8000"], "7000", "4 nghìn + 3 nghìn = 7 nghìn = 7000."], ["Tính nhẩm: 9000 - 5000 = ?", ["400", "4000", "5000", "3000"], "4000", "9 nghìn - 5 nghìn = 4 nghìn = 4000."]], [["Số La Mã IV viết bằng chữ số Ả Rập là số nào?", ["4", "5", "3", "6"], "4", "Số La Mã IV = 4."], ["Số 6 viết bằng chữ số La Mã là gì?", ["IV", "VI", "IX", "XI"], "VI", "Số 6 viết bằng số La Mã là VI."], ["Số La Mã IX viết bằng chữ số Ả Rập là số nào?", ["10", "8", "9", "11"], "9", "Số La Mã IX = 9."], ["Số 11 viết bằng chữ số La Mã là gì?", ["IV", "VI", "IX", "XI"], "XI", "Số 11 viết bằng số La Mã là XI."], ["Số La Mã XIV viết bằng chữ số Ả Rập là số nào?", ["14", "15", "13", "16"], "14", "Số La Mã XIV = 14."], ["Số 15 viết bằng chữ số La Mã là gì?", ["IV", "XV", "VI", "IX"], "XV", "Số 15 viết bằng số La Mã là XV."], ["Số La Mã XVI viết bằng chữ số Ả Rập là số nào?", ["17", "15", "16", "18"], "16", "Số La Mã XVI = 16."], ["Số 18 viết bằng chữ số La Mã là gì?", ["IV", "VI", "IX", "XVIII"], "XVIII", "Số 18 viết bằng số La Mã là XVIII."], ["Số La Mã XIX viết bằng chữ số Ả Rập là số nào?", ["19", "20", "18", "21"], "19", "Số La Mã XIX = 19."], ["Số 20 viết bằng chữ số La Mã là gì?", ["IV", "XX", "VI", "IX"], "XX", "Số 20 viết bằng số La Mã là XX."]], [["Tính: 2340 + 1520 = ?", ["3860", "3960", "3760", "3870"], "3860", "2340 + 1520 = 3860."], ["Tính: 4150 + 2630 = ?", ["6880", "6780", "6680", "6790"], "6780", "4150 + 2630 = 6780."], ["Tính: 3680 + 2450 = ?", ["6230", "6030", "6130", "6140"], "6130", "3680 + 2450 = 6130."], ["Tính: 5275 + 1845 = ?", ["7220", "7020", "7130", "7120"], "7120", "5275 + 1845 = 7120."], ["Tính: 4890 + 3210 = ?", ["8100", "8200", "8000", "8110"], "8100", "4890 + 3210 = 8100."], ["Tính: 6540 - 2310 = ?", ["4330", "4230", "4130", "4240"], "4230", "6540 - 2310 = 4230."], ["Tính: 7420 - 3150 = ?", ["4370", "4170", "4270", "4280"], "4270", "7420 - 3150 = 4270."], ["Tính: 8300 - 2750 = ?", ["5650", "5450", "5560", "5550"], "5550", "8300 - 2750 = 5550."], ["Tính: 9150 - 4680 = ?", ["4470", "4570", "4370", "4480"], "4470", "9150 - 4680 = 4470."], ["Tính: 8000 - 3450 = ?", ["4650", "4550", "4450", "4560"], "4550", "8000 - 3450 = 4550."]], [["Tính: 120 x 4 = ?", ["480", "490", "470", "500"], "480", "120 x 4 = 480."], ["Tính: 215 x 3 = ?", ["655", "645", "635", "665"], "645", "215 x 3 = 645."], ["Tính: 304 x 2 = ?", ["618", "598", "608", "628"], "608", "304 x 2 = 608."], ["Tính: 1200 x 3 = ?", ["3700", "3500", "3800", "3600"], "3600", "1200 x 3 = 3600."], ["Tính: 1500 x 4 = ?", ["6000", "6100", "5900", "6200"], "6000", "1500 x 4 = 6000."], ["Tính: 630 : 3 = ?", ["220", "210", "200", "230"], "210", "630 : 3 = 210."], ["Tính: 840 : 4 = ?", ["220", "200", "210", "230"], "210", "840 : 4 = 210."], ["Tính: 960 : 3 = ?", ["330", "310", "340", "320"], "320", "960 : 3 = 320."], ["Tính: 4800 : 4 = ?", ["1200", "1300", "1100", "1400"], "1200", "4800 : 4 = 1200."], ["Tính: 6000 : 3 = ?", ["2100", "2000", "1900", "2200"], "2000", "6000 : 3 = 2000."]], [["Lucie có 1 tờ 10 000 đồng và 1 tờ 5 000 đồng. Tổng cộng chị có bao nhiêu tiền?", ["15 000 đồng", "10 500 đồng", "20 000 đồng", "12 000 đồng"], "15 000 đồng", "10 000 + 5 000 = 15 000 đồng."], ["Quyển vở giá 7 000 đồng, chiếc bút giá 5 000 đồng. Mua cả hai hết bao nhiêu tiền?", ["11 000 đồng", "12 000 đồng", "13 000 đồng", "15 000 đồng"], "12 000 đồng", "7 000 + 5 000 = 12 000 đồng."], ["Mẹ đưa 20 000 đồng để mua hộp bút màu giá 14 000 đồng. Cô bán hàng trả lại bao nhiêu tiền?", ["4 000 đồng", "5 000 đồng", "6 000 đồng", "8 000 đồng"], "6 000 đồng", "20 000 - 14 000 = 6 000 đồng."], ["3 tờ tiền 2 000 đồng có tổng giá trị là bao nhiêu?", ["5 000 đồng", "8 000 đồng", "4 000 đồng", "6 000 đồng"], "6 000 đồng", "2 000 x 3 = 6 000 đồng."], ["5 tờ tiền 10 000 đồng đổi được 1 tờ tiền mệnh giá nào?", ["50 000 đồng", "20 000 đồng", "100 000 đồng", "5 000 đồng"], "50 000 đồng", "10 000 x 5 = 50 000 đồng."], ["Mua 4 chiếc nhãn vở, mỗi chiếc 2 000 đồng thì hết bao nhiêu tiền?", ["6 000 đồng", "8 000 đồng", "10 000 đồng", "12 000 đồng"], "8 000 đồng", "2 000 x 4 = 8 000 đồng."], ["Lucie có 50 000 đồng, mua quyển truyện giá 35 000 đồng. Chị còn lại bao nhiêu tiền?", ["25 000 đồng", "10 000 đồng", "15 000 đồng", "20 000 đồng"], "15 000 đồng", "50 000 - 35 000 = 15 000 đồng."], ["2 tờ 20 000 đồng và 1 tờ 10 000 đồng cộng lại được bao nhiêu tiền?", ["40 000 đồng", "30 000 đồng", "60 000 đồng", "50 000 đồng"], "50 000 đồng", "40 000 + 10 000 = 50 000 đồng."], ["Hộp sữa giá 8 000 đồng, mua 3 hộp hết bao nhiêu tiền?", ["24 000 đồng", "16 000 đồng", "21 000 đồng", "28 000 đồng"], "24 000 đồng", "8 000 x 3 = 24 000 đồng."], ["Cục tẩy giá 3 000 đồng, thước kẻ giá 6 000 đồng. Thước kẻ đắt hơn cục tẩy bao nhiêu tiền?", ["9 000 đồng", "3 000 đồng", "2 000 đồng", "4 000 đồng"], "3 000 đồng", "6 000 - 3 000 = 3 000 đồng."]], [["Rổ thứ nhất có 18 quả cam, rổ thứ hai có gấp đôi rổ thứ nhất. Cả hai rổ có bao nhiêu quả cam?", ["54 quả", "36 quả", "48 quả", "60 quả"], "54 quả", "Rổ hai: 18 x 2 = 36; cả hai: 18 + 36 = 54 quả."], ["Đoàn tàu có 4 toa, mỗi toa chở 20 hành khách. Đến ga có 15 người xuống. Trên tàu còn bao nhiêu hành khách?", ["80 người", "65 người", "55 người", "75 người"], "65 người", "Ban đầu: 4 x 20 = 80; còn lại: 80 - 15 = 65 người."], ["Thùng lớn có 36 lít nước, thùng nhỏ có ít hơn thùng lớn 12 lít. Cả hai thùng có bao nhiêu lít nước?", ["48 lít", "24 lít", "60 lít", "64 lít"], "60 lít", "Thùng nhỏ: 36 - 12 = 24; tổng: 36 + 24 = 60 lít."], ["Có 45 quyển vở chia đều cho 5 bạn. Hỏi 3 bạn như thế có bao nhiêu quyển vở?", ["9 quyển", "24 quyển", "30 quyển", "27 quyển"], "27 quyển", "Mỗi bạn: 45 : 5 = 9; 3 bạn: 9 x 3 = 27 quyển."], ["Lớp 3A6 trồng được 24 cây xanh, lớp 3A5 trồng được nhiều hơn 6 cây. Cả hai lớp trồng được bao nhiêu cây?", ["54 cây", "30 cây", "48 cây", "60 cây"], "54 cây", "3A5: 24 + 6 = 30; tổng: 24 + 30 = 54 cây."], ["Mẹ mua 6 hộp bánh, mỗi hộp 8 chiếc. Cả nhà đã ăn 14 chiếc. Còn lại bao nhiêu chiếc bánh?", ["48 chiếc", "34 chiếc", "32 chiếc", "38 chiếc"], "34 chiếc", "6 x 8 = 48; 48 - 14 = 34 chiếc."], ["Một tấm vải dài 56 m, cắt ra làm 7 đoạn bằng nhau rồi lấy đi 2 đoạn. Đã lấy đi bao nhiêu mét vải?", ["8 m", "14 m", "16 m", "18 m"], "16 m", "Mỗi đoạn: 56 : 7 = 8 m; 2 đoạn: 8 x 2 = 16 m."], ["Lucie hái được 15 bông hoa, Lucas hái được 9 bông hoa. Hai chị em bó đều vào 4 lọ, mỗi lọ mấy bông?", ["5 bông", "7 bông", "8 bông", "6 bông"], "6 bông", "Tổng: 15 + 9 = 24; mỗi lọ: 24 : 4 = 6 bông."], ["Mỗi hộp có 12 bút chì màu. Cửa hàng có 3 hộp và đã bán 10 chiếc bút. Còn lại bao nhiêu chiếc bút?", ["26 chiếc", "36 chiếc", "24 chiếc", "28 chiếc"], "26 chiếc", "12 x 3 = 36; 36 - 10 = 26 chiếc."], ["Sợi dây đỏ dài 28 cm, sợi dây xanh ngắn hơn sợi dây đỏ 4 lần. Cả hai sợi dây dài bao nhiêu cm?", ["7 cm", "35 cm", "32 cm", "36 cm"], "35 cm", "Dây xanh: 28 : 4 = 7 cm; tổng: 28 + 7 = 35 cm."]], [["Tính nhanh giá trị biểu thức: (36 + 27) : 7 + 11 = ?", ["20", "19", "21", "18"], "20", "36 + 27 = 63; 63 : 7 = 9; 9 + 11 = 20."], ["Rương kho báu hình chữ nhật dài 14 cm, rộng 6 cm. Chu vi nắp rương là bao nhiêu?", ["20 cm", "40 cm", "84 cm", "36 cm"], "40 cm", "(14 + 6) x 2 = 40 cm."], ["Mặt bản đồ hình vuông có cạnh 9 cm. Diện tích mặt bản đồ là bao nhiêu?", ["36 cm²", "72 cm²", "81 cm²", "90 cm²"], "81 cm²", "9 x 9 = 81 cm²."], ["Tìm x biết: x x 8 + 16 = 80", ["7", "9", "10", "8"], "8", "x x 8 = 80 - 16 = 64 → x = 64 : 8 = 8."], ["Thuyền buồm đi được 2 km 450 m. Quãng đường đó bằng bao nhiêu mét?", ["2450 m", "2045 m", "2540 m", "245 m"], "2450 m", "2 km = 2000 m; 2000 + 450 = 2450 m."], ["Cướp biển Max chia đều 72 đồng xu vàng vào 8 túi. Hỏi 5 túi có bao nhiêu đồng xu vàng?", ["9 đồng xu", "45 đồng xu", "40 đồng xu", "50 đồng xu"], "45 đồng xu", "Mỗi túi: 72 : 8 = 9; 5 túi: 9 x 5 = 45 đồng xu."], ["Nhiệt độ buổi sáng trên đảo là 24°C, đến trưa tăng thêm 7°C rồi tối giảm 5°C. Nhiệt độ buổi tối là bao nhiêu?", ["25°C", "27°C", "26°C", "22°C"], "26°C", "24 + 7 = 31°C; 31 - 5 = 26°C."], ["Số dư lớn nhất có thể có khi chia một số cho 8 là số nào?", ["8", "6", "9", "7"], "7", "Số dư luôn nhỏ hơn số chia, nên số dư lớn nhất là 8 - 1 = 7."], ["Tổng của số lớn nhất có 3 chữ số và số bé nhất có 3 chữ số là bao nhiêu?", ["1099", "1000", "1100", "999"], "1099", "999 + 100 = 1099."], ["Một cửa hàng có 480 kg gạo, đã bán 1/4 số gạo đó. Cửa hàng đã bán bao nhiêu ki-lô-gam gạo?", ["110 kg", "120 kg", "140 kg", "360 kg"], "120 kg", "480 : 4 = 120 kg."]]]};
+
+const SO_DAO = 5 + LV_MOI.length;
+LV_MOI.forEach((m, k) => {
+  const b = THEMES[k % 5];
+  THEMES.push(Object.assign({}, b, { name: m.ten, emoji: m.e }));
+  TOPICS[1].push(m.chu.split('/').pop().replace(/\(L\d\)/g, '').trim());
+  TOPICS[3].push(m.chu.split('/')[0].replace(/\(L\d\)/g, '').trim());
+  BADGES.push(m.e + ' Huy hiệu ' + m.ten);
+  const genBank = () => { const ds = LV_CAU[G.grade][k] || []; const c = pick(ds);
+    return c ? mkChoice(c[0], c[1], c[2], { hint: c[3] }) : (G.grade === 1 ? G1_POOL : G3_POOL)[k % 5].step[0](); };
+  G1_POOL.push({ step: [genBank], gate: [genBank] });
+  G3_POOL.push({ step: [genBank], gate: [genBank] });
+});
+const OPT_COLORS = ['#3b82f6', '#f97316', '#a855f7', '#ec4899'];
+
+/* =========================================================
+   5. THREE.JS – CẢNH, ÁNH SÁNG, BIỂN, BẦU TRỜI
+   ========================================================= */
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.1, 600);
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+renderer.setSize(innerWidth, innerHeight);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+$('three').appendChild(renderer.domElement);
+
+scene.fog = new THREE.Fog(0xbfe9ff, 70, 210);
+const hemi = new THREE.HemisphereLight(0xffffff, 0x7fb07a, 0.75); scene.add(hemi);
+const sun = new THREE.DirectionalLight(0xfff3dc, 0.85);
+sun.castShadow = true; sun.shadow.mapSize.set(1024, 1024);
+Object.assign(sun.shadow.camera, { left: -22, right: 22, top: 22, bottom: -22, near: 1, far: 80 });
+sun.shadow.bias = -0.0015;
+scene.add(sun); scene.add(sun.target);
+scene.add(new THREE.AmbientLight(0xffffff, 0.18));
+
+const skyU = { top: { value: new THREE.Color(0x3fa9f5) }, bot: { value: new THREE.Color(0xcff2ff) } };
+const sky = new THREE.Mesh(new THREE.SphereGeometry(400, 24, 12), new THREE.ShaderMaterial({
+  uniforms: skyU, side: THREE.BackSide, depthWrite: false,
+  vertexShader: 'varying vec3 vP; void main(){ vP = position; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }',
+  fragmentShader: 'uniform vec3 top; uniform vec3 bot; varying vec3 vP; void main(){ float h = normalize(vP).y; gl_FragColor = vec4(mix(bot, top, smoothstep(-0.02, 0.45, h)), 1.0); }'
+}));
+scene.add(sky);
+
+function canvasTex(w, h, draw){ const c = document.createElement('canvas'); c.width = w; c.height = h; draw(c.getContext('2d'), w, h); const t = new THREE.CanvasTexture(c); return t; }
+const dotTex = canvasTex(64, 64, (x, w) => { const g = x.createRadialGradient(32, 32, 0, 32, 32, 32); g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(.35, 'rgba(255,255,255,.8)'); g.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = g; x.fillRect(0, 0, 64, 64); });
+dotTex.userData = { shared: true };
+const sunSprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: dotTex, color: 0xfff6c8, transparent: true, depthWrite: false, fog: false }));
+sunSprite.scale.set(70, 70, 1); scene.add(sunSprite);
+
+const oceanGeo = new THREE.PlaneGeometry(420, 420, 72, 72); oceanGeo.rotateX(-Math.PI / 2);
+const oceanBase = Float32Array.from(oceanGeo.attributes.position.array);
+const oceanMat = new THREE.MeshPhongMaterial({ color: 0x16b3c9, flatShading: true, shininess: 90, specular: 0x9ff3ff, transparent: true, opacity: 0.9 });
+const ocean = new THREE.Mesh(oceanGeo, oceanMat); ocean.position.z = -30; ocean.receiveShadow = true; scene.add(ocean);
+function updateOcean(t){
+  const p = oceanGeo.attributes.position.array;
+  for (let i = 0; i < p.length; i += 3) {
+    const x = oceanBase[i], z = oceanBase[i + 2];
+    p[i + 1] = Math.sin(x * 0.16 + t * 1.2) * 0.22 + Math.cos(z * 0.19 + t * 0.9) * 0.18 + Math.sin((x + z) * 0.07 + t * 0.6) * 0.14 - 0.15;
+  }
+  oceanGeo.attributes.position.needsUpdate = true;
+}
+
+const clouds = [];
+for (let i = 0; i < 14; i++) {
+  const g = new THREE.Group();
+  const mat = new THREE.MeshPhongMaterial({ color: 0xffffff, flatShading: true, emissive: 0x8899aa, emissiveIntensity: 0.35, fog: false });
+  for (let k = 0; k < 4; k++) { const m = new THREE.Mesh(new THREE.IcosahedronGeometry(R(25, 40) / 10, 0), mat); m.position.set(k * 2.4 - 3.6, Math.random() * 1.2, Math.random() * 1.5); g.add(m); }
+  g.position.set(R(-120, 120), R(28, 44), R(-180, 40)); g.scale.setScalar(1 + Math.random());
+  g.userData.speed = 0.6 + Math.random() * 0.8; scene.add(g); clouds.push(g);
+}
+
+/* =========================================================
+   6. HÀM DỰNG KHỐI 3D
+   ========================================================= */
+const M = (c, o = {}) => new THREE.MeshPhongMaterial(Object.assign({ color: c, flatShading: true, shininess: 14 }, o));
+function mesh(geo, mat, x = 0, y = 0, z = 0, parent){ const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); m.castShadow = true; m.receiveShadow = true; if (parent) parent.add(m); return m; }
+function jitter(geo, amt, keepY = true){
+  const p = geo.attributes.position, map = {};
+  for (let i = 0; i < p.count; i++) {
+    const x = p.getX(i), y = p.getY(i), z = p.getZ(i);
+    const k = x.toFixed(2) + ',' + y.toFixed(2) + ',' + z.toFixed(2);
+    if (!map[k]) map[k] = [(Math.random() - .5) * amt, keepY ? 0 : (Math.random() - .5) * amt, (Math.random() - .5) * amt];
+    p.setXYZ(i, x + map[k][0], y + map[k][1], z + map[k][2]);
+  }
+  p.needsUpdate = true; geo.computeVertexNormals(); return geo;
+}
+function roundRect(ctx, x, y, w, h, r){ ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
+function makeLabel(text, o = {}){
+  const fs = o.fs || 80, pad = 26;
+  const c = document.createElement('canvas'); const ctx = c.getContext('2d');
+  const font = `800 ${fs}px "Baloo 2", "Segoe UI Emoji", "Apple Color Emoji", system-ui, sans-serif`;
+  ctx.font = font;
+  const w = Math.ceil(ctx.measureText(text).width) + pad * 2, h = Math.ceil(fs * 1.3);
+  c.width = Math.min(w, 2048); c.height = h;
+  ctx.font = font;
+  roundRect(ctx, 5, 5, c.width - 10, h - 10, Math.min(h / 2.4, 40));
+  ctx.fillStyle = o.bg || '#ffffff'; ctx.fill();
+  ctx.lineWidth = 8; ctx.strokeStyle = o.border || '#4b2e14'; ctx.stroke();
+  ctx.fillStyle = o.fg || '#3b2a1a'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText(text, c.width / 2, h / 2 + fs * 0.07, c.width - pad);
+  const tex = new THREE.CanvasTexture(c); tex.anisotropy = 4;
+  const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, depthTest: false, transparent: true }));
+  const sc = o.scale || 1; sp.scale.set(sc * c.width / h, sc, 1); sp.renderOrder = 20;
+  return sp;
+}
+function glowSprite(color, size){ const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: dotTex, color, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending })); s.scale.set(size, size, 1); return s; }
+
+/* ---------- Nhân vật chibi ---------- */
+function makeCharacter(kind){
+  const root = new THREE.Group(), body = new THREE.Group(); root.add(body);
+  const skin = 0xffd9b8, isL = kind === 'lucie', isB = kind === 'lucas', isM = kind === 'max';
+  const shoe = isL ? 0xe8417f : isB ? 0x2b2b44 : 0x1e1e1e;
+  [-1, 1].forEach(s => {
+    mesh(new THREE.CylinderGeometry(0.09, 0.09, 0.42, 6), M(isM ? 0x3b2a1a : skin), s * 0.15, 0.3, 0, body);
+    mesh(new THREE.BoxGeometry(0.22, 0.14, 0.32), M(shoe), s * 0.15, 0.07, 0.04, body);
+    if (isB) mesh(new THREE.CylinderGeometry(0.1, 0.1, 0.1, 6), M(0xffffff), s * 0.15, 0.19, 0, body);
+  });
+  let sleeve;
+  if (isL) {
+    mesh(new THREE.CylinderGeometry(0.26, 0.6, 0.8, 10), M(0xff7eb6), 0, 0.85, 0, body);
+    mesh(new THREE.CylinderGeometry(0.61, 0.63, 0.08, 10), M(0xffffff), 0, 0.47, 0, body);
+    mesh(new THREE.CylinderGeometry(0.27, 0.27, 0.08, 10), M(0xffffff), 0, 1.22, 0, body);
+    for (let k = 0; k < 7; k++) { const a = k / 7 * Math.PI * 2; mesh(new THREE.SphereGeometry(0.045, 6, 4), M(0xffffff), Math.sin(a) * 0.5, 0.7, Math.cos(a) * 0.5, body); }
+    sleeve = 0xff7eb6;
+  } else if (isB) {
+    mesh(new THREE.CylinderGeometry(0.33, 0.36, 0.3, 10), M(0x22407a), 0, 0.6, 0, body);
+    mesh(new THREE.CylinderGeometry(0.3, 0.34, 0.52, 10), M(0x3fa2ff), 0, 0.98, 0, body);
+    mesh(new THREE.CylinderGeometry(0.322, 0.327, 0.07, 10), M(0xffffff), 0, 0.93, 0, body);
+    mesh(new THREE.CylinderGeometry(0.2, 0.3, 0.08, 10), M(0xffffff), 0, 1.25, 0, body);
+    sleeve = 0x3fa2ff;
+  } else {
+    mesh(new THREE.CylinderGeometry(0.33, 0.37, 0.34, 10), M(0x3b2a1a), 0, 0.6, 0, body);
+    for (let k = 0; k < 4; k++) mesh(new THREE.CylinderGeometry(0.33 - k * 0.012, 0.345 - k * 0.012, 0.13, 10), M(k % 2 ? 0xffffff : 0xd62828), 0, 0.84 + k * 0.13, 0, body);
+    mesh(new THREE.CylinderGeometry(0.355, 0.355, 0.08, 10), M(0x111111), 0, 0.78, 0, body);
+    mesh(new THREE.BoxGeometry(0.14, 0.1, 0.05), M(0xf5c542, { emissive: 0x443300 }), 0, 0.78, 0.36, body);
+    sleeve = 0xd62828;
+  }
+  const arms = [-1, 1].map(s => {
+    const p = new THREE.Group(); p.position.set(s * 0.33, 1.15, 0); body.add(p);
+    mesh(new THREE.SphereGeometry(0.13, 8, 6), M(sleeve), 0, 0, 0, p);
+    mesh(new THREE.CylinderGeometry(0.07, 0.065, 0.4, 6), M(skin), 0, -0.22, 0, p);
+    mesh(new THREE.SphereGeometry(0.09, 8, 6), M(skin), 0, -0.44, 0, p);
+    p.rotation.z = s * 0.25; return p;
+  });
+  const head = new THREE.Group(); head.position.y = 1.25; body.add(head);
+  mesh(new THREE.SphereGeometry(0.5, 16, 12), M(isM ? 0xf0c090 : skin), 0, 0.45, 0, head);
+  [-1, 1].forEach(s => {
+    if (isM && s === 1) {
+      mesh(new THREE.CylinderGeometry(0.11, 0.11, 0.04, 10), M(0x111111), 0.17, 0.47, 0.45, head).rotation.x = Math.PI / 2;
+      const strap = mesh(new THREE.TorusGeometry(0.505, 0.015, 4, 28), M(0x111111), 0, 0.5, 0, head); strap.rotation.set(Math.PI / 2, -0.35, 0);
+      return;
+    }
+    mesh(new THREE.SphereGeometry(0.075, 8, 6), M(0x222222, { shininess: 80 }), s * 0.17, 0.45, 0.44, head);
+    mesh(new THREE.SphereGeometry(0.026, 6, 4), M(0xffffff, { emissive: 0xffffff }), s * 0.17 + 0.025, 0.48, 0.505, head);
+  });
+  [-1, 1].forEach(s => { const c = mesh(new THREE.SphereGeometry(0.075, 8, 6), M(0xff9bb8), s * 0.29, 0.33, 0.39, head); c.scale.set(1, 0.6, 0.4); c.castShadow = false; });
+  const mouth = mesh(new THREE.TorusGeometry(0.075, 0.02, 6, 12, Math.PI), M(0xb03040), 0, 0.29, 0.47, head); mouth.rotation.z = Math.PI;
+  if ((isL || isB) && window.MatThat) MatThat.dan(head, kind, { r: 0.47, y: 0.42, z: 0.53 });   // mặt thật của hai chị em
+  if (isL) {
+    const hc = 0x6b3a1e;
+    const cap = mesh(new THREE.SphereGeometry(0.535, 16, 10, 0, Math.PI * 2, 0, Math.PI * 0.52), M(hc), 0, 0.47, -0.02, head); cap.rotation.x = -0.42;
+    const back = mesh(new THREE.SphereGeometry(0.5, 12, 10), M(hc), 0, 0.28, -0.2, head); back.scale.set(1.05, 1.15, 0.75);
+    [-1, 1].forEach(s => mesh(new THREE.CylinderGeometry(0.1, 0.15, 0.6, 8), M(hc), s * 0.44, 0.08, -0.12, head));
+    const bow = new THREE.Group(); bow.position.set(0.4, 0.82, 0.12); bow.rotation.set(0, 0.3, -0.5); head.add(bow);
+    mesh(new THREE.SphereGeometry(0.08, 8, 6), M(0xe0307e), 0, 0, 0, bow);
+    [-1, 1].forEach(s => { const c = mesh(new THREE.ConeGeometry(0.15, 0.3, 4), M(0xff4f9a), s * 0.17, 0, 0, bow); c.rotation.z = s * Math.PI / 2; });
+    const hat = new THREE.Group(); hat.position.set(0, 0.93, 0); hat.rotation.set(-0.12, 0, -0.12); head.add(hat);
+    mesh(new THREE.CylinderGeometry(0.42, 0.36, 0.26, 14), M(0xffffff), 0, 0.14, 0, hat);
+    mesh(new THREE.CylinderGeometry(0.372, 0.372, 0.08, 14), M(0x1d3b7a), 0, 0.04, 0, hat);
+    const brim = mesh(new THREE.CylinderGeometry(0.3, 0.3, 0.04, 14, 1, false, -Math.PI / 2, Math.PI), M(0x222222), 0, 0.0, 0.22, hat); brim.rotation.x = 0.18;
+    mesh(new THREE.BoxGeometry(0.13, 0.1, 0.04), M(0xf5c542, { emissive: 0x553300 }), 0, 0.15, 0.4, hat);
+  } else if (isB) {
+    const cap = mesh(new THREE.SphereGeometry(0.53, 16, 10, 0, Math.PI * 2, 0, Math.PI * 0.5), M(0x4a2c17), 0, 0.45, -0.03, head); cap.rotation.x = -0.3;
+    const bc = new THREE.Group(); bc.position.set(0, 0.52, 0); bc.rotation.x = -0.1; head.add(bc);
+    mesh(new THREE.SphereGeometry(0.545, 16, 8, 0, Math.PI * 2, 0, Math.PI * 0.45), M(0x2f7de1), 0, 0, 0, bc);
+    const brim = mesh(new THREE.CylinderGeometry(0.34, 0.34, 0.04, 14, 1, false, -Math.PI / 2, Math.PI), M(0x1d5fb5), 0, 0.08, 0.36, bc); brim.rotation.x = 0.12;
+    mesh(new THREE.SphereGeometry(0.06, 6, 4), M(0xffffff), 0, 0.545, 0, bc);
+    const logo = mesh(new THREE.CylinderGeometry(0.1, 0.1, 0.02, 12), M(0xffffff), 0, 0.31, 0.45, bc); logo.rotation.x = Math.PI / 2 - 0.6;
+  } else {
+    const beard = mesh(new THREE.SphereGeometry(0.36, 10, 8), M(0x5a2e12), 0, 0.17, 0.23, head); beard.scale.set(1.15, 0.8, 0.7);
+    [-1, 1].forEach(s => { const m = mesh(new THREE.SphereGeometry(0.09, 8, 6), M(0x4a2410), s * 0.11, 0.3, 0.45, head); m.scale.set(1.4, 0.6, 0.6); });
+    const h = new THREE.Group(); h.position.set(0, 0.86, 0); head.add(h);
+    mesh(new THREE.CylinderGeometry(0.8, 0.8, 0.1, 3), M(0x1a1a1a), 0, 0, 0, h);
+    mesh(new THREE.CylinderGeometry(0.36, 0.45, 0.38, 12), M(0x1a1a1a), 0, 0.22, 0, h);
+    mesh(new THREE.CylinderGeometry(0.455, 0.455, 0.06, 12), M(0xf5c542, { emissive: 0x332200 }), 0, 0.07, 0, h);
+    mesh(new THREE.SphereGeometry(0.09, 8, 6), M(0xffffff), 0, 0.25, 0.43, h);
+  }
+  const names = { lucie: ['Lucie', '#ec4899'], lucas: ['Lucas', '#3b82f6'], max: ['Cướp biển Max', '#1f2937'] };
+  const tag = makeLabel(names[kind][0], { bg: names[kind][1], fg: '#fff', border: '#fff', fs: 60, scale: 0.36 });
+  tag.position.y = 2.62; root.add(tag);
+  if (isM) root.scale.setScalar(1.25);
+  return { root, body, arms, head, tag, kind, phase: Math.random() * 6, targetRot: 0, cheer: 0, jumping: false, headShake: 0 };
+}
+
+/* ---------- Trang trí đảo ---------- */
+function makePalm(h = 3.2){
+  const g = new THREE.Group(); const segs = 6; let y = 0, x = 0;
+  const bend = 0.05 + Math.random() * 0.05;
+  for (let i = 0; i < segs; i++) {
+    const seg = mesh(new THREE.CylinderGeometry(0.15 - i * 0.012, 0.19 - i * 0.012, h / segs + 0.05, 6), M(i % 2 ? 0x9c6b3c : 0x8a5c31), x, y + h / segs / 2, 0, g);
+    seg.rotation.z = -bend * i; y += h / segs * 0.98; x += bend * i * 0.55;
+  }
+  const top = new THREE.Group(); top.position.set(x, y, 0); g.add(top);
+  const n = 7;
+  for (let k = 0; k < n; k++) {
+    const piv = new THREE.Group(); piv.rotation.y = k / n * Math.PI * 2 + Math.random() * 0.3; top.add(piv);
+    const geo = new THREE.BoxGeometry(0.55, 0.06, 2.1); geo.translate(0, 0, 1.05);
+    const leaf = mesh(geo, M(k % 2 ? 0x2fae4f : 0x46c45c), 0, 0, 0, piv); leaf.rotation.x = 0.45 + Math.random() * 0.2;
+  }
+  for (let k = 0; k < 3; k++) mesh(new THREE.SphereGeometry(0.16, 6, 5), M(0x6b4423), Math.cos(k * 2.1) * 0.22, -0.15, Math.sin(k * 2.1) * 0.22, top);
+  return g;
+}
+function makeBush(color = 0x3fbf5a){
+  const g = new THREE.Group();
+  for (let k = 0; k < 3; k++) mesh(new THREE.IcosahedronGeometry(0.45 + Math.random() * 0.2, 0), M(color), (k - 1) * 0.45, 0.35, Math.random() * 0.3, g);
+  const fc = pick([0xff5fa2, 0xffd23f, 0xff7b54, 0xffffff]);
+  for (let k = 0; k < 4; k++) mesh(new THREE.SphereGeometry(0.09, 6, 4), M(fc, { emissive: fc, emissiveIntensity: 0.2 }), (Math.random() - .5) * 1.2, 0.6 + Math.random() * 0.3, 0.3, g);
+  return g;
+}
+function makeRock(color = 0x9aa3ad, s = 0.6){ const m = mesh(jitter(new THREE.DodecahedronGeometry(s, 0), s * 0.3, false), M(color)); m.position.y = s * 0.4; return m; }
+function makeStarfish(color = 0xff8c42, s = 0.6){
+  const shape = new THREE.Shape();
+  for (let i = 0; i < 10; i++) { const r = i % 2 ? s * 0.4 : s, a = i / 10 * Math.PI * 2 + Math.PI / 2; const x = Math.cos(a) * r, y = Math.sin(a) * r; i ? shape.lineTo(x, y) : shape.moveTo(x, y); }
+  shape.closePath();
+  const geo = new THREE.ExtrudeGeometry(shape, { depth: s * 0.22, bevelEnabled: true, bevelThickness: s * 0.08, bevelSize: s * 0.08, bevelSegments: 1 });
+  geo.rotateX(-Math.PI / 2);
+  const m = mesh(geo, M(color)); m.position.y = 0.05;
+  for (let k = 0; k < 5; k++) { const a = k / 5 * Math.PI * 2 + Math.PI / 2; mesh(new THREE.SphereGeometry(s * 0.07, 5, 4), M(0xffffff), Math.cos(a) * s * 0.5, s * 0.32, -Math.sin(a) * s * 0.5, m); }
+  return m;
+}
+function makeShell(color = 0xffb3c7){
+  const g = new THREE.Group();
+  const m = mesh(new THREE.SphereGeometry(0.35, 10, 6, 0, Math.PI * 2, 0, Math.PI / 2), M(color), 0, 0, 0, g); m.scale.set(1, 0.6, 1);
+  for (let k = 0; k < 5; k++) { const r = mesh(new THREE.BoxGeometry(0.04, 0.05, 0.36), M(0xffffff), 0, 0.12, 0, g); r.rotation.y = (k - 2) * 0.35; r.position.x = (k - 2) * 0.09; }
+  return g;
+}
+function makePine(snow = true){
+  const g = new THREE.Group();
+  mesh(new THREE.CylinderGeometry(0.12, 0.16, 0.6, 6), M(0x7a5230), 0, 0.3, 0, g);
+  for (let k = 0; k < 3; k++) {
+    mesh(new THREE.ConeGeometry(0.9 - k * 0.22, 1.1, 7), M(0x2e8b57), 0, 0.9 + k * 0.6, 0, g);
+    if (snow) mesh(new THREE.ConeGeometry(0.55 - k * 0.15, 0.5, 7), M(0xffffff), 0, 1.25 + k * 0.6, 0, g);
+  }
+  return g;
+}
+function makeSnowman(){
+  const g = new THREE.Group();
+  mesh(new THREE.SphereGeometry(0.55, 12, 10), M(0xffffff), 0, 0.5, 0, g);
+  mesh(new THREE.SphereGeometry(0.4, 12, 10), M(0xffffff), 0, 1.2, 0, g);
+  mesh(new THREE.SphereGeometry(0.3, 12, 10), M(0xffffff), 0, 1.75, 0, g);
+  const nose = mesh(new THREE.ConeGeometry(0.06, 0.35, 6), M(0xff7b00), 0, 1.75, 0.38, g); nose.rotation.x = Math.PI / 2;
+  [-1, 1].forEach(s => mesh(new THREE.SphereGeometry(0.04, 5, 4), M(0x111111), s * 0.1, 1.85, 0.27, g));
+  mesh(new THREE.CylinderGeometry(0.22, 0.22, 0.3, 10), M(0x222222), 0, 2.1, 0, g);
+  mesh(new THREE.CylinderGeometry(0.34, 0.34, 0.04, 10), M(0x222222), 0, 1.95, 0, g);
+  mesh(new THREE.TorusGeometry(0.33, 0.07, 6, 12), M(0xe53935), 0, 1.48, 0, g).rotation.x = Math.PI / 2;
+  return g;
+}
+function makeCrystal(){ const m = mesh(new THREE.OctahedronGeometry(0.5, 0), M(0x9be7ff, { transparent: true, opacity: 0.85, emissive: 0x2a7fa8, emissiveIntensity: 0.4, shininess: 100 })); m.scale.set(0.6, 1.6, 0.6); m.position.y = 0.7; return m; }
+function makeGoldPile(){
+  const g = new THREE.Group();
+  for (let k = 0; k < 9; k++) { const c = mesh(new THREE.CylinderGeometry(0.22, 0.22, 0.06, 10), M(0xffcc33, { emissive: 0x664400, shininess: 80 }), (Math.random() - .5) * 0.8, 0.04 + Math.floor(k / 3) * 0.07, (Math.random() - .5) * 0.8, g); c.rotation.z = (Math.random() - .5) * 0.4; }
+  const gc = pick([0xff3b6b, 0x3bd1ff, 0x7dff6b]);
+  mesh(new THREE.OctahedronGeometry(0.18, 0), M(gc, { emissive: gc, emissiveIntensity: 0.4 }), 0, 0.35, 0, g);
+  return g;
+}
+function makeDeadTree(){
+  const g = new THREE.Group();
+  mesh(new THREE.CylinderGeometry(0.1, 0.18, 1.6, 5), M(0x3d2b22), 0, 0.8, 0, g);
+  [[0.35, 1.2, 0.7], [-0.3, 1.0, -0.8]].forEach(([x, y, r]) => { const b = mesh(new THREE.CylinderGeometry(0.05, 0.08, 0.8, 5), M(0x3d2b22), x, y, 0, g); b.rotation.z = r; });
+  return g;
+}
+function makeLavaRock(){
+  const g = new THREE.Group();
+  g.add(makeRock(0x3b302c, 0.5 + Math.random() * 0.3));
+  mesh(new THREE.OctahedronGeometry(0.15, 0), M(0xff5a1f, { emissive: 0xff3300, emissiveIntensity: 0.9 }), 0.15, 0.55, 0.2, g);
+  return g;
+}
+function makeDecor(type, k){
+  switch (type) {
+    case 'palm': return k % 3 === 2 ? makeBush() : k % 5 === 4 ? makeRock() : makePalm(2.6 + Math.random() * 1.4);
+    case 'star': return k % 3 === 0 ? makePalm(2.4 + Math.random()) : k % 3 === 1 ? makeStarfish(pick([0xff8c42, 0xff5fa2, 0xffd23f, 0xb36bff]), 0.45 + Math.random() * 0.3) : makeShell(pick([0xffb3c7, 0xfff1d6, 0xffd0a8]));
+    case 'lava': return k % 3 === 0 ? makeDeadTree() : makeLavaRock();
+    case 'ice': return k % 4 === 0 ? makeSnowman() : k % 4 === 1 ? makeCrystal() : makePine(true);
+    case 'gold': return k % 3 === 0 ? makeGoldPile() : k % 3 === 1 ? makePalm(2.6 + Math.random() * 1.2) : makeBush(0x4cc35a);
+  }
+  return makeRock();
+}
+
+/* =========================================================
+   7. XÂY DỰNG HÒN ĐẢO (LEVEL)
+   ========================================================= */
+let L = null;
+const particles = [];
+function disposeTree(o){
+  o.traverse(c => {
+    if (c.geometry && !(c.geometry.userData && c.geometry.userData.shared)) c.geometry.dispose();
+    if (c.material) { const ms = Array.isArray(c.material) ? c.material : [c.material]; ms.forEach(m => { if (m.map && !(m.map.userData && m.map.userData.shared)) m.map.dispose(); if (!(m.userData && m.userData.shared)) m.dispose(); }); }
+  });
+}
+function makeIsland(r, T){
+  const g = new THREE.Group();
+  mesh(jitter(new THREE.CylinderGeometry(r * 1.03, r * 0.6, 3.2, 12, 2), r * 0.12), M(T.sand), 0, -0.6, 0, g);
+  mesh(jitter(new THREE.CylinderGeometry(r * 0.86, r * 0.92, 0.22, 12), r * 0.08), M(T.grass), 0, 0.99, 0, g);
+  const foam = new THREE.Mesh(new THREE.RingGeometry(r * 0.98, r * 1.3, 28), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.4, depthWrite: false }));
+  foam.rotation.x = -Math.PI / 2; foam.position.y = 0.2; g.add(foam); L.foams.push(foam);
+  return g;
+}
+function addIsland(x, z, r, T, decoCount, avoid){
+  const isl = makeIsland(r, T); isl.position.set(x, 0, z); L.group.add(isl);
+  for (let k = 0, placed = 0; k < decoCount * 4 && placed < decoCount; k++) {
+    const ang = Math.random() * Math.PI * 2, rr = r * (0.5 + Math.random() * 0.32);
+    const px = Math.cos(ang) * rr, pz = Math.sin(ang) * rr;
+    if (avoid && avoid(px, pz)) continue;
+    const d = makeDecor(T.deco, placed); d.position.set(px, STAND - 0.06, pz); d.rotation.y = Math.random() * 6.28;
+    const s = 0.8 + Math.random() * 0.4; d.scale.multiplyScalar(s); isl.add(d); placed++;
+  }
+  return isl;
+}
+const coinGeo = new THREE.CylinderGeometry(0.36, 0.36, 0.09, 18); coinGeo.rotateX(Math.PI / 2); coinGeo.userData.shared = true;
+const coinMat = new THREE.MeshPhongMaterial({ color: 0xffcc33, emissive: 0x7a5200, shininess: 110, specular: 0xffffff }); coinMat.userData.shared = true;
+const coinStarMat = new THREE.MeshPhongMaterial({ color: 0xffe680, emissive: 0x996600 }); coinStarMat.userData.shared = true;
+const coinStarGeo = new THREE.CylinderGeometry(0.18, 0.18, 0.11, 5); coinStarGeo.rotateX(Math.PI / 2); coinStarGeo.userData.shared = true;
+function makeCoin(x, y, z, parent, auto = false){
+  const c = new THREE.Mesh(coinGeo, coinMat); c.add(new THREE.Mesh(coinStarGeo, coinStarMat));
+  c.position.set(x, y, z); c.castShadow = true; c.userData.auto = auto; c.userData.alive = true;
+  (parent || L.group).add(c); L.coins.push(c); return c;
+}
+function makeStone(x, z){
+  const g = new THREE.Group();
+  const mat = M(THEMES[G.island].stone);
+  mesh(jitter(new THREE.CylinderGeometry(1.0, 1.25, 1.8, 7), 0.22), mat, 0, -0.9, 0, g);
+  mesh(jitter(new THREE.CylinderGeometry(0.75, 0.9, 0.08, 7), 0.15), M(0x6fcf6a), 0, 0.02, 0, g);
+  g.position.set(x, STONE_Y, z); g.userData.mat = mat; return g;
+}
+function makePedestal(x, z, color){
+  const g = new THREE.Group();
+  const mat = M(THEMES[G.island].stone);
+  mesh(jitter(new THREE.CylinderGeometry(0.95, 1.2, 4, 8, 2), 0.14), mat, 0, -2, 0, g);
+  const capMat = M(new THREE.Color(color).getHex());
+  mesh(new THREE.CylinderGeometry(1.0, 1.0, 0.14, 8), capMat, 0, 0, 0, g);
+  g.position.set(x, -4.5, z); g.userData.mat = mat; g.userData.cap = capMat; return g;
+}
+function makeGate(T){
+  const g = new THREE.Group(); g.position.set(0, STAND - 0.05, POS.gateZ);
+  const stoneC = T.deco === 'ice' ? 0xb8cfe0 : T.deco === 'lava' ? 0x5d5450 : 0x9a8f86;
+  [-1, 1].forEach(s => {
+    mesh(jitter(new THREE.BoxGeometry(1.6, 6.6, 1.7, 1, 3, 1), 0.18), M(stoneC), s * 3.6, 3.3, 0, g);
+    mesh(new THREE.BoxGeometry(2.0, 0.5, 2.0), M(stoneC), s * 3.6, 0.25, 0, g);
+    const torch = glowSprite(0xffa040, 1.6); torch.position.set(s * 3.6, 7.9, 0.9); g.add(torch); L.flickers.push(torch);
+  });
+  mesh(jitter(new THREE.BoxGeometry(9.6, 1.5, 2.1, 3, 1, 1), 0.2), M(stoneC), 0, 7.2, 0, g);
+  for (let k = -2; k <= 2; k++) mesh(new THREE.BoxGeometry(1.0, 0.6, 1.0), M(stoneC), k * 2.2, 8.2, 0, g);
+  const doors = [-1, 1].map(s => {
+    const piv = new THREE.Group(); piv.position.set(s * 2.8, 0, 0); g.add(piv);
+    const dm = M(0x8b5a2b);
+    mesh(new THREE.BoxGeometry(2.8, 6.0, 0.35), dm, -s * 1.4, 3.0, 0, piv);
+    for (let k = 0; k < 3; k++) mesh(new THREE.BoxGeometry(2.82, 0.22, 0.4), M(0x333333), -s * 1.4, 1.0 + k * 2.0, 0, piv);
+    for (let k = 1; k < 4; k++) mesh(new THREE.BoxGeometry(0.05, 5.9, 0.37), M(0x6b4320), -s * k * 0.7, 3.0, 0, piv);
+    return piv;
+  });
+  const lock = makeLabel('🔒', { bg: '#fcd34d', border: '#92400e', fs: 70, scale: 0.9 }); lock.position.set(0, 2.6, 0.5); g.add(lock);
+  const title = makeLabel('CỔNG KHO BÁU', { bg: '#7c2d12', fg: '#fde68a', border: '#fde68a', fs: 64, scale: 0.75 }); title.position.set(0, 7.2, 1.2); g.add(title);
+  L.group.add(g); L.gate = { group: g, doors, lock };
+}
+function makeChest(T){
+  const g = new THREE.Group(); g.position.set(0, STAND - 0.05, POS.chestZ);
+  const wood = M(0x9a5b2a), gold = M(0xffcc33, { emissive: 0x664400, shininess: 90 });
+  mesh(new THREE.BoxGeometry(1.8, 1.0, 1.2), wood, 0, 0.5, 0, g);
+  [0.12, 0.88].forEach(y => mesh(new THREE.BoxGeometry(1.84, 0.1, 1.24), gold, 0, y, 0, g));
+  [-0.6, 0.6].forEach(x => mesh(new THREE.BoxGeometry(0.14, 1.02, 1.24), gold, x, 0.5, 0, g));
+  mesh(new THREE.BoxGeometry(1.6, 0.04, 1.0), M(0xffe58a, { emissive: 0xffcc33, emissiveIntensity: 0.8 }), 0, 0.99, 0, g);
+  const lid = new THREE.Group(); lid.position.set(0, 1.0, -0.6); g.add(lid);
+  const lm = mesh(new THREE.CylinderGeometry(0.6, 0.6, 1.8, 12, 1, false, 0, Math.PI), wood, 0, 0, 0.6, lid); lm.rotation.z = Math.PI / 2;
+  [-0.6, 0.6].forEach(x => { const b = mesh(new THREE.CylinderGeometry(0.62, 0.62, 0.14, 12, 1, false, 0, Math.PI), gold, x, 0, 0.6, lid); b.rotation.z = Math.PI / 2; });
+  mesh(new THREE.BoxGeometry(0.3, 0.36, 0.1), gold, 0, 0, 1.23, lid);
+  const gem = mesh(new THREE.OctahedronGeometry(0.45, 0), M(T.gem, { emissive: T.gem, emissiveIntensity: 0.55, shininess: 120, specular: 0xffffff }), 0, 0.8, 0, g);
+  gem.visible = false;
+  const light = new THREE.PointLight(0xffd36b, 0, 10); light.position.set(0, 2, 0.5); g.add(light);
+  const glow = glowSprite(0xffd36b, 4.2); glow.position.set(0, 0.9, -0.2); g.add(glow); L.pulses.push(glow);
+  L.group.add(g); L.chest = { group: g, lid, gem, light, glow };
+}
+function makeCannon(){
+  const g = new THREE.Group(); g.position.set(-5.3, STAND - 0.05, -51.6); g.rotation.y = 0.35;
+  mesh(new THREE.BoxGeometry(1.2, 0.5, 1.6), M(0x7a4a22), 0, 0.45, 0, g);
+  [-1, 1].forEach(s => { [-0.5, 0.5].forEach(z => { const w = mesh(new THREE.CylinderGeometry(0.32, 0.32, 0.15, 10), M(0x4a2c12), s * 0.68, 0.32, z, g); w.rotation.z = Math.PI / 2; }); });
+  const piv = new THREE.Group(); piv.position.set(0, 0.85, 0.1); piv.rotation.x = -0.75; g.add(piv);
+  mesh(new THREE.CylinderGeometry(0.3, 0.42, 2.0, 12), M(0x2b2b2b, { shininess: 70 }), 0, 0.7, 0, piv);
+  mesh(new THREE.TorusGeometry(0.32, 0.07, 6, 12), M(0x2b2b2b), 0, 1.7, 0, piv).rotation.x = Math.PI / 2;
+  mesh(new THREE.SphereGeometry(0.42, 10, 8), M(0x2b2b2b), 0, -0.25, 0, piv);
+  L.group.add(g); L.cannon = { group: g, barrel: piv };
+}
+function makeFlag(){
+  const g = new THREE.Group(); g.position.set(7.0, STAND - 0.05, -58.2);
+  mesh(new THREE.CylinderGeometry(0.08, 0.1, 5.5, 6), M(0x5a3a1a), 0, 2.75, 0, g);
+  const tex = canvasTex(256, 170, (x, w, h) => {
+    x.fillStyle = '#111'; x.fillRect(0, 0, w, h); x.fillStyle = '#fff';
+    x.beginPath(); x.arc(128, 70, 34, 0, Math.PI * 2); x.fill(); x.fillRect(108, 90, 40, 22);
+    x.fillStyle = '#111'; x.beginPath(); x.arc(115, 68, 9, 0, 7); x.arc(141, 68, 9, 0, 7); x.fill();
+    x.strokeStyle = '#fff'; x.lineWidth = 12; x.lineCap = 'round';
+    x.beginPath(); x.moveTo(70, 120); x.lineTo(186, 160); x.moveTo(186, 120); x.lineTo(70, 160); x.stroke();
+  });
+  const flagGeo = new THREE.PlaneGeometry(2.2, 1.45, 10, 4); flagGeo.translate(1.1, 0, 0);
+  const flag = new THREE.Mesh(flagGeo, new THREE.MeshPhongMaterial({ map: tex, side: THREE.DoubleSide, flatShading: true }));
+  flag.position.set(0.05, 4.7, 0); flag.rotation.y = -0.5; g.add(flag);
+  flag.userData.base = Float32Array.from(flagGeo.attributes.position.array);
+  L.group.add(g); L.flag = flag;
+}
+function makeShip(x, z, ry){
+  const g = new THREE.Group(); g.position.set(x, 0, z); g.rotation.y = ry;
+  mesh(jitter(new THREE.BoxGeometry(2.8, 1.5, 7.5, 1, 1, 3), 0.15), M(0x6b3e1f), 0, 0.5, 0, g);
+  const bow = mesh(new THREE.ConeGeometry(1.45, 2.2, 4), M(0x6b3e1f), 0, 0.55, 4.7, g); bow.rotation.x = Math.PI / 2; bow.rotation.y = Math.PI / 4; bow.scale.set(1, 1, 0.5);
+  mesh(new THREE.BoxGeometry(3.0, 0.15, 7.8), M(0x3d2410), 0, 1.3, 0, g);
+  mesh(new THREE.CylinderGeometry(0.13, 0.15, 7.5, 6), M(0x4a2c12), 0, 4.8, 0.3, g);
+  mesh(new THREE.BoxGeometry(3.4, 2.4, 0.08), M(0xf3e6c8), 0, 3.9, 0.45, g);
+  mesh(new THREE.BoxGeometry(2.6, 1.7, 0.08), M(0xf3e6c8), 0, 6.3, 0.45, g);
+  mesh(new THREE.BoxGeometry(1.2, 0.8, 0.05), M(0x111111), 0.6, 8.2, 0.3, g);
+  L.group.add(g); L.anims.push(t => { g.rotation.z = Math.sin(t * 0.8) * 0.05; g.position.y = Math.sin(t * 1.1) * 0.15; });
+}
+function makeDolphin(cx, cz){
+  const g = new THREE.Group();
+  const b = mesh(new THREE.SphereGeometry(0.4, 10, 8), M(0x7aa7c7, { shininess: 60 }), 0, 0, 0, g); b.scale.set(0.8, 0.8, 2.2);
+  const f = mesh(new THREE.ConeGeometry(0.15, 0.5, 4), M(0x6a97b7), 0, 0.38, 0, g); f.rotation.x = -0.4;
+  const tl = mesh(new THREE.ConeGeometry(0.3, 0.4, 3), M(0x6a97b7), 0, 0, -0.95, g); tl.rotation.x = -Math.PI / 2; tl.scale.set(1.6, 1, 0.3);
+  g.visible = false; L.group.add(g);
+  const per = 6 + Math.random() * 3, off = Math.random() * per;
+  L.anims.push(t => {
+    const p = ((t + off) % per) / 1.6;
+    if (p > 1) { g.visible = false; return; }
+    g.visible = true;
+    g.position.set(cx, Math.sin(p * Math.PI) * 2.4 - 0.6, cz + (p - 0.5) * 7);
+    g.rotation.x = -Math.cos(p * Math.PI) * 0.9;
+    if (p < 0.05 || p > 0.95) { if (!g.userData.sp) { g.userData.sp = true; burst(V(cx, 0.2, g.position.z), ['#ffffff', '#bfefff'], 14, 3, 0.7, 0.25, -8); } } else g.userData.sp = false;
+  });
+}
+function makeVolcano(x, z){
+  const isl = makeIsland(7, THEMES[2]); isl.position.set(x, 0, z); L.group.add(isl);
+  mesh(jitter(new THREE.CylinderGeometry(1.6, 6.2, 9, 10, 3), 0.6), M(0x4a3b35), 0, 5.4, 0, isl);
+  mesh(new THREE.CylinderGeometry(1.5, 1.5, 0.3, 10), M(0xff5a1f, { emissive: 0xff4400, emissiveIntensity: 1 }), 0, 9.85, 0, isl);
+  const glow = glowSprite(0xff6a2a, 9); glow.position.set(0, 10.5, 0); isl.add(glow); L.flickers.push(glow);
+  const top = V(x, 10.2, z);
+  let acc = 0;
+  L.anims.push((t, dt) => {
+    acc += dt; if (acc < 0.35) return; acc = 0;
+    const p = new THREE.Mesh(new THREE.IcosahedronGeometry(0.8, 0), new THREE.MeshPhongMaterial({ color: 0x8a817c, flatShading: true, transparent: true, opacity: 0.7 }));
+    p.position.copy(top).add(V((Math.random() - .5), 0, (Math.random() - .5))); L.group.add(p);
+    const born = t;
+    L.temps.push({ obj: p, update(tt){ const a = tt - born; p.position.y += 0.03; p.position.x += 0.01; p.scale.setScalar(1 + a * 0.9); p.material.opacity = Math.max(0, 0.7 - a * 0.18); return a < 4; } });
+  });
+}
+function makeSnow(){
+  const n = 700, geo = new THREE.BufferGeometry(), pos = new Float32Array(n * 3);
+  for (let i = 0; i < n; i++) { pos[i * 3] = (Math.random() - .5) * 60; pos[i * 3 + 1] = Math.random() * 25; pos[i * 3 + 2] = (Math.random() - .5) * 60; }
+  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  const pts = new THREE.Points(geo, new THREE.PointsMaterial({ size: 0.28, map: dotTex, transparent: true, depthWrite: false, color: 0xffffff }));
+  L.group.add(pts);
+  L.anims.push((t, dt) => {
+    const p = geo.attributes.position.array, c = camera.position;
+    for (let i = 0; i < n; i++) {
+      p[i * 3 + 1] -= dt * (1.2 + (i % 5) * 0.2); p[i * 3] += Math.sin(t + i) * dt * 0.3;
+      if (p[i * 3 + 1] < 0) { p[i * 3 + 1] = 22; p[i * 3] = c.x + (Math.random() - .5) * 60; p[i * 3 + 2] = c.z - 15 + (Math.random() - .5) * 50; }
+    }
+    geo.attributes.position.needsUpdate = true;
+  });
+}
+
+function buildLevel(i){
+  if (L && L.group) { scene.remove(L.group); disposeTree(L.group); }
+  particles.slice().forEach(p => { scene.remove(p.pts); p.pts.geometry.dispose(); p.pts.material.dispose(); }); particles.length = 0;
+  L = { group: new THREE.Group(), foams: [], coins: [], anims: [], temps: [], flickers: [], pulses: [], clickables: [], stones: [], peds: [], balls: [] };
+  scene.add(L.group);
+  const T = THEMES[i];
+  skyU.top.value.setHex(T.skyTop); skyU.bot.value.setHex(T.skyBot);
+  scene.fog.color.setHex(T.fog); oceanMat.color.setHex(T.water);
+  renderer.setClearColor(T.fog);
+  hemi.color.setHex(i % 5 === 2 ? 0xffd2b0 : 0xffffff);
+  sun.color.setHex(i % 5 === 4 ? 0xffd9a0 : i % 5 === 2 ? 0xffc79a : 0xfff3dc);
+
+  // Đảo chính
+  addIsland(0, 0, 6.5, T, 6, (x, z) => Math.abs(x) < 3.0 || z > 2.0);
+  addIsland(0, -21.5, 5.6, T, 3, (x, z) => Math.abs(x) < 4.0 || z > 2.0 || z < -1.5);
+  addIsland(0, -56, 8.6, T, 6, (x, z) => Math.abs(x) < 4.8 || (x < -3.2 && z > 2.2) || (x > 4.2 && z > -3.6 && z < 2.2));
+  // Đảo xa làm cảnh
+  [[-24, 4, 4], [26, -6, 5], [-28, -30, 6], [27, -34, 4], [-22, -64, 5], [24, -78, 6], [0, -95, 7], [-40, -12, 5], [42, -56, 5]].forEach(([x, z, r]) => addIsland(x, z, r, T, Math.floor(r * 1.2)));
+  makeShip(32, -50, -0.6);
+  makeGate(T); makeChest(T); makeCannon(); makeFlag();
+  // Đồng xu thưởng trên đường đi
+  makeCoin(0, STAND + 0.8, -19.2, null, true);
+  makeCoin(0, STAND + 0.8, -54.3, null, true);
+  makeCoin(0, STAND + 0.8, -58.2, null, true);
+  // Đặc trưng từng đảo
+  if (i % 5 === 0 || i % 5 === 1) { makeDolphin(-12, -14); makeDolphin(13, -34); }
+  if (i % 5 === 1) { const st = makeStarfish(0xff7b54, 2.2); st.rotation.x = -1.2; st.position.set(-9, 2.6, -24); L.group.add(st); L.anims.push(t => { st.rotation.z = Math.sin(t) * 0.1; }); }
+  if (i % 5 === 2) makeVolcano(-25, -47);
+  if (i % 5 === 3) {
+    makeSnow();
+    [[-10, -14], [11, -27], [-12, -42], [12, -12], [10, -46]].forEach(([x, z]) => { const b = mesh(jitter(new THREE.DodecahedronGeometry(1.8, 0), 0.6, false), M(0xeef8ff, { transparent: true, opacity: 0.95 }), x, 0.3, z, L.group); b.scale.y = 1.4; });
+  }
+  if (i % 5 === 4) {
+    let acc = 0;
+    L.anims.push((t, dt) => { acc += dt; if (acc > 0.5) { acc = 0; burst(V((Math.random() - .5) * 16, STAND + Math.random() * 4, -56 + (Math.random() - .5) * 10), ['#fff3b0', '#ffd166', '#ffffff'], 6, 1, 1.2, 0.25, 0.5); } });
+    const pile = makeGoldPile(); pile.scale.setScalar(2.2); pile.position.set(-2.8, STAND - 0.05, -61); L.group.add(pile);
+    const pile2 = makeGoldPile(); pile2.scale.setScalar(1.8); pile2.position.set(2.8, STAND - 0.05, -61.5); L.group.add(pile2);
+  }
+}
+
+/* =========================================================
+   8. TWEEN, HẠT, CHUYỂN ĐỘNG NHÂN VẬT
+   ========================================================= */
+const tweens = [];
+function tween(dur, fn){ return new Promise(res => tweens.push({ t: 0, dur, fn, res })); }
+function updateTweens(dt){
+  for (let i = tweens.length - 1; i >= 0; i--) {
+    const tw = tweens[i]; tw.t += dt; const k = Math.min(1, tw.t / tw.dur);
+    try { tw.fn(k); } catch (e) { console.error(e); }
+    if (k >= 1) { tweens.splice(i, 1); tw.res(); }
+  }
+}
+function burst(pos, colors, n = 40, speed = 5, life = 1.2, size = 0.3, gravity = -6){
+  const geo = new THREE.BufferGeometry(), p = new Float32Array(n * 3), col = new Float32Array(n * 3), vel = [];
+  const cs = colors.map(c => new THREE.Color(c));
+  for (let i = 0; i < n; i++) {
+    p[i * 3] = pos.x; p[i * 3 + 1] = pos.y; p[i * 3 + 2] = pos.z;
+    const th = Math.random() * Math.PI * 2, ph = Math.acos(2 * Math.random() - 1), s = speed * (0.4 + Math.random() * 0.6);
+    vel.push(V(Math.sin(ph) * Math.cos(th) * s, Math.cos(ph) * s, Math.sin(ph) * Math.sin(th) * s));
+    const c = cs[i % cs.length]; col[i * 3] = c.r; col[i * 3 + 1] = c.g; col[i * 3 + 2] = c.b;
+  }
+  geo.setAttribute('position', new THREE.BufferAttribute(p, 3)); geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
+  const mat = new THREE.PointsMaterial({ size, map: dotTex, vertexColors: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
+  const pts = new THREE.Points(geo, mat); scene.add(pts);
+  particles.push({ pts, vel, life, age: 0, gravity });
+}
+function updateParticles(dt){
+  for (let i = particles.length - 1; i >= 0; i--) {
+    const P = particles[i]; P.age += dt;
+    const a = P.pts.geometry.attributes.position.array;
+    for (let k = 0; k < P.vel.length; k++) { const v = P.vel[k]; v.y += P.gravity * dt; v.multiplyScalar(0.985); a[k * 3] += v.x * dt; a[k * 3 + 1] += v.y * dt; a[k * 3 + 2] += v.z * dt; }
+    P.pts.geometry.attributes.position.needsUpdate = true;
+    P.pts.material.opacity = Math.max(0, 1 - P.age / P.life);
+    if (P.age >= P.life) { scene.remove(P.pts); P.pts.geometry.dispose(); P.pts.material.dispose(); particles.splice(i, 1); }
+  }
+}
+function confetti(pos){ burst(pos, ['#ff5fa2', '#ffd23f', '#4fd8ff', '#7dff6b', '#b36bff', '#ff8c42'], 50, 6, 1.4, 0.32, -7); }
+function fireworkAt(pos, d = 0){
+  setTimeout(() => { const pal = pick([['#ff5fa2', '#ffd23f', '#ffffff'], ['#4fd8ff', '#b36bff', '#ffffff'], ['#7dff6b', '#ffd23f', '#ff8c42']]); burst(pos, pal, 130, 8, 1.9, 0.5, -2.5); }, d * 1000);
+  Sound.firework(d);
+}
+
+async function jumpTo(ch, to, h = 1.3, dur = 0.55){
+  const from = ch.root.position.clone();
+  const dx = to.x - from.x, dz = to.z - from.z;
+  if (dx * dx + dz * dz < 0.02 && Math.abs(to.y - from.y) < 0.05) return;
+  if (dx * dx + dz * dz > 0.02) ch.targetRot = Math.atan2(dx, dz);
+  if (ch === G.hero) Sound.jump();
+  ch.jumping = true;
+  await tween(dur, k => {
+    ch.root.position.lerpVectors(from, to, easeInOut(k));
+    ch.root.position.y = from.y + (to.y - from.y) * k + Math.sin(Math.PI * k) * h;
+  });
+  ch.jumping = false;
+  if (ch === G.hero) Sound.land();
+  tween(0.18, k => { const s = Math.sin(Math.PI * k) * 0.22; ch.body.scale.set(1 + s * 0.5, 1 - s, 1 + s * 0.5); });
+}
+let compQueue = Promise.resolve();
+async function heroTo(to, h = 1.3, dur = 0.55, compTo = null){
+  const old = G.hero.root.position.clone();
+  const p = jumpTo(G.hero, to, h, dur);
+  const target = compTo || old;
+  compQueue = compQueue.then(() => sleep(140)).then(() => jumpTo(G.comp, target, h * 0.9, dur));
+  await p;
+}
+async function hopInPlace(ch, n = 2, h = 0.7){
+  if (ch.jumping) return;
+  for (let i = 0; i < n; i++) {
+    const y0 = ch.root.position.y; ch.jumping = true;
+    await tween(0.34, k => { ch.root.position.y = y0 + Math.sin(Math.PI * k) * h; });
+    ch.root.position.y = y0; ch.jumping = false;
+  }
+}
+function faceCamera(ch){ const p = ch.root.position; ch.targetRot = Math.atan2(camera.position.x - p.x, camera.position.z - p.z); }
+async function celebrate(ch){ if (!ch) return; ch.cheer = 1.8; faceCamera(ch); await compQueue; hopInPlace(ch, 2, 0.75); }
+function sad(ch){ ch.headShake = 0.8; }
+function shakeObj(obj){ const bx = obj.position.x; return tween(0.45, k => { obj.position.x = bx + Math.sin(k * 30) * 0.18 * (1 - k); }); }
+function flash(mat, color, ms = 650, after = null){
+  if (!mat || !mat.emissive) return;
+  mat.emissive.setHex(color);
+  setTimeout(() => { mat.emissive.setHex(after == null ? 0x000000 : after); }, ms);
+}
+function animChar(ch, t, dt){
+  if (!ch) return;
+  const ph = ch.phase;
+  if (!ch.jumping) ch.body.position.y = Math.abs(Math.sin(t * 2.4 + ph)) * 0.04;
+  if (ch.cheer > 0) {
+    ch.cheer -= dt;
+    ch.arms[0].rotation.z = -2.5 - Math.sin(t * 16) * 0.35; ch.arms[1].rotation.z = 2.5 + Math.sin(t * 16) * 0.35;
+  } else if (ch.jumping) {
+    ch.arms[0].rotation.z = -1.2; ch.arms[1].rotation.z = 1.2;
+  } else {
+    ch.arms[0].rotation.z = -0.25 - Math.sin(t * 2 + ph) * 0.08; ch.arms[1].rotation.z = 0.25 + Math.sin(t * 2 + ph) * 0.08;
+  }
+  if (ch.headShake > 0) { ch.headShake -= dt; ch.head.rotation.y = Math.sin(t * 22) * 0.35 * Math.min(1, ch.headShake); }
+  else ch.head.rotation.y *= 0.9;
+  ch.head.rotation.z = Math.sin(t * 1.5 + ph) * 0.06;
+  let d = ch.targetRot - ch.root.rotation.y; d = Math.atan2(Math.sin(d), Math.cos(d));
+  ch.root.rotation.y += d * Math.min(1, dt * 7);
+}
+
+/* =========================================================
+   9. CAMERA, BONG BÓNG THOẠI, GIAO DIỆN
+   ========================================================= */
+const cam = { pos: V(0, 6, 14), look: V(0, 1.5, 0), mode: 'start', fixPos: V(0, 8, 10), fixLook: V(0, 2, 0), shift: 0, shiftT: 0.18 };
+function portraitF(){ return innerWidth < innerHeight ? 1.75 : innerWidth < 900 ? 1.2 : 1.0; }
+function targetCam(){
+  const f = portraitF(); let tp, tl;
+  if (cam.mode === 'start') {
+    const a = Math.sin(T * 0.22) * 0.45;
+    tl = V(0, 1.9, 0.4); tp = V(Math.sin(a) * 10 * f, 3.4 + f * 0.5, 0.4 + Math.cos(a) * 10 * f);
+  } else if (cam.mode === 'fixed') {
+    tl = cam.fixLook.clone(); tp = cam.fixLook.clone().add(cam.fixPos.clone().sub(cam.fixLook).multiplyScalar(f));
+  } else {
+    const h = G.hero.root.position;
+    tl = V(h.x * 0.35, 1.0, h.z - 9); tp = V(h.x * 0.45, STAND + 8.5 * f, h.z + 9 * f);
+  }
+  return [tp, tl];
+}
+function updateCamera(dt, snap = false){
+  const [tp, tl] = targetCam();
+  const k = snap ? 1 : 1 - Math.exp(-dt * 2.8);
+  cam.pos.lerp(tp, k); cam.look.lerp(tl, k);
+  camera.position.copy(cam.pos); camera.lookAt(cam.look);
+  cam.shift += (cam.shiftT - cam.shift) * (snap ? 1 : Math.min(1, dt * 4));
+  const w = innerWidth, h = innerHeight;
+  camera.fov = innerWidth < innerHeight ? 62 : 50;
+  camera.setViewOffset(w, h, 0, h * cam.shift, w, h);
+  camera.updateProjectionMatrix();
+  sky.position.copy(camera.position);
+  sunSprite.position.copy(camera.position).add(V(-90, 70, -220));
+  const focus = G.hero ? G.hero.root.position : V(0, 0, 0);
+  sun.position.set(focus.x + 14, 26, focus.z + 12); sun.target.position.copy(focus);
+}
+function setShift(){
+  const portrait = innerWidth < innerHeight;
+  if (!$('start').classList.contains('hidden')) cam.shiftT = portrait ? 0.2 : 0.1;
+  else if (!$('panel').classList.contains('hidden')) cam.shiftT = portrait ? 0.24 : 0.17;
+  else cam.shiftT = 0.04;
+}
+const bubbles = {};
+function say(ch, text, ms = 2600){
+  if (!ch) return;
+  let el = bubbles[ch.kind];
+  if (!el) { el = document.createElement('div'); el.className = 'bubble'; el.style.setProperty('--bc', ch.kind === 'lucie' ? '#f472b6' : ch.kind === 'lucas' ? '#60a5fa' : '#1f2937'); $('bubbles').appendChild(el); bubbles[ch.kind] = el; }
+  el.innerHTML = text; el._until = performance.now() + ms; el._ch = ch;
+}
+function updateBubbles(){
+  const now = performance.now();
+  for (const k in bubbles) {
+    const el = bubbles[k], ch = el._ch;
+    if (!ch || now > el._until || !ch.root.parent) { el.style.opacity = 0; continue; }
+    const p = ch.root.position.clone().add(V(0, 2.95 * ch.root.scale.y, 0)).project(camera);
+    if (p.z > 1) { el.style.opacity = 0; continue; }
+    el.style.opacity = 1;
+    const hw = Math.min(el.offsetWidth / 2, innerWidth / 2 - 4);
+    el.style.left = Math.max(hw + 4, Math.min(innerWidth - hw - 4, (p.x + 1) / 2 * innerWidth)) + 'px';
+    el.style.top = ((-p.y + 1) / 2 * innerHeight) + 'px';
+  }
+}
+function floatText(html, color = '#fff'){
+  const d = document.createElement('div'); d.className = 'float-text'; d.innerHTML = html; d.style.color = color;
+  $('floats').appendChild(d); setTimeout(() => d.remove(), 1600);
+}
+async function showBanner(title, sub, ms = 2200){
+  $('bannerTitle').innerHTML = title; $('bannerSub').innerHTML = sub;
+  const b = $('banner'); b.style.opacity = 1; b.style.transform = 'translateY(0)';
+  await sleep(ms); b.style.opacity = 0; b.style.transform = 'translateY(-20px)';
+}
+function avatarSVG(kind, size = 64){
+  const L = kind === 'lucie';
+  const bow = L ? '<g transform="translate(76 46) rotate(-25)"><path d="M0 0 L-11 -8 L-11 8Z M0 0 L11 -8 L11 8Z" fill="#ff4f9a"/><circle r="4" fill="#e0307e"/></g>' : '';
+  const hat = L
+    ? '<rect x="27" y="17" width="46" height="15" rx="6" fill="#fff" stroke="#cbd5e1" stroke-width="1.5"/><rect x="27" y="29" width="46" height="6" fill="#1d3b7a"/><path d="M31 35 Q50 43 69 35 Z" fill="#222"/><rect x="46" y="21" width="8" height="6" rx="1" fill="#f5c542"/>'
+    : '<path d="M23 47 Q24 20 50 20 Q76 20 77 47 Z" fill="#2f7de1"/><path d="M48 45 Q72 42 88 49 Q72 54 48 50 Z" fill="#1d5fb5"/><circle cx="50" cy="21" r="3" fill="#fff"/><circle cx="50" cy="34" r="5" fill="#fff"/>';
+  return `<svg viewBox="0 0 100 100" width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="50" cy="50" r="49" fill="${L ? '#ffd1e6' : '#cfe6ff'}"/>
+    ${L ? '<ellipse cx="50" cy="66" rx="33" ry="28" fill="#6b3a1e"/>' : ''}
+    <circle cx="50" cy="60" r="25" fill="#ffd9b8"/>
+    <path d="M25 58 Q26 34 50 34 Q74 34 75 58 Q65 44 50 45 Q35 44 25 58Z" fill="${L ? '#6b3a1e' : '#4a2c17'}"/>
+    <circle cx="41" cy="61" r="4" fill="#222"/><circle cx="59" cy="61" r="4" fill="#222"/>
+    <circle cx="42.5" cy="59.5" r="1.4" fill="#fff"/><circle cx="60.5" cy="59.5" r="1.4" fill="#fff"/>
+    <circle cx="34" cy="69" r="4" fill="#ff9bb8" opacity=".75"/><circle cx="66" cy="69" r="4" fill="#ff9bb8" opacity=".75"/>
+    <path d="M44 71 Q50 77 56 71" stroke="#b03040" stroke-width="3" fill="none" stroke-linecap="round"/>
+    ${hat}${bow}</svg>`;
+}
+
+/* =========================================================
+   10. TRẠNG THÁI GAME & HUD
+   ========================================================= */
+const G = { hero: null, comp: null, max: null, heroKind: 'lucie', grade: 3, island: 0, stage: 0, stepQ: 0, hearts: 3, coins: 0, gems: 0, buoys: 2, stats: { correct: 0, total: 0, coins0: 0 }, badges: [], busy: true, active: false, q: null, sort: null, firstTry: true, rescues: 0 };
+const chars = {};
+const SAVE_KEY = 'daoKhoBauToanHoc_v1';
+function loadSave(){ try { return JSON.parse(localStorage.getItem(SAVE_KEY)) || {}; } catch (e) { return {}; } }
+function writeSave(s){ try { localStorage.setItem(SAVE_KEY, JSON.stringify(s)); } catch (e) {} }
+// Ghi nhật ký cho trang "Bảng thành tích" của bố mẹ (dùng chung khi đặt trên trang ngocanhno1.github.io)
+function ghiNhatKy(question, ok){ try { const k = 'giaDinh_nhatKy', a = JSON.parse(localStorage.getItem(k) || '[]'); a.push({ t: Date.now(), g: 'daokhobau', c: G.heroKind, s: 'Toán', q: String(question).replace(/\u00A0/g, ' ').slice(0, 140), ok: !!ok }); if (a.length > 6000) a.splice(0, a.length - 6000); localStorage.setItem(k, JSON.stringify(a)); } catch (e) {} }
+
+function updateHUD(popWhat){
+  $('hudCoins').textContent = G.coins;
+  $('hudGems').textContent = G.gems;
+  $('hudHearts').textContent = '❤️'.repeat(G.hearts) + '🤍'.repeat(Math.max(0, 3 - G.hearts));
+  $('buoyCount').textContent = G.buoys;
+  $('btnBuoy').style.opacity = G.buoys > 0 ? 1 : 0.5;
+  const T = THEMES[G.island];
+  $('hudIsland').textContent = `${T.emoji} Đảo ${G.island + 1}/${SO_DAO}: ${T.name}`;
+  $('hudIslands').innerHTML = THEMES.map((t, k) => (k < Math.floor(G.island / 5) * 5 || k >= Math.floor(G.island / 5) * 5 + 5) ? '' : `<div class="isl-dot ${k < G.island ? 'done' : k === G.island ? 'on' : ''}">${k < G.island ? '💎' : t.emoji}</div>`).join('');
+  for (let k = 0; k < 3; k++) {
+    const el = $('st' + k); el.className = 'stage-chip' + (k < G.stage ? ' done' : k === G.stage ? ' on' : '');
+  }
+  $('st1').textContent = G.stage === 1 ? `🪨 Bậc đá ${G.stepQ + 1}/3` : '🪨 Bậc đá';
+  if (popWhat) { const el = popWhat === 'gem' ? $('hudGems') : popWhat === 'coin' ? $('hudCoins') : $('hudHearts'); el.parentElement.classList.remove('bounce'); void el.offsetWidth; el.parentElement.classList.add('bounce'); }
+}
+function addCoins(n){ G.coins += n; updateHUD('coin'); }
+function showPanel(on){ $('panel').classList.toggle('hidden', !on); setShift(); }
+
+const PRAISE_L = ['Chị Lucie giỏi quá! 🎉', 'Chị ơi siêu đỉnh luôn!', 'Hoan hô chị Lucie! 👏', 'Đúng rồi! Chị thông minh ghê!', 'Yeah! Chị là số 1!'];
+const PRAISE_B = ['Em Lucas giỏi quá! 🎉', 'Đúng rồi! Em siêu ghê!', 'Hoan hô em Lucas! 👏', 'Tuyệt vời! Chị tự hào về em!', 'Yeah! Em làm được rồi!'];
+const WRONG_L = ['Chị ơi thử lại nhé, sắp đúng rồi!', 'Không sao đâu chị, nghĩ thêm chút nữa!', 'Cố lên chị ơi! 💪'];
+const WRONG_B = ['Không sao em ơi, thử lại nha!', 'Bình tĩnh đếm lại nhé em!', 'Cố lên Lucas! Chị tin em! 💪'];
+const praise = () => pick(G.heroKind === 'lucie' ? PRAISE_L : PRAISE_B);
+const wrongLine = () => pick(G.heroKind === 'lucie' ? WRONG_L : WRONG_B);
+
+/* =========================================================
+   11. LUỒNG CHƠI
+   ========================================================= */
+function placeStartScreen(){
+  buildLevel(0);
+  G.hero = null; G.comp = null;
+  Object.values(chars).forEach(c => { if (c.root.parent) c.root.parent.remove(c.root); });
+  chars.lucie.root.position.set(-1.05, STAND, 0.4); chars.lucas.root.position.set(1.05, STAND, 0.4);
+  chars.lucie.root.rotation.y = 0.15; chars.lucas.root.rotation.y = -0.15;
+  chars.lucie.targetRot = 0.15; chars.lucas.targetRot = -0.15;
+  scene.add(chars.lucie.root); scene.add(chars.lucas.root);
+  chars.lucie.tag.visible = chars.lucas.tag.visible = true;
+  L.clickables.push(chars.lucie.root, chars.lucas.root);
+  chars.lucie.root.userData.pick = () => chooseHero('lucie');
+  chars.lucas.root.userData.pick = () => chooseHero('lucas');
+  cam.mode = 'start';
+  const s = loadSave();
+  ['lucie', 'lucas'].forEach(k => {
+    const el = $(k === 'lucie' ? 'saveLucie' : 'saveLucas'); const d = s[k];
+    el.innerHTML = d && d.island > 0 ? `⛵ Đang ở Đảo ${d.island + 1} · 🪙 ${d.coins || 0}` : d && d.wins ? `🏆 Đã tìm được kho báu ${d.wins} lần!` : '';
+  });
+  $('start').classList.remove('hidden'); $('hud').classList.add('hidden'); showPanel(false); setShift();
+}
+function openModal(html){ $('modalCard').innerHTML = html; $('modal').classList.remove('hidden'); }
+function closeModal(){ $('modal').classList.add('hidden'); }
+
+async function chooseHero(kind){
+  if ($('start').classList.contains('hidden')) return;
+  Sound.init(); if (Sound.musOn) Music.start(); Sound.click();
+  const s = loadSave(), d = s[kind];
+  if (d && d.island > 0 && d.island < SO_DAO) {   // đã có hành trình đang dở: tự chơi tiếp luôn, không hỏi
+    beginGame(kind, d.island, d.coins || 0, d.badges || []);
+    return;
+  }
+  if (false) {
+    const name = kind === 'lucie' ? 'Chị Lucie' : 'Em Lucas';
+    openModal(`<div class="text-5xl mb-2">⛵</div>
+      <div class="text-2xl md:text-3xl font-extrabold text-sky-700 mb-2">${name} đang ở Đảo ${d.island + 1}!</div>
+      <div class="text-lg text-slate-600 font-bold mb-4">Chơi tiếp hành trình hay bắt đầu lại từ Đảo 1?</div>
+      <div class="flex flex-col md:flex-row gap-3 justify-center">
+        <button id="mContinue" class="chunky rounded-2xl px-6 py-3 text-xl font-extrabold text-white bg-emerald-500">▶️ Chơi tiếp Đảo ${d.island + 1}</button>
+        <button id="mRestart" class="chunky rounded-2xl px-6 py-3 text-xl font-extrabold text-white bg-amber-500">🔁 Chơi lại từ đầu</button>
+      </div>`);
+    $('mContinue').onclick = () => { closeModal(); beginGame(kind, d.island, d.coins || 0, d.badges || []); };
+    $('mRestart').onclick = () => { closeModal(); beginGame(kind, 0, 0, []); };
+    return;
+  }
+  beginGame(kind, 0, 0, []);
+}
+async function beginGame(kind, island, coins, badges){
+  G.heroKind = kind; G.grade = kind === 'lucie' ? 3 : 1;
+  G.hero = chars[kind]; G.comp = chars[kind === 'lucie' ? 'lucas' : 'lucie']; G.max = chars.max;
+  G.coins = coins; G.gems = island; G.badges = badges.slice(); G.rescues = 0;
+  $('hudAvatar').innerHTML = avatarSVG(kind, 46);
+  $('hudName').textContent = kind === 'lucie' ? 'Thuyền trưởng Lucie' : 'Thủy thủ Lucas';
+  $('hudName').style.color = kind === 'lucie' ? '#db2777' : '#2563eb';
+  $('hudGrade').textContent = kind === 'lucie' ? HS.lucie.goi + ' · Lớp ' + HS.lucie.lop + ' · Bạn đồng hành: em Lucas' : HS.lucas.goi + ' · Lớp ' + HS.lucas.lop + ' · Bạn đồng hành: chị Lucie';
+  $('start').classList.add('hidden');
+  await sailTo(island, true);
+}
+async function sailTo(i, first = false){
+  G.busy = true; G.active = false;
+  const T = THEMES[i];
+  $('sailText').innerHTML = first ? `Dong buồm ra khơi! ⚓<br><span class="text-xl md:text-3xl">Điểm đến: ${T.emoji} ${T.name}</span>` : `Đang dong buồm sang<br>${T.emoji} ${T.name}...`;
+  const s = $('sail'); s.style.opacity = 0; s.classList.remove('hidden'); await sleep(30); s.style.opacity = 1;
+  Sound.whoosh();
+  await sleep(700);
+  setupIsland(i);
+  await sleep(1300);
+  s.style.opacity = 0; await sleep(500); s.classList.add('hidden');
+  await runIsland();
+}
+function setupIsland(i){
+  G.island = i; G.stage = 0; G.stepQ = 0; G.hearts = 3; G.buoys = 2; G.stats = { correct: 0, total: 0, coins0: G.coins };
+  buildLevel(i);
+  Object.values(chars).forEach(c => { if (c.root.parent) c.root.parent.remove(c.root); c.cheer = 0; c.jumping = false; c.body.scale.set(1, 1, 1); });
+  scene.add(G.hero.root); scene.add(G.comp.root); scene.add(G.max.root);
+  G.hero.root.position.copy(POS.start); G.comp.root.position.set(1.5, STAND, -1.4);
+  G.hero.root.rotation.y = G.hero.targetRot = 0; G.comp.root.rotation.y = G.comp.targetRot = 0;
+  G.max.root.position.set(5.8, STAND, -55.2); G.max.root.rotation.y = G.max.targetRot = -0.3;
+  compQueue = Promise.resolve();
+  cam.mode = 'follow'; $('hud').classList.remove('hidden'); showPanel(false);
+  updateHUD(); updateCamera(0, true);
+}
+async function runIsland(){
+  const T = THEMES[G.island];
+  showBanner(`${T.emoji} ${T.name}`, `Đảo ${G.island + 1}/${SO_DAO} · ${TOPICS[G.grade][G.island]}`, 2600);
+  celebrate(G.hero); celebrate(G.comp); Sound.fanfare();
+  await sleep(1200);
+  say(G.comp, G.heroKind === 'lucie' ? `Chị Lucie ơi, mình cùng vượt ${T.name} nhé!` : `Lucas ơi, chị em mình cùng chinh phục ${T.name} nha!`, 2800);
+  await sleep(1800);
+  await startSort();
+}
+
+/* ---------- THỬ THÁCH 1: CẦU SẮP XẾP SỐ ---------- */
+async function startSort(){
+  G.stage = 0; G.firstTry = true; G.active = false; updateHUD();
+  const s = genSort(); G.sort = s;
+  const xs = [-4.8, -1.6, 1.6, 4.8];
+  L.stones = s.nums.map((n, i) => {
+    const st = makeStone(xs[i], POS.sortZ + (i % 2 ? 0.6 : -0.6));
+    const lab = makeLabel(fmt(n), { bg: '#fff8e1', fs: 96, scale: 0.95 }); lab.position.y = 1.45; st.add(lab);
+    st.userData.idx = i; st.userData.label = lab; st.userData.pick = () => pickSort(i);
+    L.group.add(st); L.clickables.push(st);
+    const y1 = STONE_Y; st.position.y = -3;
+    tween(0.7 + i * 0.12, k => { st.position.y = -3 + (y1 + 3) * easeOutBack(k); });
+    return st;
+  });
+  Sound.splash();
+  renderSortPanel(); showPanel(true);
+  await sleep(1100);
+  say(G.comp, s.dir === 'asc' ? 'Tìm số BÉ NHẤT trước nhé! 🔍' : 'Tìm số LỚN NHẤT trước nhé! 🔍', 3000);
+  G.busy = false; G.active = true;
+}
+function renderSortPanel(){
+  const s = G.sort;
+  $('pTitle').innerHTML = '🌉 THỬ THÁCH 1 · CÂY CẦU SẮP XẾP SỐ';
+  $('pText').className = 'qtext small font-extrabold text-slate-800 text-center my-1 md:my-2';
+  $('pText').innerHTML = `Bấm các tảng đá theo thứ tự <span class="${s.dir === 'asc' ? 'text-emerald-600' : 'text-rose-600'}">${s.dir === 'asc' ? 'TỪ BÉ ĐẾN LỚN ⬆️' : 'TỪ LỚN ĐẾN BÉ ⬇️'}</span>`;
+  let slots = '';
+  for (let k = 0; k < 4; k++) {
+    if (k) slots += `<span class="slot-sign">${s.dir === 'asc' ? '&lt;' : '&gt;'}</span>`;
+    slots += `<div class="slot ${k < s.progress ? 'filled' : ''}">${k < s.progress ? fmt(s.order[k]) : '?'}</div>`;
+  }
+  $('pSlots').innerHTML = slots;
+  const box = $('pOpts'); box.className = 'grid grid-cols-4 gap-2 md:gap-4'; box.innerHTML = '';
+  s.nums.forEach((n, i) => {
+    const used = L.stones[i] && L.stones[i].userData.used;
+    const b = document.createElement('button'); b.className = 'opt-btn' + (used ? ' used' : '');
+    b.style.setProperty('--c', '#0ea5e9'); b.disabled = !!used;
+    b.innerHTML = `<span>${fmt(n)}</span>`;
+    b.onclick = () => pickSort(i); box.appendChild(b);
+  });
+}
+async function pickSort(i){
+  if (G.busy || !G.active || G.stage !== 0) return;
+  const s = G.sort, st = L.stones[i];
+  if (!st || st.userData.used) return;
+  const expect = s.order[s.progress];
+  if (s.nums[i] === expect) {
+    G.busy = true; st.userData.used = true;
+    Sound.step(); st.userData.mat.emissive.setHex(0x1f9d4a);
+    const badge = makeLabel(String(s.progress + 1), { bg: '#22c55e', fg: '#fff', border: '#fff', fs: 70, scale: 0.55 });
+    badge.position.set(0.95, 2.1, 0); st.add(badge);
+    s.progress++; renderSortPanel();
+    await heroTo(V(st.position.x, STONE_Y, st.position.z), 1.5, 0.6);
+    burst(V(st.position.x, STONE_Y + 0.4, st.position.z), ['#7dff6b', '#ffffff', '#ffd23f'], 24, 3, 0.8, 0.3, -5);
+    addCoins(2); Sound.coin();
+    if (s.progress >= 4) await finishSort();
+    else { if (Math.random() < 0.45) say(G.comp, pick(['Đúng rồi! Tiếp nào!', 'Chuẩn luôn! 👍', 'Nhảy tiếp thôi!']), 1400); G.busy = false; }
+  } else {
+    wrongPick(st, st.userData.mat, st.userData.used ? 0x1f9d4a : 0x000000);
+    say(G.comp, s.dir === 'asc' ? `Chưa đúng rồi! Tìm số bé nhất trong các số còn lại nha.` : `Chưa đúng rồi! Tìm số lớn nhất trong các số còn lại nha.`, 2600);
+  }
+}
+async function finishSort(){
+  G.active = false; G.stats.total++; if (G.firstTry) G.stats.correct++;
+  ghiNhatKy('Sắp xếp ' + (G.sort.dir === 'asc' ? 'bé→lớn: ' : 'lớn→bé: ') + G.sort.order.map(fmt).join(', '), G.firstTry);
+  L.clickables = L.clickables.filter(o => !L.stones.includes(o));
+  Sound.correct(); addCoins(10); floatText('🎉 Qua sông rồi! +10 🪙');
+  confetti(G.hero.root.position.clone().add(V(0, 1.5, 0)));
+  celebrate(G.comp); say(G.comp, praise(), 2000);
+  showPanel(false);
+  await sleep(900);
+  const from = G.hero.root.position.clone(), to = POS.bridgeEnd.clone(), n = 7;
+  const ry = Math.atan2(to.x - from.x, to.z - from.z);
+  for (let k = 0; k < n; k++) {
+    const p = from.clone().lerp(to, (k + 0.5) / n);
+    const pl = mesh(new THREE.BoxGeometry(1.6, 0.14, 0.62), M(k % 2 ? 0xa0703f : 0x8b5e34), p.x, p.y - 0.1, p.z, L.group);
+    pl.rotation.y = ry; pl.scale.setScalar(0.01);
+    tween(0.28, kk => pl.scale.setScalar(Math.max(0.01, easeOutBack(kk))));
+    Sound.plank(); await sleep(110);
+  }
+  [from, to].forEach(p => [-1, 1].forEach(sd => { const off = V(Math.cos(ry) * 0.85 * sd, 0, -Math.sin(ry) * 0.85 * sd); mesh(new THREE.CylinderGeometry(0.07, 0.07, 1.0, 5), M(0x6b4423), p.x + off.x, p.y + 0.3, p.z + off.z, L.group); }));
+  await sleep(300);
+  const mid = from.clone().lerp(to, 0.5);
+  await heroTo(mid, 0.7, 0.42);
+  await heroTo(to, 0.7, 0.42);
+  await heroTo(POS.mid, 0.9, 0.5, V(1.6, STAND, -20.5));
+  await startStep(0);
+}
+
+/* ---------- THỬ THÁCH 2: BẬC ĐÁ PHÉP TÍNH ---------- */
+function xsFor(n){ return n === 4 ? [-4.8, -1.6, 1.6, 4.8] : n === 3 ? [-3.4, 0, 3.4] : [-2.2, 2.2]; }
+async function startStep(k){
+  G.stage = 1; G.stepQ = k; G.firstTry = true; G.active = false; updateHUD();
+  const q = genQ('step'); G.q = q;
+  L.clickables = L.clickables.filter(o => !o.userData.isPed);
+  const z = POS.stepZ0 - k * POS.stepDZ, xs = xsFor(q.opts.length);
+  L.peds = q.opts.map((o, i) => {
+    const p = makePedestal(xs[i], z, OPT_COLORS[i]);
+    const lab = makeLabel(`${'ABCD'[i]}: ${o}`, { bg: OPT_COLORS[i], fg: '#fff', border: '#fff', fs: 80, scale: 0.95 });
+    lab.position.y = 2.0; p.add(lab);
+    const coin = makeCoin(0, 0.85, 0, p);
+    p.userData.isPed = true; p.userData.idx = i; p.userData.coin = coin; p.userData.label = lab; p.userData.pick = () => pickMC(i);
+    L.group.add(p); L.clickables.push(p);
+    tween(0.75 + i * 0.08, kk => { p.position.y = -4.5 + (PED_Y + 4.5) * easeOutBack(kk); });
+    return p;
+  });
+  if (L.board) { L.group.remove(L.board); }
+  L.board = makeLabel(q.board, { bg: '#fffbe8', fs: 84, scale: 1.05 }); L.board.position.set(0, 4.9, z - 0.5); L.group.add(L.board);
+  Sound.splash();
+  renderMC(q, `🪨 THỬ THÁCH 2 · BẬC ĐÁ PHÉP TÍNH · Câu ${k + 1}/3`);
+  await sleep(900);
+  if (k === 0) say(G.comp, 'Chọn bục đá có đáp án đúng nhé! 🪨', 2600);
+  G.busy = false; G.active = true;
+}
+function renderMC(q, title){
+  $('pTitle').innerHTML = title;
+  $('pText').className = 'qtext ' + (q.word ? 'word ' : '') + 'font-extrabold text-slate-800 text-center my-1 md:my-2';
+  $('pText').innerHTML = q.html;
+  $('pSlots').innerHTML = '';
+  const box = $('pOpts');
+  box.className = 'grid gap-2 md:gap-4 ' + (q.opts.length === 4 ? 'grid-cols-2 md:grid-cols-4' : q.opts.length === 3 ? 'grid-cols-3' : 'grid-cols-2');
+  box.innerHTML = '';
+  q.opts.forEach((o, i) => {
+    const b = document.createElement('button'); b.className = 'opt-btn';
+    b.style.setProperty('--c', OPT_COLORS[i]);
+    b.innerHTML = `<span class="opt-letter">${'ABCD'[i]}</span><span>${o}</span>`;
+    b.onclick = () => pickMC(i); box.appendChild(b);
+  });
+  showPanel(true);
+}
+async function pickMC(i){
+  if (G.busy || !G.active || (G.stage !== 1 && G.stage !== 2)) return;
+  const arr = G.stage === 1 ? L.peds : L.balls, obj = arr[i];
+  if (!obj || obj.userData.dead) return;
+  const btn = $('pOpts').children[i];
+  if (i === G.q.correct) {
+    G.busy = true; G.active = false; G.stats.total++; if (G.firstTry) G.stats.correct++;
+    ghiNhatKy(G.q.label + ' → ' + G.q.opts[G.q.correct], G.firstTry);
+    if (btn) btn.classList.add('right');
+    [...$('pOpts').children].forEach(b => b.disabled = true);
+    if (G.stage === 1) {
+      obj.userData.cap.emissive.setHex(0x22c55e); obj.userData.mat.emissive.setHex(0x1a7a3a);
+      Sound.correct(); const gain = G.firstTry ? 10 : 5;
+      floatText(`✅ Đúng rồi! +${gain} 🪙`);
+      await heroTo(V(obj.position.x, PED_Y + 0.07, obj.position.z), 1.7, 0.62);
+      collectCoin(obj.userData.coin); addCoins(gain);
+      confetti(G.hero.root.position.clone().add(V(0, 1.4, 0)));
+      celebrate(G.hero); celebrate(G.comp); say(G.comp, praise(), 2000);
+      L.peds.forEach((p, k) => { if (k !== i) { const y0 = p.position.y; tween(0.8, kk => { p.position.y = y0 - 5 * kk; }); } });
+      if (L.board) { const b = L.board; tween(0.4, kk => b.material.opacity = 1 - kk).then(() => L.group.remove(b)); L.board = null; }
+      showPanel(false);
+      await sleep(1500);
+      if (G.stepQ < 2) await startStep(G.stepQ + 1);
+      else await finishStep();
+    } else {
+      await gateSuccess(i);
+    }
+  } else {
+    obj.userData.dead = true;
+    if (btn) { btn.classList.add('wrongb'); btn.disabled = true; }
+    if (G.stage === 1) {
+      wrongPick(obj, obj.userData.cap, 0x000000);
+      setTimeout(() => obj.userData.cap.color.setHex(0x8a8f98), 650);
+      say(G.comp, wrongLine(), 2400);
+    } else {
+      wrongPick(obj, obj.userData.mat, 0x000000);
+      Sound.noise(0.4, 0.15, 0.1, 'highpass', 3000, 800);
+      say(G.max, pick(['Hì hì, chưa đúng đâu nhé! 😜', 'Ha ha! Thử viên khác đi!', 'Sai rồi! Cổng vẫn khóa nè!']), 2000);
+      say(G.comp, wrongLine(), 2400);
+    }
+  }
+}
+function collectCoin(c){
+  if (!c || !c.userData.alive) return;
+  c.userData.alive = false; Sound.coin();
+  const wp = new THREE.Vector3(); c.getWorldPosition(wp);
+  burst(wp, ['#ffd23f', '#fff3b0', '#ffffff'], 18, 2.5, 0.7, 0.28, -3);
+  const y0 = c.position.y;
+  tween(0.5, k => { c.position.y = y0 + k * 1.4; c.scale.setScalar(1 - k * 0.9); c.rotation.y += 0.5; }).then(() => { if (c.parent) c.parent.remove(c); });
+}
+async function finishStep(){
+  G.active = false;
+  L.clickables = L.clickables.filter(o => !o.userData.isPed);
+  await heroTo(V(-0.9, STAND, POS.gateFrontZ), 2.0, 0.8, V(1.2, STAND, POS.gateFrontZ + 0.4));
+  await startGate();
+}
+
+/* ---------- THỬ THÁCH 3: ĐẠI BÁC MỞ CỔNG KHO BÁU ---------- */
+async function startGate(){
+  G.stage = 2; G.firstTry = true; G.active = false; updateHUD();
+  cam.mode = 'fixed'; cam.fixPos = V(0, STAND + 9.2, -37.5); cam.fixLook = V(0, 3.0, -55);
+  G.hero.targetRot = Math.PI; G.comp.targetRot = Math.PI;
+  const q = genQ('gate'); G.q = q;
+  const xs = xsFor(q.opts.length).map(x => x * 0.78);
+  L.balls = q.opts.map((o, i) => {
+    const g = new THREE.Group();
+    const bm = M(0x2b2b2b, { shininess: 70, specular: 0x666666 });
+    const ball = mesh(new THREE.SphereGeometry(0.42, 14, 10), bm, 0, 0.42, 0, g);
+    mesh(new THREE.TorusGeometry(0.44, 0.05, 6, 16), M(new THREE.Color(OPT_COLORS[i]).getHex()), 0, 0.42, 0, g).rotation.x = Math.PI / 2;
+    g.position.set(xs[i], STAND - 0.05, -53.2);
+    const lab = makeLabel(`${'ABCD'[i]}: ${o}`, { bg: OPT_COLORS[i], fg: '#fff', border: '#fff', fs: 80, scale: 0.8 });
+    lab.position.y = 1.45; g.add(lab);
+    g.userData.idx = i; g.userData.mat = bm; g.userData.ball = ball; g.userData.label = lab; g.userData.pick = () => pickMC(i);
+    g.scale.setScalar(0.01); tween(0.5 + i * 0.1, k => g.scale.setScalar(Math.max(0.01, easeOutBack(k))));
+    L.group.add(g); L.clickables.push(g); return g;
+  });
+  L.gateBoard = makeLabel(q.label, { bg: '#ffe08a', border: '#7c2d12', fs: 92, scale: 1.25 });
+  L.gateBoard.position.set(0, 5.7, POS.gateZ + 1.3); L.group.add(L.gateBoard);
+  renderMC(q, '🏰 THỬ THÁCH 3 · ĐẠI BÁC MỞ CỔNG KHO BÁU · Chọn viên đạn đúng!');
+  G.max.targetRot = -0.5; celebrate(G.max);
+  say(G.max, G.island % 5 === 4 ? 'Ha ha! Ta là Cướp biển Max! Ta thách đấu hai chị em đó! 🏴‍☠️' : 'Ha ha! Giải đúng câu đố thì mới mở được cổng nhé! 🏴‍☠️', 3600);
+  await sleep(1300);
+  say(G.comp, G.heroKind === 'lucie' ? 'Chị nạp đúng viên đạn vào đại bác nhé!' : 'Em chọn viên đạn có đáp án đúng nha!', 2600);
+  G.busy = false; G.active = true;
+}
+async function gateSuccess(i){
+  const b = L.balls[i];
+  b.userData.mat.emissive.setHex(0x22c55e);
+  const gain = G.firstTry ? 15 : 8;
+  Sound.correct(); floatText(`💥 Chính xác! +${gain} 🪙`); addCoins(gain);
+  b.userData.label.visible = false;
+  L.balls.forEach((o, k) => { if (k !== i) tween(0.4, kk => o.scale.setScalar(Math.max(0.01, 1 - kk))); });
+  L.clickables = L.clickables.filter(o => !L.balls.includes(o));
+  showPanel(false);
+  // Viên đạn bay vào nòng đại bác
+  const muzzle = L.cannon.barrel.localToWorld(V(0, 1.8, 0));
+  const from = b.position.clone();
+  await tween(0.7, k => { b.position.lerpVectors(from, muzzle, k); b.position.y += Math.sin(Math.PI * k) * 2 - 0.4 * k; });
+  b.visible = false;
+  // Bắn!
+  Sound.cannon();
+  const bz = L.cannon.barrel.position.clone();
+  tween(0.35, k => { L.cannon.barrel.position.z = bz.z + Math.sin(Math.PI * k) * 0.35; });
+  burst(muzzle, ['#ffffff', '#cccccc', '#999999'], 30, 3, 1.0, 0.7, 1);
+  burst(muzzle, ['#ffd166', '#ff8c42'], 20, 4, 0.4, 0.5, 0);
+  const flare = new THREE.Mesh(new THREE.SphereGeometry(0.25, 8, 6), new THREE.MeshBasicMaterial({ color: 0xfff1a8 }));
+  flare.add(glowSprite(0xffcc55, 2.2)); scene.add(flare);
+  const target = V(0, 12.5, POS.gateZ);
+  let tick = 0;
+  await tween(0.95, k => { flare.position.lerpVectors(muzzle, target, k); flare.position.y += Math.sin(Math.PI * k) * 2; if ((tick++ % 2) === 0) burst(flare.position, ['#ffd166', '#ff9f1c'], 3, 0.6, 0.5, 0.3, -1); });
+  scene.remove(flare); flare.geometry.dispose();
+  fireworkAt(target, 0); fireworkAt(V(-4.5, 10.5, POS.gateZ - 1), 0.35); fireworkAt(V(4.5, 11.2, POS.gateZ - 1), 0.7);
+  if (L.gateBoard) L.gateBoard.visible = false;
+  L.gate.lock.visible = false;
+  await sleep(500);
+  // Mở cổng
+  Sound.creak();
+  await tween(1.3, k => { const e = easeInOut(k); L.gate.doors[0].rotation.y = 1.65 * e; L.gate.doors[1].rotation.y = -1.65 * e; });
+  say(G.max, pick(['Ối trời ơi! Các cháu giỏi quá! 😱', 'Không thể nào! Cổng mở rồi!', 'Chịu thua! Kho báu là của hai chị em!']), 2800);
+  hopInPlace(G.max, 3, 0.6);
+  // Đi vào lấy kho báu
+  cam.fixPos = V(0, STAND + 5.0, -51.6); cam.fixLook = V(0, 1.9, -60.4);
+  await heroTo(V(-0.6, STAND, -54.3), 1.0, 0.45, V(1.0, STAND, -52.6));
+  await heroTo(V(-1.55, STAND, -59.5), 1.0, 0.5, V(1.55, STAND, -59.5));
+  await compQueue; G.hero.targetRot = 0.5; G.comp.targetRot = -0.5;
+  await openChest();
+}
+async function openChest(){
+  const C = L.chest;
+  Sound.chest();
+  await tween(1.0, k => { C.lid.rotation.x = -1.9 * easeOutBack(k); C.light.intensity = 2.6 * k; });
+  burst(C.group.position.clone().add(V(0, 1.3, 0)), ['#ffd23f', '#fff3b0', '#ffffff', '#' + new THREE.Color(THEMES[G.island].gem).getHexString()], 70, 4.5, 1.5, 0.35, -3);
+  C.gem.visible = true;
+  await tween(1.3, k => { C.gem.position.y = 0.8 + 2.4 * easeOut(k); C.gem.rotation.y += 0.12; C.gem.scale.setScalar(0.4 + 0.9 * k); });
+  Sound.victory();
+  G.hero.cheer = G.comp.cheer = 2.5;
+  await sleep(500);
+  flyGemToHUD(C.gem);
+  C.gem.visible = false;
+  await sleep(900);
+  G.gems++; updateHUD('gem'); Sound.coin();
+  celebrate(G.hero); celebrate(G.comp);
+  say(G.comp, `Mình có ${THEMES[G.island].gemName} rồi! 💎`, 2500);
+  await sleep(1800);
+  showSummary();
+}
+function flyGemToHUD(gem){
+  const wp = new THREE.Vector3(); gem.getWorldPosition(wp); const p = wp.project(camera);
+  const sx = (p.x + 1) / 2 * innerWidth, sy = (-p.y + 1) / 2 * innerHeight;
+  const tr = $('hudGems').getBoundingClientRect();
+  const d = document.createElement('div');
+  d.textContent = '💎'; d.style.cssText = `position:fixed;left:${sx}px;top:${sy}px;font-size:70px;z-index:45;transform:translate(-50%,-50%);transition:all 1s cubic-bezier(.5,-0.3,.6,1);pointer-events:none;filter:drop-shadow(0 0 12px #fff)`;
+  document.body.appendChild(d);
+  requestAnimationFrame(() => requestAnimationFrame(() => { d.style.left = (tr.left + tr.width / 2) + 'px'; d.style.top = (tr.top + tr.height / 2) + 'px'; d.style.fontSize = '22px'; }));
+  setTimeout(() => d.remove(), 1100);
+}
+
+/* ---------- SAI, PHAO CỨU TRỢ ---------- */
+function wrongPick(obj, mat, restore = 0x000000){
+  G.firstTry = false; Sound.wrong();
+  flash(mat, 0xff1e1e, 650, restore); shakeObj(obj);
+  G.hearts = Math.max(0, G.hearts - 1); updateHUD('heart'); sad(G.hero);
+  floatText('💔 Mất 1 tim', '#ffe4e6');
+  if (G.hearts <= 0) setTimeout(rescue, 800);
+}
+async function rescue(){
+  if (!G.hero) return;
+  G.busy = true;
+  say(G.comp, G.heroKind === 'lucie' ? 'Chị ơi đừng lo! Em ném phao cứu trợ đây! 🛟' : 'Em đừng lo! Chị ném phao cứu trợ cho em nè! 🛟', 3000);
+  const buoy = new THREE.Group();
+  for (let k = 0; k < 4; k++) { const a = mesh(new THREE.TorusGeometry(0.55, 0.17, 8, 8, Math.PI / 2), M(k % 2 ? 0xffffff : 0xff3344), 0, 0, 0, buoy); a.rotation.z = k * Math.PI / 2; }
+  buoy.rotation.x = Math.PI / 2; scene.add(buoy);
+  const from = G.comp.root.position.clone().add(V(0, 1.6, 0)), to = G.hero.root.position.clone().add(V(0, 0.9, 0));
+  Sound.whoosh(); G.comp.cheer = 1;
+  await tween(0.9, k => { buoy.position.lerpVectors(from, to, k); buoy.position.y += Math.sin(Math.PI * k) * 2.5; buoy.rotation.z += 0.25; });
+  Sound.help(); G.hearts = 3; G.rescues++; updateHUD('heart');
+  floatText('🛟 Phao cứu trợ! Hồi đầy 3 tim ❤️❤️❤️');
+  await sleep(1300);
+  await tween(0.4, k => buoy.scale.setScalar(1 - k * 0.99));
+  scene.remove(buoy); disposeTree(buoy);
+  G.busy = false;
+}
+function useBuoy(){
+  if (G.busy || !G.active || G.buoys <= 0) { if (G.buoys <= 0 && G.active) say(G.comp, 'Hết phao rồi, mình tự làm nha! Cố lên! 💪', 2200); return; }
+  G.buoys--; updateHUD(); Sound.help();
+  if (G.stage === 0) {
+    const s = G.sort, idx = s.nums.indexOf(s.order[s.progress]), st = L.stones[idx];
+    st.userData.mat.emissive.setHex(0xffcc00); setTimeout(() => { if (!st.userData.used) st.userData.mat.emissive.setHex(0x000000); }, 3500);
+    const glow = glowSprite(0xffe066, 3.2); glow.position.y = 0.4; st.add(glow); setTimeout(() => st.remove(glow), 3500);
+    say(G.comp, `🛟 Gợi ý: hãy nhảy lên tảng đá số <b>${fmt(s.order[s.progress])}</b> nhé!`, 3800);
+  } else {
+    const arr = G.stage === 1 ? L.peds : L.balls;
+    const wrongs = shuffle(arr.map((o, k) => k).filter(k => k !== G.q.correct && !arr[k].userData.dead));
+    const removeN = Math.max(0, Math.min(2, wrongs.length - (arr.length > 2 ? 1 : 0)));
+    wrongs.slice(0, removeN).forEach(k => {
+      const o = arr[k]; o.userData.dead = true;
+      const btn = $('pOpts').children[k]; if (btn) { btn.classList.add('wrongb'); btn.disabled = true; }
+      const y0 = o.position.y; tween(0.7, kk => { o.position.y = y0 - (G.stage === 1 ? 5 : 0) * kk; if (G.stage === 2) o.scale.setScalar(Math.max(0.01, 1 - kk)); });
+    });
+    say(G.comp, '🛟 ' + (G.q.hint || 'Bình tĩnh suy nghĩ nhé!'), 5500);
+  }
+}
+
+/* ---------- TỔNG KẾT ĐẢO & KẾT THÚC ---------- */
+function showSummary(){
+  const T = THEMES[G.island], s = G.stats;
+  const pct = s.total ? s.correct / s.total : 1;
+  const stars = pct >= 0.99 ? 3 : pct >= 0.6 ? 2 : 1;
+  const tier = stars === 3 ? ['Vàng', '#f59e0b', '🥇'] : stars === 2 ? ['Bạc', '#94a3b8', '🥈'] : ['Đồng', '#b45309', '🥉'];
+  const badge = `${BADGES[G.island]} – ${tier[0]}`;
+  G.badges.push(badge);
+  const last = G.island >= SO_DAO - 1;
+  const save = loadSave();
+  save[G.heroKind] = last ? { island: 0, coins: 0, badges: [], wins: ((save[G.heroKind] || {}).wins || 0) + 1 } : { island: G.island + 1, coins: G.coins, badges: G.badges, wins: (save[G.heroKind] || {}).wins || 0 };
+  writeSave(save);
+  const praiseTxt = G.heroKind === 'lucie'
+    ? pick(['Thuyền trưởng Lucie giải toán thật xuất sắc, thủy thủ Lucas cổ vũ hết mình!', 'Chị Lucie tính nhanh như chớp, em Lucas nhảy mừng không ngớt!', 'Hai chị em phối hợp ăn ý quá! Chị Lucie đúng là thuyền trưởng giỏi nhất!'])
+    : pick(['Thủy thủ Lucas giỏi quá! Chị Lucie luôn ở bên cổ vũ em!', 'Em Lucas đếm và tính rất giỏi! Chị Lucie tự hào lắm!', 'Hai chị em là đội thám hiểm số 1! Lucas tiến bộ từng ngày!']);
+  Sound.fanfare();
+  openModal(`
+    <div class="text-5xl md:text-6xl">🎉</div>
+    <div class="text-2xl md:text-4xl font-extrabold text-amber-500 leading-tight mt-1">Hoan hô! Đã chinh phục<br>${T.emoji} ${T.name}!</div>
+    <div class="flex justify-center items-center gap-3 mt-3">
+      <div class="rounded-full overflow-hidden border-4 border-pink-300">${avatarSVG('lucie', 64)}</div>
+      <div class="text-4xl">🤝</div>
+      <div class="rounded-full overflow-hidden border-4 border-blue-300">${avatarSVG('lucas', 64)}</div>
+    </div>
+    <div class="text-base md:text-xl font-bold text-slate-600 mt-3">${praiseTxt}</div>
+    <div class="text-4xl md:text-5xl mt-2">${'⭐'.repeat(stars)}${'☆'.repeat(3 - stars)}</div>
+    <div class="grid grid-cols-2 gap-2 mt-3 text-left">
+      <div class="bg-emerald-50 rounded-2xl p-2 md:p-3 font-extrabold text-emerald-700 text-base md:text-xl">✅ Đúng ngay lần đầu<br><span class="text-2xl md:text-3xl">${s.correct}/${s.total}</span></div>
+      <div class="bg-amber-50 rounded-2xl p-2 md:p-3 font-extrabold text-amber-700 text-base md:text-xl">🪙 Xu vàng nhận được<br><span class="text-2xl md:text-3xl">+${G.coins - s.coins0}</span></div>
+      <div class="bg-purple-50 rounded-2xl p-2 md:p-3 font-extrabold text-purple-700 text-base md:text-xl">💎 Đá quý<br><span class="text-2xl md:text-3xl">${G.gems}/5</span> <span class="text-sm">(${T.gemName})</span></div>
+      <div class="rounded-2xl p-2 md:p-3 font-extrabold text-base md:text-xl" style="background:#fff7ed;color:${tier[1]}">${tier[2]} Huy hiệu<br><span class="text-sm md:text-lg">${badge}</span></div>
+    </div>
+    <button id="mNext" class="chunky mt-4 w-full rounded-2xl py-3 text-xl md:text-2xl font-extrabold text-white" style="background:linear-gradient(90deg,#0ea5e9,#22c55e)">${last ? '🏆 Mở kho báu cuối cùng!' : '⛵ Dong buồm sang Đảo tiếp theo'}</button>`);
+  for (let k = 0; k < 3; k++) fireworkAt(V((k - 1) * 4, 9 + k, -60), k * 0.4);
+  $('mNext').onclick = () => { Sound.click(); closeModal(); if (last) finale(); else sailTo(G.island + 1); };
+}
+function finale(){
+  Sound.victory(); setTimeout(() => Sound.fanfare(), 1300);
+  let n = 0; const iv = setInterval(() => { fireworkAt(V((Math.random() - .5) * 14, 9 + Math.random() * 5, -60 - Math.random() * 4), 0); if (++n > 10) clearInterval(iv); }, 450);
+  const gems = THEMES.map(t => `<span title="${t.gemName}" style="display:inline-block;width:42px;height:42px;line-height:42px;border-radius:12px;background:#${new THREE.Color(t.gem).getHexString()};box-shadow:0 0 14px #${new THREE.Color(t.gem).getHexString()};margin:3px;font-size:24px">💎</span>`).join('');
+  openModal(`
+    <div class="text-6xl" style="animation:bob 1.2s infinite">🏆</div>
+    <div class="text-2xl md:text-4xl font-extrabold text-amber-500 leading-tight">HAI CHỊ EM ĐÃ TÌM RA<br>KHO BÁU CỦA CƯỚP BIỂN MAX!</div>
+    <div class="flex justify-center items-center gap-3 mt-3">
+      <div class="rounded-full overflow-hidden border-4 border-pink-300">${avatarSVG('lucie', 72)}</div>
+      <div class="text-4xl">💖</div>
+      <div class="rounded-full overflow-hidden border-4 border-blue-300">${avatarSVG('lucas', 72)}</div>
+    </div>
+    <div class="mt-3">${gems}</div>
+    <div class="text-xl md:text-2xl font-extrabold text-amber-700 mt-2">🪙 Tổng xu vàng: ${G.coins}</div>
+    <div class="text-left bg-amber-50 rounded-2xl p-3 mt-3 text-sm md:text-lg font-bold text-slate-700">${G.badges.map(b => '🏅 ' + b).join('<br>')}</div>
+    <div class="text-base md:text-xl font-bold text-slate-600 mt-3">${G.heroKind === 'lucie' ? 'Thuyền trưởng Lucie' : 'Thủy thủ Lucas'} và ${G.heroKind === 'lucie' ? 'em Lucas' : 'chị Lucie'} là những nhà thám hiểm toán học tài ba nhất vùng biển! 🌊</div>
+    <div class="flex flex-col md:flex-row gap-3 mt-4">
+      <button id="mAgain" class="chunky flex-1 rounded-2xl py-3 text-xl font-extrabold text-white bg-emerald-500">🔁 Chơi lại</button>
+      <button id="mSwap" class="chunky flex-1 rounded-2xl py-3 text-xl font-extrabold text-white bg-sky-500">👫 Đổi nhân vật</button>
+    </div>`);
+  $('mAgain').onclick = () => { closeModal(); beginGame(G.heroKind, 0, 0, []); };
+  $('mSwap').onclick = () => { closeModal(); placeStartScreen(); };
+}
+
+/* =========================================================
+   12. NHẬP LIỆU
+   ========================================================= */
+const raycaster = new THREE.Raycaster(), mouse = new THREE.Vector2();
+function pickAt(ev){
+  if (!L) return null;
+  const r = renderer.domElement.getBoundingClientRect();
+  mouse.set(((ev.clientX - r.left) / r.width) * 2 - 1, -((ev.clientY - r.top) / r.height) * 2 + 1);
+  raycaster.setFromCamera(mouse, camera);
+  const hits = raycaster.intersectObjects(L.clickables, true);
+  for (const h of hits) { let o = h.object; while (o) { if (o.userData && o.userData.pick) return o; o = o.parent; } }
+  return null;
+}
+renderer.domElement.addEventListener('pointerdown', ev => { const o = pickAt(ev); if (o) { Sound.init(); o.userData.pick(); } });
+renderer.domElement.addEventListener('pointermove', ev => { renderer.domElement.style.cursor = pickAt(ev) ? 'pointer' : 'default'; });
+$('cardLucie').onclick = () => chooseHero('lucie');
+$('cardLucas').onclick = () => chooseHero('lucas');
+$('cardLucie').onmouseenter = () => { chars.lucie && (chars.lucie.cheer = 1.2); };
+$('cardLucas').onmouseenter = () => { chars.lucas && (chars.lucas.cheer = 1.2); };
+$('btnBuoy').onclick = () => { Sound.init(); useBuoy(); };
+$('btnRead').onclick = () => { Sound.init(); if (G.stage === 0 && G.sort) speak(G.sort.dir === 'asc' ? 'Bấm các tảng đá theo thứ tự từ bé đến lớn' : 'Bấm các tảng đá theo thứ tự từ lớn đến bé'); else if (G.q) speak(G.q.say); };
+$('btnSound').onclick = () => { Sound.init(); $('btnSound').textContent = Sound.toggleSfx() ? '🔊' : '🔇'; };
+$('btnMusic').onclick = () => { Sound.init(); const on = Sound.toggleMusic(); if (on) Music.start(); $('btnMusic').style.opacity = on ? 1 : 0.45; };
+$('btnHome').onclick = () => {
+  if (G.busy) return;
+  openModal(`<div class="text-5xl">🏠</div><div class="text-2xl font-extrabold text-slate-700 my-3">Về màn hình chọn nhân vật?</div>
+    <div class="text-slate-500 font-bold mb-4">Tiến độ các đảo đã hoàn thành vẫn được lưu lại.</div>
+    <div class="flex gap-3"><button id="mYes" class="chunky flex-1 rounded-2xl py-3 text-xl font-extrabold text-white bg-sky-500">Đồng ý</button>
+    <button id="mNo" class="chunky flex-1 rounded-2xl py-3 text-xl font-extrabold text-white bg-slate-400">Chơi tiếp</button></div>`);
+  $('mYes').onclick = () => { closeModal(); G.active = false; G.busy = true; G.q = null; G.sort = null; placeStartScreen(); };
+  $('mNo').onclick = closeModal;
+};
+window.addEventListener('keydown', e => {
+  if (!$('modal').classList.contains('hidden')) {
+    if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) { moveFocus(e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : -1); e.preventDefault(); return; }
+    if (e.key === 'Enter' && !document.activeElement.closest('#modalCard')) { const b = $('modalCard').querySelector('button'); if (b) b.click(); }
+    return;
+  }
+  if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) { moveFocus(e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : -1); e.preventDefault(); return; }
+  if (e.key === 'Enter' && !$('start').classList.contains('hidden')) { const c = document.querySelector('.card.kbd'); if (c) { c.click(); e.preventDefault(); return; } }
+  const map = { '1': 0, '2': 1, '3': 2, '4': 3, 'a': 0, 'b': 1, 'c': 2, 'd': 3 };
+  const k = map[e.key.toLowerCase()];
+  if (k !== undefined) { if (G.stage === 0) pickSort(k); else pickMC(k); }
+  if (e.key.toLowerCase() === 'h') useBuoy();
+});
+// Điều khiển bằng phím mũi tên (remote TV): chuyển qua lại giữa các nút, bấm OK/Enter để chọn
+function moveFocus(step){
+  if (!$('modal').classList.contains('hidden')) { const bs = [...$('modalCard').querySelectorAll('button')]; const i = bs.indexOf(document.activeElement); if (bs.length) bs[(i + step + bs.length) % bs.length].focus(); return; }
+  if (!$('start').classList.contains('hidden')) { const cs = [$('cardLucie'), $('cardLucas')]; let i = cs.findIndex(c => c.classList.contains('kbd')); i = i < 0 ? (step > 0 ? 0 : 1) : (i + step + 2) % 2; cs.forEach((c, k) => c.classList.toggle('kbd', k === i)); const ch = chars[i ? 'lucas' : 'lucie']; if (ch) ch.cheer = 1.2; return; }
+  const bs = [...$('pOpts').querySelectorAll('button')].filter(b => !b.disabled);
+  if (!bs.length) return; const i = bs.indexOf(document.activeElement); bs[i < 0 ? 0 : (i + step + bs.length) % bs.length].focus();
+}
+window.addEventListener('resize', () => { renderer.setSize(innerWidth, innerHeight); camera.aspect = innerWidth / innerHeight; setShift(); updateCamera(0, true); });
+document.addEventListener('pointerdown', () => Sound.init(), { once: true });
+
+/* =========================================================
+   13. VÒNG LẶP CHÍNH
+   ========================================================= */
+let T = 0, last = performance.now();
+function loop(now){
+  requestAnimationFrame(loop);
+  const dt = Math.min(0.05, (now - last) / 1000); last = now; T += dt;
+  updateTweens(dt);
+  updateOcean(T);
+  clouds.forEach(c => { c.position.x += c.userData.speed * dt; if (c.position.x > 140) c.position.x = -140; });
+  Object.values(chars).forEach(c => { if (c.root.parent) animChar(c, T, dt); });
+  if (L) {
+    L.foams.forEach((f, k) => { const s = 1 + Math.sin(T * 1.5 + k) * 0.03; f.scale.set(s, s, 1); f.material.opacity = 0.32 + Math.sin(T * 2 + k) * 0.1; });
+    L.coins.forEach(c => {
+      if (!c.userData.alive) return; c.rotation.y += dt * 3;
+      if (c.userData.auto && G.hero && c.parent === L.group) {
+        const h = G.hero.root.position; const dx = h.x - c.position.x, dz = h.z - c.position.z;
+        if (dx * dx + dz * dz < 1.3 && Math.abs(h.y + 0.8 - c.position.y) < 2.5) { collectCoin(c); addCoins(1); }
+      }
+    });
+    L.flickers.forEach((f, k) => { const s = f.userData.s || (f.userData.s = f.scale.x); f.scale.setScalar(s * (0.85 + Math.sin(T * 13 + k * 3) * 0.08 + Math.random() * 0.07)); });
+    L.pulses.forEach(p => { const s = p.userData.s || (p.userData.s = p.scale.x); p.scale.setScalar(s * (0.9 + Math.sin(T * 3) * 0.12)); });
+    L.anims.forEach(fn => fn(T, dt));
+    for (let i = L.temps.length - 1; i >= 0; i--) { if (!L.temps[i].update(T)) { const o = L.temps[i].obj; L.group.remove(o); o.geometry.dispose(); o.material.dispose(); L.temps.splice(i, 1); } }
+    if (L.flag) {
+      const p = L.flag.geometry.attributes.position, b = L.flag.userData.base;
+      for (let i = 0; i < p.count; i++) { const x = b[i * 3]; p.array[i * 3 + 2] = Math.sin(x * 2.5 - T * 5) * 0.12 * x; }
+      p.needsUpdate = true;
+    }
+    if (L.chest && L.chest.gem.visible) L.chest.gem.rotation.y += dt * 2;
+  }
+  updateParticles(dt);
+  updateCamera(dt);
+  updateBubbles();
+  renderer.render(scene, camera);
+}
+
+/* =========================================================
+   14. KHỞI ĐỘNG
+   ========================================================= */
+async function boot(){
+  try { await Promise.race([document.fonts.load('800 40px "Baloo 2"'), sleep(2500)]); } catch (e) {}
+  chars.lucie = makeCharacter('lucie'); chars.lucas = makeCharacter('lucas'); chars.max = makeCharacter('max');
+  $('avLucie').innerHTML = avatarSVG('lucie', 84); $('avLucas').innerHTML = avatarSVG('lucas', 84);
+  if (/\/games\//.test(location.pathname) && /^https?:$/.test(location.protocol)) $('siteHome').classList.remove('hidden');
+  placeStartScreen();
+  updateCamera(0, true);
+  requestAnimationFrame(loop);
+}
+boot();
+</script>
+<script src="../anh-chung/anh-that.js" defer></script>
+<script>window.batDauNhac=function(){ try{ Sound.init(); if (Sound.musOn) Music.start(); }catch(e){} };</script>
+<script src="../anh-chung/nhac-nen.js" data-ten="Đảo Kho Báu Toán Học" data-ngoai="1"></script>
+</body>
+</html>

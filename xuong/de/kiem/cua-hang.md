@@ -1,0 +1,314 @@
+Em là lập trình viên game web giàu kinh nghiệm. Dưới đây là TOÀN BỘ mã game "cua-hang" (games/cua-hang/index.html) — game học tập cho hai bé Lucie (lớp 3) và Lucas (lớp 1), chơi trên TV LG webOS (phím mũi tên/OK, phím 1-4) và iPad/điện thoại (chạm). Anh (bố) báo: các con chơi vẫn còn NHIỀU LỖI.
+
+NHIỆM VỤ: đọc kỹ toàn bộ mã như một người kiểm thử, tìm và SỬA mọi lỗi thật: kẹt màn/không sang câu tiếp, nút không bấm được trên TV hoặc iPad, đếm điểm/cúp/CIECAS sai, đáp án sai hoặc trùng, câu hỏi lặp, lưu ván dở lỗi, âm thanh/giọng đọc chồng nhau, giật/rò bộ nhớ (setInterval, requestAnimationFrame, listener, phần tử tạo mới không xóa), lỗi khi tải ảnh thất bại, lỗi giao diện tràn màn hình TV 1920x1080 và iPad dọc. Không đổi luật chơi, nội dung câu hỏi đúng, mặt thật hai bé, các tệp dùng chung (../anh-chung/*.js).
+
+CÁCH TRẢ LỜI (bắt buộc): MỘT khối ```json là mảng [{"cu": "đoạn mã gốc copy NGUYÊN VĂN, đủ dài để duy nhất trong tệp", "moi": "đoạn thay"}]. Nếu không có lỗi thì trả về []. Sau khối json, liệt kê ngắn từng lỗi đã sửa (1 dòng/lỗi).
+
+===== MÃ GỐC =====
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<script src="/games/anh-chung/dong-bo.js"></script>
+<script src="../anh-chung/che-do-tv.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Cửa hàng CIECAS Lucie & Lucas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#7c4dff"><link rel="apple-touch-icon" href="/img/icon-192.png"><script>if("serviceWorker" in navigator)addEventListener("load",function(){navigator.serviceWorker.register("/sw.js").catch(function(){})});</script>
+<script src="../anh-chung/giong-noi.js"></script>
+<script src="../anh-chung/thong-tin.js"></script>
+<script src="../anh-chung/vi-sao.js"></script>
+<style>
+  img.xu { width: 1.15em; height: 1.15em; vertical-align: -0.24em; display: inline-block; filter: drop-shadow(0 .05em .08em rgba(120,70,0,.35)); }
+  :root { --ink: #2b2140; --muted: #6b6288; --pink: #ff6fae; --blue: #3fa9f5; --gold: #f59f00; --focus: #ffb703; --main: var(--pink); --mainDark: #d63a83; }
+  body.lucas { --main: var(--blue); --mainDark: #1f7fc8; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Baloo 2", "Segoe UI", system-ui, sans-serif; color: var(--ink); min-height: 100vh;
+         background: radial-gradient(circle at 15% 10%, #fff7c2 0, transparent 40%), radial-gradient(circle at 90% 20%, #ffd9ec 0, transparent 40%),
+                     linear-gradient(170deg, #fff1b8 0%, #ffe3f1 55%, #dff1ff 100%) fixed;
+         padding: 18px max(16px, env(safe-area-inset-right, 0px)) 40px max(16px, env(safe-area-inset-left, 0px)); overflow-x: hidden; }
+  .wrap { max-width: 1240px; margin: 0 auto; position: relative; z-index: 1; }
+  button, a.btn { font: inherit; cursor: pointer; border: 0; text-decoration: none; }
+  :focus-visible { outline: 5px solid var(--focus); outline-offset: 3px; }
+  .top { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .pill { font-weight: 800; font-size: 19px; color: #fff; padding: 6px 18px; border-radius: 999px; background: #7c5cff; box-shadow: 0 4px 0 #5536d6; display: inline-flex; align-items: center; gap: 6px; position: relative; }
+  .pill.parent { background: #495057; box-shadow: 0 4px 0 #212529; }
+  .pill .dot { position: absolute; top: -8px; right: -8px; min-width: 26px; height: 26px; border-radius: 13px; background: #f03e3e; font-size: 16px; display: grid; place-items: center; padding: 0 6px; border: 3px solid #fff; }
+  h1 { margin: 0; flex: 1; text-align: center; font-size: clamp(30px, 4.6vw, 52px); line-height: 1.05; color: #fff;
+       text-shadow: 0 4px 0 #e8590c, 0 8px 18px rgba(200,80,0,.3); text-wrap: balance; }
+  /* chọn bé */
+  .who { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 16px; }
+  .kidBtn { display: flex; align-items: center; gap: 14px; padding: 10px 16px; border-radius: 26px; background: rgba(255,255,255,.7);
+            border: 5px solid transparent; color: var(--ink); text-align: left; transition: transform .15s; }
+  .kidBtn > img { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 5px solid var(--pink); background: #fff; flex: none; }
+  .kidBtn.lucas > img { border-color: var(--blue); }
+  .kidBtn b { font-size: 28px; line-height: 1; display: block; }
+  .kidBtn span { font-size: 18px; color: var(--muted); }
+  .kidBtn.on { background: #fff; border-color: var(--main); transform: scale(1.02); box-shadow: 0 8px 0 rgba(43,33,64,.08), 0 14px 30px rgba(43,33,64,.12); }
+  /* ví + mục tiêu */
+  .hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr); gap: 18px; margin-top: 18px; }
+  .card { background: #fff; border-radius: 28px; padding: 18px 22px; box-shadow: 0 8px 0 rgba(43,33,64,.08), 0 14px 30px rgba(43,33,64,.1); min-width: 0; }
+  .wallet { border-top: 10px solid var(--main); display: flex; align-items: center; gap: 18px; }
+  .wallet .face { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 7px solid var(--main); flex: none; animation: nhun 3s ease-in-out infinite; }
+  @keyframes nhun { 50% { transform: translateY(-6px) rotate(3deg); } }
+  .wallet .num { font-size: clamp(56px, 7vw, 84px); font-weight: 800; line-height: .9; color: #e67700; text-shadow: 0 4px 0 #ffe066; }
+  .wallet .lbl { font-size: 22px; font-weight: 700; }
+  .wallet .today { margin-top: 6px; display: inline-block; background: #ebfbee; color: #2b8a3e; font-weight: 800; border-radius: 999px; padding: 2px 14px; font-size: 18px; }
+  .wallet .how { margin-top: 6px; font-size: 16px; color: var(--muted); line-height: 1.3; }
+  .goal { border-top: 10px solid #ffd43b; display: flex; align-items: center; gap: 18px; }
+  .goal .gi { font-size: 96px; line-height: 1; flex: none; }
+  .goal h2 { margin: 0; font-size: 18px; color: var(--muted); font-weight: 700; }
+  .goal h3 { margin: 0; font-size: clamp(26px, 3vw, 36px); line-height: 1.1; }
+  .goal .msg { font-size: 22px; font-weight: 800; margin-top: 4px; }
+  .goal .msg.ok { color: #2b8a3e; }
+  .bar { height: 26px; border-radius: 999px; background: #f1ecf9; overflow: hidden; margin-top: 8px; position: relative; }
+  .bar i { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, #ffd43b, #ff922b); transition: width .8s; }
+  .bar.full i { background: linear-gradient(90deg, #69db7c, #2f9e44); }
+  .bar em { position: absolute; inset: 0; display: grid; place-items: center; font-style: normal; font-weight: 800; font-size: 16px; }
+  .goal .empty { font-size: 22px; color: var(--muted); }
+  /* danh sách quà */
+  h2.sec { margin: 26px 0 10px; font-size: 30px; display: flex; align-items: center; gap: 10px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); gap: 18px; }
+  .gift { background: #fff; border-radius: 26px; padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 6px; position: relative;
+          box-shadow: 0 8px 0 rgba(43,33,64,.08), 0 14px 26px rgba(43,33,64,.1); border: 5px solid transparent; }
+  .gift.isGoal { border-color: #ffd43b; }
+  .gift .tagGoal { position: absolute; top: 10px; right: 10px; background: #ffd43b; border-radius: 999px; padding: 0 10px; font-size: 15px; font-weight: 800; }
+  .gift .gi { font-size: 84px; line-height: 1; text-align: center; margin: 4px 0; }
+  .gift h3 { margin: 0; font-size: 23px; line-height: 1.15; min-height: 2.3em; text-align: center; text-wrap: balance; }
+  .gift .price { text-align: center; font-size: 26px; font-weight: 800; color: #e67700; }
+  .gift .bar { height: 18px; margin-top: 0; }
+  .gift .need { text-align: center; font-size: 17px; color: var(--muted); min-height: 1.4em; }
+  .gift .acts { display: grid; gap: 8px; margin-top: 4px; }
+  .b { font-weight: 800; font-size: 20px; padding: 8px 12px; border-radius: 18px; color: #fff; }
+  .b.buy { background: linear-gradient(#51cf66, #2f9e44); box-shadow: 0 5px 0 #237032; }
+  .b.goalB { background: linear-gradient(#ffd43b, #fab005); color: #5c3d00; box-shadow: 0 5px 0 #c98a00; }
+  .b.off { background: #e9e4f2; color: #9089a6; box-shadow: 0 5px 0 #cfc7df; }
+  .b:active { transform: translateY(3px); box-shadow: none; }
+  /* quà của con */
+  .mine { display: grid; gap: 10px; }
+  .row { display: flex; align-items: center; gap: 12px; background: #fff; border-radius: 20px; padding: 8px 16px; font-size: 19px; }
+  .row .gi { font-size: 40px; line-height: 1; }
+  .row .nm { flex: 1; font-weight: 700; line-height: 1.2; }
+  .row .nm small { display: block; font-weight: 500; color: var(--muted); font-size: 15px; }
+  .st { font-weight: 800; border-radius: 999px; padding: 2px 14px; font-size: 17px; white-space: nowrap; }
+  .st.cho { background: #fff3bf; color: #a35f00; } .st.duyet { background: #d3f9d8; color: #2b8a3e; } .st.tuchoi { background: #f1f3f5; color: #6b6288; }
+  .none { color: var(--muted); font-size: 19px; }
+  /* hộp thoại */
+  .modal { position: fixed; inset: 0; background: rgba(30,20,60,.55); display: none; place-items: center; z-index: 50; padding: 16px; }
+  .modal.on { display: grid; }
+  .box { background: #fff; border-radius: 32px; padding: 26px 30px; max-width: 560px; width: 100%; text-align: center; animation: pop .35s cubic-bezier(.2,1.6,.4,1); }
+  @keyframes pop { from { transform: scale(.6); opacity: 0; } }
+  .box .gi { font-size: 120px; line-height: 1; }
+  .box h2 { margin: 8px 0 4px; font-size: 34px; line-height: 1.15; text-wrap: balance; }
+  .box p { margin: 0 0 16px; font-size: 22px; color: var(--muted); line-height: 1.35; }
+  .box .acts { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .box .b { font-size: 24px; padding: 10px 26px; }
+  .conf { position: fixed; top: -20px; width: 12px; height: 18px; z-index: 60; pointer-events: none; border-radius: 3px; animation: roi linear forwards; }
+  @keyframes roi { to { transform: translateY(110vh) rotate(720deg); } }
+  .sky { position: fixed; pointer-events: none; z-index: 0; opacity: .55; animation: troi 9s ease-in-out infinite; }
+  @keyframes troi { 50% { transform: translateY(-24px) rotate(15deg); } }
+  @media (max-width: 760px) {
+    .hero { grid-template-columns: 1fr; }
+    .who { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .kidBtn { padding: 8px 10px; gap: 8px; } .kidBtn > img { width: 52px; height: 52px; border-width: 4px; } .kidBtn b { font-size: 22px; } .kidBtn span { font-size: 15px; }
+    .wallet .face { width: 86px; height: 86px; } .goal .gi { font-size: 70px; }
+    .grid { grid-template-columns: 1fr 1fr; gap: 12px; } .gift .gi { font-size: 62px; } .gift h3 { font-size: 19px; } .b { font-size: 17px; }
+    h1 { font-size: 30px; order: -1; flex-basis: 100%; }
+    .row { flex-wrap: wrap; font-size: 17px; } .row .nm { flex: 1 1 60%; } .row .st { margin-left: auto; }
+    .gift .tagGoal { position: static; align-self: center; font-size: 14px; } .gift { padding: 10px 10px 12px; }
+  }
+</style>
+</head>
+<body>
+<img class="sky" src="../anh-chung/xu-ciecas.webp" alt="" style="left:3%;top:18%;width:64px"><img class="sky" src="../anh-chung/xu-ciecas.webp" alt="" style="right:4%;top:38%;width:54px;animation-delay:-3s"><img class="sky" src="../anh-chung/xu-ciecas.webp" alt="" style="left:46%;top:82%;width:46px;animation-delay:-6s">
+<div class="wrap">
+  <div class="top">
+    <a class="pill btn" href="../../" data-nav>⬅ Trang chủ</a>
+    <h1>🎁 Cửa hàng CIECAS</h1>
+    <a class="pill parent btn" href="bo-me/" data-nav id="nutBoMe">🔒 Bố mẹ duyệt</a>
+  </div>
+  <div class="who" id="who"></div>
+  <div class="hero">
+    <div class="card wallet" id="wallet"></div>
+    <div class="card goal" id="goal"></div>
+  </div>
+  <h2 class="sec">🛍️ Quà con có thể đổi</h2>
+  <div class="grid" id="grid"></div>
+  <h2 class="sec">🎀 Quà của con</h2>
+  <div class="mine" id="mine"></div>
+</div>
+<div class="modal" id="modal"><div class="box" id="box"></div></div>
+
+<script>
+const BE = { lucie: { ten: "Lucie", img: "../../img/lucie.webp" }, lucas: { ten: "Lucas", img: "../../img/lucas.webp" } };
+const LOI = {
+  chao: "Chào mừng con đến Cửa hàng ci cát! Học giỏi để có thật nhiều đồng ci cát, rồi đổi lấy món quà con thích nhé.",
+  gui: "Con đã gửi yêu cầu đổi quà. Bố mẹ sẽ xem và duyệt cho con nhé!",
+  thieu: "Con chưa đủ ci cát. Cố lên, chơi thêm vài trò nữa là đủ rồi!",
+  dongY: "Tuyệt vời! Bố mẹ đã đồng ý đổi quà cho con rồi!",
+  tuChoi: "Lần này bố mẹ chưa đổi được món quà này. Ci cát đã được trả lại cho con nhé.",
+  mucTieu: "Con đã chọn món quà này làm mục tiêu. Cố lên, mỗi câu trả lời đúng là thêm gần tới quà!",
+  hoi: "Con có chắc muốn đổi ci cát lấy món quà này không?"
+};
+const XU = '<img class="xu" src="../anh-chung/xu-ciecas-nho.webp" alt="CIECAS">';
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+let be = new URLSearchParams(location.search).get("be") || localStorage.getItem("cuaHang_be") || "lucie";
+if (!BE[be]) be = "lucie";
+let S = ViSao.dongBo();
+
+/* ---------- âm thanh và giọng đọc ---------- */
+let AC = null;
+function tieng(notes, dur = .13, kieu = "triangle") {
+  try {
+    AC = AC || new (window.AudioContext || window.webkitAudioContext)();
+    let t = AC.currentTime;
+    notes.forEach(f => { const o = AC.createOscillator(), g = AC.createGain(); o.type = kieu; o.frequency.value = f;
+      g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(.25, t + .02); g.gain.exponentialRampToValueAtTime(.0001, t + dur * 1.8);
+      o.connect(g).connect(AC.destination); o.start(t); o.stop(t + dur * 2); t += dur; });
+  } catch (e) {}
+}
+const ting = () => tieng([784, 1047]), vui = () => tieng([523, 659, 784, 1047, 1319], .11), buon = () => tieng([392, 330], .2, "sine");
+function noi(text) {
+  try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = "vi-VN"; u.rate = .95; speechSynthesis.speak(u); } catch (e) {}
+}
+function phao() {
+  const mau = ["#ff6fae", "#ffd43b", "#69db7c", "#4dabf7", "#b197fc", "#ff922b"];
+  for (let i = 0; i < 90; i++) { const d = document.createElement("i"); d.className = "conf";
+    d.style.left = Math.random() * 100 + "vw"; d.style.background = mau[i % mau.length];
+    d.style.animationDuration = (2.2 + Math.random() * 2.2) + "s"; d.style.animationDelay = Math.random() * .6 + "s";
+    document.body.appendChild(d); setTimeout(() => d.remove(), 5200); }
+}
+
+/* ---------- vẽ trang ---------- */
+function veBe() {
+  $("#who").innerHTML = ViSao.KIDS.map(c => `<button class="kidBtn ${c} ${c === be ? "on" : ""}" data-be="${c}" data-nav>
+    <img src="${BE[c].img}" alt="${BE[c].ten}"><div><b>${BE[c].ten}</b><span>${XU} ${ViSao.soDu(S, c)} CIECAS</span></div></button>`).join("");
+  document.querySelectorAll(".kidBtn").forEach(b => b.onclick = () => { chonBe(b.dataset.be); ting(); });
+}
+function veVi() {
+  const du = ViSao.soDu(S, be), nay = ViSao.homNay(S, be), ch = S.cauHinh;
+  $("#wallet").innerHTML = `<img class="face" src="${BE[be].img}" alt="${BE[be].ten}">
+    <div><div class="lbl">Ví CIECAS của ${BE[be].ten}</div><div class="num"><img src="../anh-chung/xu-ciecas.webp" alt="" style="width:.95em;height:.95em;vertical-align:-.12em"> ${du}</div>
+    ${nay ? `<div class="today">Hôm nay con kiếm được +${nay} CIECAS</div>` : ""}
+    <div class="how">Cứ ${ch.cauMoiSao} câu trả lời đúng = 1 CIECAS · Mỗi cúp giành được = ${ch.saoMoiCup} CIECAS</div></div>`;
+}
+function veMucTieu() {
+  const q = ViSao.mucTieu(S, be), du = ViSao.soDu(S, be);
+  if (!q || !ViSao.quaCua(S, be).includes(q)) {
+    $("#goal").innerHTML = `<span class="gi">🎯</span><div><h2>Mục tiêu của con</h2><h3>Chưa chọn</h3><div class="empty">Bấm “Chọn làm mục tiêu” ở món quà con thích nhất nhé!</div></div>`;
+    return;
+  }
+  const p = Math.min(1, Math.max(0, du) / q.gia), con = q.gia - du;
+  $("#goal").innerHTML = `<span class="gi">${q.icon}</span><div style="flex:1;min-width:0"><h2>🎯 Mục tiêu của con</h2><h3>${esc(q.ten)}</h3>
+    <div class="bar ${p >= 1 ? "full" : ""}"><i style="width:${Math.max(4, p * 100)}%"></i><em>${Math.max(0, du)} / ${q.gia} CIECAS</em></div>
+    <div class="msg ${p >= 1 ? "ok" : ""}">${p >= 1 ? "Đủ CIECAS rồi! Đổi quà ngay thôi! 🎉" : `Còn ${con} CIECAS nữa thôi! Cố lên!`}</div></div>`;
+}
+function veQua() {
+  const du = ViSao.soDu(S, be), mt = S.vi[be].mucTieu, ds = ViSao.quaCua(S, be).slice().sort((a, b) => a.gia - b.gia);
+  $("#grid").innerHTML = ds.length ? ds.map(q => {
+    const p = Math.min(1, Math.max(0, du) / q.gia), du2 = du >= q.gia, isG = q.id === mt;
+    return `<div class="gift ${isG ? "isGoal" : ""}">${isG ? '<span class="tagGoal">🎯 Mục tiêu</span>' : ""}
+      <div class="gi">${q.icon}</div><h3>${esc(q.ten)}</h3><div class="price">${XU} ${q.gia}</div>
+      <div class="bar ${du2 ? "full" : ""}"><i style="width:${Math.max(4, p * 100)}%"></i></div>
+      <div class="need">${du2 ? "Con đủ CIECAS rồi!" : `Còn thiếu ${q.gia - Math.max(0, du)} CIECAS`}</div>
+      <div class="acts">
+        <button class="b ${du2 ? "buy" : "off"}" data-doi="${q.id}" data-nav>🎁 Đổi quà</button>
+        ${isG ? "" : `<button class="b goalB" data-mt="${q.id}" data-nav>🎯 Chọn làm mục tiêu</button>`}
+      </div></div>`;
+  }).join("") : `<p class="none">Bố mẹ chưa đặt quà nào. Nhờ bố mẹ vào mục “Bố mẹ duyệt” để thêm quà nhé!</p>`;
+  document.querySelectorAll("[data-doi]").forEach(b => b.onclick = () => hoiDoi(b.dataset.doi));
+  document.querySelectorAll("[data-mt]").forEach(b => b.onclick = () => chonMucTieu(b.dataset.mt));
+}
+function veCuaCon() {
+  const ds = S.don.filter(d => d.c === be).sort((a, b) => b.t - a.t).slice(0, 12);
+  const TT = { cho: "⏳ Chờ bố mẹ duyệt", duyet: "✅ Bố mẹ đã đồng ý", tuchoi: "↩️ Đã trả lại CIECAS" };
+  $("#mine").innerHTML = ds.length ? ds.map(d => `<div class="row"><span class="gi">${d.icon}</span>
+    <span class="nm">${esc(d.ten)}<small>${XU} ${d.gia} CIECAS · ${new Date(d.t).toLocaleDateString("vi-VN", { day: "numeric", month: "numeric" })}${d.loiNhan ? " · Bố mẹ nhắn: " + esc(d.loiNhan) : ""}</small></span>
+    <span class="st ${d.tt}">${TT[d.tt]}</span></div>`).join("") : `<p class="none">Con chưa đổi món quà nào. Tích CIECAS rồi đổi quà đầu tiên nhé!</p>`;
+  const cho = S.don.filter(d => d.tt === "cho").length;
+  $("#nutBoMe").innerHTML = "🔒 Bố mẹ duyệt" + (cho ? `<span class="dot">${cho}</span>` : "");
+}
+function ve() { document.body.className = be; veBe(); veVi(); veMucTieu(); veQua(); veCuaCon(); }
+
+/* ---------- hành động ---------- */
+function chonBe(c) { be = c; localStorage.setItem("cuaHang_be", c); ve(); baoTin(); }
+function chonMucTieu(id) {
+  S = ViSao.doc(); S.vi[be].mucTieu = id; S.vi[be].suaMt = Date.now(); ViSao.luu(S); vui(); noi(LOI.mucTieu); ve();
+  setTimeout(() => { const g = $("#goal"); g.scrollIntoView({ behavior: "smooth", block: "center" }); }, 50);
+}
+function hop(html, fn) {
+  $("#box").innerHTML = html; $("#modal").classList.add("on");
+  const bs = [...$("#box").querySelectorAll("button")]; bs.forEach(b => b.setAttribute("data-nav", ""));
+  setTimeout(() => bs[0] && bs[0].focus(), 60); fn && fn();
+}
+function dong() { $("#modal").classList.remove("on"); setTimeout(() => { if (!$("#modal").classList.contains("on")) baoTin(); }, 400); }
+function hoiDoi(id) {
+  const q = S.qua.find(x => x.id === id), du = ViSao.soDu(S, be); if (!q) return;
+  if (du < q.gia) {
+    buon(); noi(LOI.thieu);
+    hop(`<div class="gi">${q.icon}</div><h2>Con cần thêm ${q.gia - Math.max(0, du)} CIECAS nữa</h2><p>Chơi các trò chơi, trả lời đúng thật nhiều câu là đủ CIECAS thôi!</p>
+      <div class="acts"><button class="b goalB" id="mOk">🎯 Chọn làm mục tiêu</button><button class="b off" id="mNo">Để sau</button></div>`, () => {
+      $("#mOk").onclick = () => { dong(); chonMucTieu(id); }; $("#mNo").onclick = dong; });
+    return;
+  }
+  ting(); noi(LOI.hoi);
+  hop(`<div class="gi">${q.icon}</div><h2>${esc(q.ten)}</h2><p>Con đổi <b>${XU} ${q.gia} CIECAS</b> để lấy món quà này nhé?<br>Ví còn lại: ${du - q.gia} CIECAS.</p>
+    <div class="acts"><button class="b buy" id="mOk">✔ Đổi luôn!</button><button class="b off" id="mNo">Để con nghĩ thêm</button></div>`, () => {
+    $("#mOk").onclick = () => guiDoi(q); $("#mNo").onclick = dong; });
+}
+function guiDoi(q) {
+  S = ViSao.doc();
+  if (ViSao.soDu(S, be) < q.gia) return dong();
+  S.don.push({ id: "d" + Date.now(), c: be, qid: q.id, ten: q.ten, icon: q.icon, gia: q.gia, t: Date.now(), sua: Date.now(), tt: "cho" });
+  if (S.vi[be].mucTieu === q.id) { S.vi[be].mucTieu = null; S.vi[be].suaMt = Date.now(); }
+  ViSao.luu(S); vui(); phao(); noi(LOI.gui);
+  hop(`<div class="gi">📨</div><h2>Đã gửi cho bố mẹ!</h2><p>Bố mẹ sẽ xem và duyệt món quà <b>${esc(q.ten)}</b> cho con. CIECAS của con được giữ lại chờ bố mẹ nhé.</p>
+    <div class="acts"><button class="b buy" id="mOk">Hay quá!</button></div>`, () => { $("#mOk").onclick = dong; });
+  ve();
+}
+// Báo cho con khi bố mẹ đã duyệt / từ chối
+function baoTin() {
+  const d = S.don.find(x => x.c === be && x.tt !== "cho" && !x.daBao); if (!d) return false;
+  S = ViSao.doc(); const x = S.don.find(y => y.id === d.id); x.daBao = true; x.sua = Date.now(); ViSao.luu(S);
+  const ok = d.tt === "duyet";
+  setTimeout(() => {
+    if (ok) { vui(); phao(); noi(LOI.dongY); } else { buon(); noi(LOI.tuChoi); }
+    hop(`<div class="gi">${d.icon}</div><h2>${ok ? "Bố mẹ đã đồng ý! 🎉" : "Bố mẹ chưa đổi được quà này"}</h2>
+      <p>${esc(d.ten)}${d.loiNhan ? `<br><b>Bố mẹ nhắn:</b> ${esc(d.loiNhan)}` : ""}${ok ? "" : `<br>${XU} ${d.gia} CIECAS đã được trả lại vào ví của con.`}</p>
+      <div class="acts"><button class="b buy" id="mOk">${ok ? "Yeah! Cảm ơn bố mẹ!" : "Con hiểu rồi"}</button></div>`, () => { $("#mOk").onclick = () => { dong(); ve(); baoTin(); }; });
+  }, 400);
+  return true;
+}
+
+/* ---------- điều khiển TV: phím mũi tên đi theo hướng ---------- */
+document.addEventListener("keydown", e => {
+  if ($("#modal").classList.contains("on") && e.key === "Escape") return dong();
+  const dir = { ArrowRight: [1, 0], ArrowLeft: [-1, 0], ArrowDown: [0, 1], ArrowUp: [0, -1] }[e.key]; if (!dir) return;
+  const scope = $("#modal").classList.contains("on") ? $("#box") : document;
+  const items = [...scope.querySelectorAll("[data-nav]")].filter(x => x.offsetParent);
+  const cur = document.activeElement; if (!items.includes(cur)) { e.preventDefault(); return items[0] && items[0].focus(); }
+  const r = cur.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+  let best = null, bd = 1e9;
+  items.forEach(x => { if (x === cur) return; const q = x.getBoundingClientRect(), dx = q.left + q.width / 2 - cx, dy = q.top + q.height / 2 - cy;
+    const main = dx * dir[0] + dy * dir[1]; if (main <= 4) return; const side = Math.abs(dx * dir[1]) + Math.abs(dy * dir[0]);
+    const d = main + side * 2.2; if (d < bd) { bd = d; best = x; } });
+  e.preventDefault(); if (best) { best.focus(); best.scrollIntoView({ block: "nearest", behavior: "smooth" }); }
+});
+document.addEventListener("visibilitychange", () => { if (!document.hidden) { S = ViSao.dongBo(); ve(); baoTin(); } });
+// Kho chung: bố mẹ duyệt trên điện thoại thì TV thấy ngay (kiểm tra 12 giây/lần)
+ViSao.khiDoi(() => { S = ViSao.dongBo(); ve(); if (!$("#modal").classList.contains("on")) baoTin(); });
+ViSao.tuDong(12);
+
+ve();
+if (!baoTin()) setTimeout(() => noi(LOI.chao), 700);
+setTimeout(() => { const b = document.querySelector(".kidBtn.on"); b && b.focus({ preventScroll: true }); }, 300);
+window.__tm = { get S() { return S; }, get be() { return be; } };
+</script>
+<script src="../anh-chung/anh-that.js" defer></script>
+<script src="../anh-chung/nhac-nen.js" data-ten="Cửa hàng CIECAS" data-bpm="108" data-goc="F" data-kieu="marimba" data-vitri="right:14px;bottom:14px" data-not="F5 A5 C6 A5 G5 Bb5 A5 F5 E5 G5 F5 D5 C5 E5 F5 C5"></script>
+</body>
+</html>
