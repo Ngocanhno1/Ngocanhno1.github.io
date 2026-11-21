@@ -164,7 +164,7 @@ const DV = ["Chưa đúng rồi, con xem lại nhé!", "Không sao, lần sau co
 const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const TEN = { lucie: "Lucie", lucas: "Lucas" };
-let be = null, lv = 0, ses = null;
+let be = null, lv = 0, ses = null, henKq = null, xacNhanDoi = null;
 
 // ---------- lưu trữ ----------
 function doc(c) { try { return Object.assign({ sao: {}, cup: 0, hu: { von: 0, nangcap: 0, tietkiem: 0 }, vi: 0, lichSu: [] }, JSON.parse(localStorage.getItem("phocho_" + c) || "{}")); } catch (e) { return { sao: {}, cup: 0, hu: { von: 0, nangcap: 0, tietkiem: 0 }, vi: 0, lichSu: [] }; } }
@@ -177,14 +177,14 @@ function nhatKy(c, s, q, ok) {
 
 // ---------- âm thanh & giọng ----------
 let AC = null;
-function tone(f, d = .12, t = "triangle", v = .15, w = 0) { try { AC = AC || new (window.AudioContext || window.webkitAudioContext)(); const o = AC.createOscillator(), g = AC.createGain(); o.type = t; o.frequency.value = f; g.gain.value = v; o.connect(g); g.connect(AC.destination); const s = AC.currentTime + w; o.start(s); g.gain.exponentialRampToValueAtTime(.001, s + d); o.stop(s + d + .02); } catch (e) {} }
+function tone(f, d = .12, t = "triangle", v = .15, w = 0) { try { AC = AC || new (window.AudioContext || window.webkitAudioContext)(); if (AC.state === "suspended") AC.resume(); const o = AC.createOscillator(), g = AC.createGain(); o.type = t; o.frequency.value = f; g.gain.value = v; o.connect(g); g.connect(AC.destination); const s = AC.currentTime + w; o.start(s); g.gain.exponentialRampToValueAtTime(.001, s + d); o.stop(s + d + .02); } catch (e) {} }
 const sDung = () => { tone(660); tone(880, .12, "triangle", .15, .1); tone(1320, .2, "triangle", .12, .2); };
 const sSai = () => { tone(220, .25, "sawtooth", .08); };
 const sXu = () => { [988, 1319, 1568].forEach((f, i) => tone(f, .1, "square", .05, i * .07)); };
 function noi(t, en) { try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t); u.lang = en ? "en-US" : "vi-VN"; u.rate = be === "lucas" ? .9 : 1; speechSynthesis.speak(u); } catch (e) {} }
 
 // ---------- màn hình ----------
-function show(id) { $$(".scr").forEach(s => s.classList.toggle("on", s.id === id)); const f = document.querySelector("#" + id + " button:not([disabled])"); if (f) setTimeout(() => f.focus(), 30); }
+function show(id) { clearTimeout(henKq); try { speechSynthesis.cancel(); } catch (e) {} $$(".scr").forEach(s => s.classList.toggle("on", s.id === id)); const f = [...document.querySelectorAll("#" + id + " .opt, #" + id + " .stall, #" + id + " .kid, #" + id + " .lv:not([disabled]), #" + id + " #kqTiep, #" + id + " #kqLai, #" + id + " button:not([disabled])")].find(el => el.offsetParent !== null && !el.disabled); if (f) setTimeout(() => f.focus(), 30); }
 function md(c) { return LV[lv].che_do_di_cho_tiet_kiem[c === "lucie" ? "lucie_lop_3" : "lucas_lop_1"]; }
 function qs(c) { return LV[lv].che_do_chu_sap_tai_ba[c === "lucie" ? "lucie_lop_3" : "lucas_lop_1"]; }
 function wallet() { const o = doc(be); return `<img src="${MatThat.url(be)}" style="width:34px;height:34px;border-radius:50%;vertical-align:middle"> ${TEN[be]} · Ví chợ ${XU} <b>${o.vi}</b>`; }
@@ -204,7 +204,7 @@ function veMap() {
   $("#wMap").innerHTML = wallet();
   $("#mapTitle").innerHTML = `Bản đồ Phố Chợ của ${TEN[be]} · 🏆 ${o.cup}/30 phiên 3 sao`;
   $("#jars").innerHTML = jarsHTML(o);
-  let h = "", mo = 0; while (mo < 30 && o.sao[LV[mo].so] !== undefined) mo++;
+  let h = "", mo = 0; while (mo < LV.length && o.sao[LV[mo].so] !== undefined) mo++;
   const TC = ["Chặng 1 · Sân Nhà & Chợ Xóm", "Chặng 2 · Chợ Phường Rộn Ràng", "Chặng 3 · Phố Chợ Lớn"];
   for (let ch = 1; ch <= 3; ch++) {
     h += `<div class="chang">${TC[ch - 1]}</div><div class="map">`;
@@ -220,7 +220,7 @@ function veMap() {
 function batDau(i) {
   lv = i; const L = LV[lv], m = md(be);
   ses = { toiUu: false, phat: 0, dung: 0, qi: 0, lanCho: 0 };
-  document.body.style.backgroundImage = `url(${L.anh_nen})`;
+  document.body.style.backgroundImage = `url(${L.anh_nen}), url(anh/pho-cho-nhi-bia.webp)`;
   $("#wCho").innerHTML = wallet();
   $("#choTen").textContent = L.ten;
   $("#choThoiTiet").textContent = "☀️ " + L.thoi_tiet.ten + " — " + L.thoi_tiet.goi_y;
@@ -233,7 +233,7 @@ function batDau(i) {
 }
 $("#docCho").onclick = () => noi(md(be).doc_yeu_cau + " " + md(be).cac_quay.map((q, k) => "Quầy " + (k + 1) + ": " + q.tong_ciecas + " xu.").join(" "));
 
-function vuiVe(n) { return VUI.find(v => n <= v[0])[1]; }
+function vuiVe(n) { return (VUI.find(v => n <= v[0]) || VUI[VUI.length - 1])[1]; }
 function chonQuay(k) {
   if (ses.xongCho) return;
   const m = md(be), q = m.cac_quay[k], toiUu = m.cac_quay.find(x => x.la_toi_uu), o = doc(be);
@@ -262,8 +262,8 @@ function chonQuay(k) {
 function batDauSap() { ses.qi = 0; ses.dung = 0; $("#wSap").innerHTML = wallet(); hienCau(); show("sSap"); }
 function hienCau() {
   const q = qs(be)[ses.qi]; ses.khoa = false;
-  $("#sapHd").textContent = `Bước 2 · Chủ Sạp Tài Ba — câu ${ses.qi + 1}/10 · đúng ${ses.dung} · phím 1-4`;
-  $("#sapProg").style.width = (ses.qi * 10) + "%";
+  const tongCau = qs(be).length || 10; $("#sapHd").textContent = `Bước 2 · Chủ Sạp Tài Ba — câu ${ses.qi + 1}/${tongCau} · đúng ${ses.dung} · phím 1-4`;
+  $("#sapProg").style.width = Math.round(ses.qi * 100 / tongCau) + "%";
   $("#sapQ").textContent = q.cau;
   $("#sapFb").textContent = "";
   $("#opts").innerHTML = q.lua_chon.map((t, k) => `<button class="opt" data-k="${k}"><span class="k">${k + 1}</span>${t}</button>`).join("");
@@ -273,14 +273,14 @@ function hienCau() {
 }
 $("#docSap").onclick = () => { const q = qs(be)[ses.qi]; noi((q.doc || q.cau) + " " + q.lua_chon.map((t, k) => (k + 1) + ": " + t).join(". ")); };
 async function traLoi(k) {
-  if (ses.khoa) return; ses.khoa = true;
+  const dsQ = qs(be), q0 = dsQ[ses.qi]; if (ses.khoa || !q0 || k < 0 || k >= q0.lua_chon.length) return; ses.khoa = true; const curSes = ses;
   const q = qs(be)[ses.qi], ok = k === q.dap_an_index, bs = $$(".opt");
   nhatKy(be, "Toán", q.cau, ok);
   bs[q.dap_an_index].classList.add("ok");
   if (ok) { ses.dung++; sDung(); const t = KHEN[Math.floor(Math.random() * KHEN.length)]; $("#sapFb").textContent = "✅ " + t + " " + q.giai_thich; noi(t); }
   else { bs[k].classList.add("bad"); sSai(); $("#sapFb").textContent = "💡 " + q.giai_thich; noi(DV[Math.floor(Math.random() * DV.length)] + " " + (q.doc_giai_thich || q.giai_thich)); }
   await sleep(ok ? 1500 : 3200);
-  ses.qi++; if (ses.qi < 10) hienCau(); else ketThuc();
+  if (ses !== curSes || !$("#sSap").classList.contains("on")) return; ses.qi++; if (ses.qi < dsQ.length) hienCau(); else ketThuc();
 }
 
 // ---------- KẾT QUẢ ----------
@@ -298,10 +298,10 @@ function ketThuc() {
   $("#kqTxt").innerHTML = `Đúng ${ses.dung}/10 câu bán hàng · ${ses.toiUu ? "Đi chợ tối ưu ngay lần đầu 🏅" : "Đi chợ: lần sau chọn quầy tối ưu ngay nhé"}<br>Phiên này con kiếm được ${XU} <b>${tong} CIECAS</b>, chia vào 3 hũ:`;
   $("#kqJars").innerHTML = jarsHTML(o, { von, nangcap: nc, tietkiem: tk });
   $("#kqMon").innerHTML = `🍽️ Mở khóa món <b>${P.mo_khoa_mon_an}</b> cho Mâm Cơm Việt Nam!` + (sao < 3 ? `<br>Muốn gỡ 3 sao? Bấm <b>Chơi lại miễn phí</b>.` : "");
-  $("#kqTiep").style.display = lv < 29 ? "" : "none";
+  $("#kqTiep").style.display = lv < LV.length - 1 ? "" : "none";
   show("sKq");
   noi(sao === 3 ? "Tuyệt vời! Con được ba sao, đúng là chủ sạp tài ba!" : "Con được " + sao + " sao. Chơi lại để lấy ba sao nhé!");
-  if (lv === 29 && sao === 3) setTimeout(() => noi("Chúc mừng con đã hoàn thành cả 30 phiên chợ! Mâm cơm Việt Nam đã đầy đủ rồi!"), 3500);
+  if (lv === LV.length - 1 && sao === 3) henKq = setTimeout(() => { if ($("#sKq").classList.contains("on")) noi("Chúc mừng con đã hoàn thành cả 30 phiên chợ! Mâm cơm Việt Nam đã đầy đủ rồi!"); }, 3500);
 }
 $("#kqTiep").onclick = () => batDau(lv + 1);
 $("#kqLai").onclick = () => batDau(lv);
@@ -309,11 +309,11 @@ $("#kqLai").onclick = () => batDau(lv);
 // ---------- HŨ TIẾT KIỆM (bố mẹ) ----------
 let huBe = "lucie";
 function moHu() { huBe = be || "lucie"; veHu(); $("#mHu").classList.add("on"); setTimeout(() => $("#mHu button").focus(), 30); }
-$("#bHu").onclick = moHu; $("#bHu2").onclick = moHu; $("#huDong").onclick = () => $("#mHu").classList.remove("on");
+$("#bHu").onclick = moHu; $("#bHu2").onclick = moHu; $("#huDong").onclick = () => { xacNhanDoi = null; $("#mHu").classList.remove("on"); if (be && $("#sMap").classList.contains("on")) veMap(); };
 function veHu(msg) {
   const o = doc(huBe);
   $("#huKids").innerHTML = ["lucie", "lucas"].map(c => { const x = doc(c); return `<button class="kid ${c}" data-hb="${c}" style="width:220px;${c === huBe ? "outline:5px solid #d90479" : ""}"><img src="${MatThat.url(c)}" style="width:80px;height:80px" alt=""><span>${TEN[c]}</span><small>Hũ Tiết Kiệm: ${x.hu.tietkiem} CIECAS</small></button>`; }).join("");
-  $$("[data-hb]").forEach(b => b.onclick = () => { huBe = b.dataset.hb; veHu(); });
+  $$("[data-hb]").forEach(b => b.onclick = () => { xacNhanDoi = null; huBe = b.dataset.hb; veHu(); });
   $("#perks").innerHTML = PERKS.map(p => `<button class="perk" data-p="${p.id}" ${o.hu.tietkiem < p.gia ? "disabled" : ""}>${p.icon} ${p.ten}<span>${XU} ${p.gia}</span></button>`).join("");
   $$("[data-p]").forEach(b => b.onclick = () => doiQua(b.dataset.p));
   $("#huFb").innerHTML = msg || "";
@@ -322,7 +322,7 @@ function veHu(msg) {
 function doiQua(id) {
   const p = PERKS.find(x => x.id === id), o = doc(huBe);
   if (o.hu.tietkiem < p.gia) return;
-  if (!confirm(`Bố mẹ xác nhận: ${TEN[huBe]} đổi ${p.gia} CIECAS lấy "${p.ten}"?`)) return;
+  const key = huBe + ":" + id; if (xacNhanDoi !== key) { xacNhanDoi = key; $("#huFb").textContent = `Bố mẹ bấm lại lần nữa vào "${p.ten}" để xác nhận đổi ${p.gia} CIECAS cho ${TEN[huBe]} nhé!`; return; } xacNhanDoi = null;
   o.hu.tietkiem -= p.gia; o.lichSu.push({ t: Date.now(), ten: p.ten, gia: p.gia }); ghi(huBe, o);
   sXu(); veHu(`🎉 ${TEN[huBe]} đã đổi được ${p.icon} ${p.ten}! Bố mẹ nhớ thực hiện nhé.`);
   noi(TEN[huBe] + " đã đổi được " + p.ten + "!");
@@ -330,6 +330,7 @@ function doiQua(id) {
 
 // ---------- phím tắt ----------
 addEventListener("keydown", e => {
+  if (e.key === "Escape" || e.key === "Backspace" || e.keyCode === 461) { if ($("#mHu").classList.contains("on")) { e.preventDefault(); $("#huDong").click(); return; } const s0 = $(".scr.on").id; if (s0 === "sCho" || s0 === "sSap" || s0 === "sKq") { e.preventDefault(); veMap(); show("sMap"); return; } if (s0 === "sMap") { e.preventDefault(); show("sBia"); return; } }
   const n = +e.key; if (!(n >= 1 && n <= 9)) return;
   if ($("#mHu").classList.contains("on")) return;
   const s = $(".scr.on").id;

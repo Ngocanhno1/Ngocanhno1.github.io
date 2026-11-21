@@ -92,7 +92,7 @@
   /* hộp thoại */
   .modal { position: fixed; inset: 0; background: rgba(30,20,60,.55); display: none; place-items: center; z-index: 50; padding: 16px; }
   .modal.on { display: grid; }
-  .box { background: #fff; border-radius: 32px; padding: 26px 30px; max-width: 560px; width: 100%; text-align: center; animation: pop .35s cubic-bezier(.2,1.6,.4,1); }
+  .box { background: #fff; border-radius: 32px; padding: 26px 30px; max-width: 560px; width: 100%; max-height: 92vh; overflow-y: auto; text-align: center; animation: pop .35s cubic-bezier(.2,1.6,.4,1); }
   @keyframes pop { from { transform: scale(.6); opacity: 0; } }
   .box .gi { font-size: 120px; line-height: 1; }
   .box h2 { margin: 8px 0 4px; font-size: 34px; line-height: 1.15; text-wrap: balance; }
@@ -157,7 +157,7 @@ let S = ViSao.dongBo();
 let AC = null;
 function tieng(notes, dur = .13, kieu = "triangle") {
   try {
-    AC = AC || new (window.AudioContext || window.webkitAudioContext)();
+    AC = AC || new (window.AudioContext || window.webkitAudioContext)(); if (AC.state === "suspended") AC.resume();
     let t = AC.currentTime;
     notes.forEach(f => { const o = AC.createOscillator(), g = AC.createGain(); o.type = kieu; o.frequency.value = f;
       g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(.25, t + .02); g.gain.exponentialRampToValueAtTime(.0001, t + dur * 1.8);
@@ -195,7 +195,7 @@ function veMucTieu() {
     $("#goal").innerHTML = `<span class="gi">🎯</span><div><h2>Mục tiêu của con</h2><h3>Chưa chọn</h3><div class="empty">Bấm “Chọn làm mục tiêu” ở món quà con thích nhất nhé!</div></div>`;
     return;
   }
-  const p = Math.min(1, Math.max(0, du) / q.gia), con = q.gia - du;
+  const p = q.gia > 0 ? Math.min(1, Math.max(0, du) / q.gia) : 1, con = Math.max(0, q.gia - Math.max(0, du));
   $("#goal").innerHTML = `<span class="gi">${q.icon}</span><div style="flex:1;min-width:0"><h2>🎯 Mục tiêu của con</h2><h3>${esc(q.ten)}</h3>
     <div class="bar ${p >= 1 ? "full" : ""}"><i style="width:${Math.max(4, p * 100)}%"></i><em>${Math.max(0, du)} / ${q.gia} CIECAS</em></div>
     <div class="msg ${p >= 1 ? "ok" : ""}">${p >= 1 ? "Đủ CIECAS rồi! Đổi quà ngay thôi! 🎉" : `Còn ${con} CIECAS nữa thôi! Cố lên!`}</div></div>`;
@@ -203,7 +203,7 @@ function veMucTieu() {
 function veQua() {
   const du = ViSao.soDu(S, be), mt = S.vi[be].mucTieu, ds = ViSao.quaCua(S, be).slice().sort((a, b) => a.gia - b.gia);
   $("#grid").innerHTML = ds.length ? ds.map(q => {
-    const p = Math.min(1, Math.max(0, du) / q.gia), du2 = du >= q.gia, isG = q.id === mt;
+    const p = q.gia > 0 ? Math.min(1, Math.max(0, du) / q.gia) : 1, du2 = du >= q.gia, isG = q.id === mt;
     return `<div class="gift ${isG ? "isGoal" : ""}">${isG ? '<span class="tagGoal">🎯 Mục tiêu</span>' : ""}
       <div class="gi">${q.icon}</div><h3>${esc(q.ten)}</h3><div class="price">${XU} ${q.gia}</div>
       <div class="bar ${du2 ? "full" : ""}"><i style="width:${Math.max(4, p * 100)}%"></i></div>
@@ -225,7 +225,7 @@ function veCuaCon() {
   const cho = S.don.filter(d => d.tt === "cho").length;
   $("#nutBoMe").innerHTML = "🔒 Bố mẹ duyệt" + (cho ? `<span class="dot">${cho}</span>` : "");
 }
-function ve() { document.body.className = be; veBe(); veVi(); veMucTieu(); veQua(); veCuaCon(); }
+function ve() { const cur = document.activeElement, sel = cur && !$("#modal").classList.contains("on") ? (cur.id ? "#" + cur.id : cur.dataset && cur.dataset.be ? `[data-be="${cur.dataset.be}"]` : cur.dataset && cur.dataset.doi ? `[data-doi="${cur.dataset.doi}"]` : cur.dataset && cur.dataset.mt ? `[data-mt="${cur.dataset.mt}"]` : null) : null; document.body.classList.toggle("lucie", be === "lucie"); document.body.classList.toggle("lucas", be === "lucas"); veBe(); veVi(); veMucTieu(); veQua(); veCuaCon(); if (sel) { const nxt = $(sel); if (nxt) nxt.focus({ preventScroll: true }); } }
 
 /* ---------- hành động ---------- */
 function chonBe(c) { be = c; localStorage.setItem("cuaHang_be", c); ve(); baoTin(); }
@@ -238,7 +238,7 @@ function hop(html, fn) {
   const bs = [...$("#box").querySelectorAll("button")]; bs.forEach(b => b.setAttribute("data-nav", ""));
   setTimeout(() => bs[0] && bs[0].focus(), 60); fn && fn();
 }
-function dong() { $("#modal").classList.remove("on"); setTimeout(() => { if (!$("#modal").classList.contains("on")) baoTin(); }, 400); }
+let dangBao = false; function dong() { dangBao = false; $("#modal").classList.remove("on"); setTimeout(() => { if (!$("#modal").classList.contains("on")) baoTin(); }, 400); }
 function hoiDoi(id) {
   const q = S.qua.find(x => x.id === id), du = ViSao.soDu(S, be); if (!q) return;
   if (du < q.gia) {
@@ -251,12 +251,12 @@ function hoiDoi(id) {
   ting(); noi(LOI.hoi);
   hop(`<div class="gi">${q.icon}</div><h2>${esc(q.ten)}</h2><p>Con đổi <b>${XU} ${q.gia} CIECAS</b> để lấy món quà này nhé?<br>Ví còn lại: ${du - q.gia} CIECAS.</p>
     <div class="acts"><button class="b buy" id="mOk">✔ Đổi luôn!</button><button class="b off" id="mNo">Để con nghĩ thêm</button></div>`, () => {
-    $("#mOk").onclick = () => guiDoi(q); $("#mNo").onclick = dong; });
+    let daGui = false; $("#mOk").onclick = () => { if (daGui) return; daGui = true; guiDoi(q); }; $("#mNo").onclick = dong; });
 }
 function guiDoi(q) {
   S = ViSao.doc();
   if (ViSao.soDu(S, be) < q.gia) return dong();
-  S.don.push({ id: "d" + Date.now(), c: be, qid: q.id, ten: q.ten, icon: q.icon, gia: q.gia, t: Date.now(), sua: Date.now(), tt: "cho" });
+  S.don.push({ id: "d" + Date.now() + "_" + Math.random().toString(36).slice(2, 6), c: be, qid: q.id, ten: q.ten, icon: q.icon, gia: q.gia, t: Date.now(), sua: Date.now(), tt: "cho" });
   if (S.vi[be].mucTieu === q.id) { S.vi[be].mucTieu = null; S.vi[be].suaMt = Date.now(); }
   ViSao.luu(S); vui(); phao(); noi(LOI.gui);
   hop(`<div class="gi">📨</div><h2>Đã gửi cho bố mẹ!</h2><p>Bố mẹ sẽ xem và duyệt món quà <b>${esc(q.ten)}</b> cho con. CIECAS của con được giữ lại chờ bố mẹ nhé.</p>
@@ -265,8 +265,8 @@ function guiDoi(q) {
 }
 // Báo cho con khi bố mẹ đã duyệt / từ chối
 function baoTin() {
-  const d = S.don.find(x => x.c === be && x.tt !== "cho" && !x.daBao); if (!d) return false;
-  S = ViSao.doc(); const x = S.don.find(y => y.id === d.id); x.daBao = true; x.sua = Date.now(); ViSao.luu(S);
+  if (dangBao || $("#modal").classList.contains("on")) return false; const d = S.don.find(x => x.c === be && x.tt !== "cho" && !x.daBao); if (!d) return false;
+  S = ViSao.doc(); const x = S.don.find(y => y.id === d.id); if (!x) return false; dangBao = true; x.daBao = true; x.sua = Date.now(); ViSao.luu(S);
   const ok = d.tt === "duyet";
   setTimeout(() => {
     if (ok) { vui(); phao(); noi(LOI.dongY); } else { buon(); noi(LOI.tuChoi); }
@@ -279,7 +279,7 @@ function baoTin() {
 
 /* ---------- điều khiển TV: phím mũi tên đi theo hướng ---------- */
 document.addEventListener("keydown", e => {
-  if ($("#modal").classList.contains("on") && e.key === "Escape") return dong();
+  if ($("#modal").classList.contains("on") && (e.key === "Escape" || e.key === "Backspace" || e.keyCode === 461)) { e.preventDefault(); return dong(); }
   const dir = { ArrowRight: [1, 0], ArrowLeft: [-1, 0], ArrowDown: [0, 1], ArrowUp: [0, -1] }[e.key]; if (!dir) return;
   const scope = $("#modal").classList.contains("on") ? $("#box") : document;
   const items = [...scope.querySelectorAll("[data-nav]")].filter(x => x.offsetParent);

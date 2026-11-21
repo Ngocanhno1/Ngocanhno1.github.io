@@ -67,7 +67,8 @@
   .mat.lucie { left: 12px; border-color: var(--hong); } .mat.lucas { left: calc(24px + clamp(64px, 9vw, 118px)); border-color: var(--xanh); }
   .mat.noi { transform: scale(1.06) translateY(-6px); filter: none; animation: nhun 1.2s ease-in-out infinite; }
   @keyframes nhun { 50% { transform: scale(1.1) translateY(-10px); } }
-  .chu { color: #3b2a1a; padding: clamp(18px, 3vw, 44px); display: flex; flex-direction: column; justify-content: center; overflow-y: auto;
+  .chu > :first-child { margin-top: auto; } .chu > :last-child { margin-bottom: auto; }
+  .chu { color: #3b2a1a; padding: clamp(18px, 3vw, 44px); display: flex; flex-direction: column; overflow-y: auto;
     background: repeating-linear-gradient(#fff8ec 0 46px, #f0e2c8 46px 47px); }
   .chu .so { color: #b07a3a; font-weight: 700; font-size: clamp(14px, 1.6vw, 20px); margin-bottom: 6px; }
   .chu .loi { font-size: clamp(20px, 2.6vw, 36px); line-height: 1.5; font-weight: 600; }
@@ -138,7 +139,7 @@ const saveJSON = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); }
 function ghiNhatKy(child, q, ok) { try { const k = "giaDinh_nhatKy", a = JSON.parse(localStorage.getItem(k) || "[]"); a.push({ t: Date.now(), g: "sachtruyen", c: child, s: "Tiếng Việt", q: String(q).slice(0, 140), ok: !!ok }); if (a.length > 6000) a.splice(0, a.length - 6000); localStorage.setItem(k, JSON.stringify(a)); } catch (e) {} }
 
 /* ---------- Giọng đọc ---------- */
-let hen = null, phien = 0;
+let hen = null, henLat = null, phien = 0;
 function noi(text, xong) {
   const ss = window.speechSynthesis, ma = ++phien;
   clearTimeout(hen);
@@ -149,17 +150,17 @@ function noi(text, xong) {
   try { ss.cancel(); } catch (e) {}
   const u = new SpeechSynthesisUtterance(text);
   u.lang = "vi-VN"; u.rate = 0.92; u.pitch = 1.05;
-  u.onend = () => setTimeout(het, 50);
-  u.addEventListener("end", () => setTimeout(het, 50));
+  u.onend = u.onerror = () => setTimeout(het, 50);
+  
   ss.speak(u);
 }
-function imLang() { phien++; clearTimeout(hen); try { speechSynthesis.cancel(); } catch (e) {} }
+function imLang() { phien++; clearTimeout(hen); clearTimeout(henLat); try { speechSynthesis.cancel(); } catch (e) {} }
 
 /* ---------- Tranh: ảnh máy chủ vẽ -> vẽ trực tiếp -> tranh trời sao tự vẽ ---------- */
 function veDuPhong(chu) {
   const s = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 768 512"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd9a0"/><stop offset=".6" stop-color="#ffb3c6"/><stop offset="1" stop-color="#9fd8a8"/></linearGradient></defs>
   <rect width="768" height="512" fill="url(#g)"/><circle cx="600" cy="120" r="60" fill="#fff4c2"/><path d="M0 400 Q200 330 384 390 T768 380 V512 H0z" fill="#7cc576"/>
-  <path d="M0 440 Q240 400 480 450 T768 430 V512 H0z" fill="#5aa95a"/><text x="384" y="250" font-family="Baloo 2,Arial" font-size="38" font-weight="700" fill="#7a4a1a" text-anchor="middle">${chu}</text></svg>`;
+  <path d="M0 440 Q240 400 480 450 T768 430 V512 H0z" fill="#5aa95a"/><text x="384" y="250" font-family="Baloo 2,Arial" font-size="38" font-weight="700" fill="#7a4a1a" text-anchor="middle">${esc(chu)}</text></svg>`;
   return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(s);
 }
 function datTranh(ma, chu) {
@@ -169,7 +170,7 @@ function datTranh(ma, chu) {
   img.classList.add("mo");
   img.onerror = () => { if (++i < ds.length) img.src = ds[i]; };
   img.onload = () => img.classList.remove("mo");
-  img.src = ds[0];
+  img.src = ds[0]; if (img.complete && img.naturalWidth > 0) img.classList.remove("mo");
 }
 
 /* ---------- Tủ sách ---------- */
@@ -204,9 +205,9 @@ function hien(id) { document.querySelectorAll(".man").forEach(m => m.classList.t
 /* ---------- Đọc truyện ----------
    Trang: 0 = bìa, 1..n = truyện, n+1 = bài học, n+2 = ai trả lời, n+3.. = 3 câu hỏi, cuối = chúc ngủ ngon */
 async function moTruyen(ma) {
-  try { T = await fetch(`truyen/${ma}.json`, { cache: "no-cache" }).then(r => r.json()); } catch (e) { return; }
+  try { const r = await fetch(`truyen/${ma}.json`, { cache: "no-cache" }); if (!r.ok) return; T = await r.json(); } catch (e) { return; }
   const dang = (readJSON("sachtruyen_dangdoc") || {})[ma];   // đọc dở lần trước: mở đúng trang đó
-  trang = dang && dang > 0 && dang <= N() ? dang : 0; diem = 0; nguoi = null; daTraLoi = {}; hien("doc"); veTrang();
+  trang = dang && dang > 0 && dang <= N() ? dang : 0; diem = 0; ketQua = {}; nguoi = null; daTraLoi = {}; hien("doc"); veTrang();
 }
 function ghiDangDoc() {   // nhớ trang truyện đang đọc (chỉ phần truyện, không tính phần đố vui)
   if (!T) return; const o = readJSON("sachtruyen_dangdoc") || {};
@@ -217,7 +218,7 @@ const KHEN = ["Con nghe lại truyện nhé, lần sau sẽ đúng nhiều hơn!
 const N = () => T.trang.length;
 const HOI = () => T["hoi_" + (nguoi || "lucie")] || T.hoi || [];
 const tong = () => N() + 3 + HOI().length + 1;
-let daTraLoi = {};
+let daTraLoi = {}, ketQua = {};
 function ten(c) { return ((HS[c] || {}).goi) || (c === "lucie" ? "Lucie" : "Lucas"); }
 function toDam(s) { return s.replace(/\b(Lucie)\b/g, "<b>$1</b>").replace(/\b(Lucas)\b/g, "<i>$1</i>"); }
 function esc(s) { return String(s).replace(/[&<>]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]); }
@@ -230,7 +231,7 @@ function veTrang() {
   imLang(); veCham(); ghiDangDoc();
   const n = N(), chu = $("chu"), tr = $("tranh");
   tr.classList.remove("trang-dem"); $("anh").style.display = "";
-  $("nTruoc").disabled = trang === 0;
+  $("nTruoc").disabled = trang === 0; $("nSau").disabled = trang === n + 2 || (trang > n + 2 && trang < tong() - 1) || trang >= tong() - 1;
   let docCau = "", tiep = true;
   if (trang === 0) {
     datTranh(T.ma + "-bia", T.tieu_de);
@@ -249,9 +250,9 @@ function veTrang() {
   } else if (trang === n + 2) {
     chu.innerHTML = `<div class="so">Đố vui sau truyện</div><h2>Ai trả lời câu hỏi?</h2><div class="loi">Con nghe kỹ chưa? Chọn bạn trả lời nhé!</div>
       <div class="ai"><button data-c="lucie"><img alt=""><span>${esc((HS.lucie || {}).goi || "Lucie")}</span></button><button data-c="lucas"><img alt=""><span>${esc((HS.lucas || {}).goi || "Lucas")}</span></button></div>`;
-    chu.querySelectorAll(".ai button").forEach(b => { b.querySelector("img").src = MatThat.url(b.dataset.c); b.onclick = () => { nguoi = b.dataset.c; diem = 0; trang++; veTrang(); }; });
+    chu.querySelectorAll(".ai button").forEach(b => { b.querySelector("img").src = MatThat.url(b.dataset.c); b.onclick = () => { nguoi = b.dataset.c; diem = 0; ketQua = {}; trang++; veTrang(); }; });
     docCau = "Đố vui sau truyện. Ai trả lời câu hỏi nào?"; tiep = false; matNoi("Lucie Lucas");
-    setTimeout(() => chu.querySelector(".ai button").focus(), 100);
+    setTimeout(() => { const f = chu.querySelector(".ai button"); if (f) f.focus(); }, 100);
   } else if (trang < tong() - 1) {
     const h = HOI()[trang - n - 3], dap = [h.dung].concat(h.sai), thuTu = dap.map((_, i) => i).sort(() => Math.random() - .5);
     chu.innerHTML = `<div class="so">Câu hỏi của ${esc(ten(nguoi))} · ${trang - n - 2}/${HOI().length}</div><div class="loi">${toDam(esc(h.cau))}</div><div class="dapan"></div>`;
@@ -261,16 +262,16 @@ function veTrang() {
       b.onclick = () => {
         if (xong) return; xong = true; const ok = j === 0;
         b.classList.add(ok ? "dung" : "sai"); box.querySelector('[data-j="0"]').classList.add("dung");
-        if (ok) diem++;
+        ketQua[trang - n - 3] = ok ? 1 : 0; diem = Object.values(ketQua).reduce((a, b) => a + b, 0);
         ghiNhatKy(nguoi || "lucie", h.cau, ok);
         imLang();
-        noi(ok ? "Đúng rồi! Con giỏi quá!" : "Chưa đúng rồi. Đáp án là: " + h.doc_dap[0], () => { trang++; veTrang(); });
+        noi(ok ? "Đúng rồi! Con giỏi quá!" : "Chưa đúng rồi. Đáp án là: " + ((h.doc_dap && h.doc_dap[0]) || dap[0]), () => { trang++; veTrang(); });
       };
       box.appendChild(b);
     });
-    docCau = h.doc + " " + thuTu.map((j, k) => (k + 1) + ". " + h.doc_dap[j]).join(". ");
+    docCau = (h.doc || h.cau) + " " + thuTu.map((j, k) => (k + 1) + ". " + ((h.doc_dap && h.doc_dap[j]) || dap[j])).join(". ");
     tiep = false; matNoi(h.cau);
-    setTimeout(() => box.querySelector("button").focus(), 100);
+    setTimeout(() => { const f = box.querySelector("button"); if (f) f.focus(); }, 100);
   } else {
     tr.classList.add("trang-dem"); $("anh").style.display = "none";
     const sao = [0, 1, 2].map(i => `<svg viewBox="0 0 24 24"><path d="M12 2l3 6.5 7 .8-5.2 4.8 1.5 7L12 17.6 5.7 21l1.5-7L2 9.3l7-.8z" fill="${i < diem ? "#ffc83d" : "#e7dccb"}" stroke="#b8860b" stroke-width="1"/></svg>`).join("");
@@ -278,13 +279,13 @@ function veTrang() {
     const ban = nguoi && !daTraLoi[nguoi === "lucie" ? "lucas" : "lucie"] ? (nguoi === "lucie" ? "lucas" : "lucie") : null;
     chu.innerHTML = `<div class="so">Hết truyện</div><h2>Chúc ngủ ngon!</h2>${nguoi ? `<div class="ngoisao">${sao}</div>` : ""}<div class="loi">${toDam(esc(T.chuc))}</div>
       ${ban ? `<div class="ai"><button data-c="${ban}"><img alt=""><span>Đến lượt ${esc(ten(ban))}</span></button></div>` : ""}`;
-    chu.querySelectorAll(".ai button").forEach(b => { b.querySelector("img").src = MatThat.url(b.dataset.c); b.onclick = () => { nguoi = b.dataset.c; diem = 0; trang = n + 3; veTrang(); }; setTimeout(() => b.focus(), 100); });
+    chu.querySelectorAll(".ai button").forEach(b => { b.querySelector("img").src = MatThat.url(b.dataset.c); b.onclick = () => { nguoi = b.dataset.c; diem = 0; ketQua = {}; trang = n + 3; veTrang(); }; setTimeout(() => b.focus(), 100); });
     docCau = (nguoi ? KHEN[Math.min(diem, 3)] + " " : "") + T.doc_chuc + (ban ? " Đến lượt bạn kia trả lời nhé!" : ""); tiep = false; matNoi("Lucie Lucas");
     const dd = daDoc(); dd[T.ma] = Date.now(); saveJSON("sachtruyen_doc", dd);
     if (nguoi) { const o = readJSON("sachtruyen_" + nguoi) || { truyen: {}, sao: 0 }; o.truyen = o.truyen || {};
       o.truyen[T.ma] = Math.max(o.truyen[T.ma] || 0, diem); o.sao = Object.values(o.truyen).reduce((a, b) => a + b, 0); saveJSON("sachtruyen_" + nguoi, o); }
   }
-  noi(docCau, () => { if (tiep && tuLat) setTimeout(() => { if ($("doc").classList.contains("hien")) { trang++; veTrang(); } }, 1500); });
+  noi(docCau, () => { if (tiep && tuLat) { clearTimeout(henLat); henLat = setTimeout(() => { if (tuLat && $("doc").classList.contains("hien") && trang < tong() - 1) { trang++; veTrang(); } }, 1500); } });
 }
 function sang(d) {
   if (!T) return; const n = N();
@@ -299,9 +300,10 @@ $("nGia").onclick = () => moGia();
 $("nTu").onclick = () => { tuLat = !tuLat; $("nTu").classList.toggle("bat", tuLat); $("nTu").setAttribute("aria-pressed", tuLat); };
 document.addEventListener("keydown", e => {
   if (!$("doc").classList.contains("hien")) return;
-  if (e.key === "ArrowRight" || e.key === "PageDown") { e.preventDefault(); sang(1); }
-  else if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); sang(-1); }
-  else if (e.key === "Escape" || e.key === "Backspace") { e.preventDefault(); moGia(); }
+  if (e.key === "ArrowRight" || e.key === "PageDown") { e.preventDefault(); const ai = [...$("chu").querySelectorAll(".ai button")]; if (e.key === "ArrowRight" && ai.length > 1) { const idx = ai.indexOf(document.activeElement); ai[(idx + 1) % ai.length].focus(); } else sang(1); }
+  else if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); const ai = [...$("chu").querySelectorAll(".ai button")]; if (e.key === "ArrowLeft" && ai.length > 1) { const idx = ai.indexOf(document.activeElement); ai[(idx - 1 + ai.length) % ai.length].focus(); } else sang(-1); }
+  else if (e.key === "ArrowDown" || e.key === "ArrowUp") { const ds = [...$("chu").querySelectorAll(".dapan button")]; if (ds.length) { e.preventDefault(); const idx = ds.indexOf(document.activeElement); ds[(idx + (e.key === "ArrowDown" ? 1 : -1) + ds.length) % ds.length].focus(); } }
+  else if (e.key === "Escape" || e.key === "Backspace" || e.keyCode === 461) { e.preventDefault(); moGia(); }
   else if (/^[1-4]$/.test(e.key)) { const b = $("chu").querySelectorAll(".dapan button, .ai button")[+e.key - 1]; if (b) b.click(); }
 });
 window.__st = { get trang() { return trang; }, get tong() { return T ? tong() : 0; }, get T() { return T; } };
