@@ -12,14 +12,14 @@
   var KEY = "cuaHang_v1";
   var KIDS = ["lucie", "lucas"];
   var QUA_MAC_DINH = [
-    { id: "q1", icon: "🎡", ten: "Một buổi đi công viên", gia: 150, cho: "ca" },
-    { id: "q2", icon: "📚", ten: "Một cuốn truyện mới", gia: 300, cho: "ca" },
-    { id: "q3", icon: "🍦", ten: "Một que kem", gia: 45, cho: "ca" },
-    { id: "q4", icon: "📺", ten: "Thêm 15 phút xem hoạt hình", gia: 40, cho: "ca" },
-    { id: "q5", icon: "🍕", ten: "Cả nhà đi ăn pizza", gia: 240, cho: "ca" },
-    { id: "q6", icon: "🏊", ten: "Một buổi đi bơi", gia: 180, cho: "ca" },
-    { id: "q7", icon: "🎬", ten: "Đi xem phim ở rạp", gia: 360, cho: "ca" },
-    { id: "q8", icon: "🧸", ten: "Một món đồ chơi con chọn", gia: 450, cho: "ca" }
+    { id: "q1", icon: "🎡", ten: "Một buổi đi công viên", gia: 300, cho: "ca" },
+    { id: "q2", icon: "📚", ten: "Một cuốn truyện mới", gia: 600, cho: "ca" },
+    { id: "q3", icon: "🍦", ten: "Một que kem", gia: 90, cho: "ca" },
+    { id: "q4", icon: "📺", ten: "Thêm 15 phút xem hoạt hình", gia: 80, cho: "ca" },
+    { id: "q5", icon: "🍕", ten: "Cả nhà đi ăn pizza", gia: 480, cho: "ca" },
+    { id: "q6", icon: "🏊", ten: "Một buổi đi bơi", gia: 360, cho: "ca" },
+    { id: "q7", icon: "🎬", ten: "Đi xem phim ở rạp", gia: 720, cho: "ca" },
+    { id: "q8", icon: "🧸", ten: "Một món đồ chơi con chọn", gia: 900, cho: "ca" }
   ];
   function rd(k) { try { return JSON.parse(localStorage.getItem(k) || "null"); } catch (e) { return null; } }
   function dayKey(t) { var d = new Date(t); return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate(); }
