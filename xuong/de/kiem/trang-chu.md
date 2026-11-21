@@ -1,0 +1,452 @@
+Em là nhà thiết kế giao diện TV. Dưới đây là trang chủ (index.html) chọn game của hai bé, mở trên TV LG webOS (app TV) và iPad.
+
+ANH BÁO: màn hình trang chủ trên TV đẹp nhưng hơi GIẬT, nhìn hơi RỐI.
+
+YÊU CẦU: làm trang chủ nhẹ và gọn trên TV:
+- Trên TV (che-do-tv / webOS / màn lớn không cảm ứng) và khi người dùng bật prefers-reduced-motion: tắt các hiệu ứng chạy liên tục (keyframes lặp vô hạn, nền chuyển động, hạt/bong bóng bay, lấp lánh, xoay), bỏ backdrop-filter/blur, bỏ box-shadow lớn nhiều lớp, bỏ filter drop-shadow. Chỉ giữ hiệu ứng khi chọn ô (viền sáng + phóng nhẹ transform:scale, transition ≤150ms).
+- Bớt rối: nền một màu/gradient tĩnh nhẹ, chữ rõ, giữ lưới 3 ô mỗi hàng, giữ nguyên mảng GAMES, CUPS, điều hướng phím mũi tên/OK, các script dùng chung.
+- iPad/điện thoại vẫn giữ hiệu ứng nhẹ.
+
+TRẢ LỜI: một khối ```json mảng [{"cu": "đoạn gốc NGUYÊN VĂN, duy nhất", "moi": "đoạn thay"}], rồi tóm tắt ngắn.
+
+===== index.html =====
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<script src="/games/anh-chung/dong-bo.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Góc Trò Chơi Lucie &amp; Lucas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&amp;display=swap" rel="stylesheet">
+<style>
+  :root { --ink: #2b2140; --sky1: #8fd3ff; --sky2: #ffe3f1; --card: #ffffff; --focus: #ffb703; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; }
+  body {
+    font-family: "Baloo 2", "Segoe UI", system-ui, sans-serif; color: var(--ink);
+    background: linear-gradient(170deg, var(--sky1) 0%, #c9ecff 40%, var(--sky2) 100%) fixed;
+    padding: 20px max(18px, env(safe-area-inset-right, 0px)) 32px max(18px, env(safe-area-inset-left, 0px));
+    overflow-x: hidden;
+  }
+  header { position: relative; z-index: 1; text-align: center; }
+  /* Lucie và Lucas bay lượn quanh trang (tăng tốc GPU bằng transform, bấm vào là vỡ ngay!) */
+  .bay { position: fixed; left: 0; z-index: 20; cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent;
+    will-change: transform; animation: bayNgang 38s linear infinite; }
+  .bay img { display: block; width: 92px; height: 92px; border-radius: 50%; border: 5px solid #fff; background: #fff;
+    box-shadow: 0 10px 24px rgba(90,60,180,.28); animation: bayNhun 3.6s ease-in-out infinite; transition: transform .18s ease, opacity .18s ease; }
+  .bay:hover img { transform: scale(1.12); }
+  .bay.popping { pointer-events: none; }
+  .bay.popping img { animation: none !important; transform: scale(1.55); opacity: 0; transition: transform .22s cubic-bezier(.22,1,.36,1), opacity .22s ease; }
+  .bay.b1 { top: 9%; } .bay.b1 img { border-color: #ff8fc5; }
+  .bay.b2 { top: 58%; animation-duration: 47s; animation-delay: -18s; } .bay.b2 img { border-color: #6cc4ff; width: 78px; height: 78px; animation-delay: -1.2s; }
+  .bay.b3 { top: 30%; animation-name: bayNguoc; animation-duration: 52s; animation-delay: -7s; } .bay.b3 img { border-color: #6cc4ff; width: 64px; height: 64px; animation-delay: -2s; }
+  .bay.b4 { top: 78%; animation-name: bayNguoc; animation-duration: 60s; animation-delay: -33s; } .bay.b4 img { border-color: #ff8fc5; width: 70px; height: 70px; animation-delay: -.6s; }
+  .pop-hat { position: fixed; pointer-events: none; z-index: 30; font-size: 26px; font-weight: 800;
+    animation: popBay .65s cubic-bezier(.16,1,.3,1) forwards; }
+  @keyframes popBay {
+    0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
+    100% { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.25) rotate(var(--rot)); opacity: 0; }
+  }
+  @keyframes bayNgang { from { transform: translate3d(-160px, 0, 0); } to { transform: translate3d(calc(100vw + 60px), 0, 0); } }
+  @keyframes bayNguoc { from { transform: translate3d(calc(100vw + 60px), 0, 0); } to { transform: translate3d(-160px, 0, 0); } }
+  @keyframes bayNhun { 0%,100% { transform: translateY(0) rotate(-7deg); } 25% { transform: translateY(-22px) rotate(4deg); } 50% { transform: translateY(-6px) rotate(8deg); } 75% { transform: translateY(-28px) rotate(-3deg); } }
+  .cloud { position: fixed; font-size: 90px; opacity: .55; pointer-events: none; animation: drift 40s linear infinite; }
+  .cloud.c2 { top: 60%; font-size: 70px; animation-duration: 55s; animation-delay: -20s; }
+  .cloud.c1 { top: 8%; }
+  @keyframes drift { from { transform: translate3d(-140px, 0, 0); } to { transform: translate3d(105vw, 0, 0); } }
+  .kids { font-size: 54px; line-height: 1; animation: bob 2.4s ease-in-out infinite; display: flex; justify-content: center; align-items: center; gap: 14px; }
+  .hface { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; border: 6px solid #fff; box-shadow: 0 6px 0 rgba(0,0,0,.12); background: #fff; }
+  .hface.pink { border-color: #ff8fc7; } .hface.blue { border-color: #5ec8ff; }
+  /* ảnh bìa game: ghép ảnh mặt các con */
+  .art .face { position: absolute; width: 112px; height: 112px; border-radius: 50%; object-fit: cover; background: #fff;
+    border: 6px solid #fff; box-shadow: 0 8px 18px rgba(0,0,0,.25); z-index: 2; }
+  .art .face.pink { border-color: #ff8fc7; } .art .face.blue { border-color: #5ec8ff; }
+  .art .em { position: absolute; z-index: 3; filter: drop-shadow(0 4px 4px rgba(0,0,0,.25)); line-height: 1; }
+  .art .big { position: absolute; z-index: 1; line-height: 1; }
+  .art .ray { position: absolute; top: -20px; width: 120px; height: 260px; background: linear-gradient(rgba(255,255,255,.45), transparent 80%);
+    transform-origin: top center; z-index: 0; }
+  a.game:hover .art .face, a.game:focus-visible .art .face { animation: wiggle .6s ease-in-out; }
+  @keyframes wiggle { 30% { transform: rotate(-8deg) scale(1.06); } 70% { transform: rotate(6deg) scale(1.06); } }
+  a.game.stats .body h2 { color: #c2410c; }
+  /* tủ cúp của từng bé trên mỗi ô game */
+  .cups { display: grid; gap: 5px; margin-top: 6px; padding: 8px 10px; border-radius: 16px; background: #fff8e6; border: 2px dashed #ffd27a; }
+  .cupRow { display: flex; align-items: center; gap: 6px; min-width: 0; }
+  .cupRow img { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; border: 3px solid #ff8fc7; flex: none; }
+  .cupRow.lucas img { border-color: #5ec8ff; }
+  .cupRow .ic { font-size: 19px; letter-spacing: 1px; white-space: nowrap; overflow: hidden; text-overflow: clip; flex: 1; min-width: 0; }
+  .cupRow .n { font-size: 15px; font-weight: 800; color: #b45309; white-space: nowrap; }
+  .cupRow .none { font-size: 14px; color: #8a7a5a; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  @keyframes bob { 50% { transform: translateY(-8px); } }
+  h1 { margin: 6px 0 0; font-size: clamp(30px, 4.8vw, 56px); font-weight: 800; line-height: 1.1; text-wrap: balance;
+    color: #fff; text-shadow: 0 4px 0 #6c4bd6, 0 8px 18px rgba(80, 40, 160, .35); letter-spacing: .5px; }
+  .sub { margin: 6px 0 0; font-size: clamp(16px, 2vw, 22px); font-weight: 600; color: #4a3f6b; }
+  .grid { position: relative; z-index: 1; max-width: 1280px; margin: 26px auto 0;
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+  @media (max-width: 1000px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+  a.game { display: flex; flex-direction: column; text-decoration: none; color: inherit; background: var(--card);
+    border-radius: 24px; overflow: hidden; box-shadow: 0 8px 0 rgba(43, 33, 64, .13), 0 14px 28px rgba(43, 33, 64, .15);
+    transition: transform .18s cubic-bezier(.22,1,.36,1), box-shadow .18s ease, border-color .18s ease;
+    will-change: transform; outline: none; border: 4px solid transparent; }
+  a.game:hover, a.game:focus-visible { transform: translate3d(0, -5px, 0) scale(1.025); border-color: var(--focus);
+    box-shadow: 0 0 0 6px rgba(255, 183, 3, .32), 0 14px 0 rgba(43, 33, 64, .14), 0 22px 36px rgba(43, 33, 64, .22); z-index: 5; }
+  .art { height: 210px; display: grid; place-items: center; font-size: 96px; position: relative; overflow: hidden; }
+  .art .badge { position: absolute; top: 12px; left: 12px; background: #fff; border-radius: 999px; padding: 2px 12px;
+    font-size: 15px; font-weight: 800; color: #e8590c; box-shadow: 0 3px 0 rgba(0,0,0,.12); }
+  .body { padding: 14px 18px 18px; display: flex; flex-direction: column; gap: 5px; flex: 1; }
+  .body h2 { margin: 0; font-size: 24px; line-height: 1.15; font-weight: 800; }
+  .body p { margin: 0; font-size: 16px; line-height: 1.32; color: #5b5274; flex: 1; }
+  .tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 3px; }
+  .tags span { font-size: 13px; font-weight: 700; padding: 1px 10px; border-radius: 999px; background: #f1ecff; color: #5f3dc4; }
+  .play { margin-top: 8px; align-self: flex-start; font-size: 19px; font-weight: 800; color: #fff; padding: 5px 20px;
+    border-radius: 999px; background: linear-gradient(#ff8a3d, #f0590c); box-shadow: 0 4px 0 #b8400a; }
+  footer { position: relative; z-index: 1; text-align: center; margin-top: 28px; font-size: 15px; color: #6b6288; }
+
+  /* TỐI ƯU RIÊNG CHO MÀN HÌNH TV TO & DESKTOP RỘNG (hiển thị 10-15 game cùng lúc, mượt 60fps) */
+  @media (min-width: 1100px) {
+    body { padding: 12px 24px 20px; }
+    header {
+      max-width: min(96vw, 1840px);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.52);
+      backdrop-filter: blur(8px);
+      padding: 8px 18px;
+      border-radius: 22px;
+      box-shadow: 0 6px 18px rgba(60, 40, 120, 0.08);
+    }
+    .kids { font-size: 32px; gap: 8px; animation: none; flex: none; }
+    .hface { width: 56px; height: 56px; border-width: 4px; }
+    .header-text { flex: 1; min-width: 0; }
+    h1 { margin: 0; font-size: clamp(24px, 2.2vw, 34px); }
+    .sub { margin: 1px 0 0; font-size: 15px; display: inline-block; margin-right: 12px; }
+    .grid {
+      max-width: min(96vw, 1840px);
+      margin: 14px auto 0;
+      max-width: min(92vw, 1500px);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+    }
+    .art { height: 170px; }
+    .art .face { width: 76px; height: 76px; border-width: 4px; transform: translateY(-16px); }
+    .art .big { transform: scale(0.72); transform-origin: top center; }
+    .art .em { transform: scale(0.75) translateY(-18px); }
+    .body { padding: 10px 14px 12px; gap: 4px; }
+    .body h2 { font-size: 19px; }
+    .body p {
+      font-size: 13.5px;
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .tags span { font-size: 11.5px; padding: 1px 8px; }
+    .cups { padding: 6px 8px; gap: 4px; margin-top: 4px; border-radius: 12px; }
+    .cupRow img { width: 24px; height: 24px; border-width: 2px; }
+    .cupRow .ic { font-size: 15px; }
+    .cupRow .n, .cupRow .none { font-size: 12.5px; }
+    .play { margin-top: 6px; font-size: 15px; padding: 3px 14px; box-shadow: 0 3px 0 #b8400a; }
+    footer { margin-top: 14px; font-size: 13px; }
+  }
+  #hero { display: none; }
+  @media (prefers-reduced-motion: reduce) { .cloud, .kids, .bay, .bay img { animation: none; } }
+</style>
+<link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#7c4dff"><link rel="apple-touch-icon" href="/img/icon-192.png">
+<script>if("serviceWorker" in navigator)addEventListener("load",function(){navigator.serviceWorker.register("/sw.js").catch(function(){})});</script>
+<script src="games/anh-chung/thong-tin.js"></script>
+<script src="games/anh-chung/vi-sao.js"></script>
+</head>
+<body>
+<div class="bay b1" title="Bấm để làm vỡ bong bóng!"><img src="img/lucie.webp" alt=""></div>
+<div class="bay b2" title="Bấm để làm vỡ bong bóng!"><img src="img/lucas.webp" alt=""></div>
+<div class="bay b3" title="Bấm để làm vỡ bong bóng!"><img src="img/lucas.webp" alt=""></div>
+<div class="bay b4" title="Bấm để làm vỡ bong bóng!"><img src="img/lucie.webp" alt=""></div>
+<header>
+  <div class="kids" aria-hidden="true"><img class="hface pink" src="img/lucie.webp" alt=""><span>🎮</span><img class="hface blue" src="img/lucas.webp" alt=""></div>
+  <div class="header-text">
+    <h1>Góc Trò Chơi Lucie &amp; Lucas</h1>
+    <p class="sub">Chọn một trò chơi để vừa chơi vừa học nhé!</p>
+    <p class="sub" style="font-size:.95em">Của chị <b data-hs="lucie.ten">Nguyễn Ngọc Tường San</b> (lớp <span data-hs="lucie.lop">3A6</span>) và em <b data-hs="lucas.ten">Nguyễn Ngọc Tường Minh</b> (lớp <span data-hs="lucas.lop">1A5</span>) · <span data-hs="truong">Trường TH&amp;THCS Chu Văn An</span></p>
+  </div>
+</header>
+
+<section id="hero" aria-live="polite"></section>
+<main class="grid" id="grid"></main>
+<footer>Bố mẹ làm tặng Lucie &amp; Lucas 💛</footer>
+
+<script>
+/* DANH SÁCH TRÒ CHƠI — thêm game mới: thêm một dòng vào đây (game mới nhất để trên cùng) */
+const F = { lucie: "img/lucie.webp", lucas: "img/lucas.webp" };
+const CUP_ICONS = ["🏆", "🥇", "⚡", "👑", "🌟", "💎", "🚀", "📖", "🐉", "🦄", "🪐", "🌈", "🌻", "🐬", "🦉", "🦁", "🐝", "✏️", "🌍", "🔍", "🎹", "🎈", "🏰", "🪁", "🐳", "☀️", "🌙", "🌳", "🧰", "🔢", "📝", "🔤", "🔥", "❄️", "🏡", "🎖️"];
+const readJSON = k => { try { return JSON.parse(localStorage.getItem(k) || "null"); } catch (e) { return null; } };
+// Cúp từng bé đã giành trong mỗi game (đọc thẳng từ dữ liệu game lưu trên máy này)
+const CUPS = {
+  phocho: c => { const o = readJSON("phocho_" + c) || {}, n = o.cup || 0, h = (o.hu || {}).tietkiem || 0;
+    return { n, icons: Array(Math.min(n, 12)).fill("🏪"), note: n + "/30 phiên 3 sao · Hũ Tiết Kiệm " + h }; },
+  phieuluu: c => { const p = readJSON("lucieLucas_v3_" + c) || {}, n = p.trophies || 0;
+    const stars = Object.values(p.stars || {}).reduce((a, b) => a + b, 0);
+    return { n, icons: CUP_ICONS.slice(0, n).reverse(), note: n + " cúp · ⭐" + stars }; },
+  rungchuong: c => { const o = readJSON("rcv_thanhTich_" + c) || {}, n = o.thang || 0;
+    return { n, icons: Array(Math.min(n, 12)).fill("🔔"), note: n + " lần rung chuông" + (o.xaNhat && !n ? " · tới câu " + o.xaNhat + "/10" : "") }; },
+  cadao: c => { const o = readJSON("cadao_" + c) || {}, n = o.cup || 0;
+    return { n, icons: Array(Math.min(n, 12)).fill("🏮"), note: n + " cúp 3 sao" + (o.best ? " · nhiều nhất đúng " + o.best + "/25 câu" : "") }; },
+  daokhobau: c => { const o = (readJSON("daoKhoBauToanHoc_v1") || {})[c] || {}, n = o.wins || 0;
+    return { n, icons: Array(Math.min(n, 12)).fill("💎"), note: n + " lần tìm ra kho báu" + (o.island ? " · đang ở Đảo " + (o.island + 1) + "/5" : "") }; },
+  flyers: c => { const o = readJSON("flyers_" + c) || {}, n = o.khien || 0;
+    return { n, icons: Array(Math.min(n, 15)).fill("🛡️"), note: n + "/15 khiên · " + (o.bai || 0) + "/56 bài · " + (o.xp || 0) + " XP" }; },
+  thomo: c => { const n = Object.keys(readJSON("thomo_cup_" + c) || {}).length, o = readJSON("thomo_" + c) || {};
+    return { n, icons: Array(Math.min(n, 12)).fill("🏆"), note: n + "/31 cúp" + (o.luot ? " · " + o.luot + " lần tới kho báu" : "") }; },
+  sachtruyen: c => { const o = readJSON("sachtruyen_" + c) || {}, nt = Object.keys(o.truyen || {}).length, n = o.sao || 0;
+    return { n, icons: Array(Math.min(n, 12)).fill("⭐"), note: nt + " truyện đã nghe · ⭐" + n }; },
+  kynang: c => { const o = readJSON("kynang_" + c) || {}, n = o.cup || 0, b = Object.keys(o.sao || {}).length;
+    return { n, icons: Array(Math.min(n, 12)).fill("🏅"), note: n + "/12 huy hiệu · đã học " + b + "/12 bài" }; },
+  duathuyen: c => { const o = readJSON("duaThuyen_" + c) || {}, n = o.dongDoi || 0;
+    return { n, icons: Array(Math.min(n, 12)).fill("🏆"), note: n + " cúp đồng đội · về nhất " + (o.nhat || 0) + " lần" }; },
+  duaxe: c => { const o = readJSON("duaXe_" + c) || {}, n = o.vang || 0;
+    return { n, icons: Array(Math.min(n, 12)).fill("🏆"), note: n + " cúp vàng · 🥈" + (o.bac || 0) + " · 🥉" + (o.dong || 0) + (o.diemCao ? " · kỷ lục ⭐" + o.diemCao : "") }; },
+  duoihinh: c => { const o = readJSON("dhbc_" + c) || {}, g = (o.giai || []).length, n = Math.floor(g / 10);
+    return { n, icons: Array(Math.min(n, 12)).fill("🖼️"), note: g + "/50 câu · ⭐" + (o.stars || 0) }; }
+};
+// Ví sao (Cửa hàng đổi quà): số sao và mục tiêu của từng bé
+let VI = window.ViSao ? ViSao.dongBo() : null;
+if (VI) { ViSao.khiDoi(s => { VI = s; const el = document.getElementById("viCups"); if (el) el.outerHTML = viHTML(); }); ViSao.dongBoMay(); }
+function viHTML() {
+  if (!VI) return "";
+  return `<div class="cups" id="viCups">` + ["lucie", "lucas"].map(c => {
+    const du = ViSao.soDu(VI, c), q = ViSao.mucTieu(VI, c), nm = c === "lucie" ? "Lucie" : "Lucas";
+    const goal = q ? (du >= q.gia ? ` · đủ CIECAS đổi ${q.icon} rồi!` : ` · 🎯 còn ${q.gia - Math.max(0, du)} CIECAS tới ${q.icon}`) : "";
+    return `<div class="cupRow ${c}"><img src="${F[c]}" alt="${nm}"><span class="n" style="flex:1;white-space:normal"><img src="games/anh-chung/xu-ciecas-nho.webp" alt="" style="width:1.2em;height:1.2em;vertical-align:-.25em"> ${du} CIECAS${goal}</span></div>`;
+  }).join("") + `</div>`;
+}
+function cupsHTML(key) {
+  if (key === "vi") return viHTML();
+  if (!CUPS[key]) return "";
+  return `<div class="cups">` + ["lucie", "lucas"].map(c => {
+    const r = CUPS[key](c), nm = c === "lucie" ? "Lucie" : "Lucas";
+    return `<div class="cupRow ${c}"><img src="${F[c]}" alt="${nm}">` + (r.n
+      ? `<span class="ic">${r.icons.slice(0, 9).join("")}${r.icons.length > 9 ? "…" : ""}</span><span class="n">${r.note}</span>`
+      : `<span class="none">${nm} chưa có cúp — chơi để giành cúp đầu tiên!</span>`) + `</div>`;
+  }).join("") + `</div>`;
+}
+const GAMES = [
+  { href: "games/pho-cho-nhi/", name: "Phố Chợ Nhí", isNew: true, cups: "phocho",
+    desc: "30 phiên chợ: đi chợ chọn quầy tiết kiệm nhất để nấu Mâm Cơm Việt Nam, rồi làm Chủ Sạp Tài Ba tính tiền cho khách. CIECAS kiếm được chia vào 3 hũ, Hũ Tiết Kiệm đổi quà thật cuối tuần!",
+    tags: ["Tư duy chi tiêu", "Lucie lớp 3", "Lucas lớp 1", "Toán"], bg: "linear-gradient(180deg,#ffd6a5 0,#fff1d6 55%,#f4a261 55%,#e76f51 100%)",
+    art: `<img class="face pink" src="${F.lucie}" style="left:14%;top:76px" alt="Lucie"><img class="face blue" src="${F.lucas}" style="left:40%;top:96px" alt="Lucas">
+          <span class="big" style="font-size:56px;right:8%;top:40px">🏪</span><span class="em" style="font-size:34px;left:6%;top:18px">🧺</span>` },
+  { href: "games/ky-nang/", name: "Trường Kỹ Năng", cups: "kynang",
+    desc: "12 bài học kỹ năng sống bằng truyện tranh có giọng kể: chào hỏi, cảm ơn xin lỗi, bình tĩnh khi giận, an toàn với người lạ, an toàn giao thông... Học xong làm bài kiểm tra ngay, trả lời đúng được thưởng CIECAS!",
+    tags: ["Kỹ năng sống", "Lucie lớp 3", "Lucas lớp 1", "Học rồi kiểm tra"], bg: "linear-gradient(180deg,#8fd3ff 0,#d6f0ff 55%,#9be29b 55%,#5cbf5c 100%)",
+    art: `<img class="face pink" src="${F.lucie}" style="left:14%;top:76px" alt="Lucie"><img class="face blue" src="${F.lucas}" style="left:40%;top:96px" alt="Lucas">
+          <span class="big" style="font-size:56px;right:8%;top:40px">🏫</span><span class="em" style="font-size:34px;left:6%;top:18px">🤝</span>` },
+  { href: "games/dua-thuyen/", name: "Đua Thuyền Hai Chị Em", cups: "duathuyen",
+    desc: "Hai chị em chơi CÙNG LÚC trên một màn hình chia đôi: chị trả lời câu lớp 3 bên trái, em trả lời câu lớp 1 bên phải. Đúng thì thuyền tiến về Đảo Kẹo. Cùng về đích được Cúp đồng đội!",
+    tags: ["Chơi cùng lúc", "Lucie lớp 3", "Lucas lớp 1", "Toán", "Tiếng Việt", "Tiếng Anh"], bg: "linear-gradient(180deg,#8fd8ff 0,#c9f0ff 35%,#3fb4e8 35%,#1e8ed1 100%)",
+    art: `<img class="face pink" src="${F.lucie}" style="left:16%;top:70px" alt="Lucie"><img class="face blue" src="${F.lucas}" style="left:42%;top:118px" alt="Lucas">
+          <span class="big" style="font-size:54px;right:8%;top:60px">🏝️</span><span class="em" style="font-size:34px;left:6%;top:20px">⛵</span>` },
+  { href: "games/dua-xe/", name: "Đua Xe Tia Chớp 3D", cups: "duaxe",
+    desc: "Lái xe đua qua thành phố, đồng lúa, bờ biển, núi tuyết. Lái vào cổng có đáp án đúng để bật TURBO, vượt Thỏ Trắng, Cáo Cam, Gấu Nâu và về nhất!",
+    tags: ["Lucas lớp 1", "Lucie lớp 3", "Toán", "Tiếng Việt", "Tiếng Anh"], bg: "linear-gradient(180deg,#6ec6ff 0,#d8f1ff 42%,#3a3f4b 42%,#3a3f4b 100%)",
+    art: `<span class="big" style="font-size:54px;left:8%;top:28px">🏎️</span><span class="big" style="font-size:48px;right:8%;top:26px">🏁</span>
+          <span class="big" style="font-size:56px;left:42%;top:30px">🏆</span>
+          <img class="face pink" src="${F.lucie}" style="left:18%;top:84px" alt="Lucie"><img class="face blue" src="${F.lucas}" style="right:18%;top:84px" alt="Lucas">
+          <span class="em" style="font-size:34px;left:45%;top:142px">🚦</span>` },
+  { href: "games/sach-truyen/", name: "Sách truyện nói", cups: "sachtruyen",
+    desc: "Hai ngày có một truyện mới, Lucie và Lucas là nhân vật chính: tranh Gemini vẽ, giọng kể, bài học nhỏ và câu đố riêng cho từng bé. Nghe trước giờ đi ngủ nhé!",
+    tags: ["Lucie", "Lucas", "Đọc truyện", "2 ngày 1 truyện"], bg: "url(games/sach-truyen/anh/tuan-01-bia.webp) center/cover, radial-gradient(circle at 75% 25%,#fff6c9 0 9%,transparent 10%),linear-gradient(#1d1a52,#3c2f86)",
+    art: `<img class="face pink" src="${F.lucie}" style="left:18%;top:84px" alt="Lucie"><img class="face blue" src="${F.lucas}" style="right:18%;top:84px" alt="Lucas">` },
+  { href: "games/fun-for-flyers/", name: "Fun for Flyers – Học tiếng Anh", cups: "flyers",
+    desc: "Lộ trình 56 bài tiếng Anh Flyers: thẻ từ vựng có phát âm, trò chơi, luyện đọc, viết, nói, nghe và tô màu. Học giỏi để giành đủ 15 khiên!",
+    tags: ["Lucie", "Lucas", "Tiếng Anh", "56 Units"], bg: "url(games/fun-for-flyers/anh/bia.webp) center/cover",
+    art: `<img class="face pink" src="${F.lucie}" style="left:18%;top:84px" alt="Lucie"><img class="face blue" src="${F.lucas}" style="right:18%;top:84px" alt="Lucas">` },
+  { href: "games/tho-mo-nhi/", name: "Thợ Mỏ Nhí 3D", cups: "thomo",
+    desc: "Đào 6 tầng lòng đất, trả lời đúng để mở rương đầy bạc, vàng, kim cương. Sưu tầm 31 cúp, nâng cấp cuốc, đổi trang phục ô tô, siêu anh hùng, ninja, robot!",
+    tags: ["Lucie lớp 3", "Lucas lớp 1", "Toán", "Tiếng Việt", "Tiếng Anh"], bg: "linear-gradient(180deg,#8fd3ff 0,#8fd3ff 30%,#5dbb3c 30%,#5dbb3c 36%,#8b5a2b 36%,#6b6b6b 62%,#2c2c3a 100%)",
+    art: `<span class="big" style="font-size:52px;left:8%;top:30px">⛏️</span><span class="big" style="font-size:50px;right:8%;top:34px">📦</span>
+          <span class="big" style="font-size:62px;left:42%;top:26px">💎</span>
+          <img class="face pink" src="${F.lucie}" style="left:18%;top:84px" alt="Lucie"><img class="face blue" src="${F.lucas}" style="right:18%;top:84px" alt="Lucas">
+          <span class="em" style="font-size:30px;left:46%;top:140px">🪙</span>` },
+  { href: "games/hoi-lang-ca-dao/", name: "Hội Làng Đoán Ca Dao 3D", cups: "cadao",
+    desc: "Xem 2 bức tranh phép thuật, đoán từ còn thiếu trong câu ca dao, tục ngữ. Đúng thì trống hội vang, pháo giấy bay!",
+    tags: ["Tường San 3A6", "Tường Minh 1A5", "Tiếng Việt", "50 câu"], bg: "radial-gradient(circle at 50% 35%,#ffd166 0,#e63946 45%,#3a0ca3 100%)",
+    art: `<span class="big" style="font-size:52px;left:8%;top:22px">🏮</span><span class="big" style="font-size:52px;right:8%;top:22px">🏮</span>
+          <span class="big" style="font-size:70px;left:41%;top:30px">🥁</span>
+          <img class="face pink" src="${F.lucie}" style="left:18%;top:84px" alt="Lucie"><img class="face blue" src="${F.lucas}" style="right:18%;top:84px" alt="Lucas">
+          <span class="em" style="font-size:30px;left:46%;top:140px">🎆</span>` },
+  { href: "games/dao-kho-bau-toan-hoc/", name: "Đảo Kho Báu Toán Học 3D", cups: "daokhobau",
+    desc: "Vượt 5 hòn đảo: xếp số qua cầu đá, nhảy bậc đá phép tính, bắn đại bác mở cổng kho báu của Cướp biển Max!",
+    tags: ["Tường San 3A6", "Tường Minh 1A5", "Toán", "5 đảo"], bg: "linear-gradient(180deg,#5ec8f2 0,#bfeaff 55%,#16b3c9 55%,#0e8fa6 100%)",
+    art: `<span class="big" style="font-size:54px;left:8%;top:34px">🏝️</span><span class="big" style="font-size:44px;right:8%;top:24px">🏴‍☠️</span>
+          <span class="big" style="font-size:60px;left:42%;top:40px">💎</span>
+          <img class="face pink" src="${F.lucie}" style="left:16%;top:84px" alt="Lucie"><img class="face blue" src="${F.lucas}" style="right:16%;top:84px" alt="Lucas">
+          <span class="em" style="font-size:34px;left:44%;top:140px">⛵</span>` },
+  { href: "games/duoi-hinh-bat-chu/", name: "Đuổi hình bắt chữ 3D", cups: "duoihinh",
+    desc: "Nhìn hình đoán chữ trên sân khấu 3D: 50 câu cho Lucas, 50 câu thành ngữ, cổ tích cho Lucie, hoặc hai chị em thi đổi lượt!",
+    tags: ["Lucie", "Lucas", "Tiếng Việt", "100 câu"], bg: "radial-gradient(circle at 50% 40%,#ffe9f6 0,#b388ff 45%,#4a2a9a 100%)",
+    art: `<span class="big" style="font-size:56px;left:28%;top:40px">🍊</span><span class="em" style="font-size:40px;left:46%;top:52px;color:#ff4f9a;font-weight:800">+</span>
+          <span class="big" style="font-size:56px;right:28%;top:40px">🐝</span>
+          <img class="face pink" src="${F.lucie}" style="left:5%;top:84px" alt="Lucie"><img class="face blue" src="${F.lucas}" style="right:5%;top:84px" alt="Lucas">
+          <span class="em" style="font-size:30px;left:40%;top:140px">🖼️</span><span class="em" style="font-size:30px;right:22%;top:8px">⭐</span>` },
+  { href: "games/rung-chuong-vang/", name: "Rung Chuông Vàng", cups: "rungchuong",
+    desc: "Gameshow kiến thức: thi tài cùng 99 bạn, ai trả lời đúng tới cuối sẽ rung chuông vàng!",
+    tags: ["Lucie", "Lucas", "Đố vui"], bg: "radial-gradient(circle at 50% 110%,#ffcf3f 0,#b0479a 38%,#3b1f8c 75%)",
+    art: `<span class="ray" style="left:8%;transform:rotate(-22deg)"></span><span class="ray" style="right:8%;transform:rotate(22deg)"></span>
+          <span class="big" style="font-size:118px;top:38px">🔔</span>
+          <img class="face pink" src="${F.lucie}" style="left:7%;top:62px" alt="Lucie"><img class="face blue" src="${F.lucas}" style="right:7%;top:62px" alt="Lucas">
+          <span class="em" style="font-size:34px;left:20%;top:30px">✨</span><span class="em" style="font-size:30px;right:20%;top:24px">⭐</span>` },
+  { href: "games/lucie-lucas/", name: "Lucie & Lucas phiêu lưu", cups: "phieuluu",
+    desc: "Chạy qua rừng, biển, núi tuyết, sa mạc, vũ trụ. Trả lời đúng để vượt cửa ải, đừng để bố mẹ bắt được!",
+    tags: ["Toán", "Tiếng Việt", "Tiếng Anh", "30 level"], bg: "linear-gradient(180deg,#7fd3ff 0,#c8f0ff 55%,#7bd88f 55%,#4cbb64 100%)",
+    art: `<span class="big" style="font-size:44px;left:6%;top:16px">🏔️</span><span class="big" style="font-size:40px;right:6%;top:18px">🪐</span>
+          <span class="big" style="font-size:36px;left:42%;top:8px">☀️</span>
+          <img class="face pink" src="${F.lucie}" style="left:16%;top:56px" alt="Lucie"><span class="em" style="font-size:46px;left:calc(16% + 34px);top:22px">👑</span>
+          <img class="face blue" src="${F.lucas}" style="right:16%;top:56px" alt="Lucas"><span class="em" style="font-size:58px;right:calc(16% - 26px);top:128px">🏎️</span>
+          <span class="em" style="font-size:40px;left:calc(16% - 22px);top:134px">🧸</span>` },
+  { href: "thanh-tich/", name: "Bảng thành tích", cls: "stats",
+    desc: "Bố mẹ xem hôm nay con chơi bao lâu, đúng bao nhiêu câu, môn nào giỏi, môn nào cần luyện thêm.",
+    tags: ["Dành cho bố mẹ", "Mỗi ngày"], bg: "linear-gradient(135deg,#fff3bf,#ffd43b 45%,#ff922b)",
+    art: `<span class="big" style="font-size:120px;top:40px">🏆</span>
+          <img class="face pink" src="${F.lucie}" style="left:8%;top:70px;width:96px;height:96px" alt="Lucie">
+          <img class="face blue" src="${F.lucas}" style="right:8%;top:70px;width:96px;height:96px" alt="Lucas">
+          <span class="em" style="font-size:36px;left:24%;top:22px">⭐</span><span class="em" style="font-size:36px;right:24%;top:22px">📈</span>` },
+  { href: "games/cua-hang/", name: "Cửa hàng CIECAS", isNew: true, cups: "vi",
+    desc: "Đồng CIECAS kiếm được ở mọi trò chơi đổi lấy quà thật bố mẹ đặt: đi công viên, truyện mới, que kem... Chọn mục tiêu, tích đủ CIECAS rồi xin bố mẹ duyệt nhé!",
+    tags: ["Lucie", "Lucas", "Đổi quà", "Bố mẹ duyệt"], bg: "radial-gradient(circle at 50% 30%,#fff3bf 0,#ffd43b 40%,#ff8fc7 100%)",
+    art: `<img src="games/anh-chung/xu-ciecas.webp" alt="" style="position:absolute;width:150px;top:22px;z-index:1"><span class="big" style="font-size:40px;left:26%;top:40px">🎡</span><span class="big" style="font-size:44px;right:8%;top:22px">📚</span>
+          <img class="face pink" src="${F.lucie}" style="left:12%;top:90px;width:96px;height:96px" alt="Lucie"><img class="face blue" src="${F.lucas}" style="right:12%;top:90px;width:96px;height:96px" alt="Lucas">
+          <span class="em" style="font-size:38px;left:44%;top:150px">🎁</span>` },
+];
+const grid = document.getElementById("grid");
+GAMES.forEach((g, i) => {
+  const a = document.createElement("a");
+  a.className = "game" + (g.cls ? " " + g.cls : ""); a.href = g.href; a.tabIndex = 0;
+  a.innerHTML = `<div class="art" style="background:${g.bg}">${g.isNew ? '<span class="badge" style="z-index:4">MỚI</span>' : ""}${g.art}</div>
+    <div class="body"><h2>${g.name}</h2><p>${g.desc}</p>
+    <div class="tags">${g.tags.map(t => `<span>${t}</span>`).join("")}</div>${g.cups ? cupsHTML(g.cups) : ""}
+    <span class="play">Chơi ngay ▶</span></div>`;
+  grid.appendChild(a);
+  if (i === 0) setTimeout(() => a.focus({ preventScroll: true }), 300);  // điều khiển TV: ô đầu tiên được chọn sẵn
+});
+
+// Khung lớn (TV): hiện trò đang được chọn ở 2 hàng thẻ nhỏ phía dưới
+const hero = document.getElementById("hero");
+function hienHero(i) {
+  const g = GAMES[i]; if (!g || !hero || getComputedStyle(hero).display === "none") return;
+  document.querySelectorAll("a.game.dangChon").forEach(x => x.classList.remove("dangChon"));
+  const a = document.querySelectorAll("a.game")[i]; if (a) a.classList.add("dangChon");
+  hero.innerHTML = `<a class="hArt" href="${g.href}" style="background:${g.bg}"><div class="zoom">${g.art}</div></a>
+    <div class="hInfo"><h2>${g.name}</h2><p>${g.desc}</p>
+    <div class="tags">${g.tags.map(t => `<span>${t}</span>`).join("")}</div>${g.cups ? cupsHTML(g.cups) : ""}
+    <a class="vao" href="${g.href}">Chơi ngay ▶</a><span class="goi">Bấm OK trên điều khiển hoặc bấm vào ô để vào chơi</span></div>`;
+}
+document.querySelectorAll("a.game").forEach((a, i) => {
+  a.addEventListener("mouseenter", () => hienHero(i));
+  a.addEventListener("focus", () => hienHero(i));
+});
+hienHero(0);
+// Phím mũi tên & phím số 1-9 trên điều khiển TV để chuyển nhanh giữa các trò chơi
+document.addEventListener("keydown", e => {
+  const items = [...document.querySelectorAll("a.game")];
+  if (!items.length) return;
+  if (e.key >= "1" && e.key <= "9") {
+    const idx = Number(e.key) - 1;
+    if (items[idx]) { e.preventDefault(); items[idx].focus(); items[idx].click(); }
+    return;
+  }
+  const i = items.indexOf(document.activeElement);
+  if (!["ArrowRight", "ArrowLeft", "ArrowDown", "ArrowUp"].includes(e.key)) return;
+  e.preventDefault();
+  if (i < 0) { items[0].focus(); return; }
+  const gs = getComputedStyle(grid), ngang = gs.gridAutoFlow.includes("column");   // TV: dải ngang 2 hàng, xếp theo cột
+  const hang = Math.max(1, gs.gridTemplateRows.split(" ").length), cot = Math.max(1, gs.gridTemplateColumns.split(" ").length);
+  const step = ngang ? { ArrowRight: hang, ArrowLeft: -hang, ArrowDown: 1, ArrowUp: -1 }[e.key]
+                     : { ArrowRight: 1, ArrowLeft: -1, ArrowDown: cot, ArrowUp: -cot }[e.key];
+  let j = Math.max(0, i) + step;
+  if (j < 0 || j >= items.length) j = (Math.max(0, i) + (step > 0 ? 1 : -1) + items.length) % items.length;
+  items[j].focus({ preventScroll: true });
+  items[j].scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
+});
+// TV / màn rộng: lăn chuột lên xuống thì dải trò chơi chạy ngang
+grid.addEventListener("wheel", e => {
+  if (!getComputedStyle(grid).gridAutoFlow.includes("column") || Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+  e.preventDefault(); grid.scrollBy({ left: e.deltaY * 1.4, behavior: "auto" });
+}, { passive: false });
+
+// Bấm vào bong bóng mặt Lucie & Lucas đang bay để làm vỡ vui nhộn (kèm tiếng "bộp!" + pháo hoa)
+(function () {
+  let audioCtx = null;
+  function tiengBop() {
+    try {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      if (!audioCtx) audioCtx = new AC();
+      if (audioCtx.state === "suspended") audioCtx.resume();
+      const t = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(520, t);
+      osc.frequency.exponentialRampToValueAtTime(160, t + 0.11);
+      gain.gain.setValueAtTime(0.28, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.12);
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      osc.start(t); osc.stop(t + 0.13);
+    } catch (e) {}
+  }
+  const ICONS = ["✨", "💥", "⭐", "💖", "🎉", "🫧"];
+  document.querySelectorAll(".bay").forEach(el => {
+    el.addEventListener("click", e => {
+      if (el.classList.contains("popping")) return;
+      e.stopPropagation();
+      tiengBop();
+      const rect = el.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2, cy = rect.top + rect.height / 2;
+      for (let k = 0; k < 7; k++) {
+        const p = document.createElement("span");
+        p.className = "pop-hat";
+        p.textContent = ICONS[k % ICONS.length];
+        const ang = (Math.PI * 2 * k) / 7 + (Math.random() - 0.5) * 0.4;
+        const dist = 42 + Math.random() * 44;
+        p.style.left = cx + "px"; p.style.top = cy + "px";
+        p.style.setProperty("--dx", Math.cos(ang) * dist + "px");
+        p.style.setProperty("--dy", Math.sin(ang) * dist + "px");
+        p.style.setProperty("--rot", Math.round((Math.random() - 0.5) * 90) + "deg");
+        document.body.appendChild(p);
+        setTimeout(() => p.remove(), 680);
+      }
+      el.classList.add("popping");
+      setTimeout(() => {
+        el.style.animation = "none";
+        el.offsetHeight;
+        el.style.animation = "";
+        el.classList.remove("popping");
+      }, 2200);
+    });
+  });
+})();
+</script>
+<script src="games/anh-chung/anh-that.js" defer=""></script>
+<script src="games/anh-chung/nen-hat.js"></script>
+<script src="games/anh-chung/nhac-nen.js" data-ten="Trò chơi của Lucie &amp; Lucas" data-bpm="115" data-goc="C" data-kieu="marimba" data-not="C5 E5 G5 E5 F5 A5 G5 E5 D5 F5 E5 C5 D5 G4 C5"></script>
+<button id="nutCai" data-giu-icon="" style="display:none;position:fixed;right:16px;bottom:16px;z-index:9999;border:0;border-radius:999px;padding:12px 22px;font:800 18px 'Baloo 2',system-ui,sans-serif;color:#fff;background:linear-gradient(#a78bfa,#7c3aed);box-shadow:0 6px 0 #5b21b6,0 10px 24px rgba(0,0,0,.25);cursor:pointer">Cài vào máy để nhạc tự phát</button>
+<script>
+(function(){ var hoan=null, b=document.getElementById('nutCai');
+  addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); hoan=e; b.style.display='block'; });
+  b.onclick=function(){ if(!hoan) return; hoan.prompt(); hoan.userChoice.finally(function(){ hoan=null; b.style.display='none'; }); };
+  addEventListener('appinstalled', function(){ b.style.display='none'; });
+})();
+</script>
+
+
+
+
+
+
+</body></html>
