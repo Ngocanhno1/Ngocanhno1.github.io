@@ -663,16 +663,30 @@ function refHue(k) {
   const c = calibratedLab[k];
   return (calibratedSet.has(k) && c && c[1] > 0.3) ? c[0] : DEFAULT_HUE[k];
 }
+function warmSplit() {
+  // Ranh giới Đỏ | Cam theo độ hue (đỏ lấy âm nếu > 300). Mặc định 12°, hiệu chỉnh theo 2 tâm nhưng kẹp 8°–15°
+  let split = 12;
+  if (calibratedSet.has('R') && calibratedSet.has('L')) {
+    let hr = calibratedLab.R[0]; if (hr > 300) hr -= 360;
+    const hl = calibratedLab.L[0];
+    if (hl > hr) split = (hr + hl) / 2;
+  }
+  return Math.max(8, Math.min(15, split));
+}
 function classifyLab(hsv) {
   const [hh, s, v] = hsv;
-  // Ngưỡng trắng: dùng tâm trắng đã đo nếu có
   let whiteSat = 0.30;
   if (calibratedSet.has('U') && calibratedLab.U) whiteSat = Math.min(0.42, Math.max(0.22, calibratedLab.U[1] + 0.14));
   if (s < whiteSat && v > 0.35) return { color: 'U', de: 0, conf: (whiteSat - s) * 100 };
-  // Đỏ / cam: phân ranh giữa hai tâm đã đo
-  const keys = ['R', 'L', 'D', 'F', 'B'];
-  const sc = keys.map(k => ({ k, d: hueDist(hh, refHue(k)) })).sort((a, b) => a.d - b.d);
-  return { color: sc[0].k, de: sc[0].d, conf: sc[1].d - sc[0].d };
+  const nh = hh > 300 ? hh - 360 : hh;
+  if (nh < 40) {
+    const sp = warmSplit();
+    return nh < sp ? { color: 'R', de: 0, conf: sp - nh } : { color: 'L', de: 0, conf: Math.min(nh - sp, 40 - nh) };
+  }
+  if (hh < 78) return { color: 'D', de: 0, conf: Math.min(hh - 40, 78 - hh) };
+  if (hh < 185) return { color: 'F', de: 0, conf: Math.min(hh - 78, 185 - hh) };
+  if (hh < 290) return { color: 'B', de: 0, conf: Math.min(hh - 185, 290 - hh) };
+  return { color: 'R', de: 0, conf: 5 };
 }
 
 function medianOf(arr) {
@@ -706,6 +720,7 @@ function speak(text) {
 }
 
 function resetFrameStreaks() {
+  autoStable = 0;
   for (let i = 0; i < 9; i++) frameStreaks[i] = { color: null, count: 0, locked: false };
 }
 
@@ -871,9 +886,21 @@ function processFrame(source, sw, sh, immediateLock) {
     }
   }
 
+  // ===== Tự chuyển mặt: đủ 9 ô đã chốt + tâm đúng màu mặt cần quét + giữ yên ~1 giây =====
+  if (!immediateLock) {
+    const centerOk = classifyLab(liveLabs[4]).color === expectedFace;
+    const allLocked = frameStreaks.every(st => st.locked);
+    const modalOpen = document.getElementById('turnModal').classList.contains('show');
+    if (centerOk && allLocked && !modalOpen && !isFrozen) {
+      autoStable++;
+      if (autoStable >= AUTO_FRAMES) { autoStable = 0; document.getElementById('btnNextFace').click(); }
+    } else autoStable = 0;
+  }
   renderScanGrid();
   syncScanCube3D();
 }
+let autoStable = 0;
+const AUTO_FRAMES = 10;
 
 // Native iOS photo fallback
 document.getElementById('nativeCameraInput').addEventListener('change', (e) => {
@@ -1090,7 +1117,7 @@ function createCubeEngine(canvasId) {
 }
 
 let scanCubeEngine, solverCubeEngine;
-function rotateScanCubeTo(rx, ry) { if (scanCubeEngine) scanCubeEngine.setTargetRot(rx, ry); }
+function rotateScanCubeTo(rx, ry) { if (scanCubeEngine) scanCubeEngine.setTargetRot(rx + 0.42, ry - 0.62); }
 function syncScanCube3D() {
   if (!scanCubeEngine) return;
   const arr = Array(54).fill(null);
@@ -1586,6 +1613,7 @@ document.getElementById('btnNextFace').addEventListener('click', () => {
     document.getElementById('turnTitle').textContent = info.nextTitle;
     document.getElementById('turnDesc').textContent = info.nextDesc;
     document.getElementById('turnModal').classList.add('show');
+    clearTimeout(window.__autoTurn); window.__autoTurn = setTimeout(() => { if (document.getElementById('turnModal').classList.contains('show')) document.getElementById('btnTurnOk').click(); }, 3500);
     speak(`Đã lưu xong mặt ${currentStepIdx + 1}. ${info.nextTitle}. ${info.nextDesc}`);
   } else {
     recalibrateAllScannedStickers();
