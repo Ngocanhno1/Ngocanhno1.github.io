@@ -31,7 +31,9 @@
   }
   .the-chon {
     transition: transform .25s cubic-bezier(.2,1.4,.4,1), box-shadow .25s;
-    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  }
+  .the-chon:focus-visible, .nut-dap-an:focus-visible, button:focus-visible {
+    outline: 4px solid #fde047; outline-offset: 3px;
   }
   .the-chon:hover { transform: translateY(-8px) scale(1.04); }
   .the-chon:active { transform: scale(.97); }
@@ -125,7 +127,7 @@
     <p class="text-amber-200 mt-2 text-base md:text-lg font-bold">👇 Chọn nhân vật chính của con</p>
   </div>
 
-  <button id="theLucie" class="the-chon pointer-events-auto absolute bottom-3 left-2 w-[48%] md:w-80 md:left-8 lg:left-14 md:bottom-auto md:top-1/2 md:-translate-y-1/3 rounded-[28px] p-4 md:p-6 text-center text-white border-4 border-pink-200/80 shadow-2xl" style="background:linear-gradient(160deg,rgba(255,143,190,.92),rgba(214,51,132,.92))">
+  <button id="theLucie" class="the-chon pointer-events-auto absolute bottom-3 left-2 w-[48%] md:w-80 md:left-8 lg:left-14 md:bottom-auto md:top-1/2 md:-translate-y-1/2 md:mt-8 max-h-[78vh] overflow-y-auto rounded-[28px] p-4 md:p-6 text-center text-white border-4 border-pink-200/80 shadow-2xl" style="background:linear-gradient(160deg,rgba(255,143,190,.92),rgba(214,51,132,.92))">
     <div class="avatar" style="background:#ffe3ef"><img data-anh="lucie" alt="Lucie" class="w-full h-full rounded-full object-cover border-4 border-white"><span class="huy-hieu">🎀</span></div>
     <div class="text-xs md:text-sm tracking-[.3em] mt-3 opacity-90 font-bold">CHỊ GÁI</div>
     <div class="text-3xl md:text-5xl font-extrabold leading-none mt-1 drop-shadow">LUCIE</div>
@@ -139,7 +141,7 @@
     <div class="mt-3 rounded-2xl bg-white text-pink-600 font-extrabold py-2 text-lg md:text-xl shadow">Chọn Lucie ➜</div>
   </button>
 
-  <button id="theLucas" class="the-chon pointer-events-auto absolute bottom-3 right-2 w-[48%] md:w-80 md:right-8 lg:right-14 md:bottom-auto md:top-1/2 md:-translate-y-1/3 rounded-[28px] p-4 md:p-6 text-center text-white border-4 border-sky-200/80 shadow-2xl" style="background:linear-gradient(160deg,rgba(96,178,255,.92),rgba(29,95,214,.92))">
+  <button id="theLucas" class="the-chon pointer-events-auto absolute bottom-3 right-2 w-[48%] md:w-80 md:right-8 lg:right-14 md:bottom-auto md:top-1/2 md:-translate-y-1/2 md:mt-8 max-h-[78vh] overflow-y-auto rounded-[28px] p-4 md:p-6 text-center text-white border-4 border-sky-200/80 shadow-2xl" style="background:linear-gradient(160deg,rgba(96,178,255,.92),rgba(29,95,214,.92))">
     <div class="avatar" style="background:#e0f0ff"><img data-anh="lucas" alt="Lucas" class="w-full h-full rounded-full object-cover border-4 border-white"><span class="huy-hieu">🧢</span></div>
     <div class="text-xs md:text-sm tracking-[.3em] mt-3 opacity-90 font-bold">EM TRAI</div>
     <div class="text-3xl md:text-5xl font-extrabold leading-none mt-1 drop-shadow">LUCAS</div>
@@ -157,7 +159,7 @@
 <!-- HUD -->
 <div id="hud" class="an fixed top-3 left-3 right-32 flex flex-wrap gap-2 pointer-events-none" style="z-index:20">
   <div class="chip bg-indigo-600 text-white shadow-lg text-base md:text-lg">❓ <span id="hudCau">Câu 1/10</span></div>
-  <div class="chip bg-white/95 text-indigo-900 shadow-lg text-base md:text-lg">👥 Trên sàn: <span id="hudConLai" class="text-emerald-600">100</span>/100</div>
+  <div class="chip bg-white/95 text-indigo-900 shadow-lg text-base md:text-lg">👥 Trên sàn: <span id="hudConLai" class="text-emerald-600">100</span>/<span id="hudTong">100</span></div>
   <div class="chip bg-amber-300 text-amber-900 shadow-lg text-base md:text-lg">🛟 Phao cứu trợ: <span id="hudPhao">1</span></div>
   <div class="chip bg-gradient-to-r from-yellow-300 to-amber-400 text-amber-950 shadow-lg text-base md:text-lg">⭐ Điểm: <span id="hudDiem">0</span></div>
   <div id="hudChuoi" class="an chip bg-orange-500 text-white shadow-lg text-base md:text-lg nhip-dap">🔥 Chuỗi x<span id="hudChuoiSo">2</span></div>
@@ -179,7 +181,7 @@
 
 <!-- BẢNG CÂU HỎI -->
 <div id="bangCauHoi" class="an fixed left-0 right-0 bottom-0 p-2 md:p-4" style="z-index:20">
-  <div class="max-w-5xl mx-auto rounded-[28px] bg-white/95 shadow-2xl p-4 md:p-6 border-4 border-indigo-200">
+  <div class="max-w-5xl mx-auto rounded-[28px] bg-white/95 shadow-2xl p-4 md:p-6 border-4 border-indigo-200 max-h-[78vh] overflow-y-auto">
     <div class="flex items-center gap-2 md:gap-3 mb-3">
       <div id="nhanCau" class="chip bg-indigo-600 text-white text-base md:text-lg">CÂU 1</div>
       <div id="nhanMon" class="chip text-white text-sm md:text-base">Toán</div>
@@ -211,7 +213,7 @@
       </div>
       <div class="o-thong-ke bg-slate-50 border-2 border-slate-200">
         <div class="text-xs md:text-sm font-bold text-slate-500 leading-tight">Tổng số thí sinh đã bị loại</div>
-        <div class="so text-slate-700 mt-1"><span id="tkTongLoai">0</span><span class="text-lg text-slate-400">/100</span></div>
+        <div class="so text-slate-700 mt-1"><span id="tkTongLoai">0</span><span class="text-lg text-slate-400">/<span id="tkTongMau">100</span></span></div>
         <div class="text-sm font-bold text-slate-400">người</div>
       </div>
       <div class="o-thong-ke bg-emerald-50 border-2 border-emerald-200">
@@ -233,7 +235,7 @@
 
 <!-- MÀN CHIẾN THẮNG -->
 <div id="manThang" class="an fixed inset-0 items-end md:items-center justify-center md:justify-end md:pr-12 p-3 pointer-events-none" style="z-index:41">
-  <div class="hop-hien pointer-events-auto max-w-md w-full text-center rounded-[28px] p-5 md:p-7 shadow-2xl border-4 border-amber-300" style="background:linear-gradient(180deg,#fff8db,#ffffff)">
+  <div class="hop-hien pointer-events-auto max-w-md w-full text-center rounded-[28px] p-5 md:p-7 shadow-2xl border-4 border-amber-300 max-h-[94vh] overflow-y-auto" style="background:linear-gradient(180deg,#fff8db,#ffffff)">
     <div class="relative w-28 h-28 md:w-32 md:h-32 mx-auto"><img id="anhThang" alt="" class="w-full h-full rounded-full object-cover border-4 border-amber-300 shadow-xl"><span class="absolute -right-3 -bottom-1 text-5xl rung-nhe">🔔</span><span class="absolute -left-3 -top-2 text-4xl">👑</span></div>
     <div id="thangTieuDe" class="chu-vang-dam text-3xl md:text-4xl font-extrabold leading-tight mt-1">CHÚC MỪNG LUCIE!</div>
     <p id="thangNoiDung" class="text-lg md:text-xl font-bold text-slate-700 mt-2"></p>
@@ -248,7 +250,7 @@
 
 <!-- MÀN DỪNG BƯỚC -->
 <div id="manThua" class="an fixed inset-0 items-center justify-center p-3 bg-indigo-950/40" style="z-index:41">
-  <div class="hop-hien max-w-md w-full text-center rounded-[28px] p-6 md:p-7 bg-white shadow-2xl border-4 border-sky-200">
+  <div class="hop-hien max-w-md w-full text-center rounded-[28px] p-6 md:p-7 bg-white shadow-2xl border-4 border-sky-200 max-h-[94vh] overflow-y-auto">
     <div class="relative w-28 h-28 md:w-32 md:h-32 mx-auto"><img id="anhThua" alt="" class="w-full h-full rounded-full object-cover border-4 border-sky-200 shadow-xl"><span class="absolute -right-3 -bottom-1 text-5xl">💪</span></div>
     <div id="thuaTieuDe" class="text-3xl md:text-4xl font-extrabold text-indigo-900 leading-tight mt-1">Lucie giỏi lắm!</div>
     <p id="thuaNoiDung" class="text-lg md:text-xl font-bold text-slate-600 mt-2"></p>
@@ -588,7 +590,7 @@ const THONG_TIN = {
   lucie: { ten: 'Lucie', danhXung: 'Chị Lucie', lop: 3, tenLop: '3A6', nganHang: NGAN_HANG_LOP_3, mauNhan: '#ec4899' },
   lucas: { ten: 'Lucas', danhXung: 'Em Lucas', lop: 1, tenLop: '1A5', nganHang: NGAN_HANG_LOP_1, mauNhan: '#3b82f6' }
 };
-const MAU_MON = { 'Toán': '#0ea5e9', 'Tiếng Việt': '#f43f5e', 'TN&XH': '#10b981', 'Tiếng Anh': '#8b5cf6' };
+const MAU_MON = { 'Toán': '#0ea5e9', 'Tiếng Việt': '#f43f5e', 'TN&XH': '#10b981', 'TNXH': '#10b981', 'Tiếng Anh': '#8b5cf6' };
 const CHU_CAI = ['A', 'B', 'C', 'D'];
 const MAU_CHU_CAI = { A: '#ef4444', B: '#3b82f6', C: '#22c55e', D: '#f59e0b', '?': '#94a3b8' };
 
@@ -657,7 +659,7 @@ const PHONG_CHU = '"Baloo 2", "Arial Rounded MT Bold", Arial, sans-serif';
 
 /* Kết cấu vẽ bằng canvas – được vẽ lại khi phông chữ tải xong */
 const DANH_SACH_KET_CAU = [];
-function taoKetCau(rong, cao, hamVe) {
+function taoKetCau(rong, cao, hamVe, khongLuu) {
   const canvas = document.createElement('canvas');
   canvas.width = rong; canvas.height = cao;
   const ctx = canvas.getContext('2d');
@@ -665,7 +667,7 @@ function taoKetCau(rong, cao, hamVe) {
   const ketCau = new THREE.CanvasTexture(canvas);
   ketCau.encoding = THREE.sRGBEncoding;
   ketCau.anisotropy = 4;
-  DANH_SACH_KET_CAU.push({ ctx: ctx, rong: rong, cao: cao, hamVe: hamVe, ketCau: ketCau });
+  if (!khongLuu) DANH_SACH_KET_CAU.push({ ctx: ctx, rong: rong, cao: cao, hamVe: hamVe, ketCau: ketCau });
   return ketCau;
 }
 function veLaiTatCaKetCau() {
@@ -824,8 +826,9 @@ const AM_THANH = {
     [261.63, 329.63, 392].forEach(function (f) { self.not(f, 2.7, 1.6, 'sine', 0.1); });
   }
 };
-document.addEventListener('pointerdown', function () { AM_THANH.khoiTao(); }, { once: false });
-document.addEventListener('keydown', function () { AM_THANH.khoiTao(); }, { once: false });
+function moKhoaAmThanh() { if (!AM_THANH.ctx || AM_THANH.ctx.state === 'suspended') AM_THANH.khoiTao(); }
+document.addEventListener('pointerdown', moKhoaAmThanh, { passive: true });
+document.addEventListener('keydown', moKhoaAmThanh);
 $('nutNhac').addEventListener('click', function () {
   AM_THANH.khoiTao();
   NHAC.bat = !NHAC.bat;
@@ -844,7 +847,7 @@ function docCauHoi() {
   const q = TRO_CHOI.cauHoi[TRO_CHOI.chiSo];
   if (!q) return;
   window.speechSynthesis.cancel();
-  const vanBan = q.cau.replace('×', 'nhân') + '. ' + q.dapAnTron.map(function (d, i) { return 'Đáp án ' + CHU_CAI[i] + ': ' + d; }).join('. ');
+  const vanBan = q.cau.replace(/×/g, ' nhân ').replace(/ : /g, ' chia ').replace(/ − /g, ' trừ ') + '. ' + q.dapAnTron.map(function (d, i) { return 'Đáp án ' + CHU_CAI[i] + ': ' + d; }).join('. ');
   const loi = new SpeechSynthesisUtterance(vanBan);
   loi.lang = 'vi-VN';
   const giong = window.speechSynthesis.getVoices().find(function (g) { return g.lang && g.lang.toLowerCase().indexOf('vi') === 0; });
@@ -860,10 +863,10 @@ if ('speechSynthesis' in window) { window.speechSynthesis.getVoices(); } else { 
    5. DỰNG CẢNH 3D
    --------------------------------------------------------------------- */
 const khung = $('khung3d');
-const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+const renderer = new THREE.WebGLRenderer({ antialias: !window.CHE_DO_TV, powerPreference: 'high-performance' });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, window.CHE_DO_TV ? 1 : 1.5));
 renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.shadowMap.enabled = true;
+renderer.shadowMap.enabled = !window.CHE_DO_TV;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.outputEncoding = THREE.sRGBEncoding;
 renderer.toneMapping = THREE.NoToneMapping;
@@ -900,7 +903,7 @@ canh.add(new THREE.HemisphereLight(0xd6dcff, 0x3a2a6a, 0.5));
 const denChinh = new THREE.DirectionalLight(0xfff3e0, 0.85);
 denChinh.position.set(-10, 26, -18);
 denChinh.castShadow = true;
-denChinh.shadow.mapSize.set(2048, 2048);
+denChinh.shadow.mapSize.set(1024, 1024);
 denChinh.shadow.camera.left = -24; denChinh.shadow.camera.right = 24;
 denChinh.shadow.camera.top = 24; denChinh.shadow.camera.bottom = -24;
 denChinh.shadow.camera.near = 1; denChinh.shadow.camera.far = 80;
@@ -1207,7 +1210,7 @@ function luoiMat3D(F, r) {
     for (let i = 0; i < mang.length; i += 3) { const t = mang[i + 1]; mang[i + 1] = mang[i + 2]; mang[i + 2] = t; }
     hinh.computeVertexNormals();
   }
-  const ketCau = new THREE.TextureLoader().load(F.tex);
+  const ketCau = new THREE.TextureLoader().load(F.tex, undefined, undefined, function () {});
   ketCau.encoding = THREE.sRGBEncoding;
   const mesh = new THREE.Mesh(hinh, new THREE.MeshLambertMaterial({ map: ketCau, color: 0xffffff }));
   return { mesh: mesh, vien: R.map(function (k) { return [pos[k * 3], pos[k * 3 + 1]]; }) };
@@ -1372,6 +1375,10 @@ for (let i = 0; i < 100; i++) {
   if (window.CHE_DO_TV && i % 3 !== 0) continue;   // TV yếu: chỉ 1/3 số thí sinh để đỡ giật
   taoThiSinh('ai', i);
 }
+const TONG_AI = TAT_CA.length;
+const TONG_THI_SINH = TONG_AI + 1;
+$('hudTong').textContent = TONG_THI_SINH;
+$('tkTongMau').textContent = TONG_THI_SINH;
 DAC_BIET.lucie = taoThiSinh('lucie', CAU_HINH.oChinh);
 DAC_BIET.lucas = taoThiSinh('lucas', CAU_HINH.oChinh);
 const VI_TRI_TRUNG_BAY = { lucie: new V3(1.25, 0, -15.3), lucas: new V3(-1.25, 0, -15.3) };
@@ -1400,7 +1407,7 @@ function taoNhanTen(chu, mauNen, mauVien) {
     ctx.fillStyle = '#ffffff';
     ctx.lineWidth = 8; ctx.strokeStyle = 'rgba(0,0,0,0.25)'; ctx.strokeText(chu, w / 2, h / 2 + 6);
     ctx.fillText(chu, w / 2, h / 2 + 6);
-  });
+  }, true);
   const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: ketCau, depthTest: false, transparent: true }));
   sprite.scale.set(2.3, 0.54, 1);
   sprite.renderOrder = 10;
@@ -1414,7 +1421,12 @@ function ganNhanTen(thiSinh, chu, mauNen, mauVien, doCao) {
   thiSinh.nhanTen = nhan;
 }
 function goNhanTen(thiSinh) {
-  if (thiSinh.nhanTen) { thiSinh.nhom.remove(thiSinh.nhanTen); thiSinh.nhanTen = null; }
+  if (thiSinh.nhanTen) {
+    thiSinh.nhom.remove(thiSinh.nhanTen);
+    if (thiSinh.nhanTen.material.map) thiSinh.nhanTen.material.map.dispose();
+    thiSinh.nhanTen.material.dispose();
+    thiSinh.nhanTen = null;
+  }
 }
 
 /* Vòng sáng vàng kim, mũi tên chỉ dẫn, cột sáng cho nhân vật chính; vòng sáng bạc cho người đồng hành */
@@ -1471,6 +1483,7 @@ function banPhaoGiay3D() {
 }
 function capNhatPhaoGiay3D(dt) {
   if (!phaoGiay3D.visible) return;
+  let conHien = false;
   for (let i = 0; i < SO_PHAO_3D; i++) {
     const vt = PG3.vt[i], vd = PG3.vd[i];
     vd.y -= 7 * dt;
@@ -1478,9 +1491,9 @@ function capNhatPhaoGiay3D(dt) {
     if (vd.y < -2.2) vd.y = -2.2;
     vt.addScaledVector(vd, dt);
     if (vt.y < 0.15) {
-      if (PG3.bat) { vt.set(ngauNhien(-9, 9), ngauNhien(12, 16), -14 + ngauNhien(-7, 6)); vd.set(ngauNhien(-1, 1), 0, ngauNhien(-1, 1)); }
+      if (PG3.bat) { vt.set(ngauNhien(-9, 9), ngauNhien(12, 16), -14 + ngauNhien(-7, 6)); vd.set(ngauNhien(-1, 1), 0, ngauNhien(-1, 1)); conHien = true; }
       else { vt.y = -10; vd.set(0, 0, 0); }
-    }
+    } else conHien = true;
     PG3.xoay[i].addScaledVector(PG3.toc[i], dt);
     PG3.hinhMau.position.copy(vt);
     PG3.hinhMau.rotation.set(PG3.xoay[i].x, PG3.xoay[i].y, PG3.xoay[i].z);
@@ -1488,11 +1501,13 @@ function capNhatPhaoGiay3D(dt) {
     phaoGiay3D.setMatrixAt(i, PG3.hinhMau.matrix);
   }
   phaoGiay3D.instanceMatrix.needsUpdate = true;
+  if (!PG3.bat && !conHien) phaoGiay3D.visible = false;
 }
 
 const canvasPhao = $('phaoGiay');
 const ctxPhao = canvasPhao.getContext('2d');
 const DANH_SACH_PHAO_2D = [];
+let phao2DCoHinh = false;
 function chinhCoCanvasPhao() {
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
   canvasPhao.width = window.innerWidth * dpr; canvasPhao.height = window.innerHeight * dpr;
@@ -1502,7 +1517,8 @@ chinhCoCanvasPhao();
 function banPhaoGiay2D(soLuong) {
   const mau = ['#ff4f9a', '#ffd43b', '#4dabf7', '#51cf66', '#ff922b', '#cc5de8', '#ffffff', '#ff6b6b'];
   const w = window.innerWidth, h = window.innerHeight;
-  for (let i = 0; i < soLuong; i++) {
+  const them = Math.min(soLuong, Math.max(0, 400 - DANH_SACH_PHAO_2D.length));
+  for (let i = 0; i < them; i++) {
     const kieu = i % 3;
     let x, y, vx, vy;
     if (kieu === 0) { x = 0; y = h; vx = ngauNhien(250, 900); vy = ngauNhien(-1300, -700); }
@@ -1516,6 +1532,11 @@ function banPhaoGiay2D(soLuong) {
   }
 }
 function capNhatPhaoGiay2D(dt) {
+  if (DANH_SACH_PHAO_2D.length === 0) {
+    if (phao2DCoHinh) { ctxPhao.clearRect(0, 0, window.innerWidth, window.innerHeight); phao2DCoHinh = false; }
+    return;
+  }
+  phao2DCoHinh = true;
   ctxPhao.clearRect(0, 0, window.innerWidth, window.innerHeight);
   for (let i = DANH_SACH_PHAO_2D.length - 1; i >= 0; i--) {
     const p = DANH_SACH_PHAO_2D[i];
@@ -1599,9 +1620,11 @@ function nhayToi(thiSinh, dich, yDich, doCao, giay) {
   });
 }
 function loaiNhanVat(thiSinh, tre, chiSoCau) {
+  const phien = TRO_CHOI.phien;
   thiSinh.conSong = false;
   thiSinh.cauBiLoai = chiSoCau + 1;
   setTimeout(function () {
+    if (phien !== TRO_CHOI.phien) return;
     thiSinh.dangBay = true;
     phatHat(thiSinh.nhom.position.clone().add(new V3(0, 1.0, 0)), 12, [0xff6b6b, 0xffffff, 0xffa8a8], { tocDo: [1, 2.6], trongLuc: 1.5, tuoi: [0.5, 1.0], kichThuoc: 1.0 });
     const yDau = thiSinh.nhom.position.y;
@@ -1749,6 +1772,14 @@ function capNhatHat(dt) {
 }
 
 /* Pháo hoa bắn lên trời rồi nổ tung */
+const HIEU_UNG_TAM = [];
+function donHieuUngTam() {
+  while (HIEU_UNG_TAM.length) {
+    const m = HIEU_UNG_TAM.pop();
+    canh.remove(m.mesh);
+    m.mat.dispose();
+  }
+}
 const hinhTenLua = new THREE.SphereGeometry(0.13, 8, 6);
 const MAU_PHAO_HOA = [0xff4f9a, 0xffd43b, 0x4dabf7, 0x51cf66, 0xcc5de8, 0xff922b, 0x66f2ff];
 function banPhaoHoa(x, z, mau, doCao) {
@@ -1757,12 +1788,15 @@ function banPhaoHoa(x, z, mau, doCao) {
   const tenLua = new THREE.Mesh(hinhTenLua, vatLieuTL);
   tenLua.position.set(x, 0.5, z);
   canh.add(tenLua);
+  const muc = { mesh: tenLua, mat: vatLieuTL };
+  HIEU_UNG_TAM.push(muc);
   const cao = doCao || ngauNhien(10, 15);
   AM_THANH.phongLen();
   taoTween(0.85, function (p) {
     tenLua.position.y = 0.5 + (cao - 0.5) * eRa(p);
     if (Math.random() < 0.7) phatHat(tenLua.position, 1, [0xffd27a, 0xffffff], { tocDo: [0.1, 0.5], trongLuc: 1, tuoi: [0.3, 0.6], kichThuoc: 0.7 });
   }, function () {
+    const idx = HIEU_UNG_TAM.indexOf(muc); if (idx >= 0) HIEU_UNG_TAM.splice(idx, 1);
     canh.remove(tenLua); vatLieuTL.dispose();
     phatHat(tenLua.position, 120, [mauNo, mauNo, mauNo, 0xffffff], { tocDo: [4.5, 8], trongLuc: 2.5, tuoi: [1.2, 2.0], kichThuoc: 1.6, can: 1.3 });
     AM_THANH.tiengNo();
@@ -1777,12 +1811,17 @@ function songXung(viTri, mau, kichThuoc) {
   vong.rotation.x = -Math.PI / 2;
   vong.position.copy(viTri);
   canh.add(vong);
+  const muc = { mesh: vong, mat: vl };
+  HIEU_UNG_TAM.push(muc);
   const lon = kichThuoc || 6;
   taoTween(1.0, function (p) {
     const s = 1 + (lon - 1) * eRa(p);
     vong.scale.set(s, s, s);
     vl.opacity = 0.9 * (1 - p);
-  }, function () { canh.remove(vong); vl.dispose(); });
+  }, function () {
+    const idx = HIEU_UNG_TAM.indexOf(muc); if (idx >= 0) HIEU_UNG_TAM.splice(idx, 1);
+    canh.remove(vong); vl.dispose();
+  });
 }
 
 /* Bong bóng biểu cảm trên đầu nhân vật */
@@ -1867,7 +1906,9 @@ function chumDoiMau(mau, giay) {
   }, giay * 1000);
 }
 function noiChu(noiDung, mau, tre) {
+  const phien = TRO_CHOI.phien;
   setTimeout(function () {
+    if (phien !== TRO_CHOI.phien) return;
     const el = document.createElement('div');
     el.className = 'bay-diem';
     el.style.color = mau;
@@ -2002,7 +2043,7 @@ function phatBuocNhac(buoc, t, tt, nhip) {
 function capNhatNhacNen() {
   if (!NHAC.dangChay || !AM_THANH.ctx || !NHAC.gain) return;
   const ctx = AM_THANH.ctx;
-  if (!NHAC.bat || !AM_THANH.bat) { NHAC.thoiDiemTiep = ctx.currentTime + 0.05; return; }
+  if (!NHAC.bat || !AM_THANH.bat || ctx.state !== 'running') { NHAC.thoiDiemTiep = ctx.currentTime + 0.05; return; }
   const tt = tamTrangNhac();
   if (tt !== NHAC.tamTrang) { NHAC.tamTrang = tt; NHAC.buoc = 0; }
   if (NHAC.thoiDiemTiep < ctx.currentTime - 0.1) NHAC.thoiDiemTiep = ctx.currentTime + 0.05;
@@ -2094,7 +2135,7 @@ async function giaiLaoBoMe(phien) {
     songXung(new V3(n.x, 1.25, -15.4), 0xffd43b, 4);
   });
   chopSang('#ffffff', 0.45);
-  banPhaoHoa(-6, -10); setTimeout(function () { banPhaoHoa(6, -10); }, 350);
+  banPhaoHoa(-6, -10); setTimeout(function () { if (phien === TRO_CHOI.phien) banPhaoHoa(6, -10); }, 350);
   BO_ME.dangNhay = true; BO_ME.batDau = dongHo;
   bongCamXuc(BO_ME.danhSach[0], '🕺', 6);
   bongCamXuc(BO_ME.danhSach[1], '💃', 6);
@@ -2138,13 +2179,15 @@ function thongBao(noiDung, ms) {
   maHenThongBao = setTimeout(function () { el.classList.add('an'); }, ms || 1800);
 }
 function demSo(el, tu, den, ms) {
+  if (el._demRaf) cancelAnimationFrame(el._demRaf);
   const batDau = performance.now();
   function buoc(bayGio) {
     const p = Math.min(1, (bayGio - batDau) / ms);
     el.textContent = Math.round(tu + (den - tu) * eRa(p));
-    if (p < 1) requestAnimationFrame(buoc);
+    if (p < 1) el._demRaf = requestAnimationFrame(buoc);
+    else el._demRaf = 0;
   }
-  requestAnimationFrame(buoc);
+  el._demRaf = requestAnimationFrame(buoc);
 }
 function demConSong() { return TAT_CA.filter(function (t) { return t.conSong; }).length; }
 function viTriTrenDau(thiSinh, doCao) { return thiSinh.nhom.position.clone().add(new V3(0, doCao, 0)); }
@@ -2178,6 +2221,11 @@ function chuanBiCauHoi(tenNhanVat) {
   const v = VONG_RCV[vongHienTai(tenNhanVat) - 1];
   const rieng = chuyenNganHang(THONG_TIN[tenNhanVat].lop === 3 ? v.c3 : v.c1);
   if (rieng.length >= CAU_HINH.soCau) return tronMang(rieng).slice(0, CAU_HINH.soCau).map(tronDapAn);
+  if (rieng.length > 0) {
+    const daCo = new Set(rieng.map(khoaCau));
+    const boSung = tronMang(THONG_TIN[tenNhanVat].nganHang.filter(function (q) { return !daCo.has(khoaCau(q)); })).slice(0, CAU_HINH.soCau - rieng.length);
+    return tronMang(rieng.concat(boSung)).map(tronDapAn);
+  }
   return chuanBiCauHoiCu(tenNhanVat);
 }
 function chuanBiCauHoiCu(tenNhanVat) {
@@ -2192,7 +2240,11 @@ function chuanBiCauHoiCu(tenNhanVat) {
 }
 function tenCau(chiSo) { return 'Vòng ' + vongHienTai(TRO_CHOI.chinh) + '/30 · Câu ' + (chiSo + 1) + '/' + CAU_HINH.soCau; }
 
-document.querySelectorAll('img[data-anh]').forEach(function (anh) { anh.src = ANH_MAT[anh.getAttribute('data-anh')]; });
+document.querySelectorAll('img[data-anh]').forEach(function (anh) {
+  anh.onerror = function () { anh.style.display = 'none'; };
+  anh.src = ANH_MAT[anh.getAttribute('data-anh')] || '';
+});
+['anhThang', 'anhThua'].forEach(function (id) { $(id).onerror = function () { $(id).style.visibility = 'hidden'; }; });
 /* Màn chọn nhân vật: rê chuột để nhân vật chào */
 $('theLucie').addEventListener('mouseenter', function () {
   if (TRO_CHOI.giaiDoan !== 'chon') return;
@@ -2204,7 +2256,17 @@ $('theLucas').addEventListener('mouseenter', function () {
   vuiMung(DAC_BIET.lucas, 1.3); bongCamXuc(DAC_BIET.lucas, '👋', 1.2);
   phatHat(viTriTrenDau(DAC_BIET.lucas, 1.2), 18, [0x74c0fc, 0xffffff], { tocDo: [1, 2.5], trongLuc: 1.5, tuoi: [0.5, 1], kichThuoc: 0.8 });
 });
-['lucie', 'lucas'].forEach(function (t) { const c = $(t === 'lucie' ? 'theLucie' : 'theLucas').querySelector('.chip'); if (c) c.insertAdjacentHTML('afterend', '<div class="chip bg-yellow-300 text-amber-900 mt-2 text-sm md:text-base">🔔 Vòng ' + vongHienTai(t) + '/30: ' + VONG_RCV[vongHienTai(t) - 1].ten + '</div>'); });
+function capNhatNhanVong() {
+  ['lucie', 'lucas'].forEach(function (t) {
+    const the = $(t === 'lucie' ? 'theLucie' : 'theLucas');
+    const noiDung = '🔔 Vòng ' + vongHienTai(t) + '/30: ' + VONG_RCV[vongHienTai(t) - 1].ten;
+    let nhan = the.querySelector('.nhan-vong');
+    if (nhan) { nhan.textContent = noiDung; return; }
+    const c = the.querySelector('.chip');
+    if (c) c.insertAdjacentHTML('afterend', '<div class="nhan-vong chip bg-yellow-300 text-amber-900 mt-2 text-sm md:text-base">' + noiDung + '</div>');
+  });
+}
+capNhatNhanVong();
 $('theLucie').addEventListener('click', function () { chonNhanVat('lucie'); });
 $('theLucas').addEventListener('click', function () { chonNhanVat('lucas'); });
 
@@ -2221,7 +2283,7 @@ async function chonNhanVat(ten) {
   TRO_CHOI.diem = 0; TRO_CHOI.chuoi = 0; TRO_CHOI.chuoiMax = 0;
   TRO_CHOI.lichGiaiLao = lapLichGiaiLao();
   TRO_CHOI.thoiGianToiDa = VONG_RCV[vongHienTai(ten) - 1].tg || CAU_HINH.thoiGian[ten];
-  TRO_CHOI.tongLoaiTruoc = 0; TRO_CHOI.conLaiTruoc = 100;
+  TRO_CHOI.tongLoaiTruoc = 0; TRO_CHOI.conLaiTruoc = TONG_THI_SINH;
   anDi('manBatDau');
   chopSang('#ffffff', 0.55);
   const chinh = DAC_BIET[ten], phu = DAC_BIET[TRO_CHOI.phu];
@@ -2259,7 +2321,7 @@ async function chonNhanVat(ten) {
   TAT_CA.forEach(function (t) { if (t.conSong) vuiMung(t, ngauNhien(1.2, 2.2)); });
   await bayCamera(gocToanCanh(), 2.2);
   if (phien !== TRO_CHOI.phien) return;
-  banPhaoHoa(-8, 4); setTimeout(function () { banPhaoHoa(8, 4); }, 300); setTimeout(function () { banPhaoHoa(0, 8); }, 650);
+  banPhaoHoa(-8, 4); setTimeout(function () { if (phien === TRO_CHOI.phien) banPhaoHoa(8, 4); }, 300); setTimeout(function () { if (phien === TRO_CHOI.phien) banPhaoHoa(0, 8); }, 650);
   thongBao('Chào mừng <span class="text-indigo-600">100 thí sinh</span> đến với<br><span class="chu-vang-dam">RUNG CHUÔNG VÀNG!</span>', 2200);
   await cho(2300);
   if (phien !== TRO_CHOI.phien) return;
@@ -2292,7 +2354,7 @@ async function batDauCauHoi(chiSo) {
   TRO_CHOI.thoiGianConLai = TRO_CHOI.thoiGianToiDa;
   TRO_CHOI.giayDaTich = -1;
   TRO_CHOI.dangDemGio = true;
-  if (TRO_CHOI.chinh === 'lucas') setTimeout(function () { if (TRO_CHOI.giaiDoan === 'traLoi' && phien === TRO_CHOI.phien) docCauHoi(); }, 500);
+  if (TRO_CHOI.chinh === 'lucas') setTimeout(function () { if (TRO_CHOI.giaiDoan === 'traLoi' && !TRO_CHOI.daChot && phien === TRO_CHOI.phien) docCauHoi(); }, 500);
 }
 
 function hienCauHoi() {
@@ -2382,7 +2444,7 @@ async function congBoKetQua(luaChon) {
   // Thí sinh AI: chọn ngẫu nhiên những bạn trả lời sai theo tỷ lệ loại tăng dần
   // Câu 10 loại hết các bạn còn lại: chỉ một người duy nhất được rung chuông vàng
   const aiConSong = TAT_CA.filter(function (t) { return t.loai === 'ai' && t.conSong; });
-  let mucTieu = laCauCuoi ? 0 : Math.round(99 * TY_LE_CON_LAI[chiSo]) + soNguyen(-2, 2);
+  let mucTieu = laCauCuoi ? 0 : Math.round(TONG_AI * TY_LE_CON_LAI[chiSo]) + soNguyen(-1, 1);
   mucTieu = Math.max(laCauCuoi ? 0 : 1, Math.min(aiConSong.length, mucTieu));
   const aiSai = new Set(tronMang(aiConSong).slice(0, aiConSong.length - mucTieu));
 
@@ -2426,7 +2488,7 @@ async function congBoKetQua(luaChon) {
     vuiMung(chinh, 2.6);
     bongCamXuc(chinh, TRO_CHOI.chuoi >= 3 ? '🔥' : '😄', 2.2);
     AM_THANH.dung();
-    setTimeout(function () { AM_THANH.lapLanh(); }, 250);
+    setTimeout(function () { if (phien === TRO_CHOI.phien) AM_THANH.lapLanh(); }, 250);
     chopSang('#22e06b', 0.3);
     songXung(new V3(viTriChinh.x, 0.62, viTriChinh.z), 0x51ff8a, 8);
     phatHat(new V3(viTriChinh.x, 1.6, viTriChinh.z), 70, [0xffd43b, 0x51ff8a, 0xffffff], { tocDo: [2.5, 5.5], trongLuc: 3, tuoi: [0.8, 1.5], kichThuoc: 1.2 });
@@ -2450,7 +2512,7 @@ async function congBoKetQua(luaChon) {
     }
   }
   chumDoiMau(chinhDung ? 0x51ff8a : 0xff4f4f, 1.6);
-  if (soLoaiCau > 0) { setTimeout(function () { AM_THANH.loai(); lacCamera(Math.min(0.3, 0.05 + soLoaiCau * 0.015)); }, 350); }
+  if (soLoaiCau > 0) { setTimeout(function () { if (phien === TRO_CHOI.phien) { AM_THANH.loai(); lacCamera(Math.min(0.3, 0.05 + soLoaiCau * 0.015)); } }, 350); }
   capNhatHud();
   await cho(1900);
   if (phien !== TRO_CHOI.phien) return;
@@ -2483,7 +2545,7 @@ function hienThongKe(kq) {
   const chiSo = TRO_CHOI.chiSo;
   const ttChinh = THONG_TIN[TRO_CHOI.chinh];
   const conLai = demConSong();
-  const tongLoai = 100 - conLai;
+  const tongLoai = TONG_THI_SINH - conLai;
 
   $('tkTieuDe').textContent = 'KẾT QUẢ ' + tenCau(chiSo).toUpperCase();
   $('tkDapAn').textContent = CHU_CAI[kq.q.dung] + '. ' + kq.q.dapAnTron[kq.q.dung];
@@ -2583,18 +2645,19 @@ async function chienThang() {
   thoiDiemRung = dongHo;
   rungMotTiengChuong(phien);
   setTimeout(function () { rungMotTiengChuong(phien); }, 1200);
-  setTimeout(function () { if (phien === TRO_CHOI.phien) { giamNhac(0.15); AM_THANH.chienThang(); setTimeout(khoiPhucNhac, 4500); } }, 1900);
+  setTimeout(function () { if (phien === TRO_CHOI.phien) { giamNhac(0.15); AM_THANH.chienThang(); setTimeout(function () { if (phien === TRO_CHOI.phien) khoiPhucNhac(); }, 4500); } }, 1900);
   setTimeout(function () { rungMotTiengChuong(phien); }, 5200);
   banPhaoGiay3D();
   banPhaoGiay2D(260);
   setTimeout(function () { if (phien === TRO_CHOI.phien) banPhaoGiay2D(200); }, 1600);
   setTimeout(function () { if (phien === TRO_CHOI.phien) banPhaoGiay2D(200); }, 3400);
   clearInterval(TRO_CHOI.maPhaoHoa);
-  TRO_CHOI.maPhaoHoa = setInterval(function () {
-    if (phien !== TRO_CHOI.phien) { clearInterval(TRO_CHOI.maPhaoHoa); return; }
+  const maPhao = setInterval(function () {
+    if (phien !== TRO_CHOI.phien) { clearInterval(maPhao); return; }
     banPhaoHoa(ngauNhien(-13, 13), ngauNhien(-6, 12));
   }, 420);
-  setTimeout(function () { clearInterval(TRO_CHOI.maPhaoHoa); }, 14000);
+  TRO_CHOI.maPhaoHoa = maPhao;
+  setTimeout(function () { clearInterval(maPhao); }, 14000);
   bongCamXuc(chinh, '🥳', 5);
   TAT_CA.forEach(function (t) { if (t.conSong) vuiMung(t, 9999); });
   await cho(2200);
@@ -2630,13 +2693,16 @@ function choiLai() {
   TRO_CHOI.phien++;
   clearInterval(TRO_CHOI.maPhaoHoa);
   if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+  khoiPhucNhac();
+  $('lopNoi').innerHTML = '';
   DANH_SACH_TWEEN.length = 0;
+  donHieuUngTam();
   ['manThang', 'manThua', 'bangThongKe', 'bangCauHoi', 'hud', 'thongBao', 'bangTieuDeCau'].forEach(anDi);
   TRO_CHOI.giaiDoan = 'chon';
   TRO_CHOI.chinh = null; TRO_CHOI.dongHanh = null; TRO_CHOI.phu = null;
   TRO_CHOI.dangDemGio = false; TRO_CHOI.daChot = false;
   thoiDiemRung = -1; truChuong.rotation.set(0, 0, 0);
-  PG3.bat = false;
+  PG3.bat = false; phaoGiay3D.visible = false;
   doRungCamera = 0;
   anBoMe();
   TAT_CA.forEach(function (t) {
@@ -2650,6 +2716,7 @@ function choiLai() {
   THI_SINH[CAU_HINH.oChinh] = null;
   datLenBucTrungBay();
   for (let i = 0; i < 100; i++) datMauBuc(i, 'macDinh');
+  capNhatNhanVong();
   hien('manBatDau');
   bayCamera(gocChon(), 1.6);
 }
@@ -2662,9 +2729,17 @@ window.addEventListener('keydown', function (e) {
   const phim = e.key.toLowerCase();
   if (TRO_CHOI.giaiDoan === 'traLoi') {
     const viTri = ['1', '2', '3', '4'].indexOf(phim) >= 0 ? ['1', '2', '3', '4'].indexOf(phim) : ['a', 'b', 'c', 'd'].indexOf(phim);
-    if (viTri >= 0) chotDapAn(viTri);
-  } else if (TRO_CHOI.giaiDoan === 'thongKe' && phim === 'enter') {
-    $('nutTiepTheo').click();
+    if (viTri >= 0) { e.preventDefault(); chotDapAn(viTri); }
+  } else if (phim === 'enter') {
+    if (TRO_CHOI.giaiDoan === 'thongKe') {
+      e.preventDefault();
+      if ($('nutTiepTheo').disabled && !$('nutPhao').classList.contains('an')) $('nutPhao').click();
+      else $('nutTiepTheo').click();
+    } else if (TRO_CHOI.giaiDoan === 'chienThang' && !$('manThang').classList.contains('an')) {
+      e.preventDefault(); $('nutChoiLaiThang').click();
+    } else if (TRO_CHOI.giaiDoan === 'ketThuc' && !$('manThua').classList.contains('an')) {
+      e.preventDefault(); $('nutChoiLaiThua').click();
+    }
   }
 });
 
@@ -2675,6 +2750,7 @@ const dongHoThree = new THREE.Clock();
 function vongLap() {
   requestAnimationFrame(vongLap);
   const dt = Math.min(0.05, dongHoThree.getDelta());
+  if (document.hidden) return;
   dongHo += dt;
   capNhatTween(dt);
   capNhatNhanVat();
