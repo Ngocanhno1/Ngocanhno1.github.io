@@ -2,6 +2,7 @@
 <html lang="vi">
 <head>
 <script src="/games/anh-chung/dong-bo.js"></script>
+<script>(function(){var u=navigator.userAgent||"";var tv=!!window.webOSSystem||/web0s|webos|smart-?tv|tizen|netcast|hbbtv|googletv|appletv|lg browser|\btv\b/i.test(u)||/[?&]tv=1\b/i.test(location.search)||(window.innerWidth>=1100&&!("ontouchstart" in window)&&(navigator.maxTouchPoints||0)===0);if(tv)document.documentElement.classList.add("che-do-tv");})();</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
@@ -146,6 +147,97 @@
   }
   #hero { display: none; }
   @media (prefers-reduced-motion: reduce) { .cloud, .kids, .bay, .bay img { animation: none; } }
+  /* CHẾ ĐỘ NHẸ & GỌN CHO TV (che-do-tv / webOS / màn lớn không cảm ứng) */
+  html.che-do-tv body, body.che-do-tv {
+    background: linear-gradient(180deg, #e8f3ff 0%, #f6f9ff 100%) !important;
+    background-attachment: scroll !important;
+  }
+  html.che-do-tv *, html.che-do-tv *::before, html.che-do-tv *::after,
+  body.che-do-tv *, body.che-do-tv *::before, body.che-do-tv *::after {
+    animation: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    filter: none !important;
+  }
+  html.che-do-tv .bay, body.che-do-tv .bay,
+  html.che-do-tv .cloud, body.che-do-tv .cloud,
+  html.che-do-tv .pop-hat, body.che-do-tv .pop-hat,
+  html.che-do-tv .art .ray, body.che-do-tv .art .ray,
+  html.che-do-tv body > canvas, body.che-do-tv > canvas,
+  html.che-do-tv [id*="nen-hat"], html.che-do-tv [class*="nen-hat"],
+  body.che-do-tv [id*="nen-hat"], body.che-do-tv [class*="nen-hat"] {
+    display: none !important;
+  }
+  html.che-do-tv header, body.che-do-tv header {
+    background: #ffffff !important;
+    border: 2px solid #d5e1f2;
+    box-shadow: none !important;
+  }
+  html.che-do-tv h1, body.che-do-tv h1 {
+    color: var(--ink) !important;
+    text-shadow: none !important;
+  }
+  html.che-do-tv .sub, body.che-do-tv .sub {
+    color: #433a61 !important;
+  }
+  html.che-do-tv .grid, body.che-do-tv .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  html.che-do-tv .hface, body.che-do-tv .hface,
+  html.che-do-tv .art .face, body.che-do-tv .art .face,
+  html.che-do-tv .art .badge, body.che-do-tv .art .badge,
+  html.che-do-tv .play, body.che-do-tv .play,
+  html.che-do-tv #nutCai, body.che-do-tv #nutCai {
+    box-shadow: none !important;
+  }
+  html.che-do-tv a.game, body.che-do-tv a.game {
+    border: 3px solid #d5e1f2;
+    box-shadow: none !important;
+    transition: transform 120ms ease-out, border-color 120ms ease-out !important;
+    will-change: transform;
+  }
+  html.che-do-tv a.game:hover, html.che-do-tv a.game:focus, html.che-do-tv a.game:focus-visible,
+  body.che-do-tv a.game:hover, body.che-do-tv a.game:focus, body.che-do-tv a.game:focus-visible {
+    transform: scale(1.03) !important;
+    border-color: var(--focus) !important;
+    outline: 4px solid var(--focus);
+    outline-offset: 2px;
+    box-shadow: none !important;
+    z-index: 5;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    body {
+      background: linear-gradient(180deg, #e8f3ff 0%, #f6f9ff 100%) !important;
+      background-attachment: scroll !important;
+    }
+    *, *::before, *::after {
+      animation: none !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      filter: none !important;
+    }
+    .bay, .cloud, .pop-hat, .art .ray, body > canvas, [id*="nen-hat"], [class*="nen-hat"] {
+      display: none !important;
+    }
+    header, .hface, .art .face, .art .badge, .play, #nutCai {
+      box-shadow: none !important;
+    }
+    header { background: #ffffff !important; border: 2px solid #d5e1f2; }
+    h1 { color: var(--ink) !important; text-shadow: none !important; }
+    a.game {
+      border: 3px solid #d5e1f2;
+      box-shadow: none !important;
+      transition: transform 120ms ease-out, border-color 120ms ease-out !important;
+    }
+    a.game:hover, a.game:focus, a.game:focus-visible {
+      transform: scale(1.03) !important;
+      border-color: var(--focus) !important;
+      outline: 4px solid var(--focus);
+      outline-offset: 2px;
+      box-shadow: none !important;
+      z-index: 5;
+    }
+  }
 </style>
 <link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#7c4dff"><link rel="apple-touch-icon" href="/img/icon-192.png">
 <script>if("serviceWorker" in navigator)addEventListener("load",function(){navigator.serviceWorker.register("/sw.js").catch(function(){})});</script>
@@ -360,7 +452,7 @@ document.addEventListener("keydown", e => {
   let j = Math.max(0, i) + step;
   if (j < 0 || j >= items.length) j = (Math.max(0, i) + (step > 0 ? 1 : -1) + items.length) % items.length;
   items[j].focus({ preventScroll: true });
-  items[j].scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
+  items[j].scrollIntoView({ block: "nearest", inline: "center", behavior: (document.documentElement.classList.contains("che-do-tv") || document.body.classList.contains("che-do-tv") || matchMedia("(prefers-reduced-motion: reduce)").matches) ? "auto" : "smooth" });
 });
 // TV / màn rộng: lăn chuột lên xuống thì dải trò chơi chạy ngang
 grid.addEventListener("wheel", e => {
