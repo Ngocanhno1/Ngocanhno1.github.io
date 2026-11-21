@@ -157,12 +157,13 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
     padding: 8px 18px;
     background: rgba(255, 255, 255, 0.88);
     backdrop-filter: blur(8px);
     border-bottom: 4px solid #fff;
     box-shadow: 0 4px 14px rgba(0, 60, 120, 0.14);
-    gap: 12px;
+    gap: 10px 12px;
     flex-shrink: 0;
     z-index: 10;
   }
@@ -216,15 +217,19 @@
   /* Màn hình chung */
   .screen {
     flex: 1;
+    min-height: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     padding: clamp(10px, 1.8vw, 24px);
     overflow-y: auto;
     overflow-x: hidden;
     width: 100%;
+    -webkit-overflow-scrolling: touch;
   }
+  .screen > :first-child { margin-top: auto; }
+  .screen > :last-child { margin-bottom: auto; }
 
   /* 1. Màn chào */
   .welcome-title {
@@ -458,6 +463,7 @@
   }
   .story-right {
     flex: 1;
+    min-height: 0;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -474,6 +480,8 @@
     line-height: 1.38;
     color: #1a237e;
     flex: 1;
+    min-height: 0;
+    overflow-y: auto;
     display: flex;
     align-items: center;
   }
@@ -650,7 +658,8 @@
   }
   .ds-buttons {
     display: flex;
-    gap: clamp(20px, 4vw, 50px);
+    flex-wrap: wrap;
+    gap: clamp(16px, 4vw, 50px);
     width: 100%;
     justify-content: center;
   }
@@ -681,6 +690,7 @@
     justify-content: space-between;
     gap: 18px;
   }
+  .quiz-question-box button { flex-shrink: 0; }
   .quiz-question-text {
     font-size: clamp(25px, 2.7vw, 40px);
     font-weight: 800;
@@ -854,22 +864,44 @@
 
   // Tên đọc theo kiểu Việt cho giọng VieNeu (giống Sách truyện): Lucie → Lu Xi, Lucas → Lu Cát, CIECAS → Ci Cát
   function docTen(s) { return String(s || "").replace(/Lucie/g, "Lu Xi").replace(/Lucas/g, "Lu Cát").replace(/CIECAS/gi, "Ci Cát"); }
+  let speechToken = 0;
+  let speechFallbackTimer = null;
+  let screenTimers = [];
+
+  function henGio(fn, ms) {
+    const id = setTimeout(() => {
+      screenTimers = screenTimers.filter(t => t !== id);
+      fn();
+    }, ms);
+    screenTimers.push(id);
+    return id;
+  }
+
+  function huyHenGio() {
+    screenTimers.forEach(id => clearTimeout(id));
+    screenTimers = [];
+  }
+
+  function huyNoi() {
+    speechToken++;
+    if (speechFallbackTimer) {
+      clearTimeout(speechFallbackTimer);
+      speechFallbackTimer = null;
+    }
+    try { window.speechSynthesis && speechSynthesis.cancel(); } catch (e) {}
+  }
+
   // Giọng nói chuẩn theo đề bài
   function noi(chu, en) {
+    huyNoi();
     if (!en) chu = docTen(chu);
     try {
-      speechSynthesis.cancel();
+      if (!window.speechSynthesis) return;
       const u = new SpeechSynthesisUtterance(chu);
       u.lang = en ? "en-US" : "vi-VN";
       u.rate = 0.95;
       speechSynthesis.speak(u);
     } catch (e) {}
-  }
-
-  let speechToken = 0;
-  function huyNoi() {
-    speechToken++;
-    try { speechSynthesis.cancel(); } catch (e) {}
   }
 
   function noiChuoi(arr, onStep, onDone) {
@@ -890,6 +922,10 @@
         return;
       }
       try {
+        if (!window.speechSynthesis) {
+          speechFallbackTimer = setTimeout(next, Math.min(2500, Math.max(900, text.length * 45)));
+          return;
+        }
         speechSynthesis.cancel();
         const u = new SpeechSynthesisUtterance(docTen(text));
         u.lang = "vi-VN";
@@ -898,13 +934,17 @@
         const doneOnce = () => {
           if (moved || myToken !== speechToken) return;
           moved = true;
+          if (speechFallbackTimer) {
+            clearTimeout(speechFallbackTimer);
+            speechFallbackTimer = null;
+          }
           next();
         };
         u.onend = doneOnce;
         u.onerror = doneOnce;
         speechSynthesis.speak(u);
         // Phòng hờ trình duyệt không bắn onend
-        setTimeout(doneOnce, Math.max(2200, text.length * 110));
+        speechFallbackTimer = setTimeout(doneOnce, Math.max(2200, text.length * 110));
       } catch (e) {
         next();
       }
@@ -1168,21 +1208,28 @@
   function pumpPollinations() {
     while (pollActive < 3 && pollQueue.length > 0) {
       const job = pollQueue.shift();
+      if (job.el && !job.el.isConnected) continue;
       pollActive++;
       const tester = new Image();
       let done = false;
+      let tid = null;
       const finish = (ok) => {
         if (done) return;
         done = true;
+        if (tid) clearTimeout(tid);
+        tester.onload = null;
+        tester.onerror = null;
         pollActive--;
-        if (ok) job.onSuccess(job.url);
-        else job.onFail();
+        if (!job.el || job.el.isConnected) {
+          if (ok) job.onSuccess(job.url);
+          else job.onFail();
+        }
         pumpPollinations();
       };
       tester.onload = () => finish(true);
       tester.onerror = () => finish(false);
       tester.src = job.url;
-      setTimeout(() => finish(false), 9500);
+      tid = setTimeout(() => finish(false), 9500);
     }
   }
 
@@ -1224,16 +1271,19 @@
     const svgFallback = taoSvgDuPhong(bai, moTa || (bai && bai.ten));
     // Đặt ngay SVG dự phòng để không bao giờ trống khung
     imgEl.src = svgFallback;
+    imgEl.onerror = () => { if (imgEl.src !== svgFallback) imgEl.src = svgFallback; };
 
     const localUrl = "anh/" + maAnh + ".webp";
     const localTester = new Image();
     localTester.onload = () => {
-      imgEl.src = localUrl;
+      if (imgEl.isConnected) imgEl.src = localUrl;
     };
     localTester.onerror = () => {
+      if (!imgEl.isConnected) return;
       const promptStr = (moTa || (bai && bai.ten) || "skill") + ", Vietnamese family, cute children's picture-book illustration, no text";
       const pollUrl = "https://image.pollinations.ai/prompt/" + encodeURIComponent(promptStr) + "?width=768&height=512&nologo=true";
       pollQueue.push({
+        el: imgEl,
         url: pollUrl,
         onSuccess: (u) => { imgEl.src = u; },
         onFail: () => { imgEl.src = svgFallback; }
@@ -1287,6 +1337,7 @@
     dsIdx: 0,
     tnQueue: [],
     tnIdx: 0,
+    tongCau: 10,
     diemLanDau: 0,
     dangKhoa: false,
     cupMoi: false,
@@ -1342,6 +1393,7 @@
 
   // 1. MÀN CHÀO
   function moManChao() {
+    huyHenGio();
     huyNoi();
     if (state.onTimerId) { cancelAnimationFrame(state.onTimerId); state.onTimerId = null; }
     state.man = "chao";
@@ -1387,6 +1439,7 @@
 
   // 2. SÂN TRƯỜNG
   function moSanTruong(giuLoiChao) {
+    huyHenGio();
     if (!giuLoiChao) huyNoi();
     if (state.onTimerId) { cancelAnimationFrame(state.onTimerId); state.onTimerId = null; }
     state.man = "san";
@@ -1455,6 +1508,7 @@
 
   // 3. MÀN HỌC (Truyện tranh 5 trang)
   function moManHoc() {
+    huyHenGio();
     huyNoi();
     state.man = "hoc";
     const bai = baiHienTai();
@@ -1531,9 +1585,11 @@
 
   // 4. THẺ "NHỚ NHÉ!"
   function moManNho() {
+    huyHenGio();
     huyNoi();
     state.man = "nho";
     const bai = baiHienTai();
+    if (!bai) return moSanTruong();
     const nho = bai.nho || { cau: bai.ten, buoc: [] };
 
     capNhatTM({
@@ -1588,7 +1644,7 @@
 
     // Hiện dần bằng bộ đếm thời gian độc lập phòng khi trình duyệt tắt âm
     (nho.buoc || []).forEach((_, i) => {
-      setTimeout(() => {
+      henGio(() => {
         const el = document.getElementById("nho-step-" + i);
         if (el) el.classList.add("revealed");
       }, 450 * (i + 1));
@@ -1609,20 +1665,23 @@
   // KHỞI TẠO KIỂM TRA
   function batDauKiemTra() {
     const bai = baiHienTai();
+    if (!bai) return moSanTruong();
     state.diemLanDau = 0;
     state.dangKhoa = false;
-    state.dsQueue = xaoTron((bai.dungSai || []).slice(0, 6));
+    state.dsQueue = xaoTron(bai.dungSai || []).slice(0, 6);
     state.dsIdx = 0;
 
     const rawTn = (state.be === "lucas" ? bai.lucas : bai.lucie) || [];
-    state.tnQueue = rawTn.slice(0, 4).map(item => ({ item, isRetry: false }));
+    state.tnQueue = xaoTron(rawTn).slice(0, 4).map(item => ({ item, isRetry: false }));
     state.tnIdx = 0;
+    state.tongCau = state.dsQueue.length + state.tnQueue.length;
 
     moManDungSai();
   }
 
   // 5. KIỂM TRA PHẦN 1: NÊN HAY KHÔNG NÊN?
   function moManDungSai() {
+    huyHenGio();
     huyNoi();
     state.man = "dungsai";
     state.dangKhoa = false;
@@ -1687,7 +1746,7 @@
       state.diemLanDau++;
       bayXuCiecas(card);
       if (card) card.classList.add(chonNen ? "fly-left" : "fly-right");
-      setTimeout(() => {
+      henGio(() => {
         state.dsIdx++;
         moManDungSai();
       }, 450);
@@ -1699,7 +1758,7 @@
         fb.style.display = "block";
         fb.textContent = "Đáp án đúng: " + (item.dung ? "👍 Nên" : "👎 Không nên");
       }
-      setTimeout(() => {
+      henGio(() => {
         state.dsIdx++;
         moManDungSai();
       }, 1500);
@@ -1708,6 +1767,7 @@
 
   // 6. KIỂM TRA PHẦN 2: CON CHỌN CÁCH NÀO?
   function moManTracNghiem() {
+    huyHenGio();
     huyNoi();
     state.man = "tracnghiem";
     state.dangKhoa = false;
@@ -1719,7 +1779,8 @@
 
     const entry = state.tnQueue[state.tnIdx];
     const q = entry.item;
-    const tatCaDapAn = xaoTron([q.dung, ...(q.sai || [])]);
+    const saiLoc = (q.sai || []).filter((x, i, a) => x && x !== q.dung && a.indexOf(x) === i);
+    const tatCaDapAn = xaoTron([q.dung, ...saiLoc]);
     const dungLaIdx = tatCaDapAn.indexOf(q.dung);
 
     capNhatTM({
@@ -1795,7 +1856,7 @@
 
       const cauKhen = chonNgauNhien(window.KN && KN.khen);
       noiChuoi([cauKhen], null, () => {
-        setTimeout(() => {
+        henGio(() => {
           state.tnIdx++;
           moManTracNghiem();
         }, 500);
@@ -1816,7 +1877,7 @@
 
       const cauVien = chonNgauNhien(window.KN && KN.vien);
       noiChuoi([cauVien, q.gt], null, () => {
-        setTimeout(() => {
+        henGio(() => {
           state.tnIdx++;
           moManTracNghiem();
         }, 900);
@@ -1826,14 +1887,17 @@
 
   // 7. MÀN KẾT QUẢ BÀI HỌC
   function moManKetQua() {
+    huyHenGio();
     huyNoi();
     state.man = "ketqua";
     const bai = baiHienTai();
     const diem = state.diemLanDau;
+    const tongCau = state.tongCau || 10;
+    const tyLe = tongCau > 0 ? diem / tongCau : 0;
     let soSao = 0;
-    if (diem >= 9) soSao = 3;
-    else if (diem >= 7) soSao = 2;
-    else if (diem >= 4) soSao = 1;
+    if (tyLe >= 0.9) soSao = 3;
+    else if (tyLe >= 0.7) soSao = 2;
+    else if (tyLe >= 0.4) soSao = 1;
 
     const td = docTienDo(state.be);
     const saoCu = td.sao[bai.ma] || 0;
@@ -1873,7 +1937,7 @@
             <img class="avatar-sm" style="width:74px;height:74px" src="${anhMat(state.be)}" alt="${tenBe(state.be)}">
             <div style="text-align:left">
               <div style="font-size:clamp(26px,2.8vw,38px);font-weight:800;color:#0d47a1">${tenBe(state.be)} hoàn thành bài học!</div>
-              <div style="font-size:clamp(22px,2.2vw,30px);font-weight:700;color:#2e7d32">Đúng ${diem}/10 câu • Ví: ${soduMoi !== null ? soduMoi : 0} CIECAS</div>
+              <div style="font-size:clamp(22px,2.2vw,30px);font-weight:700;color:#2e7d32">Đúng ${diem}/${tongCau} câu • Ví: ${soduMoi !== null ? soduMoi : 0} CIECAS</div>
             </div>
           </div>
 
@@ -1915,7 +1979,7 @@
 
     // Hiệu ứng rơi từng ngôi sao
     [1, 2, 3].forEach(i => {
-      setTimeout(() => {
+      henGio(() => {
         const el = document.getElementById("rstar-" + i);
         if (el) {
           el.classList.add("drop");
@@ -1925,7 +1989,7 @@
     });
 
     if (soSao >= 2) {
-      setTimeout(() => banPhaoHoa(window.innerWidth / 2, window.innerHeight / 3, 55), 400);
+      henGio(() => banPhaoHoa(window.innerWidth / 2, window.innerHeight / 3, 55), 400);
     }
 
     if (du12Bai && window.KN && KN.chuc) {
@@ -1975,6 +2039,7 @@
   }
 
   function moManOnTap() {
+    huyHenGio();
     huyNoi();
     if (state.onTimerId) { cancelAnimationFrame(state.onTimerId); state.onTimerId = null; }
     state.man = "on";
@@ -2027,7 +2092,8 @@
       document.getElementById("btn-khongnen").onclick = () => chonOnTapDS(false, item);
     } else {
       const q = cur.item;
-      const tatCaDapAn = xaoTron([q.dung, ...(q.sai || [])]);
+      const saiLoc = (q.sai || []).filter((x, i, a) => x && x !== q.dung && a.indexOf(x) === i);
+      const tatCaDapAn = xaoTron([q.dung, ...saiLoc]);
       const dungLaIdx = tatCaDapAn.indexOf(q.dung);
 
       capNhatTM({
@@ -2081,15 +2147,25 @@
     }
 
     // Đồng hồ đếm ngược vui bằng performance.now (hết giờ vẫn cho trả lời)
+    let lastTimerText = "";
     function tickTimer(now) {
-      if (state.man !== "on" || state.dangKhoa) return;
+      if (state.man !== "on" || state.dangKhoa) {
+        state.onTimerId = null;
+        return;
+      }
       const elapsed = (now - state.onStartTime) / 1000;
       const remain = Math.max(0, Math.ceil(15 - elapsed));
-      const tEl = document.getElementById("on-timer");
-      if (tEl) {
-        tEl.textContent = remain > 0 ? `⏱ ${remain}s` : `⏱ Cố lên con nhé!`;
+      const txt = remain > 0 ? `⏱ ${remain}s` : `⏱ Cố lên con nhé!`;
+      if (txt !== lastTimerText) {
+        lastTimerText = txt;
+        const tEl = document.getElementById("on-timer");
+        if (tEl) tEl.textContent = txt;
       }
-      state.onTimerId = requestAnimationFrame(tickTimer);
+      if (remain > 0) {
+        state.onTimerId = requestAnimationFrame(tickTimer);
+      } else {
+        state.onTimerId = null;
+      }
     }
     state.onTimerId = requestAnimationFrame(tickTimer);
 
@@ -2107,7 +2183,7 @@
       state.onDiem++;
       bayXuCiecas(card);
       if (card) card.classList.add(chonNen ? "fly-left" : "fly-right");
-      setTimeout(() => { state.onIdx++; moManOnTap(); }, 450);
+      henGio(() => { state.onIdx++; moManOnTap(); }, 450);
     } else {
       sfxBup();
       if (card) card.classList.add("shake");
@@ -2116,7 +2192,7 @@
         fb.style.display = "block";
         fb.textContent = "Đáp án đúng: " + (item.dung ? "👍 Nên" : "👎 Không nên");
       }
-      setTimeout(() => { state.onIdx++; moManOnTap(); }, 1500);
+      henGio(() => { state.onIdx++; moManOnTap(); }, 1500);
     }
   }
 
@@ -2133,7 +2209,7 @@
       bayXuCiecas(btnEl);
       banPhaoHoa(window.innerWidth / 2, window.innerHeight / 2, 28);
       noiChuoi([chonNgauNhien(window.KN && KN.khen)], null, () => {
-        setTimeout(() => { state.onIdx++; moManOnTap(); }, 450);
+        henGio(() => { state.onIdx++; moManOnTap(); }, 450);
       });
     } else {
       sfxBup();
@@ -2144,12 +2220,17 @@
         expEl.textContent = q.gt || ("Đáp án đúng: " + q.dung);
       }
       noiChuoi([chonNgauNhien(window.KN && KN.vien), q.gt], null, () => {
-        setTimeout(() => { state.onIdx++; moManOnTap(); }, 800);
+        henGio(() => { state.onIdx++; moManOnTap(); }, 800);
       });
     }
   }
 
   function ketThucOnTap() {
+    huyHenGio();
+    huyNoi();
+    if (state.onTimerId) { cancelAnimationFrame(state.onTimerId); state.onTimerId = null; }
+    state.man = "on_ketqua";
+    capNhatTM({ man: "on_ketqua", be: state.be, bai: null, trang: 0, cau: null, dapAn: [], dungLa: -1 });
     banPhaoHoa(window.innerWidth / 2, window.innerHeight / 3, 50);
     const soduMoi = laySoDu(state.be);
     appEl.innerHTML = `
@@ -2190,6 +2271,7 @@
     layCacNutHienTai().forEach(b => b.classList.remove("focus"));
     el.classList.add("focus");
     try { el.focus({ preventScroll: false }); } catch (e) {}
+    try { el.scrollIntoView({ block: "nearest", inline: "nearest" }); } catch (e) {}
   }
 
   function autoFocusScreen() {
@@ -2300,6 +2382,7 @@
         e.preventDefault();
         datFocus(nextEl);
       } else if (state.man === "hoc") {
+        e.preventDefault();
         if (k === "ArrowLeft") {
           const bp = document.getElementById("btn-prev");
           if (bp && !bp.disabled) bp.click();
@@ -2311,9 +2394,11 @@
       return;
     }
 
-    if (k === "Enter") {
-      const cur = document.activeElement;
-      if (cur && cur !== document.body && typeof cur.click === "function") {
+    if (k === "Enter" || k === " " || code === 13) {
+      const cur = (document.activeElement && document.activeElement !== document.body && appEl.contains(document.activeElement))
+        ? document.activeElement
+        : appEl.querySelector(".focus");
+      if (cur && !cur.disabled && typeof cur.click === "function") {
         e.preventDefault();
         cur.click();
       }
