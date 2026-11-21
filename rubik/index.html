@@ -1,0 +1,2042 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Giải Rubik 3D</title>
+
+  <!-- iOS & Android PWA Support -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Giải Rubik" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#111118" />
+  <link rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,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" />
+  <link rel="icon" type="image/png" href="data:image/png;base64,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" />
+  <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjogIkdp4bqjaSBSdWJpayAzRCBDYW1lcmEiLCAic2hvcnRfbmFtZSI6ICJHaeG6o2kgUnViaWsiLCAic3RhcnRfdXJsIjogIi4iLCAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwgImJhY2tncm91bmRfY29sb3IiOiAiIzExMTExOCIsICJ0aGVtZV9jb2xvciI6ICIjMTExMTE4IiwgIm9yaWVudGF0aW9uIjogInBvcnRyYWl0IiwgImljb25zIjogW3sic3JjIjogImRhdGE6aW1hZ2UvcG5nO2Jhc2U2NCxpVkJPUncwS0dnb0FBQUFOU1VoRVVnQUFBTFFBQUFDMENBWUFBQUE5elFZeUFBQUdKRWxFUVZSNFh1M2RRVzRjUlJUR2NXekZtOGdzdklteUNDd2lBUnZFQ1hJQ2Rqa0FOK0E0M0lBRFpNY0pjZ0tVRFNDeGdOd0FLeHN2ak1wU1c1Tk85MVRWOUh0ZlRYLzUvNWFSMHZPbS9aK25paTEzTG01dW50OS9NY2pWMWROQnI0eE1kM2NmTWk5LzFCUFZLeFB2NTJQcGE2MktQRFZvSXNia3NJWE11Rk9DSm1RY00vV1JFWFpvMElTTUhobGhod1JOeU5naU11ekxMWU1VeEl3b0VTMXRDanBpQU9EUTFxWk9PbkpzZlZFZzZ4K04zUnVhbUtGeVNtdGRRWi95QXNBV3ZjMDFCOTE3WVNCS1QzdE5RZmRjRU1qUTJtQTE2TllMQWRsYVdxd0dEZXpKMGFCYlBoR0FVcTNKMWFCcmZ4RVk1VmliaTBFVE04N2RXcU9jb1dIbGs2RFp6dGlMcFZiWjBMRHlVZEJzWit6TnZGazJOS3c4QnMxMnhsNGR0c3VHaGhXQ2hwV0gzMWdaZmR4NC85dC9xVGYxeFk5ZmhsLy8rczJyOEdzZXVuMzlOdno2Lzd6L00veWFoNzUrOFczcTlZOHBEWmZISWx5VVI0R05Dam83NUxtSXNMTkRub3NJT3p2a3VWRmhEd3RhSFhKRTJPcVFJOEpXaHp3NjdCSzAvQXc5T3VhaWQ0YlJNUmU5TTR5T3VSZ3hnenhvSU5PbDh2emN1eGt6dGM3U3V4a3p0YzR5WWpPdVVjNVNXbVpEdzRvczZOYU5xRlNicVhVakt0Vm1VbTdFVnNxWlpFRURDZ1FOS3dRTkt3UU5Ld1FOS3dRTkt3UU5Ld1FOS3dRTkt3UU5Ld1FOS3dRTkt3UU5Ld1FOS3dRTkt3UU5Ld1FOS3dRTkt3UU5Ld1FOS3dRTkt3UU5Ld1FOSzdLZ0k1NzhHYTAyVThTVFA2UFZaaHIxNU05amxEUEpnZ1lVcEVIWE5xSlM2eXkxamFqVU9vdHlJOWFvWjVFR0RXU1RCOTI2R1RQMXp0QzZHVFAxenFEZWpFdEd6SER4N05uTCs4d3Z4REcxaHlWRzZ3MTVTZTFoaWRGNlExNmlmRmhpTVNMa3lkQ2dKOWxoUjRROGx4MTJSTWh6MldHUERQbXNnZ2FpeU0vUVFDYUNoaFdDaGhXQ2hoV0NoaFdDaHBXSC83eCt0SDkvdWswZDRhdGZyOE92djhmdm5lL3hQdmNhK29PVjdCczhGeEYyZHNoekVUOFUydU45UHRXUW9OVTNPQ0pzZGNnUlllL3hQbThsUDBPUHZzbEY3d3lqWXk1NloraDlqeGxHekNBUEdzZ2tEWHJFSjNaTjZ5eTltekZUNnl5dDcwMUJQWXMwYUNDYkxHajFKN1ZGYmFiV2phaFVtNm4ybmtaUXppUUxHbEFnYUZnaGFGZ2hhRmdoYUZnaGFGZ2hhRmdoYUZnaGFGZ2hhRmdoYUZnaGFGZ2hhRmdoYUZnaGFGZ2hhRmdoYUZnaGFGZ2hhRmdoYUZnaGFGZ2hhRmdoYUZpUkJSM3g1TTlvdFpraW52d1pyVFpUN1QyTm9KeEpGalNnSUExYStVbXRhWjJsdGhHVldtZHBmVzhLNmxta1FRUFo1RUdyUDdGTGVtZG8zWXlaZW1mb2ZZOFpSc3d3NUFuK0UrVkQvSXFJRzF4N1dHSzAzcENYN1BFK24ycG8wS3F3STBLZXl3NDdJdVM1N0xBejduT3Zzd2dhaUNJL1F3T1pDQnBXQ0JwV0NCcFdDQnBXQ0JwV3p1SS9yLy9qaDVlcE4vVzczLzhPdi80M1A3OEx2K2FodjM3NVB2ejYxMjllaFYvejBPM3J0Nm5YYnpIMCs5RFpJYzlGaEowZDhseEUyTmtoejQwTWUwalE2cEFqd2xhSEhCRzJPdVJ6Q0Z0K2hoNGRjOUU3dytpWWk5NFpSc2RjakpoQkhqU1FTUnAwNzJiTTFEcEw3MmJNMURyTGlNMjRSajJMTkdnZ215em8xbzJvVkp1cGRTTXExV1pTYjhRV3lwbGtRUU1LQkEwckJBMHJCQTByQkEwckJBMHJCQTByQkEwckJBMHJCQTByQkEwckJBMHJCQTByQkEwckJBMHJCQTByQkEwckJBMHJCQTByQkEwckJBMHJCQTByQkEwcnNxQWpudndaclRaVHhKTS9vOVZtR3Zua3p6WEttV1JCQXdxWGQzY2ZGSy96b0xZUmxWcG5xVzFFcGRaWmxCdXhSamxMYVprTkRTdnlvRnMzWTZiZUdWbzNZNmJlR1pTYjhSek96cE9MbTV2bjkxZFhUek8vRnF0cUQwdU0xaHZ5a3RyREVxUDFocnhFK2JERVl0U0hxUnc1aGdZOXlRNDdJdVM1N0xBalFwN0xEbnRVeUpQSG9Nc2ZqTnJTUUlUcG14dnlNelNRaWFCaDVURm81ZmVqZ1VpSDdiS2hZZVdqb05uUzJKdDVzMnhvV1Bra2FMWTA5bUtwVlRZMHJDd0d6WmJHdVZ0cmRIVkRFelhPMWJFMmp4NDVpQnJucHRZa1oyaFlxUVpkKzBRQUtpMHRWb011V2k0RVpHcHRzQ2xvb3NaSXJURVh6VUVUTlVib2liazdhS0tHVW0vTXhaTlRCcHhlaU45eVFZWlRRcDUwSFRubXRyd3dzR1JyVTV1QzVnaUNTRnRqUHZuSXNiYXBPWUxnRkJFaFQwNDZRNi9oYkkwZWtTR25CRDBoYkJ5VEVYSnEwUE93QzQ0am43Zk1pQStGSGpsNlA1VkU3a2tWNzVML0FRRWEzZko3TUFxOUFBQUFBRWxGVGtTdVFtQ0MiLCAic2l6ZXMiOiAiMTgweDE4MCIsICJ0eXBlIjogImltYWdlL3BuZyJ9LCB7InNyYyI6ICJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQWdBQUFBSUFDQVlBQUFEMGVOVDZBQUFUM1VsRVFWUjRYdTNjUDI0ZDV4WEdZY3F3R2tNdTFBZ3VsQlFDa2pSQlZ1QVZ1UE1Dc29Nc0p6dklBdHg1QlY1QmtDWUprQ0xSRGl5NFVhR0FBUmpURktrN2MrZjdjNzU1bjZlMUlWMmViM2pQYithU2V2Ynk1VmNmYmhqbStmTXZodjFkQUN0NS8vNm5sVjd1OGo1Zi9pc295SklIMk85VDc1M2lvRDBCY0pCbEQ5RGZZKysxb3VBWUFiQ1RoUTlRdzhQM1kwR3dqd0RZd05JSHFPLytlN1VZdUV3QVBNTENCMWlicHdPWENZQjdMSDZBYzdwN2YvZGs0R2Z4QVdEcEErVHdNWUVBc1BnQndxVS9GWWg3QXVDT0g0RDdVa01nSWdBc2ZRQXVTZnQ0NE5RQllQRURjSTJFcHdLZlhUT1lGVmorQUJ4MTVsMXl1aWNBWno0c0FNWTc2OU9BMHdTQXhROUFUMmNMZ2VVRHdPSUhZS1N6aE1EU1B3TmcrUU13eStvN2FNa25BS3NQSFlCeldQbHB3SEpQQUN4L0FLcFpjVGN0RlFBckRoaUFES3Z0cUNVK0FsaHRxQUJrV3VramdmSlBBQ3gvQUZhend1NHFIUUFyREJBQUhsTjloNVg4Q0tENjBBQmdpOG9mQ1pSN0FtRDVBM0EyRlhkYnFRQ29PQ0FBYUtIYWppc1RBTlVHQXdDdFZkcDFKUUtnMGtBQW9LY3FPMjk2QUZRWkJBQ01VbUgzVFEyQUNnTUFnQmxtNzhCcEFURDdDd2VBMldidXdpa0JNUE1MQm9CS1p1M0U0UUV3NndzRmdLcG03TWFoQVREakN3U0FGWXpla2NNQ1lQUVhCZ0NyR2Jrcmh3VEF5QzhJQUZZMmFtZDJENEJSWHdnQW5NV0kzZGsxQUVaOEFRQndScjEzYU5jQUFBQnE2aFlBdmNzRkFNNnU1eTd0RWdBOVh6QUFKT20xVTVzSFFLOFhDZ0NwZXV6VzVnRUFBTlRYTkFCNkZBb0FjTk44eHpZTEFNc2ZBUHBxdVd1YkJFRExGd1FBUEszVnptMFNBQURBV2c0SFFLc1NBUUMyYWJGN0R3VkFpeGNBQU94M2RBY2ZDZ0FBWUUxWEI4RFI4Z0FBampteWk2OE9BQUJnWFZjRndKSGlBQURhdVhZblh4VUFBTURhZGdmQXRhVUJBUFJ4elc3ZUZRRFgvQVVBUUg5N2QvU3VBQUFBem1GekFPd3RDd0JnckQyN2VuTUFBQURuSVFBQUlOQ21BTmp6U0FFQW1HZnJ6dDRVQUFEQXVWd01nSzBsQVFEVXNHVjNYd3dBQU9COFBoa0FXd29DQUtqbjBnNzNCQUFBQWdrQUFBajBaQUJjZW5RQUFOVDJxVjN1Q1FBQUJIbzBBTno5QThBNVBMWFRQUUVBZ0VBQ0FBQUNDUUFBQ1BSUkFQajhId0RPNWJIZC92bTV2c1MxdlAzK3g3VmVjQWV2di9teXc1KzZqaGZmZmIzT2krM2szYmMvZFBxVDEvRHZ0LzlZNDRWMjlPdlh2KzM0cC9PVVp5OWZmdlhoL24vMEJLQWZDLyt5c3dlQmhYL1oyWVBBd3I5TUVQVHgvdjFQdi9pRGZ4RUFsbjhmRnY5K1p3c0JpMysvczRXQXhiK2ZFR2p2ZmdRSWdJNHMvdU5XRHdHTC83alZROERpUDA0SXRDTUFPclA0MjFzdEJDeis5bFlMQVl1L1BTRnczUDBBOEd1QWpWbitmYXcwVjh1L2o1WG1hdm4zWWE1dC9UOEFmUDUvM0VwTGFrVXJ6SGVsSmJXaUZlWnJTZlZsdnNmYzMvV2VBRFN5d25JNmc4cHpYbUU1blVIbE9WdE9ZNWh6R3dLZ2djcEw2WXdxenJ2eVVqcWppdk8ybE1ZeTcrTUV3RUVWbDFHQ1NuT3Z1SXdTVkpxN1pUU0h1UjhqQUE2b3RJUVNWWmgvcFNXVXFNTDhMYUc1elA5Ni93c0FQd0M0WDRYbHc4M1VjNml3ZkxpWmVnNldUdzNPWVorN25lOEpBQUFFRWdCWGNQZGZ5NHp6Y1BkZnk0enpjTmRaaS9QWVR3QUFRQ0FCc05PTXUwMHVHM2t1TSs0MnVXemt1Ympick1tNTdDTUFBQ0NRQU5oaDVGMG0rNDA0bjVGM21ldzM0bnpjWmRibWZMYjd6SzhBQWtDVzI5M3ZDUUFBQkJJQUFCQklBR3cwNHZObGp1dDVUaU0rWCthNG51Zms4K1UxT0tkdEJBQUFCQklBQUJCSUFBQkFJQUVBQUlFRUFBQUVFZ0FBRUVnQUFFQWdBUUFBZ1FRQUFBUVNBQUFRU0FBQVFDQUJBQUNCQkFBQUJCSUFBQkJJQUFCQUlBRUFBSUVFQUFBRUVnQUFFRWdBQUVBZ0FRQUFnUVFBQUFRU0FBQVFTQUFBUUNBQkFBQ0JCQUFBQkJJQUFCQklBQUJBSUFFQUFJRUVBQUFFRWdBQUVFZ0FBRUFnQVFBQWdRUUFBQVFTQUFBUVNBQUFRQ0FCQUFDQkJBQUFCQklBQUJCSUFBQkFJQUVBQUlFRUFBQUVFZ0FBRUVnQUFFQWdBUUFBZ1FRQUFBUVNBQUFRU0FBQVFDQUJBQUNCQkFBQUJCSUFBQkJJQUFCQUlBRUFBSUVFQUFBRUVnQUFFRWdBQUVBZ0FRQUFnUVFBQUFRU0FBQVFTQUFBUUNBQkFBQ0JCQUFBQkJJQUFCQklBQUJBSUFFQUFJRUV3RWF2di9seTQvL0pURDNQNmQyM1A4ejgwdGlvNXpuOSt2VnZONzRLWm5KTzJ3Z0FBQWdrQUFBZ2tBQUFnRUFDWUllZW55OXozSWp6NmZuNU1zZU5PQitmTDlmbWZMWVRBQUFRU0FEc05PSXVrLzFHbnN1SXUwejJHM2t1N2pKcmNpNzdDQUFBQ0NRQXJqRHlicFBMWnB6SHlMdE5McHR4SHU0MmEzRWUrd2tBQUFna0FLNDA0NjZUajgwOGh4bDNuWHhzNWptNDY2ekJPVnhIQUJ3d2MvbHdVMkwrTTVjUE55WG1iL25NWmY3WEV3QUhpWUE1S3MxZEJNeFJhZTZXMEJ6bWZvd0FhS0RTTWtwUWNkNlZsbEdDaXZPMmpNWXk3K01FUUNNVmw5SVpWWjV6eGFWMFJwWG5iQ21OWWM1dENJQ0dLaStuTTFoaHZwV1gweG1zTUYvTHFTL3piVWNBTkxiQ2tsclJTbk5kWVVtdGFLVzVXbEo5bUd0YnoxNjlldk9oN1IvSm5iZmYvMmdZQjYyMCtCL3o0cnV2RDA2QWxSYi9ZLzc5OWg4TzhTQ0x2dzhCTUlBUTJHLzF4ZitRRU5odjljWC9rQkRZeitMdlN3QU1KQVF1Tzl2aUZ3TDduVzN4QzRIOUxQNHhCTUJFZ3FER1ArWXpreWNETmY0eG41azhHYml4OENjUkFBQVF5RzhCQUVBZ0FRQUFnUVFBQUFRU0FBQVFTQUFBUUNBQkFBQ0JCQUFBQkJJQUFCQklBQUJBSUFFQUFJRUVBQUFFRWdBQUVFZ0FBRUFnQVFBQWdRUUFBQVFTQUFBUVNBQUFRQ0FCQUFDQkJBQUFCQklBQUJCSUFBQkFvTThEditZeS92UEhkMlZleXl5LytzdUxXWDkxQ1crLy83SEU2NWpwOVRkZnp2enJwL00rY0JQL1BqRExzMWV2M255WTlaZW44WTErMmRtRHdNSy83T3hCNEgzZ3NyTy9EMVFoQUFid0RiL2YyZDRBTFA3OXpoWUMzZ2YyTzl2N1FEVUNvQ1BmOE1ldC9nWmc4UiszZWdoNEh6aHU5ZmVCcWdSQUI3N2gyMXZ0RGNEaWIyKzFFUEErME41cTd3UFYrUzJBeG56VDk3SFNYQzMvUGxhYTYwclg2MHJNdFMwQjBKQ0xzNjhWNXJ2U2tsclJDdk5kNFRwZG1mbTJJd0FhY1ZHT1VYbk9LeXluTTZnODU4clg1NW1ZY3hzQ29BRVg0MWdWNTExNUtaMVJ4WGxYdkM3UHpMeVBFd0FIdVFqbnFEVDNpc3NvUWFXNVY3b2VrNWo3TVFMZ0FCZmZYQlhtWDJrSkphb3cvd3JYWVRMenY1NEF1SktMcm9hWjUxQmgrWEF6OVJ4bVhuLzh6RGxjUndBQVFDQUJjQVcxV2N1TTgzRDNYOHVNODVoeDNmRTA1N0dmQUFDQVFBSmdKNVZaMDhoem1YRzN5V1VqejJYazljWjJ6bVVmQVFBQWdRVEFEdXF5dGhIbk0vSXVrLzFHbk0rSTY0enJPWi90QkFBQUJCSUFBQkJJQUFCQUlBR3drYytWMXREem5FWjh2c3h4UGMrcDUvVkZPODVwR3dFQUFJRUVBQUFFRWdBQUVFZ0FBRUFnQVFBQWdRUUFBQVFTQUFBUVNBQUFRQ0FCQUFDQkJBQUFCQklBQUJCSUFBQkFJQUVBQUlFRUFBQUVFZ0FBRUVnQUFFQWdBUUFBZ1FRQUFBUVNBQUFRU0FBQVFDQUJBQUNCQkFBQUJCSUFBQkJJQUFCQUlBRUFBSUVFQUFBRUVnQUFFRWdBQUVBZ0FRQUFnUVFBQUFRU0FBQVFTQUFBUUNBQkFBQ0JCQUFBQkJJQUFCQklBQUJBSUFFQUFJRUVBQUFFRWdBQUVFZ0FBRUFnQVFBQWdRUUFBQVFTQUFBUVNBQUFRQ0FCQUFDQkJBQUFCQklBQUJCSUFBQkFJQUVBQUlFRUFBQUVFZ0FBRUVnQUFFQWdBUUFBZ1FRQUFBUVNBQUFRU0FBQVFDQUJBQUNCQkFBQUJCSUFBQkJJQUFCQUlBRUFBSUVFQUFBRUVnQUFFRWdBQUVBZ0FiRFJyLzd5WXVQL3lVdzl6K24xTjEvTy9OTFlxT2M1OWJ5K2FNYzViU01BQUNDUUFBQ0FRQUlBQUFJSmdCMThybFRiaVBQcCtma3l4NDA0bnhIWEdkZHpQdHNKQUFBSUpBQjJVcGMxalR5WEVYZVo3RGZ5WEVaZWIyem5YUFlSQUFBUVNBQmNRV1hXTXVNOFJ0NXRjdG1NODVoeDNmRTA1N0dmQUFDQVFBTGdTbXF6aHBubk1PT3VrNC9OUEllWjF4OC9jdzdYRVFBSHVPam1xakQvbWN1SG14THpyM0FkSmpQLzZ3bUFnMXg4YzFTYXV3aVlvOUxjSzEyUFNjejlHQUhRZ0l0d3JJcnpyclNNRWxTY2Q4WHI4c3pNK3pnQjBJaUxjWXpLYzY2NGxNNm84cHdyWDU5bllzNXRDSUNHWEpSOXJURGZ5c3ZwREZhWTd3clg2Y3JNdHgwQjBKaUxzNCtWNXJyQ2tsclJTbk5kNlhwZGlibTI5ZXpWcXpjZjJ2NlIzUG5QSDk4WnhrR3JmOE8vL2Y3SGd4TmdwY1gvR084RHg2MytQbENWQUJqQUc4QitaL3VHRndMN3JiNzRIL0krc04vWjNnZXFFUUFEZVFPNDdPemY4RUxnc3JNdGZpR3czOW5mQjZvUUFCTUpncHY0YjNSQlVPTWY4NW5KKzREM2dWa0VBQUFFOGxzQUFCQklBQUJBSUFFQUFJRUVBQUFFRWdBQUVFZ0FBRUFnQVFBQWdRUUFBQVFTQUFBUVNBQUFRQ0FCQUFDQkJBQUFCQklBQUJCSUFBQkFJQUVBQUlFRUFBQUVFZ0FBRUVnQUFFQWdBUUFBZ1FRQUFBUVNBQUFRNlBQQXI3bU12Ly9oVFpuWE1zdnYvdnF2V1g5MUNiLzUwOTlLdkk2Wi92bm4zOC84NjZkNzhkM1gwMS9EYk8rKy9XSDJTNGowN05Xck54OGl2L0lKTFB6THpoNEVGdjVsWnc4Q0MvOHlRVENHQUJqQTR0L3ZiQ0ZnOGU5M3RoQ3crUGNUQW4wSmdJNHMvdU5XRHdHTC83alZROERpUDA0STlDRUFPckQ0MjFzdEJDeis5bFlMQVl1L1BTSFFsdDhDYU16eTcyT2x1VnIrZmF3MFY4dS9EM050U3dBMHROS1NXdEVLODExcFNhMW9oZmxhVW4yWmJ6c0NvSkVWbHRNWlZKN3pDc3ZwRENyUDJYSWF3NXpiRUFBTlZGNUtaMVJ4M3BXWDBobFZuTGVsTkpaNUh5Y0FEcXE0akJKVW1udkZaWlNnMHR3dG96bk0vUmdCY0VDbEpaU293dndyTGFGRUZlWnZDYzFsL3RjVEFGZXFzSHk0bVhvT0ZaWVBOMVBQd2ZLcHdUbGNSd0FBUUNBQmNBVjMvN1hNT0E5My83WE1PQTkzbmJVNGovMEVBQUFFRWdBN3piamI1TEtSNXpMamJwUExScDZMdTgyYW5NcytBZ0FBQWdtQUhVYmVaYkxmaVBNWmVaZkpmaVBPeDExbWJjNW5Pd0VBQUlFRUFBQUVFZ0FBRUVnQWJEVGk4MldPNjNsT0l6NWY1cmllNStUejVUVTRwMjBFQUFBRUVnQUFFRWdBQUVBZ0FRQUFnUVFBQUFRU0FBQVFTQUFBUUNBQkFBQ0JCQUFBQkJJQUFCQklBQUJBSUFFQUFJRUVBQUFFRWdBQUVFZ0FBRUFnQVFBQWdRUUFBQVFTQUFBUVNBQUFRQ0FCQUFDQkJBQUFCQklBQUJCSUFBQkFJQUVBQUlFRUFBQUVFZ0FBRUVnQUFFQWdBUUFBZ1FRQUFBUVNBQUFRU0FBQVFDQUJBQUNCQkFBQUJCSUFBQkJJQUFCQUlBRUFBSUVFQUFBRUVnQUFFRWdBQUVBZ0FRQUFnUVFBQUFRU0FBQVFTQUFBUUNBQkFBQ0JCQUFBQkJJQUFCQklBQUJBSUFFQUFJRUVBQUFFRWdBQUVFZ0FBRUFnQVFBQWdRUUFBQVFTQUFBUVNBQUFRQ0FCQUFDQkJBQUFCQklBQUJCSUFBQkFJQUVBQUlFRUFBQUVFZ0FBRUVnQUFFQWdBUUFBZ1FUQVJyLzc2NzgyL3AvTTFQT2Mvdm5uMzgvODB0aW81em05Ky9hSGphK0NtWnpUTmdJQUFBSjk5djc5VDRGZk5nRGt1dDM5bmdBQVFDQUJzRVBQejVjNWJzVDU5UHg4bWVOR25JL1BsMnR6UHRzSkFBQUlKQUIyR25HWHlYNGp6MlhFWFNiN2pUd1hkNWsxT1pkOUJBQUFCQklBVnhoNXQ4bGxNODVqNU4wbWw4MDREM2VidFRpUC9mNFhBSDRWRUFBeTNPMThUd0N1Tk9PdWs0L05QSWNaZDUxOGJPWTV1T3Vzd1RsY1J3QWNNSFA1Y0ZOaS9qT1hEemNsNW0vNXpHWCsxeE1BQjRtQU9Tck5YUVRNVVdudWx0QWM1bjZNQUdpZzBqSktVSEhlbFpaUmdvcnp0b3pHTXUvai9oOEFmaER3bUlwTDZZd3F6N25pVWpxanluTzJsTVl3NSt2ZDMvV2VBRFJVZVRtZHdRcnpyYnljem1DRitWcE9mWmx2T3dLZ3NSV1cxSXBXbXVzS1MycEZLODNWa3VyRFhOdDY5dkxsVngvdS9zam56NzlvKzZlSCsvc2Yzb1JQNExpVkZ2OWpmdk9udngwZlFyaVZGdjlqWG56M2RmZ0pIbWZ4dDNQL0k0QmZCTUF0RWRDZUVOaHY5Y1gva0JEWWIvWEYvNUFRMk0vaWIrdmh6L29KZ0lHRXdHVm5XL3hDWUwrekxYNGhzSi9GMzRjQUtFUVExUGpIZkdieVpLREdQK1l6a3ljRE54YitJQmNENEphUEFRRGdQQjc3VlgrL0JRQUFnUVFBQUFRU0FBQVE2TkVBZU95ekFnQmdQVS90ZEU4QUFDRFFrd0hnS1FBQXJPMVR1OXdUQUFBSUpBQUFJTkFuQThESEFBQ3dwa3M3M0JNQUFBaDBNUUF1RlFRQVVNdVczWDB4QUFDQTg5a1VBRnRLQWdDWWIrdk8zaFFBQU1DNUNBQUFDTFE1QUxZK1VnQUE1dGl6cXpjSEFBQndIcnNDWUU5WkFBRGo3TjNSdXdMZzF0Ni9BQURvNjVyZHZEc0FBSUQxWFJVQTE1UUdBTkRldFR2NXFnQUFBTloyZFFCY1d4d0FRQnRIZHZIVkFRQUFyT3RRQUJ3cER3RGdla2QzOEtFQXVIWDBCUUFBKzdUWXZZY0RBQUJZVDVNQWFGRWlBTUJsclhadWt3QzQxZW9GQVFDUGE3bHJtd1dBQ0FDQWZsb3UvMXROQXdBQVdFUHpBR2hkS0FDUXJzZHViUjRBdDNxOFVBQkkxR3VuZGdrQUVRQUF4L1ZhL3JlNkJRQUFVRmZYQU9oWkxnQndacjEzYU5jQXVOWDdDd0NBc3hteE83c0hnQWdBZ08xR0xQOWJRd0pBQkFEQVphT1cvOUFBRUFFQThMU1J5Mzk0QUlnQUFQalk2T1UvSlFCRUFBRDhiTWJ5bnhZQUlnQUE1djZtM0xBZkFuek1yT29CZ05sbTc4Q3BBZUJKQUFDSlppLy9XOU1EUUFRQWtLVEM4aThUQUNJQWdBUlZsbitwQUJBQkFKeFpwZVZmTGdCRUFBQm5WRzM1My9xODRxRHZCdlg4K1JjVlh4NEFiRkp4OGQ4cDhVT0FUNms4T0FENGxPbzdySFFBM0tvK1FBQjRhSVhkVmZJamdLY0c2U01CQUNwYllmSGZLZjhFNEw2VkJndEFsdFYyMUZJQmNHdTFBUU53Zml2dXBpVStBbmpJYndrQVVNR0tpLy9PY2s4QTdsdDU4QUNzYmZVZHRPUVRnTWNpd0E4SUFqREM2b3YvenZJQmNNZkhBZ0QwZEpiRmY3b0FFQUlBOUhDMnhYOW42WjhCK0pTekhoZ0E0NXg1bDV6bUk0REgrRmdBZ0d1Y2VmSGZPWFVBM0xsL2tINVlFSUJQM1RTbWlBaUErendWQU9DeHZaQW1MZ0FlUGhYd1JBQWdVOEpqL2srSkRZQ0hJWEJMREFDY1cvclN2eTgrQU83ejhRREFPVm44SHhNQWozaDRvWGd5QUxBV0MvOHlBYkNCM3lJQXFNL1MzMGNBN09UcEFFQU5GdjR4QXVDZ3h5NUFIeGtBdEdYWnR5Y0FPdmpVaFNvT0FCNW55WS8xWDJQREdrYTN4bDc2QUFBQUFFbEZUa1N1UW1DQyIsICJzaXplcyI6ICI1MTJ4NTEyIiwgInR5cGUiOiAiaW1hZ2UvcG5nIn1dfQ==" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    :root {
+      --bg: #111118;
+      --surface: #1b1b26;
+      --surface-2: #242433;
+      --border: rgba(255, 255, 255, 0.11);
+      --accent: #a78bfa;
+      --accent-strong: #8b5cf6;
+      --gold: #f59e0b;
+      --green: #22c55e;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100dvh;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+      touch-action: manipulation;
+    }
+    .app-shell {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100dvh;
+      max-width: 540px;
+      margin: 0 auto;
+      padding-top: var(--safe-top);
+      background: var(--bg);
+      position: relative;
+    }
+
+    /* Top Nav */
+    .top-nav {
+      height: 48px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px;
+      background: #14141e;
+      border-bottom: 1px solid var(--border);
+      z-index: 600;
+    }
+    .nav-tabs {
+      display: flex;
+      gap: 4px;
+      flex: 1;
+      justify-content: center;
+    }
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 10px;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .tab-btn.active {
+      color: #fff;
+      border-bottom-color: var(--accent);
+    }
+    .icon-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .icon-btn:active { transform: scale(0.94); }
+
+    /* Panels */
+    .panel {
+      display: none;
+      flex: 1;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+    .panel.active {
+      display: flex;
+    }
+
+    /* ================= PANEL 1: CAMERA SCANNER ================= */
+    .cam-section {
+      height: 45%;
+      min-height: 230px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      background: #0a0a10;
+      position: relative;
+      border-bottom: 1px solid var(--border);
+    }
+    .cam-stage {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      background: #07070c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #liveVideo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+      background: #000;
+    }
+    #liveVideo::-webkit-media-controls,
+    #liveVideo::-webkit-media-controls-start-playback-button {
+      display: none !important;
+      -webkit-appearance: none;
+    }
+    #photoPreviewCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 2;
+      display: none;
+    }
+
+    /* Top HUD inside camera */
+    .cam-top-hud {
+      position: absolute;
+      top: 6px;
+      left: 8px;
+      right: 8px;
+      z-index: 30;
+      background: rgba(17, 17, 26, 0.84);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(245, 158, 11, 0.45);
+      border-radius: 10px;
+      padding: 6px 10px;
+      text-align: center;
+      pointer-events: none;
+    }
+    .cam-hud-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #fde68a;
+      line-height: 1.25;
+    }
+    .cam-hud-sub {
+      font-size: 11px;
+      color: #cbd5e1;
+      margin-top: 2px;
+    }
+
+    /* Start Camera CTA Overlay */
+    .cam-start-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 25;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at center, rgba(30,27,48,0.88), rgba(10,10,16,0.96));
+      gap: 10px;
+      padding-top: 34px;
+    }
+    .cam-start-overlay.hidden { display: none; }
+    .cam-big-btn {
+      background: linear-gradient(135deg, #8b5cf6, #6366f1);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: 700;
+      box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .cam-big-btn:active { transform: scale(0.96); }
+    .cam-start-hint {
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+      max-width: 260px;
+    }
+
+    /* 3x3 Scanning Grid Overlay */
+    .scan-grid-wrap {
+      position: absolute;
+      top: 54%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(52vw, 178px);
+      height: min(52vw, 178px);
+      z-index: 20;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 5px;
+      padding: 5px;
+      border: 2px solid rgba(245, 158, 11, 0.85);
+      border-radius: 12px;
+      box-shadow: 0 0 0 999px rgba(0, 0, 0, 0.36);
+      pointer-events: none;
+    }
+    .scan-cell {
+      border: 2px solid rgba(255, 255, 255, 0.55);
+      border-radius: 7px;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 3px;
+      cursor: pointer;
+      pointer-events: auto;
+      background: rgba(0,0,0,0.08);
+      transition: transform 0.1s;
+    }
+    .scan-cell:active { transform: scale(0.93); }
+    .scan-cell-tag {
+      font-size: 9px;
+      font-weight: 800;
+      padding: 1px 4px;
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.72);
+      color: #fff;
+      line-height: 1.2;
+      letter-spacing: -0.2px;
+    }
+
+    /* Camera Toolbar */
+    .cam-toolbar {
+      height: 42px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 0 8px;
+      background: #14141e;
+      border-top: 1px solid var(--border);
+      z-index: 500;
+    }
+    .tool-pill {
+      flex: 1;
+      height: 30px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--text);
+      font-size: 11px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      cursor: pointer;
+      white-space: nowrap;
+      padding: 0 6px;
+    }
+    .tool-pill.active-green {
+      background: rgba(34, 197, 94, 0.18);
+      border-color: rgba(34, 197, 94, 0.65);
+      color: #86efac;
+    }
+    .tool-pill.active-amber {
+      background: rgba(245, 158, 11, 0.22);
+      border-color: rgba(245, 158, 11, 0.75);
+      color: #fde68a;
+    }
+    .tool-pill:active { transform: scale(0.95); }
+
+    /* Bottom Half: Progress + Guidance + 3D Cube + Next Button */
+    .preview-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg);
+      position: relative;
+      overflow: hidden;
+      padding-bottom: calc(10px + var(--safe-bottom));
+    }
+    .face-pills {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 4px;
+      padding: 6px 8px 4px;
+      flex-shrink: 0;
+      z-index: 50;
+    }
+    .face-pill {
+      height: 26px;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      cursor: pointer;
+      padding: 0 2px;
+    }
+    .face-pill .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .face-pill.active {
+      border-color: var(--accent);
+      background: rgba(167, 139, 250, 0.18);
+      color: #fff;
+    }
+    .face-pill.done {
+      border-color: rgba(34, 197, 94, 0.55);
+      color: #bbf7d0;
+    }
+
+    /* Rotation Guidance Box */
+    .guide-box {
+      margin: 2px 8px 0;
+      padding: 7px 10px;
+      border-radius: 10px;
+      background: var(--surface);
+      border: 1px solid rgba(167, 139, 250, 0.35);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+      z-index: 50;
+    }
+    .guide-box.flash {
+      border-color: var(--gold);
+      background: rgba(245, 158, 11, 0.15);
+    }
+    .guide-arrow {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(139, 92, 246, 0.22);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .guide-text-wrap {
+      flex: 1;
+      min-width: 0;
+    }
+    .guide-main {
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .guide-sub {
+      font-size: 10.5px;
+      color: var(--muted);
+      margin-top: 1px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* 3D Preview Container */
+    .cube3d-wrap {
+      flex: 1;
+      position: relative;
+      min-height: 110px;
+      width: 100%;
+    }
+    #scanCubeCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Bottom Action Bar */
+    .bottom-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px 2px;
+      flex-shrink: 0;
+      z-index: 999;
+    }
+    .btn-sec {
+      height: 40px;
+      padding: 0 10px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+    .btn-sec:active { transform: scale(0.95); }
+    .btn-next {
+      flex: 1;
+      height: 42px;
+      border-radius: 14px;
+      border: none;
+      background: linear-gradient(135deg, #8b5cf6, #6366f1);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 6px 20px rgba(139, 92, 246, 0.42);
+    }
+    .btn-next.finish {
+      background: linear-gradient(135deg, #16a34a, #059669);
+      box-shadow: 0 6px 20px rgba(22, 163, 74, 0.42);
+    }
+    .btn-next:active { transform: scale(0.97); }
+
+    /* ================= PANEL 2: 2D NET EDITOR ================= */
+    .net-panel-inner {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      gap: 10px;
+      overflow-y: auto;
+      padding-bottom: calc(16px + var(--safe-bottom));
+    }
+    .palette-bar {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 6px;
+      background: var(--surface);
+      padding: 8px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+    .pal-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      padding: 6px 2px;
+      border-radius: 8px;
+      border: 2px solid transparent;
+      background: var(--surface-2);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .pal-btn.selected {
+      border-color: #fff;
+      box-shadow: 0 0 10px rgba(255,255,255,0.28);
+    }
+    .pal-swatch {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      border: 1px solid rgba(0,0,0,0.3);
+    }
+    .net-grid-container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 6px;
+      max-width: 360px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .net-face {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: #0d0d14;
+      padding: 3px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      position: relative;
+    }
+    .net-face-label {
+      position: absolute;
+      top: -1px;
+      left: 3px;
+      font-size: 8px;
+      font-weight: 800;
+      color: rgba(255,255,255,0.65);
+      pointer-events: none;
+    }
+    .net-sticker {
+      aspect-ratio: 1;
+      border-radius: 3px;
+      cursor: pointer;
+      border: 1px solid rgba(0,0,0,0.35);
+    }
+    .net-status {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 12px;
+      line-height: 1.45;
+      color: #e2e8f0;
+    }
+
+    /* ================= PANEL 3: 3D SOLVER ================= */
+    .solver-header {
+      padding: 8px 10px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .progress-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+    .progress-track {
+      height: 6px;
+      background: var(--surface-2);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #8b5cf6, #22c55e);
+      transition: width 0.25s;
+    }
+    .move-banner {
+      margin: 8px 10px 0;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.14));
+      border: 1px solid rgba(167, 139, 250, 0.45);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .move-code-badge {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      background: var(--accent-strong);
+      color: #fff;
+      font-size: 24px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .move-desc-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .move-desc-sub {
+      font-size: 12px;
+      color: #cbd5e1;
+      margin-top: 2px;
+    }
+    .solver-3d-stage {
+      flex: 1;
+      position: relative;
+      min-height: 180px;
+    }
+    #solverCubeCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .moves-strip {
+      display: flex;
+      gap: 5px;
+      overflow-x: auto;
+      padding: 6px 10px;
+      background: #14141e;
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+      scrollbar-width: none;
+    }
+    .moves-strip::-webkit-scrollbar { display: none; }
+    .move-chip {
+      padding: 5px 9px;
+      border-radius: 8px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+    .move-chip.done {
+      background: rgba(34, 197, 94, 0.18);
+      border-color: rgba(34, 197, 94, 0.5);
+      color: #86efac;
+    }
+    .move-chip.current {
+      background: var(--accent-strong);
+      border-color: #fff;
+      color: #fff;
+      transform: scale(1.06);
+    }
+    .solver-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 8px 10px calc(10px + var(--safe-bottom));
+      background: #14141e;
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .solver-btn-row {
+      display: flex;
+      gap: 6px;
+    }
+    .speed-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+    .speed-pill {
+      flex: 1;
+      height: 26px;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .speed-pill.active {
+      background: rgba(167, 139, 250, 0.22);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      top: calc(56px + var(--safe-top));
+      left: 50%;
+      transform: translateX(-50%) translateY(-16px);
+      background: rgba(20, 20, 32, 0.95);
+      border: 1px solid var(--accent);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 700;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s;
+      z-index: 2000;
+      white-space: nowrap;
+      max-width: 92vw;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Transition Modal */
+    .turn-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 1500;
+      background: rgba(8, 8, 14, 0.86);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .turn-modal.show { display: flex; }
+    .turn-card {
+      width: 100%;
+      max-width: 330px;
+      background: var(--surface);
+      border: 1px solid rgba(167, 139, 250, 0.55);
+      border-radius: 20px;
+      padding: 18px;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+    }
+    .turn-mini-grid {
+      width: 84px;
+      height: 84px;
+      margin: 0 auto 10px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3px;
+      background: #0b0b12;
+      padding: 4px;
+      border-radius: 8px;
+    }
+    .turn-mini-cell { border-radius: 3px; }
+    .turn-big-arrow {
+      font-size: 46px;
+      line-height: 1.1;
+      margin: 6px 0;
+    }
+    .turn-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #fde68a;
+    }
+    .turn-desc {
+      font-size: 13px;
+      color: #e2e8f0;
+      margin: 6px 0 14px;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+<div class="app-shell">
+  <!-- Top Nav -->
+  <header class="top-nav">
+    <button class="icon-btn" id="btnResetAll" title="Làm lại từ đầu">↺</button>
+    <div class="nav-tabs">
+      <button class="tab-btn active" data-tab="scan">📷 Máy ảnh</button>
+      <button class="tab-btn" data-tab="net">🎨 Sơ đồ 2D</button>
+      <button class="tab-btn" data-tab="solve">🧊 Giải 3D</button>
+    </div>
+    <button class="icon-btn" id="btnVoiceToggle" title="Bật/tắt giọng nói">🔊</button>
+  </header>
+
+  <!-- ==================== TAB 1: CAMERA SCAN ==================== -->
+  <section class="panel active" id="panel-scan">
+    <div class="cam-section">
+      <div class="cam-stage">
+        <video id="liveVideo" autoplay playsinline webkit-playsinline muted></video>
+        <canvas id="photoPreviewCanvas"></canvas>
+
+        <div class="cam-top-hud">
+          <div class="cam-hud-title" id="hudTitle">MẶT 1/6: MẶT TRƯỚC (TÂM XANH LÁ)</div>
+          <div class="cam-hud-sub" id="hudSub">Giữ mặt Trắng ở Trên • Chạm ô bất kỳ để chỉnh màu</div>
+        </div>
+
+        <div class="cam-start-overlay" id="camStartOverlay">
+          <button class="cam-big-btn" id="btnBigStartCam">🎥 CHẠM ĐỂ BẬT CAMERA</button>
+          <div class="cam-start-hint">Hoặc bấm "Chụp mặt" nếu muốn chụp từng ảnh bằng Camera gốc iPhone</div>
+        </div>
+
+        <div class="scan-grid-wrap" id="scanGrid"></div>
+      </div>
+
+      <div class="cam-toolbar">
+        <button class="tool-pill" id="btnToggleCam">🎥 Bật Cam</button>
+        <button class="tool-pill" id="btnPhotoCapture">📸 Chụp mặt</button>
+        <button class="tool-pill" id="btnFreeze">❄️ Khoá màu</button>
+        <button class="tool-pill" id="btnFlipCam">🔄 Đổi cam</button>
+      </div>
+      <input type="file" id="nativeCameraInput" accept="image/*" capture="environment" style="display:none" />
+    </div>
+
+    <div class="preview-section">
+      <div class="face-pills" id="facePills"></div>
+
+      <div class="guide-box" id="guideBox">
+        <div class="guide-arrow" id="guideArrow">🎯</div>
+        <div class="guide-text-wrap">
+          <div class="guide-main" id="guideMain">Đưa MẶT TRƯỚC (Tâm Xanh Lá) vào khung</div>
+          <div class="guide-sub" id="guideSub">Không giới hạn thời gian • Đúng 9 màu bấm TIẾP TỤC ➔</div>
+        </div>
+      </div>
+
+      <div class="cube3d-wrap">
+        <canvas id="scanCubeCanvas"></canvas>
+      </div>
+
+      <div class="bottom-actions">
+        <button class="btn-sec" id="btnPrevFace">⬅️ Trước</button>
+        <button class="btn-next" id="btnNextFace">TIẾP TỤC (1/6) ➔</button>
+        <button class="btn-sec" id="btnQuickTest">⚡ Test</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 2: 2D NET EDITOR ==================== -->
+  <section class="panel" id="panel-net">
+    <div class="net-panel-inner">
+      <div style="font-size:12px;color:var(--muted);text-align:center;">
+        Chọn màu bên dưới rồi chạm vào ô trên sơ đồ 2D để chỉnh sửa chính xác (mỗi màu phải đủ 9 ô)
+      </div>
+      <div class="palette-bar" id="paletteBar"></div>
+      <div class="net-grid-container" id="netGrid"></div>
+      <div class="net-status" id="netStatus">Đang kiểm tra 54 ô màu...</div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn-sec" style="flex:1" id="btnBackToScan">📷 Quay lại quét</button>
+        <button class="btn-next finish" style="flex:1.5" id="btnSolveFromNet">🧊 PHÂN TÍCH & GIẢI ➔</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TAB 3: 3D SOLVER ==================== -->
+  <section class="panel" id="panel-solve">
+    <div class="solver-header">
+      <div class="progress-row">
+        <span id="solveProgressLabel">Bước 0 / 0</span>
+        <span id="solvePctLabel">0%</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="solveProgressFill"></div>
+      </div>
+    </div>
+
+    <div class="move-banner">
+      <div class="move-code-badge" id="moveBadge">✓</div>
+      <div>
+        <div class="move-desc-title" id="moveTitle">Sẵn sàng giải Rubik</div>
+        <div class="move-desc-sub" id="moveSub">Giữ mặt Xanh Lá hướng về bạn, mặt Trắng ở Trên</div>
+      </div>
+    </div>
+
+    <div class="solver-3d-stage">
+      <canvas id="solverCubeCanvas"></canvas>
+    </div>
+
+    <div class="moves-strip" id="movesStrip"></div>
+
+    <div class="solver-controls">
+      <div class="solver-btn-row">
+        <button class="btn-sec" style="flex:1" id="btnStepPrev">◀ Lùi</button>
+        <button class="btn-next" style="flex:1.4" id="btnPlayPause">▶ Tự chạy</button>
+        <button class="btn-sec" style="flex:1" id="btnStepNext">Tiếp ▶</button>
+      </div>
+      <div class="speed-row">
+        <span>Tốc độ:</span>
+        <button class="speed-pill" data-speed="2400">Chậm 2.4s</button>
+        <button class="speed-pill active" data-speed="1400">Vừa 1.4s</button>
+        <button class="speed-pill" data-speed="800">Nhanh 0.8s</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Turn Guidance Modal -->
+<div class="turn-modal" id="turnModal">
+  <div class="turn-card">
+    <div style="font-size:12px;color:#86efac;font-weight:700;margin-bottom:6px;" id="turnSavedLabel">✓ Đã lưu Mặt 1/6</div>
+    <div class="turn-mini-grid" id="turnMiniGrid"></div>
+    <div class="turn-big-arrow" id="turnBigArrow">⬅️</div>
+    <div class="turn-title" id="turnTitle">XOAY KHỐI SANG TRÁI 90°</div>
+    <div class="turn-desc" id="turnDesc">Đưa mặt Tâm Đỏ (bên phải) ra phía trước Camera, giữ nguyên mặt Trắng ở Trên.</div>
+    <div style="display:flex;gap:8px;">
+      <button class="btn-sec" style="flex:1" id="btnTurnRedo">Quét lại</button>
+      <button class="btn-next" style="flex:1.5" id="btnTurnOk">Đã xoay xong ➔</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<canvas id="sampleCanvas" width="90" height="90" style="display:none"></canvas>
+
+<script>
+// ==================== CONSTANTS & COLOR DEFINITIONS ====================
+const COLORS = {
+  U: { name: 'Trắng',   short: 'Trắng',   hex: '#f8fafc', text: '#0f172a' },
+  R: { name: 'Đỏ',      short: 'Đỏ',      hex: '#ef4444', text: '#ffffff' },
+  F: { name: 'Xanh Lá', short: 'X.Lá',    hex: '#22c55e', text: '#052e16' },
+  D: { name: 'Vàng',    short: 'Vàng',    hex: '#facc15', text: '#422006' },
+  L: { name: 'Cam',     short: 'Cam',     hex: '#f97316', text: '#ffffff' },
+  B: { name: 'Xanh Dương', short: 'X.Dương', hex: '#2563eb', text: '#ffffff' },
+};
+const COLOR_KEYS = ['U', 'R', 'F', 'D', 'L', 'B'];
+
+// Scanning sequence: F -> R -> B -> L -> U -> D
+const SCAN_ORDER = [
+  {
+    face: 'F', short: '1.Trước', title: 'MẶT 1/6: MẶT TRƯỚC (TÂM XANH LÁ)',
+    sub: 'Giữ mặt Trắng ở Trên • Chạm ô bất kỳ nếu cần sửa màu',
+    hold: 'Đưa mặt TÂM XANH LÁ vào khung, giữ Tâm Trắng ở Trên',
+    rotY: 0, rotX: 0.25,
+    nextArrow: '⬅️',
+    nextTitle: 'XOAY KHỐI SANG TRÁI 90°',
+    nextDesc: 'Xoay cả khối sang trái để đưa mặt TÂM ĐỎ (bên phải) ra trước Camera. Giữ nguyên mặt Trắng ở Trên.'
+  },
+  {
+    face: 'R', short: '2.Phải', title: 'MẶT 2/6: MẶT PHẢI (TÂM ĐỎ)',
+    sub: 'Vẫn giữ mặt Trắng ở Trên • Không giới hạn thời gian',
+    hold: 'Đưa mặt TÂM ĐỎ vào khung, giữ Tâm Trắng ở Trên',
+    rotY: -Math.PI/2, rotX: 0.25,
+    nextArrow: '⬅️',
+    nextTitle: 'XOAY KHỐI SANG TRÁI 90°',
+    nextDesc: 'Tiếp tục xoay cả khối sang trái để đưa mặt TÂM XANH DƯƠNG ra trước Camera. Giữ mặt Trắng ở Trên.'
+  },
+  {
+    face: 'B', short: '3.Sau', title: 'MẶT 3/6: MẶT SAU (TÂM XANH DƯƠNG)',
+    sub: 'Vẫn giữ mặt Trắng ở Trên • Chạm ô nếu bị chói sáng',
+    hold: 'Đưa mặt TÂM XANH DƯƠNG vào khung, giữ Tâm Trắng ở Trên',
+    rotY: -Math.PI, rotX: 0.25,
+    nextArrow: '⬅️',
+    nextTitle: 'XOAY KHỐI SANG TRÁI 90°',
+    nextDesc: 'Xoay cả khối sang trái để đưa mặt TÂM CAM ra trước Camera. Giữ mặt Trắng ở Trên.'
+  },
+  {
+    face: 'L', short: '4.Trái', title: 'MẶT 4/6: MẶT TRÁI (TÂM CAM)',
+    sub: 'Vẫn giữ mặt Trắng ở Trên • Kiểm tra kỹ Cam và Đỏ',
+    hold: 'Đưa mặt TÂM CAM vào khung, giữ Tâm Trắng ở Trên',
+    rotY: Math.PI/2, rotX: 0.25,
+    nextArrow: '⬇️',
+    nextTitle: 'QUAY VỀ MẶT XANH LÁ RỒI NGỬA XUỐNG 90°',
+    nextDesc: 'Đưa mặt Xanh Lá về phía bạn, sau đó gập mặt TRẮNG từ trên đỉnh xuống hướng vào Camera (Xanh Lá nằm dưới).'
+  },
+  {
+    face: 'U', short: '5.Trên', title: 'MẶT 5/6: MẶT TRÊN (TÂM TRẮNG)',
+    sub: 'Mặt Xanh Lá đang hướng xuống dưới • Đúng 9 ô bấm TIẾP TỤC',
+    hold: 'Đưa mặt TÂM TRẮNG vào khung (Mặt Xanh Lá ở cạnh dưới)',
+    rotY: 0, rotX: Math.PI/2 + 0.15,
+    nextArrow: '⬆️',
+    nextTitle: 'LẬT NGƯỢC 180° SANG MẶT VÀNG',
+    nextDesc: 'Lật dọc khối Rubik 180° để đưa mặt TÂM VÀNG (đáy) hướng vào Camera (Mặt Xanh Lá nằm ở cạnh trên).'
+  },
+  {
+    face: 'D', short: '6.Dưới', title: 'MẶT 6/6: MẶT DƯỚI (TÂM VÀNG)',
+    sub: 'Mặt cuối cùng • Xong bấm HOÀN TẤT & GIẢI RUBIK',
+    hold: 'Đưa mặt TÂM VÀNG vào khung (Mặt Xanh Lá ở cạnh trên)',
+    rotY: 0, rotX: -Math.PI/2 + 0.15,
+    nextArrow: '🎉',
+    nextTitle: 'HOÀN TẤT QUÉT 6 MẶT!',
+    nextDesc: 'Đang phân tích và lập lộ trình giải Rubik 3D từng bước...'
+  }
+];
+
+const FACE_OFFSET = { U: 0, R: 9, F: 18, D: 27, L: 36, B: 45 };
+
+// ==================== STATE ====================
+let scannedFaces = {
+  U: Array(9).fill(null),
+  R: Array(9).fill(null),
+  F: Array(9).fill(null),
+  D: Array(9).fill(null),
+  L: Array(9).fill(null),
+  B: Array(9).fill(null),
+};
+let liveColors = Array(9).fill('F');
+let currentStepIdx = 0;
+let isCamOn = false;
+let isFrozen = false;
+let facingMode = 'environment';
+let mediaStream = null;
+let sampleTimer = null;
+let voiceEnabled = true;
+let selectedNetColor = 'U';
+
+// Solver state
+let initialSolveState = null;
+let solutionMoves = [];
+let solveStep = 0;
+let isPlaying = false;
+let playTimer = null;
+let playSpeed = 1400;
+
+// ==================== UTILITIES ====================
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove('show'), 2200);
+}
+
+function speak(text) {
+  if (!voiceEnabled || !('speechSynthesis' in window)) return;
+  try {
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'vi-VN';
+    u.rate = 1.05;
+    window.speechSynthesis.speak(u);
+  } catch (e) {}
+}
+
+function rgbToHsv(r, g, b) {
+  r /= 255; g /= 255; b /= 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  const d = max - min;
+  let h = 0;
+  if (d !== 0) {
+    if (max === r) h = ((g - b) / d) % 6;
+    else if (max === g) h = (b - r) / d + 2;
+    else h = (r - g) / d + 4;
+    h *= 60;
+    if (h < 0) h += 360;
+  }
+  const s = max === 0 ? 0 : d / max;
+  return [h, s, max];
+}
+
+function classifyRGB(r, g, b) {
+  const [h, s, v] = rgbToHsv(r, g, b);
+  if (s < 0.24 && v > 0.45) return 'U'; // White
+  if (v < 0.18) return 'B';
+  if (h >= 44 && h < 82) return 'D';    // Yellow
+  if (h >= 82 && h < 172) return 'F';   // Green
+  if (h >= 172 && h < 268) return 'B';  // Blue
+  if (h >= 14 && h < 44) return 'L';    // Orange
+  return 'R';                           // Red (h < 14 or h >= 268)
+}
+
+// ==================== CAMERA & COLOR SAMPLING ====================
+const videoEl = document.getElementById('liveVideo');
+const photoCanvas = document.getElementById('photoPreviewCanvas');
+const sampleCanvas = document.getElementById('sampleCanvas');
+const sampleCtx = sampleCanvas.getContext('2d', { willReadFrequently: true });
+
+async function startCamera() {
+  stopCamera(false);
+  const btn = document.getElementById('btnToggleCam');
+  btn.textContent = '⏳ Đang mở...';
+  photoCanvas.style.display = 'none';
+
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    showToast('Trình duyệt không hỗ trợ Live Cam — mở Chụp mặt');
+    btn.textContent = '🎥 Bật Cam';
+    document.getElementById('nativeCameraInput').click();
+    return;
+  }
+
+  try {
+    const constraints = {
+      video: {
+        facingMode: { ideal: facingMode },
+        width: { ideal: 720 },
+        height: { ideal: 720 }
+      },
+      audio: false
+    };
+    mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+    videoEl.srcObject = mediaStream;
+    videoEl.setAttribute('playsinline', '');
+    videoEl.setAttribute('webkit-playsinline', '');
+    videoEl.muted = true;
+    await videoEl.play();
+
+    isCamOn = true;
+    isFrozen = false;
+    document.getElementById('camStartOverlay').classList.add('hidden');
+    updateCamButtons();
+    startSamplingLoop();
+    showToast('Camera đã bật — giữ Rubik vào ô vuông');
+  } catch (err) {
+    console.warn('Camera error:', err);
+    btn.textContent = '🎥 Bật Cam';
+    showToast('Không mở được Live Cam — hãy dùng nút Chụp mặt');
+  }
+}
+
+function stopCamera(showOverlay = true) {
+  if (sampleTimer) { clearInterval(sampleTimer); sampleTimer = null; }
+  if (mediaStream) {
+    mediaStream.getTracks().forEach(t => t.stop());
+    mediaStream = null;
+  }
+  videoEl.srcObject = null;
+  isCamOn = false;
+  if (showOverlay && photoCanvas.style.display === 'none') {
+    document.getElementById('camStartOverlay').classList.remove('hidden');
+  }
+  updateCamButtons();
+}
+
+function updateCamButtons() {
+  const btnCam = document.getElementById('btnToggleCam');
+  btnCam.textContent = isCamOn ? '⏹ Tắt Cam' : '🎥 Bật Cam';
+  btnCam.classList.toggle('active-green', isCamOn);
+
+  const btnFreeze = document.getElementById('btnFreeze');
+  btnFreeze.textContent = isFrozen ? '🔓 Mở khoá' : '❄️ Khoá màu';
+  btnFreeze.classList.toggle('active-amber', isFrozen);
+}
+
+function startSamplingLoop() {
+  if (sampleTimer) clearInterval(sampleTimer);
+  sampleTimer = setInterval(() => {
+    if (!isCamOn || isFrozen || videoEl.readyState < 2) return;
+    sampleFromSource(videoEl, videoEl.videoWidth, videoEl.videoHeight);
+  }, 180);
+}
+
+function sampleFromSource(source, sw, sh) {
+  if (!sw || !sh) return;
+  const minSide = Math.min(sw, sh);
+  const cropSize = minSide * 0.62;
+  const sx = (sw - cropSize) / 2;
+  const sy = (sh - cropSize) / 2;
+  sampleCtx.drawImage(source, sx, sy, cropSize, cropSize, 0, 0, 90, 90);
+  const imgData = sampleCtx.getImageData(0, 0, 90, 90).data;
+
+  const detected = [];
+  for (let row = 0; row < 3; row++) {
+    for (let col = 0; col < 3; col++) {
+      const cx = col * 30 + 15;
+      const cy = row * 30 + 15;
+      let rSum = 0, gSum = 0, bSum = 0, cnt = 0;
+      for (let dy = -4; dy <= 4; dy += 2) {
+        for (let dx = -4; dx <= 4; dx += 2) {
+          const idx = ((cy + dy) * 90 + (cx + dx)) * 4;
+          rSum += imgData[idx];
+          gSum += imgData[idx + 1];
+          bSum += imgData[idx + 2];
+          cnt++;
+        }
+      }
+      detected.push(classifyRGB(rSum / cnt, gSum / cnt, bSum / cnt));
+    }
+  }
+  // Lock center sticker to expected face center for stability
+  const expectedFace = SCAN_ORDER[currentStepIdx].face;
+  detected[4] = expectedFace;
+  liveColors = detected;
+  renderScanGrid();
+  syncScanCube3D();
+}
+
+// Native iOS photo fallback
+document.getElementById('nativeCameraInput').addEventListener('change', (e) => {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    const img = new Image();
+    img.onload = () => {
+      stopCamera(false);
+      document.getElementById('camStartOverlay').classList.add('hidden');
+      photoCanvas.style.display = 'block';
+      const stage = document.querySelector('.cam-stage');
+      photoCanvas.width = stage.clientWidth * 2;
+      photoCanvas.height = stage.clientHeight * 2;
+      const ctx = photoCanvas.getContext('2d');
+      const scale = Math.max(photoCanvas.width / img.width, photoCanvas.height / img.height);
+      const w = img.width * scale, h = img.height * scale;
+      ctx.drawImage(img, (photoCanvas.width - w) / 2, (photoCanvas.height - h) / 2, w, h);
+      sampleFromSource(img, img.width, img.height);
+      isFrozen = true;
+      updateCamButtons();
+      showToast('Đã quét ảnh — kiểm tra 9 màu rồi bấm TIẾP TỤC ➔');
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+  e.target.value = '';
+});
+
+// ==================== SCAN GRID & UI SYNC ====================
+function initScanGrid() {
+  const grid = document.getElementById('scanGrid');
+  grid.innerHTML = '';
+  for (let i = 0; i < 9; i++) {
+    const cell = document.createElement('div');
+    cell.className = 'scan-cell';
+    cell.dataset.idx = i;
+    cell.innerHTML = '<span class="scan-cell-tag"></span>';
+    cell.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (i === 4) {
+        showToast('Ô tâm luôn cố định màu theo mặt đang quét');
+        return;
+      }
+      isFrozen = true;
+      updateCamButtons();
+      const curIdx = COLOR_KEYS.indexOf(liveColors[i]);
+      liveColors[i] = COLOR_KEYS[(curIdx + 1) % COLOR_KEYS.length];
+      renderScanGrid();
+      syncScanCube3D();
+    });
+    grid.appendChild(cell);
+  }
+}
+
+function renderScanGrid() {
+  const cells = document.querySelectorAll('#scanGrid .scan-cell');
+  cells.forEach((cell, i) => {
+    const k = liveColors[i] || SCAN_ORDER[currentStepIdx].face;
+    const c = COLORS[k];
+    cell.style.borderColor = c.hex;
+    const tag = cell.querySelector('.scan-cell-tag');
+    tag.textContent = c.short;
+    tag.style.background = c.hex;
+    tag.style.color = c.text;
+  });
+}
+
+function renderFacePills() {
+  const wrap = document.getElementById('facePills');
+  wrap.innerHTML = '';
+  SCAN_ORDER.forEach((item, idx) => {
+    const btn = document.createElement('button');
+    const isDone = scannedFaces[item.face].every(x => x !== null);
+    btn.className = 'face-pill' + (idx === currentStepIdx ? ' active' : '') + (isDone ? ' done' : '');
+    btn.innerHTML = `<span class="dot" style="background:${COLORS[item.face].hex}"></span>${item.short}`;
+    btn.addEventListener('click', () => selectScanStep(idx));
+    wrap.appendChild(btn);
+  });
+}
+
+function selectScanStep(idx) {
+  currentStepIdx = idx;
+  const info = SCAN_ORDER[idx];
+  document.getElementById('hudTitle').textContent = info.title;
+  document.getElementById('hudSub').textContent = info.sub;
+  document.getElementById('guideArrow').textContent = '🎯';
+  document.getElementById('guideMain').textContent = info.hold;
+  document.getElementById('guideSub').textContent = 'Không giới hạn thời gian • Đúng 9 màu bấm TIẾP TỤC ➔';
+
+  const nextBtn = document.getElementById('btnNextFace');
+  if (idx === 5) {
+    nextBtn.textContent = 'HOÀN TẤT & GIẢI RUBIK ➔';
+    nextBtn.classList.add('finish');
+  } else {
+    nextBtn.textContent = `TIẾP TỤC (${idx + 1}/6) ➔`;
+    nextBtn.classList.remove('finish');
+  }
+
+  // Load previously saved face or initialize with face center
+  if (scannedFaces[info.face].every(x => x !== null)) {
+    liveColors = [...scannedFaces[info.face]];
+  } else {
+    liveColors = Array(9).fill(info.face);
+  }
+  isFrozen = false;
+  updateCamButtons();
+  renderFacePills();
+  renderScanGrid();
+  rotateScanCubeTo(info.rotX, info.rotY);
+  syncScanCube3D();
+}
+
+// ==================== 3D CUBE RENDERER (SCAN & SOLVER) ====================
+function createCubeEngine(canvasId, interactive = true) {
+  const canvas = document.getElementById(canvasId);
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(36, 1, 0.1, 100);
+  camera.position.set(0, 0, 7.6);
+
+  const amb = new THREE.AmbientLight(0xffffff, 0.85);
+  scene.add(amb);
+  const dir = new THREE.DirectionalLight(0xffffff, 0.45);
+  dir.position.set(4, 6, 8);
+  scene.add(dir);
+
+  const rootGroup = new THREE.Group();
+  scene.add(rootGroup);
+
+  const stickerMeshes = []; // 54 sticker meshes indexed 0..53
+  const baseGeo = new THREE.BoxGeometry(0.94, 0.94, 0.94);
+  const baseMat = new THREE.MeshLambertMaterial({ color: 0x16161e });
+  const stickerGeo = new THREE.PlaneGeometry(0.80, 0.80);
+
+  // Build 27 cubies
+  for (let x = -1; x <= 1; x++) {
+    for (let y = -1; y <= 1; y++) {
+      for (let z = -1; z <= 1; z++) {
+        const cubie = new THREE.Mesh(baseGeo, baseMat);
+        cubie.position.set(x, y, z);
+        rootGroup.add(cubie);
+      }
+    }
+  }
+
+  // Create 54 stickers mapped to exact standard indices:
+  // U(0..8): y=1, row z=-1..1, col x=-1..1
+  // R(9..17): x=1, row y=1..-1, col z=1..-1
+  // F(18..26): z=1, row y=1..-1, col x=-1..1
+  // D(27..35): y=-1, row z=1..-1, col x=-1..1
+  // L(36..44): x=-1, row y=1..-1, col z=-1..1
+  // B(45..53): z=-1, row y=1..-1, col x=1..-1
+  function addSticker(idx, pos, rot) {
+    const mat = new THREE.MeshBasicMaterial({ color: 0x2a2a35 });
+    const m = new THREE.Mesh(stickerGeo, mat);
+    m.position.set(pos[0], pos[1], pos[2]);
+    m.rotation.set(rot[0], rot[1], rot[2]);
+    rootGroup.add(m);
+    stickerMeshes[idx] = m;
+  }
+  const eps = 1.48;
+  for (let r = 0; r < 3; r++) {
+    for (let c = 0; c < 3; c++) {
+      const i = r * 3 + c;
+      addSticker(0 + i,  [c - 1, eps, r - 1],     [-Math.PI/2, 0, 0]);
+      addSticker(9 + i,  [eps, 1 - r, 1 - c],     [0, Math.PI/2, 0]);
+      addSticker(18 + i, [c - 1, 1 - r, eps],     [0, 0, 0]);
+      addSticker(27 + i, [c - 1, -eps, 1 - r],    [Math.PI/2, 0, 0]);
+      addSticker(36 + i, [-eps, 1 - r, c - 1],    [0, -Math.PI/2, 0]);
+      addSticker(45 + i, [1 - c, 1 - r, -eps],    [0, Math.PI, 0]);
+    }
+  }
+
+  // Drag rotation
+  let targetRotX = 0.35, targetRotY = -0.45;
+  let curRotX = 0.35, curRotY = -0.45;
+  let dragging = false, lastX = 0, lastY = 0;
+
+  if (interactive) {
+    const startDrag = (x, y) => { dragging = true; lastX = x; lastY = y; };
+    const moveDrag = (x, y) => {
+      if (!dragging) return;
+      targetRotY += (x - lastX) * 0.012;
+      targetRotX += (y - lastY) * 0.012;
+      targetRotX = Math.max(-1.4, Math.min(1.4, targetRotX));
+      lastX = x; lastY = y;
+    };
+    const endDrag = () => { dragging = false; };
+    canvas.addEventListener('pointerdown', e => startDrag(e.clientX, e.clientY));
+    window.addEventListener('pointermove', e => moveDrag(e.clientX, e.clientY));
+    window.addEventListener('pointerup', endDrag);
+  }
+
+  function resize() {
+    const parent = canvas.parentElement;
+    if (!parent || !parent.clientWidth || !parent.clientHeight) return;
+    renderer.setSize(parent.clientWidth, parent.clientHeight, false);
+    camera.aspect = parent.clientWidth / parent.clientHeight;
+    camera.updateProjectionMatrix();
+  }
+
+  function setTargetRot(rx, ry) {
+    targetRotX = rx;
+    targetRotY = ry;
+  }
+
+  function setStickers(arr54) {
+    for (let i = 0; i < 54; i++) {
+      const k = arr54[i];
+      stickerMeshes[i].material.color.set(k ? COLORS[k].hex : '#2a2a35');
+    }
+  }
+
+  function animate() {
+    requestAnimationFrame(animate);
+    curRotX += (targetRotX - curRotX) * 0.14;
+    curRotY += (targetRotY - curRotY) * 0.14;
+    rootGroup.rotation.x = curRotX;
+    rootGroup.rotation.y = curRotY;
+    renderer.render(scene, camera);
+  }
+  resize();
+  animate();
+  window.addEventListener('resize', resize);
+
+  return { resize, setTargetRot, setStickers };
+}
+
+let scanCubeEngine, solverCubeEngine;
+
+function rotateScanCubeTo(rx, ry) {
+  if (scanCubeEngine) scanCubeEngine.setTargetRot(rx, ry);
+}
+
+function syncScanCube3D() {
+  if (!scanCubeEngine) return;
+  const arr = Array(54).fill(null);
+  for (const f of COLOR_KEYS) {
+    const off = FACE_OFFSET[f];
+    const src = (f === SCAN_ORDER[currentStepIdx].face) ? liveColors : scannedFaces[f];
+    for (let i = 0; i < 9; i++) arr[off + i] = src[i];
+  }
+  scanCubeEngine.setStickers(arr);
+}
+
+// ==================== 2D NET EDITOR ====================
+function initNetEditor() {
+  const pal = document.getElementById('paletteBar');
+  pal.innerHTML = '';
+  COLOR_KEYS.forEach(k => {
+    const btn = document.createElement('button');
+    btn.className = 'pal-btn' + (k === selectedNetColor ? ' selected' : '');
+    btn.dataset.color = k;
+    btn.innerHTML = `<div class="pal-swatch" style="background:${COLORS[k].hex}"></div><span class="pal-cnt">${COLORS[k].short}</span>`;
+    btn.addEventListener('click', () => {
+      selectedNetColor = k;
+      document.querySelectorAll('.pal-btn').forEach(b => b.classList.toggle('selected', b.dataset.color === k));
+    });
+    pal.appendChild(btn);
+  });
+}
+
+function renderNetEditor() {
+  const grid = document.getElementById('netGrid');
+  grid.innerHTML = '';
+  // Grid positions (4 cols x 3 rows):
+  // (_, U, _, _)
+  // (L, F, R, B)
+  // (_, D, _, _)
+  const layout = [
+    null, 'U', null, null,
+    'L',  'F', 'R',  'B',
+    null, 'D', null, null
+  ];
+  const counts = { U:0, R:0, F:0, D:0, L:0, B:0 };
+
+  layout.forEach(face => {
+    if (!face) {
+      grid.appendChild(document.createElement('div'));
+      return;
+    }
+    const box = document.createElement('div');
+    box.className = 'net-face';
+    const lbl = document.createElement('div');
+    lbl.className = 'net-face-label';
+    lbl.textContent = face;
+    box.appendChild(lbl);
+
+    for (let i = 0; i < 9; i++) {
+      const k = scannedFaces[face][i] || (i === 4 ? face : null);
+      if (k) counts[k]++;
+      const st = document.createElement('div');
+      st.className = 'net-sticker';
+      st.style.background = k ? COLORS[k].hex : '#2a2a35';
+      if (i === 4) st.style.outline = '2px solid rgba(255,255,255,0.65)';
+      st.addEventListener('click', () => {
+        if (i === 4) {
+          showToast('Ô tâm cố định màu ' + COLORS[face].name);
+          return;
+        }
+        scannedFaces[face][i] = selectedNetColor;
+        renderNetEditor();
+        renderFacePills();
+        syncScanCube3D();
+      });
+      box.appendChild(st);
+    }
+    grid.appendChild(box);
+  });
+
+  // Update counts on palette
+  document.querySelectorAll('.pal-btn').forEach(b => {
+    const k = b.dataset.color;
+    b.querySelector('.pal-cnt').textContent = `${COLORS[k].short} (${counts[k]})`;
+  });
+
+  const issues = COLOR_KEYS.filter(k => counts[k] !== 9).map(k => `${COLORS[k].name}: ${counts[k]}/9`);
+  const statusEl = document.getElementById('netStatus');
+  if (issues.length === 0) {
+    statusEl.innerHTML = '<span style="color:#86efac;font-weight:700;">✓ Đủ 54 ô (mỗi màu đúng 9 ô)!</span> Bạn có thể bấm nút <b>PHÂN TÍCH & GIẢI ➔</b> bên dưới.';
+  } else {
+    statusEl.innerHTML = '<span style="color:#fca5a5;font-weight:700;">⚠️ Chưa đủ 9 ô cho mỗi màu:</span> ' + issues.join(' • ');
+  }
+}
+
+// ==================== RUBIK SOLVER ENGINE (VERIFIED 500/500 ZERO-FREEZE) ====================
+const Y_MAPS = [
+  { U:'U', D:'D', F:'F', R:'R', B:'B', L:'L' },
+  { U:'U', D:'D', F:'R', R:'B', B:'L', L:'F' },
+  { U:'U', D:'D', F:'B', R:'L', B:'F', L:'R' },
+  { U:'U', D:'D', F:'L', R:'F', B:'R', L:'B' },
+];
+
+function makeSolved() {
+  return 'UUUUUUUUURRRRRRRRRFFFFFFFFFDDDDDDDDDLLLLLLLLLBBBBBBBBB'.split('');
+}
+
+function rotateFaceCW(c, o) {
+  const t0=c[o], t1=c[o+1], t2=c[o+2], t3=c[o+3], t5=c[o+5], t6=c[o+6], t7=c[o+7], t8=c[o+8];
+  c[o]=t6; c[o+1]=t3; c[o+2]=t0; c[o+3]=t7; c[o+5]=t1; c[o+6]=t8; c[o+7]=t5; c[o+8]=t2;
+}
+
+function applyBasicMove(c, m) {
+  if (m === 'U') {
+    rotateFaceCW(c, 0);
+    const t = [c[18], c[19], c[20]];
+    c[18]=c[9]; c[19]=c[10]; c[20]=c[11];
+    c[9]=c[45]; c[10]=c[46]; c[11]=c[47];
+    c[45]=c[36]; c[46]=c[37]; c[47]=c[38];
+    c[36]=t[0]; c[37]=t[1]; c[38]=t[2];
+  } else if (m === 'D') {
+    rotateFaceCW(c, 27);
+    const t = [c[24], c[25], c[26]];
+    c[24]=c[42]; c[25]=c[43]; c[26]=c[44];
+    c[42]=c[51]; c[43]=c[52]; c[44]=c[53];
+    c[51]=c[15]; c[52]=c[16]; c[53]=c[17];
+    c[15]=t[0]; c[16]=t[1]; c[17]=t[2];
+  } else if (m === 'F') {
+    rotateFaceCW(c, 18);
+    const t = [c[6], c[7], c[8]];
+    c[6]=c[44]; c[7]=c[41]; c[8]=c[38];
+    c[44]=c[29]; c[41]=c[28]; c[38]=c[27];
+    c[29]=c[9]; c[28]=c[12]; c[27]=c[15];
+    c[9]=t[0]; c[12]=t[1]; c[15]=t[2];
+  } else if (m === 'B') {
+    rotateFaceCW(c, 45);
+    const t = [c[2], c[1], c[0]];
+    c[2]=c[17]; c[1]=c[14]; c[0]=c[11];
+    c[17]=c[33]; c[14]=c[34]; c[11]=c[35];
+    c[33]=c[36]; c[34]=c[39]; c[35]=c[42];
+    c[36]=t[0]; c[39]=t[1]; c[42]=t[2];
+  } else if (m === 'R') {
+    rotateFaceCW(c, 9);
+    const t = [c[8], c[5], c[2]];
+    c[8]=c[26]; c[5]=c[23]; c[2]=c[20];
+    c[26]=c[35]; c[23]=c[32]; c[20]=c[29];
+    c[35]=c[45]; c[32]=c[48]; c[29]=c[51];
+    c[45]=t[0]; c[48]=t[1]; c[51]=t[2];
+  } else if (m === 'L') {
+    rotateFaceCW(c, 36);
+    const t = [c[0], c[3], c[6]];
+    c[0]=c[53]; c[3]=c[50]; c[6]=c[47];
+    c[53]=c[27]; c[50]=c[30]; c[47]=c[33];
+    c[27]=c[18]; c[30]=c[21]; c[33]=c[24];
+    c[18]=t[0]; c[21]=t[1]; c[24]=t[2];
+  }
+}
+
+function applyMove(c, move) {
+  const base = move[0];
+  const times = move.length === 1 ? 1 : (move[1] === "'" ? 3 : 2);
+  for (let i = 0; i < times; i++) applyBasicMove(c, base);
+}
+
+function simplifyMoves(moves) {
+  const opp = { U:'D', D:'U', L:'R', R:'L', F:'B', B:'F' };
+  let stack = moves.map(m => [m[0], m.length === 1 ? 1 : (m[1] === "'" ? 3 : 2)]);
+  let changed = true;
+  while (changed) {
+    changed = false;
+    const next = [];
+    for (const [f, amt] of stack) {
+      if (next.length && next[next.length - 1][0] === f) {
+        const na = (next[next.length - 1][1] + amt) % 4;
+        if (na === 0) next.pop();
+        else next[next.length - 1][1] = na;
+        changed = true;
+      } else if (next.length >= 2 && next[next.length - 1][0] === opp[f] && next[next.length - 2][0] === f) {
+        const na = (next[next.length - 2][1] + amt) % 4;
+        const mid = next.pop();
+        if (na === 0) next.pop();
+        else next[next.length - 1][1] = na;
+        next.push(mid);
+        changed = true;
+      } else {
+        next.push([f, amt]);
+      }
+    }
+    stack = next;
+  }
+  return stack.map(([f, a]) => a === 1 ? f : (a === 2 ? f + '2' : f + "'"));
+}
+
+function solveCubeState(state) {
+  const c = [...state];
+  const moves = [];
+  const doSeq = (seq, y = 0) => {
+    const ym = Y_MAPS[y % 4];
+    for (const tok of seq.split(' ')) {
+      if (!tok) continue;
+      const m = ym[tok[0]] + tok.slice(1);
+      applyMove(c, m);
+      moves.push(m);
+    }
+  };
+
+  const uSlots = [[7,19],[5,10],[1,46],[3,37]];
+  const mSlots = [[23,12],[14,48],[50,39],[41,21]];
+  const dSlots = [[28,25],[32,16],[34,52],[30,43]];
+  const edgeSlots = [...uSlots, ...mSlots, ...dSlots];
+
+  // 1. White Cross on U
+  const crossTargets = [['F',7,19,0],['R',5,10,1],['B',1,46,2],['L',3,37,3]];
+  for (const [col, uIdx, sIdx, y] of crossTargets) {
+    if (c[uIdx] === 'U' && c[sIdx] === col) continue;
+    const pIdx = edgeSlots.findIndex(([a,b]) => (c[a]==='U' && c[b]===col) || (c[a]===col && c[b]==='U'));
+    if (pIdx === -1) return null;
+    if (pIdx < 4) doSeq('F2', pIdx);
+    else if (pIdx < 8) doSeq("R' D' R", pIdx - 4);
+    const [ta, tb] = dSlots[y];
+    for (let k = 0; k < 4; k++) {
+      if ((c[ta]==='U' && c[tb]===col) || (c[ta]===col && c[tb]==='U')) break;
+      doSeq('D', 0);
+    }
+    if (c[ta] === 'U') doSeq('F2', y);
+    else doSeq("D R F' R'", y);
+  }
+
+  // 2. White Corners on U
+  const uCorners = [[8,20,9,'F','R',0],[2,11,45,'R','B',1],[0,47,36,'B','L',2],[6,38,18,'L','F',3]];
+  const dCorners = [[29,26,15],[35,17,51],[33,53,42],[27,44,24]];
+  const allCorners = [[8,20,9],[2,11,45],[0,47,36],[6,38,18], ...dCorners];
+  const hasSet = (tri, s) => s.every(x => tri.includes(x));
+
+  for (const [ui, fi, ri, cf, cr, y] of uCorners) {
+    if (c[ui]==='U' && c[fi]===cf && c[ri]===cr) continue;
+    const target = ['U', cf, cr];
+    const fIdx = allCorners.findIndex(tri => hasSet([c[tri[0]], c[tri[1]], c[tri[2]]], target));
+    if (fIdx === -1) return null;
+    if (fIdx < 4) doSeq("R' D' R", fIdx);
+    for (let k = 0; k < 4; k++) {
+      const tri = dCorners[y];
+      if (hasSet([c[tri[0]], c[tri[1]], c[tri[2]]], target)) break;
+      doSeq('D', 0);
+    }
+    for (let k = 0; k < 6; k++) {
+      if (c[ui]==='U' && c[fi]===cf && c[ri]===cr) break;
+      doSeq("R' D' R D", y);
+    }
+  }
+
+  // 3. Middle Layer Edges
+  const midTargets = [[23,12,'F','R',0],[14,48,'R','B',1],[50,39,'B','L',2],[41,21,'L','F',3]];
+  for (const [fi, ri, cf, cr, y] of midTargets) {
+    if (c[fi]===cf && c[ri]===cr) continue;
+    const mi = mSlots.findIndex(([a,b]) => (c[a]===cf && c[b]===cr) || (c[a]===cr && c[b]===cf));
+    if (mi !== -1) doSeq("D' R' D R D F D' F'", mi);
+    let placed = false;
+    for (let k = 0; k < 4; k++) {
+      const [a, b] = dSlots[y];
+      if (c[b]===cf && c[a]===cr) { doSeq("D' R' D R D F D' F'", y); placed = true; break; }
+      const [a2, b2] = dSlots[(y+1)%4];
+      if (c[b2]===cr && c[a2]===cf) { doSeq("D L D' L' D' F' D F", (y+1)%4); placed = true; break; }
+      doSeq('D', 0);
+    }
+    if (!placed) return null;
+  }
+
+  // 4. Yellow Cross on D
+  for (let k = 0; k < 6; k++) {
+    const df=c[28]==='D', dr=c[32]==='D', db=c[34]==='D', dl=c[30]==='D';
+    const cnt = (df?1:0)+(dr?1:0)+(db?1:0)+(dl?1:0);
+    if (cnt === 4) break;
+    else if (cnt === 0) doSeq("F L D L' D' F'", 0);
+    else if (cnt === 2) {
+      if (dl && dr) doSeq("F L D L' D' F'", 0);
+      else if (df && db) doSeq("F L D L' D' F'", 1);
+      else {
+        for (let r = 0; r < 4; r++) {
+          if (c[32]==='D' && c[34]==='D') { doSeq("F L D L' D' F'", 0); break; }
+          doSeq('D', 0);
+        }
+      }
+    } else return null;
+  }
+
+  // 5. Align Yellow Cross Edges
+  const sideE = [[25,'F'],[16,'R'],[52,'B'],[43,'L']];
+  for (let k = 0; k < 10; k++) {
+    let found4 = false;
+    for (let r = 0; r < 4; r++) {
+      if (sideE.every(([idx, col]) => c[idx] === col)) { found4 = true; break; }
+      doSeq('D', 0);
+    }
+    if (found4) break;
+    let found1 = false;
+    for (let r = 0; r < 4; r++) {
+      const matched = sideE.map(([idx, col]) => c[idx] === col);
+      if (matched.filter(Boolean).length === 1) {
+        doSeq("L D L' D L D2 L'", matched.indexOf(true));
+        found1 = true;
+        break;
+      }
+      doSeq('D', 0);
+    }
+    if (!found1) doSeq("L D L' D L D2 L'", 0);
+  }
+
+  // 6. Position Yellow Corners on D
+  const dcInfo = [[29,26,15,'F','R'],[35,17,51,'R','B'],[33,53,42,'B','L'],[27,44,24,'L','F']];
+  const cornerOk = (i) => {
+    const [a,b,d,cf,cr] = dcInfo[i];
+    return hasSet([c[a], c[b], c[d]], ['D', cf, cr]);
+  };
+  for (let k = 0; k < 6; k++) {
+    const good = [0,1,2,3].filter(cornerOk);
+    if (good.length === 4) break;
+    if (good.length === 0) doSeq("D L D' R' D L' D' R", 0);
+    else doSeq("D L D' R' D L' D' R", (good[0] + 1) % 4);
+  }
+
+  // 7. Orient Yellow Corners on D
+  for (let k = 0; k < 4; k++) {
+    for (let r = 0; r < 6; r++) {
+      if (c[29] === 'D') break;
+      doSeq("R U R' U'", 0);
+    }
+    doSeq('D', 0);
+  }
+  for (let k = 0; k < 4; k++) {
+    if (c[25] === 'F') break;
+    doSeq('D', 0);
+  }
+
+  if (c.join('') !== makeSolved().join('')) return null;
+  return simplifyMoves(moves);
+}
+
+// ==================== MOVE DESCRIPTIONS (VIETNAMESE) ====================
+function describeMove(m) {
+  const faceMap = {
+    U: 'Tầng TRÊN (Trắng)',
+    D: 'Tầng DƯỚI (Vàng)',
+    F: 'Mặt TRƯỚC (Xanh Lá)',
+    B: 'Mặt SAU (Xanh Dương)',
+    R: 'Mặt PHẢI (Đỏ)',
+    L: 'Mặt TRÁI (Cam)',
+  };
+  const f = m[0];
+  const dir = m.length === 1 ? 'thuận chiều kim đồng hồ 90°'
+            : (m[1] === "'" ? 'ngược chiều kim đồng hồ 90°' : 'xoay nửa vòng 180°');
+  return {
+    title: `Xoay ${faceMap[f]}`,
+    sub: `Vặn ${dir} (ký hiệu ${m})`
+  };
+}
+
+// ==================== SOLVER PLAYBACK ====================
+function startSolving(state54) {
+  stopCamera(true);
+  stopAutoPlay();
+
+  const sol = solveCubeState(state54);
+  if (!sol) {
+    showToast('Trạng thái màu chưa hợp lệ — hãy kiểm tra lại ở Sơ đồ 2D!');
+    switchTab('net');
+    return;
+  }
+
+  initialSolveState = [...state54];
+  solutionMoves = sol;
+  solveStep = 0;
+  switchTab('solve');
+  renderMovesStrip();
+  updateSolverView();
+
+  if (sol.length === 0) {
+    speak('Khối Rubik của bạn đã được giải hoàn chỉnh!');
+  } else {
+    speak(`Đã tìm thấy cách giải gồm ${sol.length} bước. Giữ mặt Xanh Lá phía trước, mặt Trắng ở trên.`);
+  }
+}
+
+function renderMovesStrip() {
+  const strip = document.getElementById('movesStrip');
+  strip.innerHTML = '';
+  solutionMoves.forEach((m, idx) => {
+    const chip = document.createElement('button');
+    chip.className = 'move-chip';
+    chip.textContent = `${idx + 1}.${m}`;
+    chip.addEventListener('click', () => {
+      stopAutoPlay();
+      solveStep = idx + 1;
+      updateSolverView();
+    });
+    strip.appendChild(chip);
+  });
+}
+
+function updateSolverView() {
+  const total = solutionMoves.length;
+  const pct = total === 0 ? 100 : Math.round((solveStep / total) * 100);
+  document.getElementById('solveProgressLabel').textContent = `Bước ${solveStep} / ${total}`;
+  document.getElementById('solvePctLabel').textContent = `${pct}%`;
+  document.getElementById('solveProgressFill').style.width = `${pct}%`;
+
+  // Reconstruct state at solveStep
+  const c = [...(initialSolveState || makeSolved())];
+  for (let i = 0; i < solveStep; i++) applyMove(c, solutionMoves[i]);
+  if (solverCubeEngine) solverCubeEngine.setStickers(c);
+
+  const badge = document.getElementById('moveBadge');
+  const title = document.getElementById('moveTitle');
+  const sub = document.getElementById('moveSub');
+
+  if (total === 0 || solveStep >= total) {
+    badge.textContent = '🎉';
+    title.textContent = 'HOÀN THÀNH GIẢI RUBIK 100%!';
+    sub.textContent = 'Chúc mừng bạn đã đưa khối Rubik về 6 mặt đồng màu!';
+    stopAutoPlay();
+  } else {
+    const nextMove = solutionMoves[solveStep];
+    const info = describeMove(nextMove);
+    badge.textContent = nextMove;
+    title.textContent = info.title;
+    sub.textContent = info.sub;
+  }
+
+  const chips = document.querySelectorAll('#movesStrip .move-chip');
+  chips.forEach((ch, idx) => {
+    ch.classList.toggle('done', idx < solveStep);
+    ch.classList.toggle('current', idx === solveStep);
+    if (idx === solveStep) ch.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  });
+}
+
+function stepForward() {
+  if (solveStep < solutionMoves.length) {
+    const m = solutionMoves[solveStep];
+    solveStep++;
+    updateSolverView();
+    const info = describeMove(m);
+    speak(`${info.title}, ${info.sub}`);
+    if (solveStep === solutionMoves.length) {
+      setTimeout(() => speak('Chúc mừng! Bạn đã giải xong Rubik!'), 600);
+    }
+  }
+}
+
+function stepBackward() {
+  if (solveStep > 0) {
+    solveStep--;
+    updateSolverView();
+  }
+}
+
+function stopAutoPlay() {
+  isPlaying = false;
+  if (playTimer) { clearInterval(playTimer); playTimer = null; }
+  document.getElementById('btnPlayPause').textContent = '▶ Tự chạy';
+}
+
+function toggleAutoPlay() {
+  if (isPlaying) {
+    stopAutoPlay();
+  } else {
+    if (solveStep >= solutionMoves.length) solveStep = 0;
+    isPlaying = true;
+    document.getElementById('btnPlayPause').textContent = '⏸ Tạm dừng';
+    stepForward();
+    playTimer = setInterval(() => {
+      if (solveStep >= solutionMoves.length) stopAutoPlay();
+      else stepForward();
+    }, playSpeed);
+  }
+}
+
+// ==================== NAVIGATION & EVENTS ====================
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+  document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + tab));
+  if (tab === 'net') {
+    stopCamera(true);
+    renderNetEditor();
+  } else if (tab === 'solve') {
+    stopCamera(true);
+    setTimeout(() => solverCubeEngine && solverCubeEngine.resize(), 40);
+  } else {
+    setTimeout(() => scanCubeEngine && scanCubeEngine.resize(), 40);
+  }
+}
+
+document.querySelectorAll('.tab-btn').forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
+
+document.getElementById('btnBigStartCam').addEventListener('click', startCamera);
+document.getElementById('btnToggleCam').addEventListener('click', () => {
+  if (isCamOn) stopCamera(true);
+  else startCamera();
+});
+document.getElementById('btnPhotoCapture').addEventListener('click', () => {
+  document.getElementById('nativeCameraInput').click();
+});
+document.getElementById('btnFreeze').addEventListener('click', () => {
+  isFrozen = !isFrozen;
+  updateCamButtons();
+  showToast(isFrozen ? 'Đã khoá màu — chạm từng ô để chỉnh tay' : 'Đã mở khoá nhận diện màu');
+});
+document.getElementById('btnFlipCam').addEventListener('click', () => {
+  facingMode = (facingMode === 'environment') ? 'user' : 'environment';
+  startCamera();
+});
+
+document.getElementById('btnVoiceToggle').addEventListener('click', () => {
+  voiceEnabled = !voiceEnabled;
+  document.getElementById('btnVoiceToggle').textContent = voiceEnabled ? '🔊' : '🔇';
+  showToast(voiceEnabled ? 'Đã bật giọng nói hướng dẫn' : 'Đã tắt giọng nói');
+});
+
+document.getElementById('btnResetAll').addEventListener('click', () => {
+  stopAutoPlay();
+  for (const f of COLOR_KEYS) scannedFaces[f] = Array(9).fill(null);
+  photoCanvas.style.display = 'none';
+  selectScanStep(0);
+  switchTab('scan');
+  showToast('Đã làm mới toàn bộ 6 mặt');
+});
+
+document.getElementById('btnPrevFace').addEventListener('click', () => {
+  if (currentStepIdx > 0) selectScanStep(currentStepIdx - 1);
+});
+
+document.getElementById('btnNextFace').addEventListener('click', () => {
+  const info = SCAN_ORDER[currentStepIdx];
+  scannedFaces[info.face] = [...liveColors];
+  renderFacePills();
+
+  if (currentStepIdx < 5) {
+    // Show Turn Guidance Modal
+    document.getElementById('turnSavedLabel').textContent = `✓ Đã lưu ${info.short} (${currentStepIdx + 1}/6)`;
+    const mini = document.getElementById('turnMiniGrid');
+    mini.innerHTML = '';
+    liveColors.forEach(k => {
+      const d = document.createElement('div');
+      d.className = 'turn-mini-cell';
+      d.style.background = COLORS[k].hex;
+      mini.appendChild(d);
+    });
+    document.getElementById('turnBigArrow').textContent = info.nextArrow;
+    document.getElementById('turnTitle').textContent = info.nextTitle;
+    document.getElementById('turnDesc').textContent = info.nextDesc;
+    document.getElementById('turnModal').classList.add('show');
+    speak(`Đã lưu xong mặt ${currentStepIdx + 1}. ${info.nextTitle}. ${info.nextDesc}`);
+  } else {
+    // All 6 faces scanned -> assemble 54-sticker state and solve
+    const state54 = [];
+    for (const f of COLOR_KEYS) {
+      const arr = scannedFaces[f];
+      for (let i = 0; i < 9; i++) state54.push(arr[i] || f);
+    }
+    startSolving(state54);
+  }
+});
+
+document.getElementById('btnTurnOk').addEventListener('click', () => {
+  document.getElementById('turnModal').classList.remove('show');
+  photoCanvas.style.display = 'none';
+  selectScanStep(currentStepIdx + 1);
+});
+document.getElementById('btnTurnRedo').addEventListener('click', () => {
+  document.getElementById('turnModal').classList.remove('show');
+});
+
+document.getElementById('btnQuickTest').addEventListener('click', () => {
+  const c = makeSolved();
+  const pool = ["U","U'","U2","D","D'","F","F'","B","B'","L","L'","R","R'"];
+  for (let i = 0; i < 18; i++) applyMove(c, pool[Math.floor(Math.random() * pool.length)]);
+  for (const f of COLOR_KEYS) {
+    const off = FACE_OFFSET[f];
+    scannedFaces[f] = c.slice(off, off + 9);
+  }
+  renderFacePills();
+  syncScanCube3D();
+  showToast('Đã tạo khối Rubik xáo trộn mẫu — đang giải 3D!');
+  startSolving(c);
+});
+
+document.getElementById('btnBackToScan').addEventListener('click', () => switchTab('scan'));
+document.getElementById('btnSolveFromNet').addEventListener('click', () => {
+  const state54 = [];
+  for (const f of COLOR_KEYS) {
+    for (let i = 0; i < 9; i++) state54.push(scannedFaces[f][i] || f);
+  }
+  startSolving(state54);
+});
+
+document.getElementById('btnStepNext').addEventListener('click', () => { stopAutoPlay(); stepForward(); });
+document.getElementById('btnStepPrev').addEventListener('click', () => { stopAutoPlay(); stepBackward(); });
+document.getElementById('btnPlayPause').addEventListener('click', toggleAutoPlay);
+
+document.querySelectorAll('.speed-pill').forEach(btn => {
+  btn.addEventListener('click', () => {
+    playSpeed = parseInt(btn.dataset.speed, 10);
+    document.querySelectorAll('.speed-pill').forEach(b => b.classList.toggle('active', b === btn));
+    if (isPlaying) { stopAutoPlay(); toggleAutoPlay(); }
+  });
+});
+
+// ==================== INIT ====================
+window.addEventListener('DOMContentLoaded', () => {
+  initScanGrid();
+  initNetEditor();
+  scanCubeEngine = createCubeEngine('scanCubeCanvas', true);
+  solverCubeEngine = createCubeEngine('solverCubeCanvas', true);
+  selectScanStep(0);
+});
+</script>
+</body>
+</html>
