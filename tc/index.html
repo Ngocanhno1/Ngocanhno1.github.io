@@ -61,35 +61,74 @@ button{font-family:inherit;border:0;cursor:pointer}
 <button id="doi" class="hide">Đổi người / mã phòng</button>
 <script>
 var MAY_CHU = "https://lucie-lucas-ciecas-default-rtdb.asia-southeast1.firebasedatabase.app/gd_hh1g8b83gym1g74zmily/phong/";
-var q = new URLSearchParams(location.search), MA = q.get("p") || localStorage.getItem("tc_ma") || "", BE = q.get("c") || localStorage.getItem("tc_be") || "";
+function lsGet(k) { try { return localStorage.getItem(k) || ""; } catch (e) { return ""; } }
+function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+function lsDel(k) { try { localStorage.removeItem(k); } catch (e) {} }
+
+var q = new URLSearchParams(location.search);
+var qP = (q.get("p") || "").trim(), qC = (q.get("c") || "").trim().toLowerCase();
+var MA = qP || lsGet("tc_ma"), BE = qC || lsGet("tc_be");
 var anh = function (c) { return "/img/" + c + ".webp"; };
 document.querySelectorAll(".be img").forEach(function (i) { i.src = anh(i.parentNode.dataset.c); });
 document.getElementById("ma").value = MA;
 document.querySelectorAll(".be button").forEach(function (b) { b.onclick = function () {
   var m = document.getElementById("ma").value.trim(); if (!/^\d{4}$/.test(m)) { document.getElementById("ma").focus(); return; }
   MA = m; BE = b.dataset.c; vao(); }; });
-document.getElementById("doi").onclick = function () { localStorage.removeItem("tc_be"); location.href = "/tc/"; };
+document.getElementById("doi").onclick = function () { lsDel("tc_be"); location.href = "/tc/"; };
 
-var ST = null, es = null, daBam = -1;
+var ST = null, es = null, daBam = -1, daRungHet = false;
+var lanCuoi = 0, henNoi = null, vongHoi = null, vongCanh = null;
 function vao() {
-  localStorage.setItem("tc_ma", MA); localStorage.setItem("tc_be", BE);
+  lsSet("tc_ma", MA); lsSet("tc_be", BE);
   history.replaceState(null, "", "/tc/?p=" + MA + "&c=" + BE);
   document.body.className = BE;
   document.getElementById("chon").classList.add("hide"); document.getElementById("choi").classList.remove("hide"); document.getElementById("doi").classList.remove("hide");
   document.getElementById("mat").src = anh(BE);
   document.getElementById("ten").textContent = (window.HS && HS[BE] && HS[BE].goi) || BE;
   gui({ chao: 1, t: Date.now() });
-  ketNoi(); giuSang();
+  ketNoi(); batDauDongBo(); giuSang();
 }
 function goc() { return MAY_CHU + "dt_" + MA; }
 function gui(o) { return fetch(goc() + "/bam/" + BE + ".json", { method: "PUT", body: JSON.stringify(o) }).catch(function () {}); }
+function hoiTrangThai() {
+  if (!MA || !BE) return;
+  fetch(goc() + "/" + BE + ".json", { cache: "no-store" })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) { if (d) { ST = d; ve(); } })
+    .catch(function () {});
+}
+function batDauDongBo() {
+  if (vongHoi) clearInterval(vongHoi);
+  if (vongCanh) clearInterval(vongCanh);
+  hoiTrangThai();
+  vongHoi = setInterval(hoiTrangThai, 2500);
+  vongCanh = setInterval(function () { if (Date.now() - lanCuoi > 20000) ketNoi(); }, 5000);
+}
 function ketNoi() {
-  if (es) es.close();
+  if (henNoi) { clearTimeout(henNoi); henNoi = null; }
+  if (es) { try { es.close(); } catch (e) {} es = null; }
+  lanCuoi = Date.now();
   es = new EventSource(goc() + "/" + BE + ".json");
-  var nhan = function (e) { try { var m = JSON.parse(e.data); if (m.path === "/") { ST = m.data; } else if (ST) { ST[m.path.slice(1)] = m.data; } ve(); } catch (x) {} };
-  es.addEventListener("put", nhan); es.addEventListener("patch", nhan);
-  es.onopen = function () { document.getElementById("trangThai").textContent = "✅ Đã nối với TV · phòng " + MA; };
-  es.onerror = function () { document.getElementById("trangThai").textContent = "Đang nối lại…"; };
+  var nhan = function (e) {
+    lanCuoi = Date.now();
+    try {
+      var m = JSON.parse(e.data);
+      if (m.path === "/") { ST = m.data; } else if (ST) { ST[m.path.slice(1)] = m.data; }
+      ve();
+    } catch (x) {}
+  };
+  es.addEventListener("put", nhan);
+  es.addEventListener("patch", nhan);
+  es.addEventListener("keep-alive", function () { lanCuoi = Date.now(); });
+  es.onopen = function () {
+    lanCuoi = Date.now();
+    document.getElementById("trangThai").textContent = "✅ Đã nối với TV · phòng " + MA;
+  };
+  es.onerror = function () {
+    document.getElementById("trangThai").textContent = "Đang nối lại…";
+    if (es) { try { es.close(); } catch (e) {} es = null; }
+    if (!henNoi) henNoi = setTimeout(ketNoi, 2000);
+  };
 }
 function ve() {
   var lon = document.getElementById("lon");
@@ -97,20 +136,24 @@ function ve() {
   document.getElementById("chang").textContent = "Chặng " + Math.min(ST.chang + 1, ST.tong) + "/" + ST.tong;
   if (ST.het || ST.xong) {
     lon.innerHTML = '<img src="' + anh(BE) + '" alt="">' + (ST.het ? "🏆 Cúp đồng đội!<br><small>" + (ST.nhat ? "Con về đích trước!" : "Hai chị em đều giỏi lắm!") + "</small>" : "🏝️ Con đã về đích!<br><small>Cùng cổ vũ nào! 📣</small>");
-    lon.classList.remove("hide"); if (navigator.vibrate) navigator.vibrate([80, 60, 80]); return;
+    lon.classList.remove("hide");
+    if (!daRungHet) { daRungHet = true; if (navigator.vibrate) navigator.vibrate([80, 60, 80]); }
+    return;
   }
+  daRungHet = false;
   lon.classList.add("hide");
   document.getElementById("cau").textContent = ST.cau || "Bấm \"Bắt đầu đua\" trên TV nhé!";
   var da = document.getElementById("da");
   if (da.dataset.n !== String(ST.n) || !da.children.length) {
-    da.dataset.n = ST.n; daBam = -1;
+    da.dataset.n = String(ST.n); da.dataset.kq = ""; daBam = -1;
     da.innerHTML = ""; (ST.da || []).forEach(function (t, i) {
       var b = document.createElement("button"); b.textContent = t;
       b.onclick = function () { if (daBam >= 0) return; daBam = i; b.classList.add("cho"); if (navigator.vibrate) navigator.vibrate(30); gui({ i: i, n: ST.n, t: Date.now() }); };
       da.appendChild(b); });
     document.getElementById("loi").textContent = "";
   }
-  if (ST.kq) {
+  if (ST.kq && da.dataset.kq !== String(ST.kq)) {
+    da.dataset.kq = String(ST.kq);
     [].forEach.call(da.children, function (b) { if (b.textContent === ST.dapan) b.classList.add("dung"); else b.classList.add("sai"); });
     document.getElementById("loi").textContent = ST.loi || (ST.kq === "dung" ? "✅ Đúng rồi!" : "💡 Đáp án: " + ST.dapan);
     if (navigator.vibrate) navigator.vibrate(ST.kq === "dung" ? 60 : [200]);
@@ -118,7 +161,7 @@ function ve() {
 }
 var khoaSang = null;
 function giuSang() { try { if (navigator.wakeLock) navigator.wakeLock.request("screen").then(function (l) { khoaSang = l; }).catch(function () {}); } catch (e) {} }
-document.addEventListener("visibilitychange", function () { if (document.visibilityState === "visible" && BE) { giuSang(); ketNoi(); gui({ chao: 1, t: Date.now() }); } });
+document.addEventListener("visibilitychange", function () { if (document.visibilityState === "visible" && BE) { giuSang(); ketNoi(); hoiTrangThai(); gui({ chao: 1, t: Date.now() }); } });
 if (/^\d{4}$/.test(MA) && (BE === "lucie" || BE === "lucas")) vao();
 </script>
 </body>
