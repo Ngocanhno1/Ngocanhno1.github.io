@@ -16,6 +16,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
 <script src="../anh-chung/giong-noi.js"></script>
 <script src="../anh-chung/mat-that.js"></script>
+<script src="../anh-chung/gara.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{width:100%;height:100%;overflow:hidden;font-family:'Baloo 2',system-ui,sans-serif;color:#22163d;-webkit-tap-highlight-color:transparent;user-select:none;background:#bdeaff}
@@ -36,6 +37,8 @@ button{font-family:inherit;cursor:pointer;border:0}
 .thuyen.lucie .than{background:linear-gradient(#ff8fc7,#d6337f)}
 .thuyen.lucas .than{background:linear-gradient(#74c0fc,#1971c2)}
 #t1{top:50%}#t2{top:83%}
+.thuyen.gara .than{display:none}.thuyen .gsvg{position:absolute;left:50%;bottom:-8%;transform:translateX(-50%);pointer-events:none}.thuyen .gsvg svg{width:100%;height:auto;display:block}
+.garaRow{display:flex;gap:1.5vw;justify-content:center;margin:1vh 0}.garaRow .btn small{display:block;font-size:.6em;font-weight:600}
 .thuyen.nay{animation:nay .6s ease-in-out infinite alternate}
 @keyframes nay{to{transform:translateY(-58%) rotate(-3deg)}}
 #dao{position:absolute;right:0;top:30%;bottom:0;width:11vw;min-width:70px;background:radial-gradient(ellipse 60% 45% at 60% 62%,#ffe8a3 0 92%,transparent 94%)}
@@ -117,6 +120,7 @@ button{font-family:inherit;cursor:pointer;border:0}
     <figure><div id="qrLucas"></div><figcaption>Tay cầm <span data-hs="lucas.goi">Tường Minh</span></figcaption></figure></div>
     <small>Hoặc mở <b>ngocanhno1.github.io/tc</b> và nhập mã phòng <b id="maPhong">----</b></small></div>
   <p>Mỗi bạn trả lời câu hỏi ở nửa màn hình của mình, không cần chờ nhau. Đúng thì thuyền tiến lên. Hai chị em cùng về Đảo Kẹo thì được <b>Cúp đồng đội</b>!</p>
+  <div class="garaRow"><button class="btn" id="garaLucie" style="background:linear-gradient(#fbbf24,#d97706);box-shadow:0 6px 0 #92400e">🔧 Gara thuyền <span data-hs="lucie.goi">Lucie</span><small id="gtLucie"></small></button><button class="btn" id="garaLucas" style="background:linear-gradient(#fbbf24,#d97706);box-shadow:0 6px 0 #92400e">🔧 Gara thuyền <span data-hs="lucas.goi">Lucas</span><small id="gtLucas"></small></button></div>
   <div class="nutRow"><button class="btn" id="nutBatDau">Bắt đầu đua</button><button class="btn hide" id="nutTiep" style="background:linear-gradient(#69db7c,#2f9e44);box-shadow:0 6px 0 #1b6b2c">Đua tiếp ván dở</button></div>
 </div>
 
@@ -372,6 +376,15 @@ function docVan() { try { const v = JSON.parse(localStorage.getItem(KHOA_VAN)); 
 
 function ghiNhatKy(c, q, ok) { try { const k = "giaDinh_nhatKy", a = JSON.parse(localStorage.getItem(k) || "[]"); a.push({ t: Date.now(), g: "duathuyen", c, s: q.mon, q: q.cau.slice(0, 140), ok: !!ok }); if (a.length > 6000) a.splice(0, a.length - 6000); localStorage.setItem(k, JSON.stringify(a)); } catch (e) {} }
 
+function veGara() {
+  if (!window.Gara) return;
+  BEN.forEach((c, i) => { const s = Gara.hienTai(c, "thuyen"), el = document.getElementById("t" + (i + 1)); el.classList.add("gara");
+    let g = el.querySelector(".gsvg"); if (!g) { g = document.createElement("div"); g.className = "gsvg"; el.insertBefore(g, el.firstChild); }
+    g.style.width = (105 + s.cap * 5) + "%"; g.innerHTML = Gara.svg(c, "thuyen", s.cap);
+    el.style.transitionDuration = (0.9 / s.toc).toFixed(2) + "s";
+    const t = document.getElementById(c === "lucie" ? "gtLucie" : "gtLucas"); if (t) t.textContent = s.ten + " · ⭐ " + Gara.doc(c).diem; });
+}
+function nguongLuot(c) { const k = window.Gara ? Gara.hienTai(c, "thuyen").cap : 0; return k >= 8 ? 3 : k >= 4 ? 4 : 0; }
 function veThuyen() {
   BEN.forEach((c, i) => { const el = document.getElementById("t" + (i + 1)); el.style.left = `calc(2% + ${V[c].vt / SO_CHANG} * (100% - 11vw - 2% - ${getComputedStyle(el).width}))`; });
 }
@@ -411,12 +424,14 @@ function chon(c, i) {
   ghiNhatKy(c, q, dung);
   s.k++;
   if (dung) {
-    s.dung++; s.vt++; amDung(); el.classList.remove("nhay"); void el.offsetWidth; el.classList.add("nhay");
-    loi.textContent = "✅ " + KB.khen[Math.random() * KB.khen.length | 0];
+    s.dung++; s.vt++; amDung(); s.chuoi = (s.chuoi || 0) + 1;
+    const ng = nguongLuot(c), luot = ng && s.chuoi % ng === 0 && s.vt < SO_CHANG;
+    if (luot) s.vt++; el.classList.remove("nhay"); void el.offsetWidth; el.classList.add("nhay");
+    loi.textContent = "✅ " + KB.khen[Math.random() * KB.khen.length | 0] + (luot ? " 🌊 Thuyền lướt sóng thêm 1 chặng!" : "");
     veThuyen();
     if (s.vt >= SO_CHANG) { s.xong = BEN.some(x => x !== c && V[x].xong) ? 2 : 1; amDich(); noi(TEN(c) + " " + KB.veTruoc); }
   } else {
-    s.sai++; amSai();
+    s.sai++; s.chuoi = 0; amSai();
     loi.textContent = "💡 " + (q.gt || ("Đáp án: " + q.dung)) + " " + KB.dongVien[Math.random() * KB.dongVien.length | 0];
   }
   luuVan();
@@ -430,10 +445,11 @@ function chon(c, i) {
 function ketThuc() {
   try { localStorage.setItem("duaThuyen_hanhTrinh", Math.min(30, HT + 1)); } catch (e) {}
   const nhat = BEN.find(c => V[c].xong === 1);
+  const diemGara = {}; BEN.forEach(c => { diemGara[c] = V[c].dung * 100 + (c === nhat ? 300 : 150) - V[c].sai * 20; if (window.Gara) Gara.cong(c, diemGara[c]); });
   BEN.forEach(c => { try { const k = "duaThuyen_" + c, o = JSON.parse(localStorage.getItem(k) || "{}"); o.luot = (o.luot || 0) + 1; o.dongDoi = (o.dongDoi || 0) + 1; if (c === nhat) o.nhat = (o.nhat || 0) + 1; o.dung = (o.dung || 0) + V[c].dung; localStorage.setItem(k, JSON.stringify(o)); } catch (e) {} });
   try { localStorage.removeItem(KHOA_VAN); } catch (e) {}
   document.getElementById("kqTieuDe").textContent = "Hai chị em về Đảo Kẹo!";
-  document.getElementById("kqHai").innerHTML = BEN.map(c => `<div class="the ${c}"><img src="${anh(c)}" alt="">${TEN(c)}<small>${c === nhat ? "🥇 Về đích trước" : "🥈 Về đích sau"}<br>✅ ${V[c].dung} câu đúng · ❌ ${V[c].sai}</small></div>`).join("");
+  document.getElementById("kqHai").innerHTML = BEN.map(c => `<div class="the ${c}"><img src="${anh(c)}" alt="">${TEN(c)}<small>${c === nhat ? "🥇 Về đích trước" : "🥈 Về đích sau"}<br>✅ ${V[c].dung} câu đúng · ❌ ${V[c].sai}${window.Gara ? "<br>" + Gara.the(c, Math.max(0, diemGara[c])) : ""}</small></div>`).join("");
   document.getElementById("kqCup").textContent = "🏆 Cúp đồng đội cho hai chị em!";
   document.getElementById("kqLoi").textContent = KB.chucMung;
   document.getElementById("manCuoi").classList.remove("hide");
@@ -479,6 +495,8 @@ if (cu) { document.getElementById("nutTiep").classList.remove("hide"); }
 document.getElementById("nutBatDau").onclick = () => batDau(false);
 document.getElementById("nutTiep").onclick = () => { V = cu; batDau(true); };
 document.getElementById("nutLai").onclick = () => batDau(false);
+["Lucie", "Lucas"].forEach(n => { const b = document.getElementById("gara" + n); if (b) b.onclick = () => Gara.mo(n.toLowerCase(), "thuyen", () => { veGara(); b.focus(); }); });
+veGara();
 setTimeout(() => (cu ? document.getElementById("nutTiep") : document.getElementById("nutBatDau")).focus(), 200);
 addEventListener("resize", () => V && veThuyen());
 
