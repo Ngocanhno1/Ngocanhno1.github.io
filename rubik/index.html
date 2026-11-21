@@ -643,50 +643,36 @@ function deltaE2000(lab1, lab2) {
   return Math.sqrt(tL * tL + tC * tC + tH * tH + RT * tC * tH);
 }
 
-function classifyLab(lab) {
-  const [L, a, b] = lab;
-  const C = Math.hypot(a, b);
-  const hue = (Math.atan2(b, a) * 180 / Math.PI + 360) % 360;
-
-  // Compute CIEDE2000 distance to all 6 (calibrated or default) reference colors
-  const scores = COLOR_KEYS.map(k => {
-    let de = deltaE2000(lab, calibratedLab[k]);
-
-    // Domain constraints in CIELAB space to prevent common iPhone AWB confusions:
-    // 1. White: low chroma + high lightness
-    if (k === 'U') {
-      if (C > 26) de += (C - 26) * 0.9; // strongly penalize saturated stickers as White
-      if (L < 55) de += (55 - L) * 0.6;
-    } else if (C < 14 && L > 66) {
-      de += 18; // clearly achromatic bright sticker -> White
-    }
-
-    // 2. Yellow: must have high positive b*
-    if (k === 'D' && b < 24) de += (24 - b) * 0.8;
-
-    // 3. Red vs Orange separation via Lab hue angle
-    if ((k === 'R' || k === 'L') && C > 22) {
-      let splitHue = 40;
-      if (calibratedSet.has('R') && calibratedSet.has('L')) {
-        const hR = (Math.atan2(calibratedLab.R[2], calibratedLab.R[1]) * 180 / Math.PI + 360) % 360;
-        const hL = (Math.atan2(calibratedLab.L[2], calibratedLab.L[1]) * 180 / Math.PI + 360) % 360;
-        const normR = hR > 300 ? hR - 360 : hR;
-        const normL = hL > 300 ? hL - 360 : hL;
-        splitHue = (normR + normL) / 2;
-      }
-      const normH = hue > 300 ? hue - 360 : hue;
-      if (k === 'R' && normH > splitHue + 4) de += (normH - splitHue) * 0.55;
-      if (k === 'L' && normH < splitHue - 4) de += (splitHue - normH) * 0.55;
-    }
-
-    return { k, de };
-  });
-
-  scores.sort((x, y) => x.de - y.de);
-  const best = scores[0];
-  const second = scores[1];
-  const margin = second.de - best.de; // higher margin = higher confidence
-  return { color: best.k, de: best.de, conf: margin };
+// ===== Phân loại màu theo HSV (đã kiểm chứng ổn định trên camera điện thoại) =====
+// Mẫu = [hue 0-360, sat 0-1, val 0-1]
+const DEFAULT_HUE = { R: 355, L: 20, D: 55, F: 130, B: 220 };
+function rgbToHsv(r, g, b) {
+  r /= 255; g /= 255; b /= 255;
+  const mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn;
+  let hh = 0;
+  if (d > 1e-6) {
+    if (mx === r) hh = ((g - b) / d) % 6;
+    else if (mx === g) hh = (b - r) / d + 2;
+    else hh = (r - g) / d + 4;
+    hh *= 60; if (hh < 0) hh += 360;
+  }
+  return [hh, mx === 0 ? 0 : d / mx, mx];
+}
+function hueDist(a, b) { const d = Math.abs(a - b) % 360; return d > 180 ? 360 - d : d; }
+function refHue(k) {
+  const c = calibratedLab[k];
+  return (calibratedSet.has(k) && c && c[1] > 0.3) ? c[0] : DEFAULT_HUE[k];
+}
+function classifyLab(hsv) {
+  const [hh, s, v] = hsv;
+  // Ngưỡng trắng: dùng tâm trắng đã đo nếu có
+  let whiteSat = 0.30;
+  if (calibratedSet.has('U') && calibratedLab.U) whiteSat = Math.min(0.42, Math.max(0.22, calibratedLab.U[1] + 0.14));
+  if (s < whiteSat && v > 0.35) return { color: 'U', de: 0, conf: (whiteSat - s) * 100 };
+  // Đỏ / cam: phân ranh giữa hai tâm đã đo
+  const keys = ['R', 'L', 'D', 'F', 'B'];
+  const sc = keys.map(k => ({ k, d: hueDist(hh, refHue(k)) })).sort((a, b) => a.d - b.d);
+  return { color: sc[0].k, de: sc[0].d, conf: sc[1].d - sc[0].d };
 }
 
 function medianOf(arr) {
@@ -791,10 +777,16 @@ function startSamplingLoop() {
 
 function processFrame(source, sw, sh, immediateLock) {
   if (!sw || !sh) return;
-  const minSide = Math.min(sw, sh);
-  const cropSize = minSide * 0.56;
-  const sx = (sw - cropSize) / 2;
-  const sy = (sh - cropSize) / 2;
+  // Lấy đúng vùng khung lưới đang hiển thị trên màn hình (video object-fit: cover)
+  const stageR = document.querySelector('.cam-stage').getBoundingClientRect();
+  const gridR = document.getElementById('scanGrid').getBoundingClientRect();
+  const scale = Math.max(stageR.width / sw, stageR.height / sh);
+  const offX = (stageR.width - sw * scale) / 2, offY = (stageR.height - sh * scale) / 2;
+  const pad = 7; // viền + padding khung
+  let sx = (gridR.left + pad - stageR.left - offX) / scale;
+  let sy = (gridR.top + pad - stageR.top - offY) / scale;
+  let cropSize = (gridR.width - pad * 2) / scale;
+  if (!(cropSize > 10)) { cropSize = Math.min(sw, sh) * 0.56; sx = (sw - cropSize) / 2; sy = (sh - cropSize) / 2; }
   sampleCtx.drawImage(source, sx, sy, cropSize, cropSize, 0, 0, 180, 180);
   const data = sampleCtx.getImageData(0, 0, 180, 180).data;
 
@@ -843,37 +835,11 @@ function processFrame(source, sw, sh, immediateLock) {
     }
   }
 
-  // 2. Auto White Balance (Gray-World + Low-Saturation / White Center anchor)
   const expectedFace = SCAN_ORDER[currentStepIdx].face;
-  let refR = 0, refG = 0, refB = 0;
-  if (expectedFace === 'U') {
-    // Center cell IS White -> strongest illuminant estimate
-    [refR, refG, refB] = rawMedians[4];
-  } else if (lowSatCells.length > 0) {
-    for (const [r, g, b] of lowSatCells) { refR += r; refG += g; refB += b; }
-    refR /= lowSatCells.length; refG /= lowSatCells.length; refB /= lowSatCells.length;
-  } else {
-    // Gray-world across all 9 cells
-    for (const [r, g, b] of rawMedians) { refR += r; refG += g; refB += b; }
-    refR /= 9; refG /= 9; refB /= 9;
-  }
-
-  const avgGray = (refR + refG + refB) / 3;
-  const clampGain = (g) => Math.max(0.75, Math.min(1.35, g));
-  const gR = refR > 10 ? clampGain(avgGray / refR) : 1;
-  const gG = refG > 10 ? clampGain(avgGray / refG) : 1;
-  const gB = refB > 10 ? clampGain(avgGray / refB) : 1;
-  // Smooth white balance gain to prevent flicker
-  whiteBalanceGain[0] = whiteBalanceGain[0] * 0.7 + gR * 0.3;
-  whiteBalanceGain[1] = whiteBalanceGain[1] * 0.7 + gG * 0.3;
-  whiteBalanceGain[2] = whiteBalanceGain[2] * 0.7 + gB * 0.3;
 
   // 3. Normalize RGB -> CIELAB -> Classify with DeltaE 2000 + 8-frame stability
   for (let i = 0; i < 9; i++) {
-    const nr = Math.min(255, Math.max(0, rawMedians[i][0] * whiteBalanceGain[0]));
-    const ng = Math.min(255, Math.max(0, rawMedians[i][1] * whiteBalanceGain[1]));
-    const nb = Math.min(255, Math.max(0, rawMedians[i][2] * whiteBalanceGain[2]));
-    const lab = rgbToLab(nr, ng, nb);
+    const lab = rgbToHsv(rawMedians[i][0], rawMedians[i][1], rawMedians[i][2]);
     liveLabs[i] = lab;
 
     if (i === 4) {
@@ -897,7 +863,7 @@ function processFrame(source, sw, sh, immediateLock) {
         st.count = 1;
         st.locked = false;
       }
-      if (st.count >= 8) {
+      if (st.count >= 3) {
         st.locked = true;
         liveColors[i] = res.color;
         liveConfs[i] = res.conf;
