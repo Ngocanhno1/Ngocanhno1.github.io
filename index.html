@@ -317,7 +317,12 @@ function cupsHTML(key) {
   }).join("") + `</div>`;
 }
 const GAMES = [
-  { href: "games/pho-cho-nhi/", name: "Phố Chợ Nhí", isNew: true, cups: "phocho",
+  { href: "games/tho-mo-nhi/", name: "Thợ Mỏ Nhí 3D", isNew: true, cups: "thomo",
+    desc: "10 màn, 200 bài, mỗi bài một khung cảnh mới! Đào mỏ mở rương kho báu, cuối mỗi bài đánh BOSS bằng cách trả lời đúng câu hỏi. 30 cấp cuốc, 30 bộ trang phục: càng nâng cấp càng mạnh, càng nhanh!",
+    tags: ["Lucie lớp 3", "Lucas lớp 1", "Toán", "Tiếng Việt", "Tiếng Anh"], bg: "url(games/tho-mo-nhi/anh/bia.webp) center/cover, linear-gradient(180deg,#8fd3ff 0,#8fd3ff 30%,#5dbb3c 30%,#5dbb3c 36%,#8b5a2b 36%,#6b6b6b 62%,#2c2c3a 100%)",
+    art: `<img class="face pink" src="${F.lucie}" style="left:18%;top:84px" alt="Lucie"><img class="face blue" src="${F.lucas}" style="right:18%;top:84px" alt="Lucas">
+          <span class="em" style="font-size:30px;left:46%;top:140px">🪙</span>` },
+  { href: "games/pho-cho-nhi/", name: "Phố Chợ Nhí", cups: "phocho",
     desc: "30 phiên chợ: đi chợ chọn quầy tiết kiệm nhất để nấu Mâm Cơm Việt Nam, rồi làm Chủ Sạp Tài Ba tính tiền cho khách. CIECAS kiếm được chia vào 3 hũ, Hũ Tiết Kiệm đổi quà thật cuối tuần!",
     tags: ["Tư duy chi tiêu", "Lucie lớp 3", "Lucas lớp 1", "Toán"], bg: "linear-gradient(180deg,#ffd6a5 0,#fff1d6 55%,#f4a261 55%,#e76f51 100%)",
     art: `<img class="face pink" src="${F.lucie}" style="left:14%;top:76px" alt="Lucie"><img class="face blue" src="${F.lucas}" style="left:40%;top:96px" alt="Lucas">
@@ -347,13 +352,6 @@ const GAMES = [
     desc: "Lộ trình 56 bài tiếng Anh Flyers: thẻ từ vựng có phát âm, trò chơi, luyện đọc, viết, nói, nghe và tô màu. Học giỏi để giành đủ 15 khiên!",
     tags: ["Lucie", "Lucas", "Tiếng Anh", "56 Units"], bg: "url(games/fun-for-flyers/anh/bia.webp) center/cover",
     art: `<img class="face pink" src="${F.lucie}" style="left:18%;top:84px" alt="Lucie"><img class="face blue" src="${F.lucas}" style="right:18%;top:84px" alt="Lucas">` },
-  { href: "games/tho-mo-nhi/", name: "Thợ Mỏ Nhí 3D", cups: "thomo",
-    desc: "Đào 6 tầng lòng đất, trả lời đúng để mở rương đầy bạc, vàng, kim cương. Sưu tầm 31 cúp, nâng cấp cuốc, đổi trang phục ô tô, siêu anh hùng, ninja, robot!",
-    tags: ["Lucie lớp 3", "Lucas lớp 1", "Toán", "Tiếng Việt", "Tiếng Anh"], bg: "linear-gradient(180deg,#8fd3ff 0,#8fd3ff 30%,#5dbb3c 30%,#5dbb3c 36%,#8b5a2b 36%,#6b6b6b 62%,#2c2c3a 100%)",
-    art: `<span class="big" style="font-size:52px;left:8%;top:30px">⛏️</span><span class="big" style="font-size:50px;right:8%;top:34px">📦</span>
-          <span class="big" style="font-size:62px;left:42%;top:26px">💎</span>
-          <img class="face pink" src="${F.lucie}" style="left:18%;top:84px" alt="Lucie"><img class="face blue" src="${F.lucas}" style="right:18%;top:84px" alt="Lucas">
-          <span class="em" style="font-size:30px;left:46%;top:140px">🪙</span>` },
   { href: "games/hoi-lang-ca-dao/", name: "Hội Làng Đoán Ca Dao 3D", cups: "cadao",
     desc: "Xem 2 bức tranh phép thuật, đoán từ còn thiếu trong câu ca dao, tục ngữ. Đúng thì trống hội vang, pháo giấy bay!",
     tags: ["Tường San 3A6", "Tường Minh 1A5", "Tiếng Việt", "50 câu"], bg: "radial-gradient(circle at 50% 35%,#ffd166 0,#e63946 45%,#3a0ca3 100%)",
