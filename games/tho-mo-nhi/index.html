@@ -1432,13 +1432,48 @@ function showLoot(ma, texName, title, sub, loot, badges, cb) {
   }, 300 + keys.length * 280 + 1300);
 }
 /* ---------- Đánh BOSS cuối mỗi bài: cứ 10 bài thêm 1 câu ---------- */
-const BOSS = /*BOSS*/{"lucie": [], "lucas": []}/*END_BOSS*/;
 const soCauBoss = n => 3 + Math.floor((n - 1) / 10);
+/* Toán boss: máy tự sinh theo độ khó từng màn, phép tính luôn đúng */
+function toanBoss(child, man) {
+  const R = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+  let q, d, g;
+  if (child === "lucas") {
+    if (man <= 3) { const x = R(1, 9), y = R(0, 10 - x); if (Math.random() < 0.5) { q = x + " + " + y + " = ?"; d = x + y; } else { q = (x + y) + " - " + y + " = ?"; d = x; } }
+    else if (man <= 7) { const k = R(0, 2); if (k === 0) { const x = R(10, 15), y = R(1, 19 - x); q = x + " + " + y + " = ?"; d = x + y; } else if (k === 1) { const x = R(12, 19), y = R(1, x - 10); q = x + " - " + y + " = ?"; d = x - y; } else { const x = R(1, 9) * 10, y = R(1, 9 - x / 10) * 10; q = x + " + " + y + " = ?"; d = x + y; } }
+    else { const k = R(0, 2), a = R(2, 8), b = R(1, 9 - a), c = R(0, 4), e = R(0, 9 - c);
+      if (k === 0) { q = (a * 10 + c) + " + " + (b * 10 + e) + " = ?"; d = (a + b) * 10 + c + e; }
+      else if (k === 1) { const x = (a + b) * 10 + c + e; q = x + " - " + (b * 10 + e) + " = ?"; d = x - b * 10 - e; }
+      else { const x = R(20, 60), y = R(2, 9); q = "Lan có " + x + " viên bi, được cho thêm " + y + " viên. Lan có tất cả mấy viên bi?"; d = x + y; } }
+  } else {
+    const k = R(0, 3);
+    if (man <= 3) {
+      if (k === 0) { const x = R(150, 600), y = R(120, 380); q = x + " + " + y + " = ?"; d = x + y; }
+      else if (k === 1) { const x = R(400, 950), y = R(130, x - 100); q = x + " - " + y + " = ?"; d = x - y; }
+      else if (k === 2) { const x = R(2, 5), y = R(3, 10); q = x + " x " + y + " = ?"; d = x * y; }
+      else { const x = R(2, 5), y = R(2, 10); q = (x * y) + " : " + x + " = ?"; d = y; }
+    } else if (man <= 7) {
+      if (k === 0) { const x = R(6, 9), y = R(4, 10); q = x + " x " + y + " = ?"; d = x * y; }
+      else if (k === 1) { const x = R(12, 49), y = R(2, 6); q = x + " x " + y + " = ?"; d = x * y; }
+      else if (k === 2) { const x = R(3, 9), y = R(11, 32); q = (x * y) + " : " + x + " = ?"; d = y; }
+      else { const x = R(3, 9), y = R(4, 9); q = "Tìm x, biết: x : " + x + " = " + y; d = x * y; }
+    } else {
+      if (k === 0) { const x = R(110, 320), y = R(2, 3); q = x + " x " + y + " = ?"; d = x * y; }
+      else if (k === 1) { const a = R(5, 15), b = R(2, 9); q = "Hình chữ nhật dài " + a + " cm, rộng " + b + " cm. Diện tích là bao nhiêu xăng-ti-mét vuông?"; d = a * b; g = a + " x " + b + " = " + d; }
+      else if (k === 2) { const a = R(4, 9), b = R(3, 9), c = R(5, 20); q = "Mỗi hộp có " + a + " cái bánh. " + b + " hộp bánh, ăn hết " + c + " cái. Còn lại bao nhiêu cái?"; d = a * b - c; g = a + " x " + b + " - " + c + " = " + d; }
+      else { const a = R(2, 9); q = "Hình vuông cạnh " + a + " cm có chu vi là bao nhiêu xăng-ti-mét?"; d = a * 4; g = a + " x 4 = " + d; }
+    }
+  }
+  const sai = new Set(); for (const dd of [1, -1, 2, 10, -10, -2, 3]) { const v = d + dd; if (v >= 0 && v !== d) sai.add(String(v)); if (sai.size >= 3) break; }
+  return { mon: "Toán", q, dung: String(d), sai: [...sai], giai: g || q.replace("= ?", "= " + d) };
+}
 function cauBoss(n, so) {
-  const man = manBai(n).man + 1, ds = (BOSS[G.child] || []).filter(a => a[0] === man);
-  const out = shuffle(ds).slice(0, so).map(a => ({ mon: a[1], q: a[2], dung: a[3], sai: [a[4], a[5], a[6]], giai: a[7] || "" }));
-  while (out.length < so) { const q = nextQuestion(Math.min(3, 1 + Math.floor(man / 4))); if (!q) break; out.push({ mon: q.mon, q: q.q, dung: q.dung, sai: q.sai.slice(0, 3), giai: q.giai }); }
-  return out;
+  const man = manBai(n).man + 1, out = [];
+  const nToan = Math.ceil(so / 2);
+  for (let i = 0; i < nToan; i++) out.push(toanBoss(G.child, man));
+  let lan = 0;
+  while (out.length < so && lan++ < 60) { const q = nextQuestion(Math.min(3, 1 + Math.floor(man / 4))); if (!q) break; if (q.mon === "Toán" && lan < 30) continue; out.push({ mon: q.mon, q: q.q, dung: q.dung, sai: q.sai.slice(0, 3), giai: q.giai }); }
+  while (out.length < so) out.push(toanBoss(G.child, man));
+  return shuffle(out);
 }
 function danhBoss() {
   const n = moTMN(G.child), so = soCauBoss(n), mb = manBai(n);
