@@ -97,5 +97,209 @@
  "skin-robot": {
   "ai": "cute voxel cube style friendly silver robot miner with antenna",
   "seed": 7
+ },
+ "cuoc30-2": {
+  "ai": "cute voxel cube style copper pickaxe game item icon, dark background",
+  "seed": 302
+ },
+ "cuoc30-4": {
+  "ai": "cute voxel cube style silver pickaxe game item icon, dark background",
+  "seed": 304
+ },
+ "cuoc30-6": {
+  "ai": "cute voxel cube style emerald pickaxe game item icon, dark background",
+  "seed": 306
+ },
+ "cuoc30-8": {
+  "ai": "cute voxel cube style ruby pickaxe game item icon, dark background",
+  "seed": 308
+ },
+ "cuoc30-9": {
+  "ai": "cute voxel cube style sapphire pickaxe game item icon, dark background",
+  "seed": 309
+ },
+ "cuoc30-10": {
+  "ai": "cute voxel cube style quartz pickaxe game item icon, dark background",
+  "seed": 310
+ },
+ "cuoc30-11": {
+  "ai": "cute voxel cube style crystal pickaxe game item icon, dark background",
+  "seed": 311
+ },
+ "cuoc30-12": {
+  "ai": "cute voxel cube style lightning pickaxe game item icon, dark background",
+  "seed": 312
+ },
+ "cuoc30-13": {
+  "ai": "cute voxel cube style fire pickaxe game item icon, dark background",
+  "seed": 313
+ },
+ "cuoc30-14": {
+  "ai": "cute voxel cube style ice pickaxe game item icon, dark background",
+  "seed": 314
+ },
+ "cuoc30-15": {
+  "ai": "cute voxel cube style wind pickaxe game item icon, dark background",
+  "seed": 315
+ },
+ "cuoc30-16": {
+  "ai": "cute voxel cube style rainbow pickaxe game item icon, dark background",
+  "seed": 316
+ },
+ "cuoc30-17": {
+  "ai": "cute voxel cube style moon pickaxe game item icon, dark background",
+  "seed": 317
+ },
+ "cuoc30-18": {
+  "ai": "cute voxel cube style sun pickaxe game item icon, dark background",
+  "seed": 318
+ },
+ "cuoc30-19": {
+  "ai": "cute voxel cube style star pickaxe game item icon, dark background",
+  "seed": 319
+ },
+ "cuoc30-20": {
+  "ai": "cute voxel cube style galaxy pickaxe game item icon, dark background",
+  "seed": 320
+ },
+ "cuoc30-21": {
+  "ai": "cute voxel cube style green dragon pickaxe game item icon, dark background",
+  "seed": 321
+ },
+ "cuoc30-22": {
+  "ai": "cute voxel cube style phoenix pickaxe game item icon, dark background",
+  "seed": 322
+ },
+ "cuoc30-23": {
+  "ai": "cute voxel cube style unicorn pickaxe game item icon, dark background",
+  "seed": 323
+ },
+ "cuoc30-24": {
+  "ai": "cute voxel cube style super drill pickaxe game item icon, dark background",
+  "seed": 324
+ },
+ "cuoc30-25": {
+  "ai": "cute voxel cube style light-beam drill pickaxe game item icon, dark background",
+  "seed": 325
+ },
+ "cuoc30-26": {
+  "ai": "cute voxel cube style turbo drill pickaxe game item icon, dark background",
+  "seed": 326
+ },
+ "cuoc30-27": {
+  "ai": "cute voxel cube style thunder hammer pickaxe game item icon, dark background",
+  "seed": 327
+ },
+ "cuoc30-28": {
+  "ai": "cute voxel cube style cosmic pickaxe game item icon, dark background",
+  "seed": 328
+ },
+ "cuoc30-29": {
+  "ai": "cute voxel cube style legendary glowing pickaxe game item icon, dark background",
+  "seed": 329
+ },
+ "skin-nongdan": {
+  "ai": "cute voxel cube style kid farmer with straw hat, original character",
+  "seed": 507
+ },
+ "skin-dau-bep": {
+  "ai": "cute voxel cube style kid chef with tall white hat, original character",
+  "seed": 507
+ },
+ "skin-phi-cong": {
+  "ai": "cute voxel cube style kid pilot with goggles and leather cap, original character",
+  "seed": 508
+ },
+ "skin-cuu-hoa": {
+  "ai": "cute voxel cube style kid firefighter with red helmet, original character",
+  "seed": 507
+ },
+ "skin-bac-si": {
+  "ai": "cute voxel cube style kid doctor in white coat with stethoscope, original character",
+  "seed": 506
+ },
+ "skin-thuy-thu": {
+  "ai": "cute voxel cube style kid sailor in striped shirt, original character",
+  "seed": 508
+ },
+ "skin-meo-con": {
+  "ai": "cute voxel cube style kid in orange cat costume, original character",
+  "seed": 507
+ },
+ "skin-tho-trang": {
+  "ai": "cute voxel cube style kid in white bunny costume, original character",
+  "seed": 509
+ },
+ "skin-gau-truc": {
+  "ai": "cute voxel cube style kid in panda costume, original character",
+  "seed": 508
+ },
+ "skin-cao-vang": {
+  "ai": "cute voxel cube style kid in orange fox costume, original character",
+  "seed": 508
+ },
+ "skin-khung-long": {
+  "ai": "cute voxel cube style kid in green dinosaur costume, original character",
+  "seed": 510
+ },
+ "skin-phi-hanh-gia": {
+  "ai": "cute voxel cube style kid astronaut in white space suit, original character",
+  "seed": 512
+ },
+ "skin-cuop-bien": {
+  "ai": "cute voxel cube style kid ship captain with tricorn hat and cape, original character",
+  "seed": 509
+ },
+ "skin-hiep-si": {
+  "ai": "cute voxel cube style kid knight in silver armor, original character",
+  "seed": 507
+ },
+ "skin-phu-thuy": {
+  "ai": "cute voxel cube style kid wizard with purple pointy hat, original character",
+  "seed": 508
+ },
+ "skin-tien-nu": {
+  "ai": "cute voxel cube style kid fairy with butterfly wings pink dress, original character",
+  "seed": 507
+ },
+ "skin-hoang-tu": {
+  "ai": "cute voxel cube style kid prince with golden crown blue outfit, original character",
+  "seed": 508
+ },
+ "skin-cong-chua": {
+  "ai": "cute voxel cube style kid princess with crown pink dress, original character",
+  "seed": 509
+ },
+ "skin-bang-gia": {
+  "ai": "cute voxel cube style kid ice prince with light blue cape, original character",
+  "seed": 508
+ },
+ "skin-lua-do": {
+  "ai": "cute voxel cube style kid fire warrior with orange cape, original character",
+  "seed": 506
+ },
+ "skin-sam-set": {
+  "ai": "cute voxel cube style kid lightning knight with yellow bolt headband, original character",
+  "seed": 507
+ },
+ "skin-rong-con": {
+  "ai": "cute voxel cube style kid in red baby dragon costume with horns, original character",
+  "seed": 508
+ },
+ "skin-ky-lan": {
+  "ai": "cute voxel cube style kid in rainbow unicorn costume, original character",
+  "seed": 506
+ },
+ "skin-robot-vang": {
+  "ai": "cute voxel cube style golden friendly robot miner, original character",
+  "seed": 510
+ },
+ "skin-ngoi-sao": {
+  "ai": "cute voxel cube style kid space hero with starry cape, original character",
+  "seed": 508
+ },
+ "skin-huyen-thoai": {
+  "ai": "cute voxel cube style legendary kid miner with diamond crown golden outfit, original character",
+  "seed": 511
  }
 }
