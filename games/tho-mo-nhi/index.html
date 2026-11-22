@@ -279,6 +279,7 @@ button{font-family:inherit;cursor:pointer}
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="boss.js"></script>
 <script src="../anh-chung/che-do-tv.js"></script>
 <script src="../anh-chung/mat-that.js"></script>
 <script>
@@ -1395,7 +1396,7 @@ function success() {
     const last = L === NL - 1;
     if (!last) { G.layer = L + 1; R.get().placeDoorLight(); }
     showLoot(last ? "kho-bau" : "cua", "door", "+" + pts + " điểm", last ? "Cửa kho báu đã mở!" : "Cửa xuống tầng " + (L + 2) + " đã mở!", loot, badges, () => {
-      if (last) { finish(); return; }
+      if (last) { danhBoss(); return; }
       toast("Đi xuống tầng " + (L + 2) + " nào!", 2000);
       celebrate(() => { G.busy = false; });
     });
@@ -1429,6 +1430,30 @@ function showLoot(ma, texName, title, sub, loot, badges, cb) {
       SFX.ore(); updateHUD(); luuHam(); cb && cb();
     }, 1250);
   }, 300 + keys.length * 280 + 1300);
+}
+/* ---------- Đánh BOSS cuối mỗi bài: cứ 10 bài thêm 1 câu ---------- */
+const BOSS = /*BOSS*/{"lucie": [], "lucas": []}/*END_BOSS*/;
+const soCauBoss = n => 3 + Math.floor((n - 1) / 10);
+function cauBoss(n, so) {
+  const man = manBai(n).man + 1, ds = (BOSS[G.child] || []).filter(a => a[0] === man);
+  const out = shuffle(ds).slice(0, so).map(a => ({ mon: a[1], q: a[2], dung: a[3], sai: [a[4], a[5], a[6]], giai: a[7] || "" }));
+  while (out.length < so) { const q = nextQuestion(Math.min(3, 1 + Math.floor(man / 4))); if (!q) break; out.push({ mon: q.mon, q: q.q, dung: q.dung, sai: q.sai.slice(0, 3), giai: q.giai }); }
+  return out;
+}
+function danhBoss() {
+  const n = moTMN(G.child), so = soCauBoss(n), mb = manBai(n);
+  if (!window.BossFight) { finish(); return; }
+  G.busy = true; stopPad(); Voice.stop();
+  const sd = skinHien(), hx = v => "#" + (v || 0).toString(16).padStart(6, "0");
+  BossFight.start({ child: G.child, faceUrl: faceUrl(G.child), man: mb.man + 1, bai: mb.bai + 1, soCau: so, cauHoi: cauBoss(n, so),
+    mauAo: sd.C && sd.C.ao !== undefined ? hx(sd.C.ao) : (G.child === "lucie" ? "#ff5fa8" : "#3b82f6"), mauCuoc: hx((PICKS[G.kho.cuoc] || PICKS[0]).mau),
+    noi: (t, lang) => lang === "en-US" ? Voice.sayEn(t) : Voice.say(t), amThanh: { hit: () => SFX.brk(), hurt: () => SFX.wrong(), win: () => SFX.win(), wrong: () => SFX.wrong() },
+    tuDoc: G.child === "lucas",
+    onDone: kq => {
+      (kq.ds || []).forEach(x => { G.asked++; if (x.ok) G.right++; logResult({ mon: "Boss", q: x.q }, x.ok); });
+      if (kq.thang) { G.score += 50 * so; G.bossThang = (G.bossThang || 0) + 1; finish(); }
+      else { toast("Quái vật còn khỏe! Ôn bài rồi đánh lại nhé!", 2500); Voice.say("Thử lại nhé! Con làm được mà!"); setTimeout(danhBoss, 2600); }
+    } });
 }
 function finish() {
   G.over = true; G.busy = true; G.won = true; xoaHam(G.child); SFX.win(); try { G.baiXong = moTMN(G.child); localStorage.setItem("thoMo_mo_" + G.child, Math.min(TONG_BAI, G.baiXong + 1)); } catch (e) {}
