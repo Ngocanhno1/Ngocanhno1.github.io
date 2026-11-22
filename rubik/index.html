@@ -106,15 +106,15 @@
     /* 3x3 Scanning Grid */
     .scan-grid {
       position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: min(50vw, 174px); height: min(50vw, 174px); z-index: 20;
+      width: 120px; height: 120px; z-index: 20; opacity: 0;
       display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr);
       gap: 5px; padding: 5px; border: 2px solid rgba(255, 255, 255, 0.4); border-radius: 12px;
-      box-shadow: 0 0 0 999px rgba(0, 0, 0, 0.42); pointer-events: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
+      pointer-events: none;
+      transition: left 0.12s linear, top 0.12s linear, width 0.12s linear, height 0.12s linear, opacity 0.2s, border-color 0.2s;
     }
     .scan-grid.ready {
       border-color: var(--green);
-      box-shadow: 0 0 0 999px rgba(0, 0, 0, 0.42), 0 0 18px rgba(34, 197, 94, 0.65);
+      box-shadow: 0 0 18px rgba(34, 197, 94, 0.65);
     }
     .scan-cell {
       border: 2px solid rgba(255, 255, 255, 0.35); border-radius: 7px;
@@ -132,7 +132,7 @@
 
     /* Hold-steady circular/bar progress under grid */
     .hold-bar-wrap {
-      position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%);
+      position: absolute; bottom: 86px; left: 50%; transform: translateX(-50%);
       width: min(50vw, 174px); height: 5px; border-radius: 99px;
       background: rgba(255,255,255,0.16); overflow: hidden; z-index: 22; pointer-events: none;
     }
@@ -315,6 +315,7 @@
         </div>
 
         <div class="scan-grid" id="scanGrid"></div>
+        <button id="btnShoot" style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);z-index:40;width:62px;height:62px;border-radius:50%;border:4px solid #fff;background:rgba(255,255,255,0.25);font-size:22px;color:#fff;">📸</button>
         <div class="hold-bar-wrap"><div class="hold-bar-fill" id="holdBar"></div></div>
       </div>
     </div>
@@ -569,68 +570,129 @@ function stopCamera(showOv = true) {
   if (showOv) document.getElementById('camOverlay').classList.remove('hidden');
 }
 
+
+// ==================== TỰ TÌM KHỐI RUBIK Ở BẤT KỲ ĐÂU TRONG KHUNG HÌNH ====================
+let lastDetection = null;
+const DET_W = 192;
+const detCanvas = document.createElement('canvas');
+const detCtx = detCanvas.getContext('2d', { willReadFrequently: true });
+const LBL = { U: 0, R: 1, F: 2, D: 3, L: 4, B: 5 };
+
+function detectCubeFace(sw, sh) {
+  const W = DET_W, H = Math.max(40, Math.round(DET_W * sh / sw));
+  if (detCanvas.width !== W || detCanvas.height !== H) { detCanvas.width = W; detCanvas.height = H; }
+  detCtx.drawImage(videoEl, 0, 0, W, H);
+  const px = detCtx.getImageData(0, 0, W, H).data;
+  const N = W * H, lab = new Int8Array(N);
+  for (let p = 0, q = 0; p < N; p++, q += 4) {
+    const hsv = rgbToHsv(px[q], px[q + 1], px[q + 2]);
+    lab[p] = hsv[2] < 0.24 ? -1 : LBL[classifyLab(hsv).color];
+  }
+  // Vùng liền màu (ô dán) — tách bởi viền đen của khối
+  const seen = new Uint8Array(N), stack = new Int32Array(N), blobs = [];
+  const maxArea = N * 0.08;
+  for (let s0 = 0; s0 < N; s0++) {
+    if (seen[s0] || lab[s0] < 0) continue;
+    const L = lab[s0]; let top = 0, area = 0, minx = W, maxx = 0, miny = H, maxy = 0, sx = 0, sy = 0;
+    stack[top++] = s0; seen[s0] = 1;
+    while (top) {
+      const p = stack[--top], x = p % W, y = (p / W) | 0;
+      area++; sx += x; sy += y;
+      if (x < minx) minx = x; if (x > maxx) maxx = x; if (y < miny) miny = y; if (y > maxy) maxy = y;
+      if (x > 0 && !seen[p - 1] && lab[p - 1] === L) { seen[p - 1] = 1; stack[top++] = p - 1; }
+      if (x < W - 1 && !seen[p + 1] && lab[p + 1] === L) { seen[p + 1] = 1; stack[top++] = p + 1; }
+      if (y > 0 && !seen[p - W] && lab[p - W] === L) { seen[p - W] = 1; stack[top++] = p - W; }
+      if (y < H - 1 && !seen[p + W] && lab[p + W] === L) { seen[p + W] = 1; stack[top++] = p + W; }
+    }
+    const bw = maxx - minx + 1, bh = maxy - miny + 1;
+    if (area < 10 || area > maxArea || bw < 3 || bh < 3) continue;
+    const asp = bw / bh; if (asp < 0.45 || asp > 2.2) continue;
+    if (area / (bw * bh) < 0.45) continue;
+    blobs.push({ x: sx / area, y: sy / area, sz: Math.sqrt(area) });
+  }
+  if (blobs.length < 4) return null;
+  // Tìm lưới 3x3: thử mỗi ô làm mốc, mỗi ô gần làm hướng, mỗi vị trí trong lưới
+  let best = null;
+  for (const c of blobs) {
+    const near = blobs.filter(o => o !== c && o.sz > c.sz * 0.55 && o.sz < c.sz * 1.8)
+      .map(o => ({ o, d: Math.hypot(o.x - c.x, o.y - c.y) }))
+      .filter(t => t.d > c.sz * 0.9 && t.d < c.sz * 2.0)
+      .sort((a, b) => a.d - b.d).slice(0, 4);
+    for (const t of near) {
+      const d = t.d, ux = (t.o.x - c.x) / d, uy = (t.o.y - c.y) / d, vx = -uy, vy = ux;
+      for (let a = -1; a <= 1; a++) for (let b = -1; b <= 1; b++) {
+        const ox = c.x - a * d * ux - b * d * vx, oy = c.y - a * d * uy - b * d * vy;
+        let score = 0;
+        for (let i = -1; i <= 1; i++) for (let j = -1; j <= 1; j++) {
+          const qx = ox + i * d * ux + j * d * vx, qy = oy + i * d * uy + j * d * vy;
+          const tol = d * 0.3;
+          if (blobs.some(o => Math.abs(o.x - qx) < tol && Math.abs(o.y - qy) < tol && o.sz > c.sz * 0.5 && o.sz < c.sz * 2)) score++;
+        }
+        if (!best || score > best.score || (score === best.score && d > best.d))
+          best = { score, ox, oy, d, ux, uy };
+      }
+    }
+  }
+  if (!best || best.score < 6) return null;
+  // Chuẩn hoá hướng: trục "ngang" là trục gần phương ngang của ảnh
+  let { ox, oy, d, ux, uy } = best;
+  let vx = -uy, vy = ux;
+  if (Math.abs(uy) > Math.abs(ux)) { [ux, uy, vx, vy] = [vx, vy, ux, uy]; }
+  if (ux < 0) { ux = -ux; uy = -uy; }
+  if (vy < 0) { vx = -vx; vy = -vy; }
+  // Lấy mẫu trung vị quanh tâm mỗi ô
+  const hsvs = [], r = Math.max(1, Math.round(d * 0.22));
+  for (let row = 0; row < 3; row++) for (let col = 0; col < 3; col++) {
+    const cx = ox + (col - 1) * d * ux + (row - 1) * d * vx, cy = oy + (col - 1) * d * uy + (row - 1) * d * vy;
+    const rs = [], gs = [], bs = [];
+    for (let y = Math.round(cy - r); y <= Math.round(cy + r); y++) for (let x = Math.round(cx - r); x <= Math.round(cx + r); x++) {
+      if (x < 0 || y < 0 || x >= W || y >= H) continue;
+      const q = (y * W + x) * 4; rs.push(px[q]); gs.push(px[q + 1]); bs.push(px[q + 2]);
+    }
+    hsvs.push(rs.length ? rgbToHsv(medianOf(rs), medianOf(gs), medianOf(bs)) : [0, 0, 0.5]);
+  }
+  return { hsv: hsvs, ox, oy, d, ux, uy, W, H };
+}
+
+function positionScanGrid(det, sw, sh) {
+  const g = document.getElementById('scanGrid');
+  if (!det) { g.style.opacity = '0'; return; }
+  const stageR = document.querySelector('.cam-stage').getBoundingClientRect();
+  const scale = Math.max(stageR.width / sw, stageR.height / sh);
+  const offX = (stageR.width - sw * scale) / 2, offY = (stageR.height - sh * scale) / 2;
+  const k = (sw / det.W) * scale;
+  const cx = det.ox * k + offX, cy = det.oy * k + offY, size = det.d * 3 * k;
+  const ang = Math.atan2(det.uy, det.ux) * 180 / Math.PI;
+  g.style.opacity = '1';
+  g.style.width = g.style.height = size + 'px';
+  g.style.left = cx + 'px'; g.style.top = cy + 'px';
+  g.style.transform = `translate(-50%, -50%) rotate(${ang}deg)`;
+}
+
 function processFrame() {
   if (!isCamOn || videoEl.readyState < 2) return;
   const sw = videoEl.videoWidth, sh = videoEl.videoHeight;
   if (!sw || !sh) return;
 
-  // Exact object-fit: cover frame mapping (PRESERVED)
-  const stageR = document.querySelector('.cam-stage').getBoundingClientRect();
-  const gridR = document.getElementById('scanGrid').getBoundingClientRect();
-  const scale = Math.max(stageR.width / sw, stageR.height / sh);
-  const offX = (stageR.width - sw * scale) / 2, offY = (stageR.height - sh * scale) / 2;
-  const pad = 7;
-  let sx = (gridR.left + pad - stageR.left - offX) / scale;
-  let sy = (gridR.top + pad - stageR.top - offY) / scale;
-  let cropSize = (gridR.width - pad * 2) / scale;
-
-  sampleCtx.drawImage(videoEl, sx, sy, cropSize, cropSize, 0, 0, 180, 180);
-  const data = sampleCtx.getImageData(0, 0, 180, 180).data;
-
   const expectedFace = SCAN_ORDER[currentStep].face;
-
-  // Sample center 40% of each cell -> median RGB -> rgbToHsv (NO white balance)
-  for (let row = 0; row < 3; row++) {
-    for (let col = 0; col < 3; col++) {
-      const i = row * 3 + col;
-      const x0 = col * 60 + 11, x1 = col * 60 + 49;
-      const y0 = row * 60 + 11, y1 = row * 60 + 49;
-      const rs = [], gs = [], bs = [];
-      for (let y = y0; y < y1; y += 2) {
-        for (let x = x0; x < x1; x += 2) {
-          const idx = (y * 180 + x) * 4;
-          const r = data[idx], g = data[idx + 1], b = data[idx + 2];
-          const mx = Math.max(r, g, b) / 255;
-          const mn = Math.min(r, g, b) / 255;
-          const v = mx, s = mx === 0 ? 0 : (mx - mn) / mx;
-          if (v < 0.08) continue;
-          if (v > 0.97 && s < 0.10) continue;
-          rs.push(r); gs.push(g); bs.push(b);
-        }
-      }
-      const mr = rs.length ? medianOf(rs) : 128;
-      const mg = gs.length ? medianOf(gs) : 128;
-      const mb = bs.length ? medianOf(bs) : 128;
-
-      const hsv = rgbToHsv(mr, mg, mb);
-      liveHsvs[i] = hsv;
-      const res = classifyLab(hsv);
-
-      // Lock after 3 consecutive identical frames
-      const st = streaks[i];
-      if (st.color === res.color) {
-        st.count = Math.min(3, st.count + 1);
-      } else {
-        st.color = res.color;
-        st.count = 1;
-        st.locked = false;
-      }
-      if (st.count >= 3) {
-        st.locked = true;
-        liveColors[i] = res.color;
-        liveConfs[i] = res.conf;
-      }
-    }
+  const det = detectCubeFace(sw, sh);
+  lastDetection = det;
+  positionScanGrid(det, sw, sh);
+  if (!det) {
+    // Không thấy khối: không chốt, không đếm giữ yên
+    resetStreaks();
+    for (let i = 0; i < 9; i++) liveColors[i] = null;
+    renderScanGrid();
+    return;
+  }
+  for (let i = 0; i < 9; i++) {
+    const hsv = det.hsv[i];
+    liveHsvs[i] = hsv;
+    const res = classifyLab(hsv);
+    const st = streaks[i];
+    if (st.color === res.color) st.count = Math.min(3, st.count + 1);
+    else { st.color = res.color; st.count = 1; st.locked = false; }
+    if (st.count >= 3) { st.locked = true; liveColors[i] = res.color; liveConfs[i] = res.conf; }
   }
 
   renderScanGrid();
@@ -1363,6 +1425,13 @@ function switchTab(tab) {
 
 document.querySelectorAll('.tab-btn').forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
 document.getElementById('btnStartCamBig').addEventListener('click', startCamera);
+document.getElementById('btnShoot').addEventListener('click', () => {
+  if (!isCamOn) { startCamera(); return; }
+  if (waitingForNewCenter || isGuidingTurn) { waitingForNewCenter = false; isGuidingTurn = false; document.getElementById('turnArrowOverlay').classList.remove('show'); }
+  if (!lastDetection || liveColors.some(c => !c)) { showToast('Chưa thấy khối Rubik — đưa một mặt vào camera'); return; }
+  liveColors[4] = SCAN_ORDER[currentStep].face;
+  autoCaptureCurrentFace();
+});
 document.getElementById('btnToggleCam').addEventListener('click', () => isCamOn ? stopCamera(true) : startCamera());
 document.getElementById('btnFlipCam').addEventListener('click', () => {
   facingMode = facingMode === 'environment' ? 'user' : 'environment';
