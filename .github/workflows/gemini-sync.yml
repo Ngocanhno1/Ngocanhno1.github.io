@@ -1,0 +1,36 @@
+name: Gemini Dong Bo Drive
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/30 * * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -q gdown
+      - run: |
+          mkdir -p _in .github
+          touch .github/gemini_done.txt
+          gdown --folder "https://drive.google.com/drive/folders/1Ua7jiSqJYg7FjKISYWhSfKacJA98Za89" -O _in --remaining-ok || true
+          for z in $(find _in -name "*.zip" | sort); do
+            k="$(basename "$z"):$(sha256sum "$z" | cut -c1-16)"
+            if ! grep -qxF "$k" .github/gemini_done.txt; then
+              unzip -o "$z" -x "__MACOSX/*"
+              echo "$k" >> .github/gemini_done.txt
+            fi
+          done
+          rm -rf _in
+      - run: |
+          git config user.name "Gemini Sync"
+          git config user.email "ngocanhbtg88@gmail.com"
+          git add -A
+          git diff --cached --quiet || (git commit -m "Gemini dong bo tu Drive" && git push)
