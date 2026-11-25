@@ -24,15 +24,17 @@
    "file": "Silver_crystal.jpg",
    "trang": "https://commons.wikimedia.org/wiki/File:Silver_crystal.jpg"
   },
-  "cuoc30-12": {
+  "cuoc30-25": {
+   "file": "Tranh AI Pollinations",
+   "trang": "https://pollinations.ai"
+  },
+  "skin-rong-con": {
    "file": "Tranh AI Pollinations",
    "trang": "https://pollinations.ai"
   }
  },
  "loi": {
-  "cuoc30-25": "{'ai': 'cute voxel cube style light-beam drill pickaxe game item icon, dark background', 'seed': 325}: HTTP Error 402: Payment Required",
   "skin-bac-si": "{'ai': 'cute voxel cube style kid doctor in white coat with stethoscope, original character', 'seed': 506}: HTTP Error 402: Payment Required",
-  "skin-hiep-si": "{'ai': 'cute voxel cube style kid knight in silver armor, original character', 'seed': 507}: HTTP Error 402: Payment Required",
-  "skin-rong-con": "{'ai': 'cute voxel cube style kid in red baby dragon costume with horns, original character', 'seed': 508}: HTTP Error 402: Payment Required"
+  "skin-hiep-si": "{'ai': 'cute voxel cube style kid knight in silver armor, original character', 'seed': 507}: HTTP Error 402: Payment Required"
  }
 }
