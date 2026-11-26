@@ -24,17 +24,12 @@
    "file": "Silver_crystal.jpg",
    "trang": "https://commons.wikimedia.org/wiki/File:Silver_crystal.jpg"
   },
-  "cuoc30-25": {
-   "file": "Tranh AI Pollinations",
-   "trang": "https://pollinations.ai"
-  },
-  "skin-rong-con": {
+  "skin-bac-si": {
    "file": "Tranh AI Pollinations",
    "trang": "https://pollinations.ai"
   }
  },
  "loi": {
-  "skin-bac-si": "{'ai': 'cute voxel cube style kid doctor in white coat with stethoscope, original character', 'seed': 506}: HTTP Error 402: Payment Required",
   "skin-hiep-si": "{'ai': 'cute voxel cube style kid knight in silver armor, original character', 'seed': 507}: HTTP Error 402: Payment Required"
  }
 }
