@@ -1,0 +1,85 @@
+/* TỐI ƯU HIỂN THỊ TOÀN KHO GAME: TV LG webOS + ĐIỆN THOẠI DI ĐỘNG + TỐC ĐỘ MƯỢT 60FPS */
+
+/* 1. Ổn định khung hình toàn trang, chống tràn ngang trên điện thoại & giảm giật khi chạm */
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* 2. Bỏ sạch bóng bay, mây trôi & hiệu ứng lắc lư trang trí gây rối mắt và tụt FPS trên TV */
+.bay, .bay.b1, .bay.b2, .bay.b3, .bay.b4, .cloud, .pop-bay {
+  display: none !important;
+  animation: none !important;
+}
+
+/* 3. Khởi động êm: tạm dừng animation nặng 350ms đầu để TV vẽ xong giao diện trước -> hết giật cục */
+body.dang-khoi-dong *,
+body.dang-khoi-dong *::before,
+body.dang-khoi-dong *::after,
+body.tab-an *,
+body.tab-an *::before,
+body.tab-an *::after {
+  animation-play-state: paused !important;
+  transition: none !important;
+}
+
+/* 4. Chế độ TV mượt (tự bật trên LG webOS / Smart TV): tắt backdrop-filter blur cực nặng GPU */
+body.che-do-tv *,
+body.che-do-tv *::before,
+body.che-do-tv *::after {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+body.che-do-tv a.game,
+body.che-do-tv .card {
+  will-change: auto !important;
+}
+
+/* 5. Focus rõ nét cho điều khiển TV (ngồi xa 2-3m nhìn rõ ngay đang chọn nút nào) */
+button:focus-visible,
+a:focus-visible,
+[tabindex]:focus-visible {
+  outline: 4px solid #ff9f1c !important;
+  outline-offset: 3px !important;
+  box-shadow: 0 0 0 8px rgba(255, 159, 28, 0.28) !important;
+}
+
+/* 6. Phản hồi bấm gọn nhẹ */
+button:active,
+a.game:active,
+.btn:active {
+  transform: scale(0.96) !important;
+}
+
+/* 7. Tối ưu riêng cho ĐIỆN THOẠI DI ĐỘNG (dọc & ngang) */
+@media (max-width: 768px) {
+  body {
+    font-size: clamp(14px, 3.8vw, 17px);
+  }
+  button, .btn, .ans, .option, .choice {
+    min-height: 44px;
+    touch-action: manipulation;
+  }
+  img, canvas, svg {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* 8. Tối ưu riêng cho MÀN HÌNH LỚN / SMART TV (1280px - 4K) */
+@media (min-width: 1200px) {
+  button, .btn, .ans, .option, .choice {
+    min-height: 52px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
