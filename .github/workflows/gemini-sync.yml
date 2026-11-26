@@ -2,8 +2,11 @@ name: Gemini Dong Bo Drive
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "*/30 * * * *"
+    inputs:
+      file_id:
+        description: "Ma FILE_ID tren Google Drive"
+        required: true
+        default: "1lGOD-TINWAzHJrZxlKvXOYLZOINB7Jsc"
 
 permissions:
   contents: write
@@ -13,24 +16,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-      - run: pip install -q gdown
-      - run: |
-          mkdir -p _in .github
-          touch .github/gemini_done.txt
-          gdown --folder "https://drive.google.com/drive/folders/1Ua7jiSqJYg7FjKISYWhSfKacJA98Za89" -O _in --remaining-ok || true
-          for z in $(find _in -name "*.zip" | sort); do
-            k="$(basename "$z"):$(sha256sum "$z" | cut -c1-16)"
-            if ! grep -qxF "$k" .github/gemini_done.txt; then
-              unzip -o "$z" -x "__MACOSX/*"
-              echo "$k" >> .github/gemini_done.txt
-            fi
-          done
-          rm -rf _in
-      - run: |
+      - name: Tai truc tiep goi ZIP tu Drive va giai nen
+        env:
+          FID: ${{ github.event.inputs.file_id }}
+        run: |
+          curl -fsSL "https://drive.usercontent.google.com/download?id=${FID}&export=download&confirm=t" -o goi.zip
+          unzip -tq goi.zip
+          unzip -o goi.zip -x "__MACOSX/*"
+          rm -f goi.zip
+      - name: Day len GitHub Pages
+        run: |
           git config user.name "Gemini Sync"
           git config user.email "ngocanhbtg88@gmail.com"
+          git status --short
           git add -A
-          git diff --cached --quiet || (git commit -m "Gemini dong bo tu Drive" && git push)
+          git diff --cached --quiet || (git commit -m "Gemini cap nhat goi ${{ github.event.inputs.file_id }}" && git push)
