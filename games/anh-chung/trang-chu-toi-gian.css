@@ -1,0 +1,49 @@
+/* Giao diện Trang Chủ Tối Giản — Giảm motion & bỏ toàn bộ bóng bay/avatar bay nền
+   Giúp màn hình TV & điện thoại gọn mắt, đỡ rối cho Lucie & Lucas và mượt 60fps ngay khi mở.
+*/
+
+/* 1. Ẩn hoàn toàn các bóng bay / avatar bay ngang & mây trôi trang trí */
+.bay,
+.bay.b1,
+.bay.b2,
+.bay.b3,
+.bay.b4,
+.cloud,
+.pop-bay {
+  display: none !important;
+  animation: none !important;
+}
+
+/* 2. Tắt mọi animation lắc lư/nhún nhảy liên tục trên trang chính */
+.kids,
+.kids img,
+a.game .art .face,
+a.game:hover .art .face,
+a.game:focus-visible .art .face,
+header,
+.badge-pulse {
+  animation: none !important;
+}
+
+/* 3. Bỏ backdrop-filter blur nặng GPU và will-change tràn lan */
+header,
+.top-bar,
+.glass,
+.card,
+a.game {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  will-change: auto !important;
+}
+
+/* 4. Chuyển động phản hồi cực gọn (chỉ 120ms khi bấm/chọn bằng remote) */
+a.game {
+  transition: transform 0.12s ease, border-color 0.12s ease !important;
+}
+a.game:hover,
+a.game:focus-visible {
+  transform: translateY(-3px) !important;
+}
+a.game:active {
+  transform: scale(0.97) !important;
+}

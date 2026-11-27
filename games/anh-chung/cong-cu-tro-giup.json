@@ -1,0 +1,73 @@
+{
+  "cong_cu": [
+    {
+      "id": "nam_muoi",
+      "ten": "Cắt Đôi 50/50",
+      "icon": "✂️",
+      "mo_ta": "Loại bỏ ngay 2 đáp án sai để dễ chọn hơn",
+      "gia_ciecas": 4,
+      "tang_mac_dinh": 3,
+      "ap_dung": [
+        "tat_ca"
+      ]
+    },
+    {
+      "id": "kinh_lup",
+      "ten": "Kính Lúp Gợi Ý",
+      "icon": "🔎",
+      "mo_ta": "Hiện gợi ý ngắn hoặc bước tính đầu tiên của câu hỏi",
+      "gia_ciecas": 3,
+      "tang_mac_dinh": 3,
+      "ap_dung": [
+        "tat_ca"
+      ]
+    },
+    {
+      "id": "dong_bang",
+      "ten": "Đóng Băng Thời Gian",
+      "icon": "❄️",
+      "mo_ta": "Cộng thêm 15 giây suy nghĩ (tạm dừng đồng hồ)",
+      "gia_ciecas": 5,
+      "tang_mac_dinh": 2,
+      "ap_dung": [
+        "rung-chuong-vang",
+        "dua-xe",
+        "dua-thuyen",
+        "tho-mo-nhi"
+      ]
+    },
+    {
+      "id": "khien_combo",
+      "ten": "Khiên Giữ Chuỗi",
+      "icon": "🛡️",
+      "mo_ta": "Bảo vệ 1 lần trả lời sai không bị mất tim hay mất chuỗi combo",
+      "gia_ciecas": 6,
+      "tang_mac_dinh": 2,
+      "ap_dung": [
+        "tat_ca"
+      ]
+    },
+    {
+      "id": "nhan_doi_xu",
+      "ten": "Thẻ Nhân Đôi CIECAS",
+      "icon": "✨",
+      "mo_ta": "Nhân đôi toàn bộ xu CIECAS nhận được trong màn chơi này",
+      "gia_ciecas": 8,
+      "tang_mac_dinh": 1,
+      "ap_dung": [
+        "tat_ca"
+      ]
+    },
+    {
+      "id": "bua_khoan_vang",
+      "ten": "Búa Khoan Vàng & Nam Châm",
+      "icon": "⛏️",
+      "mo_ta": "Riêng Thợ Mỏ Nhí: phá đá cản siêu tốc và tự hút gấp đôi đá quý trong 1 màn",
+      "gia_ciecas": 7,
+      "tang_mac_dinh": 2,
+      "ap_dung": [
+        "tho-mo-nhi"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,2076 @@
+{
+  "game": "dua-thuyen",
+  "ten_game": "Đua Thuyền Hai Chị Em",
+  "hien_tai": {
+    "so_level": 1,
+    "mo_ta": "Hai chị em chơi cùng lúc trên màn hình chia đôi (Lucie bên trái phím 1–4, Lucas bên phải phím 7–0 hoặc nối điện thoại qua QR), đua thuyền về Đảo Kẹo nhận Cúp đồng đội. Hiện mới có 1 chặng đua duy nhất về Đảo Kẹo.",
+    "khac_biet_cac_man": "Mở rộng thành 30 hải trình từ Bến Đò Sông Quê → Đảo Kẹo → Đảo Kim Cương Vô Địch; mỗi chặng đổi màu nước/bối cảnh, tốc độ sóng (1.0x→2.02x), số câu về đích (8→12), độ khó 1→5 và cứ 5 chặng tặng Cúp Đồng Đội đặc biệt.",
+    "dinh_dang_cau_hoi_goc": "Môn|Cấp độ|Câu hỏi|Đáp án đúng|Sai 1|Sai 2|Sai 3|Giải thích"
+  },
+  "tong_hop_nang_cap": {
+    "tong_so_level": 50,
+    "so_level_moi_them": 20
+  },
+  "levels": [
+    {
+      "so": 1,
+      "ten": "Bến Đò Sông Quê",
+      "chu_de": "Khởi hành trên dòng sông êm đềm",
+      "do_kho": 1,
+      "so_cau": 8,
+      "toc_do_song": 1.0,
+      "phan_thuong": {
+        "sao_toi_da": 3,
+        "ciecas": 23,
+        "cup_dong_doi": false
+      },
+      "mau_chu_dao": "#2EC4B6",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "dinh_dang_goc": "Môn|Cấp độ|Câu hỏi|Đáp án đúng|Sai 1|Sai 2|Sai 3|Giải thích",
+        "RAW_LUCIE": [
+          "Toán|1|Tính tổng: 5257 + 4038 = ?|9295|9305|9285|9296|5257 + 4038 = 9295.",
+          "Toán|1|Tính hiệu: 6339 - 3526 = ?|2813|2823|2803|2815|6339 - 3526 = 2813.",
+          "Toán|1|Tính tích: 32 x 2 = ?|64|66|62|74|32 x 2 = 64.",
+          "Toán|1|Tính thương: 21 : 3 = ?|7|8|6|9|Vì 3 x 7 = 21 nên 21 : 3 = 7.",
+          "Toán|1|Chu vi hình vuông cạnh 19 cm là bao nhiêu?|76 cm|80 cm|72 cm|78 cm|Chu vi hình vuông = 19 x 4 = 76 cm.",
+          "Toán|1|Chu vi hình chữ nhật dài 9 cm, rộng 4 cm là bao nhiêu?|26 cm|28 cm|24 cm|30 cm|Chu vi = (9 + 4) x 2 = 26 cm.",
+          "Tiếng Việt|1|Từ nào chỉ sự vật trong sân trường?|Cây bàng|Chạy nhảy|Vui vẻ|Rộn rã|Cây bàng là từ chỉ sự vật.",
+          "Tiếng Việt|1|Chọn từ viết đúng chính tả (nhóm tr/ch):|Tròn trịa|Chòn chịa|Tròn chịa|Chòn trịa|Viết đúng là 'tròn trịa'.",
+          "Tiếng Anh|1|Câu 'Sit down, please!' nghĩa là gì?|Hãy ngồi xuống!|Hãy đứng lên!|Hãy đi ra ngoài!|Hãy đóng sách lại!|Sit down = ngồi xuống.",
+          "Tiếng Anh|1|Câu 'Stand up, please!' nghĩa là gì?|Hãy đứng lên!|Hãy ngồi xuống!|Hãy mở vở ra!|Hãy giữ trật tự!|Stand up = đứng lên."
+        ],
+        "RAW_LUCAS": [
+          "Toán|1|2 + 3 = ?|5|6|4|7|2 thêm 3 bằng 5.",
+          "Toán|1|7 - 2 = ?|5|6|4|7|7 bớt 2 còn 5.",
+          "Toán|1|Số liền trước của số 11 là số mấy?|10|11|9|12|Đếm ngược: trước 11 là 10.",
+          "Toán|1|Tính nhẩm: 60 - 30 = ?|30|40|20|50|60 - 30 = 30.",
+          "Toán|1|Số gồm 6 chục và 3 đơn vị là số mấy?|63|73|53|64|6 chục và 3 đơn vị viết là 63.",
+          "Toán|1|Trên cành có 10 quả cam, hái đi 4 quả. Còn lại mấy quả cam?|6 quả cam|7 quả cam|5 quả cam|8 quả cam|10 - 4 = 6 quả cam.",
+          "Tiếng Việt|1|Điền g hay gh: 'con ...ấu'?|g|gh|k|ng|Trước â dùng chữ g: con gấu.",
+          "Tiếng Việt|1|Điền g hay gh: 'nhà ...ỗ' hay 'cái ...ế' dùng gh?|cái ghế|con gà|củ gừng|quả gấc|Trước ê dùng chữ gh: cái ghế.",
+          "Tiếng Anh|1|Từ 'green' là màu gì?|Màu xanh lá|Màu tím|Màu cam|Màu trắng|Green là màu xanh lá cây.",
+          "Tiếng Anh|1|Từ 'yellow' là màu gì?|Màu vàng|Màu đen|Màu hồng|Màu xanh|Yellow là màu vàng."
+        ]
+      }
+    },
+    {
+      "so": 2,
+      "ten": "Kênh Hoa Sen Hồng",
+      "chu_de": "Chèo thuyền qua đầm sen thơm ngát",
+      "do_kho": 1,
+      "so_cau": 8,
+      "toc_do_song": 1.03,
+      "phan_thuong": {
+        "sao_toi_da": 3,
+        "ciecas": 26,
+        "cup_dong_doi": false
+      },
+      "mau_chu_dao": "#FF758F",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "dinh_dang_goc": "Môn|Cấp độ|Câu hỏi|Đáp án đúng|Sai 1|Sai 2|Sai 3|Giải thích",
+        "RAW_LUCIE": [
+          "Toán|1|Tính tổng: 5274 + 4051 = ?|9325|9335|9315|9326|5274 + 4051 = 9325.",
+          "Toán|1|Tính hiệu: 6358 - 3537 = ?|2821|2831|2811|2823|6358 - 3537 = 2821.",
+          "Toán|1|Tính tích: 33 x 3 = ?|99|102|96|109|33 x 3 = 99.",
+          "Toán|1|Tính thương: 32 : 4 = ?|8|9|7|10|Vì 4 x 8 = 32 nên 32 : 4 = 8.",
+          "Toán|1|Giá trị biểu thức 314 + 5 x 6 là bao nhiêu?|344|354|334|350|Tính nhân trước: 5 x 6 = 30; 314 + 30 = 344.",
+          "Toán|1|Chu vi hình chữ nhật dài 10 cm, rộng 5 cm là bao nhiêu?|30 cm|32 cm|28 cm|34 cm|Chu vi = (10 + 5) x 2 = 30 cm.",
+          "Tiếng Việt|1|Chọn từ viết đúng chính tả (nhóm s/x):|San sẻ|Xan xẻ|San xẻ|Xan sẻ|Viết đúng là 'san sẻ'.",
+          "Tiếng Việt|1|Chọn từ viết đúng chính tả (nhóm r/d/gi):|Rực rỡ|Dực dỡ|Giực giỡ|Rực dỡ|Viết đúng là 'rực rỡ'.",
+          "Tiếng Anh|1|Đồ dùng 'pencil sharpener' là gì?|Gọt bút chì|Hộp bút|Thước kẻ|Cục tẩy|Pencil sharpener là đồ gọt bút chì.",
+          "Tiếng Anh|1|Đồ dùng 'bookcase' là gì?|Giá sách / tủ sách|Bàn học|Ghế ngồi|Bảng đen|Bookcase là tủ đựng sách."
+        ],
+        "RAW_LUCAS": [
+          "Toán|1|3 + 1 = ?|4|5|3|6|3 thêm 1 bằng 4.",
+          "Toán|1|8 - 3 = ?|5|6|4|7|8 bớt 3 còn 5.",
+          "Toán|1|Số liền sau của số 13 là số mấy?|14|15|13|16|Đếm xuôi: sau 13 là 14.",
+          "Toán|1|Tính nhẩm: 40 + 10 = ?|50|60|40|70|40 + 10 = 50.",
+          "Toán|1|Số gồm 7 chục và 6 đơn vị là số mấy?|76|86|66|77|7 chục và 6 đơn vị viết là 76.",
+          "Toán|1|Trong hộp có 5 ngôi sao, thêm 5 ngôi sao nữa. Có tất cả mấy ngôi sao?|10 ngôi sao|11 ngôi sao|9 ngôi sao|12 ngôi sao|5 + 5 = 10 ngôi sao.",
+          "Tiếng Việt|1|Điền ng hay ngh: 'con ...ựa'?|ng|ngh|g|gh|Trước ư dùng chữ ng: con ngựa.",
+          "Tiếng Việt|1|Điền ng hay ngh: 'củ ...ệ'?|ngh|ng|g|gh|Trước ê dùng chữ ngh: củ nghệ.",
+          "Tiếng Anh|1|Từ 'pink' là màu gì?|Màu hồng|Màu nâu|Màu xám|Màu xanh|Pink là màu hồng.",
+          "Tiếng Anh|1|Từ 'cat' là con gì?|Con mèo|Con chó|Con cá|Con chim|Cat là con mèo."
+        ]
+      }
+    },
+    {
+      "so": 3,
+      "ten": "Vịnh Đảo Kẹo Ngọt",
+      "chu_de": "Chặng kinh điển về Đảo Kẹo quen thuộc",
+      "do_kho": 1,
+      "so_cau": 8,
+      "toc_do_song": 1.07,
+      "phan_thuong": {
+        "sao_toi_da": 3,
+        "ciecas": 29,
+        "cup_dong_doi": false
+      },
+      "mau_chu_dao": "#F15BB5",
+      "co_san": true,
+      "cau_hoi_rieng": {
+        "dinh_dang_goc": "Môn|Cấp độ|Câu hỏi|Đáp án đúng|Sai 1|Sai 2|Sai 3|Giải thích",
+        "RAW_LUCIE": [
+          "Toán|1|Tính tổng: 5291 + 4064 = ?|9355|9365|9345|9356|5291 + 4064 = 9355.",
+          "Toán|1|Tính hiệu: 6377 - 3548 = ?|2829|2839|2819|2831|6377 - 3548 = 2829.",
+          "Toán|1|Tính tích: 34 x 4 = ?|136|140|132|146|34 x 4 = 136.",
+          "Toán|1|Tính thương: 45 : 5 = ?|9|10|8|11|Vì 5 x 9 = 45 nên 45 : 5 = 9.",
+          "Toán|1|Chu vi hình vuông cạnh 21 cm là bao nhiêu?|84 cm|88 cm|80 cm|86 cm|Chu vi hình vuông = 21 x 4 = 84 cm.",
+          "Toán|1|Chu vi hình chữ nhật dài 11 cm, rộng 6 cm là bao nhiêu?|34 cm|36 cm|32 cm|38 cm|Chu vi = (11 + 6) x 2 = 34 cm.",
+          "Tiếng Việt|1|Chọn từ viết đúng chính tả (nhóm l/n):|Lung linh|Nung ninh|Lung ninh|Nung linh|Viết đúng là 'lung linh'.",
+          "Tiếng Việt|1|Từ cùng nghĩa với 'thông minh' là từ nào?|Sáng dạ|Chậm chạp|Lười nhác|Rụt rè|Sáng dạ cùng nghĩa với thông minh.",
+          "Tiếng Anh|1|Môn thể thao 'football' là môn gì?|Bóng đá|Bóng rổ|Cầu lông|Bơi lội|Football là môn bóng đá.",
+          "Tiếng Anh|1|Môn thể thao 'basketball' là môn gì?|Bóng rổ|Bóng đá|Bóng bàn|Cờ vua|Basketball là bóng rổ."
+        ],
+        "RAW_LUCAS": [
+          "Toán|1|4 + 3 = ?|7|8|6|9|4 thêm 3 bằng 7.",
+          "Toán|1|9 - 4 = ?|5|6|4|7|9 bớt 4 còn 5.",
+          "Toán|1|Số liền trước của số 15 là số mấy?|14|15|13|16|Đếm ngược: trước 15 là 14.",
+          "Toán|1|Tính nhẩm: 70 - 20 = ?|50|60|40|70|70 - 20 = 50.",
+          "Toán|1|Số gồm 8 chục và 9 đơn vị là số mấy?|89|99|79|90|8 chục và 9 đơn vị viết là 89.",
+          "Toán|1|Trên cành có 10 quả cam, hái đi 2 quả. Còn lại mấy quả cam?|8 quả cam|9 quả cam|7 quả cam|10 quả cam|10 - 2 = 8 quả cam.",
+          "Tiếng Việt|1|Từ nào viết đúng: 'quyển vở' hay 'cuển vở'?|quyển vở|cuển vở|quyển vỡ|quển vở|Viết đúng là 'quyển vở'.",
+          "Tiếng Việt|1|Từ nào viết đúng: 'cánh diều' hay 'cánh riều'?|cánh diều|cánh riều|cánh giều|cánh diệu|Viết đúng là 'cánh diều'.",
+          "Tiếng Anh|1|Từ 'dog' là con gì?|Con chó|Con mèo|Con vịt|Con lợn|Dog là con chó.",
+          "Tiếng Anh|1|Từ 'fish' là con gì?|Con cá|Con chim|Con bò|Con thỏ|Fish là con cá."
+        ]
+      }
+    },
+    {
+      "so": 4,
+      "ten": "Hồ Nước Pha Lê",
+      "chu_de": "Mặt hồ trong veo phản chiếu mây trời",
+      "do_kho": 1,
+      "so_cau": 8,
+      "toc_do_song": 1.1,
+      "phan_thuong": {
+        "sao_toi_da": 3,
+        "ciecas": 32,
+        "cup_dong_doi": false
+      },
+      "mau_chu_dao": "#4CC9F0",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "dinh_dang_goc": "Môn|Cấp độ|Câu hỏi|Đáp án đúng|Sai 1|Sai 2|Sai 3|Giải thích",
+        "RAW_LUCIE": [
+          "Toán|1|Tính tổng: 5308 + 4077 = ?|9385|9395|9375|9386|5308 + 4077 = 9385.",
+          "Toán|1|Tính hiệu: 6396 - 3559 = ?|2837|2847|2827|2839|6396 - 3559 = 2837.",
+          "Toán|1|Tính tích: 35 x 5 = ?|175|180|170|185|35 x 5 = 175.",
+          "Toán|1|Tính thương: 60 : 6 = ?|10|11|9|12|Vì 6 x 10 = 60 nên 60 : 6 = 10.",
+          "Toán|1|Giá trị biểu thức 316 + 7 x 8 là bao nhiêu?|372|382|362|380|Tính nhân trước: 7 x 8 = 56; 316 + 56 = 372.",
+          "Toán|1|Chu vi hình chữ nhật dài 12 cm, rộng 7 cm là bao nhiêu?|38 cm|40 cm|36 cm|42 cm|Chu vi = (12 + 7) x 2 = 38 cm.",
+          "Tiếng Việt|1|Từ cùng nghĩa với 'đoàn kết' là từ nào?|Gắn bó|Chia rẽ|Xa cách|Tranh cãi|Gắn bó gần nghĩa với đoàn kết.",
+          "Tiếng Việt|1|Từ trái nghĩa với 'cẩn thận' là từ nào?|Cẩu thả|Tỉ mỉ|Chu đáo|Kỹ lưỡng|Cẩu thả trái nghĩa với cẩn thận.",
+          "Tiếng Anh|1|Từ 'grandfather' chỉ ai trong gia đình?|Ông|Bà|Bố|Chú|Grandfather là ông (nội/ngoại).",
+          "Tiếng Anh|1|Từ 'grandmother' chỉ ai trong gia đình?|Bà|Ông|Mẹ|Cô|Grandmother là bà (nội/ngoại)."
+        ],
+        "RAW_LUCAS": [
+          "Toán|1|5 + 1 = ?|6|7|5|8|5 thêm 1 bằng 6.",
+          "Toán|1|10 - 5 = ?|5|6|4|7|10 bớt 5 còn 5.",
+          "Toán|1|Số liền sau của số 17 là số mấy?|18|19|17|20|Đếm xuôi: sau 17 là 18.",
+          "Toán|1|Tính nhẩm: 20 + 30 = ?|50|60|40|70|20 + 30 = 50.",
+          "Toán|1|Số gồm 1 chục và 2 đơn vị là số mấy?|12|22|13|11|1 chục và 2 đơn vị viết là 12.",
+          "Toán|1|Trong hộp có 7 ngôi sao, thêm 3 ngôi sao nữa. Có tất cả mấy ngôi sao?|10 ngôi sao|11 ngôi sao|9 ngôi sao|12 ngôi sao|7 + 3 = 10 ngôi sao.",
+          "Tiếng Việt|1|Con vật nào thích ăn cỏ và cho sữa?|Con bò|Con cá|Con gà|Con mèo|Con bò sữa ăn cỏ và cho sữa.",
+          "Tiếng Việt|1|Con vật nào biết bơi giỏi dưới ao?|Con vịt|Con gà|Con mèo|Con khỉ|Con vịt có màng chân bơi rất giỏi.",
+          "Tiếng Anh|1|Từ 'bird' là con gì?|Con chim|Con cá|Con mèo|Con chó|Bird là con chim.",
+          "Tiếng Anh|1|Từ 'duck' là con gì?|Con vịt|Con gà|Con voi|Con ong|Duck là con vịt."
+        ]
+      }
+    },
+    {
+      "so": 5,
+      "ten": "Dòng Sông Trăng Bạc",
+      "chu_de": "Thuyền lướt nhẹ dưới ánh trăng dịu",
+      "do_kho": 1,
+      "so_cau": 8,
+      "toc_do_song": 1.14,
+      "phan_thuong": {
+        "sao_toi_da": 3,
+        "ciecas": 35,
+        "cup_dong_doi": true
+      },
+      "mau_chu_dao": "#4895EF",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "dinh_dang_goc": "Môn|Cấp độ|Câu hỏi|Đáp án đúng|Sai 1|Sai 2|Sai 3|Giải thích",
+        "RAW_LUCIE": [
+          "Toán|1|Tính tổng: 5325 + 4090 = ?|9415|9425|9405|9416|5325 + 4090 = 9415.",
+          "Toán|1|Tính hiệu: 6415 - 3570 = ?|2845|2855|2835|2847|6415 - 3570 = 2845.",
+          "Toán|1|Tính tích: 36 x 6 = ?|216|222|210|226|36 x 6 = 216.",
+          "Toán|1|Tính thương: 77 : 7 = ?|11|12|10|13|Vì 7 x 11 = 77 nên 77 : 7 = 11.",
+          "Toán|1|Chu vi hình vuông cạnh 23 cm là bao nhiêu?|92 cm|96 cm|88 cm|94 cm|Chu vi hình vuông = 23 x 4 = 92 cm.",
+          "Toán|1|Chu vi hình chữ nhật dài 13 cm, rộng 8 cm là bao nhiêu?|42 cm|44 cm|40 cm|46 cm|Chu vi = (13 + 8) x 2 = 42 cm.",
+          "Tiếng Việt|1|Từ trái nghĩa với 'khiêm tốn' là từ nào?|Kiêu ngạo|Hiền lành|Lễ phép|Chân thành|Kiêu ngạo trái nghĩa với khiêm tốn.",
+          "Tiếng Việt|1|Từ trái nghĩa với 'yên tĩnh' là từ nào?|Ồn ào|Êm đềm|Vắng lặng|Nhẹ nhàng|Ồn ào trái nghĩa với yên tĩnh.",
+          "Tiếng Anh|1|Nghề nghiệp 'driver' là nghề gì?|Tài xế lái xe|Bác sĩ|Giáo viên|Nông dân|Driver là người lái xe.",
+          "Tiếng Anh|1|Nghề nghiệp 'singer' là nghề gì?|Ca sĩ|Bác sĩ|Công nhân|Đầu bếp|Singer là ca sĩ."
+        ],
+        "RAW_LUCAS": [
+          "Toán|1|1 + 3 = ?|4|5|3|6|1 thêm 3 bằng 4.",
+          "Toán|1|6 - 1 = ?|5|6|4|7|6 bớt 1 còn 5.",
+          "Toán|1|Số liền trước của số 19 là số mấy?|18|19|17|20|Đếm ngược: trước 19 là 18.",
+          "Toán|1|Tính nhẩm: 60 - 30 = ?|30|40|20|50|60 - 30 = 30.",
+          "Toán|1|Số gồm 2 chục và 5 đơn vị là số mấy?|25|35|15|26|2 chục và 5 đơn vị viết là 25.",
+          "Toán|1|Trên cành có 14 quả cam, hái đi 4 quả. Còn lại mấy quả cam?|10 quả cam|11 quả cam|9 quả cam|12 quả cam|14 - 4 = 10 quả cam.",
+          "Tiếng Việt|1|Quả nào có vị chua, màu xanh hoặc vàng?|Quả chanh|Quả chuối|Củ khoai|Hạt gạo|Quả chanh có vị chua.",
+          "Tiếng Việt|1|Mùa nào có tuyết hoặc trời rất lạnh?|Mùa đông|Mùa hè|Mùa thu|Mùa xuân|Mùa đông trời lạnh.",
+          "Tiếng Anh|1|Từ 'apple' là quả gì?|Quả táo|Quả chuối|Quả cam|Quả lê|Apple là quả táo.",
+          "Tiếng Anh|1|Từ 'banana' là quả gì?|Quả chuối|Quả táo|Quả dưa|Quả nho|Banana là quả chuối."
+        ]
+      }
+    },
+    {
+      "so": 6,
+      "ten": "Cửa Biển Đón Gió",
+      "chu_de": "Căng buồm ra khơi đón gió mát",
+      "do_kho": 1,
+      "so_cau": 8,
+      "toc_do_song": 1.18,
+      "phan_thuong": {
+        "sao_toi_da": 3,
+        "ciecas": 38,
+        "cup_dong_doi": false
+      },
+      "mau_chu_dao": "#0096C7",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "dinh_dang_goc": "Môn|Cấp độ|Câu hỏi|Đáp án đúng|Sai 1|Sai 2|Sai 3|Giải thích",
+        "RAW_LUCIE": [
+          "Toán|1|Tính tổng: 5342 + 4103 = ?|9445|9455|9435|9446|5342 + 4103 = 9445.",
+          "Toán|1|Tính hiệu: 6434 - 3581 = ?|2853|2863|2843|2855|6434 - 3581 = 2853.",
+          "Toán|1|Tính tích: 37 x 7 = ?|259|266|252|269|37 x 7 = 259.",
+          "Toán|1|Tính thương: 96 : 8 = ?|12|13|11|14|Vì 8 x 12 = 96 nên 96 : 8 = 12.",
+          "Toán|1|Giá trị biểu thức 318 + 3 x 5 là bao nhiêu?|333|343|323|338|Tính nhân trước: 3 x 5 = 15; 318 + 15 = 333.",
+          "Toán|1|Chu vi hình chữ nhật dài 14 cm, rộng 3 cm là bao nhiêu?|34 cm|36 cm|32 cm|38 cm|Chu vi = (14 + 3) x 2 = 34 cm.",
+          "Tiếng Việt|1|Câu 'Con hãy sắp xếp góc học tập gọn gàng nhé!' là kiểu câu gì?|Câu khiến|Câu hỏi|Câu kể|Câu cảm|Câu nêu yêu cầu, đề nghị là câu khiến.",
+          "Tiếng Việt|1|Câu 'Bức tranh này đẹp tuyệt vời!' là kiểu câu gì?|Câu cảm|Câu hỏi|Câu kể|Câu khiến|Câu bộc lộ cảm xúc kết thúc bằng dấu (!) là câu cảm.",
+          "Tiếng Anh|1|Phòng 'bathroom' là phòng nào trong nhà?|Phòng tắm|Phòng bếp|Phòng ngủ|Phòng khách|Bathroom là phòng tắm.",
+          "Tiếng Anh|1|Phòng 'dining room' là phòng nào?|Phòng ăn|Phòng ngủ|Phòng tắm|Sân vườn|Dining room là phòng ăn."
+        ],
+        "RAW_LUCAS": [
+          "Toán|1|2 + 1 = ?|3|4|2|5|2 thêm 1 bằng 3.",
+          "Toán|1|7 - 2 = ?|5|6|4|7|7 bớt 2 còn 5.",
+          "Toán|1|Số liền sau của số 21 là số mấy?|22|23|21|24|Đếm xuôi: sau 21 là 22.",
+          "Toán|1|Tính nhẩm: 40 + 10 = ?|50|60|40|70|40 + 10 = 50.",
+          "Toán|1|Số gồm 3 chục và 8 đơn vị là số mấy?|38|48|28|39|3 chục và 8 đơn vị viết là 38.",
+          "Toán|1|Trong hộp có 3 ngôi sao, thêm 5 ngôi sao nữa. Có tất cả mấy ngôi sao?|8 ngôi sao|9 ngôi sao|7 ngôi sao|10 ngôi sao|3 + 5 = 8 ngôi sao.",
+          "Tiếng Việt|1|Từ nào trái nghĩa với 'dài'?|Ngắn|Cao|To|Rộng|Ngắn trái nghĩa với dài.",
+          "Tiếng Việt|1|Từ nào trái nghĩa với 'vui'?|Buồn|Cười|Đẹp|Sáng|Buồn trái nghĩa với vui.",
+          "Tiếng Anh|1|Từ 'book' là đồ vật gì?|Quyển sách|Cây bút|Cái bàn|Quả bóng|Book là quyển sách.",
+          "Tiếng Anh|1|Từ 'ball' là đồ vật gì?|Quả bóng|Cái mũ|Cái cặp|Ô tô|Ball là quả bóng."
+        ]
+      }
+    },
+    {
+      "so": 7,
+      "ten": "Vịnh Cá Heo Nhảy Múa",
+      "chu_de": "Đàn cá heo dẫn đường cho hai chị em",
+      "do_kho": 2,
+      "so_cau": 8,
+      "toc_do_song": 1.21,
+      "phan_thuong": {
+        "sao_toi_da": 3,
+        "ciecas": 41,
+        "cup_dong_doi": false
+      },
+      "mau_chu_dao": "#00B4D8",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "dinh_dang_goc": "Môn|Cấp độ|Câu hỏi|Đáp án đúng|Sai 1|Sai 2|Sai 3|Giải thích",
+        "RAW_LUCIE": [
+          "Toán|2|Tính tổng: 5359 + 4116 = ?|9475|9485|9465|9476|5359 + 4116 = 9475.",
+          "Toán|2|Tính hiệu: 6453 - 3592 = ?|2861|2871|2851|2863|6453 - 3592 = 2861.",
+          "Toán|2|Tính tích: 38 x 8 = ?|304|312|296|314|38 x 8 = 304.",
+          "Toán|2|Tính thương: 117 : 9 = ?|13|14|12|15|Vì 9 x 13 = 117 nên 117 : 9 = 13.",
+          "Toán|2|Chu vi hình vuông cạnh 7 cm là bao nhiêu?|28 cm|32 cm|24 cm|30 cm|Chu vi hình vuông = 7 x 4 = 28 cm.",
+          "Toán|2|Chu vi hình chữ nhật dài 15 cm, rộng 4 cm là bao nhiêu?|38 cm|40 cm|36 cm|42 cm|Chu vi = (15 + 4) x 2 = 38 cm.",
+          "Tiếng Việt|2|Dấu câu nào dùng để kết thúc câu hỏi?|Dấu chấm hỏi (?)|Dấu chấm (.)|Dấu phẩy (,)|Dấu chấm than (!)|Câu hỏi kết thúc bằng dấu chấm hỏi (?).",
+          "Tiếng Việt|2|Trong câu 'Tàu lướt nhanh như mũi tên', từ so sánh là từ nào?|như|lướt|nhanh|mũi tên|Từ 'như' là từ chỉ sự so sánh.",
+          "Tiếng Anh|2|Món ăn 'bread' là món gì?|Bánh mì|Cơm|Thịt gà|Trứng|Bread là bánh mì.",
+          "Tiếng Anh|2|Món ăn 'noodles' là món gì?|Mì / phở / bún|Bánh ngọt|Sữa|Nước cam|Noodles là các món mì, bún, phở."
+        ],
+        "RAW_LUCAS": [
+          "Toán|2|3 + 3 = ?|6|7|5|8|3 thêm 3 bằng 6.",
+          "Toán|2|8 - 3 = ?|5|6|4|7|8 bớt 3 còn 5.",
+          "Toán|2|Số liền trước của số 23 là số mấy?|22|23|21|24|Đếm ngược: trước 23 là 22.",
+          "Toán|2|Tính nhẩm: 70 - 20 = ?|50|60|40|70|70 - 20 = 50.",
+          "Toán|2|Số gồm 4 chục và 1 đơn vị là số mấy?|41|51|31|42|4 chục và 1 đơn vị viết là 41.",
+          "Toán|2|Trên cành có 8 quả cam, hái đi 2 quả. Còn lại mấy quả cam?|6 quả cam|7 quả cam|5 quả cam|8 quả cam|8 - 2 = 6 quả cam.",
+          "Tiếng Việt|2|Từ nào trái nghĩa với 'nặng'?|Nhẹ|To|Cao|Dài|Nhẹ trái nghĩa với nặng.",
+          "Tiếng Việt|2|Đồ vật nào dùng để cắt giấy thủ công?|Cái kéo|Cục tẩy|Quyển vở|Cái bát|Cái kéo dùng để cắt giấy.",
+          "Tiếng Anh|2|Từ 'car' là phương tiện gì?|Ô tô|Máy bay|Tàu thủy|Xe đạp|Car là xe ô tô.",
+          "Tiếng Anh|2|Từ 'sun' nghĩa là gì?|Mặt trời|Mặt trăng|Ngôi sao|Đám mây|Sun là mặt trời."
+        ]
+      }
+    },
+    {
+      "so": 8,
+      "ten": "Đảo Dừa Xanh Mát",
+      "chu_de": "Ghé đảo hái dừa tiếp thêm sức mạnh",
+      "do_kho": 2,
+      "so_cau": 8,
+      "toc_do_song": 1.25,
+      "phan_thuong": {
+        "sao_toi_da": 3,
+        "ciecas": 44,
+        "cup_dong_doi": false
+      },
+      "mau_chu_dao": "#52B788",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "dinh_dang_goc": "Môn|Cấp độ|Câu hỏi|Đáp án đúng|Sai 1|Sai 2|Sai 3|Giải thích",
+        "RAW_LUCIE": [
+          "Toán|2|Tính tổng: 5376 + 4129 = ?|9505|9515|9495|9506|5376 + 4129 = 9505.",
+          "Toán|2|Tính hiệu: 6472 - 3603 = ?|2869|2879|2859|2871|6472 - 3603 = 2869.",
+          "Toán|2|Tính tích: 11 x 2 = ?|22|24|20|32|11 x 2 = 22.",
+          "Toán|2|Tính thương: 42 : 3 = ?|14|15|13|16|Vì 3 x 14 = 42 nên 42 : 3 = 14.",
+          "Toán|2|Giá trị biểu thức 320 + 5 x 7 là bao nhiêu?|355|365|345|362|Tính nhân trước: 5 x 7 = 35; 320 + 35 = 355.",
+          "Toán|2|Chu vi hình chữ nhật dài 16 cm, rộng 5 cm là bao nhiêu?|42 cm|44 cm|40 cm|46 cm|Chu vi = (16 + 5) x 2 = 42 cm.",
+          "Tiếng Việt|2|Trong câu 'Chú chim nhỏ hót vang chào bình minh', biện pháp nào được dùng?|Nhân hóa|So sánh|Liệt kê|Câu hỏi|Gọi chim là 'chú' và biết 'chào bình minh' là nhân hóa.",
+          "Tiếng Việt|2|Từ nào chỉ người làm việc trong bệnh viện?|Y tá|Kỹ sư cầu đường|Thợ mộc|Thủ thư|Y tá làm việc chăm sóc bệnh nhân.",
+          "Tiếng Anh|2|Con vật 'goldfish' là con gì?|Cá vàng|Con thỏ|Con vẹt|Con mèo|Goldfish là cá vàng.",
+          "Tiếng Anh|2|Con vật 'tiger' là con gì?|Con hổ|Con voi|Con khỉ|Con công|Tiger là con hổ."
+        ],
+        "RAW_LUCAS": [
+          "Toán|2|4 + 1 = ?|5|6|4|7|4 thêm 1 bằng 5.",
+          "Toán|2|9 - 4 = ?|5|6|4|7|9 bớt 4 còn 5.",
+          "Toán|2|Số liền sau của số 25 là số mấy?|26|27|25|28|Đếm xuôi: sau 25 là 26.",
+          "Toán|2|Tính nhẩm: 20 + 30 = ?|50|60|40|70|20 + 30 = 50.",
+          "Toán|2|Số gồm 5 chục và 4 đơn vị là số mấy?|54|64|44|55|5 chục và 4 đơn vị viết là 54.",
+          "Toán|2|Trong hộp có 5 ngôi sao, thêm 3 ngôi sao nữa. Có tất cả mấy ngôi sao?|8 ngôi sao|9 ngôi sao|7 ngôi sao|10 ngôi sao|5 + 3 = 8 ngôi sao.",
+          "Tiếng Việt|2|Đồ vật nào dùng để che đầu khi đi nắng?|Cái mũ|Đôi tất|Cái bút|Cái thìa|Cái mũ dùng để đội đầu.",
+          "Tiếng Việt|2|Từ nào có vần 'oa'?|Bông hoa|Con cá|Cái bàn|Cây tre|Tiếng 'hoa' có vần oa.",
+          "Tiếng Anh|2|Từ 'moon' nghĩa là gì?|Mặt trăng|Mặt trời|Cái cây|Bông hoa|Moon là mặt trăng.",
+          "Tiếng Anh|2|Từ 'star' nghĩa là gì?|Ngôi sao|Mặt trời|Mặt trăng|Cơn mưa|Star là ngôi sao."
+        ]
+      }
+    },
+    {
+      "so": 9,
+      "ten": "Rạn San Hô Cầu Vồng",
+      "chu_de": "San hô rực rỡ dưới làn nước xanh",
+      "do_kho": 2,
+      "so_cau": 8,
+      "toc_do_song": 1.28,
+      "phan_thuong": {
+        "sao_toi_da": 3,
+        "ciecas": 47,
+        "cup_dong_doi": false
+      },
+      "mau_chu_dao": "#FF9F1C",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "dinh_dang_goc": "Môn|Cấp độ|Câu hỏi|Đáp án đúng|Sai 1|Sai 2|Sai 3|Giải thích",
+        "RAW_LUCIE": [
+          "Toán|2|Tính tổng: 5393 + 4142 = ?|9535|9545|9525|9536|5393 + 4142 = 9535.",
+          "Toán|2|Tính hiệu: 6491 - 3614 = ?|2877|2887|2867|2879|6491 - 3614 = 2877.",
+          "Toán|2|Tính tích: 12 x 3 = ?|36|39|33|46|12 x 3 = 36.",
+          "Toán|2|Tính thương: 60 : 4 = ?|15|16|14|17|Vì 4 x 15 = 60 nên 60 : 4 = 15.",
+          "Toán|2|Chu vi hình vuông cạnh 9 cm là bao nhiêu?|36 cm|40 cm|32 cm|38 cm|Chu vi hình vuông = 9 x 4 = 36 cm.",
+          "Toán|2|Chu vi hình chữ nhật dài 17 cm, rộng 6 cm là bao nhiêu?|46 cm|48 cm|44 cm|50 cm|Chu vi = (17 + 6) x 2 = 46 cm.",
+          "Tiếng Việt|2|Từ nào chỉ đồ dùng đo đạc trong môn Toán?|Thước ê ke|Bút lông vẽ|Cái chổi|Quả cầu|Thước ê ke dùng đo góc vuông trong môn Toán.",
+          "Tiếng Việt|2|Tục ngữ 'Có công mài sắt, có ngày nên kim' khuyên điều gì?|Kiên trì cố gắng sẽ đạt được thành công|Phải rèn sắt mỗi ngày|Nên tiết kiệm tiền|Giữ gìn kim chỉ cẩn thận|Câu tục ngữ khuyên ta kiên trì, bền bỉ.",
+          "Tiếng Anh|2|Đồ chơi 'plane' là món gì?|Máy bay đồ chơi|Ô tô|Tàu thủy|Cái diều|Plane là máy bay.",
+          "Tiếng Anh|2|Đồ chơi 'train' là món gì?|Tàu hỏa đồ chơi|Xe buýt|Xe đạp|Thuyền buồm|Train là tàu hỏa."
+        ],
+        "RAW_LUCAS": [
+          "Toán|2|5 + 3 = ?|8|9|7|10|5 thêm 3 bằng 8.",
+          "Toán|2|10 - 5 = ?|5|6|4|7|10 bớt 5 còn 5.",
+          "Toán|2|Số liền trước của số 27 là số mấy?|26|27|25|28|Đếm ngược: trước 27 là 26.",
+          "Toán|2|Tính nhẩm: 60 - 30 = ?|30|40|20|50|60 - 30 = 30.",
+          "Toán|2|Số gồm 6 chục và 7 đơn vị là số mấy?|67|77|57|68|6 chục và 7 đơn vị viết là 67.",
+          "Toán|2|Trên cành có 12 quả cam, hái đi 4 quả. Còn lại mấy quả cam?|8 quả cam|9 quả cam|7 quả cam|10 quả cam|12 - 4 = 8 quả cam.",
+          "Tiếng Việt|2|Từ nào có vần 'au'?|Cây cau|Con mèo|Quả cam|Bút chì|Tiếng 'cau' có vần au.",
+          "Tiếng Việt|2|Từ nào có vần 'iên'?|Biển xanh|Con gà|Cái cốc|Quả lê|Tiếng 'biển' có vần iên.",
+          "Tiếng Anh|2|Từ 'five' là số mấy?|5|4|6|7|Five là số 5.",
+          "Tiếng Anh|2|Từ 'ten' là số mấy?|10|8|9|2|Ten là số 10."
+        ]
+      }
+    },
+    {
+      "so": 10,
+      "ten": "Eo Biển Hải Âu",
+      "chu_de": "Cánh hải âu bay lượn cổ vũ hai bé",
+      "do_kho": 2,
+      "so_cau": 8,
+      "toc_do_song": 1.31,
+      "phan_thuong": {
+        "sao_toi_da": 3,
+        "ciecas": 50,
+        "cup_dong_doi": true
+      },
+      "mau_chu_dao": "#3A86FF",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "dinh_dang_goc": "Môn|Cấp độ|Câu hỏi|Đáp án đúng|Sai 1|Sai 2|Sai 3|Giải thích",
+        "RAW_LUCIE": [
+          "Toán|2|Tính tổng: 5410 + 4155 = ?|9565|9575|9555|9566|5410 + 4155 = 9565.",
+          "Toán|2|Tính hiệu: 6510 - 3625 = ?|2885|2895|2875|2887|6510 - 3625 = 2885.",
+          "Toán|2|Tính tích: 13 x 4 = ?|52|56|48|62|13 x 4 = 52.",
+          "Toán|2|Tính thương: 80 : 5 = ?|16|17|15|18|Vì 5 x 16 = 80 nên 80 : 5 = 16.",
+          "Toán|2|Giá trị biểu thức 322 + 7 x 4 là bao nhiêu?|350|360|340|354|Tính nhân trước: 7 x 4 = 28; 322 + 28 = 350.",
+          "Toán|2|Chu vi hình chữ nhật dài 18 cm, rộng 7 cm là bao nhiêu?|50 cm|52 cm|48 cm|54 cm|Chu vi = (18 + 7) x 2 = 50 cm.",
+          "Tiếng Việt|2|Thành ngữ 'Đi một ngày đàng, học một sàng khôn' khuyên điều gì?|Chịu khó đi đây đi đó, quan sát để mở mang hiểu biết|Mỗi ngày nên đi bộ thật xa|Phải mang theo cái sàng|Chỉ học vào ban ngày|Đi nhiều và trải nghiệm giúp ta học hỏi thêm nhiều điều hay.",
+          "Tiếng Việt|2|Chọn từ viết đúng chính tả (nhóm ch/tr):|Chăm chút|Trăm trút|Chăm trút|Trăm chút|Viết đúng là 'chăm chút'.",
+          "Tiếng Anh|2|Hoạt động 'swimming' nghĩa là gì?|Đang bơi lội|Đang chạy bộ|Đang vẽ tranh|Đang đọc sách|Swimming là bơi lội.",
+          "Tiếng Anh|2|Hoạt động 'reading' nghĩa là gì?|Đang đọc sách|Đang viết bài|Đang hát|Đang nấu ăn|Reading là đang đọc."
+        ],
+        "RAW_LUCAS": [
+          "Toán|2|1 + 1 = ?|2|3|1|4|1 thêm 1 bằng 2.",
+          "Toán|2|6 - 1 = ?|5|6|4|7|6 bớt 1 còn 5.",
+          "Toán|2|Số liền sau của số 29 là số mấy?|30|31|29|32|Đếm xuôi: sau 29 là 30.",
+          "Toán|2|Tính nhẩm: 40 + 10 = ?|50|60|40|70|40 + 10 = 50.",
+          "Toán|2|Số gồm 7 chục và 0 đơn vị là số mấy?|70|80|60|71|7 chục và 0 đơn vị viết là 70.",
+          "Toán|2|Trong hộp có 7 ngôi sao, thêm 5 ngôi sao nữa. Có tất cả mấy ngôi sao?|12 ngôi sao|13 ngôi sao|11 ngôi sao|14 ngôi sao|7 + 5 = 12 ngôi sao.",
+          "Tiếng Việt|2|Điền c hay k: 'con ...á'?|c|k|g|d|Trước a dùng chữ c: con cá.",
+          "Tiếng Việt|2|Điền c hay k: 'cây ...em'?|k|c|g|t|Trước e dùng chữ k: cây kem.",
+          "Tiếng Anh|2|Từ 'red' là màu gì?|Màu đỏ|Màu xanh|Màu vàng|Màu trắng|Red là màu đỏ.",
+          "Tiếng Anh|2|Từ 'blue' là màu gì?|Màu xanh dương|Màu đỏ|Màu hồng|Màu đen|Blue là màu xanh dương."
+        ]
+      }
+    },
+    {
+      "so": 11,
+      "ten": "Vịnh Đèn Lồng Đỏ",
+      "chu_de": "Bến cảng lung linh lễ hội mùa xuân",
+      "do_kho": 2,
+      "so_cau": 10,
+      "toc_do_song": 1.35,
+      "phan_thuong": {
+        "sao_toi_da": 3,
+        "ciecas": 53,
+        "cup_dong_doi": false
+      },
+      "mau_chu_dao": "#E76F51",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "dinh_dang_goc": "Môn|Cấp độ|Câu hỏi|Đáp án đúng|Sai 1|Sai 2|Sai 3|Giải thích",
+        "RAW_LUCIE": [
+          "Toán|2|Tính tổng: 5427 + 4168 = ?|9595|9605|9585|9596|5427 + 4168 = 9595.",
+          "Toán|2|Tính hiệu: 6529 - 3636 = ?|2893|2903|2883|2895|6529 - 3636 = 2893.",
+          "Toán|2|Tính tích: 14 x 5 = ?|70|75|65|80|14 x 5 = 70.",
+          "Toán|2|Tính thương: 102 : 6 = ?|17|18|16|19|Vì 6 x 17 = 102 nên 102 : 6 = 17.",
+          "Toán|2|Chu vi hình vuông cạnh 11 cm là bao nhiêu?|44 cm|48 cm|40 cm|46 cm|Chu vi hình vuông = 11 x 4 = 44 cm.",
+          "Toán|2|Chu vi hình chữ nhật dài 19 cm, rộng 8 cm là bao nhiêu?|54 cm|56 cm|52 cm|58 cm|Chu vi = (19 + 8) x 2 = 54 cm.",
+          "Tiếng Việt|2|Chọn từ viết đúng chính tả (nhóm x/s):|Xôn xao|Sôn sao|Xôn sao|Sôn xao|Viết đúng là 'xôn xao'.",
+          "Tiếng Việt|2|Chọn từ viết đúng chính tả (nhóm gi/d/r):|Giản dị|Dản dị|Rản rị|Giản rị|Viết đúng là 'giản dị'.",
+          "Tiếng Anh|2|Từ 'fourteen' là số mấy?|14|4|40|15|Fourteen là số 14.",
+          "Tiếng Anh|2|Từ 'nineteen' là số mấy?|19|9|90|18|Nineteen là số 19."
+        ],
+        "RAW_LUCAS": [
+          "Toán|2|2 + 3 = ?|5|6|4|7|2 thêm 3 bằng 5.",
+          "Toán|2|7 - 2 = ?|5|6|4|7|7 bớt 2 còn 5.",
+          "Toán|2|Số liền trước của số 31 là số mấy?|30|31|29|32|Đếm ngược: trước 31 là 30.",
+          "Toán|2|Tính nhẩm: 70 - 20 = ?|50|60|40|70|70 - 20 = 50.",
+          "Toán|2|Số gồm 8 chục và 3 đơn vị là số mấy?|83|93|73|84|8 chục và 3 đơn vị viết là 83.",
+          "Toán|2|Trên cành có 12 quả cam, hái đi 2 quả. Còn lại mấy quả cam?|10 quả cam|11 quả cam|9 quả cam|12 quả cam|12 - 2 = 10 quả cam.",
+          "Tiếng Việt|2|Điền g hay gh: 'con ...ấu'?|g|gh|k|ng|Trước â dùng chữ g: con gấu.",
+          "Tiếng Việt|2|Điền g hay gh: 'nhà ...ỗ' hay 'cái ...ế' dùng gh?|cái ghế|con gà|củ gừng|quả gấc|Trước ê dùng chữ gh: cái ghế.",
+          "Tiếng Anh|2|Từ 'green' là màu gì?|Màu xanh lá|Màu tím|Màu cam|Màu trắng|Green là màu xanh lá cây.",
+          "Tiếng Anh|2|Từ 'yellow' là màu gì?|Màu vàng|Màu đen|Màu hồng|Màu xanh|Yellow là màu vàng."
+        ]
+      }
+    },
+    {
+      "so": 12,
+      "ten": "Dòng Chảy Cầu Vồng",
+      "chu_de": "Lướt sóng nhanh qua thác cầu vồng",
+      "do_kho": 2,
+      "so_cau": 10,
+      "toc_do_song": 1.39,
+      "phan_thuong": {
+        "sao_toi_da": 3,
+        "ciecas": 56,
+        "cup_dong_doi": false
+      },
+      "mau_chu_dao": "#9B5DE5",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "dinh_dang_goc": "Môn|Cấp độ|Câu hỏi|Đáp án đúng|Sai 1|Sai 2|Sai 3|Giải thích",
+        "RAW_LUCIE": [
+          "Toán|2|Tính tổng: 5444 + 4181 = ?|9625|9635|9615|9626|5444 + 4181 = 9625.",
+          "Toán|2|Tính hiệu: 6548 - 3647 = ?|2901|2911|2891|2903|6548 - 3647 = 2901.",
+          "Toán|2|Tính tích: 15 x 6 = ?|90|96|84|100|15 x 6 = 90.",
+          "Toán|2|Tính thương: 126 : 7 = ?|18|19|17|20|Vì 7 x 18 = 126 nên 126 : 7 = 18.",
+          "Toán|2|Giá trị biểu thức 324 + 3 x 6 là bao nhiêu?|342|352|332|348|Tính nhân trước: 3 x 6 = 18; 324 + 18 = 342.",
+          "Toán|2|Chu vi hình chữ nhật dài 8 cm, rộng 3 cm là bao nhiêu?|22 cm|24 cm|20 cm|26 cm|Chu vi = (8 + 3) x 2 = 22 cm.",
+          "Tiếng Việt|2|Từ nào chỉ phẩm chất tốt đẹp của học sinh?|Trung thực|Vội vàng|Màu xanh|Bàn ghế|Trung thực là đức tính tốt đẹp.",
+          "Tiếng Việt|2|Trong câu 'Mùa xuân, hoa đào nở hồng rực khắp vườn', bộ phận trả lời 'Khi nào?' là gì?|Mùa xuân|Hoa đào|Nở hồng rực|Khắp vườn|'Mùa xuân' chỉ thời gian (Khi nào?).",
+          "Tiếng Anh|2|Thời tiết 'windy' nghĩa là trời thế nào?|Trời có gió|Trời nắng gắt|Trời mưa to|Trời tuyết|Windy là trời có gió.",
+          "Tiếng Anh|2|Thời tiết 'cloudy' nghĩa là trời thế nào?|Trời nhiều mây|Trời mưa rào|Trời nắng|Trời bão|Cloudy là trời nhiều mây."
+        ],
+        "RAW_LUCAS": [
+          "Toán|2|3 + 1 = ?|4|5|3|6|3 thêm 1 bằng 4.",
+          "Toán|2|8 - 3 = ?|5|6|4|7|8 bớt 3 còn 5.",
+          "Toán|2|Số liền sau của số 33 là số mấy?|34|35|33|36|Đếm xuôi: sau 33 là 34.",
+          "Toán|2|Tính nhẩm: 20 + 30 = ?|50|60|40|70|20 + 30 = 50.",
+          "Toán|2|Số gồm 1 chục và 6 đơn vị là số mấy?|16|26|17|15|1 chục và 6 đơn vị viết là 16.",
+          "Toán|2|Trong hộp có 3 ngôi sao, thêm 3 ngôi sao nữa. Có tất cả mấy ngôi sao?|6 ngôi sao|7 ngôi sao|5 ngôi sao|8 ngôi sao|3 + 3 = 6 ngôi sao.",
+          "Tiếng Việt|2|Điền ng hay ngh: 'con ...ựa'?|ng|ngh|g|gh|Trước ư dùng chữ ng: con ngựa.",
+          "Tiếng Việt|2|Điền ng hay ngh: 'củ ...ệ'?|ngh|ng|g|gh|Trước ê dùng chữ ngh: củ nghệ.",
+          "Tiếng Anh|2|Từ 'pink' là màu gì?|Màu hồng|Màu nâu|Màu xám|Màu xanh|Pink là màu hồng.",
+          "Tiếng Anh|2|Từ 'cat' là con gì?|Con mèo|Con chó|Con cá|Con chim|Cat là con mèo."
+        ]
+      }
+    },
+    {
+      "so": 13,
+      "ten": "Đảo Rùa Biển Cổ",
+      "chu_de": "Thăm cụ rùa biển hiền lành thông thái",
+      "do_kho": 3,
+      "so_cau": 10,
+      "toc_do_song": 1.42,
+      "phan_thuong": {
+        "sao_toi_da": 3,
+        "ciecas": 59,
+        "cup_dong_doi": false
+      },
+      "mau_chu_dao": "#2A9D8F",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "dinh_dang_goc": "Môn|Cấp độ|Câu hỏi|Đáp án đúng|Sai 1|Sai 2|Sai 3|Giải thích",
+        "RAW_LUCIE": [
+          "Toán|3|Tính tổng: 37395 + 27725 = ?|65120|65220|65020|65130|37395 + 27725 = 65120.",
+          "Toán|3|Tính hiệu: 34670 - 22585 = ?|12085|12185|11985|12095|34670 - 22585 = 12085.",
+          "Toán|3|Tính tích: 16 x 7 = ?|112|119|105|122|16 x 7 = 112.",
+          "Toán|3|Tính thương: 152 : 8 = ?|19|20|18|21|Vì 8 x 19 = 152 nên 152 : 8 = 19.",
+          "Toán|3|Chu vi hình vuông cạnh 13 cm là bao nhiêu?|52 cm|56 cm|48 cm|54 cm|Chu vi hình vuông = 13 x 4 = 52 cm.",
+          "Toán|3|Chu vi hình chữ nhật dài 9 cm, rộng 4 cm là bao nhiêu?|26 cm|28 cm|24 cm|30 cm|Chu vi = (9 + 4) x 2 = 26 cm.",
+          "Tiếng Việt|3|Trong câu 'Trên sân trường, các bạn đang nhảy dây', bộ phận trả lời 'Ở đâu?' là gì?|Trên sân trường|Các bạn|Đang nhảy dây|Nhảy dây|'Trên sân trường' chỉ địa điểm (Ở đâu?).",
+          "Tiếng Việt|3|Từ nào không cùng nhóm: xe đạp, ô tô, tàu hỏa, quyển truyện?|Quyển truyện|Xe đạp|Ô tô|Tàu hỏa|Quyển truyện không phải phương tiện giao thông.",
+          "Tiếng Anh|3|Chọn từ đúng: 'There ___ three books on the desk.'|are|is|am|be|Số nhiều (three books) dùng 'There are'.",
+          "Tiếng Anh|3|Chọn từ đúng: 'She ___ playing badminton.'|is|are|am|do|Chủ ngữ 'She' đi với 'is'."
+        ],
+        "RAW_LUCAS": [
+          "Toán|3|11 + 2 = ?|13|14|12|15|11 + 2 = 13.",
+          "Toán|3|18 - 3 = ?|15|16|14|17|18 - 3 = 15.",
+          "Toán|3|Số liền trước của số 35 là số mấy?|34|35|33|36|Đếm ngược: trước 35 là 34.",
+          "Toán|3|Tính nhẩm: 60 - 30 = ?|30|40|20|50|60 - 30 = 30.",
+          "Toán|3|Số gồm 2 chục và 9 đơn vị là số mấy?|29|39|19|30|2 chục và 9 đơn vị viết là 29.",
+          "Toán|3|Trên cành có 10 quả cam, hái đi 4 quả. Còn lại mấy quả cam?|6 quả cam|7 quả cam|5 quả cam|8 quả cam|10 - 4 = 6 quả cam.",
+          "Tiếng Việt|3|Từ nào viết đúng: 'quyển vở' hay 'cuển vở'?|quyển vở|cuển vở|quyển vỡ|quển vở|Viết đúng là 'quyển vở'.",
+          "Tiếng Việt|3|Từ nào viết đúng: 'cánh diều' hay 'cánh riều'?|cánh diều|cánh riều|cánh giều|cánh diệu|Viết đúng là 'cánh diều'.",
+          "Tiếng Anh|3|Từ 'dog' là con gì?|Con chó|Con mèo|Con vịt|Con lợn|Dog là con chó.",
+          "Tiếng Anh|3|Từ 'fish' là con gì?|Con cá|Con chim|Con bò|Con thỏ|Fish là con cá."
+        ]
+      }
+    },
+    {
+      "so": 14,
+      "ten": "Vũng Tàu Bạch Tuộc",
+      "chu_de": "Vượt chướng ngại vật mực phun bong bóng",
+      "do_kho": 3,
+      "so_cau": 10,
+      "toc_do_song": 1.46,
+      "phan_thuong": {
+        "sao_toi_da": 3,
+        "ciecas": 62,
+        "cup_dong_doi": false
+      },
+      "mau_chu_dao": "#7209B7",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "dinh_dang_goc": "Môn|Cấp độ|Câu hỏi|Đáp án đúng|Sai 1|Sai 2|Sai 3|Giải thích",
+        "RAW_LUCIE": [
+          "Toán|3|Tính tổng: 37510 + 27810 = ?|65320|65420|65220|65330|37510 + 27810 = 65320.",
+          "Toán|3|Tính hiệu: 34760 - 22650 = ?|12110|12210|12010|12120|34760 - 22650 = 12110.",
+          "Toán|3|Tính tích: 17 x 8 = ?|136|144|128|146|17 x 8 = 136.",
+          "Toán|3|Tính thương: 180 : 9 = ?|20|21|19|22|Vì 9 x 20 = 180 nên 180 : 9 = 20.",
+          "Toán|3|Giá trị biểu thức 326 + 5 x 8 là bao nhiêu?|366|376|356|374|Tính nhân trước: 5 x 8 = 40; 326 + 40 = 366.",
+          "Toán|3|Chu vi hình chữ nhật dài 10 cm, rộng 5 cm là bao nhiêu?|30 cm|32 cm|28 cm|34 cm|Chu vi = (10 + 5) x 2 = 30 cm.",
+          "Tiếng Việt|3|Từ nào không cùng nhóm: cam, bưởi, xoài, cái thước?|Cái thước|Cam|Bưởi|Xoài|Cái thước là đồ dùng học tập, không phải trái cây.",
+          "Tiếng Việt|3|Từ nào cùng nghĩa với 'vui vẻ'?|Hớn hở|Buồn rầu|Lo lắng|Mệt mỏi|Hớn hở cùng nghĩa với vui vẻ.",
+          "Tiếng Anh|3|Từ 'summer' chỉ mùa nào trong năm?|Mùa hè|Mùa đông|Mùa thu|Mùa xuân|Summer là mùa hè.",
+          "Tiếng Anh|3|Từ 'dinner' là bữa ăn nào trong ngày?|Bữa tối|Bữa sáng|Bữa trưa|Bữa phụ|Dinner là bữa tối."
+        ],
+        "RAW_LUCAS": [
+          "Toán|3|12 + 3 = ?|15|16|14|17|12 + 3 = 15.",
+          "Toán|3|19 - 4 = ?|15|16|14|17|19 - 4 = 15.",
+          "Toán|3|Số liền sau của số 37 là số mấy?|38|39|37|40|Đếm xuôi: sau 37 là 38.",
+          "Toán|3|Tính nhẩm: 40 + 10 = ?|50|60|40|70|40 + 10 = 50.",
+          "Toán|3|Số gồm 3 chục và 2 đơn vị là số mấy?|32|42|22|33|3 chục và 2 đơn vị viết là 32.",
+          "Toán|3|Trong hộp có 5 ngôi sao, thêm 5 ngôi sao nữa. Có tất cả mấy ngôi sao?|10 ngôi sao|11 ngôi sao|9 ngôi sao|12 ngôi sao|5 + 5 = 10 ngôi sao.",
+          "Tiếng Việt|3|Con vật nào thích ăn cỏ và cho sữa?|Con bò|Con cá|Con gà|Con mèo|Con bò sữa ăn cỏ và cho sữa.",
+          "Tiếng Việt|3|Con vật nào biết bơi giỏi dưới ao?|Con vịt|Con gà|Con mèo|Con khỉ|Con vịt có màng chân bơi rất giỏi.",
+          "Tiếng Anh|3|Từ 'bird' là con gì?|Con chim|Con cá|Con mèo|Con chó|Bird là con chim.",
+          "Tiếng Anh|3|Từ 'duck' là con gì?|Con vịt|Con gà|Con voi|Con ong|Duck là con vịt."
+        ]
+      }
+    },
+    {
+      "so": 15,
+      "ten": "Ngọn Hải Đăng Vàng",
+      "chu_de": "Điểm mốc giữa hành trình 30 chặng",
+      "do_kho": 3,
+      "so_cau": 10,
+      "toc_do_song": 1.49,
+      "phan_thuong": {
+        "sao_toi_da": 3,
+        "ciecas": 65,
+        "cup_dong_doi": true
+      },
+      "mau_chu_dao": "#FFBE0B",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "dinh_dang_goc": "Môn|Cấp độ|Câu hỏi|Đáp án đúng|Sai 1|Sai 2|Sai 3|Giải thích",
+        "RAW_LUCIE": [
+          "Toán|3|Tính tổng: 37625 + 27895 = ?|65520|65620|65420|65530|37625 + 27895 = 65520.",
+          "Toán|3|Tính hiệu: 34850 - 22715 = ?|12135|12235|12035|12145|34850 - 22715 = 12135.",
+          "Toán|3|Tính tích: 18 x 2 = ?|36|38|34|46|18 x 2 = 36.",
+          "Toán|3|Tính thương: 18 : 3 = ?|6|7|5|8|Vì 3 x 6 = 18 nên 18 : 3 = 6.",
+          "Toán|3|Chu vi hình vuông cạnh 15 cm là bao nhiêu?|60 cm|64 cm|56 cm|62 cm|Chu vi hình vuông = 15 x 4 = 60 cm.",
+          "Toán|3|Chu vi hình chữ nhật dài 11 cm, rộng 6 cm là bao nhiêu?|34 cm|36 cm|32 cm|38 cm|Chu vi = (11 + 6) x 2 = 34 cm.",
+          "Tiếng Việt|3|Từ nào chỉ hoạt động của học sinh?|Ghi chép|Quyển vở|Xanh ngát|Bàn học|Ghi chép là từ chỉ hoạt động.",
+          "Tiếng Việt|3|Từ nào chỉ đặc điểm của mùa thu?|Mát mẻ|Lá rụng|Đi học|Quả bưởi|Mát mẻ là từ chỉ đặc điểm thời tiết.",
+          "Tiếng Anh|3|Từ 'classroom' có nghĩa tiếng Việt là gì?|Phòng học|Thư viện|Sân trường|Phòng nhạc|Classroom là phòng học.",
+          "Tiếng Anh|3|Từ 'computer room' có nghĩa là gì?|Phòng tin học|Phòng mỹ thuật|Nhà thể chất|Căng tin|Computer room là phòng tin học."
+        ],
+        "RAW_LUCAS": [
+          "Toán|3|13 + 1 = ?|14|15|13|16|13 + 1 = 14.",
+          "Toán|3|15 - 5 = ?|10|11|9|12|15 - 5 = 10.",
+          "Toán|3|Số liền trước của số 39 là số mấy?|38|39|37|40|Đếm ngược: trước 39 là 38.",
+          "Toán|3|Tính nhẩm: 70 - 20 = ?|50|60|40|70|70 - 20 = 50.",
+          "Toán|3|Số gồm 4 chục và 5 đơn vị là số mấy?|45|55|35|46|4 chục và 5 đơn vị viết là 45.",
+          "Toán|3|Trên cành có 10 quả cam, hái đi 2 quả. Còn lại mấy quả cam?|8 quả cam|9 quả cam|7 quả cam|10 quả cam|10 - 2 = 8 quả cam.",
+          "Tiếng Việt|3|Quả nào có vị chua, màu xanh hoặc vàng?|Quả chanh|Quả chuối|Củ khoai|Hạt gạo|Quả chanh có vị chua.",
+          "Tiếng Việt|3|Mùa nào có tuyết hoặc trời rất lạnh?|Mùa đông|Mùa hè|Mùa thu|Mùa xuân|Mùa đông trời lạnh.",
+          "Tiếng Anh|3|Từ 'apple' là quả gì?|Quả táo|Quả chuối|Quả cam|Quả lê|Apple là quả táo.",
+          "Tiếng Anh|3|Từ 'banana' là quả gì?|Quả chuối|Quả táo|Quả dưa|Quả nho|Banana là quả chuối."
+        ]
+      }
+    },
+    {
+      "so": 16,
+      "ten": "Biển Sương Mù Sớm",
+      "chu_de": "Dùng la bàn giữ đúng hướng buồm",
+      "do_kho": 3,
+      "so_cau": 10,
+      "toc_do_song": 1.52,
+      "phan_thuong": {
+        "sao_toi_da": 3,
+        "ciecas": 68,
+        "cup_dong_doi": false
+      },
+      "mau_chu_dao": "#577590",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "dinh_dang_goc": "Môn|Cấp độ|Câu hỏi|Đáp án đúng|Sai 1|Sai 2|Sai 3|Giải thích",
+        "RAW_LUCIE": [
+          "Toán|3|Tính tổng: 37740 + 27980 = ?|65720|65820|65620|65730|37740 + 27980 = 65720.",
+          "Toán|3|Tính hiệu: 34940 - 22780 = ?|12160|12260|12060|12170|34940 - 22780 = 12160.",
+          "Toán|3|Tính tích: 19 x 3 = ?|57|60|54|67|19 x 3 = 57.",
+          "Toán|3|Tính thương: 28 : 4 = ?|7|8|6|9|Vì 4 x 7 = 28 nên 28 : 4 = 7.",
+          "Toán|3|Giá trị biểu thức 328 + 7 x 5 là bao nhiêu?|363|373|353|368|Tính nhân trước: 7 x 5 = 35; 328 + 35 = 363.",
+          "Toán|3|Chu vi hình chữ nhật dài 12 cm, rộng 7 cm là bao nhiêu?|38 cm|40 cm|36 cm|42 cm|Chu vi = (12 + 7) x 2 = 38 cm.",
+          "Tiếng Việt|3|Từ nào chỉ sự vật trong sân trường?|Cây bàng|Chạy nhảy|Vui vẻ|Rộn rã|Cây bàng là từ chỉ sự vật.",
+          "Tiếng Việt|3|Chọn từ viết đúng chính tả (nhóm tr/ch):|Tròn trịa|Chòn chịa|Tròn chịa|Chòn trịa|Viết đúng là 'tròn trịa'.",
+          "Tiếng Anh|3|Câu 'Sit down, please!' nghĩa là gì?|Hãy ngồi xuống!|Hãy đứng lên!|Hãy đi ra ngoài!|Hãy đóng sách lại!|Sit down = ngồi xuống.",
+          "Tiếng Anh|3|Câu 'Stand up, please!' nghĩa là gì?|Hãy đứng lên!|Hãy ngồi xuống!|Hãy mở vở ra!|Hãy giữ trật tự!|Stand up = đứng lên."
+        ],
+        "RAW_LUCAS": [
+          "Toán|3|14 + 2 = ?|16|17|15|18|14 + 2 = 16.",
+          "Toán|3|16 - 2 = ?|14|15|13|16|16 - 2 = 14.",
+          "Toán|3|Số liền sau của số 41 là số mấy?|42|43|41|44|Đếm xuôi: sau 41 là 42.",
+          "Toán|3|Tính nhẩm: 20 + 30 = ?|50|60|40|70|20 + 30 = 50.",
+          "Toán|3|Số gồm 5 chục và 8 đơn vị là số mấy?|58|68|48|59|5 chục và 8 đơn vị viết là 58.",
+          "Toán|3|Trong hộp có 7 ngôi sao, thêm 3 ngôi sao nữa. Có tất cả mấy ngôi sao?|10 ngôi sao|11 ngôi sao|9 ngôi sao|12 ngôi sao|7 + 3 = 10 ngôi sao.",
+          "Tiếng Việt|3|Từ nào trái nghĩa với 'dài'?|Ngắn|Cao|To|Rộng|Ngắn trái nghĩa với dài.",
+          "Tiếng Việt|3|Từ nào trái nghĩa với 'vui'?|Buồn|Cười|Đẹp|Sáng|Buồn trái nghĩa với vui.",
+          "Tiếng Anh|3|Từ 'book' là đồ vật gì?|Quyển sách|Cây bút|Cái bàn|Quả bóng|Book là quyển sách.",
+          "Tiếng Anh|3|Từ 'ball' là đồ vật gì?|Quả bóng|Cái mũ|Cái cặp|Ô tô|Ball là quả bóng."
+        ]
+      }
+    },
+    {
+      "so": 17,
+      "ten": "Đảo Sao Biển Hồng",
+      "chu_de": "Bãi cát đầy sao biển lấp lánh",
+      "do_kho": 3,
+      "so_cau": 10,
+      "toc_do_song": 1.56,
+      "phan_thuong": {
+        "sao_toi_da": 3,
+        "ciecas": 71,
+        "cup_dong_doi": false
+      },
+      "mau_chu_dao": "#FF006E",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "dinh_dang_goc": "Môn|Cấp độ|Câu hỏi|Đáp án đúng|Sai 1|Sai 2|Sai 3|Giải thích",
+        "RAW_LUCIE": [
+          "Toán|3|Tính tổng: 37855 + 28065 = ?|65920|66020|65820|65930|37855 + 28065 = 65920.",
+          "Toán|3|Tính hiệu: 35030 - 22845 = ?|12185|12285|12085|12195|35030 - 22845 = 12185.",
+          "Toán|3|Tính tích: 20 x 4 = ?|80|84|76|90|20 x 4 = 80.",
+          "Toán|3|Tính thương: 40 : 5 = ?|8|9|7|10|Vì 5 x 8 = 40 nên 40 : 5 = 8.",
+          "Toán|3|Chu vi hình vuông cạnh 17 cm là bao nhiêu?|68 cm|72 cm|64 cm|70 cm|Chu vi hình vuông = 17 x 4 = 68 cm.",
+          "Toán|3|Chu vi hình chữ nhật dài 13 cm, rộng 8 cm là bao nhiêu?|42 cm|44 cm|40 cm|46 cm|Chu vi = (13 + 8) x 2 = 42 cm.",
+          "Tiếng Việt|3|Chọn từ viết đúng chính tả (nhóm s/x):|San sẻ|Xan xẻ|San xẻ|Xan sẻ|Viết đúng là 'san sẻ'.",
+          "Tiếng Việt|3|Chọn từ viết đúng chính tả (nhóm r/d/gi):|Rực rỡ|Dực dỡ|Giực giỡ|Rực dỡ|Viết đúng là 'rực rỡ'.",
+          "Tiếng Anh|3|Đồ dùng 'pencil sharpener' là gì?|Gọt bút chì|Hộp bút|Thước kẻ|Cục tẩy|Pencil sharpener là đồ gọt bút chì.",
+          "Tiếng Anh|3|Đồ dùng 'bookcase' là gì?|Giá sách / tủ sách|Bàn học|Ghế ngồi|Bảng đen|Bookcase là tủ đựng sách."
+        ],
+        "RAW_LUCAS": [
+          "Toán|3|15 + 3 = ?|18|19|17|20|15 + 3 = 18.",
+          "Toán|3|17 - 3 = ?|14|15|13|16|17 - 3 = 14.",
+          "Toán|3|Số liền trước của số 43 là số mấy?|42|43|41|44|Đếm ngược: trước 43 là 42.",
+          "Toán|3|Tính nhẩm: 60 - 30 = ?|30|40|20|50|60 - 30 = 30.",
+          "Toán|3|Số gồm 6 chục và 1 đơn vị là số mấy?|61|71|51|62|6 chục và 1 đơn vị viết là 61.",
+          "Toán|3|Trên cành có 14 quả cam, hái đi 4 quả. Còn lại mấy quả cam?|10 quả cam|11 quả cam|9 quả cam|12 quả cam|14 - 4 = 10 quả cam.",
+          "Tiếng Việt|3|Từ nào trái nghĩa với 'nặng'?|Nhẹ|To|Cao|Dài|Nhẹ trái nghĩa với nặng.",
+          "Tiếng Việt|3|Đồ vật nào dùng để cắt giấy thủ công?|Cái kéo|Cục tẩy|Quyển vở|Cái bát|Cái kéo dùng để cắt giấy.",
+          "Tiếng Anh|3|Từ 'car' là phương tiện gì?|Ô tô|Máy bay|Tàu thủy|Xe đạp|Car là xe ô tô.",
+          "Tiếng Anh|3|Từ 'sun' nghĩa là gì?|Mặt trời|Mặt trăng|Ngôi sao|Đám mây|Sun là mặt trời."
+        ]
+      }
+    },
+    {
+      "so": 18,
+      "ten": "Vịnh Cá Voi Xanh",
+      "chu_de": "Gặp chú cá voi khổng lồ thân thiện",
+      "do_kho": 3,
+      "so_cau": 10,
+      "toc_do_song": 1.6,
+      "phan_thuong": {
+        "sao_toi_da": 3,
+        "ciecas": 74,
+        "cup_dong_doi": false
+      },
+      "mau_chu_dao": "#0077B6",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "dinh_dang_goc": "Môn|Cấp độ|Câu hỏi|Đáp án đúng|Sai 1|Sai 2|Sai 3|Giải thích",
+        "RAW_LUCIE": [
+          "Toán|3|Tính tổng: 37970 + 28150 = ?|66120|66220|66020|66130|37970 + 28150 = 66120.",
+          "Toán|3|Tính hiệu: 35120 - 22910 = ?|12210|12310|12110|12220|35120 - 22910 = 12210.",
+          "Toán|3|Tính tích: 21 x 5 = ?|105|110|100|115|21 x 5 = 105.",
+          "Toán|3|Tính thương: 54 : 6 = ?|9|10|8|11|Vì 6 x 9 = 54 nên 54 : 6 = 9.",
+          "Toán|3|Giá trị biểu thức 330 + 3 x 7 là bao nhiêu?|351|361|341|358|Tính nhân trước: 3 x 7 = 21; 330 + 21 = 351.",
+          "Toán|3|Chu vi hình chữ nhật dài 14 cm, rộng 3 cm là bao nhiêu?|34 cm|36 cm|32 cm|38 cm|Chu vi = (14 + 3) x 2 = 34 cm.",
+          "Tiếng Việt|3|Chọn từ viết đúng chính tả (nhóm l/n):|Lung linh|Nung ninh|Lung ninh|Nung linh|Viết đúng là 'lung linh'.",
+          "Tiếng Việt|3|Từ cùng nghĩa với 'thông minh' là từ nào?|Sáng dạ|Chậm chạp|Lười nhác|Rụt rè|Sáng dạ cùng nghĩa với thông minh.",
+          "Tiếng Anh|3|Môn thể thao 'football' là môn gì?|Bóng đá|Bóng rổ|Cầu lông|Bơi lội|Football là môn bóng đá.",
+          "Tiếng Anh|3|Môn thể thao 'basketball' là môn gì?|Bóng rổ|Bóng đá|Bóng bàn|Cờ vua|Basketball là bóng rổ."
+        ],
+        "RAW_LUCAS": [
+          "Toán|3|10 + 1 = ?|11|12|10|13|10 + 1 = 11.",
+          "Toán|3|18 - 4 = ?|14|15|13|16|18 - 4 = 14.",
+          "Toán|3|Số liền sau của số 45 là số mấy?|46|47|45|48|Đếm xuôi: sau 45 là 46.",
+          "Toán|3|Tính nhẩm: 40 + 10 = ?|50|60|40|70|40 + 10 = 50.",
+          "Toán|3|Số gồm 7 chục và 4 đơn vị là số mấy?|74|84|64|75|7 chục và 4 đơn vị viết là 74.",
+          "Toán|3|Trong hộp có 3 ngôi sao, thêm 5 ngôi sao nữa. Có tất cả mấy ngôi sao?|8 ngôi sao|9 ngôi sao|7 ngôi sao|10 ngôi sao|3 + 5 = 8 ngôi sao.",
+          "Tiếng Việt|3|Đồ vật nào dùng để che đầu khi đi nắng?|Cái mũ|Đôi tất|Cái bút|Cái thìa|Cái mũ dùng để đội đầu.",
+          "Tiếng Việt|3|Từ nào có vần 'oa'?|Bông hoa|Con cá|Cái bàn|Cây tre|Tiếng 'hoa' có vần oa.",
+          "Tiếng Anh|3|Từ 'moon' nghĩa là gì?|Mặt trăng|Mặt trời|Cái cây|Bông hoa|Moon là mặt trăng.",
+          "Tiếng Anh|3|Từ 'star' nghĩa là gì?|Ngôi sao|Mặt trời|Mặt trăng|Cơn mưa|Star là ngôi sao."
+        ]
+      }
+    },
+    {
+      "so": 19,
+      "ten": "Hải Trình Gió Lốc",
+      "chu_de": "Tăng tốc độ chèo vượt sóng lớn",
+      "do_kho": 4,
+      "so_cau": 10,
+      "toc_do_song": 1.63,
+      "phan_thuong": {
+        "sao_toi_da": 3,
+        "ciecas": 77,
+        "cup_dong_doi": false
+      },
+      "mau_chu_dao": "#F3722C",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "dinh_dang_goc": "Môn|Cấp độ|Câu hỏi|Đáp án đúng|Sai 1|Sai 2|Sai 3|Giải thích",
+        "RAW_LUCIE": [
+          "Toán|4|Tính tổng: 38085 + 28235 = ?|66320|66420|66220|66330|38085 + 28235 = 66320.",
+          "Toán|4|Tính hiệu: 35210 - 22975 = ?|12235|12335|12135|12245|35210 - 22975 = 12235.",
+          "Toán|4|Tính tích: 22 x 6 = ?|132|138|126|142|22 x 6 = 132.",
+          "Toán|4|Tính thương: 70 : 7 = ?|10|11|9|12|Vì 7 x 10 = 70 nên 70 : 7 = 10.",
+          "Toán|4|Chu vi hình vuông cạnh 19 cm là bao nhiêu?|76 cm|80 cm|72 cm|78 cm|Chu vi hình vuông = 19 x 4 = 76 cm.",
+          "Toán|4|Diện tích hình chữ nhật dài 15 cm, rộng 4 cm là bao nhiêu?|60 cm²|75 cm²|45 cm²|62 cm²|Diện tích = 15 x 4 = 60 cm².",
+          "Tiếng Việt|4|Từ cùng nghĩa với 'đoàn kết' là từ nào?|Gắn bó|Chia rẽ|Xa cách|Tranh cãi|Gắn bó gần nghĩa với đoàn kết.",
+          "Tiếng Việt|4|Từ trái nghĩa với 'cẩn thận' là từ nào?|Cẩu thả|Tỉ mỉ|Chu đáo|Kỹ lưỡng|Cẩu thả trái nghĩa với cẩn thận.",
+          "Tiếng Anh|4|Từ 'grandfather' chỉ ai trong gia đình?|Ông|Bà|Bố|Chú|Grandfather là ông (nội/ngoại).",
+          "Tiếng Anh|4|Từ 'grandmother' chỉ ai trong gia đình?|Bà|Ông|Mẹ|Cô|Grandmother là bà (nội/ngoại)."
+        ],
+        "RAW_LUCAS": [
+          "Toán|4|Tính: 63 + 34 = ?|97|107|87|98|63 + 34 = 97.",
+          "Toán|4|Tính: 99 - 44 = ?|55|65|45|56|99 - 44 = 55.",
+          "Toán|4|Số liền trước của số 47 là số mấy?|46|47|45|48|Đếm ngược: trước 47 là 46.",
+          "Toán|4|Tính nhẩm: 70 - 20 = ?|50|60|40|70|70 - 20 = 50.",
+          "Toán|4|Số gồm 8 chục và 7 đơn vị là số mấy?|87|97|77|88|8 chục và 7 đơn vị viết là 87.",
+          "Toán|4|Trên cành có 8 quả cam, hái đi 2 quả. Còn lại mấy quả cam?|6 quả cam|7 quả cam|5 quả cam|8 quả cam|8 - 2 = 6 quả cam.",
+          "Tiếng Việt|4|Từ nào có vần 'au'?|Cây cau|Con mèo|Quả cam|Bút chì|Tiếng 'cau' có vần au.",
+          "Tiếng Việt|4|Từ nào có vần 'iên'?|Biển xanh|Con gà|Cái cốc|Quả lê|Tiếng 'biển' có vần iên.",
+          "Tiếng Anh|4|Từ 'five' là số mấy?|5|4|6|7|Five là số 5.",
+          "Tiếng Anh|4|Từ 'ten' là số mấy?|10|8|9|2|Ten là số 10."
+        ]
+      }
+    },
+    {
+      "so": 20,
+      "ten": "Quần Đảo Ngọc Trai",
+      "chu_de": "Chạm mốc 20 chặng sưu tầm ngọc trai",
+      "do_kho": 4,
+      "so_cau": 10,
+      "toc_do_song": 1.67,
+      "phan_thuong": {
+        "sao_toi_da": 3,
+        "ciecas": 80,
+        "cup_dong_doi": true
+      },
+      "mau_chu_dao": "#06D6A0",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "dinh_dang_goc": "Môn|Cấp độ|Câu hỏi|Đáp án đúng|Sai 1|Sai 2|Sai 3|Giải thích",
+        "RAW_LUCIE": [
+          "Toán|4|Tính tổng: 38200 + 28320 = ?|66520|66620|66420|66530|38200 + 28320 = 66520.",
+          "Toán|4|Tính hiệu: 35300 - 23040 = ?|12260|12360|12160|12270|35300 - 23040 = 12260.",
+          "Toán|4|Tính tích: 23 x 7 = ?|161|168|154|171|23 x 7 = 161.",
+          "Toán|4|Tính thương: 88 : 8 = ?|11|12|10|13|Vì 8 x 11 = 88 nên 88 : 8 = 11.",
+          "Toán|4|Giá trị biểu thức 332 + 5 x 4 là bao nhiêu?|352|362|342|356|Tính nhân trước: 5 x 4 = 20; 332 + 20 = 352.",
+          "Toán|4|Diện tích hình chữ nhật dài 16 cm, rộng 5 cm là bao nhiêu?|80 cm²|96 cm²|64 cm²|82 cm²|Diện tích = 16 x 5 = 80 cm².",
+          "Tiếng Việt|4|Từ trái nghĩa với 'khiêm tốn' là từ nào?|Kiêu ngạo|Hiền lành|Lễ phép|Chân thành|Kiêu ngạo trái nghĩa với khiêm tốn.",
+          "Tiếng Việt|4|Từ trái nghĩa với 'yên tĩnh' là từ nào?|Ồn ào|Êm đềm|Vắng lặng|Nhẹ nhàng|Ồn ào trái nghĩa với yên tĩnh.",
+          "Tiếng Anh|4|Nghề nghiệp 'driver' là nghề gì?|Tài xế lái xe|Bác sĩ|Giáo viên|Nông dân|Driver là người lái xe.",
+          "Tiếng Anh|4|Nghề nghiệp 'singer' là nghề gì?|Ca sĩ|Bác sĩ|Công nhân|Đầu bếp|Singer là ca sĩ."
+        ],
+        "RAW_LUCAS": [
+          "Toán|4|Tính: 20 + 10 = ?|30|40|20|31|20 + 10 = 30.",
+          "Toán|4|Tính: 55 - 11 = ?|44|54|34|45|55 - 11 = 44.",
+          "Toán|4|Số liền sau của số 49 là số mấy?|50|51|49|52|Đếm xuôi: sau 49 là 50.",
+          "Toán|4|Tính nhẩm: 20 + 30 = ?|50|60|40|70|20 + 30 = 50.",
+          "Toán|4|Số gồm 1 chục và 0 đơn vị là số mấy?|10|20|11|12|1 chục và 0 đơn vị viết là 10.",
+          "Toán|4|Trong hộp có 5 ngôi sao, thêm 3 ngôi sao nữa. Có tất cả mấy ngôi sao?|8 ngôi sao|9 ngôi sao|7 ngôi sao|10 ngôi sao|5 + 3 = 8 ngôi sao.",
+          "Tiếng Việt|4|Điền c hay k: 'con ...á'?|c|k|g|d|Trước a dùng chữ c: con cá.",
+          "Tiếng Việt|4|Điền c hay k: 'cây ...em'?|k|c|g|t|Trước e dùng chữ k: cây kem.",
+          "Tiếng Anh|4|Từ 'red' là màu gì?|Màu đỏ|Màu xanh|Màu vàng|Màu trắng|Red là màu đỏ.",
+          "Tiếng Anh|4|Từ 'blue' là màu gì?|Màu xanh dương|Màu đỏ|Màu hồng|Màu đen|Blue là màu xanh dương."
+        ]
+      }
+    },
+    {
+      "so": 21,
+      "ten": "Vịnh Băng Nam Cực",
+      "chu_de": "Gặp đàn chim cánh cụt dễ thương",
+      "do_kho": 4,
+      "so_cau": 12,
+      "toc_do_song": 1.7,
+      "phan_thuong": {
+        "sao_toi_da": 3,
+        "ciecas": 83,
+        "cup_dong_doi": false
+      },
+      "mau_chu_dao": "#8ECAE6",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "dinh_dang_goc": "Môn|Cấp độ|Câu hỏi|Đáp án đúng|Sai 1|Sai 2|Sai 3|Giải thích",
+        "RAW_LUCIE": [
+          "Toán|4|Tính tổng: 38315 + 28405 = ?|66720|66820|66620|66730|38315 + 28405 = 66720.",
+          "Toán|4|Tính hiệu: 35390 - 23105 = ?|12285|12385|12185|12295|35390 - 23105 = 12285.",
+          "Toán|4|Tính tích: 24 x 8 = ?|192|200|184|202|24 x 8 = 192.",
+          "Toán|4|Tính thương: 108 : 9 = ?|12|13|11|14|Vì 9 x 12 = 108 nên 108 : 9 = 12.",
+          "Toán|4|Chu vi hình vuông cạnh 21 cm là bao nhiêu?|84 cm|88 cm|80 cm|86 cm|Chu vi hình vuông = 21 x 4 = 84 cm.",
+          "Toán|4|Diện tích hình chữ nhật dài 17 cm, rộng 6 cm là bao nhiêu?|102 cm²|119 cm²|85 cm²|104 cm²|Diện tích = 17 x 6 = 102 cm².",
+          "Tiếng Việt|4|Câu 'Con hãy sắp xếp góc học tập gọn gàng nhé!' là kiểu câu gì?|Câu khiến|Câu hỏi|Câu kể|Câu cảm|Câu nêu yêu cầu, đề nghị là câu khiến.",
+          "Tiếng Việt|4|Câu 'Bức tranh này đẹp tuyệt vời!' là kiểu câu gì?|Câu cảm|Câu hỏi|Câu kể|Câu khiến|Câu bộc lộ cảm xúc kết thúc bằng dấu (!) là câu cảm.",
+          "Tiếng Anh|4|Phòng 'bathroom' là phòng nào trong nhà?|Phòng tắm|Phòng bếp|Phòng ngủ|Phòng khách|Bathroom là phòng tắm.",
+          "Tiếng Anh|4|Phòng 'dining room' là phòng nào?|Phòng ăn|Phòng ngủ|Phòng tắm|Sân vườn|Dining room là phòng ăn."
+        ],
+        "RAW_LUCAS": [
+          "Toán|4|Tính: 31 + 21 = ?|52|62|42|53|31 + 21 = 52.",
+          "Toán|4|Tính: 66 - 22 = ?|44|54|34|45|66 - 22 = 44.",
+          "Toán|4|Số liền trước của số 51 là số mấy?|50|51|49|52|Đếm ngược: trước 51 là 50.",
+          "Toán|4|Tính nhẩm: 60 - 30 = ?|30|40|20|50|60 - 30 = 30.",
+          "Toán|4|Số gồm 2 chục và 3 đơn vị là số mấy?|23|33|13|24|2 chục và 3 đơn vị viết là 23.",
+          "Toán|4|Trên cành có 12 quả cam, hái đi 4 quả. Còn lại mấy quả cam?|8 quả cam|9 quả cam|7 quả cam|10 quả cam|12 - 4 = 8 quả cam.",
+          "Tiếng Việt|4|Điền g hay gh: 'con ...ấu'?|g|gh|k|ng|Trước â dùng chữ g: con gấu.",
+          "Tiếng Việt|4|Điền g hay gh: 'nhà ...ỗ' hay 'cái ...ế' dùng gh?|cái ghế|con gà|củ gừng|quả gấc|Trước ê dùng chữ gh: cái ghế.",
+          "Tiếng Anh|4|Từ 'green' là màu gì?|Màu xanh lá|Màu tím|Màu cam|Màu trắng|Green là màu xanh lá cây.",
+          "Tiếng Anh|4|Từ 'yellow' là màu gì?|Màu vàng|Màu đen|Màu hồng|Màu xanh|Yellow là màu vàng."
+        ]
+      }
+    },
+    {
+      "so": 22,
+      "ten": "Sông Ngầm Ánh Sao",
+      "chu_de": "Chèo qua hang biển phát sáng xanh",
+      "do_kho": 4,
+      "so_cau": 12,
+      "toc_do_song": 1.74,
+      "phan_thuong": {
+        "sao_toi_da": 3,
+        "ciecas": 86,
+        "cup_dong_doi": false
+      },
+      "mau_chu_dao": "#3F37C9",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "dinh_dang_goc": "Môn|Cấp độ|Câu hỏi|Đáp án đúng|Sai 1|Sai 2|Sai 3|Giải thích",
+        "RAW_LUCIE": [
+          "Toán|4|Tính tổng: 38430 + 28490 = ?|66920|67020|66820|66930|38430 + 28490 = 66920.",
+          "Toán|4|Tính hiệu: 35480 - 23170 = ?|12310|12410|12210|12320|35480 - 23170 = 12310.",
+          "Toán|4|Tính tích: 25 x 2 = ?|50|52|48|60|25 x 2 = 50.",
+          "Toán|4|Tính thương: 39 : 3 = ?|13|14|12|15|Vì 3 x 13 = 39 nên 39 : 3 = 13.",
+          "Toán|4|Giá trị biểu thức 334 + 7 x 6 là bao nhiêu?|376|386|366|382|Tính nhân trước: 7 x 6 = 42; 334 + 42 = 376.",
+          "Toán|4|Diện tích hình chữ nhật dài 18 cm, rộng 7 cm là bao nhiêu?|126 cm²|144 cm²|108 cm²|128 cm²|Diện tích = 18 x 7 = 126 cm².",
+          "Tiếng Việt|4|Dấu câu nào dùng để kết thúc câu hỏi?|Dấu chấm hỏi (?)|Dấu chấm (.)|Dấu phẩy (,)|Dấu chấm than (!)|Câu hỏi kết thúc bằng dấu chấm hỏi (?).",
+          "Tiếng Việt|4|Trong câu 'Tàu lướt nhanh như mũi tên', từ so sánh là từ nào?|như|lướt|nhanh|mũi tên|Từ 'như' là từ chỉ sự so sánh.",
+          "Tiếng Anh|4|Món ăn 'bread' là món gì?|Bánh mì|Cơm|Thịt gà|Trứng|Bread là bánh mì.",
+          "Tiếng Anh|4|Món ăn 'noodles' là món gì?|Mì / phở / bún|Bánh ngọt|Sữa|Nước cam|Noodles là các món mì, bún, phở."
+        ],
+        "RAW_LUCAS": [
+          "Toán|4|Tính: 42 + 32 = ?|74|84|64|75|42 + 32 = 74.",
+          "Toán|4|Tính: 77 - 33 = ?|44|54|34|45|77 - 33 = 44.",
+          "Toán|4|Số liền sau của số 53 là số mấy?|54|55|53|56|Đếm xuôi: sau 53 là 54.",
+          "Toán|4|Tính nhẩm: 40 + 10 = ?|50|60|40|70|40 + 10 = 50.",
+          "Toán|4|Số gồm 3 chục và 6 đơn vị là số mấy?|36|46|26|37|3 chục và 6 đơn vị viết là 36.",
+          "Toán|4|Trong hộp có 7 ngôi sao, thêm 5 ngôi sao nữa. Có tất cả mấy ngôi sao?|12 ngôi sao|13 ngôi sao|11 ngôi sao|14 ngôi sao|7 + 5 = 12 ngôi sao.",
+          "Tiếng Việt|4|Điền ng hay ngh: 'con ...ựa'?|ng|ngh|g|gh|Trước ư dùng chữ ng: con ngựa.",
+          "Tiếng Việt|4|Điền ng hay ngh: 'củ ...ệ'?|ngh|ng|g|gh|Trước ê dùng chữ ngh: củ nghệ.",
+          "Tiếng Anh|4|Từ 'pink' là màu gì?|Màu hồng|Màu nâu|Màu xám|Màu xanh|Pink là màu hồng.",
+          "Tiếng Anh|4|Từ 'cat' là con gì?|Con mèo|Con chó|Con cá|Con chim|Cat là con mèo."
+        ]
+      }
+    },
+    {
+      "so": 23,
+      "ten": "Đảo Núi Lửa Sôi Động",
+      "chu_de": "Vượt eo biển ấm áp ánh dung nham",
+      "do_kho": 4,
+      "so_cau": 12,
+      "toc_do_song": 1.77,
+      "phan_thuong": {
+        "sao_toi_da": 3,
+        "ciecas": 89,
+        "cup_dong_doi": false
+      },
+      "mau_chu_dao": "#D62828",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "dinh_dang_goc": "Môn|Cấp độ|Câu hỏi|Đáp án đúng|Sai 1|Sai 2|Sai 3|Giải thích",
+        "RAW_LUCIE": [
+          "Toán|4|Tính tổng: 38545 + 28575 = ?|67120|67220|67020|67130|38545 + 28575 = 67120.",
+          "Toán|4|Tính hiệu: 35570 - 23235 = ?|12335|12435|12235|12345|35570 - 23235 = 12335.",
+          "Toán|4|Tính tích: 26 x 3 = ?|78|81|75|88|26 x 3 = 78.",
+          "Toán|4|Tính thương: 56 : 4 = ?|14|15|13|16|Vì 4 x 14 = 56 nên 56 : 4 = 14.",
+          "Toán|4|Chu vi hình vuông cạnh 23 cm là bao nhiêu?|92 cm|96 cm|88 cm|94 cm|Chu vi hình vuông = 23 x 4 = 92 cm.",
+          "Toán|4|Diện tích hình chữ nhật dài 19 cm, rộng 8 cm là bao nhiêu?|152 cm²|171 cm²|133 cm²|154 cm²|Diện tích = 19 x 8 = 152 cm².",
+          "Tiếng Việt|4|Trong câu 'Chú chim nhỏ hót vang chào bình minh', biện pháp nào được dùng?|Nhân hóa|So sánh|Liệt kê|Câu hỏi|Gọi chim là 'chú' và biết 'chào bình minh' là nhân hóa.",
+          "Tiếng Việt|4|Từ nào chỉ người làm việc trong bệnh viện?|Y tá|Kỹ sư cầu đường|Thợ mộc|Thủ thư|Y tá làm việc chăm sóc bệnh nhân.",
+          "Tiếng Anh|4|Con vật 'goldfish' là con gì?|Cá vàng|Con thỏ|Con vẹt|Con mèo|Goldfish là cá vàng.",
+          "Tiếng Anh|4|Con vật 'tiger' là con gì?|Con hổ|Con voi|Con khỉ|Con công|Tiger là con hổ."
+        ],
+        "RAW_LUCAS": [
+          "Toán|4|Tính: 53 + 13 = ?|66|76|56|67|53 + 13 = 66.",
+          "Toán|4|Tính: 88 - 44 = ?|44|54|34|45|88 - 44 = 44.",
+          "Toán|4|Số liền trước của số 55 là số mấy?|54|55|53|56|Đếm ngược: trước 55 là 54.",
+          "Toán|4|Tính nhẩm: 70 - 20 = ?|50|60|40|70|70 - 20 = 50.",
+          "Toán|4|Số gồm 4 chục và 9 đơn vị là số mấy?|49|59|39|50|4 chục và 9 đơn vị viết là 49.",
+          "Toán|4|Trên cành có 12 quả cam, hái đi 2 quả. Còn lại mấy quả cam?|10 quả cam|11 quả cam|9 quả cam|12 quả cam|12 - 2 = 10 quả cam.",
+          "Tiếng Việt|4|Từ nào viết đúng: 'quyển vở' hay 'cuển vở'?|quyển vở|cuển vở|quyển vỡ|quển vở|Viết đúng là 'quyển vở'.",
+          "Tiếng Việt|4|Từ nào viết đúng: 'cánh diều' hay 'cánh riều'?|cánh diều|cánh riều|cánh giều|cánh diệu|Viết đúng là 'cánh diều'.",
+          "Tiếng Anh|4|Từ 'dog' là con gì?|Con chó|Con mèo|Con vịt|Con lợn|Dog là con chó.",
+          "Tiếng Anh|4|Từ 'fish' là con gì?|Con cá|Con chim|Con bò|Con thỏ|Fish là con cá."
+        ]
+      }
+    },
+    {
+      "so": 24,
+      "ten": "Cảng Buồm Cổ Tích",
+      "chu_de": "Đoàn thuyền buồm rực rỡ sắc màu",
+      "do_kho": 4,
+      "so_cau": 12,
+      "toc_do_song": 1.81,
+      "phan_thuong": {
+        "sao_toi_da": 3,
+        "ciecas": 92,
+        "cup_dong_doi": false
+      },
+      "mau_chu_dao": "#F4A261",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "dinh_dang_goc": "Môn|Cấp độ|Câu hỏi|Đáp án đúng|Sai 1|Sai 2|Sai 3|Giải thích",
+        "RAW_LUCIE": [
+          "Toán|4|Tính tổng: 38660 + 28660 = ?|67320|67420|67220|67330|38660 + 28660 = 67320.",
+          "Toán|4|Tính hiệu: 35660 - 23300 = ?|12360|12460|12260|12370|35660 - 23300 = 12360.",
+          "Toán|4|Tính tích: 27 x 4 = ?|108|112|104|118|27 x 4 = 108.",
+          "Toán|4|Tính thương: 75 : 5 = ?|15|16|14|17|Vì 5 x 15 = 75 nên 75 : 5 = 15.",
+          "Toán|4|Giá trị biểu thức 336 + 3 x 8 là bao nhiêu?|360|370|350|368|Tính nhân trước: 3 x 8 = 24; 336 + 24 = 360.",
+          "Toán|4|Diện tích hình chữ nhật dài 8 cm, rộng 3 cm là bao nhiêu?|24 cm²|32 cm²|16 cm²|26 cm²|Diện tích = 8 x 3 = 24 cm².",
+          "Tiếng Việt|4|Từ nào chỉ đồ dùng đo đạc trong môn Toán?|Thước ê ke|Bút lông vẽ|Cái chổi|Quả cầu|Thước ê ke dùng đo góc vuông trong môn Toán.",
+          "Tiếng Việt|4|Tục ngữ 'Có công mài sắt, có ngày nên kim' khuyên điều gì?|Kiên trì cố gắng sẽ đạt được thành công|Phải rèn sắt mỗi ngày|Nên tiết kiệm tiền|Giữ gìn kim chỉ cẩn thận|Câu tục ngữ khuyên ta kiên trì, bền bỉ.",
+          "Tiếng Anh|4|Đồ chơi 'plane' là món gì?|Máy bay đồ chơi|Ô tô|Tàu thủy|Cái diều|Plane là máy bay.",
+          "Tiếng Anh|4|Đồ chơi 'train' là món gì?|Tàu hỏa đồ chơi|Xe buýt|Xe đạp|Thuyền buồm|Train là tàu hỏa."
+        ],
+        "RAW_LUCAS": [
+          "Toán|4|Tính: 60 + 24 = ?|84|94|74|85|60 + 24 = 84.",
+          "Toán|4|Tính: 99 - 11 = ?|88|98|78|89|99 - 11 = 88.",
+          "Toán|4|Số liền sau của số 57 là số mấy?|58|59|57|60|Đếm xuôi: sau 57 là 58.",
+          "Toán|4|Tính nhẩm: 20 + 30 = ?|50|60|40|70|20 + 30 = 50.",
+          "Toán|4|Số gồm 5 chục và 2 đơn vị là số mấy?|52|62|42|53|5 chục và 2 đơn vị viết là 52.",
+          "Toán|4|Trong hộp có 3 ngôi sao, thêm 3 ngôi sao nữa. Có tất cả mấy ngôi sao?|6 ngôi sao|7 ngôi sao|5 ngôi sao|8 ngôi sao|3 + 3 = 6 ngôi sao.",
+          "Tiếng Việt|4|Con vật nào thích ăn cỏ và cho sữa?|Con bò|Con cá|Con gà|Con mèo|Con bò sữa ăn cỏ và cho sữa.",
+          "Tiếng Việt|4|Con vật nào biết bơi giỏi dưới ao?|Con vịt|Con gà|Con mèo|Con khỉ|Con vịt có màng chân bơi rất giỏi.",
+          "Tiếng Anh|4|Từ 'bird' là con gì?|Con chim|Con cá|Con mèo|Con chó|Bird là con chim.",
+          "Tiếng Anh|4|Từ 'duck' là con gì?|Con vịt|Con gà|Con voi|Con ong|Duck là con vịt."
+        ]
+      }
+    },
+    {
+      "so": 25,
+      "ten": "Biển Cực Quang Xanh",
+      "chu_de": "Chèo thuyền dưới dải ánh sáng trời đêm",
+      "do_kho": 5,
+      "so_cau": 12,
+      "toc_do_song": 1.84,
+      "phan_thuong": {
+        "sao_toi_da": 3,
+        "ciecas": 95,
+        "cup_dong_doi": true
+      },
+      "mau_chu_dao": "#43AA8B",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "dinh_dang_goc": "Môn|Cấp độ|Câu hỏi|Đáp án đúng|Sai 1|Sai 2|Sai 3|Giải thích",
+        "RAW_LUCIE": [
+          "Toán|5|Tính tổng: 38775 + 28745 = ?|67520|67620|67420|67530|38775 + 28745 = 67520.",
+          "Toán|5|Tính hiệu: 35750 - 23365 = ?|12385|12485|12285|12395|35750 - 23365 = 12385.",
+          "Toán|5|Tính tích: 28 x 5 = ?|140|145|135|150|28 x 5 = 140.",
+          "Toán|5|Tính thương: 96 : 6 = ?|16|17|15|18|Vì 6 x 16 = 96 nên 96 : 6 = 16.",
+          "Toán|5|Chu vi hình vuông cạnh 7 cm là bao nhiêu?|28 cm|32 cm|24 cm|30 cm|Chu vi hình vuông = 7 x 4 = 28 cm.",
+          "Toán|5|Diện tích hình chữ nhật dài 9 cm, rộng 4 cm là bao nhiêu?|36 cm²|45 cm²|27 cm²|38 cm²|Diện tích = 9 x 4 = 36 cm².",
+          "Tiếng Việt|5|Thành ngữ 'Đi một ngày đàng, học một sàng khôn' khuyên điều gì?|Chịu khó đi đây đi đó, quan sát để mở mang hiểu biết|Mỗi ngày nên đi bộ thật xa|Phải mang theo cái sàng|Chỉ học vào ban ngày|Đi nhiều và trải nghiệm giúp ta học hỏi thêm nhiều điều hay.",
+          "Tiếng Việt|5|Chọn từ viết đúng chính tả (nhóm ch/tr):|Chăm chút|Trăm trút|Chăm trút|Trăm chút|Viết đúng là 'chăm chút'.",
+          "Tiếng Anh|5|Hoạt động 'swimming' nghĩa là gì?|Đang bơi lội|Đang chạy bộ|Đang vẽ tranh|Đang đọc sách|Swimming là bơi lội.",
+          "Tiếng Anh|5|Hoạt động 'reading' nghĩa là gì?|Đang đọc sách|Đang viết bài|Đang hát|Đang nấu ăn|Reading là đang đọc."
+        ],
+        "RAW_LUCAS": [
+          "Toán|5|Tính: 21 + 30 = ?|51|61|41|52|21 + 30 = 51.",
+          "Toán|5|Tính: 55 - 22 = ?|33|43|23|34|55 - 22 = 33.",
+          "Toán|5|Số liền trước của số 59 là số mấy?|58|59|57|60|Đếm ngược: trước 59 là 58.",
+          "Toán|5|Tính nhẩm: 60 - 30 = ?|30|40|20|50|60 - 30 = 30.",
+          "Toán|5|Số gồm 6 chục và 5 đơn vị là số mấy?|65|75|55|66|6 chục và 5 đơn vị viết là 65.",
+          "Toán|5|Trên cành có 10 quả cam, hái đi 4 quả. Còn lại mấy quả cam?|6 quả cam|7 quả cam|5 quả cam|8 quả cam|10 - 4 = 6 quả cam.",
+          "Tiếng Việt|5|Quả nào có vị chua, màu xanh hoặc vàng?|Quả chanh|Quả chuối|Củ khoai|Hạt gạo|Quả chanh có vị chua.",
+          "Tiếng Việt|5|Mùa nào có tuyết hoặc trời rất lạnh?|Mùa đông|Mùa hè|Mùa thu|Mùa xuân|Mùa đông trời lạnh.",
+          "Tiếng Anh|5|Từ 'apple' là quả gì?|Quả táo|Quả chuối|Quả cam|Quả lê|Apple là quả táo.",
+          "Tiếng Anh|5|Từ 'banana' là quả gì?|Quả chuối|Quả táo|Quả dưa|Quả nho|Banana là quả chuối."
+        ]
+      }
+    },
+    {
+      "so": 26,
+      "ten": "Eo Biển Sóng Bạc",
+      "chu_de": "Thử thách phản xạ nhanh cho cả hai bé",
+      "do_kho": 5,
+      "so_cau": 12,
+      "toc_do_song": 1.88,
+      "phan_thuong": {
+        "sao_toi_da": 3,
+        "ciecas": 98,
+        "cup_dong_doi": false
+      },
+      "mau_chu_dao": "#118AB2",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "dinh_dang_goc": "Môn|Cấp độ|Câu hỏi|Đáp án đúng|Sai 1|Sai 2|Sai 3|Giải thích",
+        "RAW_LUCIE": [
+          "Toán|5|Tính tổng: 38890 + 28830 = ?|67720|67820|67620|67730|38890 + 28830 = 67720.",
+          "Toán|5|Tính hiệu: 35840 - 23430 = ?|12410|12510|12310|12420|35840 - 23430 = 12410.",
+          "Toán|5|Tính tích: 29 x 6 = ?|174|180|168|184|29 x 6 = 174.",
+          "Toán|5|Tính thương: 119 : 7 = ?|17|18|16|19|Vì 7 x 17 = 119 nên 119 : 7 = 17.",
+          "Toán|5|Giá trị biểu thức 338 + 5 x 5 là bao nhiêu?|363|373|353|368|Tính nhân trước: 5 x 5 = 25; 338 + 25 = 363.",
+          "Toán|5|Diện tích hình chữ nhật dài 10 cm, rộng 5 cm là bao nhiêu?|50 cm²|60 cm²|40 cm²|52 cm²|Diện tích = 10 x 5 = 50 cm².",
+          "Tiếng Việt|5|Chọn từ viết đúng chính tả (nhóm x/s):|Xôn xao|Sôn sao|Xôn sao|Sôn xao|Viết đúng là 'xôn xao'.",
+          "Tiếng Việt|5|Chọn từ viết đúng chính tả (nhóm gi/d/r):|Giản dị|Dản dị|Rản rị|Giản rị|Viết đúng là 'giản dị'.",
+          "Tiếng Anh|5|Từ 'fourteen' là số mấy?|14|4|40|15|Fourteen là số 14.",
+          "Tiếng Anh|5|Từ 'nineteen' là số mấy?|19|9|90|18|Nineteen là số 19."
+        ],
+        "RAW_LUCAS": [
+          "Toán|5|Tính: 32 + 11 = ?|43|53|33|44|32 + 11 = 43.",
+          "Toán|5|Tính: 66 - 33 = ?|33|43|23|34|66 - 33 = 33.",
+          "Toán|5|Số liền sau của số 61 là số mấy?|62|63|61|64|Đếm xuôi: sau 61 là 62.",
+          "Toán|5|Tính nhẩm: 40 + 10 = ?|50|60|40|70|40 + 10 = 50.",
+          "Toán|5|Số gồm 7 chục và 8 đơn vị là số mấy?|78|88|68|79|7 chục và 8 đơn vị viết là 78.",
+          "Toán|5|Trong hộp có 5 ngôi sao, thêm 5 ngôi sao nữa. Có tất cả mấy ngôi sao?|10 ngôi sao|11 ngôi sao|9 ngôi sao|12 ngôi sao|5 + 5 = 10 ngôi sao.",
+          "Tiếng Việt|5|Từ nào trái nghĩa với 'dài'?|Ngắn|Cao|To|Rộng|Ngắn trái nghĩa với dài.",
+          "Tiếng Việt|5|Từ nào trái nghĩa với 'vui'?|Buồn|Cười|Đẹp|Sáng|Buồn trái nghĩa với vui.",
+          "Tiếng Anh|5|Từ 'book' là đồ vật gì?|Quyển sách|Cây bút|Cái bàn|Quả bóng|Book là quyển sách.",
+          "Tiếng Anh|5|Từ 'ball' là đồ vật gì?|Quả bóng|Cái mũ|Cái cặp|Ô tô|Ball là quả bóng."
+        ]
+      }
+    },
+    {
+      "so": 27,
+      "ten": "Đảo Kho Báu San Hô",
+      "chu_de": "Mở khóa rương sao đồng đội",
+      "do_kho": 5,
+      "so_cau": 12,
+      "toc_do_song": 1.91,
+      "phan_thuong": {
+        "sao_toi_da": 3,
+        "ciecas": 101,
+        "cup_dong_doi": false
+      },
+      "mau_chu_dao": "#BC6C25",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "dinh_dang_goc": "Môn|Cấp độ|Câu hỏi|Đáp án đúng|Sai 1|Sai 2|Sai 3|Giải thích",
+        "RAW_LUCIE": [
+          "Toán|5|Tính tổng: 39005 + 28915 = ?|67920|68020|67820|67930|39005 + 28915 = 67920.",
+          "Toán|5|Tính hiệu: 35930 - 23495 = ?|12435|12535|12335|12445|35930 - 23495 = 12435.",
+          "Toán|5|Tính tích: 30 x 7 = ?|210|217|203|220|30 x 7 = 210.",
+          "Toán|5|Tính thương: 144 : 8 = ?|18|19|17|20|Vì 8 x 18 = 144 nên 144 : 8 = 18.",
+          "Toán|5|Chu vi hình vuông cạnh 9 cm là bao nhiêu?|36 cm|40 cm|32 cm|38 cm|Chu vi hình vuông = 9 x 4 = 36 cm.",
+          "Toán|5|Diện tích hình chữ nhật dài 11 cm, rộng 6 cm là bao nhiêu?|66 cm²|77 cm²|55 cm²|68 cm²|Diện tích = 11 x 6 = 66 cm².",
+          "Tiếng Việt|5|Từ nào chỉ phẩm chất tốt đẹp của học sinh?|Trung thực|Vội vàng|Màu xanh|Bàn ghế|Trung thực là đức tính tốt đẹp.",
+          "Tiếng Việt|5|Trong câu 'Mùa xuân, hoa đào nở hồng rực khắp vườn', bộ phận trả lời 'Khi nào?' là gì?|Mùa xuân|Hoa đào|Nở hồng rực|Khắp vườn|'Mùa xuân' chỉ thời gian (Khi nào?).",
+          "Tiếng Anh|5|Thời tiết 'windy' nghĩa là trời thế nào?|Trời có gió|Trời nắng gắt|Trời mưa to|Trời tuyết|Windy là trời có gió.",
+          "Tiếng Anh|5|Thời tiết 'cloudy' nghĩa là trời thế nào?|Trời nhiều mây|Trời mưa rào|Trời nắng|Trời bão|Cloudy là trời nhiều mây."
+        ],
+        "RAW_LUCAS": [
+          "Toán|5|Tính: 43 + 22 = ?|65|75|55|66|43 + 22 = 65.",
+          "Toán|5|Tính: 77 - 44 = ?|33|43|23|34|77 - 44 = 33.",
+          "Toán|5|Số liền trước của số 63 là số mấy?|62|63|61|64|Đếm ngược: trước 63 là 62.",
+          "Toán|5|Tính nhẩm: 70 - 20 = ?|50|60|40|70|70 - 20 = 50.",
+          "Toán|5|Số gồm 8 chục và 1 đơn vị là số mấy?|81|91|71|82|8 chục và 1 đơn vị viết là 81.",
+          "Toán|5|Trên cành có 10 quả cam, hái đi 2 quả. Còn lại mấy quả cam?|8 quả cam|9 quả cam|7 quả cam|10 quả cam|10 - 2 = 8 quả cam.",
+          "Tiếng Việt|5|Từ nào trái nghĩa với 'nặng'?|Nhẹ|To|Cao|Dài|Nhẹ trái nghĩa với nặng.",
+          "Tiếng Việt|5|Đồ vật nào dùng để cắt giấy thủ công?|Cái kéo|Cục tẩy|Quyển vở|Cái bát|Cái kéo dùng để cắt giấy.",
+          "Tiếng Anh|5|Từ 'car' là phương tiện gì?|Ô tô|Máy bay|Tàu thủy|Xe đạp|Car là xe ô tô.",
+          "Tiếng Anh|5|Từ 'sun' nghĩa là gì?|Mặt trời|Mặt trăng|Ngôi sao|Đám mây|Sun là mặt trời."
+        ]
+      }
+    },
+    {
+      "so": 28,
+      "ten": "Vịnh Cánh Buồm Vàng",
+      "chu_de": "Tăng tốc về đích cùng đội thuyền bạn",
+      "do_kho": 5,
+      "so_cau": 12,
+      "toc_do_song": 1.95,
+      "phan_thuong": {
+        "sao_toi_da": 3,
+        "ciecas": 104,
+        "cup_dong_doi": false
+      },
+      "mau_chu_dao": "#F77F00",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "dinh_dang_goc": "Môn|Cấp độ|Câu hỏi|Đáp án đúng|Sai 1|Sai 2|Sai 3|Giải thích",
+        "RAW_LUCIE": [
+          "Toán|5|Tính tổng: 39120 + 29000 = ?|68120|68220|68020|68130|39120 + 29000 = 68120.",
+          "Toán|5|Tính hiệu: 36020 - 23560 = ?|12460|12560|12360|12470|36020 - 23560 = 12460.",
+          "Toán|5|Tính tích: 31 x 8 = ?|248|256|240|258|31 x 8 = 248.",
+          "Toán|5|Tính thương: 171 : 9 = ?|19|20|18|21|Vì 9 x 19 = 171 nên 171 : 9 = 19.",
+          "Toán|5|Giá trị biểu thức 340 + 7 x 7 là bao nhiêu?|389|399|379|396|Tính nhân trước: 7 x 7 = 49; 340 + 49 = 389.",
+          "Toán|5|Diện tích hình chữ nhật dài 12 cm, rộng 7 cm là bao nhiêu?|84 cm²|96 cm²|72 cm²|86 cm²|Diện tích = 12 x 7 = 84 cm².",
+          "Tiếng Việt|5|Trong câu 'Trên sân trường, các bạn đang nhảy dây', bộ phận trả lời 'Ở đâu?' là gì?|Trên sân trường|Các bạn|Đang nhảy dây|Nhảy dây|'Trên sân trường' chỉ địa điểm (Ở đâu?).",
+          "Tiếng Việt|5|Từ nào không cùng nhóm: xe đạp, ô tô, tàu hỏa, quyển truyện?|Quyển truyện|Xe đạp|Ô tô|Tàu hỏa|Quyển truyện không phải phương tiện giao thông.",
+          "Tiếng Anh|5|Chọn từ đúng: 'There ___ three books on the desk.'|are|is|am|be|Số nhiều (three books) dùng 'There are'.",
+          "Tiếng Anh|5|Chọn từ đúng: 'She ___ playing badminton.'|is|are|am|do|Chủ ngữ 'She' đi với 'is'."
+        ],
+        "RAW_LUCAS": [
+          "Toán|5|Tính: 50 + 33 = ?|83|93|73|84|50 + 33 = 83.",
+          "Toán|5|Tính: 88 - 11 = ?|77|87|67|78|88 - 11 = 77.",
+          "Toán|5|Số liền sau của số 65 là số mấy?|66|67|65|68|Đếm xuôi: sau 65 là 66.",
+          "Toán|5|Tính nhẩm: 20 + 30 = ?|50|60|40|70|20 + 30 = 50.",
+          "Toán|5|Số gồm 1 chục và 4 đơn vị là số mấy?|14|24|15|13|1 chục và 4 đơn vị viết là 14.",
+          "Toán|5|Trong hộp có 7 ngôi sao, thêm 3 ngôi sao nữa. Có tất cả mấy ngôi sao?|10 ngôi sao|11 ngôi sao|9 ngôi sao|12 ngôi sao|7 + 3 = 10 ngôi sao.",
+          "Tiếng Việt|5|Đồ vật nào dùng để che đầu khi đi nắng?|Cái mũ|Đôi tất|Cái bút|Cái thìa|Cái mũ dùng để đội đầu.",
+          "Tiếng Việt|5|Từ nào có vần 'oa'?|Bông hoa|Con cá|Cái bàn|Cây tre|Tiếng 'hoa' có vần oa.",
+          "Tiếng Anh|5|Từ 'moon' nghĩa là gì?|Mặt trăng|Mặt trời|Cái cây|Bông hoa|Moon là mặt trăng.",
+          "Tiếng Anh|5|Từ 'star' nghĩa là gì?|Ngôi sao|Mặt trời|Mặt trăng|Cơn mưa|Star là ngôi sao."
+        ]
+      }
+    },
+    {
+      "so": 29,
+      "ten": "Bán Kết Đại Dương",
+      "chu_de": "Chặng áp chót sóng cao gió mạnh",
+      "do_kho": 5,
+      "so_cau": 12,
+      "toc_do_song": 1.98,
+      "phan_thuong": {
+        "sao_toi_da": 3,
+        "ciecas": 107,
+        "cup_dong_doi": false
+      },
+      "mau_chu_dao": "#9D0208",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "dinh_dang_goc": "Môn|Cấp độ|Câu hỏi|Đáp án đúng|Sai 1|Sai 2|Sai 3|Giải thích",
+        "RAW_LUCIE": [
+          "Toán|5|Tính tổng: 39235 + 29085 = ?|68320|68420|68220|68330|39235 + 29085 = 68320.",
+          "Toán|5|Tính hiệu: 36110 - 23625 = ?|12485|12585|12385|12495|36110 - 23625 = 12485.",
+          "Toán|5|Tính tích: 32 x 2 = ?|64|66|62|74|32 x 2 = 64.",
+          "Toán|5|Tính thương: 60 : 3 = ?|20|21|19|22|Vì 3 x 20 = 60 nên 60 : 3 = 20.",
+          "Toán|5|Chu vi hình vuông cạnh 11 cm là bao nhiêu?|44 cm|48 cm|40 cm|46 cm|Chu vi hình vuông = 11 x 4 = 44 cm.",
+          "Toán|5|Diện tích hình chữ nhật dài 13 cm, rộng 8 cm là bao nhiêu?|104 cm²|117 cm²|91 cm²|106 cm²|Diện tích = 13 x 8 = 104 cm².",
+          "Tiếng Việt|5|Từ nào không cùng nhóm: cam, bưởi, xoài, cái thước?|Cái thước|Cam|Bưởi|Xoài|Cái thước là đồ dùng học tập, không phải trái cây.",
+          "Tiếng Việt|5|Từ nào cùng nghĩa với 'vui vẻ'?|Hớn hở|Buồn rầu|Lo lắng|Mệt mỏi|Hớn hở cùng nghĩa với vui vẻ.",
+          "Tiếng Anh|5|Từ 'summer' chỉ mùa nào trong năm?|Mùa hè|Mùa đông|Mùa thu|Mùa xuân|Summer là mùa hè.",
+          "Tiếng Anh|5|Từ 'dinner' là bữa ăn nào trong ngày?|Bữa tối|Bữa sáng|Bữa trưa|Bữa phụ|Dinner là bữa tối."
+        ],
+        "RAW_LUCAS": [
+          "Toán|5|Tính: 61 + 14 = ?|75|85|65|76|61 + 14 = 75.",
+          "Toán|5|Tính: 99 - 22 = ?|77|87|67|78|99 - 22 = 77.",
+          "Toán|5|Số liền trước của số 67 là số mấy?|66|67|65|68|Đếm ngược: trước 67 là 66.",
+          "Toán|5|Tính nhẩm: 60 - 30 = ?|30|40|20|50|60 - 30 = 30.",
+          "Toán|5|Số gồm 2 chục và 7 đơn vị là số mấy?|27|37|17|28|2 chục và 7 đơn vị viết là 27.",
+          "Toán|5|Trên cành có 14 quả cam, hái đi 4 quả. Còn lại mấy quả cam?|10 quả cam|11 quả cam|9 quả cam|12 quả cam|14 - 4 = 10 quả cam.",
+          "Tiếng Việt|5|Từ nào có vần 'au'?|Cây cau|Con mèo|Quả cam|Bút chì|Tiếng 'cau' có vần au.",
+          "Tiếng Việt|5|Từ nào có vần 'iên'?|Biển xanh|Con gà|Cái cốc|Quả lê|Tiếng 'biển' có vần iên.",
+          "Tiếng Anh|5|Từ 'five' là số mấy?|5|4|6|7|Five là số 5.",
+          "Tiếng Anh|5|Từ 'ten' là số mấy?|10|8|9|2|Ten là số 10."
+        ]
+      }
+    },
+    {
+      "so": 30,
+      "ten": "Đảo Kim Cương Vô Địch",
+      "chu_de": "Đích đến cuối cùng nhận Cúp Đồng Đội!",
+      "do_kho": 5,
+      "so_cau": 12,
+      "toc_do_song": 2.02,
+      "phan_thuong": {
+        "sao_toi_da": 3,
+        "ciecas": 110,
+        "cup_dong_doi": true
+      },
+      "mau_chu_dao": "#FFD166",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "dinh_dang_goc": "Môn|Cấp độ|Câu hỏi|Đáp án đúng|Sai 1|Sai 2|Sai 3|Giải thích",
+        "RAW_LUCIE": [
+          "Toán|5|Tính tổng: 39350 + 29170 = ?|68520|68620|68420|68530|39350 + 29170 = 68520.",
+          "Toán|5|Tính hiệu: 36200 - 23690 = ?|12510|12610|12410|12520|36200 - 23690 = 12510.",
+          "Toán|5|Tính tích: 33 x 3 = ?|99|102|96|109|33 x 3 = 99.",
+          "Toán|5|Tính thương: 24 : 4 = ?|6|7|5|8|Vì 4 x 6 = 24 nên 24 : 4 = 6.",
+          "Toán|5|Giá trị biểu thức 342 + 3 x 4 là bao nhiêu?|354|364|344|358|Tính nhân trước: 3 x 4 = 12; 342 + 12 = 354.",
+          "Toán|5|Diện tích hình chữ nhật dài 14 cm, rộng 3 cm là bao nhiêu?|42 cm²|56 cm²|28 cm²|44 cm²|Diện tích = 14 x 3 = 42 cm².",
+          "Tiếng Việt|5|Từ nào chỉ hoạt động của học sinh?|Ghi chép|Quyển vở|Xanh ngát|Bàn học|Ghi chép là từ chỉ hoạt động.",
+          "Tiếng Việt|5|Từ nào chỉ đặc điểm của mùa thu?|Mát mẻ|Lá rụng|Đi học|Quả bưởi|Mát mẻ là từ chỉ đặc điểm thời tiết.",
+          "Tiếng Anh|5|Từ 'classroom' có nghĩa tiếng Việt là gì?|Phòng học|Thư viện|Sân trường|Phòng nhạc|Classroom là phòng học.",
+          "Tiếng Anh|5|Từ 'computer room' có nghĩa là gì?|Phòng tin học|Phòng mỹ thuật|Nhà thể chất|Căng tin|Computer room là phòng tin học."
+        ],
+        "RAW_LUCAS": [
+          "Toán|5|Tính: 22 + 20 = ?|42|52|32|43|22 + 20 = 42.",
+          "Toán|5|Tính: 55 - 33 = ?|22|32|12|23|55 - 33 = 22.",
+          "Toán|5|Số liền sau của số 69 là số mấy?|70|71|69|72|Đếm xuôi: sau 69 là 70.",
+          "Toán|5|Tính nhẩm: 40 + 10 = ?|50|60|40|70|40 + 10 = 50.",
+          "Toán|5|Số gồm 3 chục và 0 đơn vị là số mấy?|30|40|20|31|3 chục và 0 đơn vị viết là 30.",
+          "Toán|5|Trong hộp có 3 ngôi sao, thêm 5 ngôi sao nữa. Có tất cả mấy ngôi sao?|8 ngôi sao|9 ngôi sao|7 ngôi sao|10 ngôi sao|3 + 5 = 8 ngôi sao.",
+          "Tiếng Việt|5|Điền c hay k: 'con ...á'?|c|k|g|d|Trước a dùng chữ c: con cá.",
+          "Tiếng Việt|5|Điền c hay k: 'cây ...em'?|k|c|g|t|Trước e dùng chữ k: cây kem.",
+          "Tiếng Anh|5|Từ 'red' là màu gì?|Màu đỏ|Màu xanh|Màu vàng|Màu trắng|Red là màu đỏ.",
+          "Tiếng Anh|5|Từ 'blue' là màu gì?|Màu xanh dương|Màu đỏ|Màu hồng|Màu đen|Blue là màu xanh dương."
+        ]
+      }
+    },
+    {
+      "so": 31,
+      "ten": "Vượt Sóng Đại Dương — Chặng 31",
+      "chu_de": "Chinh phục sóng biển & Toán nhanh",
+      "do_kho": 4,
+      "so_cau": 10,
+      "toc_do_song": 1.43,
+      "phan_thuong": {
+        "sao": 3,
+        "ciecas": 6
+      },
+      "mau_chu_dao": "#0284c7",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "RAW_LUCIE": [
+          "Toán|4|Tính thương: 2635 : 5 = ?|527|327|627|427|2635 : 5 = 527.",
+          "Toán|4|Tính giá trị biểu thức: (26 + 34) : 2 + 16 = ?|46|50|45|44|(26 + 34) : 2 + 16 = 60 : 2 + 16 = 30 + 16 = 46.",
+          "Toán|4|Diện tích hình chữ nhật dài 31 cm, rộng 21 cm là bao nhiêu cm²?|651|631|713|672|Diện tích = 31 × 21 = 651 cm².",
+          "Toán|4|Đổi đơn vị: 3 km 631 m = ... m?|3631|3641|1631|3651|3 km = 3000 m, cộng thêm 631 m bằng 3631 m.",
+          "Toán|4|Mỗi hộp có 19 quyển vở. Hỏi 4 hộp như thế và thêm 23 quyển vở có tất cả bao nhiêu quyển vở?|99|118|80|79|4 × 19 + 23 = 76 + 23 = 99.",
+          "Toán|4|Tính tổng: 12645 + 30406 = ?|43051|43031|41051|44051|12645 + 30406 = 43051.",
+          "Toán|4|Tính hiệu: 83380 - 30386 = ?|52994|54994|52974|52894|83380 - 30386 = 52994.",
+          "Toán|4|Tính tích: 678 × 9 = ?|6102|5902|6112|6002|678 × 9 = 6102.",
+          "Toán|4|Tính thương: 1104 : 8 = ?|138|38|137|118|1104 : 8 = 138.",
+          "Toán|4|Tính giá trị biểu thức: (51 + 99) : 6 + 29 = ?|54|55|53|74|(51 + 99) : 6 + 29 = 150 : 6 + 29 = 25 + 29 = 54."
+        ],
+        "RAW_LUCAS": [
+          "Toán|4|Bé có 29 quả táo, được cho thêm 1 quả táo. Bé có tất cả mấy quả táo?|30|50|31|26|29 + 1 = 30.",
+          "Toán|4|Tính: 31 + 17 = ?|48|68|50|44|31 + 17 = 48.",
+          "Toán|4|Tính: 97 - 53 = ?|44|43|45|54|97 - 53 = 44.",
+          "Toán|4|Tính nhanh: 11 + 5 - 4 = ?|12|6|11|16|11 + 5 = 16, trừ 4 bằng 12.",
+          "Toán|4|Số liền sau của 92 là số nào?|93|103|83|97|Số liền sau của 92 là 93.",
+          "Toán|4|Bé có 12 bông hoa, được cho thêm 6 bông hoa. Bé có tất cả mấy bông hoa?|18|28|14|20|12 + 6 = 18.",
+          "Toán|4|Tính: 75 + 22 = ?|97|98|95|117|75 + 22 = 97.",
+          "Toán|4|Tính: 69 - 24 = ?|45|55|41|35|69 - 24 = 45.",
+          "Toán|4|Tính nhanh: 11 + 5 - 6 = ?|10|13|6|11|11 + 5 = 16, trừ 6 bằng 10.",
+          "Toán|4|Số liền sau của 96 là số nào?|97|98|77|117|Số liền sau của 96 là 97."
+        ]
+      }
+    },
+    {
+      "so": 32,
+      "ten": "Vượt Sóng Đại Dương — Chặng 32",
+      "chu_de": "Chinh phục sóng biển & Toán nhanh",
+      "do_kho": 4,
+      "so_cau": 10,
+      "toc_do_song": 1.46,
+      "phan_thuong": {
+        "sao": 3,
+        "ciecas": 6
+      },
+      "mau_chu_dao": "#0284c7",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "RAW_LUCIE": [
+          "Toán|4|Tính tổng: 38393 + 19538 = ?|57931|57831|57911|57731|38393 + 19538 = 57931.",
+          "Toán|4|Tính hiệu: 64818 - 25159 = ?|39659|40659|39559|38659|64818 - 25159 = 39659.",
+          "Toán|4|Tính tích: 634 × 8 = ?|5072|4972|5092|5052|634 × 8 = 5072.",
+          "Toán|4|Tính thương: 9432 : 9 = ?|1048|1248|1050|1068|9432 : 9 = 1048.",
+          "Toán|4|Tính giá trị biểu thức: (22 + 17) : 3 + 16 = ?|29|25|19|30|(22 + 17) : 3 + 16 = 39 : 3 + 16 = 13 + 16 = 29.",
+          "Toán|4|Diện tích hình chữ nhật dài 29 cm, rộng 17 cm là bao nhiêu cm²?|493|527|459|435|Diện tích = 29 × 17 = 493 cm².",
+          "Toán|4|Đổi đơn vị: 8 km 670 m = ... m?|8670|8770|6670|8650|8 km = 8000 m, cộng thêm 670 m bằng 8670 m.",
+          "Toán|4|Mỗi hộp có 14 cái bánh. Hỏi 3 hộp như thế và thêm 20 cái bánh có tất cả bao nhiêu cái bánh?|62|66|82|64|3 × 14 + 20 = 42 + 20 = 62.",
+          "Toán|4|Tính tổng: 23208 + 19742 = ?|42950|43950|43050|42850|23208 + 19742 = 42950.",
+          "Toán|4|Tính hiệu: 90676 - 16634 = ?|74042|73942|74032|74142|90676 - 16634 = 74042."
+        ],
+        "RAW_LUCAS": [
+          "Toán|4|Số liền sau của 69 là số nào?|70|50|74|60|Số liền sau của 69 là 70.",
+          "Toán|4|Bé có 45 viên kẹo, được cho thêm 4 viên kẹo. Bé có tất cả mấy viên kẹo?|49|50|45|51|45 + 4 = 49.",
+          "Toán|4|Tính: 48 + 21 = ?|69|59|79|68|48 + 21 = 69.",
+          "Toán|4|Tính: 67 - 42 = ?|25|21|26|23|67 - 42 = 25.",
+          "Toán|4|Tính nhanh: 10 + 5 - 1 = ?|14|18|10|20|10 + 5 = 15, trừ 1 bằng 14.",
+          "Toán|4|Số liền sau của 62 là số nào?|63|59|67|83|Số liền sau của 62 là 63.",
+          "Toán|4|Bé có 13 cây bút, được cho thêm 2 cây bút. Bé có tất cả mấy cây bút?|15|13|11|14|13 + 2 = 15.",
+          "Toán|4|Tính: 32 + 53 = ?|85|65|81|105|32 + 53 = 85.",
+          "Toán|4|Tính: 52 - 10 = ?|42|38|62|32|52 - 10 = 42.",
+          "Toán|4|Tính nhanh: 8 + 4 - 1 = ?|11|13|17|15|8 + 4 = 12, trừ 1 bằng 11."
+        ]
+      }
+    },
+    {
+      "so": 33,
+      "ten": "Vượt Sóng Đại Dương — Chặng 33",
+      "chu_de": "Chinh phục sóng biển & Toán nhanh",
+      "do_kho": 4,
+      "so_cau": 10,
+      "toc_do_song": 1.49,
+      "phan_thuong": {
+        "sao": 3,
+        "ciecas": 6
+      },
+      "mau_chu_dao": "#0284c7",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "RAW_LUCIE": [
+          "Toán|4|Diện tích hình chữ nhật dài 11 cm, rộng 9 cm là bao nhiêu cm²?|99|79|90|88|Diện tích = 11 × 9 = 99 cm².",
+          "Toán|4|Đổi đơn vị: 3 km 780 m = ... m?|3780|2780|3580|3790|3 km = 3000 m, cộng thêm 780 m bằng 3780 m.",
+          "Toán|4|Mỗi hộp có 30 bút chì. Hỏi 9 hộp như thế và thêm 18 bút chì có tất cả bao nhiêu bút chì?|288|268|292|308|9 × 30 + 18 = 270 + 18 = 288.",
+          "Toán|4|Tính tổng: 16530 + 32440 = ?|48970|48770|49170|47970|16530 + 32440 = 48970.",
+          "Toán|4|Tính hiệu: 64647 - 15096 = ?|49551|49651|50551|49531|64647 - 15096 = 49551.",
+          "Toán|4|Tính tích: 1337 × 2 = ?|2674|2678|2774|2694|1337 × 2 = 2674.",
+          "Toán|4|Tính thương: 6132 : 6 = ?|1022|1222|1023|1042|6132 : 6 = 1022.",
+          "Toán|4|Tính giá trị biểu thức: (16 + 68) : 4 + 31 = ?|52|32|42|51|(16 + 68) : 4 + 31 = 84 : 4 + 31 = 21 + 31 = 52.",
+          "Toán|4|Diện tích hình chữ nhật dài 19 cm, rộng 11 cm là bao nhiêu cm²?|209|171|228|190|Diện tích = 19 × 11 = 209 cm².",
+          "Toán|4|Đổi đơn vị: 4 km 368 m = ... m?|4368|4358|4168|5368|4 km = 4000 m, cộng thêm 368 m bằng 4368 m."
+        ],
+        "RAW_LUCAS": [
+          "Toán|4|Tính nhanh: 9 + 4 - 7 = ?|6|9|3|7|9 + 4 = 13, trừ 7 bằng 6.",
+          "Toán|4|Số liền sau của 17 là số nào?|18|16|17|19|Số liền sau của 17 là 18.",
+          "Toán|4|Bé có 16 quả cam, được cho thêm 2 quả cam. Bé có tất cả mấy quả cam?|18|8|14|16|16 + 2 = 18.",
+          "Toán|4|Tính: 52 + 17 = ?|69|79|89|59|52 + 17 = 69.",
+          "Toán|4|Tính: 55 - 43 = ?|12|10|16|11|55 - 43 = 12.",
+          "Toán|4|Tính nhanh: 12 + 7 - 4 = ?|15|13|17|18|12 + 7 = 19, trừ 4 bằng 15.",
+          "Toán|4|Số liền sau của 95 là số nào?|96|98|116|100|Số liền sau của 95 là 96.",
+          "Toán|4|Bé có 32 quả táo, được cho thêm 7 quả táo. Bé có tất cả mấy quả táo?|39|59|37|19|32 + 7 = 39.",
+          "Toán|4|Tính: 62 + 23 = ?|85|95|81|105|62 + 23 = 85.",
+          "Toán|4|Tính: 53 - 20 = ?|33|31|37|53|53 - 20 = 33."
+        ]
+      }
+    },
+    {
+      "so": 34,
+      "ten": "Vượt Sóng Đại Dương — Chặng 34",
+      "chu_de": "Chinh phục sóng biển & Toán nhanh",
+      "do_kho": 4,
+      "so_cau": 10,
+      "toc_do_song": 1.52,
+      "phan_thuong": {
+        "sao": 3,
+        "ciecas": 6
+      },
+      "mau_chu_dao": "#0284c7",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "RAW_LUCIE": [
+          "Toán|4|Tính tích: 1782 × 7 = ?|12474|12481|12574|12494|1782 × 7 = 12474.",
+          "Toán|4|Tính thương: 3980 : 5 = ?|796|896|596|776|3980 : 5 = 796.",
+          "Toán|4|Tính giá trị biểu thức: (19 + 25) : 2 + 43 = ?|65|64|75|45|(19 + 25) : 2 + 43 = 44 : 2 + 43 = 22 + 43 = 65.",
+          "Toán|4|Diện tích hình chữ nhật dài 31 cm, rộng 11 cm là bao nhiêu cm²?|341|321|331|351|Diện tích = 31 × 11 = 341 cm².",
+          "Toán|4|Đổi đơn vị: 2 km 325 m = ... m?|2325|2305|2525|2125|2 km = 2000 m, cộng thêm 325 m bằng 2325 m.",
+          "Toán|4|Mỗi hộp có 18 bút chì. Hỏi 7 hộp như thế và thêm 41 bút chì có tất cả bao nhiêu bút chì?|167|147|149|203|7 × 18 + 41 = 126 + 41 = 167.",
+          "Toán|4|Tính tổng: 19162 + 11613 = ?|30775|30975|30575|29775|19162 + 11613 = 30775.",
+          "Toán|4|Tính hiệu: 63807 - 22781 = ?|41026|42026|41126|41016|63807 - 22781 = 41026.",
+          "Toán|4|Tính tích: 2212 × 7 = ?|15484|15504|15474|15498|2212 × 7 = 15484.",
+          "Toán|4|Tính thương: 3087 : 3 = ?|1029|1028|929|1049|3087 : 3 = 1029."
+        ],
+        "RAW_LUCAS": [
+          "Toán|4|Tính: 84 - 42 = ?|42|52|44|40|84 - 42 = 42.",
+          "Toán|4|Tính nhanh: 10 + 4 - 11 = ?|3|5|7|2|10 + 4 = 14, trừ 11 bằng 3.",
+          "Toán|4|Số liền sau của 45 là số nào?|46|42|50|66|Số liền sau của 45 là 46.",
+          "Toán|4|Bé có 32 ngôi sao, được cho thêm 5 ngôi sao. Bé có tất cả mấy ngôi sao?|37|17|39|35|32 + 5 = 37.",
+          "Toán|4|Tính: 33 + 42 = ?|75|85|76|55|33 + 42 = 75.",
+          "Toán|4|Tính: 73 - 33 = ?|40|36|50|44|73 - 33 = 40.",
+          "Toán|4|Tính nhanh: 7 + 2 - 1 = ?|8|5|11|4|7 + 2 = 9, trừ 1 bằng 8.",
+          "Toán|4|Số liền sau của 82 là số nào?|83|79|84|82|Số liền sau của 82 là 83.",
+          "Toán|4|Bé có 39 con cá, được cho thêm 1 con cá. Bé có tất cả mấy con cá?|40|38|36|30|39 + 1 = 40.",
+          "Toán|4|Tính: 57 + 21 = ?|78|77|68|76|57 + 21 = 78."
+        ]
+      }
+    },
+    {
+      "so": 35,
+      "ten": "Vượt Sóng Đại Dương — Chặng 35",
+      "chu_de": "Chinh phục sóng biển & Toán nhanh",
+      "do_kho": 4,
+      "so_cau": 10,
+      "toc_do_song": 1.55,
+      "phan_thuong": {
+        "sao": 3,
+        "ciecas": 6
+      },
+      "mau_chu_dao": "#0284c7",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "RAW_LUCIE": [
+          "Toán|4|Mỗi hộp có 21 bút chì. Hỏi 8 hộp như thế và thêm 27 bút chì có tất cả bao nhiêu bút chì?|195|193|237|175|8 × 21 + 27 = 168 + 27 = 195.",
+          "Toán|4|Tính tổng: 31699 + 36926 = ?|68625|67625|68425|68645|31699 + 36926 = 68625.",
+          "Toán|4|Tính hiệu: 76439 - 41095 = ?|35344|34344|35324|35354|76439 - 41095 = 35344.",
+          "Toán|4|Tính tích: 934 × 2 = ?|1868|1864|1878|1870|934 × 2 = 1868.",
+          "Toán|4|Tính thương: 1710 : 6 = ?|285|283|295|485|1710 : 6 = 285.",
+          "Toán|4|Tính giá trị biểu thức: (81 + 90) : 9 + 29 = ?|48|38|52|49|(81 + 90) : 9 + 29 = 171 : 9 + 29 = 19 + 29 = 48.",
+          "Toán|4|Diện tích hình chữ nhật dài 33 cm, rộng 11 cm là bao nhiêu cm²?|363|373|385|383|Diện tích = 33 × 11 = 363 cm².",
+          "Toán|4|Đổi đơn vị: 3 km 202 m = ... m?|3202|3222|3402|3192|3 km = 3000 m, cộng thêm 202 m bằng 3202 m.",
+          "Toán|4|Mỗi hộp có 14 xu CIECAS. Hỏi 3 hộp như thế và thêm 41 xu CIECAS có tất cả bao nhiêu xu CIECAS?|83|93|97|103|3 × 14 + 41 = 42 + 41 = 83.",
+          "Toán|4|Tính tổng: 21940 + 43191 = ?|65131|65331|65151|65111|21940 + 43191 = 65131."
+        ],
+        "RAW_LUCAS": [
+          "Toán|4|Tính: 52 + 15 = ?|67|65|63|68|52 + 15 = 67.",
+          "Toán|4|Tính: 42 - 30 = ?|12|10|16|22|42 - 30 = 12.",
+          "Toán|4|Tính nhanh: 5 + 7 - 9 = ?|3|6|0|4|5 + 7 = 12, trừ 9 bằng 3.",
+          "Toán|4|Số liền sau của 19 là số nào?|20|40|19|21|Số liền sau của 19 là 20.",
+          "Toán|4|Bé có 35 bông hoa, được cho thêm 3 bông hoa. Bé có tất cả mấy bông hoa?|38|37|18|28|35 + 3 = 38.",
+          "Toán|4|Tính: 32 + 35 = ?|67|68|87|77|32 + 35 = 67.",
+          "Toán|4|Tính: 99 - 20 = ?|79|89|59|99|99 - 20 = 79.",
+          "Toán|4|Tính nhanh: 4 + 3 - 2 = ?|5|4|3|2|4 + 3 = 7, trừ 2 bằng 5.",
+          "Toán|4|Có 33 quả cam, bé chia cho bạn 1 quả cam. Còn lại mấy quả cam?|32|52|42|30|33 - 1 = 32.",
+          "Toán|4|Bé có 44 viên kẹo, được cho thêm 2 viên kẹo. Bé có tất cả mấy viên kẹo?|46|45|48|47|44 + 2 = 46."
+        ]
+      }
+    },
+    {
+      "so": 36,
+      "ten": "Vượt Sóng Đại Dương — Chặng 36",
+      "chu_de": "Chinh phục sóng biển & Toán nhanh",
+      "do_kho": 4,
+      "so_cau": 10,
+      "toc_do_song": 1.58,
+      "phan_thuong": {
+        "sao": 3,
+        "ciecas": 6
+      },
+      "mau_chu_dao": "#0284c7",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "RAW_LUCIE": [
+          "Toán|4|Tính giá trị biểu thức: (164 + 11) : 7 + 23 = ?|48|47|49|50|(164 + 11) : 7 + 23 = 175 : 7 + 23 = 25 + 23 = 48.",
+          "Toán|4|Diện tích hình chữ nhật dài 11 cm, rộng 5 cm là bao nhiêu cm²?|55|75|44|45|Diện tích = 11 × 5 = 55 cm².",
+          "Toán|4|Đổi đơn vị: 8 km 676 m = ... m?|8676|9676|7676|6676|8 km = 8000 m, cộng thêm 676 m bằng 8676 m.",
+          "Toán|4|Mỗi hộp có 30 quyển vở. Hỏi 9 hộp như thế và thêm 39 quyển vở có tất cả bao nhiêu quyển vở?|309|311|279|249|9 × 30 + 39 = 270 + 39 = 309.",
+          "Toán|4|Tính tổng: 15076 + 25233 = ?|40309|38309|40319|40329|15076 + 25233 = 40309.",
+          "Toán|4|Tính hiệu: 94353 - 42752 = ?|51601|51591|51701|51581|94353 - 42752 = 51601.",
+          "Toán|4|Tính tích: 1341 × 5 = ?|6705|6905|6605|6700|1341 × 5 = 6705.",
+          "Toán|4|Tính thương: 5286 : 6 = ?|881|981|879|871|5286 : 6 = 881.",
+          "Toán|4|Tính giá trị biểu thức: (85 + 50) : 5 + 31 = ?|58|62|56|48|(85 + 50) : 5 + 31 = 135 : 5 + 31 = 27 + 31 = 58.",
+          "Toán|4|Diện tích hình chữ nhật dài 21 cm, rộng 7 cm là bao nhiêu cm²?|147|189|137|167|Diện tích = 21 × 7 = 147 cm²."
+        ],
+        "RAW_LUCAS": [
+          "Toán|4|Bé có 33 quả cam, được cho thêm 6 quả cam. Bé có tất cả mấy quả cam?|39|19|40|49|33 + 6 = 39.",
+          "Toán|4|Tính: 72 + 11 = ?|83|84|63|87|72 + 11 = 83.",
+          "Toán|4|Tính: 68 - 36 = ?|32|30|31|33|68 - 36 = 32.",
+          "Toán|4|Tính nhanh: 8 + 2 - 2 = ?|8|9|4|11|8 + 2 = 10, trừ 2 bằng 8.",
+          "Toán|4|Số liền sau của 14 là số nào?|15|5|35|13|Số liền sau của 14 là 15.",
+          "Toán|4|Bé có 17 quả cam, được cho thêm 2 quả cam. Bé có tất cả mấy quả cam?|19|39|9|21|17 + 2 = 19.",
+          "Toán|4|Tính: 65 + 20 = ?|85|95|84|87|65 + 20 = 85.",
+          "Toán|4|Tính: 68 - 31 = ?|37|36|35|38|68 - 31 = 37.",
+          "Toán|4|Tính nhanh: 7 + 2 - 4 = ?|5|1|6|9|7 + 2 = 9, trừ 4 bằng 5.",
+          "Toán|4|Số liền sau của 24 là số nào?|25|21|26|15|Số liền sau của 24 là 25."
+        ]
+      }
+    },
+    {
+      "so": 37,
+      "ten": "Vượt Sóng Đại Dương — Chặng 37",
+      "chu_de": "Chinh phục sóng biển & Toán nhanh",
+      "do_kho": 4,
+      "so_cau": 10,
+      "toc_do_song": 1.61,
+      "phan_thuong": {
+        "sao": 3,
+        "ciecas": 6
+      },
+      "mau_chu_dao": "#0284c7",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "RAW_LUCIE": [
+          "Toán|4|Tính hiệu: 48502 - 43414 = ?|5088|4088|5288|5108|48502 - 43414 = 5088.",
+          "Toán|4|Tính tích: 520 × 2 = ?|1040|1030|1140|940|520 × 2 = 1040.",
+          "Toán|4|Tính thương: 2058 : 7 = ?|294|293|194|296|2058 : 7 = 294.",
+          "Toán|4|Tính giá trị biểu thức: (51 + 24) : 5 + 43 = ?|58|48|59|38|(51 + 24) : 5 + 43 = 75 : 5 + 43 = 15 + 43 = 58.",
+          "Toán|4|Diện tích hình chữ nhật dài 22 cm, rộng 20 cm là bao nhiêu cm²?|440|396|420|418|Diện tích = 22 × 20 = 440 cm².",
+          "Toán|4|Đổi đơn vị: 2 km 74 m = ... m?|2074|2274|1874|1074|2 km = 2000 m, cộng thêm 74 m bằng 2074 m.",
+          "Toán|4|Mỗi hộp có 26 quyển vở. Hỏi 9 hộp như thế và thêm 23 quyển vở có tất cả bao nhiêu quyển vở?|257|261|259|205|9 × 26 + 23 = 234 + 23 = 257.",
+          "Toán|4|Tính tổng: 16309 + 30620 = ?|46929|46939|46829|44929|16309 + 30620 = 46929.",
+          "Toán|4|Tính hiệu: 84794 - 11291 = ?|73503|73603|73483|72503|84794 - 11291 = 73503.",
+          "Toán|4|Tính tích: 1293 × 2 = ?|2586|2588|2686|2590|1293 × 2 = 2586."
+        ],
+        "RAW_LUCAS": [
+          "Toán|4|Số liền sau của 67 là số nào?|68|67|88|64|Số liền sau của 67 là 68.",
+          "Toán|4|Bé có 32 quả cam, được cho thêm 4 quả cam. Bé có tất cả mấy quả cam?|36|16|35|34|32 + 4 = 36.",
+          "Toán|4|Tính: 68 + 21 = ?|89|87|88|109|68 + 21 = 89.",
+          "Toán|4|Tính: 85 - 32 = ?|53|52|63|73|85 - 32 = 53.",
+          "Toán|4|Tính nhanh: 11 + 3 - 9 = ?|5|11|9|2|11 + 3 = 14, trừ 9 bằng 5.",
+          "Toán|4|Số liền sau của 59 là số nào?|60|59|70|62|Số liền sau của 59 là 60.",
+          "Toán|4|Bé có 27 bông hoa, được cho thêm 2 bông hoa. Bé có tất cả mấy bông hoa?|29|31|39|9|27 + 2 = 29.",
+          "Toán|4|Tính: 32 + 20 = ?|52|32|50|72|32 + 20 = 52.",
+          "Toán|4|Tính: 79 - 12 = ?|67|69|71|65|79 - 12 = 67.",
+          "Toán|4|Số liền trước của 97 là số nào?|96|92|97|106|Số liền trước của 97 là 96."
+        ]
+      }
+    },
+    {
+      "so": 38,
+      "ten": "Vượt Sóng Đại Dương — Chặng 38",
+      "chu_de": "Chinh phục sóng biển & Toán nhanh",
+      "do_kho": 4,
+      "so_cau": 10,
+      "toc_do_song": 1.64,
+      "phan_thuong": {
+        "sao": 3,
+        "ciecas": 6
+      },
+      "mau_chu_dao": "#0284c7",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "RAW_LUCIE": [
+          "Toán|4|Đổi đơn vị: 4 km 914 m = ... m?|4914|2914|6914|5914|4 km = 4000 m, cộng thêm 914 m bằng 4914 m.",
+          "Toán|4|Mỗi hộp có 26 xu CIECAS. Hỏi 5 hộp như thế và thêm 15 xu CIECAS có tất cả bao nhiêu xu CIECAS?|145|155|93|197|5 × 26 + 15 = 130 + 15 = 145.",
+          "Toán|4|Tính tổng: 16993 + 25087 = ?|42080|42100|42280|40080|16993 + 25087 = 42080.",
+          "Toán|4|Tính hiệu: 88594 - 31238 = ?|57356|56356|57156|57256|88594 - 31238 = 57356.",
+          "Toán|4|Tính tích: 277 × 8 = ?|2216|2208|2232|2224|277 × 8 = 2216.",
+          "Toán|4|Tính thương: 4115 : 5 = ?|823|843|723|833|4115 : 5 = 823.",
+          "Toán|4|Tính giá trị biểu thức: (74 + 34) : 4 + 25 = ?|52|48|56|53|(74 + 34) : 4 + 25 = 108 : 4 + 25 = 27 + 25 = 52.",
+          "Toán|4|Diện tích hình chữ nhật dài 11 cm, rộng 6 cm là bao nhiêu cm²?|66|55|60|76|Diện tích = 11 × 6 = 66 cm².",
+          "Toán|4|Đổi đơn vị: 7 km 715 m = ... m?|7715|7735|7915|7725|7 km = 7000 m, cộng thêm 715 m bằng 7715 m.",
+          "Toán|4|Mỗi hộp có 30 viên bi. Hỏi 4 hộp như thế và thêm 18 viên bi có tất cả bao nhiêu viên bi?|138|140|168|198|4 × 30 + 18 = 120 + 18 = 138."
+        ],
+        "RAW_LUCAS": [
+          "Toán|4|Tính nhanh: 11 + 2 - 2 = ?|11|12|8|13|11 + 2 = 13, trừ 2 bằng 11.",
+          "Toán|4|Có 44 viên kẹo, bé chia cho bạn 3 viên kẹo. Còn lại mấy viên kẹo?|41|61|39|37|44 - 3 = 41.",
+          "Toán|4|Bé có 40 con cá, được cho thêm 9 con cá. Bé có tất cả mấy con cá?|49|39|48|47|40 + 9 = 49.",
+          "Toán|4|Tính: 70 + 17 = ?|87|83|97|67|70 + 17 = 87.",
+          "Toán|4|Tính: 88 - 21 = ?|67|63|87|71|88 - 21 = 67.",
+          "Toán|4|Tính nhanh: 6 + 3 - 1 = ?|8|5|9|4|6 + 3 = 9, trừ 1 bằng 8.",
+          "Toán|4|Số liền sau của 47 là số nào?|48|46|47|52|Số liền sau của 47 là 48.",
+          "Toán|4|Bé có 15 bông hoa, được cho thêm 4 bông hoa. Bé có tất cả mấy bông hoa?|19|18|21|17|15 + 4 = 19.",
+          "Toán|4|Tính: 50 + 48 = ?|98|100|97|94|50 + 48 = 98.",
+          "Toán|4|Tính: 34 - 23 = ?|11|31|12|21|34 - 23 = 11."
+        ]
+      }
+    },
+    {
+      "so": 39,
+      "ten": "Vượt Sóng Đại Dương — Chặng 39",
+      "chu_de": "Chinh phục sóng biển & Toán nhanh",
+      "do_kho": 4,
+      "so_cau": 10,
+      "toc_do_song": 1.67,
+      "phan_thuong": {
+        "sao": 3,
+        "ciecas": 6
+      },
+      "mau_chu_dao": "#0284c7",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "RAW_LUCIE": [
+          "Toán|4|Tính thương: 1372 : 4 = ?|343|333|443|543|1372 : 4 = 343.",
+          "Toán|4|Tính giá trị biểu thức: (24 + 168) : 8 + 21 = ?|45|65|49|47|(24 + 168) : 8 + 21 = 192 : 8 + 21 = 24 + 21 = 45.",
+          "Toán|4|Diện tích hình chữ nhật dài 16 cm, rộng 5 cm là bao nhiêu cm²?|80|85|96|60|Diện tích = 16 × 5 = 80 cm².",
+          "Toán|4|Đổi đơn vị: 3 km 940 m = ... m?|3940|3920|2940|4140|3 km = 3000 m, cộng thêm 940 m bằng 3940 m.",
+          "Toán|4|Mỗi hộp có 25 bút chì. Hỏi 6 hộp như thế và thêm 9 bút chì có tất cả bao nhiêu bút chì?|159|169|149|184|6 × 25 + 9 = 150 + 9 = 159.",
+          "Toán|4|Tính tổng: 14048 + 38038 = ?|52086|50086|52106|51986|14048 + 38038 = 52086.",
+          "Toán|4|Tính hiệu: 63441 - 15894 = ?|47547|47747|47557|47567|63441 - 15894 = 47547.",
+          "Toán|4|Tính tích: 2010 × 9 = ?|18090|18072|18070|18190|2010 × 9 = 18090.",
+          "Toán|4|Tính thương: 2348 : 4 = ?|587|787|597|607|2348 : 4 = 587.",
+          "Toán|4|Tính giá trị biểu thức: (29 + 13) : 2 + 19 = ?|40|60|50|44|(29 + 13) : 2 + 19 = 42 : 2 + 19 = 21 + 19 = 40."
+        ],
+        "RAW_LUCAS": [
+          "Toán|4|Tính: 75 - 15 = ?|60|70|50|56|75 - 15 = 60.",
+          "Toán|4|Tính nhanh: 8 + 3 - 6 = ?|5|4|7|8|8 + 3 = 11, trừ 6 bằng 5.",
+          "Toán|4|Số liền sau của 26 là số nào?|27|29|23|25|Số liền sau của 26 là 27.",
+          "Toán|4|Bé có 15 con cá, được cho thêm 4 con cá. Bé có tất cả mấy con cá?|19|15|21|9|15 + 4 = 19.",
+          "Toán|4|Tính: 66 + 12 = ?|78|98|82|76|66 + 12 = 78.",
+          "Toán|4|Tính: 32 - 12 = ?|20|30|16|19|32 - 12 = 20.",
+          "Toán|4|Tính nhanh: 6 + 3 - 4 = ?|5|11|9|4|6 + 3 = 9, trừ 4 bằng 5.",
+          "Toán|4|Số liền sau của 35 là số nào?|36|37|26|32|Số liền sau của 35 là 36.",
+          "Toán|4|Bé có 28 quả cam, được cho thêm 1 quả cam. Bé có tất cả mấy quả cam?|29|31|33|19|28 + 1 = 29.",
+          "Toán|4|Tính: 15 + 34 = ?|49|51|53|50|15 + 34 = 49."
+        ]
+      }
+    },
+    {
+      "so": 40,
+      "ten": "👑 BOSS: Vượt Sóng Đại Dương — Chặng 40",
+      "chu_de": "Chinh phục sóng biển & Toán nhanh",
+      "do_kho": 4,
+      "so_cau": 10,
+      "toc_do_song": 1.7,
+      "phan_thuong": {
+        "sao": 3,
+        "ciecas": 20
+      },
+      "mau_chu_dao": "#0284c7",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "RAW_LUCIE": [
+          "Toán|4|Tính tổng: 32140 + 32698 = ?|64838|63838|64848|64858|32140 + 32698 = 64838.",
+          "Toán|4|Tính hiệu: 55787 - 40083 = ?|15704|16704|15694|15724|55787 - 40083 = 15704.",
+          "Toán|4|Tính tích: 1753 × 8 = ?|14024|14008|14034|13924|1753 × 8 = 14024.",
+          "Toán|4|Tính thương: 632 : 4 = ?|158|168|157|58|632 : 4 = 158.",
+          "Toán|4|Tính giá trị biểu thức: (90 + 64) : 7 + 34 = ?|56|55|66|58|(90 + 64) : 7 + 34 = 154 : 7 + 34 = 22 + 34 = 56.",
+          "Toán|4|Diện tích hình chữ nhật dài 35 cm, rộng 20 cm là bao nhiêu cm²?|700|720|770|690|Diện tích = 35 × 20 = 700 cm².",
+          "Toán|4|Đổi đơn vị: 8 km 184 m = ... m?|8184|8284|9184|8164|8 km = 8000 m, cộng thêm 184 m bằng 8184 m.",
+          "Toán|4|Mỗi hộp có 25 bút chì. Hỏi 4 hộp như thế và thêm 28 bút chì có tất cả bao nhiêu bút chì?|128|126|78|148|4 × 25 + 28 = 100 + 28 = 128.",
+          "Toán|4|Tính tổng: 21668 + 16578 = ?|38246|38346|38046|38236|21668 + 16578 = 38246.",
+          "Toán|4|Tính hiệu: 84074 - 32352 = ?|51722|50722|51922|52722|84074 - 32352 = 51722."
+        ],
+        "RAW_LUCAS": [
+          "Toán|4|Tính: 21 + 15 = ?|36|56|37|16|21 + 15 = 36.",
+          "Toán|4|Tính: 78 - 24 = ?|54|52|50|55|78 - 24 = 54.",
+          "Toán|4|Số liền trước của 43 là số nào?|42|46|40|22|Số liền trước của 43 là 42.",
+          "Toán|4|Số liền sau của 30 là số nào?|31|35|11|29|Số liền sau của 30 là 31.",
+          "Toán|4|Bé có 11 ngôi sao, được cho thêm 4 ngôi sao. Bé có tất cả mấy ngôi sao?|15|17|16|5|11 + 4 = 15.",
+          "Toán|4|Tính: 71 + 28 = ?|99|119|95|103|71 + 28 = 99.",
+          "Toán|4|Tính: 78 - 41 = ?|37|38|27|17|78 - 41 = 37.",
+          "Toán|4|Tính nhanh: 12 + 5 - 14 = ?|3|1|7|2|12 + 5 = 17, trừ 14 bằng 3.",
+          "Toán|4|Có 19 viên kẹo, bé chia cho bạn 2 viên kẹo. Còn lại mấy viên kẹo?|17|18|19|15|19 - 2 = 17.",
+          "Toán|4|Bé có 14 ngôi sao, được cho thêm 2 ngôi sao. Bé có tất cả mấy ngôi sao?|16|18|17|26|14 + 2 = 16."
+        ]
+      }
+    },
+    {
+      "so": 41,
+      "ten": "Vượt Sóng Đại Dương — Chặng 41",
+      "chu_de": "Chinh phục sóng biển & Toán nhanh",
+      "do_kho": 5,
+      "so_cau": 10,
+      "toc_do_song": 1.73,
+      "phan_thuong": {
+        "sao": 3,
+        "ciecas": 6
+      },
+      "mau_chu_dao": "#0f766e",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "RAW_LUCIE": [
+          "Toán|5|Diện tích hình chữ nhật dài 20 cm, rộng 13 cm là bao nhiêu cm²?|260|240|286|300|Diện tích = 20 × 13 = 260 cm².",
+          "Toán|5|Đổi đơn vị: 8 km 250 m = ... m?|8250|10250|8150|8230|8 km = 8000 m, cộng thêm 250 m bằng 8250 m.",
+          "Toán|5|Mỗi hộp có 27 bút chì. Hỏi 9 hộp như thế và thêm 23 bút chì có tất cả bao nhiêu bút chì?|266|286|293|256|9 × 27 + 23 = 243 + 23 = 266.",
+          "Toán|5|Tính tổng: 25385 + 25365 = ?|50750|50730|51750|49750|25385 + 25365 = 50750.",
+          "Toán|5|Tính hiệu: 79580 - 17503 = ?|62077|61877|64077|62057|79580 - 17503 = 62077.",
+          "Toán|5|Tính tích: 1695 × 9 = ?|15255|15155|15273|15245|1695 × 9 = 15255.",
+          "Toán|5|Tính thương: 6482 : 7 = ?|926|1026|726|906|6482 : 7 = 926.",
+          "Toán|5|Tính giá trị biểu thức: (13 + 25) : 2 + 18 = ?|37|47|38|36|(13 + 25) : 2 + 18 = 38 : 2 + 18 = 19 + 18 = 37.",
+          "Toán|5|Diện tích hình chữ nhật dài 34 cm, rộng 4 cm là bao nhiêu cm²?|136|126|116|144|Diện tích = 34 × 4 = 136 cm².",
+          "Toán|5|Đổi đơn vị: 2 km 439 m = ... m?|2439|2339|2419|2639|2 km = 2000 m, cộng thêm 439 m bằng 2439 m."
+        ],
+        "RAW_LUCAS": [
+          "Toán|5|Bé có 34 quả táo, được cho thêm 4 quả táo. Bé có tất cả mấy quả táo?|38|36|58|42|34 + 4 = 38.",
+          "Toán|5|Tính: 25 + 42 = ?|67|68|66|87|25 + 42 = 67.",
+          "Toán|5|Tính: 58 - 30 = ?|28|30|26|27|58 - 30 = 28.",
+          "Toán|5|Tính nhanh: 11 + 4 - 3 = ?|12|15|9|18|11 + 4 = 15, trừ 3 bằng 12.",
+          "Toán|5|Số liền sau của 94 là số nào?|95|99|94|93|Số liền sau của 94 là 95.",
+          "Toán|5|Bé có 30 viên kẹo, được cho thêm 8 viên kẹo. Bé có tất cả mấy viên kẹo?|38|34|39|37|30 + 8 = 38.",
+          "Toán|5|Tính: 30 + 52 = ?|82|92|84|62|30 + 52 = 82.",
+          "Toán|5|Tính: 88 - 61 = ?|27|7|25|28|88 - 61 = 27.",
+          "Toán|5|Tính nhanh: 9 + 7 - 11 = ?|5|8|3|4|9 + 7 = 16, trừ 11 bằng 5.",
+          "Toán|5|Số liền sau của 54 là số nào?|55|35|54|53|Số liền sau của 54 là 55."
+        ]
+      }
+    },
+    {
+      "so": 42,
+      "ten": "Vượt Sóng Đại Dương — Chặng 42",
+      "chu_de": "Chinh phục sóng biển & Toán nhanh",
+      "do_kho": 5,
+      "so_cau": 10,
+      "toc_do_song": 1.76,
+      "phan_thuong": {
+        "sao": 3,
+        "ciecas": 6
+      },
+      "mau_chu_dao": "#0f766e",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "RAW_LUCIE": [
+          "Toán|5|Tính tích: 141 × 3 = ?|423|429|426|433|141 × 3 = 423.",
+          "Toán|5|Tính thương: 3992 : 8 = ?|499|599|500|399|3992 : 8 = 499.",
+          "Toán|5|Tính giá trị biểu thức: (51 + 51) : 6 + 24 = ?|41|37|39|51|(51 + 51) : 6 + 24 = 102 : 6 + 24 = 17 + 24 = 41.",
+          "Toán|5|Diện tích hình chữ nhật dài 27 cm, rộng 14 cm là bao nhiêu cm²?|378|398|358|406|Diện tích = 27 × 14 = 378 cm².",
+          "Toán|5|Đổi đơn vị: 5 km 412 m = ... m?|5412|5612|5432|5212|5 km = 5000 m, cộng thêm 412 m bằng 5412 m.",
+          "Toán|5|Mỗi hộp có 16 xu CIECAS. Hỏi 9 hộp như thế và thêm 10 xu CIECAS có tất cả bao nhiêu xu CIECAS?|154|122|170|152|9 × 16 + 10 = 144 + 10 = 154.",
+          "Toán|5|Tính tổng: 22037 + 27274 = ?|49311|51311|49321|49331|22037 + 27274 = 49311.",
+          "Toán|5|Tính hiệu: 56959 - 36245 = ?|20714|20614|22714|21714|56959 - 36245 = 20714.",
+          "Toán|5|Tính tích: 2330 × 7 = ?|16310|16290|16300|16303|2330 × 7 = 16310.",
+          "Toán|5|Tính thương: 3276 : 3 = ?|1092|992|1093|1292|3276 : 3 = 1092."
+        ],
+        "RAW_LUCAS": [
+          "Toán|5|Có 44 con cá, bé chia cho bạn 3 con cá. Còn lại mấy con cá?|41|21|39|40|44 - 3 = 41.",
+          "Toán|5|Bé có 43 viên kẹo, được cho thêm 4 viên kẹo. Bé có tất cả mấy viên kẹo?|47|67|48|57|43 + 4 = 47.",
+          "Toán|5|Tính: 67 + 10 = ?|77|79|78|73|67 + 10 = 77.",
+          "Toán|5|Tính: 49 - 15 = ?|34|33|32|36|49 - 15 = 34.",
+          "Toán|5|Tính nhanh: 10 + 7 - 13 = ?|4|10|0|3|10 + 7 = 17, trừ 13 bằng 4.",
+          "Toán|5|Số liền sau của 36 là số nào?|37|35|39|36|Số liền sau của 36 là 37.",
+          "Toán|5|Bé có 26 ngôi sao, được cho thêm 3 ngôi sao. Bé có tất cả mấy ngôi sao?|29|39|31|30|26 + 3 = 29.",
+          "Toán|5|Tính: 14 + 10 = ?|24|44|28|26|14 + 10 = 24.",
+          "Toán|5|Tính: 73 - 22 = ?|51|53|71|49|73 - 22 = 51.",
+          "Toán|5|Tính nhanh: 12 + 4 - 2 = ?|14|18|10|13|12 + 4 = 16, trừ 2 bằng 14."
+        ]
+      }
+    },
+    {
+      "so": 43,
+      "ten": "Vượt Sóng Đại Dương — Chặng 43",
+      "chu_de": "Chinh phục sóng biển & Toán nhanh",
+      "do_kho": 5,
+      "so_cau": 10,
+      "toc_do_song": 1.79,
+      "phan_thuong": {
+        "sao": 3,
+        "ciecas": 6
+      },
+      "mau_chu_dao": "#0f766e",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "RAW_LUCIE": [
+          "Toán|5|Mỗi hộp có 24 xu CIECAS. Hỏi 9 hộp như thế và thêm 8 xu CIECAS có tất cả bao nhiêu xu CIECAS?|224|220|176|244|9 × 24 + 8 = 216 + 8 = 224.",
+          "Toán|5|Tính tổng: 14433 + 37932 = ?|52365|52385|52345|52265|14433 + 37932 = 52365.",
+          "Toán|5|Tính hiệu: 52447 - 25009 = ?|27438|27418|27458|25438|52447 - 25009 = 27438.",
+          "Toán|5|Tính tích: 1758 × 3 = ?|5274|5284|5474|5264|1758 × 3 = 5274.",
+          "Toán|5|Tính thương: 990 : 2 = ?|495|475|494|395|990 : 2 = 495.",
+          "Toán|5|Tính giá trị biểu thức: (14 + 61) : 5 + 6 = ?|21|31|11|17|(14 + 61) : 5 + 6 = 75 : 5 + 6 = 15 + 6 = 21.",
+          "Toán|5|Diện tích hình chữ nhật dài 26 cm, rộng 4 cm là bao nhiêu cm²?|104|96|84|112|Diện tích = 26 × 4 = 104 cm².",
+          "Toán|5|Đổi đơn vị: 2 km 510 m = ... m?|2510|2710|2410|4510|2 km = 2000 m, cộng thêm 510 m bằng 2510 m.",
+          "Toán|5|Mỗi hộp có 34 xu CIECAS. Hỏi 9 hộp như thế và thêm 20 xu CIECAS có tất cả bao nhiêu xu CIECAS?|326|336|316|324|9 × 34 + 20 = 306 + 20 = 326.",
+          "Toán|5|Tính tổng: 22760 + 35413 = ?|58173|58183|58193|58073|22760 + 35413 = 58173."
+        ],
+        "RAW_LUCAS": [
+          "Toán|5|Tính nhanh: 9 + 6 - 7 = ?|8|12|11|6|9 + 6 = 15, trừ 7 bằng 8.",
+          "Toán|5|Có 34 quả táo, bé chia cho bạn 2 quả táo. Còn lại mấy quả táo?|32|42|28|12|34 - 2 = 32.",
+          "Toán|5|Bé có 39 chiếc kẹo, được cho thêm 1 chiếc kẹo. Bé có tất cả mấy chiếc kẹo?|40|60|39|44|39 + 1 = 40.",
+          "Toán|5|Tính: 58 + 40 = ?|98|102|99|97|58 + 40 = 98.",
+          "Toán|5|Tính: 73 - 41 = ?|32|34|42|31|73 - 41 = 32.",
+          "Toán|5|Tính nhanh: 8 + 4 - 10 = ?|2|5|0|1|8 + 4 = 12, trừ 10 bằng 2.",
+          "Toán|5|Số liền sau của 13 là số nào?|14|15|24|34|Số liền sau của 13 là 14.",
+          "Toán|5|Bé có 11 ngôi sao, được cho thêm 2 ngôi sao. Bé có tất cả mấy ngôi sao?|13|33|3|23|11 + 2 = 13.",
+          "Toán|5|Tính: 77 + 21 = ?|98|118|96|88|77 + 21 = 98.",
+          "Toán|5|Tính: 45 - 14 = ?|31|21|27|11|45 - 14 = 31."
+        ]
+      }
+    },
+    {
+      "so": 44,
+      "ten": "Vượt Sóng Đại Dương — Chặng 44",
+      "chu_de": "Chinh phục sóng biển & Toán nhanh",
+      "do_kho": 5,
+      "so_cau": 10,
+      "toc_do_song": 1.82,
+      "phan_thuong": {
+        "sao": 3,
+        "ciecas": 6
+      },
+      "mau_chu_dao": "#0f766e",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "RAW_LUCIE": [
+          "Toán|5|Tính giá trị biểu thức: (34 + 64) : 7 + 45 = ?|59|39|49|69|(34 + 64) : 7 + 45 = 98 : 7 + 45 = 14 + 45 = 59.",
+          "Toán|5|Diện tích hình chữ nhật dài 24 cm, rộng 5 cm là bao nhiêu cm²?|120|125|96|130|Diện tích = 24 × 5 = 120 cm².",
+          "Toán|5|Đổi đơn vị: 5 km 207 m = ... m?|5207|5407|5227|3207|5 km = 5000 m, cộng thêm 207 m bằng 5207 m.",
+          "Toán|5|Mỗi hộp có 15 quyển vở. Hỏi 9 hộp như thế và thêm 22 quyển vở có tất cả bao nhiêu quyển vở?|157|187|172|177|9 × 15 + 22 = 135 + 22 = 157.",
+          "Toán|5|Tính tổng: 17821 + 28955 = ?|46776|46576|46976|47776|17821 + 28955 = 46776.",
+          "Toán|5|Tính hiệu: 76552 - 34221 = ?|42331|42311|41331|43331|76552 - 34221 = 42331.",
+          "Toán|5|Tính tích: 933 × 5 = ?|4665|4670|4765|4685|933 × 5 = 4665.",
+          "Toán|5|Tính thương: 4941 : 9 = ?|549|449|548|547|4941 : 9 = 549.",
+          "Toán|5|Tính giá trị biểu thức: (16 + 26) : 3 + 21 = ?|35|25|33|31|(16 + 26) : 3 + 21 = 42 : 3 + 21 = 14 + 21 = 35.",
+          "Toán|5|Diện tích hình chữ nhật dài 16 cm, rộng 11 cm là bao nhiêu cm²?|176|196|156|192|Diện tích = 16 × 11 = 176 cm²."
+        ],
+        "RAW_LUCAS": [
+          "Toán|5|Tính: 65 - 24 = ?|41|31|40|21|65 - 24 = 41.",
+          "Toán|5|Tính nhanh: 9 + 2 - 5 = ?|6|0|10|3|9 + 2 = 11, trừ 5 bằng 6.",
+          "Toán|5|Số liền sau của 65 là số nào?|66|46|65|64|Số liền sau của 65 là 66.",
+          "Toán|5|Bé có 45 quả cam, được cho thêm 2 quả cam. Bé có tất cả mấy quả cam?|47|45|46|67|45 + 2 = 47.",
+          "Toán|5|Tính: 26 + 12 = ?|38|42|37|40|26 + 12 = 38.",
+          "Toán|5|Tính: 62 - 12 = ?|50|60|46|52|62 - 12 = 50.",
+          "Toán|5|Tính nhanh: 11 + 6 - 9 = ?|8|14|4|12|11 + 6 = 17, trừ 9 bằng 8.",
+          "Toán|5|Số liền sau của 56 là số nào?|57|47|53|37|Số liền sau của 56 là 57.",
+          "Toán|5|Bé có 29 quả cam, được cho thêm 1 quả cam. Bé có tất cả mấy quả cam?|30|31|32|50|29 + 1 = 30.",
+          "Toán|5|Tính: 14 + 31 = ?|45|47|43|55|14 + 31 = 45."
+        ]
+      }
+    },
+    {
+      "so": 45,
+      "ten": "Vượt Sóng Đại Dương — Chặng 45",
+      "chu_de": "Chinh phục sóng biển & Toán nhanh",
+      "do_kho": 5,
+      "so_cau": 10,
+      "toc_do_song": 1.85,
+      "phan_thuong": {
+        "sao": 3,
+        "ciecas": 6
+      },
+      "mau_chu_dao": "#0f766e",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "RAW_LUCIE": [
+          "Toán|5|Tính hiệu: 77513 - 14138 = ?|63375|62375|61375|63365|77513 - 14138 = 63375.",
+          "Toán|5|Tính tích: 196 × 4 = ?|784|780|804|984|196 × 4 = 784.",
+          "Toán|5|Tính thương: 3940 : 4 = ?|985|983|984|975|3940 : 4 = 985.",
+          "Toán|5|Tính giá trị biểu thức: (44 + 96) : 5 + 22 = ?|50|46|49|40|(44 + 96) : 5 + 22 = 140 : 5 + 22 = 28 + 22 = 50.",
+          "Toán|5|Diện tích hình chữ nhật dài 18 cm, rộng 11 cm là bao nhiêu cm²?|198|176|234|188|Diện tích = 18 × 11 = 198 cm².",
+          "Toán|5|Đổi đơn vị: 4 km 406 m = ... m?|4406|5406|4206|4396|4 km = 4000 m, cộng thêm 406 m bằng 4406 m.",
+          "Toán|5|Mỗi hộp có 14 bút chì. Hỏi 4 hộp như thế và thêm 36 bút chì có tất cả bao nhiêu bút chì?|92|106|78|120|4 × 14 + 36 = 56 + 36 = 92.",
+          "Toán|5|Tính tổng: 38750 + 21758 = ?|60508|60518|60308|62508|38750 + 21758 = 60508.",
+          "Toán|5|Tính hiệu: 71511 - 30098 = ?|41413|43413|41313|41213|71511 - 30098 = 41413.",
+          "Toán|5|Tính tích: 412 × 7 = ?|2884|2877|2870|2984|412 × 7 = 2884."
+        ],
+        "RAW_LUCAS": [
+          "Toán|5|Tính: 43 + 12 = ?|55|75|57|53|43 + 12 = 55.",
+          "Toán|5|Tính: 37 - 16 = ?|21|23|17|1|37 - 16 = 21.",
+          "Toán|5|Tính nhanh: 12 + 3 - 9 = ?|6|9|0|5|12 + 3 = 15, trừ 9 bằng 6.",
+          "Toán|5|Số liền sau của 64 là số nào?|65|69|63|66|Số liền sau của 64 là 65.",
+          "Toán|5|Bé có 41 quả cam, được cho thêm 8 quả cam. Bé có tất cả mấy quả cam?|49|53|59|47|41 + 8 = 49.",
+          "Toán|5|Tính: 74 + 14 = ?|88|84|90|108|74 + 14 = 88.",
+          "Toán|5|Tính: 57 - 10 = ?|47|43|57|48|57 - 10 = 47.",
+          "Toán|5|Tính nhanh: 7 + 2 - 8 = ?|1|7|5|3|7 + 2 = 9, trừ 8 bằng 1.",
+          "Toán|5|Số liền sau của 49 là số nào?|50|49|52|51|Số liền sau của 49 là 50.",
+          "Toán|5|Bé có 23 chiếc kẹo, được cho thêm 2 chiếc kẹo. Bé có tất cả mấy chiếc kẹo?|25|21|35|5|23 + 2 = 25."
+        ]
+      }
+    },
+    {
+      "so": 46,
+      "ten": "Vượt Sóng Đại Dương — Chặng 46",
+      "chu_de": "Chinh phục sóng biển & Toán nhanh",
+      "do_kho": 5,
+      "so_cau": 10,
+      "toc_do_song": 1.88,
+      "phan_thuong": {
+        "sao": 3,
+        "ciecas": 6
+      },
+      "mau_chu_dao": "#0f766e",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "RAW_LUCIE": [
+          "Toán|5|Đổi đơn vị: 4 km 69 m = ... m?|4069|4169|2069|4089|4 km = 4000 m, cộng thêm 69 m bằng 4069 m.",
+          "Toán|5|Mỗi hộp có 12 xu CIECAS. Hỏi 4 hộp như thế và thêm 32 xu CIECAS có tất cả bao nhiêu xu CIECAS?|80|90|60|68|4 × 12 + 32 = 48 + 32 = 80.",
+          "Toán|5|Tính tổng: 23095 + 25368 = ?|48463|48263|48483|46463|23095 + 25368 = 48463.",
+          "Toán|5|Tính hiệu: 56009 - 42468 = ?|13541|13531|13441|14541|56009 - 42468 = 13541.",
+          "Toán|5|Tính tích: 1590 × 5 = ?|7950|7945|7930|7940|1590 × 5 = 7950.",
+          "Toán|5|Tính thương: 5376 : 6 = ?|896|916|696|895|5376 : 6 = 896.",
+          "Toán|5|Tính giá trị biểu thức: (57 + 30) : 3 + 22 = ?|51|71|49|41|(57 + 30) : 3 + 22 = 87 : 3 + 22 = 29 + 22 = 51.",
+          "Toán|5|Diện tích hình chữ nhật dài 30 cm, rộng 4 cm là bao nhiêu cm²?|120|130|124|90|Diện tích = 30 × 4 = 120 cm².",
+          "Toán|5|Đổi đơn vị: 9 km 304 m = ... m?|9304|9294|9504|9314|9 km = 9000 m, cộng thêm 304 m bằng 9304 m.",
+          "Toán|5|Mỗi hộp có 20 viên bi. Hỏi 7 hộp như thế và thêm 25 viên bi có tất cả bao nhiêu viên bi?|165|175|155|167|7 × 20 + 25 = 140 + 25 = 165."
+        ],
+        "RAW_LUCAS": [
+          "Toán|5|Bé có 14 viên kẹo, được cho thêm 4 viên kẹo. Bé có tất cả mấy viên kẹo?|18|38|20|19|14 + 4 = 18.",
+          "Toán|5|Tính: 60 + 12 = ?|72|52|73|71|60 + 12 = 72.",
+          "Toán|5|Tính: 38 - 26 = ?|12|22|11|14|38 - 26 = 12.",
+          "Toán|5|Tính nhanh: 6 + 5 - 7 = ?|4|6|2|1|6 + 5 = 11, trừ 7 bằng 4.",
+          "Toán|5|Số liền sau của 27 là số nào?|28|32|27|8|Số liền sau của 27 là 28.",
+          "Toán|5|Bé có 19 viên kẹo, được cho thêm 1 viên kẹo. Bé có tất cả mấy viên kẹo?|20|22|21|30|19 + 1 = 20.",
+          "Toán|5|Tính: 41 + 50 = ?|91|101|92|90|41 + 50 = 91.",
+          "Toán|5|Tính: 92 - 51 = ?|41|40|42|21|92 - 51 = 41.",
+          "Toán|5|Tính nhanh: 12 + 7 - 2 = ?|17|11|18|20|12 + 7 = 19, trừ 2 bằng 17.",
+          "Toán|5|Có 11 bông hoa, bé chia cho bạn 1 bông hoa. Còn lại mấy bông hoa?|10|11|0|9|11 - 1 = 10."
+        ]
+      }
+    },
+    {
+      "so": 47,
+      "ten": "Vượt Sóng Đại Dương — Chặng 47",
+      "chu_de": "Chinh phục sóng biển & Toán nhanh",
+      "do_kho": 5,
+      "so_cau": 10,
+      "toc_do_song": 1.91,
+      "phan_thuong": {
+        "sao": 3,
+        "ciecas": 6
+      },
+      "mau_chu_dao": "#0f766e",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "RAW_LUCIE": [
+          "Toán|5|Tính thương: 2720 : 8 = ?|340|360|240|342|2720 : 8 = 340.",
+          "Toán|5|Tính giá trị biểu thức: (61 + 11) : 3 + 25 = ?|49|48|50|39|(61 + 11) : 3 + 25 = 72 : 3 + 25 = 24 + 25 = 49.",
+          "Toán|5|Diện tích hình chữ nhật dài 29 cm, rộng 14 cm là bao nhiêu cm²?|406|348|464|434|Diện tích = 29 × 14 = 406 cm².",
+          "Toán|5|Đổi đơn vị: 4 km 395 m = ... m?|4395|4295|5395|2395|4 km = 4000 m, cộng thêm 395 m bằng 4395 m.",
+          "Toán|5|Mỗi hộp có 25 cái bánh. Hỏi 9 hộp như thế và thêm 14 cái bánh có tất cả bao nhiêu cái bánh?|239|189|243|237|9 × 25 + 14 = 225 + 14 = 239.",
+          "Toán|5|Tính tổng: 36127 + 24531 = ?|60658|60668|60758|61658|36127 + 24531 = 60658.",
+          "Toán|5|Tính hiệu: 74664 - 28734 = ?|45930|45940|44930|43930|74664 - 28734 = 45930.",
+          "Toán|5|Tính tích: 923 × 5 = ?|4615|4595|4625|4605|923 × 5 = 4615.",
+          "Toán|5|Tính thương: 2268 : 9 = ?|252|262|250|254|2268 : 9 = 252.",
+          "Toán|5|Tính giá trị biểu thức: (44 + 20) : 4 + 6 = ?|22|18|42|2|(44 + 20) : 4 + 6 = 64 : 4 + 6 = 16 + 6 = 22."
+        ],
+        "RAW_LUCAS": [
+          "Toán|5|Số liền sau của 50 là số nào?|51|61|31|50|Số liền sau của 50 là 51.",
+          "Toán|5|Bé có 22 quả cam, được cho thêm 6 quả cam. Bé có tất cả mấy quả cam?|28|8|38|30|22 + 6 = 28.",
+          "Toán|5|Tính: 78 + 21 = ?|99|100|79|98|78 + 21 = 99.",
+          "Toán|5|Tính: 37 - 13 = ?|24|25|28|23|37 - 13 = 24.",
+          "Toán|5|Tính nhanh: 7 + 4 - 10 = ?|1|0|7|3|7 + 4 = 11, trừ 10 bằng 1.",
+          "Toán|5|Có 31 ngôi sao, bé chia cho bạn 1 ngôi sao. Còn lại mấy ngôi sao?|30|20|31|40|31 - 1 = 30.",
+          "Toán|5|Bé có 32 quả cam, được cho thêm 2 quả cam. Bé có tất cả mấy quả cam?|34|14|54|30|32 + 2 = 34.",
+          "Toán|5|Tính: 24 + 55 = ?|79|59|83|99|24 + 55 = 79.",
+          "Toán|5|Tính: 95 - 22 = ?|73|75|71|72|95 - 22 = 73.",
+          "Toán|5|Số liền trước của 21 là số nào?|20|16|40|10|Số liền trước của 21 là 20."
+        ]
+      }
+    },
+    {
+      "so": 48,
+      "ten": "Vượt Sóng Đại Dương — Chặng 48",
+      "chu_de": "Chinh phục sóng biển & Toán nhanh",
+      "do_kho": 5,
+      "so_cau": 10,
+      "toc_do_song": 1.94,
+      "phan_thuong": {
+        "sao": 3,
+        "ciecas": 6
+      },
+      "mau_chu_dao": "#0f766e",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "RAW_LUCIE": [
+          "Toán|5|Tính tổng: 40760 + 29010 = ?|69770|69970|68770|70770|40760 + 29010 = 69770.",
+          "Toán|5|Tính hiệu: 64229 - 18708 = ?|45521|44521|45541|47521|64229 - 18708 = 45521.",
+          "Toán|5|Tính tích: 1195 × 6 = ?|7170|6970|7180|7158|1195 × 6 = 7170.",
+          "Toán|5|Tính thương: 1288 : 7 = ?|184|182|194|185|1288 : 7 = 184.",
+          "Toán|5|Tính giá trị biểu thức: (89 + 66) : 5 + 45 = ?|76|96|74|86|(89 + 66) : 5 + 45 = 155 : 5 + 45 = 31 + 45 = 76.",
+          "Toán|5|Diện tích hình chữ nhật dài 13 cm, rộng 10 cm là bao nhiêu cm²?|130|104|140|120|Diện tích = 13 × 10 = 130 cm².",
+          "Toán|5|Đổi đơn vị: 9 km 739 m = ... m?|9739|9719|9729|9759|9 km = 9000 m, cộng thêm 739 m bằng 9739 m.",
+          "Toán|5|Mỗi hộp có 25 cái bánh. Hỏi 3 hộp như thế và thêm 9 cái bánh có tất cả bao nhiêu cái bánh?|84|134|64|109|3 × 25 + 9 = 75 + 9 = 84.",
+          "Toán|5|Tính tổng: 37281 + 39933 = ?|77214|77224|77204|77014|37281 + 39933 = 77214.",
+          "Toán|5|Tính hiệu: 48244 - 23362 = ?|24882|26882|23882|25082|48244 - 23362 = 24882."
+        ],
+        "RAW_LUCAS": [
+          "Toán|5|Số liền trước của 31 là số nào?|30|32|31|50|Số liền trước của 31 là 30.",
+          "Toán|5|Số liền sau của 38 là số nào?|39|43|59|41|Số liền sau của 38 là 39.",
+          "Toán|5|Bé có 29 ngôi sao, được cho thêm 1 ngôi sao. Bé có tất cả mấy ngôi sao?|30|10|26|31|29 + 1 = 30.",
+          "Toán|5|Tính: 11 + 86 = ?|97|101|87|93|11 + 86 = 97.",
+          "Toán|5|Tính: 96 - 74 = ?|22|18|24|12|96 - 74 = 22.",
+          "Toán|5|Tính nhanh: 5 + 3 - 5 = ?|3|5|0|7|5 + 3 = 8, trừ 5 bằng 3.",
+          "Toán|5|Số liền sau của 28 là số nào?|29|28|30|49|Số liền sau của 28 là 29.",
+          "Toán|5|Bé có 28 ngôi sao, được cho thêm 1 ngôi sao. Bé có tất cả mấy ngôi sao?|29|9|28|27|28 + 1 = 29.",
+          "Toán|5|Tính: 37 + 61 = ?|98|97|94|96|37 + 61 = 98.",
+          "Toán|5|Tính: 95 - 50 = ?|45|25|43|46|95 - 50 = 45."
+        ]
+      }
+    },
+    {
+      "so": 49,
+      "ten": "Vượt Sóng Đại Dương — Chặng 49",
+      "chu_de": "Chinh phục sóng biển & Toán nhanh",
+      "do_kho": 5,
+      "so_cau": 10,
+      "toc_do_song": 1.97,
+      "phan_thuong": {
+        "sao": 3,
+        "ciecas": 6
+      },
+      "mau_chu_dao": "#0f766e",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "RAW_LUCIE": [
+          "Toán|5|Diện tích hình chữ nhật dài 21 cm, rộng 5 cm là bao nhiêu cm²?|105|115|110|125|Diện tích = 21 × 5 = 105 cm².",
+          "Toán|5|Đổi đơn vị: 9 km 492 m = ... m?|9492|8492|9482|7492|9 km = 9000 m, cộng thêm 492 m bằng 9492 m.",
+          "Toán|5|Mỗi hộp có 31 bút chì. Hỏi 8 hộp như thế và thêm 28 bút chì có tất cả bao nhiêu bút chì?|276|214|245|338|8 × 31 + 28 = 248 + 28 = 276.",
+          "Toán|5|Tính tổng: 18285 + 42462 = ?|60747|60647|60757|60547|18285 + 42462 = 60747.",
+          "Toán|5|Tính hiệu: 70857 - 36804 = ?|34053|35053|32053|34033|70857 - 36804 = 34053.",
+          "Toán|5|Tính tích: 2290 × 8 = ?|18320|18420|18328|18340|2290 × 8 = 18320.",
+          "Toán|5|Tính thương: 4635 : 5 = ?|927|947|926|727|4635 : 5 = 927.",
+          "Toán|5|Tính giá trị biểu thức: (57 + 67) : 4 + 14 = ?|45|43|47|49|(57 + 67) : 4 + 14 = 124 : 4 + 14 = 31 + 14 = 45.",
+          "Toán|5|Diện tích hình chữ nhật dài 28 cm, rộng 9 cm là bao nhiêu cm²?|252|280|196|224|Diện tích = 28 × 9 = 252 cm².",
+          "Toán|5|Đổi đơn vị: 6 km 896 m = ... m?|6896|7096|6886|7896|6 km = 6000 m, cộng thêm 896 m bằng 6896 m."
+        ],
+        "RAW_LUCAS": [
+          "Toán|5|Tính: 64 - 32 = ?|32|42|12|33|64 - 32 = 32.",
+          "Toán|5|Tính nhanh: 7 + 4 - 4 = ?|7|8|11|1|7 + 4 = 11, trừ 4 bằng 7.",
+          "Toán|5|Số liền sau của 12 là số nào?|13|9|17|23|Số liền sau của 12 là 13.",
+          "Toán|5|Bé có 11 viên kẹo, được cho thêm 8 viên kẹo. Bé có tất cả mấy viên kẹo?|19|18|15|9|11 + 8 = 19.",
+          "Toán|5|Tính: 43 + 20 = ?|63|83|65|64|43 + 20 = 63.",
+          "Toán|5|Tính: 59 - 21 = ?|38|18|34|28|59 - 21 = 38.",
+          "Toán|5|Tính nhanh: 7 + 7 - 10 = ?|4|1|2|6|7 + 7 = 14, trừ 10 bằng 4.",
+          "Toán|5|Số liền sau của 74 là số nào?|75|95|55|85|Số liền sau của 74 là 75.",
+          "Toán|5|Bé có 43 chiếc kẹo, được cho thêm 4 chiếc kẹo. Bé có tất cả mấy chiếc kẹo?|47|57|37|27|43 + 4 = 47.",
+          "Toán|5|Tính: 42 + 13 = ?|55|75|51|53|42 + 13 = 55."
+        ]
+      }
+    },
+    {
+      "so": 50,
+      "ten": "👑 BOSS: Vượt Sóng Đại Dương — Chặng 50",
+      "chu_de": "Chinh phục sóng biển & Toán nhanh",
+      "do_kho": 5,
+      "so_cau": 10,
+      "toc_do_song": 2.0,
+      "phan_thuong": {
+        "sao": 3,
+        "ciecas": 20
+      },
+      "mau_chu_dao": "#0f766e",
+      "co_san": false,
+      "cau_hoi_rieng": {
+        "RAW_LUCIE": [
+          "Toán|5|Tính tích: 208 × 6 = ?|1248|1238|1242|1048|208 × 6 = 1248.",
+          "Toán|5|Tính thương: 2415 : 7 = ?|345|545|325|335|2415 : 7 = 345.",
+          "Toán|5|Tính giá trị biểu thức: (25 + 56) : 3 + 11 = ?|38|37|40|42|(25 + 56) : 3 + 11 = 81 : 3 + 11 = 27 + 11 = 38.",
+          "Toán|5|Diện tích hình chữ nhật dài 22 cm, rộng 14 cm là bao nhiêu cm²?|308|328|330|298|Diện tích = 22 × 14 = 308 cm².",
+          "Toán|5|Đổi đơn vị: 2 km 635 m = ... m?|2635|2625|2535|2615|2 km = 2000 m, cộng thêm 635 m bằng 2635 m.",
+          "Toán|5|Mỗi hộp có 20 quyển vở. Hỏi 4 hộp như thế và thêm 26 quyển vở có tất cả bao nhiêu quyển vở?|106|66|86|126|4 × 20 + 26 = 80 + 26 = 106.",
+          "Toán|5|Tính tổng: 35257 + 15371 = ?|50628|48628|50428|51628|35257 + 15371 = 50628.",
+          "Toán|5|Tính hiệu: 68827 - 34190 = ?|34637|34657|34537|34437|68827 - 34190 = 34637.",
+          "Toán|5|Tính tích: 225 × 9 = ?|2025|2125|2035|2043|225 × 9 = 2025.",
+          "Toán|5|Tính thương: 3344 : 8 = ?|418|416|417|419|3344 : 8 = 418."
+        ],
+        "RAW_LUCAS": [
+          "Toán|5|Tính: 65 + 32 = ?|97|77|93|87|65 + 32 = 97.",
+          "Toán|5|Tính: 64 - 20 = ?|44|46|43|48|64 - 20 = 44.",
+          "Toán|5|Tính nhanh: 5 + 5 - 8 = ?|2|1|0|3|5 + 5 = 10, trừ 8 bằng 2.",
+          "Toán|5|Số liền sau của 73 là số nào?|74|72|73|70|Số liền sau của 73 là 74.",
+          "Toán|5|Tính: 42 + 12 = ?|54|74|58|55|42 + 12 = 54.",
+          "Toán|5|Tính: 32 + 63 = ?|95|85|97|91|32 + 63 = 95.",
+          "Toán|5|Tính: 48 - 34 = ?|14|18|34|24|48 - 34 = 14.",
+          "Toán|5|Tính nhanh: 11 + 4 - 4 = ?|11|10|12|7|11 + 4 = 15, trừ 4 bằng 11.",
+          "Toán|5|Có 45 ngôi sao, bé chia cho bạn 3 ngôi sao. Còn lại mấy ngôi sao?|42|52|22|62|45 - 3 = 42.",
+          "Toán|5|Bé có 23 ngôi sao, được cho thêm 5 ngôi sao. Bé có tất cả mấy ngôi sao?|28|38|18|29|23 + 5 = 28."
+        ]
+      }
+    }
+  ]
+}

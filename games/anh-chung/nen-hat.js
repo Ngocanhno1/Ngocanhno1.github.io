@@ -42,6 +42,12 @@
         sc.defer = true;
         head.appendChild(sc);
       }
+      if (head && !window.__traiNghiemChung && !document.querySelector('script[src*="trai-nghiem-chung.js"]')) {
+        var scUx = document.createElement("script");
+        scUx.src = ROOT_AC + "trai-nghiem-chung.js?v=20261127";
+        scUx.defer = true;
+        head.appendChild(scUx);
+      }
     } catch (e) {}
   }
 

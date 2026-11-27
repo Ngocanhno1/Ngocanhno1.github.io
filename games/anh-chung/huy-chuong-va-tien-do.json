@@ -1,0 +1,512 @@
+{
+  "muc_tieu_man": {
+    "tho-mo-nhi": 100,
+    "dao-kho-bau-toan-hoc": 50,
+    "rung-chuong-vang": 50,
+    "dua-xe": 50,
+    "dua-thuyen": 50,
+    "duoi-hinh-bat-chu": 50,
+    "hoi-lang-ca-dao": 50
+  },
+  "cap_bac": [
+    {
+      "cap": 1,
+      "ten": "Tân Binh Nhí",
+      "man_toi_thieu": 0,
+      "mau": "#64748b"
+    },
+    {
+      "cap": 2,
+      "ten": "Người Khám Phá",
+      "man_toi_thieu": 10,
+      "mau": "#16a34a"
+    },
+    {
+      "cap": 3,
+      "ten": "Thám Hiểm Xanh",
+      "man_toi_thieu": 30,
+      "mau": "#0284c7"
+    },
+    {
+      "cap": 4,
+      "ten": "Học Giả Nhí",
+      "man_toi_thieu": 60,
+      "mau": "#7c3aed"
+    },
+    {
+      "cap": 5,
+      "ten": "Cao Thủ Trí Tuệ",
+      "man_toi_thieu": 110,
+      "mau": "#db2777"
+    },
+    {
+      "cap": 6,
+      "ten": "Kiện Tướng Vàng",
+      "man_toi_thieu": 180,
+      "mau": "#d97706"
+    },
+    {
+      "cap": 7,
+      "ten": "Bậc Thầy Toàn Năng",
+      "man_toi_thieu": 260,
+      "mau": "#dc2626"
+    },
+    {
+      "cap": 8,
+      "ten": "Huyền Thoại Chu Văn An",
+      "man_toi_thieu": 350,
+      "mau": "#f59e0b"
+    }
+  ],
+  "trophies": [
+    {
+      "id": "buoc_dau_tien",
+      "ten": "Bước Chân Đầu Tiên",
+      "hang": "dong",
+      "icon": "🌱",
+      "mo_ta": "Hoàn thành màn chơi đầu tiên ở bất kỳ game nào",
+      "dieu_kien": {
+        "loai": "tong_man",
+        "gia_tri": 1
+      },
+      "thuong_ciecas": 5
+    },
+    {
+      "id": "chuoi_3_ngay",
+      "ten": "Chăm Chỉ 3 Ngày",
+      "hang": "dong",
+      "icon": "🔥",
+      "mo_ta": "Học liên tiếp 3 ngày",
+      "dieu_kien": {
+        "loai": "streak",
+        "gia_tri": 3
+      },
+      "thuong_ciecas": 10
+    },
+    {
+      "id": "combo_5",
+      "ten": "Chuỗi Đúng 5 Câu",
+      "hang": "dong",
+      "icon": "⚡",
+      "mo_ta": "Trả lời đúng 5 câu liên tiếp không sai",
+      "dieu_kien": {
+        "loai": "combo_max",
+        "gia_tri": 5
+      },
+      "thuong_ciecas": 5
+    },
+    {
+      "id": "mo_nhi_10",
+      "ten": "Thợ Mỏ Tập Sự",
+      "hang": "dong",
+      "icon": "⛏️",
+      "mo_ta": "Vượt qua Màn 10 game Thợ Mỏ Nhí",
+      "dieu_kien": {
+        "loai": "man_game",
+        "game": "tho-mo-nhi",
+        "gia_tri": 10
+      },
+      "thuong_ciecas": 10
+    },
+    {
+      "id": "kho_bau_10",
+      "ten": "Thủy Thủ Đảo Toán",
+      "hang": "dong",
+      "icon": "🧭",
+      "mo_ta": "Vượt qua Màn 10 Đảo Kho Báu Toán Học",
+      "dieu_kien": {
+        "loai": "man_game",
+        "game": "dao-kho-bau-toan-hoc",
+        "gia_tri": 10
+      },
+      "thuong_ciecas": 10
+    },
+    {
+      "id": "chuong_vang_10",
+      "ten": "Sĩ Tử Chuông Vàng",
+      "hang": "dong",
+      "icon": "🔔",
+      "mo_ta": "Vượt qua Màn 10 Rung Chuông Vàng",
+      "dieu_kien": {
+        "loai": "man_game",
+        "game": "rung-chuong-vang",
+        "gia_tri": 10
+      },
+      "thuong_ciecas": 10
+    },
+    {
+      "id": "dua_xe_10",
+      "ten": "Tay Lái Nhí",
+      "hang": "dong",
+      "icon": "🏎️",
+      "mo_ta": "Vượt qua Màn 10 Đua Xe",
+      "dieu_kien": {
+        "loai": "man_game",
+        "game": "dua-xe",
+        "gia_tri": 10
+      },
+      "thuong_ciecas": 10
+    },
+    {
+      "id": "doc_5_truyen",
+      "ten": "Mọt Sách Nhí",
+      "hang": "dong",
+      "icon": "📖",
+      "mo_ta": "Nghe trọn vẹn 5 câu chuyện trước giờ ngủ",
+      "dieu_kien": {
+        "loai": "truyen_da_doc",
+        "gia_tri": 5
+      },
+      "thuong_ciecas": 10
+    },
+    {
+      "id": "tong_25_man",
+      "ten": "Nhà Thám Hiểm 25 Màn",
+      "hang": "bac",
+      "icon": "🗺️",
+      "mo_ta": "Hoàn thành tổng cộng 25 màn chơi",
+      "dieu_kien": {
+        "loai": "tong_man",
+        "gia_tri": 25
+      },
+      "thuong_ciecas": 15
+    },
+    {
+      "id": "chuoi_7_ngay",
+      "ten": "Siêu Chăm 1 Tuần",
+      "hang": "bac",
+      "icon": "🌟",
+      "mo_ta": "Học đều đặn 7 ngày liên tiếp",
+      "dieu_kien": {
+        "loai": "streak",
+        "gia_tri": 7
+      },
+      "thuong_ciecas": 20
+    },
+    {
+      "id": "combo_10",
+      "ten": "Bách Phát Bách Trúng",
+      "hang": "bac",
+      "icon": "🎯",
+      "mo_ta": "Đạt chuỗi 10 câu đúng liên tiếp",
+      "dieu_kien": {
+        "loai": "combo_max",
+        "gia_tri": 10
+      },
+      "thuong_ciecas": 15
+    },
+    {
+      "id": "mo_nhi_25",
+      "ten": "Thợ Mỏ Tinh Nhuệ",
+      "hang": "bac",
+      "icon": "💎",
+      "mo_ta": "Đào tới Màn 25 Thợ Mỏ Nhí",
+      "dieu_kien": {
+        "loai": "man_game",
+        "game": "tho-mo-nhi",
+        "gia_tri": 25
+      },
+      "thuong_ciecas": 20
+    },
+    {
+      "id": "dua_thuyen_25",
+      "ten": "Thuyền Trưởng Sóng Xanh",
+      "hang": "bac",
+      "icon": "⛵",
+      "mo_ta": "Vượt qua Màn 25 Đua Thuyền",
+      "dieu_kien": {
+        "loai": "man_game",
+        "game": "dua-thuyen",
+        "gia_tri": 25
+      },
+      "thuong_ciecas": 20
+    },
+    {
+      "id": "duoi_hinh_25",
+      "ten": "Thám Tử Nhìn Hình",
+      "hang": "bac",
+      "icon": "🔍",
+      "mo_ta": "Vượt qua Màn 25 Đuổi Hình Bắt Chữ",
+      "dieu_kien": {
+        "loai": "man_game",
+        "game": "duoi-hinh-bat-chu",
+        "gia_tri": 25
+      },
+      "thuong_ciecas": 20
+    },
+    {
+      "id": "ca_dao_25",
+      "ten": "Nghệ Nhân Hội Làng",
+      "hang": "bac",
+      "icon": "🏮",
+      "mo_ta": "Vượt qua Màn 25 Hội Làng Ca Dao",
+      "dieu_kien": {
+        "loai": "man_game",
+        "game": "hoi-lang-ca-dao",
+        "gia_tri": 25
+      },
+      "thuong_ciecas": 20
+    },
+    {
+      "id": "tiet_kiem_cho",
+      "ten": "Bé Đi Chợ Thông Minh",
+      "hang": "bac",
+      "icon": "🧺",
+      "mo_ta": "Hoàn thành 5 nhiệm vụ đi chợ tiết kiệm CIECAS",
+      "dieu_kien": {
+        "loai": "nhiem_vu_cho",
+        "gia_tri": 5
+      },
+      "thuong_ciecas": 20
+    },
+    {
+      "id": "tong_100_man",
+      "ten": "Bậc Thầy 100 Màn",
+      "hang": "vang",
+      "icon": "🏅",
+      "mo_ta": "Chinh phục tổng cộng 100 màn chơi toàn hệ thống",
+      "dieu_kien": {
+        "loai": "tong_man",
+        "gia_tri": 100
+      },
+      "thuong_ciecas": 35
+    },
+    {
+      "id": "chuoi_14_ngay",
+      "ten": "Kiên Trì 2 Tuần",
+      "hang": "vang",
+      "icon": "🛡️",
+      "mo_ta": "Duy trì chuỗi học 14 ngày liên tiếp",
+      "dieu_kien": {
+        "loai": "streak",
+        "gia_tri": 14
+      },
+      "thuong_ciecas": 35
+    },
+    {
+      "id": "combo_20",
+      "ten": "Tia Chớp Không Lỗi",
+      "hang": "vang",
+      "icon": "⚡",
+      "mo_ta": "Đạt chuỗi 20 câu đúng liên tiếp",
+      "dieu_kien": {
+        "loai": "combo_max",
+        "gia_tri": 20
+      },
+      "thuong_ciecas": 30
+    },
+    {
+      "id": "mo_nhi_50",
+      "ten": "Vua Đào Mỏ Tầng 50",
+      "hang": "vang",
+      "icon": "👑",
+      "mo_ta": "Chạm mốc Màn 50 Thợ Mỏ Nhí",
+      "dieu_kien": {
+        "loai": "man_game",
+        "game": "tho-mo-nhi",
+        "gia_tri": 50
+      },
+      "thuong_ciecas": 40
+    },
+    {
+      "id": "kho_bau_50",
+      "ten": "Thuyền Trưởng Đảo Kho Báu",
+      "hang": "vang",
+      "icon": "🏴‍☠️",
+      "mo_ta": "Chinh phục trọn vẹn 50 màn Đảo Kho Báu Toán Học",
+      "dieu_kien": {
+        "loai": "man_game",
+        "game": "dao-kho-bau-toan-hoc",
+        "gia_tri": 50
+      },
+      "thuong_ciecas": 50
+    },
+    {
+      "id": "chuong_vang_50",
+      "ten": "Trạng Nguyên Chuông Vàng",
+      "hang": "vang",
+      "icon": "🏆",
+      "mo_ta": "Chinh phục trọn vẹn 50 màn Rung Chuông Vàng",
+      "dieu_kien": {
+        "loai": "man_game",
+        "game": "rung-chuong-vang",
+        "gia_tri": 50
+      },
+      "thuong_ciecas": 50
+    },
+    {
+      "id": "dua_xe_50",
+      "ten": "Quán Quân Đường Đua",
+      "hang": "vang",
+      "icon": "🏁",
+      "mo_ta": "Chinh phục trọn vẹn 50 màn Đua Xe",
+      "dieu_kien": {
+        "loai": "man_game",
+        "game": "dua-xe",
+        "gia_tri": 50
+      },
+      "thuong_ciecas": 50
+    },
+    {
+      "id": "doc_20_truyen",
+      "ten": "Kho Truyện Nhí",
+      "hang": "vang",
+      "icon": "📚",
+      "mo_ta": "Hoàn thành 20 truyện trong Sách Truyện",
+      "dieu_kien": {
+        "loai": "truyen_da_doc",
+        "gia_tri": 20
+      },
+      "thuong_ciecas": 35
+    },
+    {
+      "id": "dua_thuyen_50",
+      "ten": "Đô Đốc Đại Dương",
+      "hang": "kim_cuong",
+      "icon": "⚓",
+      "mo_ta": "Chinh phục trọn vẹn 50 màn Đua Thuyền",
+      "dieu_kien": {
+        "loai": "man_game",
+        "game": "dua-thuyen",
+        "gia_tri": 50
+      },
+      "thuong_ciecas": 50
+    },
+    {
+      "id": "duoi_hinh_50",
+      "ten": "Siêu Trí Tuệ Nhìn Hình",
+      "hang": "kim_cuong",
+      "icon": "🧠",
+      "mo_ta": "Chinh phục trọn vẹn 50 màn Đuổi Hình Bắt Chữ",
+      "dieu_kien": {
+        "loai": "man_game",
+        "game": "duoi-hinh-bat-chu",
+        "gia_tri": 50
+      },
+      "thuong_ciecas": 50
+    },
+    {
+      "id": "ca_dao_50",
+      "ten": "Sứ Giả Ca Dao Việt",
+      "hang": "kim_cuong",
+      "icon": "🎋",
+      "mo_ta": "Chinh phục trọn vẹn 50 màn Hội Làng Ca Dao",
+      "dieu_kien": {
+        "loai": "man_game",
+        "game": "hoi-lang-ca-dao",
+        "gia_tri": 50
+      },
+      "thuong_ciecas": 50
+    },
+    {
+      "id": "mo_nhi_75",
+      "ten": "Thủ Lĩnh Tầng Nham Thạch",
+      "hang": "kim_cuong",
+      "icon": "🌋",
+      "mo_ta": "Đào tới Màn 75 Thợ Mỏ Nhí",
+      "dieu_kien": {
+        "loai": "man_game",
+        "game": "tho-mo-nhi",
+        "gia_tri": 75
+      },
+      "thuong_ciecas": 60
+    },
+    {
+      "id": "tong_200_man",
+      "ten": "Chiến Binh 200 Màn",
+      "hang": "kim_cuong",
+      "icon": "💠",
+      "mo_ta": "Hoàn thành tổng cộng 200 màn chơi",
+      "dieu_kien": {
+        "loai": "tong_man",
+        "gia_tri": 200
+      },
+      "thuong_ciecas": 60
+    },
+    {
+      "id": "chuoi_30_ngay",
+      "ten": "Kỷ Luật Thép 30 Ngày",
+      "hang": "kim_cuong",
+      "icon": "📅",
+      "mo_ta": "Duy trì chuỗi học 30 ngày liên tiếp",
+      "dieu_kien": {
+        "loai": "streak",
+        "gia_tri": 30
+      },
+      "thuong_ciecas": 80
+    },
+    {
+      "id": "dung_cong_cu_10",
+      "ten": "Nhà Chiến Thuật Nhí",
+      "hang": "kim_cuong",
+      "icon": "🧰",
+      "mo_ta": "Sử dụng hợp lý 10 công cụ trợ giúp để vượt màn",
+      "dieu_kien": {
+        "loai": "dung_cong_cu",
+        "gia_tri": 10
+      },
+      "thuong_ciecas": 25
+    },
+    {
+      "id": "tich_500_ciecas",
+      "ten": "Triệu Phú CIECAS Nhí",
+      "hang": "kim_cuong",
+      "icon": "💰",
+      "mo_ta": "Tích lũy tổng cộng 500 xu CIECAS",
+      "dieu_kien": {
+        "loai": "tong_ciecas",
+        "gia_tri": 500
+      },
+      "thuong_ciecas": 50
+    },
+    {
+      "id": "mo_nhi_100",
+      "ten": "Huyền Thoại Tâm Trái Đất",
+      "hang": "huyen_thoai",
+      "icon": "🌍",
+      "mo_ta": "Chinh phục trọn vẹn 100 màn Thợ Mỏ Nhí",
+      "dieu_kien": {
+        "loai": "man_game",
+        "game": "tho-mo-nhi",
+        "gia_tri": 100
+      },
+      "thuong_ciecas": 150
+    },
+    {
+      "id": "tong_350_man",
+      "ten": "Đại Kiện Tướng 350 Màn",
+      "hang": "huyen_thoai",
+      "icon": "👑",
+      "mo_ta": "Hoàn thành tổng cộng 350 màn chơi",
+      "dieu_kien": {
+        "loai": "tong_man",
+        "gia_tri": 350
+      },
+      "thuong_ciecas": 120
+    },
+    {
+      "id": "bo_suu_tap_30",
+      "ten": "Phòng Cúp Lấp Lánh",
+      "hang": "huyen_thoai",
+      "icon": "🏛️",
+      "mo_ta": "Sưu tập đủ 30 cúp danh hiệu",
+      "dieu_kien": {
+        "loai": "so_cup",
+        "gia_tri": 30
+      },
+      "thuong_ciecas": 100
+    },
+    {
+      "id": "sieu_sao_cva",
+      "ten": "Siêu Sao Chu Văn An",
+      "hang": "huyen_thoai",
+      "icon": "🌠",
+      "mo_ta": "Đạt ít nhất Màn 50 ở 4 game khác nhau",
+      "dieu_kien": {
+        "loai": "so_game_dat_50",
+        "gia_tri": 4
+      },
+      "thuong_ciecas": 200
+    }
+  ]
+}
