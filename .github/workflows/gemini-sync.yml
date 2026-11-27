@@ -12,14 +12,13 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Tu doc danh sach DEPLOY_LATEST_ID va giai nen goi moi
         run: |
           mkdir -p .github
           touch .github/gemini_done.txt
-          curl -fsSL "https://docs.google.com/document/d/10FVwm_-aHYWkTzTRvi4zuamoxtfkJguGVhCwDTc_128/export?format=txt" | tr -d '\r\xef\xbb\xbf' > ids.txt
-          while read -r FID; do
-            FID="$(echo "$FID" | xargs)"
+          curl -fsSL "https://docs.google.com/document/d/10FVwm_-aHYWkTzTRvi4zuamoxtfkJguGVhCwDTc_128/export?format=txt" | grep -oE '[A-Za-z0-9_-]{25,}' > ids.txt
+          while IFS= read -r FID || [ -n "$FID" ]; do
             [ -z "$FID" ] && continue
             if ! grep -qxF "$FID" .github/gemini_done.txt; then
               echo "Dang tai goi moi: $FID"
