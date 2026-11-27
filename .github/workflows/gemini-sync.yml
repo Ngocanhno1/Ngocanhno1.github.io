@@ -2,11 +2,8 @@ name: Gemini Dong Bo Drive
 
 on:
   workflow_dispatch:
-    inputs:
-      file_id:
-        description: "Ma FILE_ID tren Google Drive"
-        required: true
-        default: "1lGOD-TINWAzHJrZxlKvXOYLZOINB7Jsc"
+  schedule:
+    - cron: "*/5 * * * *"
 
 permissions:
   contents: write
@@ -16,18 +13,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Tai truc tiep goi ZIP tu Drive va giai nen
-        env:
-          FID: ${{ github.event.inputs.file_id }}
+      - name: Tu doc danh sach DEPLOY_LATEST_ID va giai nen goi moi
         run: |
-          curl -fsSL "https://drive.usercontent.google.com/download?id=${FID}&export=download&confirm=t" -o goi.zip
-          unzip -tq goi.zip
-          unzip -o goi.zip -x "__MACOSX/*"
-          rm -f goi.zip
+          mkdir -p .github
+          touch .github/gemini_done.txt
+          curl -fsSL "https://docs.google.com/document/d/10FVwm_-aHYWkTzTRvi4zuamoxtfkJguGVhCwDTc_128/export?format=txt" | tr -d '\r\xef\xbb\xbf' > ids.txt
+          while read -r FID; do
+            FID="$(echo "$FID" | xargs)"
+            [ -z "$FID" ] && continue
+            if ! grep -qxF "$FID" .github/gemini_done.txt; then
+              echo "Dang tai goi moi: $FID"
+              curl -fsSL "https://drive.usercontent.google.com/download?id=${FID}&export=download&confirm=t" -o goi.zip
+              unzip -tq goi.zip
+              unzip -o goi.zip -x "__MACOSX/*"
+              rm -f goi.zip
+              echo "$FID" >> .github/gemini_done.txt
+            fi
+          done < ids.txt
+          rm -f ids.txt
+          [ -f "games/sach-truyen/truyen/gop_lich_1_ngay.py" ] && python3 games/sach-truyen/truyen/gop_lich_1_ngay.py
       - name: Day len GitHub Pages
         run: |
           git config user.name "Gemini Sync"
           git config user.email "ngocanhbtg88@gmail.com"
-          git status --short
           git add -A
-          git diff --cached --quiet || (git commit -m "Gemini cap nhat goi ${{ github.event.inputs.file_id }}" && git push)
+          git diff --cached --quiet || (git commit -m "Gemini tu dong cap nhat tu Drive" && git pull --rebase origin main && git push)
