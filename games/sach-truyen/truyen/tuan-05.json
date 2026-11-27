@@ -1,132 +1,132 @@
 {
- "trang": [
-  {
-   "loi": "Cuối tuần này, bố mẹ đưa Lucie và Lucas về quê thăm ông bà nội. Vừa bước qua cổng làng, hương lúa chín thơm ngát đã ùa vào đón hai chị em. Ông bà đứng đợi ở hiên nhà gạch đỏ, nở nụ cười hiền từ ấm áp như nắng sớm.",
-   "anh": "A traditional Vietnamese countryside house with a red brick yard, wooden gate, and golden rice fields nearby, sunny morning, no people, no text",
-   "doc": "Cuối tuần này, bố mẹ đưa Lu Xi và Lu Cát về quê thăm ông bà nội. Vừa bước qua cổng làng, hương lúa chín thơm ngát đã ùa vào đón hai chị em. Ông bà đứng đợi ở hiên nhà gạch đỏ, nở nụ cười hiền từ ấm áp như nắng sớm."
-  },
-  {
-   "loi": "Lucie và Lucas lễ phép khoanh tay chào ông bà rồi ùa vào lòng bà. Trong nhà, ông nội đã làm sẵn một chiếc diều giấy có đuôi dài nhiều màu sắc. Ông xoa đầu hai cháu bảo: “Chiều nay trời mát, ông đưa hai đứa ra đê thả diều nhé”.",
-   "anh": "A handmade colorful paper kite with long ribbons leaning against a bamboo chair on a brick porch, warm daylight, no people, no text",
-   "doc": "Lu Xi và Lu Cát lễ phép khoanh tay chào ông bà rồi ùa vào lòng bà. Trong nhà, ông nội đã làm sẵn một chiếc diều giấy có đuôi dài nhiều màu sắc. Ông xoa đầu hai cháu bảo: “Chiều nay trời mát, ông đưa hai đứa ra đê thả diều nhé”."
-  },
-  {
-   "loi": "Buổi chiều, gió trên triền đê thổi lồng lộng làm cỏ xanh rạp mình nhảy múa. Đôi bàn tay rám nắng của ông cầm cuộn dây gai, kiên nhẫn chỉ cho hai chị em cách đón gió. Lucas háo hức nâng cánh diều lên cao rồi reo to: “Gió đến rồi ông ơi!”.",
-   "anh": "Weathered hands holding a wooden spool of kite string on a green grassy dike, golden afternoon sun, watercolor style, no faces, no text",
-   "doc": "Buổi chiều, gió trên triền đê thổi lồng lộng làm cỏ xanh rạp mình nhảy múa. Đôi bàn tay rám nắng của ông cầm cuộn dây gai, kiên nhẫn chỉ cho hai chị em cách đón gió. Lu Cát háo hức nâng cánh diều lên cao rồi reo to: “Gió đến rồi ông ơi!”."
-  },
-  {
-   "loi": "Ông nội nhẹ nhàng giật dây, chiếc diều giấy vút bay lên bầu trời xanh thẳm. Cánh diều chao nghiêng giữa những đám mây trắng xốp như bông gòn. Lucie ngước nhìn theo cánh diều, khẽ nói: “Quê hương của ông nội đẹp và bình yên quá ạ”.",
-   "anh": "A colorful paper kite soaring among fluffy white clouds over a peaceful river and green dike, sunset glow, no people, no text",
-   "doc": "Ông nội nhẹ nhàng giật dây, chiếc diều giấy vút bay lên bầu trời xanh thẳm. Cánh diều chao nghiêng giữa những đám mây trắng xốp như bông gòn. Lu Xi ngước nhìn theo cánh diều, khẽ nói: “Quê hương của ông nội đẹp và bình yên quá ạ”."
-  },
-  {
-   "loi": "Khi mặt trời lặn xuống sau rặng tre, ông cùng hai cháu thu dây diều trở về nhà. Trên bàn gỗ ngoài sân, bà nội đã bày sẵn rổ khoai lang luộc bốc khói nghi ngút. Lucie bóc củ khoai ngọt bùi, lễ phép mời ông bà ăn trước.",
-   "anh": "A bamboo basket of steaming sweet potatoes and a teapot on a wooden table in a rural courtyard, twilight, no people, no text",
-   "doc": "Khi mặt trời lặn xuống sau rặng tre, ông cùng hai cháu thu dây diều trở về nhà. Trên bàn gỗ ngoài sân, bà nội đã bày sẵn rổ khoai lang luộc bốc khói nghi ngút. Lu Xi bóc củ khoai ngọt bùi, lễ phép mời ông bà ăn trước."
-  },
-  {
-   "loi": "Đêm ở quê thật tĩnh lặng, chỉ có tiếng dế kêu rả rích ngoài vườn chuối. Chiếc diều giấy nằm nghỉ ngơi ở góc phòng, mơ về bầu trời rộng lớn. Lucie và Lucas chìm vào giấc ngủ trong hương đồng gió nội dịu êm.",
-   "anh": "A paper kite resting in a cozy rural bedroom corner, moonlight shining through a wooden window onto a bamboo mat, no people, no text",
-   "doc": "Đêm ở quê thật tĩnh lặng, chỉ có tiếng dế kêu rả rích ngoài vườn chuối. Chiếc diều giấy nằm nghỉ ngơi ở góc phòng, mơ về bầu trời rộng lớn. Lu Xi và Lu Cát chìm vào giấc ngủ trong hương đồng gió nội dịu êm."
-  }
- ],
- "hoi_lucie": [
-  {
-   "cau": "Chi tiết nào cho thấy Lucie và Lucas rất lễ phép với ông bà?",
-   "dung": "Khoanh tay chào khi mới đến và mời ông bà ăn khoai trước",
-   "sai": [
-    "Chạy ngay ra đồng lúa chơi mà quên chào",
-    "Đòi ông nội phải làm thêm nhiều diều mới"
-   ],
-   "doc": "Chi tiết nào cho thấy Lu Xi và Lu Cát rất lễ phép với ông bà?",
-   "doc_dap": [
-    "Khoanh tay chào khi mới đến và mời ông bà ăn khoai trước",
-    "Chạy ngay ra đồng lúa chơi mà quên chào",
-    "Đòi ông nội phải làm thêm nhiều diều mới"
-   ]
-  },
-  {
-   "cau": "Vì sao Lucie lại cảm thấy quê hương của ông nội thật đẹp và bình yên?",
-   "dung": "Vì có hương lúa thơm, triền đê lộng gió và bầu trời xanh",
-   "sai": [
-    "Vì ở quê có nhiều siêu thị lớn và xe cộ",
-    "Vì ở quê có nhiều trò chơi điện tử hiện đại"
-   ],
-   "doc": "Vì sao Lu Xi lại cảm thấy quê hương của ông nội thật đẹp và bình yên?",
-   "doc_dap": [
-    "Vì có hương lúa thơm, triền đê lộng gió và bầu trời xanh",
-    "Vì ở quê có nhiều siêu thị lớn và xe cộ",
-    "Vì ở quê có nhiều trò chơi điện tử hiện đại"
-   ]
-  },
-  {
-   "cau": "Hình ảnh đôi bàn tay rám nắng của ông dạy thả diều gợi cho con cảm xúc gì?",
-   "dung": "Sự biết ơn và yêu thương dành cho ông bà",
-   "sai": [
-    "Sự lo lắng vì sợ diều bị đứt dây",
-    "Sự buồn bã khi trời sắp chuyển sang tối"
-   ],
-   "doc": "Hình ảnh đôi bàn tay rám nắng của ông dạy thả diều gợi cho con cảm xúc gì?",
-   "doc_dap": [
-    "Sự biết ơn và yêu thương dành cho ông bà",
-    "Sự lo lắng vì sợ diều bị đứt dây",
-    "Sự buồn bã khi trời sắp chuyển sang tối"
-   ]
-  }
- ],
- "hoi_lucas": [
-  {
-   "cau": "Ông nội dẫn hai chị em đi thả diều ở đâu?",
-   "dung": "Trên triền đê",
-   "sai": [
-    "Trong sân trường",
-    "Ở công viên"
-   ],
-   "doc": "Ông nội dẫn hai chị em đi thả diều ở đâu?",
-   "doc_dap": [
-    "Trên triền đê",
-    "Trong sân trường",
-    "Ở công viên"
-   ]
-  },
-  {
-   "cau": "Bà nội luộc món gì cho cả nhà ăn buổi chiều?",
-   "dung": "Khoai lang",
-   "sai": [
-    "Bắp ngô",
-    "Hạt dẻ"
-   ],
-   "doc": "Bà nội luộc món gì cho cả nhà ăn buổi chiều?",
-   "doc_dap": [
-    "Khoai lang",
-    "Bắp ngô",
-    "Hạt dẻ"
-   ]
-  },
-  {
-   "cau": "Ban đêm ở quê có tiếng con gì kêu ngoài vườn?",
-   "dung": "Con dế",
-   "sai": [
-    "Con ếch",
-    "Con chim sâu"
-   ],
-   "doc": "Ban đêm ở quê có tiếng con gì kêu ngoài vườn?",
-   "doc_dap": [
-    "Con dế",
-    "Con ếch",
-    "Con chim sâu"
-   ]
-  }
- ],
- "tieu_de": "Cánh diều trên đê làng",
- "bia": "A colorful bird-shaped kite flying high in a clear blue sky above a green grassy village dike and golden rice fields, no people, no text",
- "bai_hoc": "Quê hương và ông bà luôn dành cho các con những điều bình dị, ngọt ngào nhất. Các con hãy luôn yêu quý quê hương và lễ phép, kính trọng ông bà nhé.",
- "chuc": "Chúc các con ngủ thật say và mơ thấy cánh diều no gió bay giữa trời quê hương nhé.",
- "doc_tieu_de": "Cánh diều trên đê làng",
- "doc_bai_hoc": "Quê hương và ông bà luôn dành cho các con những điều bình dị, ngọt ngào nhất. Các con hãy luôn yêu quý quê hương và lễ phép, kính trọng ông bà nhé.",
- "doc_chuc": "Chúc các con ngủ thật say và mơ thấy cánh diều no gió bay giữa trời quê hương nhé.",
- "so": 5,
- "ma": "tuan-05",
- "ngay": "2026-11-25"
+  "trang": [
+    {
+      "loi": "Cuối tuần này, bố mẹ đưa Lucie và Lucas về quê thăm ông bà nội. Vừa bước qua cổng làng, hương lúa chín thơm ngát đã ùa vào đón hai chị em. Ông bà đứng đợi ở hiên nhà gạch đỏ, nở nụ cười hiền từ ấm áp như nắng sớm.",
+      "anh": "A traditional Vietnamese countryside house with a red brick yard, wooden gate, and golden rice fields nearby, sunny morning, no people, no text",
+      "doc": "Cuối tuần này, bố mẹ đưa Lu Xi và Lu Cát về quê thăm ông bà nội. Vừa bước qua cổng làng, hương lúa chín thơm ngát đã ùa vào đón hai chị em. Ông bà đứng đợi ở hiên nhà gạch đỏ, nở nụ cười hiền từ ấm áp như nắng sớm."
+    },
+    {
+      "loi": "Lucie và Lucas lễ phép khoanh tay chào ông bà rồi ùa vào lòng bà. Trong nhà, ông nội đã làm sẵn một chiếc diều giấy có đuôi dài nhiều màu sắc. Ông xoa đầu hai cháu bảo: “Chiều nay trời mát, ông đưa hai đứa ra đê thả diều nhé”.",
+      "anh": "A handmade colorful paper kite with long ribbons leaning against a bamboo chair on a brick porch, warm daylight, no people, no text",
+      "doc": "Lu Xi và Lu Cát lễ phép khoanh tay chào ông bà rồi ùa vào lòng bà. Trong nhà, ông nội đã làm sẵn một chiếc diều giấy có đuôi dài nhiều màu sắc. Ông xoa đầu hai cháu bảo: “Chiều nay trời mát, ông đưa hai đứa ra đê thả diều nhé”."
+    },
+    {
+      "loi": "Buổi chiều, gió trên triền đê thổi lồng lộng làm cỏ xanh rạp mình nhảy múa. Đôi bàn tay rám nắng của ông cầm cuộn dây gai, kiên nhẫn chỉ cho hai chị em cách đón gió. Lucas háo hức nâng cánh diều lên cao rồi reo to: “Gió đến rồi ông ơi!”.",
+      "anh": "Weathered hands holding a wooden spool of kite string on a green grassy dike, golden afternoon sun, watercolor style, no faces, no text",
+      "doc": "Buổi chiều, gió trên triền đê thổi lồng lộng làm cỏ xanh rạp mình nhảy múa. Đôi bàn tay rám nắng của ông cầm cuộn dây gai, kiên nhẫn chỉ cho hai chị em cách đón gió. Lu Cát háo hức nâng cánh diều lên cao rồi reo to: “Gió đến rồi ông ơi!”."
+    },
+    {
+      "loi": "Ông nội nhẹ nhàng giật dây, chiếc diều giấy vút bay lên bầu trời xanh thẳm. Cánh diều chao nghiêng giữa những đám mây trắng xốp như bông gòn. Lucie ngước nhìn theo cánh diều, khẽ nói: “Quê hương của ông nội đẹp và bình yên quá ạ”.",
+      "anh": "A colorful paper kite soaring among fluffy white clouds over a peaceful river and green dike, sunset glow, no people, no text",
+      "doc": "Ông nội nhẹ nhàng giật dây, chiếc diều giấy vút bay lên bầu trời xanh thẳm. Cánh diều chao nghiêng giữa những đám mây trắng xốp như bông gòn. Lu Xi ngước nhìn theo cánh diều, khẽ nói: “Quê hương của ông nội đẹp và bình yên quá ạ”."
+    },
+    {
+      "loi": "Khi mặt trời lặn xuống sau rặng tre, ông cùng hai cháu thu dây diều trở về nhà. Trên bàn gỗ ngoài sân, bà nội đã bày sẵn rổ khoai lang luộc bốc khói nghi ngút. Lucie bóc củ khoai ngọt bùi, lễ phép mời ông bà ăn trước.",
+      "anh": "A bamboo basket of steaming sweet potatoes and a teapot on a wooden table in a rural courtyard, twilight, no people, no text",
+      "doc": "Khi mặt trời lặn xuống sau rặng tre, ông cùng hai cháu thu dây diều trở về nhà. Trên bàn gỗ ngoài sân, bà nội đã bày sẵn rổ khoai lang luộc bốc khói nghi ngút. Lu Xi bóc củ khoai ngọt bùi, lễ phép mời ông bà ăn trước."
+    },
+    {
+      "loi": "Đêm ở quê thật tĩnh lặng, chỉ có tiếng dế kêu rả rích ngoài vườn chuối. Chiếc diều giấy nằm nghỉ ngơi ở góc phòng, mơ về bầu trời rộng lớn. Lucie và Lucas chìm vào giấc ngủ trong hương đồng gió nội dịu êm.",
+      "anh": "A paper kite resting in a cozy rural bedroom corner, moonlight shining through a wooden window onto a bamboo mat, no people, no text",
+      "doc": "Đêm ở quê thật tĩnh lặng, chỉ có tiếng dế kêu rả rích ngoài vườn chuối. Chiếc diều giấy nằm nghỉ ngơi ở góc phòng, mơ về bầu trời rộng lớn. Lu Xi và Lu Cát chìm vào giấc ngủ trong hương đồng gió nội dịu êm."
+    }
+  ],
+  "hoi_lucie": [
+    {
+      "cau": "Chi tiết nào cho thấy Lucie và Lucas rất lễ phép với ông bà?",
+      "dung": "Khoanh tay chào khi mới đến và mời ông bà ăn khoai trước",
+      "sai": [
+        "Chạy ngay ra đồng lúa chơi mà quên chào",
+        "Đòi ông nội phải làm thêm nhiều diều mới"
+      ],
+      "doc": "Chi tiết nào cho thấy Lu Xi và Lu Cát rất lễ phép với ông bà?",
+      "doc_dap": [
+        "Khoanh tay chào khi mới đến và mời ông bà ăn khoai trước",
+        "Chạy ngay ra đồng lúa chơi mà quên chào",
+        "Đòi ông nội phải làm thêm nhiều diều mới"
+      ]
+    },
+    {
+      "cau": "Vì sao Lucie lại cảm thấy quê hương của ông nội thật đẹp và bình yên?",
+      "dung": "Vì có hương lúa thơm, triền đê lộng gió và bầu trời xanh",
+      "sai": [
+        "Vì ở quê có nhiều siêu thị lớn và xe cộ",
+        "Vì ở quê có nhiều trò chơi điện tử hiện đại"
+      ],
+      "doc": "Vì sao Lu Xi lại cảm thấy quê hương của ông nội thật đẹp và bình yên?",
+      "doc_dap": [
+        "Vì có hương lúa thơm, triền đê lộng gió và bầu trời xanh",
+        "Vì ở quê có nhiều siêu thị lớn và xe cộ",
+        "Vì ở quê có nhiều trò chơi điện tử hiện đại"
+      ]
+    },
+    {
+      "cau": "Hình ảnh đôi bàn tay rám nắng của ông dạy thả diều gợi cho con cảm xúc gì?",
+      "dung": "Sự biết ơn và yêu thương dành cho ông bà",
+      "sai": [
+        "Sự lo lắng vì sợ diều bị đứt dây",
+        "Sự buồn bã khi trời sắp chuyển sang tối"
+      ],
+      "doc": "Hình ảnh đôi bàn tay rám nắng của ông dạy thả diều gợi cho con cảm xúc gì?",
+      "doc_dap": [
+        "Sự biết ơn và yêu thương dành cho ông bà",
+        "Sự lo lắng vì sợ diều bị đứt dây",
+        "Sự buồn bã khi trời sắp chuyển sang tối"
+      ]
+    }
+  ],
+  "hoi_lucas": [
+    {
+      "cau": "Ông nội dẫn hai chị em đi thả diều ở đâu?",
+      "dung": "Trên triền đê",
+      "sai": [
+        "Trong sân trường",
+        "Ở công viên"
+      ],
+      "doc": "Ông nội dẫn hai chị em đi thả diều ở đâu?",
+      "doc_dap": [
+        "Trên triền đê",
+        "Trong sân trường",
+        "Ở công viên"
+      ]
+    },
+    {
+      "cau": "Bà nội luộc món gì cho cả nhà ăn buổi chiều?",
+      "dung": "Khoai lang",
+      "sai": [
+        "Bắp ngô",
+        "Hạt dẻ"
+      ],
+      "doc": "Bà nội luộc món gì cho cả nhà ăn buổi chiều?",
+      "doc_dap": [
+        "Khoai lang",
+        "Bắp ngô",
+        "Hạt dẻ"
+      ]
+    },
+    {
+      "cau": "Ban đêm ở quê có tiếng con gì kêu ngoài vườn?",
+      "dung": "Con dế",
+      "sai": [
+        "Con ếch",
+        "Con chim sâu"
+      ],
+      "doc": "Ban đêm ở quê có tiếng con gì kêu ngoài vườn?",
+      "doc_dap": [
+        "Con dế",
+        "Con ếch",
+        "Con chim sâu"
+      ]
+    }
+  ],
+  "tieu_de": "Cánh diều trên đê làng",
+  "bia": "A colorful bird-shaped kite flying high in a clear blue sky above a green grassy village dike and golden rice fields, no people, no text",
+  "bai_hoc": "Quê hương và ông bà luôn dành cho các con những điều bình dị, ngọt ngào nhất. Các con hãy luôn yêu quý quê hương và lễ phép, kính trọng ông bà nhé.",
+  "chuc": "Chúc các con ngủ thật say và mơ thấy cánh diều no gió bay giữa trời quê hương nhé.",
+  "doc_tieu_de": "Cánh diều trên đê làng",
+  "doc_bai_hoc": "Quê hương và ông bà luôn dành cho các con những điều bình dị, ngọt ngào nhất. Các con hãy luôn yêu quý quê hương và lễ phép, kính trọng ông bà nhé.",
+  "doc_chuc": "Chúc các con ngủ thật say và mơ thấy cánh diều no gió bay giữa trời quê hương nhé.",
+  "so": 5,
+  "ma": "tuan-05",
+  "ngay": "2026-11-17"
 }
