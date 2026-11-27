@@ -1,0 +1,132 @@
+{
+  "so": 34,
+  "ma": "tuan-34",
+  "ngay": "2026-12-16",
+  "tieu_de": "Cuộc thi xếp sách gọn gàng",
+  "doc_tieu_de": "Cuộc thi xếp sách gọn gàng",
+  "bia": "anh/tuan-34-bia.webp",
+  "trang": [
+    {
+      "loi": "Sau nhiều ngày học bài và đọc truyện, chiếc giá sách chung của Lucie và Lucas bắt đầu hơi lộn xộn. Sách giáo khoa, vở bài tập và truyện tranh nằm lẫn vào nhau.",
+      "anh": "anh/tuan-34-bia.webp",
+      "doc": "Sau nhiều ngày học bài và đọc truyện, chiếc giá sách chung của Lu Xi và Lu Cát bắt đầu hơi lộn xộn. Sách giáo khoa, vở bài tập và truyện tranh nằm lẫn vào nhau."
+    },
+    {
+      "loi": "Lucie đề xuất tổ chức một cuộc thi nho nhỏ mang tên Biệt đội xếp sách trong mười lăm phút để biến góc học tập thành thư viện mini.",
+      "anh": "anh/tuan-34-bia.webp",
+      "doc": "Lu Xi đề xuất tổ chức một cuộc thi nho nhỏ mang tên Biệt đội xếp sách trong mười lăm phút để biến góc học tập thành thư viện mini."
+    },
+    {
+      "loi": "Chị Lucie phân loại sách giáo khoa theo từng môn học và đặt thẳng tắp ở ngăn trên. Em Lucas sắp xếp truyện tranh theo cỡ từ cao xuống thấp ở ngăn dưới.",
+      "anh": "anh/tuan-34-bia.webp",
+      "doc": "Chị Lu Xi phân loại sách giáo khoa theo từng môn học và đặt thẳng tắp ở ngăn trên. Em Lu Cát sắp xếp truyện tranh theo cỡ từ cao xuống thấp ở ngăn dưới."
+    },
+    {
+      "loi": "Hai chị em còn lau sạch bụi trên mặt bàn, xếp ngay ngắn hộp bút chì màu và đặt chiếc đèn học gọn về phía tay trái.",
+      "anh": "anh/tuan-34-bia.webp",
+      "doc": "Hai chị em còn lau sạch bụi trên mặt bàn, xếp ngay ngắn hộp bút chì màu và đặt chiếc đèn học gọn về phía tay trái."
+    },
+    {
+      "loi": "Hết mười lăm phút, mẹ bước vào chấm điểm và bất ngờ vỗ tay khen ngợi. Giá sách bây giờ nhìn sáng sủa, cần cuốn nào là tìm thấy ngay trong hai giây.",
+      "anh": "anh/tuan-34-bia.webp",
+      "doc": "Hết mười lăm phút, mẹ bước vào chấm điểm và bất ngờ vỗ tay khen ngợi. Giá sách bây giờ nhìn sáng sủa, cần cuốn nào là tìm thấy ngay trong hai giây."
+    },
+    {
+      "loi": "Từ hôm đó, mỗi tối học xong, cả Lucie và Lucas đều tự giác cất sách đúng chỗ. Góc học tập gọn gàng giúp tâm trí luôn nhẹ nhàng và tập trung.",
+      "anh": "anh/tuan-34-bia.webp",
+      "doc": "Từ hôm đó, mỗi tối học xong, cả Lu Xi và Lu Cát đều tự giác cất sách đúng chỗ. Góc học tập gọn gàng giúp tâm trí luôn nhẹ nhàng và tập trung."
+    }
+  ],
+  "bai_hoc": "Giữ gìn góc học tập ngăn nắp, biết phân loại đồ dùng khoa học để học tập hiệu quả hơn.",
+  "doc_bai_hoc": "Giữ gìn góc học tập ngăn nắp, biết phân loại đồ dùng khoa học để học tập hiệu quả hơn.",
+  "hoi_lucie": [
+    {
+      "cau": "Lucie đã sắp xếp ngăn sách của mình theo cách nào?",
+      "dung": "Phân loại sách giáo khoa theo từng môn học",
+      "sai": [
+        "Xếp lẫn lộn mọi sách với đồ chơi",
+        "Chất thành một đống cao dưới sàn"
+      ],
+      "doc": "Lu Xi đã sắp xếp ngăn sách của mình theo cách nào?",
+      "doc_dap": [
+        "Phân loại sách giáo khoa theo từng môn học",
+        "Xếp lẫn lộn mọi sách với đồ chơi",
+        "Chất thành một đống cao dưới sàn"
+      ]
+    },
+    {
+      "cau": "Lucas đã xếp truyện tranh ở ngăn dưới như thế nào?",
+      "dung": "Xếp ngay ngắn từ cuốn cao đến cuốn thấp",
+      "sai": [
+        "Vứt hết truyện vào gầm giường",
+        "Chỉ ngồi xem chị dọn một mình"
+      ],
+      "doc": "Lu Cát đã xếp truyện tranh ở ngăn dưới như thế nào?",
+      "doc_dap": [
+        "Xếp ngay ngắn từ cuốn cao đến cuốn thấp",
+        "Vứt hết truyện vào gầm giường",
+        "Chỉ ngồi xem chị dọn một mình"
+      ]
+    },
+    {
+      "cau": "Lợi ích lớn nhất của việc xếp giá sách gọn gàng là gì?",
+      "dung": "Tìm sách nhanh và giúp học tập tập trung hơn",
+      "sai": [
+        "Làm phòng chật chội hơn",
+        "Không còn chỗ để sách nữa"
+      ],
+      "doc": "Lợi ích lớn nhất của việc xếp giá sách gọn gàng là gì?",
+      "doc_dap": [
+        "Tìm sách nhanh và giúp học tập tập trung hơn",
+        "Làm phòng chật chội hơn",
+        "Không còn chỗ để sách nữa"
+      ]
+    }
+  ],
+  "hoi_lucas": [
+    {
+      "cau": "Hai chị em cùng nhau dọn dẹp đồ vật nào?",
+      "dung": "Chiếc giá sách học tập",
+      "sai": [
+        "Chiếc tủ lạnh trong bếp",
+        "Chiếc xe máy của bố"
+      ],
+      "doc": "Hai chị em cùng nhau dọn dẹp đồ vật nào?",
+      "doc_dap": [
+        "Chiếc giá sách học tập",
+        "Chiếc tủ lạnh trong bếp",
+        "Chiếc xe máy của bố"
+      ]
+    },
+    {
+      "cau": "Cuộc thi xếp sách diễn ra trong bao lâu?",
+      "dung": "Mười lăm phút",
+      "sai": [
+        "Cả một tuần lễ",
+        "Chỉ một giây"
+      ],
+      "doc": "Cuộc thi xếp sách diễn ra trong bao lâu?",
+      "doc_dap": [
+        "Mười lăm phút",
+        "Cả một tuần lễ",
+        "Chỉ một giây"
+      ]
+    },
+    {
+      "cau": "Mẹ thấy giá sách mới gọn gàng thì làm gì?",
+      "dung": "Vỗ tay khen ngợi",
+      "sai": [
+        "Mẹ buồn và nhắc nhở",
+        "Mẹ mang giấu sách đi"
+      ],
+      "doc": "Mẹ thấy giá sách mới gọn gàng thì làm gì?",
+      "doc_dap": [
+        "Vỗ tay khen ngợi",
+        "Mẹ buồn và nhắc nhở",
+        "Mẹ mang giấu sách đi"
+      ]
+    }
+  ],
+  "chuc": "Chúc hai chị em ngủ ngon trong căn phòng thật gọn gàng và thơm mát nhé.",
+  "doc_chuc": "Chúc hai chị em ngủ ngon trong căn phòng thật gọn gàng và thơm mát nhé."
+}

@@ -1,0 +1,132 @@
+{
+  "so": 40,
+  "ma": "tuan-40",
+  "ngay": "2026-12-22",
+  "tieu_de": "Đêm liên hoan âm nhạc gia đình",
+  "doc_tieu_de": "Đêm liên hoan âm nhạc gia đình",
+  "bia": "anh/tuan-40-bia.webp",
+  "trang": [
+    {
+      "loi": "Tối cuối tuần, phòng khách nhà Lucie và Lucas bỗng biến thành một sân khấu mini lung linh dưới ánh đèn vàng ấm áp.",
+      "anh": "anh/tuan-40-bia.webp",
+      "doc": "Tối cuối tuần, phòng khách nhà Lu Xi và Lu Cát bỗng biến thành một sân khấu mini lung linh dưới ánh đèn vàng ấm áp."
+    },
+    {
+      "loi": "Hai chị em tự lên chương trình đêm liên hoan âm nhạc gia đình để tặng bố mẹ sau một tuần làm việc thật chăm chỉ.",
+      "anh": "anh/tuan-40-bia.webp",
+      "doc": "Hai chị em tự lên chương trình đêm liên hoan âm nhạc gia đình để tặng bố mẹ sau một tuần làm việc thật chăm chỉ."
+    },
+    {
+      "loi": "Mở màn là tiết mục song ca vui nhộn: chị Lucie cầm micro gỗ hát thật trong trẻo, còn em Lucas gõ đàn phím gỗ theo đúng nhịp phách rất tài tình.",
+      "anh": "anh/tuan-40-bia.webp",
+      "doc": "Mở màn là tiết mục song ca vui nhộn: chị Lu Xi cầm micro gỗ hát thật trong trẻo, còn em Lu Cát gõ đàn phím gỗ theo đúng nhịp phách rất tài tình."
+    },
+    {
+      "loi": "Tiếp theo, cả bố và mẹ cùng tham gia trò chơi đoán tên bài hát thiếu nhi. Mỗi lần đoán đúng, cả nhà lại cười vang và vỗ tay không ngớt.",
+      "anh": "anh/tuan-40-bia.webp",
+      "doc": "Tiếp theo, cả bố và mẹ cùng tham gia trò chơi đoán tên bài hát thiếu nhi. Mỗi lần đoán đúng, cả nhà lại cười vang và vỗ tay không ngớt."
+    },
+    {
+      "loi": "Cuối chương trình, hai chị em cùng cúi chào thật duyên dáng như những nghệ sĩ nhỏ thực thụ. Bố mẹ tặng mỗi bé một cái ôm thật chặt và tràng pháo tay dài.",
+      "anh": "anh/tuan-40-bia.webp",
+      "doc": "Cuối chương trình, hai chị em cùng cúi chào thật duyên dáng như những nghệ sĩ nhỏ thực thụ. Bố mẹ tặng mỗi bé một cái ôm thật chặt và tràng pháo tay dài."
+    },
+    {
+      "loi": "Âm nhạc và tiếng cười sum vầy chính là phép màu tuyệt vời nhất giúp gắn kết gia đình thêm yêu thương mỗi ngày.",
+      "anh": "anh/tuan-40-bia.webp",
+      "doc": "Âm nhạc và tiếng cười sum vầy chính là phép màu tuyệt vời nhất giúp gắn kết gia đình thêm yêu thương mỗi ngày."
+    }
+  ],
+  "bai_hoc": "Tự tin thể hiện năng khiếu, biết tạo niềm vui bất ngờ cho bố mẹ và trân trọng phút giây sum vầy.",
+  "doc_bai_hoc": "Tự tin thể hiện năng khiếu, biết tạo niềm vui bất ngờ cho bố mẹ và trân trọng phút giây sum vầy.",
+  "hoi_lucie": [
+    {
+      "cau": "Hai chị em tổ chức đêm nhạc mini nhằm mục đích gì?",
+      "dung": "Tặng bố mẹ niềm vui sau một tuần làm việc vất vả",
+      "sai": [
+        "Để thức thật khuya không đi ngủ",
+        "Để đòi mua thật nhiều đồ chơi mới"
+      ],
+      "doc": "Hai chị em tổ chức đêm nhạc mini nhằm mục đích gì?",
+      "doc_dap": [
+        "Tặng bố mẹ niềm vui sau một tuần làm việc vất vả",
+        "Để thức thật khuya không đi ngủ",
+        "Để đòi mua thật nhiều đồ chơi mới"
+      ]
+    },
+    {
+      "cau": "Trong tiết mục mở màn, Lucie và Lucas phối hợp ra sao?",
+      "dung": "Lucie hát trong trẻo còn Lucas gõ đàn phím gỗ đúng nhịp",
+      "sai": [
+        "Hai chị em tranh nhau micro",
+        "Chỉ có một người biểu diễn còn người kia đi ngủ"
+      ],
+      "doc": "Trong tiết mục mở màn, Lu Xi và Lu Cát phối hợp ra sao?",
+      "doc_dap": [
+        "Lu Xi hát trong trẻo còn Lu Cát gõ đàn phím gỗ đúng nhịp",
+        "Hai chị em tranh nhau micro",
+        "Chỉ có một người biểu diễn còn người kia đi ngủ"
+      ]
+    },
+    {
+      "cau": "Điều gì làm buổi tối ở phòng khách trở nên thật đáng nhớ?",
+      "dung": "Tiếng cười sum vầy và tình yêu thương của cả gia đình",
+      "sai": [
+        "Âm thanh mở thật to làm ồn hàng xóm",
+        "Sân khấu phải thật rộng lớn"
+      ],
+      "doc": "Điều gì làm buổi tối ở phòng khách trở nên thật đáng nhớ?",
+      "doc_dap": [
+        "Tiếng cười sum vầy và tình yêu thương của cả gia đình",
+        "Âm thanh mở thật to làm ồn hàng xóm",
+        "Sân khấu phải thật rộng lớn"
+      ]
+    }
+  ],
+  "hoi_lucas": [
+    {
+      "cau": "Hai chị em tổ chức chương trình gì ở phòng khách?",
+      "dung": "Đêm liên hoan âm nhạc gia đình",
+      "sai": [
+        "Cuộc thi đá bóng",
+        "Buổi nấu phở"
+      ],
+      "doc": "Hai chị em tổ chức chương trình gì ở phòng khách?",
+      "doc_dap": [
+        "Đêm liên hoan âm nhạc gia đình",
+        "Cuộc thi đá bóng",
+        "Buổi nấu phở"
+      ]
+    },
+    {
+      "cau": "Lucas chơi nhạc cụ gì cùng chị?",
+      "dung": "Đàn phím gỗ nhỏ",
+      "sai": [
+        "Cái chảo trong bếp",
+        "Cây chổi quét nhà"
+      ],
+      "doc": "Lu Cát chơi nhạc cụ gì cùng chị?",
+      "doc_dap": [
+        "Đàn phím gỗ nhỏ",
+        "Cái chảo trong bếp",
+        "Cây chổi quét nhà"
+      ]
+    },
+    {
+      "cau": "Bố mẹ thưởng gì cho hai nghệ sĩ nhỏ?",
+      "dung": "Cái ôm thật chặt và tràng pháo tay",
+      "sai": [
+        "Không ai xem cả",
+        "Tắt đèn đi ngủ ngay"
+      ],
+      "doc": "Bố mẹ thưởng gì cho hai nghệ sĩ nhỏ?",
+      "doc_dap": [
+        "Cái ôm thật chặt và tràng pháo tay",
+        "Không ai xem cả",
+        "Tắt đèn đi ngủ ngay"
+      ]
+    }
+  ],
+  "chuc": "Chúc hai nghệ sĩ nhỏ Lu Xi và Lu Cát ngủ thật ngon trong giai điệu êm ái nhé.",
+  "doc_chuc": "Chúc hai nghệ sĩ nhỏ Lu Xi và Lu Cát ngủ thật ngon trong giai điệu êm ái nhé."
+}

@@ -1,0 +1,132 @@
+{
+  "so": 31,
+  "ma": "tuan-31",
+  "ngay": "2026-12-13",
+  "tieu_de": "Chiếc khăn len ấm áp ngày đông",
+  "doc_tieu_de": "Chiếc khăn len ấm áp ngày đông",
+  "bia": "anh/tuan-31-bia.webp",
+  "trang": [
+    {
+      "loi": "Sáng sớm mùa đông, gió lạnh thổi qua ô cửa sổ làm hàng cây ngoài sân rung nhẹ. Mẹ chuẩn bị cho Lucie và Lucas hai chiếc khăn len mềm mịn để giữ ấm cổ trước khi ra ngoài.",
+      "anh": "anh/tuan-31-bia.webp",
+      "doc": "Sáng sớm mùa đông, gió lạnh thổi qua ô cửa sổ làm hàng cây ngoài sân rung nhẹ. Mẹ chuẩn bị cho Lu Xi và Lu Cát hai chiếc khăn len mềm mịn để giữ ấm cổ trước khi ra ngoài."
+    },
+    {
+      "loi": "Bước ra sân, hai chị em thấy một bạn nhỏ hàng xóm đang co ro vì quên mang khăn quàng. Lucie liền nhớ trong ba lô của mình còn mang thêm một chiếc khăn len dự phòng.",
+      "anh": "anh/tuan-31-bia.webp",
+      "doc": "Bước ra sân, hai chị em thấy một bạn nhỏ hàng xóm đang co ro vì quên mang khăn quàng. Lu Xi liền nhớ trong ba lô của mình còn mang thêm một chiếc khăn len dự phòng."
+    },
+    {
+      "loi": "Lucie nhẹ nhàng bước tới quàng chiếc khăn đỏ ấm áp cho bạn, còn Lucas vui vẻ chia sẻ đôi bao tay xinh xắn. Đôi má của bạn nhỏ ửng hồng lên vì ấm và vui.",
+      "anh": "anh/tuan-31-bia.webp",
+      "doc": "Lu Xi nhẹ nhàng bước tới quàng chiếc khăn đỏ ấm áp cho bạn, còn Lu Cát vui vẻ chia sẻ đôi bao tay xinh xắn. Đôi má của bạn nhỏ ửng hồng lên vì ấm và vui."
+    },
+    {
+      "loi": "Cả ba bạn cùng nhau chạy nhảy chơi trốn tìm dưới nắng sáng mùa đông. Nhờ biết giữ ấm đúng cách, chẳng ai bị lạnh hay ho hắng chút nào.",
+      "anh": "anh/tuan-31-bia.webp",
+      "doc": "Cả ba bạn cùng nhau chạy nhảy chơi trốn tìm dưới nắng sáng mùa đông. Nhờ biết giữ ấm đúng cách, chẳng ai bị lạnh hay ho hắng chút nào."
+    },
+    {
+      "loi": "Buổi trưa về nhà, bạn nhỏ gửi lại chiếc khăn được gấp ngay ngắn kèm lời cảm ơn chân thành. Bố mẹ mỉm cười khen hai chị em biết quan tâm đến mọi người xung quanh.",
+      "anh": "anh/tuan-31-bia.webp",
+      "doc": "Buổi trưa về nhà, bạn nhỏ gửi lại chiếc khăn được gấp ngay ngắn kèm lời cảm ơn chân thành. Bố mẹ mỉm cười khen hai chị em biết quan tâm đến mọi người xung quanh."
+    },
+    {
+      "loi": "Tối đến, nằm trong chăn ấm, Lucie và Lucas thấy lòng thật vui. Chia sẻ hơi ấm cho người khác luôn làm mùa đông trở nên dịu dàng hơn.",
+      "anh": "anh/tuan-31-bia.webp",
+      "doc": "Tối đến, nằm trong chăn ấm, Lu Xi và Lu Cát thấy lòng thật vui. Chia sẻ hơi ấm cho người khác luôn làm mùa đông trở nên dịu dàng hơn."
+    }
+  ],
+  "bai_hoc": "Biết giữ ấm cơ thể khi trời lạnh và sẵn lòng sẻ chia với bạn bè lúc cần giúp đỡ.",
+  "doc_bai_hoc": "Biết giữ ấm cơ thể khi trời lạnh và sẵn lòng sẻ chia với bạn bè lúc cần giúp đỡ.",
+  "hoi_lucie": [
+    {
+      "cau": "Lucie đã làm gì khi thấy bạn hàng xóm bị lạnh?",
+      "dung": "Quàng tặng bạn chiếc khăn len dự phòng",
+      "sai": [
+        "Đứng nhìn rồi đi vào nhà",
+        "Cười trêu bạn quên mang khăn"
+      ],
+      "doc": "Lu Xi đã làm gì khi thấy bạn hàng xóm bị lạnh?",
+      "doc_dap": [
+        "Quàng tặng bạn chiếc khăn len dự phòng",
+        "Đứng nhìn rồi đi vào nhà",
+        "Cười trêu bạn quên mang khăn"
+      ]
+    },
+    {
+      "cau": "Vì sao cả ba bạn chơi ngoài trời mà không bị lạnh?",
+      "dung": "Nhờ biết giữ ấm cơ thể đúng cách",
+      "sai": [
+        "Vì trời mùa đông rất nóng",
+        "Vì các bạn không mặc áo khoác"
+      ],
+      "doc": "Vì sao cả ba bạn chơi ngoài trời mà không bị lạnh?",
+      "doc_dap": [
+        "Nhờ biết giữ ấm cơ thể đúng cách",
+        "Vì trời mùa đông rất nóng",
+        "Vì các bạn không mặc áo khoác"
+      ]
+    },
+    {
+      "cau": "Bài học đẹp nhất của câu chuyện là gì?",
+      "dung": "Biết giữ ấm và chia sẻ yêu thương",
+      "sai": [
+        "Chỉ giữ đồ ấm cho riêng mình",
+        "Không nên ra sân vào mùa đông"
+      ],
+      "doc": "Bài học đẹp nhất của câu chuyện là gì?",
+      "doc_dap": [
+        "Biết giữ ấm và chia sẻ yêu thương",
+        "Chỉ giữ đồ ấm cho riêng mình",
+        "Không nên ra sân vào mùa đông"
+      ]
+    }
+  ],
+  "hoi_lucas": [
+    {
+      "cau": "Trời trong truyện đang là mùa nào?",
+      "dung": "Mùa đông lạnh",
+      "sai": [
+        "Mùa hè nắng gắt",
+        "Mùa thu lá rơi"
+      ],
+      "doc": "Trời trong truyện đang là mùa nào?",
+      "doc_dap": [
+        "Mùa đông lạnh",
+        "Mùa hè nắng gắt",
+        "Mùa thu lá rơi"
+      ]
+    },
+    {
+      "cau": "Lucie chia sẻ món đồ gì cho bạn?",
+      "dung": "Chiếc khăn len ấm",
+      "sai": [
+        "Quyển truyện tranh",
+        "Chiếc xe đạp"
+      ],
+      "doc": "Lu Xi chia sẻ món đồ gì cho bạn?",
+      "doc_dap": [
+        "Chiếc khăn len ấm",
+        "Quyển truyện tranh",
+        "Chiếc xe đạp"
+      ]
+    },
+    {
+      "cau": "Bạn nhỏ đã nói gì khi trả lại khăn?",
+      "dung": "Nói lời cảm ơn",
+      "sai": [
+        "Không nói gì cả",
+        "Quên trả lại khăn"
+      ],
+      "doc": "Bạn nhỏ đã nói gì khi trả lại khăn?",
+      "doc_dap": [
+        "Nói lời cảm ơn",
+        "Không nói gì cả",
+        "Quên trả lại khăn"
+      ]
+    }
+  ],
+  "chuc": "Chúc Lu Xi và Lu Cát ngủ thật ấm áp và mơ những giấc mơ dịu dàng nhé.",
+  "doc_chuc": "Chúc Lu Xi và Lu Cát ngủ thật ấm áp và mơ những giấc mơ dịu dàng nhé."
+}

@@ -1,0 +1,132 @@
+{
+  "so": 33,
+  "ma": "tuan-33",
+  "ngay": "2026-12-15",
+  "tieu_de": "Quả cam ngọt sẻ chia cùng ông bà",
+  "doc_tieu_de": "Quả cam ngọt sẻ chia cùng ông bà",
+  "bia": "anh/tuan-33-bia.webp",
+  "trang": [
+    {
+      "loi": "Cuối tuần nắng dịu, cây cam trong vườn nhà đã chín vàng rực rỡ. Bố giúp Lucie và Lucas hái đầy một giỏ cam tươi thơm ngát hương vườn.",
+      "anh": "anh/tuan-33-bia.webp",
+      "doc": "Cuối tuần nắng dịu, cây cam trong vườn nhà đã chín vàng rực rỡ. Bố giúp Lu Xi và Lu Cát hái đầy một giỏ cam tươi thơm ngát hương vườn."
+    },
+    {
+      "loi": "Nhìn những quả cam căng mọng, Lucie liền đề nghị chọn những quả tròn đẹp nhất để mang sang biếu ông bà nội trước tiên.",
+      "anh": "anh/tuan-33-bia.webp",
+      "doc": "Nhìn những quả cam căng mọng, Lu Xi liền đề nghị chọn những quả tròn đẹp nhất để mang sang biếu ông bà nội trước tiên."
+    },
+    {
+      "loi": "Lucas cẩn thận xếp từng quả cam vào chiếc giỏ mây nhỏ, không để quả nào bị dập. Hai chị em hào hứng cùng bố mẹ sang thăm ông bà.",
+      "anh": "anh/tuan-33-bia.webp",
+      "doc": "Lu Cát cẩn thận xếp từng quả cam vào chiếc giỏ mây nhỏ, không để quả nào bị dập. Hai chị em hào hứng cùng bố mẹ sang thăm ông bà."
+    },
+    {
+      "loi": "Thấy hai cháu lễ phép khoanh tay chào và dâng giỏ cam thơm, ông bà cười hiền hậu, ôm cả Lucie và Lucas vào lòng thật lâu.",
+      "anh": "anh/tuan-33-bia.webp",
+      "doc": "Thấy hai cháu lễ phép khoanh tay chào và dâng giỏ cam thơm, ông bà cười hiền hậu, ôm cả Lu Xi và Lu Cát vào lòng thật lâu."
+    },
+    {
+      "loi": "Bà bổ những múi cam vàng óng mời cả nhà cùng thưởng thức. Quả cam vườn nhà hôm nay như ngọt hơn gấp bội vì có niềm vui sum vầy.",
+      "anh": "anh/tuan-33-bia.webp",
+      "doc": "Bà bổ những múi cam vàng óng mời cả nhà cùng thưởng thức. Quả cam vườn nhà hôm nay như ngọt hơn gấp bội vì có niềm vui sum vầy."
+    },
+    {
+      "loi": "Trên đường về, hai chị em thấy thật hạnh phúc. Hiếu thảo và nhớ đến ông bà luôn là nét đẹp đáng quý nhất của mỗi bạn nhỏ.",
+      "anh": "anh/tuan-33-bia.webp",
+      "doc": "Trên đường về, hai chị em thấy thật hạnh phúc. Hiếu thảo và nhớ đến ông bà luôn là nét đẹp đáng quý nhất của mỗi bạn nhỏ."
+    }
+  ],
+  "bai_hoc": "Luôn kính trọng, hiếu thảo và nhớ chia sẻ những điều tốt đẹp nhất với ông bà, người thân.",
+  "doc_bai_hoc": "Luôn kính trọng, hiếu thảo và nhớ chia sẻ những điều tốt đẹp nhất với ông bà, người thân.",
+  "hoi_lucie": [
+    {
+      "cau": "Khi hái được giỏ cam chín, Lucie đã nghĩ tới ai đầu tiên?",
+      "dung": "Chọn những quả đẹp nhất mang biếu ông bà",
+      "sai": [
+        "Ăn hết một mình ngay tại vườn",
+        "Cất giấu trong phòng riêng"
+      ],
+      "doc": "Khi hái được giỏ cam chín, Lu Xi đã nghĩ tới ai đầu tiên?",
+      "doc_dap": [
+        "Chọn những quả đẹp nhất mang biếu ông bà",
+        "Ăn hết một mình ngay tại vườn",
+        "Cất giấu trong phòng riêng"
+      ]
+    },
+    {
+      "cau": "Lucas đã làm gì để giữ giỏ cam thật đẹp?",
+      "dung": "Cẩn thận xếp từng quả vào giỏ mây không làm dập",
+      "sai": [
+        "Tung hứng các quả cam ngoài sân",
+        "Đổ ào tất cả cam xuống đất"
+      ],
+      "doc": "Lu Cát đã làm gì để giữ giỏ cam thật đẹp?",
+      "doc_dap": [
+        "Cẩn thận xếp từng quả vào giỏ mây không làm dập",
+        "Tung hứng các quả cam ngoài sân",
+        "Đổ ào tất cả cam xuống đất"
+      ]
+    },
+    {
+      "cau": "Vì sao mọi người thấy cam hôm ấy ngọt hơn mọi ngày?",
+      "dung": "Vì có niềm vui sum vầy và lòng hiếu thảo",
+      "sai": [
+        "Vì bà cho thêm rất nhiều muối",
+        "Vì đó là loại cam màu xanh"
+      ],
+      "doc": "Vì sao mọi người thấy cam hôm ấy ngọt hơn mọi ngày?",
+      "doc_dap": [
+        "Vì có niềm vui sum vầy và lòng hiếu thảo",
+        "Vì bà cho thêm rất nhiều muối",
+        "Vì đó là loại cam màu xanh"
+      ]
+    }
+  ],
+  "hoi_lucas": [
+    {
+      "cau": "Hai chị em hái quả gì trong vườn?",
+      "dung": "Quả cam chín vàng",
+      "sai": [
+        "Quả dưa hấu đỏ",
+        "Quả dứa gai"
+      ],
+      "doc": "Hai chị em hái quả gì trong vườn?",
+      "doc_dap": [
+        "Quả cam chín vàng",
+        "Quả dưa hấu đỏ",
+        "Quả dứa gai"
+      ]
+    },
+    {
+      "cau": "Hai chị em mang cam sang biếu ai?",
+      "dung": "Biếu ông bà",
+      "sai": [
+        "Mang ra chợ bán hết",
+        "Để quên ngoài cổng"
+      ],
+      "doc": "Hai chị em mang cam sang biếu ai?",
+      "doc_dap": [
+        "Biếu ông bà",
+        "Mang ra chợ bán hết",
+        "Để quên ngoài cổng"
+      ]
+    },
+    {
+      "cau": "Gặp ông bà, hai chị em làm gì trước tiên?",
+      "dung": "Khoanh tay lễ phép chào",
+      "sai": [
+        "Chạy thẳng vào phòng ngủ",
+        "Không chào hỏi ai"
+      ],
+      "doc": "Gặp ông bà, hai chị em làm gì trước tiên?",
+      "doc_dap": [
+        "Khoanh tay lễ phép chào",
+        "Chạy thẳng vào phòng ngủ",
+        "Không chào hỏi ai"
+      ]
+    }
+  ],
+  "chuc": "Chúc Lu Xi và Lu Cát ngủ thật ngon, luôn là những em bé hiếu thảo nhé.",
+  "doc_chuc": "Chúc Lu Xi và Lu Cát ngủ thật ngon, luôn là những em bé hiếu thảo nhé."
+}

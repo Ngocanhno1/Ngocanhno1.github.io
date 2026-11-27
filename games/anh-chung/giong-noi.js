@@ -30,6 +30,12 @@
         sc2.defer = true;
         head.appendChild(sc2);
       }
+      if (head && /sach-truyen/i.test(location.href) && !window.__danhDauTruyenDaDoc && !document.querySelector('script[src*="danh-dau-truyen-da-doc.js"]')) {
+        var sc3 = document.createElement("script");
+        sc3.src = ROOT_AC + "danh-dau-truyen-da-doc.js?v=20261127";
+        sc3.defer = true;
+        head.appendChild(sc3);
+      }
     } catch (e) {}
   })();
 

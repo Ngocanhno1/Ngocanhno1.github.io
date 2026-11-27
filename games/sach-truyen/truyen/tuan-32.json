@@ -1,0 +1,132 @@
+{
+  "so": 32,
+  "ma": "tuan-32",
+  "ngay": "2026-12-14",
+  "tieu_de": "Cây thông nhỏ của hai chị em",
+  "doc_tieu_de": "Cây thông nhỏ của hai chị em",
+  "bia": "anh/tuan-32-bia.webp",
+  "trang": [
+    {
+      "loi": "Gần cuối tháng mười hai, bố mang về một chậu cây thông nhỏ xanh mướt đặt ở góc phòng khách. Bố giao cho Lucie và Lucas cùng nhau tự tay trang trí cây thông thật đẹp.",
+      "anh": "anh/tuan-32-bia.webp",
+      "doc": "Gần cuối tháng mười hai, bố mang về một chậu cây thông nhỏ xanh mướt đặt ở góc phòng khách. Bố giao cho Lu Xi và Lu Cát cùng nhau tự tay trang trí cây thông thật đẹp."
+    },
+    {
+      "loi": "Thay vì mua thật nhiều đồ nhựa mới, Lucie nảy ra ý tưởng cắt ngôi sao và dây hoa từ những tờ giấy màu còn dư trong góc học tập.",
+      "anh": "anh/tuan-32-bia.webp",
+      "doc": "Thay vì mua thật nhiều đồ nhựa mới, Lu Xi nảy ra ý tưởng cắt ngôi sao và dây hoa từ những tờ giấy màu còn dư trong góc học tập."
+    },
+    {
+      "loi": "Lucas khéo léo thắt những chiếc nơ ruy băng đỏ xinh xắn rồi cùng chị treo lên từng cành thông nhỏ. Cả hai chị em vừa làm vừa ngân nga hát rất vui.",
+      "anh": "anh/tuan-32-bia.webp",
+      "doc": "Lu Cát khéo léo thắt những chiếc nơ ruy băng đỏ xinh xắn rồi cùng chị treo lên từng cành thông nhỏ. Cả hai chị em vừa làm vừa ngân nga hát rất vui."
+    },
+    {
+      "loi": "Khi bố cắm dải đèn vàng ấm áp lên tán lá xanh, cả cây thông bỗng bừng sáng lung linh như một khu vườn cổ tích ngay trong phòng khách.",
+      "anh": "anh/tuan-32-bia.webp",
+      "doc": "Khi bố cắm dải đèn vàng ấm áp lên tán lá xanh, cả cây thông bỗng bừng sáng lung linh như một khu vườn cổ tích ngay trong phòng khách."
+    },
+    {
+      "loi": "Mẹ pha cho cả nhà bốn ly sữa ấm thơm lừng. Mọi người quây quần bên cây thông nhỏ, kể cho nhau nghe những kỷ niệm vui suốt một năm qua.",
+      "anh": "anh/tuan-32-bia.webp",
+      "doc": "Mẹ pha cho cả nhà bốn ly sữa ấm thơm lừng. Mọi người quây quần bên cây thông nhỏ, kể cho nhau nghe những kỷ niệm vui suốt một năm qua."
+    },
+    {
+      "loi": "Lucie và Lucas nhận ra rằng món đồ trang trí đẹp nhất không phải món đắt tiền nhất, mà là món cả nhà cùng chung tay sáng tạo.",
+      "anh": "anh/tuan-32-bia.webp",
+      "doc": "Lu Xi và Lu Cát nhận ra rằng món đồ trang trí đẹp nhất không phải món đắt tiền nhất, mà là món cả nhà cùng chung tay sáng tạo."
+    }
+  ],
+  "bai_hoc": "Sáng tạo từ những vật liệu sẵn có và trân trọng niềm vui khi cả gia đình cùng làm việc bên nhau.",
+  "doc_bai_hoc": "Sáng tạo từ những vật liệu sẵn có và trân trọng niềm vui khi cả gia đình cùng làm việc bên nhau.",
+  "hoi_lucie": [
+    {
+      "cau": "Lucie đã chọn cách nào để làm đồ trang trí cây thông?",
+      "dung": "Cắt ngôi sao và dây hoa từ giấy màu sẵn có",
+      "sai": [
+        "Đòi bố mua thật nhiều đồ nhựa đắt tiền",
+        "Để nguyên cây thông không trang trí"
+      ],
+      "doc": "Lu Xi đã chọn cách nào để làm đồ trang trí cây thông?",
+      "doc_dap": [
+        "Cắt ngôi sao và dây hoa từ giấy màu sẵn có",
+        "Đòi bố mua thật nhiều đồ nhựa đắt tiền",
+        "Để nguyên cây thông không trang trí"
+      ]
+    },
+    {
+      "cau": "Lucas đã góp sức bằng việc gì?",
+      "dung": "Thắt nơ ruy băng đỏ và treo lên cành cây",
+      "sai": [
+        "Chỉ ngồi xem chị làm một mình",
+        "Chạy đi xem ti vi ngay lập tức"
+      ],
+      "doc": "Lu Cát đã góp sức bằng việc gì?",
+      "doc_dap": [
+        "Thắt nơ ruy băng đỏ và treo lên cành cây",
+        "Chỉ ngồi xem chị làm một mình",
+        "Chạy đi xem ti vi ngay lập tức"
+      ]
+    },
+    {
+      "cau": "Điều gì làm cây thông trở nên đặc biệt nhất với cả nhà?",
+      "dung": "Vì hai chị em tự tay sáng tạo cùng gia đình",
+      "sai": [
+        "Vì cây thông cao bằng cả ngôi nhà",
+        "Vì mua toàn đồ nhập khẩu đắt tiền"
+      ],
+      "doc": "Điều gì làm cây thông trở nên đặc biệt nhất với cả nhà?",
+      "doc_dap": [
+        "Vì hai chị em tự tay sáng tạo cùng gia đình",
+        "Vì cây thông cao bằng cả ngôi nhà",
+        "Vì mua toàn đồ nhập khẩu đắt tiền"
+      ]
+    }
+  ],
+  "hoi_lucas": [
+    {
+      "cau": "Bố mang về chậu cây gì đặt ở phòng khách?",
+      "dung": "Chậu cây thông nhỏ",
+      "sai": [
+        "Chậu cây hoa sen",
+        "Chậu cây chuối"
+      ],
+      "doc": "Bố mang về chậu cây gì đặt ở phòng khách?",
+      "doc_dap": [
+        "Chậu cây thông nhỏ",
+        "Chậu cây hoa sen",
+        "Chậu cây chuối"
+      ]
+    },
+    {
+      "cau": "Hai chị em dùng gì để làm ngôi sao?",
+      "dung": "Giấy màu sẵn có",
+      "sai": [
+        "Bát sứ trong bếp",
+        "Viên sỏi ngoài sân"
+      ],
+      "doc": "Hai chị em dùng gì để làm ngôi sao?",
+      "doc_dap": [
+        "Giấy màu sẵn có",
+        "Bát sứ trong bếp",
+        "Viên sỏi ngoài sân"
+      ]
+    },
+    {
+      "cau": "Mẹ pha thức uống gì cho cả nhà?",
+      "dung": "Sữa ấm thơm lừng",
+      "sai": [
+        "Nước đá lạnh buốt",
+        "Cà phê đắng"
+      ],
+      "doc": "Mẹ pha thức uống gì cho cả nhà?",
+      "doc_dap": [
+        "Sữa ấm thơm lừng",
+        "Nước đá lạnh buốt",
+        "Cà phê đắng"
+      ]
+    }
+  ],
+  "chuc": "Chúc hai chị em ngủ ngon như những ngôi sao nhỏ lấp lánh trên cây thông nhé.",
+  "doc_chuc": "Chúc hai chị em ngủ ngon như những ngôi sao nhỏ lấp lánh trên cây thông nhé."
+}

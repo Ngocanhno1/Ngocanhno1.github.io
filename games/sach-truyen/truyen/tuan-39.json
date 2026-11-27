@@ -1,0 +1,132 @@
+{
+  "so": 39,
+  "ma": "tuan-39",
+  "ngay": "2026-12-21",
+  "tieu_de": "Chuyến dã ngoại bên hồ xanh mát",
+  "doc_tieu_de": "Chuyến dã ngoại bên hồ xanh mát",
+  "bia": "anh/tuan-39-bia.webp",
+  "trang": [
+    {
+      "loi": "Một ngày nắng đẹp trong lành, cả gia đình Lucie và Lucas tổ chức buổi dã ngoại nhỏ trên bãi cỏ xanh mướt bên bờ hồ công viên.",
+      "anh": "anh/tuan-39-bia.webp",
+      "doc": "Một ngày nắng đẹp trong lành, cả gia đình Lu Xi và Lu Cát tổ chức buổi dã ngoại nhỏ trên bãi cỏ xanh mướt bên bờ hồ công viên."
+    },
+    {
+      "loi": "Bố trải tấm khăn caro rộng rãi dưới tán cây liễu rủ, còn mẹ bày ra những chiếc bánh mì kẹp thơm ngon và đĩa trái cây tươi mát lành.",
+      "anh": "anh/tuan-39-bia.webp",
+      "doc": "Bố trải tấm khăn caro rộng rãi dưới tán cây liễu rủ, còn mẹ bày ra những chiếc bánh mì kẹp thơm ngon và đĩa trái cây tươi mát lành."
+    },
+    {
+      "loi": "Ăn xong, hai chị em cùng nhau ngắm đàn thiên nga trắng muốt bơi nhẹ nhàng trên mặt hồ phẳng lặng và đếm những chú chuồn chuồn bay qua bãi cỏ.",
+      "anh": "anh/tuan-39-bia.webp",
+      "doc": "Ăn xong, hai chị em cùng nhau ngắm đàn thiên nga trắng muốt bơi nhẹ nhàng trên mặt hồ phẳng lặng và đếm những chú chuồn chuồn bay qua bãi cỏ."
+    },
+    {
+      "loi": "Thấy gần gốc cây có vài chai nhựa ai đó bỏ quên, Lucie và Lucas liền cùng bố mẹ nhặt gọn bỏ vào thùng phân loại rác ngay cạnh lối đi.",
+      "anh": "anh/tuan-39-bia.webp",
+      "doc": "Thấy gần gốc cây có vài chai nhựa ai đó bỏ quên, Lu Xi và Lu Cát liền cùng bố mẹ nhặt gọn bỏ vào thùng phân loại rác ngay cạnh lối đi."
+    },
+    {
+      "loi": "Buổi chiều, hai chị em thả diều cùng bố dưới làn gió mát rượi, tiếng cười giòn tan vang khắp một góc công viên yên bình.",
+      "anh": "anh/tuan-39-bia.webp",
+      "doc": "Buổi chiều, hai chị em thả diều cùng bố dưới làn gió mát rượi, tiếng cười giòn tan vang khắp một góc công viên yên bình."
+    },
+    {
+      "loi": "Ra về khi bãi cỏ vẫn sạch tinh tươm, cả nhà ai cũng thấy tràn đầy năng lượng. Bảo vệ thiên nhiên xanh sạch là cách giữ mãi những ngày vui.",
+      "anh": "anh/tuan-39-bia.webp",
+      "doc": "Ra về khi bãi cỏ vẫn sạch tinh tươm, cả nhà ai cũng thấy tràn đầy năng lượng. Bảo vệ thiên nhiên xanh sạch là cách giữ mãi những ngày vui."
+    }
+  ],
+  "bai_hoc": "Yêu thiên nhiên, tận hưởng thời gian bên gia đình và luôn giữ gìn vệ sinh chung ở nơi công cộng.",
+  "doc_bai_hoc": "Yêu thiên nhiên, tận hưởng thời gian bên gia đình và luôn giữ gìn vệ sinh chung ở nơi công cộng.",
+  "hoi_lucie": [
+    {
+      "cau": "Khi thấy chai nhựa bỏ quên dưới gốc cây, cả nhà đã làm gì?",
+      "dung": "Nhặt gọn bỏ vào thùng phân loại rác",
+      "sai": [
+        "Đá chai nhựa xuống mặt hồ",
+        "Bỏ mặc vì không phải rác của mình"
+      ],
+      "doc": "Khi thấy chai nhựa bỏ quên dưới gốc cây, cả nhà đã làm gì?",
+      "doc_dap": [
+        "Nhặt gọn bỏ vào thùng phân loại rác",
+        "Đá chai nhựa xuống mặt hồ",
+        "Bỏ mặc vì không phải rác của mình"
+      ]
+    },
+    {
+      "cau": "Hai chị em đã tham gia hoạt động vui nào vào buổi chiều?",
+      "dung": "Thả diều cùng bố dưới làn gió mát",
+      "sai": [
+        "Ngồi xem điện thoại suốt buổi",
+        "Chạy hái hết hoa trong công viên"
+      ],
+      "doc": "Hai chị em đã tham gia hoạt động vui nào vào buổi chiều?",
+      "doc_dap": [
+        "Thả diều cùng bố dưới làn gió mát",
+        "Ngồi xem điện thoại suốt buổi",
+        "Chạy hái hết hoa trong công viên"
+      ]
+    },
+    {
+      "cau": "Việc dọn sạch bãi cỏ trước khi ra về thể hiện điều gì?",
+      "dung": "Ý thức văn minh và tình yêu bảo vệ thiên nhiên",
+      "sai": [
+        "Sự vội vàng muốn về sớm",
+        "Chỉ làm cho vui một lần"
+      ],
+      "doc": "Việc dọn sạch bãi cỏ trước khi ra về thể hiện điều gì?",
+      "doc_dap": [
+        "Ý thức văn minh và tình yêu bảo vệ thiên nhiên",
+        "Sự vội vàng muốn về sớm",
+        "Chỉ làm cho vui một lần"
+      ]
+    }
+  ],
+  "hoi_lucas": [
+    {
+      "cau": "Gia đình đi dã ngoại ở đâu?",
+      "dung": "Bên bờ hồ công viên xanh mát",
+      "sai": [
+        "Trong siêu thị đông người",
+        "Ở bãi gửi xe"
+      ],
+      "doc": "Gia đình đi dã ngoại ở đâu?",
+      "doc_dap": [
+        "Bên bờ hồ công viên xanh mát",
+        "Trong siêu thị đông người",
+        "Ở bãi gửi xe"
+      ]
+    },
+    {
+      "cau": "Hai chị em thấy loài chim nào bơi trên hồ?",
+      "dung": "Đàn thiên nga trắng muốt",
+      "sai": [
+        "Đàn gà con",
+        "Đàn chim sẻ"
+      ],
+      "doc": "Hai chị em thấy loài chim nào bơi trên hồ?",
+      "doc_dap": [
+        "Đàn thiên nga trắng muốt",
+        "Đàn gà con",
+        "Đàn chim sẻ"
+      ]
+    },
+    {
+      "cau": "Rác sau buổi dã ngoại phải bỏ vào đâu?",
+      "dung": "Bỏ gọn vào thùng rác",
+      "sai": [
+        "Để lại trên bãi cỏ",
+        "Ném xuống nước"
+      ],
+      "doc": "Rác sau buổi dã ngoại phải bỏ vào đâu?",
+      "doc_dap": [
+        "Bỏ gọn vào thùng rác",
+        "Để lại trên bãi cỏ",
+        "Ném xuống nước"
+      ]
+    }
+  ],
+  "chuc": "Chúc hai chị em ngủ thật ngon và mơ thấy cánh diều bay cao trên bầu trời xanh nhé.",
+  "doc_chuc": "Chúc hai chị em ngủ thật ngon và mơ thấy cánh diều bay cao trên bầu trời xanh nhé."
+}

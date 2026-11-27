@@ -1,0 +1,132 @@
+{
+  "so": 35,
+  "ma": "tuan-35",
+  "ngay": "2026-12-17",
+  "tieu_de": "Chiếc đồng hồ báo thức dũng cảm",
+  "doc_tieu_de": "Chiếc đồng hồ báo thức dũng cảm",
+  "bia": "anh/tuan-35-bia.webp",
+  "trang": [
+    {
+      "loi": "Mùa đông trời sáng muộn nên sáng nào chăn ấm cũng như muốn níu hai chị em ngủ nướng thêm một chút. Lucie quyết định đặt chiếc đồng hồ báo thức màu vàng ngay cạnh giường.",
+      "anh": "anh/tuan-35-bia.webp",
+      "doc": "Mùa đông trời sáng muộn nên sáng nào chăn ấm cũng như muốn níu hai chị em ngủ nướng thêm một chút. Lu Xi quyết định đặt chiếc đồng hồ báo thức màu vàng ngay cạnh giường."
+    },
+    {
+      "loi": "Đúng sáu giờ rưỡi sáng, tiếng chuông reng reng vang lên vui tai. Thay vì tắt chuông rồi ngủ tiếp, Lucie hít một hơi thật sâu và ngồi bật dậy ngay.",
+      "anh": "anh/tuan-35-bia.webp",
+      "doc": "Đúng sáu giờ rưỡi sáng, tiếng chuông reng reng vang lên vui tai. Thay vì tắt chuông rồi ngủ tiếp, Lu Xi hít một hơi thật sâu và ngồi bật dậy ngay."
+    },
+    {
+      "loi": "Thấy chị đã dậy, Lucas cũng vươn vai thật khỏe rồi tự tay gấp gọn chiếc chăn vuông vắn như cô giáo đã hướng dẫn ở trường.",
+      "anh": "anh/tuan-35-bia.webp",
+      "doc": "Thấy chị đã dậy, Lu Cát cũng vươn vai thật khỏe rồi tự tay gấp gọn chiếc chăn vuông vắn như cô giáo đã hướng dẫn ở trường."
+    },
+    {
+      "loi": "Hai chị em nhanh nhẹn đánh răng, rửa mặt bằng nước ấm và tự mặc đồng phục chỉnh tề mà không cần bố mẹ phải gọi giục lần nào.",
+      "anh": "anh/tuan-35-bia.webp",
+      "doc": "Hai chị em nhanh nhẹn đánh răng, rửa mặt bằng nước ấm và tự mặc đồng phục chỉnh tề mà không cần bố mẹ phải gọi giục lần nào."
+    },
+    {
+      "loi": "Nhờ dậy đúng giờ, cả nhà có đủ thời gian ăn bữa sáng nóng hổi và đi đến trường sớm trong không khí thật thong thả, vui vẻ.",
+      "anh": "anh/tuan-35-bia.webp",
+      "doc": "Nhờ dậy đúng giờ, cả nhà có đủ thời gian ăn bữa sáng nóng hổi và đi đến trường sớm trong không khí thật thong thả, vui vẻ."
+    },
+    {
+      "loi": "Chiếc đồng hồ màu vàng dường như cũng mỉm cười tự hào. Rèn thói quen dậy sớm đúng giờ là bước đầu tiên để trở thành những bạn nhỏ tự lập.",
+      "anh": "anh/tuan-35-bia.webp",
+      "doc": "Chiếc đồng hồ màu vàng dường như cũng mỉm cười tự hào. Rèn thói quen dậy sớm đúng giờ là bước đầu tiên để trở thành những bạn nhỏ tự lập."
+    }
+  ],
+  "bai_hoc": "Tự giác thức dậy đúng giờ, tự gấp chăn và chuẩn bị cá nhân để bắt đầu ngày mới tràn đầy năng lượng.",
+  "doc_bai_hoc": "Tự giác thức dậy đúng giờ, tự gấp chăn và chuẩn bị cá nhân để bắt đầu ngày mới tràn đầy năng lượng.",
+  "hoi_lucie": [
+    {
+      "cau": "Khi đồng hồ báo thức reo lúc sáu giờ rưỡi, Lucie làm gì?",
+      "dung": "Hít sâu và ngồi dậy ngay không ngủ nướng",
+      "sai": [
+        "Tắt chuông rồi kéo chăn ngủ tiếp",
+        "Đem giấu đồng hồ đi chỗ khác"
+      ],
+      "doc": "Khi đồng hồ báo thức reo lúc sáu giờ rưỡi, Lu Xi làm gì?",
+      "doc_dap": [
+        "Hít sâu và ngồi dậy ngay không ngủ nướng",
+        "Tắt chuông rồi kéo chăn ngủ tiếp",
+        "Đem giấu đồng hồ đi chỗ khác"
+      ]
+    },
+    {
+      "cau": "Lucas đã làm việc tốt nào ngay sau khi thức dậy?",
+      "dung": "Tự tay gấp gọn chiếc chăn vuông vắn",
+      "sai": [
+        "Nằm chờ bố mẹ gọi năm lần",
+        "Vứt chăn xuống nền nhà"
+      ],
+      "doc": "Lu Cát đã làm việc tốt nào ngay sau khi thức dậy?",
+      "doc_dap": [
+        "Tự tay gấp gọn chiếc chăn vuông vắn",
+        "Nằm chờ bố mẹ gọi năm lần",
+        "Vứt chăn xuống nền nhà"
+      ]
+    },
+    {
+      "cau": "Nhờ dậy sớm đúng giờ, buổi sáng của cả nhà thế nào?",
+      "dung": "Thong thả ăn sáng và đến trường vui vẻ",
+      "sai": [
+        "Vội vàng quên hết cặp sách",
+        "Bị muộn giờ vào lớp"
+      ],
+      "doc": "Nhờ dậy sớm đúng giờ, buổi sáng của cả nhà thế nào?",
+      "doc_dap": [
+        "Thong thả ăn sáng và đến trường vui vẻ",
+        "Vội vàng quên hết cặp sách",
+        "Bị muộn giờ vào lớp"
+      ]
+    }
+  ],
+  "hoi_lucas": [
+    {
+      "cau": "Chiếc đồng hồ báo thức có màu gì?",
+      "dung": "Màu vàng xinh xắn",
+      "sai": [
+        "Màu đen tối",
+        "Màu xám"
+      ],
+      "doc": "Chiếc đồng hồ báo thức có màu gì?",
+      "doc_dap": [
+        "Màu vàng xinh xắn",
+        "Màu đen tối",
+        "Màu xám"
+      ]
+    },
+    {
+      "cau": "Sáng dậy hai chị em đánh răng bằng gì?",
+      "dung": "Nước ấm sạch sẽ",
+      "sai": [
+        "Nước ngọt có ga",
+        "Không đánh răng"
+      ],
+      "doc": "Sáng dậy hai chị em đánh răng bằng gì?",
+      "doc_dap": [
+        "Nước ấm sạch sẽ",
+        "Nước ngọt có ga",
+        "Không đánh răng"
+      ]
+    },
+    {
+      "cau": "Tự dậy đúng giờ giúp bé trở thành người thế nào?",
+      "dung": "Tự lập và chăm chỉ",
+      "sai": [
+        "Hay đi học muộn",
+        "Lúc nào cũng mệt mỏi"
+      ],
+      "doc": "Tự dậy đúng giờ giúp bé trở thành người thế nào?",
+      "doc_dap": [
+        "Tự lập và chăm chỉ",
+        "Hay đi học muộn",
+        "Lúc nào cũng mệt mỏi"
+      ]
+    }
+  ],
+  "chuc": "Chúc Lu Xi và Lu Cát ngủ sớm thật sâu để sáng mai thức dậy thật tươi tỉnh nhé.",
+  "doc_chuc": "Chúc Lu Xi và Lu Cát ngủ sớm thật sâu để sáng mai thức dậy thật tươi tỉnh nhé."
+}

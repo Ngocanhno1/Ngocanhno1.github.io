@@ -1,0 +1,132 @@
+{
+  "so": 37,
+  "ma": "tuan-37",
+  "ngay": "2026-12-19",
+  "tieu_de": "Phiên chợ sáng cùng mẹ học tính tiền",
+  "doc_tieu_de": "Phiên chợ sáng cùng mẹ học tính tiền",
+  "bia": "anh/tuan-37-bia.webp",
+  "trang": [
+    {
+      "loi": "Sáng chủ nhật, mẹ cho Lucie và Lucas đi chợ sớm cùng mẹ để thực hành bài học tính tiền và chọn thực phẩm tươi ngon cho bữa cơm gia đình.",
+      "anh": "anh/tuan-37-bia.webp",
+      "doc": "Sáng chủ nhật, mẹ cho Lu Xi và Lu Cát đi chợ sớm cùng mẹ để thực hành bài học tính tiền và chọn thực phẩm tươi ngon cho bữa cơm gia đình."
+    },
+    {
+      "loi": "Mẹ đưa cho hai chị em danh sách gồm một bó rau xanh, bốn quả cà chua chín đỏ và một nải chuối vàng, kèm ngân sách gọn gàng để tự tính toán.",
+      "anh": "anh/tuan-37-bia.webp",
+      "doc": "Mẹ đưa cho hai chị em danh sách gồm một bó rau xanh, bốn quả cà chua chín đỏ và một nải chuối vàng, kèm ngân sách gọn gàng để tự tính toán."
+    },
+    {
+      "loi": "Đến quầy rau củ, Lucie hỏi giá cẩn thận rồi nhẩm cộng tiền từng món rất nhanh. Lucas tinh mắt chọn những quả cà chua đỏ mọng, không bị dập.",
+      "anh": "anh/tuan-37-bia.webp",
+      "doc": "Đến quầy rau củ, Lu Xi hỏi giá cẩn thận rồi nhẩm cộng tiền từng món rất nhanh. Lu Cát tinh mắt chọn những quả cà chua đỏ mọng, không bị dập."
+    },
+    {
+      "loi": "Thấy hai quầy bán cùng loại chuối ngon như nhau nhưng quầy bên cạnh giá hợp lý hơn, hai chị em bàn nhau chọn mua để tiết kiệm được một khoản nhỏ.",
+      "anh": "anh/tuan-37-bia.webp",
+      "doc": "Thấy hai quầy bán cùng loại chuối ngon như nhau nhưng quầy bên cạnh giá hợp lý hơn, hai chị em bàn nhau chọn mua để tiết kiệm được một khoản nhỏ."
+    },
+    {
+      "loi": "Khi trả tiền, Lucie đếm tiền thối lại rõ ràng và lễ phép nói cảm ơn cô bán hàng bằng cả hai tay. Mẹ mỉm cười chấm mười điểm cho hai thương nhân nhí.",
+      "anh": "anh/tuan-37-bia.webp",
+      "doc": "Khi trả tiền, Lu Xi đếm tiền thối lại rõ ràng và lễ phép nói cảm ơn cô bán hàng bằng cả hai tay. Mẹ mỉm cười chấm mười điểm cho hai thương nhân nhí."
+    },
+    {
+      "loi": "Đi chợ cùng mẹ giúp hai chị em hiểu giá trị của đồng tiền, biết quý trọng công sức lao động và chi tiêu thông minh hơn mỗi ngày.",
+      "anh": "anh/tuan-37-bia.webp",
+      "doc": "Đi chợ cùng mẹ giúp hai chị em hiểu giá trị của đồng tiền, biết quý trọng công sức lao động và chi tiêu thông minh hơn mỗi ngày."
+    }
+  ],
+  "bai_hoc": "Biết so sánh giá, tính toán cẩn thận khi mua sắm và trân trọng giá trị đồng tiền làm ra.",
+  "doc_bai_hoc": "Biết so sánh giá, tính toán cẩn thận khi mua sắm và trân trọng giá trị đồng tiền làm ra.",
+  "hoi_lucie": [
+    {
+      "cau": "Hai chị em đã làm gì để tiết kiệm tiền khi mua chuối?",
+      "dung": "So sánh giá hai quầy cùng chất lượng rồi chọn nơi hợp lý hơn",
+      "sai": [
+        "Chọn quầy đắt nhất mà không hỏi giá",
+        "Mua thêm thật nhiều bánh kẹo ngoài danh sách"
+      ],
+      "doc": "Hai chị em đã làm gì để tiết kiệm tiền khi mua chuối?",
+      "doc_dap": [
+        "So sánh giá hai quầy cùng chất lượng rồi chọn nơi hợp lý hơn",
+        "Chọn quầy đắt nhất mà không hỏi giá",
+        "Mua thêm thật nhiều bánh kẹo ngoài danh sách"
+      ]
+    },
+    {
+      "cau": "Khi nhận tiền thối từ cô bán hàng, Lucie làm gì?",
+      "dung": "Kiểm tra lại cẩn thận và cảm ơn bằng hai tay",
+      "sai": [
+        "Nhét vội vào túi không cần đếm",
+        "Quên lấy tiền thối chạy về luôn"
+      ],
+      "doc": "Khi nhận tiền thối từ cô bán hàng, Lu Xi làm gì?",
+      "doc_dap": [
+        "Kiểm tra lại cẩn thận và cảm ơn bằng hai tay",
+        "Nhét vội vào túi không cần đếm",
+        "Quên lấy tiền thối chạy về luôn"
+      ]
+    },
+    {
+      "cau": "Bài học lớn nhất từ buổi đi chợ cùng mẹ là gì?",
+      "dung": "Biết tính toán chi tiêu thông minh và quý trọng sức lao động",
+      "sai": [
+        "Chỉ cần mua thật nhiều đồ cho đầy giỏ",
+        "Không cần hỏi giá trước khi mua"
+      ],
+      "doc": "Bài học lớn nhất từ buổi đi chợ cùng mẹ là gì?",
+      "doc_dap": [
+        "Biết tính toán chi tiêu thông minh và quý trọng sức lao động",
+        "Chỉ cần mua thật nhiều đồ cho đầy giỏ",
+        "Không cần hỏi giá trước khi mua"
+      ]
+    }
+  ],
+  "hoi_lucas": [
+    {
+      "cau": "Hai chị em đi đâu cùng mẹ vào sáng chủ nhật?",
+      "dung": "Đi chợ sáng mua thức ăn",
+      "sai": [
+        "Đi xem phim ở rạp",
+        "Đi bơi ở biển"
+      ],
+      "doc": "Hai chị em đi đâu cùng mẹ vào sáng chủ nhật?",
+      "doc_dap": [
+        "Đi chợ sáng mua thức ăn",
+        "Đi xem phim ở rạp",
+        "Đi bơi ở biển"
+      ]
+    },
+    {
+      "cau": "Lucas giúp chị chọn quả gì chín đỏ?",
+      "dung": "Quả cà chua",
+      "sai": [
+        "Quả bí đao xanh",
+        "Củ khoai tây"
+      ],
+      "doc": "Lu Cát giúp chị chọn quả gì chín đỏ?",
+      "doc_dap": [
+        "Quả cà chua",
+        "Quả bí đao xanh",
+        "Củ khoai tây"
+      ]
+    },
+    {
+      "cau": "Mua đồ xong hai chị em nói gì với cô bán hàng?",
+      "dung": "Nói lời cảm ơn lễ phép",
+      "sai": [
+        "Quay lưng đi thẳng",
+        "Đòi cô tặng thêm đồ chơi"
+      ],
+      "doc": "Mua đồ xong hai chị em nói gì với cô bán hàng?",
+      "doc_dap": [
+        "Nói lời cảm ơn lễ phép",
+        "Quay lưng đi thẳng",
+        "Đòi cô tặng thêm đồ chơi"
+      ]
+    }
+  ],
+  "chuc": "Chúc hai thương nhân nhí Lu Xi và Lu Cát ngủ thật ngon nhé.",
+  "doc_chuc": "Chúc hai thương nhân nhí Lu Xi và Lu Cát ngủ thật ngon nhé."
+}

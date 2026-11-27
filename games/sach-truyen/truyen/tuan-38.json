@@ -1,0 +1,132 @@
+{
+  "so": 38,
+  "ma": "tuan-38",
+  "ngay": "2026-12-20",
+  "tieu_de": "Bức thư cảm ơn cô giáo hiền",
+  "doc_tieu_de": "Bức thư cảm ơn cô giáo hiền",
+  "bia": "anh/tuan-38-bia.webp",
+  "trang": [
+    {
+      "loi": "Cuối tuần này, Lucie và Lucas rủ nhau tự tay làm hai tấm thiệp thật xinh để gửi lời cảm ơn tới cô giáo lớp ba và cô giáo lớp một đã tận tình dạy dỗ.",
+      "anh": "anh/tuan-38-bia.webp",
+      "doc": "Cuối tuần này, Lu Xi và Lu Cát rủ nhau tự tay làm hai tấm thiệp thật xinh để gửi lời cảm ơn tới cô giáo lớp ba và cô giáo lớp một đã tận tình dạy dỗ."
+    },
+    {
+      "loi": "Lucie cắt những bông hoa giấy màu hồng phấn dán nổi lên bìa thiệp, rồi nắn nót viết lời chúc cô luôn mạnh khỏe và vui vẻ bên học trò.",
+      "anh": "anh/tuan-38-bia.webp",
+      "doc": "Lu Xi cắt những bông hoa giấy màu hồng phấn dán nổi lên bìa thiệp, rồi nắn nót viết lời chúc cô luôn mạnh khỏe và vui vẻ bên học trò."
+    },
+    {
+      "loi": "Lucas cẩn thận tô màu một trái tim đỏ rực cùng hình ông mặt trời tươi cười, rồi viết thật tròn trịa dòng chữ cảm ơn cô giáo hiền.",
+      "anh": "anh/tuan-38-bia.webp",
+      "doc": "Lu Cát cẩn thận tô màu một trái tim đỏ rực cùng hình ông mặt trời tươi cười, rồi viết thật tròn trịa dòng chữ cảm ơn cô giáo hiền."
+    },
+    {
+      "loi": "Hai chị em còn gấp thêm hai chú hạc giấy nhỏ đặt vào trong phong bì để làm món quà bất ngờ thật dễ thương.",
+      "anh": "anh/tuan-38-bia.webp",
+      "doc": "Hai chị em còn gấp thêm hai chú hạc giấy nhỏ đặt vào trong phong bì để làm món quà bất ngờ thật dễ thương."
+    },
+    {
+      "loi": "Sáng thứ hai tới lớp, khi nhận tấm thiệp mộc mạc chứa đầy tình cảm của hai chị em, các cô giáo đều mỉm cười rạng rỡ và giữ gìn thật nâng niu.",
+      "anh": "anh/tuan-38-bia.webp",
+      "doc": "Sáng thứ hai tới lớp, khi nhận tấm thiệp mộc mạc chứa đầy tình cảm của hai chị em, các cô giáo đều mỉm cười rạng rỡ và giữ gìn thật nâng niu."
+    },
+    {
+      "loi": "Lòng biết ơn không cần những món quà cầu kỳ, chỉ cần tấm lòng chân thành và sự chăm ngoan mỗi ngày là món quà quý nhất dâng tặng thầy cô.",
+      "anh": "anh/tuan-38-bia.webp",
+      "doc": "Lòng biết ơn không cần những món quà cầu kỳ, chỉ cần tấm lòng chân thành và sự chăm ngoan mỗi ngày là món quà quý nhất dâng tặng thầy cô."
+    }
+  ],
+  "bai_hoc": "Biết ơn thầy cô giáo đã tận tâm dạy dỗ và thể hiện tình cảm bằng những hành động chân thành.",
+  "doc_bai_hoc": "Biết ơn thầy cô giáo đã tận tâm dạy dỗ và thể hiện tình cảm bằng những hành động chân thành.",
+  "hoi_lucie": [
+    {
+      "cau": "Hai chị em đã tự làm món quà gì tặng cô giáo?",
+      "dung": "Tự tay làm thiệp giấy có hoa, trái tim và hạc giấy",
+      "sai": [
+        "Mua hộp quà thật đắt ở siêu thị",
+        "Chỉ gấp một tờ giấy trắng không viết gì"
+      ],
+      "doc": "Hai chị em đã tự làm món quà gì tặng cô giáo?",
+      "doc_dap": [
+        "Tự tay làm thiệp giấy có hoa, trái tim và hạc giấy",
+        "Mua hộp quà thật đắt ở siêu thị",
+        "Chỉ gấp một tờ giấy trắng không viết gì"
+      ]
+    },
+    {
+      "cau": "Lucie đã trang trí tấm thiệp của mình như thế nào?",
+      "dung": "Dán hoa giấy hồng phấn và viết lời chúc nắn nót",
+      "sai": [
+        "Vẽ nguệch ngoạc cho thật nhanh",
+        "Nhờ mẹ viết hộ toàn bộ"
+      ],
+      "doc": "Lu Xi đã trang trí tấm thiệp của mình như thế nào?",
+      "doc_dap": [
+        "Dán hoa giấy hồng phấn và viết lời chúc nắn nót",
+        "Vẽ nguệch ngoạc cho thật nhanh",
+        "Nhờ mẹ viết hộ toàn bộ"
+      ]
+    },
+    {
+      "cau": "Món quà quý giá nhất đối với thầy cô giáo là gì?",
+      "dung": "Tấm lòng biết ơn chân thành và sự chăm ngoan của học trò",
+      "sai": [
+        "Những món đồ chơi thật lớn",
+        "Điểm số không cần tự học"
+      ],
+      "doc": "Món quà quý giá nhất đối với thầy cô giáo là gì?",
+      "doc_dap": [
+        "Tấm lòng biết ơn chân thành và sự chăm ngoan của học trò",
+        "Những món đồ chơi thật lớn",
+        "Điểm số không cần tự học"
+      ]
+    }
+  ],
+  "hoi_lucas": [
+    {
+      "cau": "Hai chị em làm thiệp để tặng ai?",
+      "dung": "Tặng cô giáo hiền",
+      "sai": [
+        "Tặng chú mèo con",
+        "Tặng bạn gấu bông"
+      ],
+      "doc": "Hai chị em làm thiệp để tặng ai?",
+      "doc_dap": [
+        "Tặng cô giáo hiền",
+        "Tặng chú mèo con",
+        "Tặng bạn gấu bông"
+      ]
+    },
+    {
+      "cau": "Lucas tô màu hình gì trên tấm thiệp?",
+      "dung": "Trái tim đỏ và ông mặt trời",
+      "sai": [
+        "Chiếc xe tải lớn",
+        "Cơn mưa to"
+      ],
+      "doc": "Lu Cát tô màu hình gì trên tấm thiệp?",
+      "doc_dap": [
+        "Trái tim đỏ và ông mặt trời",
+        "Chiếc xe tải lớn",
+        "Cơn mưa to"
+      ]
+    },
+    {
+      "cau": "Hai chị em gấp thêm con gì bỏ vào phong bì?",
+      "dung": "Chú hạc giấy nhỏ",
+      "sai": [
+        "Con cá sấu",
+        "Chiếc máy bay giấy"
+      ],
+      "doc": "Hai chị em gấp thêm con gì bỏ vào phong bì?",
+      "doc_dap": [
+        "Chú hạc giấy nhỏ",
+        "Con cá sấu",
+        "Chiếc máy bay giấy"
+      ]
+    }
+  ],
+  "chuc": "Chúc Lu Xi và Lu Cát ngủ ngoan, mai đến lớp học thật vui bên thầy cô nhé.",
+  "doc_chuc": "Chúc Lu Xi và Lu Cát ngủ ngoan, mai đến lớp học thật vui bên thầy cô nhé."
+}

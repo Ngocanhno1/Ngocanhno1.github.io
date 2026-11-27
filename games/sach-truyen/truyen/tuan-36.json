@@ -1,0 +1,132 @@
+{
+  "so": 36,
+  "ma": "tuan-36",
+  "ngay": "2026-12-18",
+  "tieu_de": "Chú mèo con lạc đường về nhà",
+  "doc_tieu_de": "Chú mèo con lạc đường về nhà",
+  "bia": "anh/tuan-36-bia.webp",
+  "trang": [
+    {
+      "loi": "Chiều thứ sáu trên đường đi học về cùng mẹ, Lucie và Lucas nghe thấy tiếng meo meo khe khẽ phát ra từ bụi hoa giấy đầu ngõ.",
+      "anh": "anh/tuan-36-bia.webp",
+      "doc": "Chiều thứ sáu trên đường đi học về cùng mẹ, Lu Xi và Lu Cát nghe thấy tiếng meo meo khe khẽ phát ra từ bụi hoa giấy đầu ngõ."
+    },
+    {
+      "loi": "Lại gần xem, hai chị em thấy một chú mèo con lông vàng mượt đang run nhẹ vì đói và lạc mất đường về. Lucas thì thầm bảo chị đừng làm chú mèo sợ.",
+      "anh": "anh/tuan-36-bia.webp",
+      "doc": "Lại gần xem, hai chị em thấy một chú mèo con lông vàng mượt đang run nhẹ vì đói và lạc mất đường về. Lu Cát thì thầm bảo chị đừng làm chú mèo sợ."
+    },
+    {
+      "loi": "Được mẹ đồng ý, hai chị em mang một đĩa sữa ấm nhỏ đặt nhẹ nhàng xuống sân. Chú mèo con rụt rè lại gần uống từng ngụm rồi dụi đầu thật thân thiện.",
+      "anh": "anh/tuan-36-bia.webp",
+      "doc": "Được mẹ đồng ý, hai chị em mang một đĩa sữa ấm nhỏ đặt nhẹ nhàng xuống sân. Chú mèo con rụt rè lại gần uống từng ngụm rồi dụi đầu thật thân thiện."
+    },
+    {
+      "loi": "Lucie tinh mắt nhìn thấy trên vòng cổ chú mèo có thẻ ghi số điện thoại của chủ nhà. Mẹ liền gọi điện ngay cho cô hàng xóm ở cuối phố.",
+      "anh": "anh/tuan-36-bia.webp",
+      "doc": "Lu Xi tinh mắt nhìn thấy trên vòng cổ chú mèo có thẻ ghi số điện thoại của chủ nhà. Mẹ liền gọi điện ngay cho cô hàng xóm ở cuối phố."
+    },
+    {
+      "loi": "Chỉ năm phút sau, cô hàng xóm chạy tới ôm chặt chú mèo con trong niềm vui vỡ òa và gửi lời cảm ơn rối rít tới hai chị em tốt bụng.",
+      "anh": "anh/tuan-36-bia.webp",
+      "doc": "Chỉ năm phút sau, cô hàng xóm chạy tới ôm chặt chú mèo con trong niềm vui vỡ òa và gửi lời cảm ơn rối rít tới hai chị em tốt bụng."
+    },
+    {
+      "loi": "Nhìn chú mèo vẫy đuôi vui vẻ theo chủ về nhà, Lucie và Lucas học được cách yêu thương động vật và bình tĩnh giúp đỡ đúng cách.",
+      "anh": "anh/tuan-36-bia.webp",
+      "doc": "Nhìn chú mèo vẫy đuôi vui vẻ theo chủ về nhà, Lu Xi và Lu Cát học được cách yêu thương động vật và bình tĩnh giúp đỡ đúng cách."
+    }
+  ],
+  "bai_hoc": "Yêu thương, dịu dàng với động vật nhỏ và biết nhờ người lớn hỗ trợ tìm cách giúp đỡ an toàn.",
+  "doc_bai_hoc": "Yêu thương, dịu dàng với động vật nhỏ và biết nhờ người lớn hỗ trợ tìm cách giúp đỡ an toàn.",
+  "hoi_lucie": [
+    {
+      "cau": "Nhờ chi tiết nào mà mẹ và hai chị em tìm được chủ của chú mèo?",
+      "dung": "Thẻ ghi số điện thoại gắn trên vòng cổ mèo",
+      "sai": [
+        "Nhờ chú mèo tự nói địa chỉ nhà",
+        "Nhờ đoán bừa nhà gần nhất"
+      ],
+      "doc": "Nhờ chi tiết nào mà mẹ và hai chị em tìm được chủ của chú mèo?",
+      "doc_dap": [
+        "Thẻ ghi số điện thoại gắn trên vòng cổ mèo",
+        "Nhờ chú mèo tự nói địa chỉ nhà",
+        "Nhờ đoán bừa nhà gần nhất"
+      ]
+    },
+    {
+      "cau": "Lucas đã nhắc chị điều gì khi thấy chú mèo còn sợ hãi?",
+      "dung": "Nói khẽ và nhẹ nhàng để không làm mèo hoảng",
+      "sai": [
+        "Hò hét thật to cho mèo chạy ra",
+        "Ném sỏi vào bụi hoa giấy"
+      ],
+      "doc": "Lu Cát đã nhắc chị điều gì khi thấy chú mèo còn sợ hãi?",
+      "doc_dap": [
+        "Nói khẽ và nhẹ nhàng để không làm mèo hoảng",
+        "Hò hét thật to cho mèo chạy ra",
+        "Ném sỏi vào bụi hoa giấy"
+      ]
+    },
+    {
+      "cau": "Cách giúp chú mèo của hai chị em đáng khen ở điểm nào?",
+      "dung": "Biết hỏi ý kiến mẹ và xử lý bình tĩnh, nhân hậu",
+      "sai": [
+        "Tự ý ôm mèo chạy đi thật xa",
+        "Bỏ mặc chú mèo ngoài ngõ"
+      ],
+      "doc": "Cách giúp chú mèo của hai chị em đáng khen ở điểm nào?",
+      "doc_dap": [
+        "Biết hỏi ý kiến mẹ và xử lý bình tĩnh, nhân hậu",
+        "Tự ý ôm mèo chạy đi thật xa",
+        "Bỏ mặc chú mèo ngoài ngõ"
+      ]
+    }
+  ],
+  "hoi_lucas": [
+    {
+      "cau": "Hai chị em tìm thấy con vật nào ở bụi hoa giấy?",
+      "dung": "Một chú mèo con lông vàng",
+      "sai": [
+        "Một chú voi con",
+        "Một chú cá vàng"
+      ],
+      "doc": "Hai chị em tìm thấy con vật nào ở bụi hoa giấy?",
+      "doc_dap": [
+        "Một chú mèo con lông vàng",
+        "Một chú voi con",
+        "Một chú cá vàng"
+      ]
+    },
+    {
+      "cau": "Hai chị em mời chú mèo uống gì?",
+      "dung": "Một đĩa sữa ấm",
+      "sai": [
+        "Một cốc nước chanh chua",
+        "Một bát canh nóng"
+      ],
+      "doc": "Hai chị em mời chú mèo uống gì?",
+      "doc_dap": [
+        "Một đĩa sữa ấm",
+        "Một cốc nước chanh chua",
+        "Một bát canh nóng"
+      ]
+    },
+    {
+      "cau": "Cuối truyện chú mèo con đi đâu?",
+      "dung": "Được chủ đón về nhà",
+      "sai": [
+        "Bị lạc thêm lần nữa",
+        "Chạy ra đường lớn"
+      ],
+      "doc": "Cuối truyện chú mèo con đi đâu?",
+      "doc_dap": [
+        "Được chủ đón về nhà",
+        "Bị lạc thêm lần nữa",
+        "Chạy ra đường lớn"
+      ]
+    }
+  ],
+  "chuc": "Chúc hai chị em có giấc ngủ êm đềm và tràn đầy lòng nhân hậu nhé.",
+  "doc_chuc": "Chúc hai chị em có giấc ngủ êm đềm và tràn đầy lòng nhân hậu nhé."
+}
