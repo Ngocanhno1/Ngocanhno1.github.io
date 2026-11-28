@@ -91,21 +91,11 @@
   var VN = /[àáâãèéêìíòóôõùúýăđĩũơưạảấầẩẫậắằẳẵặẹẻẽếềểễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ]/i;
   var CAT = /[.!?…;\n]+\s|\s[—–]\s/;
 
-  var sanSang = Promise.all([
-    fetch(BASE + "danh-sach.json?t=" + Math.floor(Date.now()/300000), { cache: "no-store" }).then(function (r) { return r.json(); })
-      .then(function (a) { CO = {}; (a || []).forEach(function (k) { CO[k] = 1; }); }).catch(function () { CO = {}; }),
-    fetch(BASE + "giong.json?t=" + Math.floor(Date.now()/300000), { cache: "no-store" }).then(function (r) { return r.json(); })
-      .then(function (o) {
-        Object.keys(o || {}).forEach(function (thu) {
-          var arr = (o[thu] && o[thu].co) || [];
-          var m = {};
-          arr.forEach(function (k) { m[k] = 1; });
-          if (arr.length > 0) PHU.push({ thu: thu, co: m, n: arr.length });
-        });
-        // Sắp xếp cố định ưu tiên bộ giọng đầy đủ nhất (KHÔNG random)
-        PHU.sort(function (a, b) { return b.n - a.n; });
-      }).catch(function () {})
-  ]);
+  // KHÓA CỨNG 100% GIỌNG HOÀI MY (danh-sach.json) — KHÔNG trộn hay rơi sang giọng phụ trong giong.json
+  var sanSang = fetch(BASE + "danh-sach.json?t=" + Math.floor(Date.now()/300000), { cache: "no-store" })
+    .then(function (r) { return r.json(); })
+    .then(function (a) { CO = {}; (a || []).forEach(function (k) { CO[k] = 1; }); })
+    .catch(function () { CO = {}; });
 
   function chuan(s) {
     if (s.normalize) s = s.normalize("NFC");
@@ -130,11 +120,7 @@
     if (k1 && CO && CO[k1]) return k1;
     if (k2 && CO && CO[k2]) return k2;
 
-    // 2. Nếu giọng chính không có, kiểm tra cố định theo thứ tự trong giong.json (không random)
-    for (var i = 0; i < PHU.length; i++) {
-      if (k1 && PHU[i].co[k1]) return PHU[i].thu + "/" + k1;
-      if (k2 && PHU[i].co[k2]) return PHU[i].thu + "/" + k2;
-    }
+    // Đã tắt giọng phụ giong.json để đảm bảo 100% đồng nhất giọng Hoài My
     return null;
   }
 
@@ -199,7 +185,12 @@
       try {
         var vs = ss.getVoices() || [];
         for (var vi = 0; vi < vs.length; vi++) {
-          if (/^vi/i.test(vs[vi].lang)) { u.voice = vs[vi]; break; }
+          if (/hoai\s*my/i.test(vs[vi].name || "")) { u.voice = vs[vi]; break; }
+        }
+        if (!u.voice) {
+          for (var vi2 = 0; vi2 < vs.length; vi2++) {
+            if (/^vi/i.test(vs[vi2].lang)) { u.voice = vs[vi2]; break; }
+          }
         }
       } catch (e) {}
     }
