@@ -42,9 +42,9 @@
         scUx.defer = true;
         head.appendChild(scUx);
       }
-      if (head && /(sach-truyen|ky-nang)/i.test(location.href) && !window.__hoatHinhTruyenV2 && !document.querySelector('script[src*="hoat-hinh-truyen.js"]')) {
+      if (head && /\/games\//i.test(location.href) && !window.__hoatHinhTruyenV4 && !document.querySelector('script[src*="hoat-hinh-truyen.js"]')) {
         var scHH = document.createElement("script");
-        scHH.src = ROOT_AC + "hoat-hinh-truyen.js?v=20261128";
+        scHH.src = ROOT_AC + "hoat-hinh-truyen.js?v=20261128c";
         scHH.defer = true;
         head.appendChild(scHH);
       }
