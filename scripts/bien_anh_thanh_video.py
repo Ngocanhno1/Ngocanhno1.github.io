@@ -83,6 +83,12 @@ def convert_one(ffmpeg: str, img: Path, dst: Path, vf: str):
 
 
 def main():
+    if os.environ.get("GEMINI_API_KEY", "").strip():
+        print("Phat hien GEMINI_API_KEY -> chuyen sang che do tao Video AI hoat hinh that bang Gemini Veo API...")
+        import tao_video_gemini_veo
+        tao_video_gemini_veo.main()
+        return
+
     ffmpeg = shutil.which("ffmpeg")
     if not ffmpeg:
         print("Chua co ffmpeg, bo qua buoc tao video.")
