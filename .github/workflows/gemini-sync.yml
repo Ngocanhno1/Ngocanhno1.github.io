@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - name: Tu doc danh sach DEPLOY_LATEST_ID va giai nen goi moi
+      - name: Tu dong bo goi moi & bien doi dan anh thanh video MP4
         run: |
           mkdir -p .github
           touch .github/gemini_done.txt
@@ -31,9 +31,10 @@ jobs:
           done < ids.txt
           rm -f ids.txt
           [ -f "games/sach-truyen/truyen/gop_lich_1_ngay.py" ] && python3 games/sach-truyen/truyen/gop_lich_1_ngay.py
+          [ -f "scripts/bien_anh_thanh_video.py" ] && python3 scripts/bien_anh_thanh_video.py
       - name: Day len GitHub Pages
         run: |
           git config user.name "Gemini Sync"
           git config user.email "ngocanhbtg88@gmail.com"
           git add -A
-          git diff --cached --quiet || (git commit -m "Gemini tu dong cap nhat tu Drive" && git pull --rebase origin main && git push)
+          git diff --cached --quiet || (git commit -m "Gemini cap nhat & bien doi video MP4" && git pull --rebase origin main && git push)
