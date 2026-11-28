@@ -42,7 +42,7 @@
         scUx.defer = true;
         head.appendChild(scUx);
       }
-      if (head && /sach-truyen/i.test(location.href) && !window.__hoatHinhTruyen && !document.querySelector('script[src*="hoat-hinh-truyen.js"]')) {
+      if (head && /(sach-truyen|ky-nang)/i.test(location.href) && !window.__hoatHinhTruyenV2 && !document.querySelector('script[src*="hoat-hinh-truyen.js"]')) {
         var scHH = document.createElement("script");
         scHH.src = ROOT_AC + "hoat-hinh-truyen.js?v=20261128";
         scHH.defer = true;
@@ -92,9 +92,9 @@
   var CAT = /[.!?…;\n]+\s|\s[—–]\s/;
 
   var sanSang = Promise.all([
-    fetch(BASE + "danh-sach.json", { cache: "no-cache" }).then(function (r) { return r.json(); })
+    fetch(BASE + "danh-sach.json?t=" + Math.floor(Date.now()/300000), { cache: "no-store" }).then(function (r) { return r.json(); })
       .then(function (a) { CO = {}; (a || []).forEach(function (k) { CO[k] = 1; }); }).catch(function () { CO = {}; }),
-    fetch(BASE + "giong.json", { cache: "no-cache" }).then(function (r) { return r.json(); })
+    fetch(BASE + "giong.json?t=" + Math.floor(Date.now()/300000), { cache: "no-store" }).then(function (r) { return r.json(); })
       .then(function (o) {
         Object.keys(o || {}).forEach(function (thu) {
           var arr = (o[thu] && o[thu].co) || [];
@@ -195,6 +195,14 @@
     var u = new SpeechSynthesisUtterance(chuanHoaVanNoi(text)), o = job.u;
     u.lang = o.lang || "vi-VN";
     if (o.voice) u.voice = o.voice;
+    else {
+      try {
+        var vs = ss.getVoices() || [];
+        for (var vi = 0; vi < vs.length; vi++) {
+          if (/^vi/i.test(vs[vi].lang)) { u.voice = vs[vi]; break; }
+        }
+      } catch (e) {}
+    }
     u.rate = o.rate || 1;
     u.pitch = o.pitch || 1;
     u.volume = o.volume == null ? 1 : o.volume;
