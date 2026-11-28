@@ -42,6 +42,12 @@
         scUx.defer = true;
         head.appendChild(scUx);
       }
+      if (head && /sach-truyen/i.test(location.href) && !window.__hoatHinhTruyen && !document.querySelector('script[src*="hoat-hinh-truyen.js"]')) {
+        var scHH = document.createElement("script");
+        scHH.src = ROOT_AC + "hoat-hinh-truyen.js?v=20261128";
+        scHH.defer = true;
+        head.appendChild(scHH);
+      }
     } catch (e) {}
   })();
 
