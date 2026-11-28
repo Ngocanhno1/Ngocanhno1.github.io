@@ -83,3 +83,19 @@ a.game:active,
     transition-duration: 0.01ms !important;
   }
 }
+
+/* 9. Tránh nút nổi (🏠 về nhà & 🎵 nhạc nền) đè chữ trên màn hình điện thoại hẹp */
+@media (max-width: 600px) {
+  .nut-nha, #nutNha, a[title*="Trang chủ"][style*="fixed"], button[title*="Trang chủ"][style*="fixed"] {
+    top: 10px !important;
+    left: 10px !important;
+    transform: scale(0.82) !important;
+    transform-origin: top left !important;
+  }
+  .nut-nhac, #nutNhac, button[aria-label*="nhạc"][style*="fixed"] {
+    bottom: 72px !important;
+    right: 10px !important;
+    transform: scale(0.84) !important;
+    transform-origin: bottom right !important;
+  }
+}
