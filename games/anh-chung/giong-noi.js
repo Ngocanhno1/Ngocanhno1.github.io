@@ -1,7 +1,7 @@
-/* Giọng đọc đồng bộ cho mọi game & Sách Truyện Lucie & Lucas (Bản vá tương thích 100% TV LG webOS & iOS).
+/* Giọng đọc đồng bộ cho mọi game & Sách Truyện Lucie & Lucas (Bản vá V24 — tương thích 100% TV LG webOS & iOS).
    - Không dùng regex lookbehind (tương thích tuyệt đối trình duyệt TV & Safari).
-   - Đọc cả danh-sach.json và giong.json nhưng khóa cố định 1 giọng (không random trộn giọng).
-   - Tra cứu từng câu theo cả bản gốc lẫn bản chuẩn hóa văn nói để không bỏ sót bất kỳ MP3 nào.
+   - Ưu tiên tuyệt đối 100% giọng Hoài My (danh-sach.json); chỉ dự phòng cố định sang giong.json nếu câu chưa kịp sinh MP3 Hoài My để tuyệt đối không mất tiếng.
+   - Có watchdog chống treo speechSynthesis trên TV/iPhone khi thiếu MP3.
 */
 (function () {
   var me = document.currentScript;
@@ -42,9 +42,9 @@
         scUx.defer = true;
         head.appendChild(scUx);
       }
-      if (head && /\/games\//i.test(location.href) && !window.__hoatHinhTruyenV4 && !document.querySelector('script[src*="hoat-hinh-truyen.js"]')) {
+      if (head && /\/games\//i.test(location.href) && !window.__hoatHinhTruyenV5 && !document.querySelector('script[src*="hoat-hinh-truyen.js"]')) {
         var scHH = document.createElement("script");
-        scHH.src = ROOT_AC + "hoat-hinh-truyen.js?v=20261128c";
+        scHH.src = ROOT_AC + "hoat-hinh-truyen.js?v=20261128d";
         scHH.defer = true;
         head.appendChild(scHH);
       }
@@ -91,11 +91,25 @@
   var VN = /[àáâãèéêìíòóôõùúýăđĩũơưạảấầẩẫậắằẳẵặẹẻẽếềểễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ]/i;
   var CAT = /[.!?…;\n]+\s|\s[—–]\s/;
 
-  // KHÓA CỨNG 100% GIỌNG HOÀI MY (danh-sach.json) — KHÔNG trộn hay rơi sang giọng phụ trong giong.json
-  var sanSang = fetch(BASE + "danh-sach.json?t=" + Math.floor(Date.now()/300000), { cache: "no-store" })
-    .then(function (r) { return r.json(); })
-    .then(function (a) { CO = {}; (a || []).forEach(function (k) { CO[k] = 1; }); })
-    .catch(function () { CO = {}; });
+  // Ưu tiên 100% Hoài My (danh-sach.json); dự phòng cố định giong.json nếu câu chưa kịp sinh MP3 Hoài My
+  var sanSang = Promise.all([
+    fetch(BASE + "danh-sach.json?t=" + Math.floor(Date.now() / 300000), { cache: "no-store" })
+      .then(function (r) { return r.json(); })
+      .then(function (a) { CO = {}; (a || []).forEach(function (k) { CO[k] = 1; }); })
+      .catch(function () { CO = {}; }),
+    fetch(BASE + "giong.json?t=" + Math.floor(Date.now() / 300000), { cache: "no-store" })
+      .then(function (r) { return r.json(); })
+      .then(function (o) {
+        Object.keys(o || {}).forEach(function (thu) {
+          var arr = (o[thu] && o[thu].co) || [];
+          var m = {};
+          arr.forEach(function (k) { m[k] = 1; });
+          if (arr.length > 0) PHU.push({ thu: thu, co: m, n: arr.length });
+        });
+        PHU.sort(function (a, b) { return b.n - a.n; });
+      })
+      .catch(function () {})
+  ]);
 
   function chuan(s) {
     if (s.normalize) s = s.normalize("NFC");
@@ -112,27 +126,35 @@
   }
 
   function timFileChoCau(p) {
-    // Kiểm tra bản gốc trước (khớp 100% MP3 cũ của Sách Truyện), rồi tới bản chuẩn hóa văn nói
     var c1 = chuan(p), k1 = c1 ? ma(c1) : "";
     var p2 = chuanHoaVanNoi(p), c2 = chuan(p2), k2 = c2 ? ma(c2) : "";
 
-    // 1. Ưu tiên tuyệt đối giọng chính CO (đồng bộ 1 giọng duy nhất)
+    // 1. Ưu tiên tuyệt đối giọng chính Hoài My (danh-sach.json)
     if (k1 && CO && CO[k1]) return k1;
     if (k2 && CO && CO[k2]) return k2;
 
-    // Đã tắt giọng phụ giong.json để đảm bảo 100% đồng nhất giọng Hoài My
+    // 2. Dự phòng cố định sang giong.json nếu câu chưa kịp sinh MP3 Hoài My (tránh mất tiếng)
+    for (var i = 0; i < PHU.length; i++) {
+      if (k1 && PHU[i].co[k1]) return PHU[i].thu + "/" + k1;
+      if (k2 && PHU[i].co[k2]) return PHU[i].thu + "/" + k2;
+    }
     return null;
   }
 
-  var hang = null, dangDoc = false, dangPhat = null, luotCho = 0;
+  var hang = null, dangDoc = false, dangPhat = null, luotCho = 0, henGio = null;
+  function xoaHenGio() {
+    if (henGio) { clearTimeout(henGio); henGio = null; }
+  }
   function xong(job) {
     if (hang !== job) return;
+    xoaHenGio();
     hang = null; dangDoc = false; dangPhat = null;
     try { job.u.dispatchEvent(new Event("end")); } catch (e) {}
   }
 
   function phatAudio(job, p, thuLai) {
     if (hang !== job) return;
+    xoaHenGio();
     var au = p.au;
     dangPhat = au;
     au.volume = job.u.volume == null ? 1 : job.u.volume;
@@ -170,6 +192,7 @@
 
   function tiep(job) {
     if (hang !== job) return;
+    xoaHenGio();
     if (!job.ds.length) return xong(job);
     var p = job.ds.shift();
     if (p.au) phatAudio(job, p, 2);
@@ -178,6 +201,18 @@
 
   function doiMay(job, text) {
     if (hang !== job) return;
+    xoaHenGio();
+    var daQua = false;
+    function boQua() {
+      if (daQua || hang !== job) return;
+      daQua = true;
+      xoaHenGio();
+      tiep(job);
+    }
+    // Watchdog chống treo cả đoạn nếu trình duyệt TV/iOS không bắn onend
+    var ms = Math.max(3500, Math.min(16000, String(text || "").length * 130));
+    henGio = setTimeout(boQua, ms);
+
     var u = new SpeechSynthesisUtterance(chuanHoaVanNoi(text)), o = job.u;
     u.lang = o.lang || "vi-VN";
     if (o.voice) u.voice = o.voice;
@@ -197,8 +232,8 @@
     u.rate = o.rate || 1;
     u.pitch = o.pitch || 1;
     u.volume = o.volume == null ? 1 : o.volume;
-    u.onend = u.onerror = function () { tiep(job); };
-    goc.speak(u);
+    u.onend = u.onerror = boQua;
+    try { goc.speak(u); } catch (e) { boQua(); }
   }
 
   function thucHienDoc(u) {
@@ -236,6 +271,7 @@
   };
   ss.cancel = function () {
     luotCho++;
+    xoaHenGio();
     var j = hang; hang = null; dangDoc = false;
     try { if (dangPhat) dangPhat.pause(); } catch (e) {}
     dangPhat = null; goc.cancel();
